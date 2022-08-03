@@ -1,9 +1,7 @@
-function App() {
-  return (
-    <div style={{ fontSize: "40px", textAlign: "center", marginTop: "100px" }}>
-      Cere wallet client
-    </div>
-  );
-}
+import { Box } from "@cere-wallet/ui";
 
-export default App;
+export const App = () => {
+  return (
+    <Box sx={{ fontSize: "40px", textAlign: "center", marginTop: "100px" }}>Cere wallet client</Box>
+  );
+};
