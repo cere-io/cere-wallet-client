@@ -1,21 +1,23 @@
+import { observer } from 'mobx-react-lite';
 import { Box } from '@cere-wallet/ui';
 
+import { WalletStore } from '~/stores';
+
 export type HelloProps = {
-  counter: number;
+  store: Pick<WalletStore, 'ticks'>;
 };
 
-const Hello = ({ counter }: HelloProps) => {
+const Hello = ({ store }: HelloProps) => {
   return (
     <Box
       sx={{
         fontSize: '40px',
         textAlign: 'center',
-        marginTop: '100px',
       }}
     >
-      Cere wallet client {counter}
+      Cere wallet client {store.ticks}
     </Box>
   );
 };
 
-export default Hello;
+export default observer(Hello);

@@ -1,1 +1,1 @@
-export * from './useWalletStore';
+export * from './createWalletStore';

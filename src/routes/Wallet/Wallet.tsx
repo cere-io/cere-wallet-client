@@ -1,19 +1,36 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { Button, Stack } from '@cere-wallet/ui';
 
 import { Hello } from '~/components';
-import { useWalletStore } from '~/stores';
+import { createWalletStore } from '~/stores';
 
 const Wallet = () => {
-  const { ticks, start, stop } = useWalletStore();
+  const store = useMemo(createWalletStore, []);
 
   useEffect(() => {
-    start();
+    store.start();
 
-    return () => stop();
-  }, [start, stop]);
+    return () => store.stop();
+  }, [store]);
 
-  return <Hello counter={ticks} />;
+  return (
+    <Stack spacing={2} marginTop={4} alignItems="center">
+      <Hello store={store} />
+
+      <Button variant="contained" onClick={store.reset}>
+        Reset
+      </Button>
+
+      <Button variant="contained" onClick={store.stop}>
+        Stop
+      </Button>
+
+      <Button variant="contained" onClick={store.start}>
+        Start
+      </Button>
+    </Stack>
+  );
 };
 
 export default observer(Wallet);

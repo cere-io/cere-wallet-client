@@ -1,6 +1,6 @@
-import { useMemo, PropsWithChildren } from "react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { createTheme } from "./theme";
+import { useMemo, PropsWithChildren } from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme } from './theme';
 
 export type UIProviderProps = PropsWithChildren<{}>;
 
