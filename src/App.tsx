@@ -1,9 +1,12 @@
-import { UIProvider } from "@cere-wallet/ui";
+import { StrictMode } from 'react';
+import { UIProvider } from '@cere-wallet/ui';
 
-import { Hello } from "./components";
+import { Router } from './routes';
 
 export const App = () => (
-  <UIProvider>
-    <Hello />
-  </UIProvider>
+  <StrictMode>
+    <UIProvider>
+      <Router />
+    </UIProvider>
+  </StrictMode>
 );

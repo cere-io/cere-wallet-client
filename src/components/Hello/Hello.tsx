@@ -1,7 +1,21 @@
-import { Box } from "@cere-wallet/ui";
+import { Box } from '@cere-wallet/ui';
 
-export const Hello = () => {
+export type HelloProps = {
+  counter: number;
+};
+
+const Hello = ({ counter }: HelloProps) => {
   return (
-    <Box sx={{ fontSize: "40px", textAlign: "center", marginTop: "100px" }}>Cere wallet client</Box>
+    <Box
+      sx={{
+        fontSize: '40px',
+        textAlign: 'center',
+        marginTop: '100px',
+      }}
+    >
+      Cere wallet client {counter}
+    </Box>
   );
 };
+
+export default Hello;
