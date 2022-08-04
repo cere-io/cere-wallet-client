@@ -1,8 +1,10 @@
-# Cere wallet client application
+Cere wallet client application
+===
 
-[Release Notes](./CHANGELOG.md)
+- [Release Notes](./CHANGELOG.md)  
+- [Project structure](./STRUCTURE.md)
 
-### Quick start
+## Quick startx
 
 1. Install dependencies:
 
