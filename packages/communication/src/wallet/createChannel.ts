@@ -1,4 +1,4 @@
-import { ObjectMultiplex, Substream } from '@toruslabs/openlogin-jrpc';
+import { ConsoleLike, ObjectMultiplex, Substream } from '@toruslabs/openlogin-jrpc';
 
 type Unsubscribe = () => void;
 type Subscribe<I> = (handler: (chunk: I) => void) => Unsubscribe;
@@ -8,17 +8,32 @@ export type Channel<I, O> = {
   publish: (chunk: O) => boolean;
 };
 
-export const createChannel = <I, O>(mux: ObjectMultiplex, name: string): Channel<I, O> => {
+export type CreateChannelOptions = {
+  mux: ObjectMultiplex;
+  logger?: ConsoleLike;
+};
+
+export const createChannel = <I, O>(name: string, { mux, logger }: CreateChannelOptions): Channel<I, O> => {
   const stream = mux.getStream(name) as Substream;
 
   const subscribe: Subscribe<I> = (handler) => {
-    stream.on('data', handler);
+    const wrappedHandler = (chunk: I) => {
+      logger?.debug('Wallet (Incoming)', chunk);
 
-    return () => stream.off('data', handler);
+      handler(chunk);
+    };
+
+    stream.on('data', wrappedHandler);
+
+    return () => stream.off('data', wrappedHandler);
   };
 
   return {
     subscribe,
-    publish: (chunk) => stream.write(chunk),
+    publish: (chunk) => {
+      logger?.debug('Wallet (Outgoing)', chunk);
+
+      return stream.write(chunk);
+    },
   };
 };

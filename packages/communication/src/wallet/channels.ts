@@ -1,5 +1,4 @@
-import { ObjectMultiplex as Mux } from '@toruslabs/openlogin-jrpc';
-import { createChannel } from './createChannel';
+import { createChannel, CreateChannelOptions } from './createChannel';
 
 export type NetworkConfig = {
   blockExplorer: string;
@@ -93,12 +92,12 @@ type WidgetVisibilityChannel = {
   data: boolean;
 };
 
-export const createChannels = (mux: Mux) => ({
-  init: createChannel<InitChannelIn, InitChannelOut>(mux, 'init_stream'),
-  login: createChannel<LoginChannelIn, LoginChannelOut>(mux, 'login_with_private_key'),
-  logout: createChannel<LogoutChannelInOut, LogoutChannelInOut>(mux, 'logout'),
-  status: createChannel<StatusChannelIn, StatusChannelOut>(mux, 'status'),
-  userInfo: createChannel<UserInfoChannelIn, UserInfoChannelOut>(mux, 'user_info_access'),
-  window: createChannel<WindowChannelIn, WindowChannelOut>(mux, 'window'),
-  widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>(mux, 'torus-widget-visibility'),
+export const createChannels = (options: CreateChannelOptions) => ({
+  init: createChannel<InitChannelIn, InitChannelOut>('init_stream', options),
+  login: createChannel<LoginChannelIn, LoginChannelOut>('login_with_private_key', options),
+  logout: createChannel<LogoutChannelInOut, LogoutChannelInOut>('logout', options),
+  status: createChannel<StatusChannelIn, StatusChannelOut>('status', options),
+  userInfo: createChannel<UserInfoChannelIn, UserInfoChannelOut>('user_info_access', options),
+  window: createChannel<WindowChannelIn, WindowChannelOut>('window', options),
+  widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>('torus-widget-visibility', options),
 });

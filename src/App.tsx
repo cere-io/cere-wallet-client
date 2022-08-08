@@ -6,9 +6,10 @@ import { Router } from './routes';
 
 export const App = () => {
   const stateRef = useRef<any>({});
-  const connection = useMemo(
+  useMemo(
     () =>
       createConnection({
+        logger: console,
         onInit: async (data) => {
           console.log('onInit', data);
 

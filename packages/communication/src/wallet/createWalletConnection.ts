@@ -1,4 +1,4 @@
-import { ObjectMultiplex } from '@toruslabs/openlogin-jrpc';
+import { ConsoleLike, ObjectMultiplex } from '@toruslabs/openlogin-jrpc';
 
 import { createChannels, InitData, LoginData, UserInfo } from './channels';
 
@@ -11,6 +11,7 @@ export type WalletConnection = {
 };
 
 export type WalletConnectionOptions = {
+  logger?: ConsoleLike;
   onInit: (data: InitData) => Promise<boolean>;
   onLogin: (data: LoginData) => Promise<boolean>;
   onRehydrate: () => Promise<boolean>;
@@ -22,9 +23,18 @@ export type WalletConnectionOptions = {
 
 export const createWalletConnection = (
   mux: ObjectMultiplex,
-  { onInit, onRehydrate, onLogin, onLogout, onUserInfoRequest, onWindowClose, onWindowOpen }: WalletConnectionOptions,
+  {
+    logger,
+    onInit,
+    onRehydrate,
+    onLogin,
+    onLogout,
+    onUserInfoRequest,
+    onWindowClose,
+    onWindowOpen,
+  }: WalletConnectionOptions,
 ): WalletConnection => {
-  const channels = createChannels(mux);
+  const channels = createChannels({ mux, logger });
 
   // Handle init requests
 
