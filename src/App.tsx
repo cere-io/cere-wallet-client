@@ -1,6 +1,6 @@
 import { StrictMode, useMemo, useRef } from 'react';
 import { UIProvider } from '@cere-wallet/ui';
-import { createWalletConnection } from '@cere-wallet/communication';
+import { createConnection } from '@cere-wallet/communication';
 
 import { Router } from './routes';
 
@@ -8,7 +8,7 @@ export const App = () => {
   const stateRef = useRef<any>({});
   const connection = useMemo(
     () =>
-      createWalletConnection({
+      createConnection({
         onInit: async (data) => {
           console.log('onInit', data);
 

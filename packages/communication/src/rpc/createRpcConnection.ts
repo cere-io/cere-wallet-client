@@ -1,10 +1,15 @@
-import { ObjectMultiplex } from '@toruslabs/openlogin-jrpc';
+import { ObjectMultiplex, Substream } from '@toruslabs/openlogin-jrpc';
 
-export type RpcConnection = {};
+export type RpcConnection = {
+  readonly providerStream: Substream;
+};
+
 export type RpcConnectionOptions = {};
 
 export const createRpcConnection = (mux: ObjectMultiplex, options: RpcConnectionOptions): RpcConnection => {
-  // TODO: Implement
+  const providerStream = mux.getStream('provider') as Substream;
 
-  return {};
+  return {
+    providerStream,
+  };
 };

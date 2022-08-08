@@ -9,7 +9,7 @@ export const createConnection = (options: ConnectionOptions): Connection => {
   const rpcMux = createMux('iframe_metamask', 'embed_metamask');
   const walletMux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
 
-  const rpcConnection = createRpcConnection(rpcMux, {});
+  const rpcConnection = createRpcConnection(rpcMux, options);
   const walletConnection = createWalletConnection(walletMux, options);
 
   return {
