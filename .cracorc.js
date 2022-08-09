@@ -1,9 +1,15 @@
-const { getLoader, loaderByName } = require('@craco/craco');
+const { getLoader, loaderByName, addPlugins } = require('@craco/craco');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   webpack: {
     configure: (config) => {
+      addPlugins(config, [new NodePolyfillPlugin()]);
+
+      /**
+       * Replace `resolve.plugins` to allow compiling packages outside of `src`
+       */
       config.resolve.plugins = [new TsconfigPathsPlugin()];
 
       /**
@@ -17,6 +23,11 @@ module.exports = {
         include: undefined,
         exclude: /node_modules/,
       });
+
+      /**
+       * Suppress warning about missing source maps from 3rd party libraries
+       */
+      config.ignoreWarnings = [/Failed to parse source map/];
 
       return config;
     },
