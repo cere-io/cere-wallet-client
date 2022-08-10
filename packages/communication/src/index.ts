@@ -1,1 +1,2 @@
-export * from './createConnection';
+export * from './wallet';
+export * from './rpc';

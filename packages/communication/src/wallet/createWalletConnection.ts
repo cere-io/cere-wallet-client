@@ -1,6 +1,8 @@
-import { ConsoleLike, ObjectMultiplex } from '@toruslabs/openlogin-jrpc';
+import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
+import { ChainConfig } from '@cere-wallet/wallet-engine';
 
-import { createChannels, InitData, LoginData, UserInfo } from './channels';
+import { createMux } from '../createMux';
+import { createChannels, InitChannelIn, LoginChannelIn, UserInfo } from './channels';
 
 type WindowOptions = {
   instanceId: string;
@@ -10,10 +12,14 @@ export type WalletConnection = {
   closeWindow: (instanceId: string) => boolean;
 };
 
+type InitData = Omit<InitChannelIn['data'], 'network'> & {
+  chainConfig: ChainConfig;
+};
+
 export type WalletConnectionOptions = {
   logger?: ConsoleLike;
   onInit: (data: InitData) => Promise<boolean>;
-  onLogin: (data: LoginData) => Promise<boolean>;
+  onLogin: (data: LoginChannelIn['data']) => Promise<boolean>;
   onRehydrate: () => Promise<boolean>;
   onLogout: () => Promise<boolean>;
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
@@ -21,19 +27,17 @@ export type WalletConnectionOptions = {
   onWindowClose: (data: WindowOptions) => Promise<void>;
 };
 
-export const createWalletConnection = (
-  mux: ObjectMultiplex,
-  {
-    logger,
-    onInit,
-    onRehydrate,
-    onLogin,
-    onLogout,
-    onUserInfoRequest,
-    onWindowClose,
-    onWindowOpen,
-  }: WalletConnectionOptions,
-): WalletConnection => {
+export const createWalletConnection = ({
+  logger,
+  onInit,
+  onRehydrate,
+  onLogin,
+  onLogout,
+  onUserInfoRequest,
+  onWindowClose,
+  onWindowOpen,
+}: WalletConnectionOptions): WalletConnection => {
+  const mux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
   const channels = createChannels({ mux, logger });
 
   // Handle init requests
@@ -43,7 +47,20 @@ export const createWalletConnection = (
       return;
     }
 
-    const success = await onInit(data);
+    const { network, ...restData } = data;
+    const success = await onInit({
+      ...restData,
+      chainConfig: {
+        chainNamespace: 'eip155',
+        chainId: `0x${network.chainId.toString(16)}`,
+        rpcTarget: network.host,
+        displayName: network.networkName,
+        blockExplorer: network.blockExplorer,
+        ticker: network.ticker,
+        tickerName: network.tickerName,
+      },
+    });
+
     const rehydrated = await onRehydrate();
     const userInfo = rehydrated && (await onUserInfoRequest());
 
