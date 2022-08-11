@@ -1,4 +1,5 @@
 import { makeAutoObservable, when } from 'mobx';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
 import {
   createWalletConnection,
   createRpcConnection,
@@ -9,12 +10,13 @@ import {
 import { AccountStore } from '../AccountStore';
 import { SignerStore } from '../SignerStore';
 import { NetworkStore } from '../NetworkStore';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { PopupManagerStore } from '../PopupManagerStore';
 
 export class WalletStore {
   readonly accountStore: AccountStore;
   readonly signerStore: SignerStore;
   readonly networkStore: NetworkStore;
+  readonly popupManagerStore: PopupManagerStore;
 
   private walletConnection?: WalletConnection;
   private rpcConnection?: RpcConnection;
@@ -22,9 +24,13 @@ export class WalletStore {
   constructor() {
     makeAutoObservable(this);
 
+    this.popupManagerStore = new PopupManagerStore({
+      onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
+    });
+
     this.accountStore = new AccountStore();
     this.networkStore = new NetworkStore();
-    this.signerStore = new SignerStore();
+    this.signerStore = new SignerStore(this.popupManagerStore, this.networkStore);
   }
 
   async init() {
@@ -59,11 +65,11 @@ export class WalletStore {
       },
 
       onWindowClose: async ({ instanceId }) => {
-        console.log('onWindowClose', instanceId);
+        this.popupManagerStore.unregister(instanceId);
       },
 
       onWindowOpen: async ({ instanceId }) => {
-        console.log('onWindowOpen', instanceId);
+        this.popupManagerStore.register(instanceId);
       },
     });
   }
@@ -73,10 +79,13 @@ export class WalletStore {
 
     const network = this.networkStore.network!;
     const account = this.accountStore.account!;
+
     const engine = await createWalletEngine({
       accounts: [account.address],
       privateKey: account.privateKey,
       chainConfig: network,
+
+      onSign: (request) => this.signerStore.sign(request),
     });
 
     this.rpcConnection = createRpcConnection({ engine, logger: console });

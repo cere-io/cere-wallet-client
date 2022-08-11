@@ -1,28 +1,48 @@
 import { BroadcastChannel } from '@toruslabs/broadcast-channel';
+import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 
-type UpdateHandler<S = unknown> = (state: S) => void;
-export type PopupConnection<S = unknown> = {
-  readonly id: string;
-  update: (state: Partial<S>) => Promise<void>;
-  onUpdate: (handler: UpdateHandler<S>) => () => void;
+export type PopupConnection<T = unknown> = {
+  readonly channel: string;
+  update: (state: Partial<T>) => Promise<void>;
 };
 
-export const createPopupConnection = <S = unknown>(id: string): PopupConnection<S> => {
-  const channel = new BroadcastChannel(`popup.channel.${id}`);
+export type PopupConnectionOptions<T> = {
+  logger?: ConsoleLike;
+  onUpdate: (state: T) => void;
+  onHandshake: () => void;
+};
+
+export const createPopupConnection = <T = unknown>(
+  channel: string,
+  { logger, onUpdate, onHandshake }: PopupConnectionOptions<T>,
+): PopupConnection<T> => {
+  const connextion = new BroadcastChannel(channel);
+  const postMessage = (message: any) => {
+    logger?.debug('Popup (Outgoing)', channel, message);
+
+    return connextion.postMessage(message);
+  };
+
+  connextion.addEventListener('message', ({ name, payload }) => {
+    logger?.debug('Popup (Incoming)', channel, { name, payload });
+
+    if (name === 'update') {
+      onUpdate(payload);
+    }
+
+    if (name === 'handshake') {
+      onHandshake();
+
+      if (!payload) {
+        postMessage({ name: 'handshake', payload: true });
+      }
+    }
+  });
+
+  postMessage({ name: 'handshake', payload: false });
 
   return {
-    id,
-    update: (payload) => channel.postMessage({ name: 'update', payload }),
-    onUpdate: (handler) => {
-      const onMessage = ({ name, payload }: any) => {
-        if (name === 'update') {
-          handler(payload);
-        }
-      };
-
-      channel.addEventListener('message', onMessage);
-
-      return () => channel.removeEventListener('message', onMessage);
-    },
+    channel,
+    update: (payload) => postMessage({ name: 'update', payload }),
   };
 };
