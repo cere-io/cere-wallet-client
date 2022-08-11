@@ -8,13 +8,13 @@ import {
 } from '@cere-wallet/communication';
 
 import { AccountStore } from '../AccountStore';
-import { SignerStore } from '../SignerStore';
+import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 
 export class WalletStore {
   readonly accountStore: AccountStore;
-  readonly signerStore: SignerStore;
+  readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
   readonly popupManagerStore: PopupManagerStore;
 
@@ -30,7 +30,7 @@ export class WalletStore {
 
     this.accountStore = new AccountStore();
     this.networkStore = new NetworkStore();
-    this.signerStore = new SignerStore(this.popupManagerStore, this.networkStore);
+    this.approvalStore = new ApprovalStore(this.popupManagerStore, this.networkStore);
   }
 
   async init() {
@@ -85,7 +85,7 @@ export class WalletStore {
       privateKey: account.privateKey,
       chainConfig: network,
 
-      onSign: (request) => this.signerStore.sign(request),
+      onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
     });
 
     this.rpcConnection = createRpcConnection({ engine, logger: console });

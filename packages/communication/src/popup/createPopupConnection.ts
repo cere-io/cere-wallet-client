@@ -16,14 +16,14 @@ export const createPopupConnection = <T = unknown>(
   channel: string,
   { logger, onUpdate, onHandshake }: PopupConnectionOptions<T>,
 ): PopupConnection<T> => {
-  const connextion = new BroadcastChannel(channel);
+  const connection = new BroadcastChannel(channel);
   const postMessage = (message: any) => {
     logger?.debug('Popup (Outgoing)', channel, message);
 
-    return connextion.postMessage(message);
+    return connection.postMessage(message);
   };
 
-  connextion.addEventListener('message', ({ name, payload }) => {
+  connection.addEventListener('message', ({ name, payload }) => {
     logger?.debug('Popup (Incoming)', channel, { name, payload });
 
     if (name === 'update') {

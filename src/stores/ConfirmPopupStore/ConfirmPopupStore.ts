@@ -1,16 +1,16 @@
 import { action, makeAutoObservable } from 'mobx';
-import { ChainConfig } from '@cere-wallet/communication';
+import { ChainConfig, getIFrameOrigin } from '@cere-wallet/communication';
 import { createSharedState } from '../createSharedState';
 
-type SignState = {
-  content: any;
+type ConfirmPopupState = {
   network?: ChainConfig;
+  content: string;
   status: 'pending' | 'approved' | 'declined';
 };
 
-export class SignPopupStore {
-  private shared = createSharedState<SignState>(`sign.${this.instanceId}`, {
-    content: undefined,
+export class ConfirmPopupStore {
+  private shared = createSharedState<ConfirmPopupState>(`sign.${this.instanceId}`, {
+    content: '',
     status: 'pending',
   });
 
@@ -19,6 +19,15 @@ export class SignPopupStore {
       approve: action.bound,
       decline: action.bound,
     });
+  }
+
+  get app() {
+    const originUrl = new URL(getIFrameOrigin());
+
+    return {
+      url: originUrl.toString(),
+      label: originUrl.hostname,
+    };
   }
 
   get isConnected() {
