@@ -1,31 +1,36 @@
-import { BroadcastChannel } from '@toruslabs/broadcast-channel';
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
+
+import { createBradcastChannel } from './createBroadcastChannel';
 
 export type PopupConnection<T = unknown> = {
   readonly channel: string;
-  update: (state: Partial<T>) => Promise<void>;
+  update: (state: T) => Promise<void>;
 };
 
-export type PopupConnectionOptions<T> = {
+export type PopupConnectionOptions<T = unknown> = {
   logger?: ConsoleLike;
   onUpdate: (state: T) => void;
   onHandshake: () => void;
 };
 
+type Message =
+  | {
+      name: 'handshake';
+      payload: boolean;
+    }
+  | {
+      name: 'update';
+      payload: any;
+    };
+
 export const createPopupConnection = <T = unknown>(
   channel: string,
   { logger, onUpdate, onHandshake }: PopupConnectionOptions<T>,
 ): PopupConnection<T> => {
-  const connection = new BroadcastChannel(channel);
-  const postMessage = (message: any) => {
-    logger?.debug('Popup (Outgoing)', channel, message);
+  let prevState: T | undefined;
+  const { publish, subscribe } = createBradcastChannel<Message>(channel, logger);
 
-    return connection.postMessage(message);
-  };
-
-  connection.addEventListener('message', ({ name, payload }) => {
-    logger?.debug('Popup (Incoming)', channel, { name, payload });
-
+  subscribe(({ name, payload }) => {
     if (name === 'update') {
       onUpdate(payload);
     }
@@ -34,15 +39,23 @@ export const createPopupConnection = <T = unknown>(
       onHandshake();
 
       if (!payload) {
-        postMessage({ name: 'handshake', payload: true });
+        publish({ name: 'handshake', payload: true });
+
+        if (prevState) {
+          publish({ name: 'update', payload: prevState });
+        }
       }
     }
   });
 
-  postMessage({ name: 'handshake', payload: false });
+  publish({ name: 'handshake', payload: false });
 
   return {
     channel,
-    update: (payload) => postMessage({ name: 'update', payload }),
+    update: (state) => {
+      prevState = state;
+
+      return publish({ name: 'update', payload: state });
+    },
   };
 };

@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, runInAction, when } from 'mobx';
 import { PersonalSignRequest } from '@cere-wallet/wallet-engine';
 
 import { PopupManagerStore } from '../PopupManagerStore';
@@ -16,8 +16,10 @@ export class ApprovalStore {
     const confirmPopup = new ConfirmPopupStore(preopenInstanceId);
     await when(() => confirmPopup.isConnected);
 
-    confirmPopup.network = this.networkStore.network;
-    confirmPopup.content = params.payload;
+    runInAction(() => {
+      confirmPopup.network = this.networkStore.network;
+      confirmPopup.content = params.payload;
+    });
 
     await when(() => confirmPopup.status !== 'pending');
     this.popupManagerStore.closePopup(preopenInstanceId);

@@ -12,11 +12,11 @@ export const createSharedState = <T = any>(channel: string, initialState: T): Sh
     state: initialState,
   });
 
-  const sync = { shouldSync: true };
+  let shouldSync = true;
   const connection = createPopupConnection<T>(channel, {
     logger: console,
     onUpdate: action((state) => {
-      sync.shouldSync = false;
+      shouldSync = false;
       Object.assign(shared.state, state);
     }),
 
@@ -31,11 +31,11 @@ export const createSharedState = <T = any>(channel: string, initialState: T): Sh
   reaction(
     () => toJS(shared.state),
     (state) => {
-      if (sync.shouldSync) {
+      if (shouldSync) {
         connection.update(state);
       }
 
-      sync.shouldSync = true;
+      shouldSync = true;
     },
   );
 
