@@ -1,14 +1,5 @@
 import { createChannel, CreateChannelOptions } from './createChannel';
 
-export type NetworkConfig = {
-  blockExplorer: string;
-  chainId: number;
-  host: string;
-  networkName: string;
-  ticker: string;
-  tickerName: string;
-};
-
 export type UserInfo = {
   email: string;
   name: string;
@@ -18,56 +9,59 @@ export type UserInfo = {
   verifierId: string;
 };
 
-export type InitData = {
-  network: NetworkConfig;
-  torusWidgetVisibility: boolean;
-};
-
-type InitChannelIn = {
+export type InitChannelIn = {
   name: 'init_stream';
-  data: InitData;
+  data: {
+    torusWidgetVisibility: boolean;
+    network: {
+      blockExplorer: string;
+      chainId: number;
+      host: string;
+      networkName: string;
+      ticker: string;
+      tickerName: string;
+    };
+  };
 };
 
-type InitChannelOut = {
+export type InitChannelOut = {
   name: 'init_complete';
   data: {
     success: boolean;
   };
 };
 
-export type LoginData = {
-  privateKey: string;
-  userInfo: UserInfo;
-};
-
-type LoginChannelIn = {
+export type LoginChannelIn = {
   name: 'login_with_private_key_request';
-  data: LoginData;
+  data: {
+    privateKey: string;
+    userInfo: UserInfo;
+  };
 };
 
-type LoginChannelOut = {
+export type LoginChannelOut = {
   name: 'login_with_private_key_response';
   data: {
     success: boolean;
   };
 };
 
-type LogoutChannelInOut = {
+export type LogoutChannelInOut = {
   name: 'logOut';
 };
 
-type StatusChannelIn = unknown;
-type StatusChannelOut = {
+export type StatusChannelIn = unknown;
+export type StatusChannelOut = {
   loggedIn: boolean;
   rehydrate?: boolean;
   verifier?: string;
 };
 
-type UserInfoChannelIn = {
+export type UserInfoChannelIn = {
   name: 'user_info_access_request';
 };
 
-type UserInfoChannelOut = {
+export type UserInfoChannelOut = {
   name: 'user_info_access_response';
   data: {
     approved: boolean;
@@ -75,7 +69,7 @@ type UserInfoChannelOut = {
   };
 };
 
-type WindowChannelIn = {
+export type WindowChannelIn = {
   name?: 'opened_window';
   data: {
     preopenInstanceId: string;
@@ -83,12 +77,12 @@ type WindowChannelIn = {
   };
 };
 
-type WindowChannelOut = {
+export type WindowChannelOut = {
   preopenInstanceId: string;
   close: boolean;
 };
 
-type WidgetVisibilityChannel = {
+export type WidgetVisibilityChannel = {
   data: boolean;
 };
 

@@ -1,15 +1,19 @@
-import { ObjectMultiplex, JRPCEngine, Substream, createEngineStream, ConsoleLike } from '@toruslabs/openlogin-jrpc';
+import { JRPCEngine, Substream, createEngineStream, ConsoleLike } from '@toruslabs/openlogin-jrpc';
+import { WalletEngine } from '@cere-wallet/wallet-engine';
+
+import { createMux } from '../createMux';
 import { createLoggerMiddleware } from './middleware';
 
-export type RpcConnection = {
-  readonly rpcStream: ReturnType<typeof createEngineStream>;
-};
+export type RpcStream = ReturnType<typeof createEngineStream>;
+export type RpcConnection = {};
 
 export type RpcConnectionOptions = {
+  engine: WalletEngine;
   logger?: ConsoleLike;
 };
 
-export const createRpcConnection = (mux: ObjectMultiplex, { logger }: RpcConnectionOptions): RpcConnection => {
+export const createRpcConnection = ({ engine: walletEngine, logger }: RpcConnectionOptions): RpcConnection => {
+  const mux = createMux('iframe_metamask', 'embed_metamask');
   const engine = new JRPCEngine();
   const engineStream = createEngineStream({ engine });
   const providerStream = mux.getStream('provider') as Substream;
@@ -18,12 +22,8 @@ export const createRpcConnection = (mux: ObjectMultiplex, { logger }: RpcConnect
     engine.push(createLoggerMiddleware(logger));
   }
 
-  /**
-   * Forward requests from `providerStream` to `engineStream` and back
-   */
+  engine.push(walletEngine.asMiddleware());
   providerStream.pipe(engineStream).pipe(providerStream);
 
-  return {
-    rpcStream: engineStream,
-  };
+  return {};
 };
