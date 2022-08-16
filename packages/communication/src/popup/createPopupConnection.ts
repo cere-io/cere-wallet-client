@@ -4,13 +4,16 @@ import { createBradcastChannel } from './createBroadcastChannel';
 
 export type PopupConnection<T = unknown> = {
   readonly channel: string;
-  update: (state: T) => Promise<void>;
+  disconnect: () => Promise<void>;
+  publish: (state: T) => Promise<void>;
 };
 
 export type PopupConnectionOptions<T = unknown> = {
   logger?: ConsoleLike;
-  onUpdate: (state: T) => void;
-  onHandshake: () => void;
+  initialState: T;
+  onData: (state: T) => void;
+  onDisconnect: () => void;
+  onConnect: () => void;
 };
 
 type Message =
@@ -25,18 +28,18 @@ type Message =
 
 export const createPopupConnection = <T = unknown>(
   channel: string,
-  { logger, onUpdate, onHandshake }: PopupConnectionOptions<T>,
+  { logger, initialState, onData, onConnect, onDisconnect }: PopupConnectionOptions<T>,
 ): PopupConnection<T> => {
-  let prevState: T | undefined;
-  const { publish, subscribe } = createBradcastChannel<Message>(channel, logger);
+  let prevState: T = initialState;
+  const { publish, subscribe, close } = createBradcastChannel<Message>(channel, logger);
 
   subscribe(({ name, payload }) => {
     if (name === 'update') {
-      onUpdate(payload);
+      onData(payload);
     }
 
     if (name === 'handshake') {
-      onHandshake();
+      onConnect();
 
       if (!payload) {
         publish({ name: 'handshake', payload: true });
@@ -52,7 +55,14 @@ export const createPopupConnection = <T = unknown>(
 
   return {
     channel,
-    update: (state) => {
+
+    disconnect: async () => {
+      await close();
+
+      onDisconnect();
+    },
+
+    publish: (state) => {
       prevState = state;
 
       return publish({ name: 'update', payload: state });

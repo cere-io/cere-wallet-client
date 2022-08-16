@@ -1,10 +1,8 @@
-import { ConsoleLike, JRPCMiddleware } from '@toruslabs/openlogin-jrpc';
+import { ConsoleLike, JRPCMiddleware, createAsyncMiddleware } from '@toruslabs/openlogin-jrpc';
 
-export const createLoggerMiddleware =
-  (logger: ConsoleLike): JRPCMiddleware<unknown, unknown> =>
-  (req, res, next, _) => {
+export const createLoggerMiddleware = (logger: ConsoleLike): JRPCMiddleware<unknown, unknown> =>
+  createAsyncMiddleware(async (req, res, next) => {
     logger.debug('RPC (Request)', req);
+    await next();
     logger.debug('RPC (Response)', res);
-
-    next();
-  };
+  });

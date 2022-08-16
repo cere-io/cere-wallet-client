@@ -1,17 +1,14 @@
 import { makeAutoObservable, when } from 'mobx';
-import { createSharedState, SharedState } from '../createSharedState';
+import { createSharedRedirectState, createSharedPopupState, SharedState, RedirectState } from '../sharedState';
 
 type PopupManangerOptions = {
   onClose?: (instanceId: string) => void;
 };
 
-type PopupState = {
-  url?: string;
-};
-
 export class PopupManagerStore {
   private onClose?: PopupManangerOptions['onClose'];
-  popups: Record<string, SharedState<PopupState>> = {};
+  redirects: Record<string, SharedState<RedirectState>> = {};
+  popups: Record<string, SharedState> = {};
 
   constructor(options: PopupManangerOptions = {}) {
     makeAutoObservable(this);
@@ -19,39 +16,44 @@ export class PopupManagerStore {
     this.onClose = options.onClose;
   }
 
-  waitForRedirectRequest(instanceId: string, onRedirectRequest: (url: string) => void) {
-    const redirect = createSharedState<PopupState>(`redirect.${instanceId}`, {});
-
-    when(
-      () => redirect.isConnected && !!redirect.state.url,
-      () => onRedirectRequest(redirect.state.url!),
-    );
+  registerRedirect(instanceId: string) {
+    this.redirects[instanceId] = createSharedRedirectState(instanceId);
   }
 
-  register(instanceId: string) {
-    this.popups[instanceId] = createSharedState<PopupState>(`redirect.${instanceId}`, {});
-  }
+  unregisterAll(instanceId: string) {
+    console.log('unregisterAll', instanceId, {
+      popup: this.popups[instanceId],
+      redirect: this.redirects[instanceId],
+    });
 
-  unregister(instanceId: string) {
+    this.popups[instanceId]?.disconnect();
+    this.redirects[instanceId]?.disconnect();
+
     delete this.popups[instanceId];
+    delete this.redirects[instanceId];
   }
 
   closePopup(instanceId: string) {
     this.onClose?.(instanceId);
   }
 
-  async proceed(instanceId: string, toUrl: string) {
-    const popup = await this.connectPopup(instanceId);
+  async proceedTo<T = unknown>(instanceId: string, toUrl: string, initialState: T) {
+    const redirect: SharedState<RedirectState> = this.redirects[instanceId];
     const [path, search] = toUrl.split('&');
     const searchParams = new URLSearchParams(search);
-    searchParams.append('instanceId', instanceId);
 
-    popup.state.url = `${path}?${searchParams}`;
+    searchParams.append('instanceId', instanceId);
+    redirect.state.url = `${path}?${searchParams}`;
+
+    const popup = createSharedPopupState<T>(instanceId, initialState);
+    this.popups[instanceId] = popup;
+
+    await when(() => popup.isConnected);
+
+    return popup;
   }
 
   private async connectPopup(instanceId: string) {
-    await when(() => this.popups[instanceId].isConnected);
-
-    return this.popups[instanceId];
+    return this.redirects[instanceId];
   }
 }

@@ -65,11 +65,11 @@ export class WalletStore {
       },
 
       onWindowClose: async ({ instanceId }) => {
-        this.popupManagerStore.unregister(instanceId);
+        this.popupManagerStore.unregisterAll(instanceId);
       },
 
       onWindowOpen: async ({ instanceId }) => {
-        this.popupManagerStore.register(instanceId);
+        this.popupManagerStore.registerRedirect(instanceId);
       },
     });
   }
