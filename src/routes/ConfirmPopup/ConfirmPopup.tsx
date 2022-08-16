@@ -30,7 +30,7 @@ const ConfirmPopup = () => {
           <Typography variant="body2" fontWeight="bold">
             Data
           </Typography>
-          <RawData hex={store.content} json={store.content} />
+          <RawData hex={store.content} />
         </Stack>
 
         <Stack direction="row" justifyContent="space-between">

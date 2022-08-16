@@ -18,7 +18,14 @@ export const createBradcastChannel = <T = unknown>(channel: string, logger?: Con
     });
   };
 
+  const close = async () => {
+    await connection.close();
+
+    logger?.debug('Popup (Closed)', channel);
+  };
+
   return {
+    close,
     publish,
     subscribe,
   };

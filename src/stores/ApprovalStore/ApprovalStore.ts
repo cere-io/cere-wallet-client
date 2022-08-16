@@ -1,8 +1,8 @@
-import { makeAutoObservable, runInAction, when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { PersonalSignRequest } from '@cere-wallet/wallet-engine';
 
 import { PopupManagerStore } from '../PopupManagerStore';
-import { ConfirmPopupStore } from '../ConfirmPopupStore';
+import { ConfirmPopupState } from '../ConfirmPopupStore';
 import { NetworkStore } from '../NetworkStore';
 
 export class ApprovalStore {
@@ -11,19 +11,21 @@ export class ApprovalStore {
   }
 
   async approvePersonalSign({ preopenInstanceId, params }: PersonalSignRequest) {
-    await this.popupManagerStore.proceed(preopenInstanceId, '/confirm');
-
-    const confirmPopup = new ConfirmPopupStore(preopenInstanceId);
-    await when(() => confirmPopup.isConnected);
-
-    runInAction(() => {
-      confirmPopup.network = this.networkStore.network;
-      confirmPopup.content = params.payload;
+    const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, '/confirm', {
+      network: this.networkStore.network,
+      content: params.payload,
+      status: 'pending',
     });
 
-    await when(() => confirmPopup.status !== 'pending');
+    await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
     this.popupManagerStore.closePopup(preopenInstanceId);
 
-    return confirmPopup.status === 'approved';
+    if (!popup.isConnected) {
+      throw new Error('User has closed the confirmation popup');
+    }
+
+    if (popup.state.status === 'declined') {
+      throw new Error('User has declined the signing request');
+    }
   }
 }

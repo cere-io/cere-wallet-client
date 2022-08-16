@@ -10,29 +10,29 @@ export type PersonalSignRequest = ApprovalRequest<{
 }>;
 
 export type SignerMiddlewareOptions = {
-  onPersonalSign?: (request: PersonalSignRequest) => Promise<boolean>;
+  onPersonalSign?: (request: PersonalSignRequest) => Promise<void>;
 };
 
 const hasPreopenedPopup = (req: any): req is JRPCRequest<unknown> & { preopenInstanceId: string } => {
   return Object.hasOwn(req, 'preopenInstanceId');
 };
 
-export const createSignerMiddleware = ({ onPersonalSign = async () => true }: SignerMiddlewareOptions) => {
+const noop = async () => {};
+export const createSignerMiddleware = ({ onPersonalSign = noop }: SignerMiddlewareOptions) => {
   return createScaffoldMiddleware({
     personal_sign: createAsyncMiddleware(async (req, res, next) => {
+      const [payload] = req.params as string[];
+
       if (!hasPreopenedPopup(req)) {
         return next();
       }
 
-      const [payload] = req.params as string[];
-      const approved = await onPersonalSign({
+      await onPersonalSign({
         preopenInstanceId: req.preopenInstanceId,
         params: { payload },
       });
 
-      if (approved) {
-        next();
-      }
+      next();
     }),
   });
 };

@@ -23,6 +23,7 @@ export const createRpcConnection = ({ engine: walletEngine, logger }: RpcConnect
   }
 
   engine.push(walletEngine.asMiddleware());
+
   providerStream.pipe(engineStream).pipe(providerStream);
 
   return {};
