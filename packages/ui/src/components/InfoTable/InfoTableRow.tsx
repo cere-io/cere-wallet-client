@@ -8,6 +8,7 @@ export type InfoTableRowProps = {
 };
 
 const Text = styled(Typography)(({ theme }) => ({
+  fontSize: 'inherit',
   fontWeight: theme.typography.fontWeightBold,
 }));
 

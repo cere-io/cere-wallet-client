@@ -57,6 +57,7 @@ export class ApprovalStore {
       to: transaction.to,
       rawData: transaction.data,
       parsedData,
+      action: parsedData?.name,
     });
 
     if (contractName === 'Freeport') {

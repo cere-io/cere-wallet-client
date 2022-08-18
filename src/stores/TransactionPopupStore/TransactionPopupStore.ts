@@ -18,6 +18,7 @@ export type TransactionPopupState = {
 
   rawData?: string;
   parsedData?: object;
+  action?: string;
 };
 
 const getAddressData = (address: string, blockExplorer?: string) => ({
@@ -80,6 +81,10 @@ export class TransactionPopupStore {
 
   get network() {
     return this.shared.state.network;
+  }
+
+  get action() {
+    return this.shared.state.action;
   }
 
   approve() {

@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react';
-import { styled, Button, CereIcon, Container, Stack, Typography } from '@cere-wallet/ui';
+import { styled, Button, CereIcon, Container, Typography } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
+import { Section } from './Section';
 
 export type PopupLayoutProps = PropsWithChildren<{
   title?: string;
@@ -16,8 +17,8 @@ const Logo = styled(CereIcon)({
   fontSize: '40px',
 });
 
-const Section = styled(Stack)(({ theme }) => ({
-  marginTop: theme.spacing(4),
+const Layout = styled(Container)(({ theme }) => ({
+  padding: theme.spacing(0, 3, 3),
 }));
 
 export const PopupLayout = ({
@@ -29,7 +30,7 @@ export const PopupLayout = ({
   onConfirm,
 }: PopupLayoutProps) => {
   return (
-    <Container maxWidth="sm">
+    <Layout maxWidth="sm">
       <Section spacing={3} alignItems="center">
         <Logo />
         <Typography variant="h5" fontWeight="bold">
@@ -55,7 +56,7 @@ export const PopupLayout = ({
           Confirm
         </Button>
       </Section>
-    </Container>
+    </Layout>
   );
 };
 

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { InfoTable, Typography } from '@cere-wallet/ui';
+import { InfoTable, Stack, Typography } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
@@ -34,11 +34,18 @@ const TransactionPopup = () => {
       )}
 
       {store.data && (
-        <PopupLayout.Section spacing={2}>
-          <Typography variant="body2" fontWeight="bold">
-            Data:
-          </Typography>
-          <TransactionData {...store.data} />
+        <PopupLayout.Section collapsible>
+          <InfoTable dense marginTop={1}>
+            <InfoTable.Row label="Network" value={store.network?.displayName || ''} />
+            {store.action && <InfoTable.Row label="Action" value={store.action} />}
+          </InfoTable>
+
+          <Stack spacing={2}>
+            <Typography variant="body2" color="text.secondary" fontWeight="bold">
+              Data:
+            </Typography>
+            <TransactionData {...store.data} />
+          </Stack>
         </PopupLayout.Section>
       )}
 

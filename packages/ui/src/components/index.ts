@@ -23,6 +23,8 @@ export {
   type LinkProps,
   Divider,
   type DividerProps,
+  Collapse,
+  type CollapseProps,
 } from '@mui/material';
 
 export * from './InfoTable';
