@@ -1,17 +1,18 @@
 import { ContractInterface } from 'ethers';
-import { getContractAddress, Freeport__factory, TestERC20__factory } from '@cere/freeport-sdk';
+import { getContractAddress, Freeport__factory, TestERC20__factory, SimpleAuction__factory } from '@cere/freeport-sdk';
 import { IncomingTransaction } from './middleware';
 
 const contractInterfaceFactoryMap = {
   Freeport: () => Freeport__factory.createInterface(),
   ERC20: () => TestERC20__factory.createInterface(),
+  SimpleAuction: () => SimpleAuction__factory.createInterface(),
 } as const;
 
 export type ContractName = keyof typeof contractInterfaceFactoryMap | 'Unknown';
 
 const getContractsAddressMap = (networkId: string) => {
-  const contractNames: ContractName[] = ['Freeport', 'ERC20'];
   const chainId = parseInt(networkId, 16);
+  const contractNames = Object.keys(contractInterfaceFactoryMap) as ContractName[];
 
   return contractNames.reduce((map, contractName) => {
     const address = getContractAddress({
