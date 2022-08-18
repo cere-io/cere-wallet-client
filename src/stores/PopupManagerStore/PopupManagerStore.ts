@@ -21,11 +21,6 @@ export class PopupManagerStore {
   }
 
   unregisterAll(instanceId: string) {
-    console.log('unregisterAll', instanceId, {
-      popup: this.popups[instanceId],
-      redirect: this.redirects[instanceId],
-    });
-
     this.popups[instanceId]?.disconnect();
     this.redirects[instanceId]?.disconnect();
 
@@ -51,9 +46,5 @@ export class PopupManagerStore {
     await when(() => popup.isConnected);
 
     return popup;
-  }
-
-  private async connectPopup(instanceId: string) {
-    return this.redirects[instanceId];
   }
 }

@@ -1,19 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { WalletWidget } from '~/components';
 import { WalletStore } from '~/stores';
 
 const Iframe = () => {
-  const storeRef = useRef<WalletStore>();
+  const store = useMemo(() => new WalletStore(), []);
 
   useEffect(() => {
-    if (storeRef.current) {
-      return;
-    }
-
-    storeRef.current = new WalletStore();
-    storeRef.current.init();
-  }, []);
+    store.init();
+  }, [store]);
 
   return <WalletWidget />;
 };

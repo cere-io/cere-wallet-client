@@ -24,3 +24,5 @@ export {
   Divider,
   type DividerProps,
 } from '@mui/material';
+
+export * from './InfoTable';

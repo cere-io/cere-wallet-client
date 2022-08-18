@@ -1,11 +1,13 @@
 import { action, makeAutoObservable } from 'mobx';
 import { ChainConfig, getIFrameOrigin } from '@cere-wallet/communication';
 import { createSharedPopupState } from '../sharedState';
+import { PriceData } from '../types';
 
 export type ConfirmPopupState = {
   network?: ChainConfig;
   content: string;
   status: 'pending' | 'approved' | 'declined';
+  fee?: PriceData;
 };
 
 export class ConfirmPopupStore {
@@ -32,6 +34,10 @@ export class ConfirmPopupStore {
 
   get isReady() {
     return this.shared.isConnected;
+  }
+
+  get fee() {
+    return this.shared.state.fee;
   }
 
   get content() {

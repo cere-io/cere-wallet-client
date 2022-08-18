@@ -1,5 +1,11 @@
 import { createTheme as createMuiTheme, alpha } from '@mui/material/styles';
 
+declare module '@mui/material/styles/createPalette' {
+  interface TypeText {
+    caption: string;
+  }
+}
+
 export const createTheme = () => {
   const theme = createMuiTheme({
     palette: {
@@ -13,6 +19,7 @@ export const createTheme = () => {
 
       text: {
         secondary: '#717684',
+        caption: '#A1A4AD',
       },
     },
 
