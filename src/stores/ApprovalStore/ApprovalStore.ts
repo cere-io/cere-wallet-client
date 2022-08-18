@@ -1,43 +1,17 @@
 import { makeAutoObservable, when } from 'mobx';
-import { PersonalSignRequest, SendTransactionRequest, Provider, IncomingTransaction } from '@cere-wallet/wallet-engine';
 import {
-  getContractAddress,
-  getTokenConfig,
-  Freeport__factory,
-  TestERC20__factory,
-  TokenConfig,
-} from '@cere/freeport-sdk';
+  PersonalSignRequest,
+  SendTransactionRequest,
+  Provider,
+  parseTransactionData,
+} from '@cere-wallet/wallet-engine';
+import { getTokenConfig, TokenConfig } from '@cere/freeport-sdk';
 
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { TransactionPopupState } from '../TransactionPopupStore';
 import { ConfirmPopupState } from '../ConfirmPopupStore';
-import { BigNumber, ethers } from 'ethers';
-
-type ContractName = 'Freeport' | 'ERC20';
-const isContractTransaction = (networkId: string, contractName: ContractName, { to }: IncomingTransaction) => {
-  const address = to.toLocaleLowerCase();
-  const chainId = parseInt(networkId, 16);
-  const contractAddress = getContractAddress({
-    chainId,
-    contractName,
-    deployment: 'dev',
-  });
-
-  return address === contractAddress.toLocaleLowerCase();
-};
-
-const getContractInterface = (contractName: ContractName): ethers.utils.Interface => {
-  if (contractName === 'ERC20') {
-    return TestERC20__factory.createInterface();
-  }
-
-  if (contractName === 'Freeport') {
-    return Freeport__factory.createInterface();
-  }
-
-  throw new Error('Unknown smart contract name');
-};
+import { BigNumber } from 'ethers';
 
 const convertPrice = (amount: BigNumber, { decimals }: TokenConfig) => {
   return amount.div(10 ** decimals).toNumber();
@@ -74,33 +48,23 @@ export class ApprovalStore {
   async approveSendTransaction({ preopenInstanceId, params: [transaction] }: SendTransactionRequest) {
     const tokenConfig = getTokenConfig();
     const network = this.networkStore.network!;
+    const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
+
     const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, '/transaction', {
       network,
       status: 'pending',
       from: transaction.from,
       to: transaction.to,
       rawData: transaction.data,
+      parsedData,
     });
 
-    if (isContractTransaction(network.chainId, 'ERC20', transaction)) {
-      const result = getContractInterface('ERC20').parseTransaction({ data: transaction.data });
+    if (contractName === 'Freeport') {
+      const { name, args } = parsedData;
 
-      if (result.name === 'approve') {
-        popup.state.toConfirm = {
-          symbol: tokenConfig.symbol,
-          amount: convertPrice(result.args.amount, tokenConfig),
-        };
-      }
-
-      popup.state.parsedData = result;
-    }
-
-    if (isContractTransaction(network.chainId, 'Freeport', transaction)) {
-      const result = getContractInterface('Freeport').parseTransaction({ data: transaction.data });
-
-      if (result.name === 'takeOffer') {
-        const price = convertPrice(result.args.expectedPriceOrZero, tokenConfig);
-        const amount = (result.args.amount as BigNumber).toNumber();
+      if (name === 'takeOffer') {
+        const price = convertPrice(args.expectedPriceOrZero, tokenConfig);
+        const amount = (args.amount as BigNumber).toNumber();
         const sum = amount * price;
 
         popup.state.spending = {
@@ -125,8 +89,17 @@ export class ApprovalStore {
           },
         };
       }
+    }
 
-      popup.state.parsedData = result;
+    if (contractName === 'ERC20') {
+      const { name, args } = parsedData;
+
+      if (name === 'approve') {
+        popup.state.toConfirm = {
+          symbol: tokenConfig.symbol,
+          amount: convertPrice(args.amount, tokenConfig),
+        };
+      }
     }
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);

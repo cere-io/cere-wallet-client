@@ -3,3 +3,4 @@ export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction }
 export * from './createWalletEngine';
 export * from './getAccountAddress';
 export * from './createProvider';
+export * from './parseTransactionData';
