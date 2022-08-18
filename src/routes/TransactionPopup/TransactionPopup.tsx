@@ -34,9 +34,9 @@ const TransactionPopup = () => {
       )}
 
       {store.data && (
-        <PopupLayout.Section spacing={1}>
+        <PopupLayout.Section spacing={2}>
           <Typography variant="body2" fontWeight="bold">
-            Data
+            Data:
           </Typography>
           <TransactionData {...store.data} />
         </PopupLayout.Section>

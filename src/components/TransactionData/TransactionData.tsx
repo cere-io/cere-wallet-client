@@ -43,7 +43,7 @@ export const TransactionData = ({ hex, data }: TransactionDataProps) => {
   return (
     <Box>
       {json && hex && (
-        <ToggleButtonGroup exclusive fullWidth size="small" value={type} onChange={handleChange}>
+        <ToggleButtonGroup exclusive fullWidth size="small" value={currentType} onChange={handleChange}>
           <ToggleButton value="json">Json</ToggleButton>
           <ToggleButton value="hex">Hex Data</ToggleButton>
         </ToggleButtonGroup>

@@ -40,7 +40,7 @@ export const PopupLayout = ({
 
       <Section>
         {links.map((linkProps) => (
-          <HeaderLink {...linkProps} />
+          <HeaderLink key={linkProps.title} {...linkProps} />
         ))}
       </Section>
 
