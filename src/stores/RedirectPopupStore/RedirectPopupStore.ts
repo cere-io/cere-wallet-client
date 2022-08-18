@@ -10,7 +10,7 @@ export class RedirectPopupStore {
 
   waitForRedirectRequest(onRedirectRequest: (url: string) => void) {
     return autorun(() => {
-      if (this.shared.isConnected && this.shared.state.url) {
+      if (this.shared.state.url) {
         onRedirectRequest(this.shared.state.url);
       }
     });
