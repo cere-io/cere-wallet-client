@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, observable, runInAction, when } from 'mobx';
 import { createSharedRedirectState, createSharedPopupState, SharedState, RedirectState } from '../sharedState';
 
 type PopupManangerOptions = {
@@ -11,7 +11,10 @@ export class PopupManagerStore {
   popups: Record<string, SharedState> = {};
 
   constructor(options: PopupManangerOptions = {}) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      redirects: observable.shallow,
+      popups: observable.shallow,
+    });
 
     this.onClose = options.onClose;
   }
@@ -38,12 +41,7 @@ export class PopupManagerStore {
   }
 
   async proceedTo<T = unknown>(instanceId: string, toUrl: string, initialState: T) {
-    const redirect: SharedState<RedirectState> = this.redirects[instanceId];
-    const [path, search] = toUrl.split('&');
-    const searchParams = new URLSearchParams(search);
-
-    searchParams.append('instanceId', instanceId);
-    redirect.state.url = `${path}?${searchParams}`;
+    await this.redirect(instanceId, toUrl);
 
     const popup = createSharedPopupState<T>(instanceId, initialState);
     this.popups[instanceId] = popup;
@@ -51,6 +49,19 @@ export class PopupManagerStore {
     await when(() => popup.isConnected);
 
     return popup;
+  }
+
+  private async redirect(instanceId: string, toUrl: string) {
+    await when(() => !!this.redirects[instanceId]);
+
+    const [path, search] = toUrl.split('&');
+    const searchParams = new URLSearchParams(search);
+
+    searchParams.append('instanceId', instanceId);
+
+    runInAction(() => {
+      this.redirects[instanceId].state.url = `${path}?${searchParams}`;
+    });
   }
 
   private async connectPopup(instanceId: string) {
