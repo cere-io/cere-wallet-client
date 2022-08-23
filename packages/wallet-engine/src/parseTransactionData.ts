@@ -1,14 +1,18 @@
-import { ContractInterface } from 'ethers';
 import { getContractAddress, Freeport__factory, TestERC20__factory, SimpleAuction__factory } from '@cere/freeport-sdk';
 import { IncomingTransaction } from './middleware';
 
-const contractInterfaceFactoryMap = {
-  Freeport: () => Freeport__factory.createInterface(),
-  ERC20: () => TestERC20__factory.createInterface(),
-  SimpleAuction: () => SimpleAuction__factory.createInterface(),
-} as const;
+export enum ContractName {
+  Freeport = 'Freeport',
+  ERC20 = 'ERC20',
+  SimpleAuction = 'SimpleAuction',
+  Unknown = 'Unknown',
+}
 
-export type ContractName = keyof typeof contractInterfaceFactoryMap | 'Unknown';
+const contractInterfaceFactoryMap = {
+  [ContractName.Freeport]: () => Freeport__factory.createInterface(),
+  [ContractName.ERC20]: () => TestERC20__factory.createInterface(),
+  [ContractName.SimpleAuction]: () => SimpleAuction__factory.createInterface(),
+};
 
 const getContractsAddressMap = (networkId: string) => {
   const chainId = parseInt(networkId, 16);
@@ -18,7 +22,7 @@ const getContractsAddressMap = (networkId: string) => {
     const address = getContractAddress({
       chainId,
       contractName,
-      deployment: 'dev',
+      deployment: process.env.REACT_APP_ENV,
     });
 
     return {
@@ -28,21 +32,21 @@ const getContractsAddressMap = (networkId: string) => {
   }, {} as Record<string, ContractName>);
 };
 
-const getTrasactionContract = ({ to }: IncomingTransaction, networkId: string) => {
+const getTrasactionContract = ({ to }: IncomingTransaction, networkId: string): ContractName => {
   const address = to.toLocaleLowerCase();
   const addressMap = getContractsAddressMap(networkId);
 
-  return addressMap[address] || 'Unknown';
+  return addressMap[address] || ContractName.Unknown;
 };
 
 export const parseTransactionData = (transaction: IncomingTransaction, chainId: string) => {
   const contractName = getTrasactionContract(transaction, chainId);
 
-  if (contractName === 'Unknown') {
+  if (contractName === ContractName.Unknown) {
     return { contractName };
   }
 
-  const contractInterface: ContractInterface = contractInterfaceFactoryMap[contractName]();
+  const contractInterface = contractInterfaceFactoryMap[contractName]();
   const description = contractInterface.parseTransaction({ data: transaction.data });
 
   return {

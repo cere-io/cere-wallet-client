@@ -3,6 +3,7 @@ import {
   PersonalSignRequest,
   SendTransactionRequest,
   Provider,
+  ContractName,
   parseTransactionData,
 } from '@cere-wallet/wallet-engine';
 import { getTokenConfig, TokenConfig } from '@cere/freeport-sdk';
@@ -60,7 +61,7 @@ export class ApprovalStore {
       action: parsedData?.name,
     });
 
-    if (contractName === 'Freeport') {
+    if (contractName === ContractName.Freeport) {
       const { name, args } = parsedData;
 
       if (name === 'takeOffer') {
@@ -92,7 +93,7 @@ export class ApprovalStore {
       }
     }
 
-    if (contractName === 'ERC20') {
+    if (contractName === ContractName.ERC20) {
       const { name, args } = parsedData;
 
       if (name === 'approve') {

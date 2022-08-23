@@ -58,8 +58,4 @@ export class PopupManagerStore {
       this.redirects[instanceId].state.url = `${path}?${searchParams}`;
     });
   }
-
-  private async connectPopup(instanceId: string) {
-    return this.redirects[instanceId];
-  }
 }
