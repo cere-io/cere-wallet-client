@@ -1,23 +1,25 @@
-import { JRPCEngine } from '@toruslabs/openlogin-jrpc';
+import { JRPCEngine, JRPCMiddleware } from '@toruslabs/openlogin-jrpc';
+import { ethersProviderAsMiddleware, SafeEventEmitterProvider } from 'eth-json-rpc-middleware';
 
 import {
   createWalletMiddleware,
-  createEthereumProviderMiddleware,
-  createSignerMiddleware,
-  EthereumProviderMiddlewareOptions,
+  createProviderMiddleware,
   WalletMiddlewareOptions,
-  SignerMiddlewareOptions,
+  ProviderMiddlewareOptions,
 } from './middleware';
 
 export type WalletEngine = JRPCEngine;
-export type WalletEngineOptions = EthereumProviderMiddlewareOptions & WalletMiddlewareOptions & SignerMiddlewareOptions;
+export type WalletEngineOptions = WalletMiddlewareOptions &
+  ProviderMiddlewareOptions & {
+    provider: SafeEventEmitterProvider;
+  };
 
-export const createWalletEngine = async (options: WalletEngineOptions): Promise<WalletEngine> => {
+export const createWalletEngine = (options: WalletEngineOptions) => {
   const engine = new JRPCEngine();
 
   engine.push(createWalletMiddleware(options));
-  engine.push(createSignerMiddleware(options));
-  engine.push(await createEthereumProviderMiddleware(options));
+  engine.push(createProviderMiddleware(options));
+  engine.push(ethersProviderAsMiddleware(options.provider) as JRPCMiddleware<unknown, unknown>);
 
   return engine;
 };

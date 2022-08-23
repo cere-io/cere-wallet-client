@@ -58,7 +58,6 @@ export const createPopupConnection = <T = unknown>(
 
     disconnect: async () => {
       await close();
-
       onDisconnect();
     },
 

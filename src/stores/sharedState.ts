@@ -9,18 +9,23 @@ export type SharedState<T = unknown> = {
 
 export const createSharedState = <T = unknown>(channel: string, initialState: T): SharedState<T> => {
   let shouldSync = true;
-  const shared = observable({
-    isConnected: false,
-    state: initialState,
-    disconnect: () => connection.disconnect(),
-  });
+  const shared = observable(
+    {
+      isConnected: false,
+      state: initialState,
+      disconnect: () => connection.disconnect(),
+    },
+    {
+      state: observable.shallow,
+    },
+  );
 
   const connection = createPopupConnection<T>(channel, {
     logger: console,
     initialState: toJS(shared.state),
     onData: action((state) => {
       shouldSync = false;
-      Object.assign(shared.state, state);
+      shared.state = state;
     }),
 
     onConnect: action(() => {
