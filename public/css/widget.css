@@ -1,0 +1,165 @@
+#torusAlertContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100999;
+  max-width: 540px;
+}
+#torusAlert {
+  --torus-brand-1: #8520e7;
+  --torus-light: #fcfcfc;
+  --torus-black: #131b32;
+  --torus-font-1: #131b32;
+  color: #0f1222;
+  height: auto;
+  z-index: 99999999;
+  position: fixed;
+  overflow: hidden;
+  top: 34px;
+  right: 34px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: var(--torus-light);
+  padding: 20px;
+}
+#torusAlert.torus-dark {
+  --torus-light: #242529;
+  --torus-font-1: #eef2f4;
+  --torus-font-2: #d3d3d4;
+  color: var(--torus-font-1);
+}
+#torusAlert.torus-alert--v2 {
+  color: #5c6c7f;
+  border-radius: 12px;
+  padding: 15px 110px 15px 18px;
+  text-align: center;
+  box-sizing: border-box;
+  width: unset;
+  top: unset;
+  right: unset;
+  overflow: visible;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+#torusAlert.torus-alert--v2:not(:last-child) {
+  margin-bottom: 16px;
+}
+#torusAlert.torus-dark.torus-alert--v2 {
+  color: var(--torus-font-1);
+}
+#torusAlert #torusAlert__logo {
+  line-height: 0;
+  margin-right: 16px;
+}
+#torusAlert #torusAlert__logo img {
+  width: 40px;
+  height: 40px;
+}
+#torusAlert #torusAlert__title,
+#torusAlert h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+#torusAlert.torus-alert--v2 #torusAlert__title,
+#torusAlert.torus-alert--v2 h1 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--torus-black);
+  text-align: left;
+}
+#torusAlert.torus-alert--v2.torus-dark #torusAlert__title,
+#torusAlert.torus-alert--v2.torus-dark h1 {
+  color: var(--torus-font-1);
+}
+#torusAlert #torusAlert__desc,
+#torusAlert p {
+  margin: 16px 0 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+#torusAlert a {
+  text-decoration: none;
+  color: var(--torus-brand-1);
+}
+#torusAlert.torus-alert--v2 #torusAlert__desc,
+#torusAlert.torus-alert--v2 p {
+  margin: 4px 0 0;
+  padding: 0;
+  font-size: 12px;
+  line-height: 19px;
+  font-weight: 400;
+  color: var(--torus-font-1);
+  text-align: left;
+}
+#torusAlert.torus-alert--v2.torus-dark #torusAlert__desc,
+#torusAlert.torus-alert--v2.torus-dark p {
+  color: var(--torus-font-2);
+}
+#torusAlert #torusAlert__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+#torusAlert.torus-alert--v2 #torusAlert__btn-container {
+  border-left: 1px solid #eef2f4;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  width: 94px;
+  align-items: center;
+}
+#torusAlert.torus-alert--v2.torus-dark #torusAlert__btn-container {
+  border-left: 1px solid #0f1222;
+}
+#torusAlert__btn-container > div {
+  text-align: center;
+  width: 100%;
+}
+#torusAlert #torusAlert__btn {
+  font-size: 14px;
+  background-color: var(--torus-brand-1);
+  margin: 24px 0 0;
+  width: 100px;
+  height: 40px;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#torusAlert.torus-alert--v2 #torusAlert__btn {
+  background: 0 0;
+  color: var(--torus-brand-1);
+  border: 0;
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  cursor: pointer;
+  box-shadow: none;
+}
+@media (max-width: 598px) {
+  #torusAlertContainer {
+    top: 20px;
+    right: 20px;
+    margin-left: 20px;
+  }
+  #torusAlert.torus-alert--v2 #torusAlert__title,
+  #torusAlert.torus-alert--v2 h1 {
+    font-size: 14px;
+    line-height: 16px;
+  }
+  #torusAlert.torus-alert--v2 #torusAlert__desc,
+  #torusAlert.torus-alert--v2 p {
+    margin: 2px 0 0;
+  }
+}
