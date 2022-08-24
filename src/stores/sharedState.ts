@@ -25,7 +25,7 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
     initialState: toJS(shared.state),
     onData: action((state) => {
       shouldSync = false;
-      shared.state = state;
+      Object.assign(shared.state, state);
     }),
 
     onConnect: action(() => {
@@ -65,3 +65,6 @@ export const createSharedRedirectState = (instanceId: string) =>
 
 export const createSharedPopupState = <T = unknown>(instanceId: string, initialState: T) =>
   createSharedState<T>(`popup.${instanceId}`, initialState);
+
+export const createSharedWalletState = <T = unknown>(instanceId: string, initialState: T) =>
+  createSharedState<T>(`wallet.${instanceId}`, initialState);

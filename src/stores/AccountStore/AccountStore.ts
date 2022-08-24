@@ -1,6 +1,7 @@
-import { makeAutoObservable, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccountAddress } from '@cere-wallet/wallet-engine';
+import { createSharedState } from '../sharedState';
 
 type LoginParams = {
   privateKey: string;
@@ -13,13 +14,23 @@ type Account = {
   userInfo: UserInfo;
 };
 
-export class AccountStore {
+type SharedState = {
   account?: Account;
+};
 
-  constructor() {
-    makeAutoObservable(this, {
-      account: observable.ref,
-    });
+export class AccountStore {
+  private shared = createSharedState<SharedState>(`account.${this.instanceId}`, {});
+
+  constructor(private instanceId: string) {
+    makeAutoObservable(this);
+  }
+
+  get account() {
+    return this.shared.state.account;
+  }
+
+  set account(account: Account | undefined) {
+    this.shared.state.account = account;
   }
 
   async login({ privateKey, userInfo }: LoginParams) {
