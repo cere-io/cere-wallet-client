@@ -1,11 +1,12 @@
 import { makeAutoObservable, when } from 'mobx';
 import { BigNumber } from 'ethers';
-import { getTokenConfig, TokenConfig } from '@cere/freeport-sdk';
 import {
   PersonalSignRequest,
   SendTransactionRequest,
   ContractName,
   parseTransactionData,
+  getTokenConfig,
+  TokenConfig,
 } from '@cere-wallet/wallet-engine';
 
 import { Wallet } from '../types';

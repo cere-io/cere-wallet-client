@@ -33,8 +33,8 @@ export class EmbeddedWalletStore implements Wallet {
       onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
     });
 
-    this.accountStore = new AccountStore(this);
     this.networkStore = new NetworkStore(this);
+    this.accountStore = new AccountStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }
 

@@ -15,8 +15,8 @@ export class WalletStore implements Wallet {
   constructor(readonly instanceId: string = randomBytes(16).toString('hex')) {
     makeAutoObservable(this);
 
-    this.accountStore = new AccountStore(this);
     this.networkStore = new NetworkStore(this);
+    this.accountStore = new AccountStore(this);
   }
 
   get provider() {

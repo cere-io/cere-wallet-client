@@ -3,13 +3,15 @@ import { styled, Stack, Typography } from '@mui/material';
 
 export type InfoTableRowProps = {
   label: ReactNode;
-  value: ReactNode;
+  value?: ReactNode;
   caption?: ReactNode;
 };
 
 const Text = styled(Typography)(({ theme }) => ({
   fontSize: 'inherit',
   fontWeight: theme.typography.fontWeightBold,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
 }));
 
 const Label = styled(Text)(({ theme }) => ({

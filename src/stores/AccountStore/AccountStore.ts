@@ -24,8 +24,9 @@ type SharedState = {
 
 export class AccountStore {
   private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, {});
-  private assets: AccountAssets;
-  private balance: AccountBalance;
+
+  readonly assets: AccountAssets;
+  readonly balance: AccountBalance;
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
@@ -38,7 +39,7 @@ export class AccountStore {
     return this.shared.state.account;
   }
 
-  set account(account: Account | undefined) {
+  private set account(account: Account | undefined) {
     this.shared.state.account = account;
   }
 

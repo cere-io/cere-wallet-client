@@ -4,27 +4,36 @@
 
 export {
   Box,
-  type BoxProps,
   Button,
-  type ButtonProps,
   Stack,
-  type StackProps,
   Paper,
-  type PaperProps,
   Container,
-  type ContainerProps,
+  Card,
+  CardHeader,
+  CardContent,
   ToggleButton,
-  type ToggleButtonProps,
   ToggleButtonGroup,
-  type ToggleButtonGroupProps,
   Typography,
-  type TypographyProps,
   Link,
-  type LinkProps,
   Divider,
-  type DividerProps,
   Collapse,
-  type CollapseProps,
+} from '@mui/material';
+
+export type {
+  BoxProps,
+  ButtonProps,
+  StackProps,
+  PaperProps,
+  ContainerProps,
+  CardProps,
+  CardHeaderProps,
+  CardContentProps,
+  ToggleButtonProps,
+  ToggleButtonGroupProps,
+  TypographyProps,
+  LinkProps,
+  DividerProps,
+  CollapseProps,
 } from '@mui/material';
 
 export * from './InfoTable';
