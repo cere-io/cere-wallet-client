@@ -1,5 +1,7 @@
 import { ChainConfig } from '@cere-wallet/communication';
 import { makeAutoObservable } from 'mobx';
+
+import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
 type SharedState = {
@@ -7,9 +9,9 @@ type SharedState = {
 };
 
 export class NetworkStore {
-  private shared = createSharedState<SharedState>(`network.${this.instanceId}`, {});
+  private shared = createSharedState<SharedState>(`network.${this.wallet.instanceId}`, {});
 
-  constructor(private instanceId: string) {
+  constructor(private wallet: Wallet) {
     makeAutoObservable(this);
   }
 

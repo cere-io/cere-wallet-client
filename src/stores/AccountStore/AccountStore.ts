@@ -1,7 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccountAddress } from '@cere-wallet/wallet-engine';
+
+import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { AccountAssets } from './AccountAssets';
+import { AccountBalance } from './AccountBalance';
 
 type LoginParams = {
   privateKey: string;
@@ -19,10 +23,15 @@ type SharedState = {
 };
 
 export class AccountStore {
-  private shared = createSharedState<SharedState>(`account.${this.instanceId}`, {});
+  private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, {});
+  private assets: AccountAssets;
+  private balance: AccountBalance;
 
-  constructor(private instanceId: string) {
+  constructor(private wallet: Wallet) {
     makeAutoObservable(this);
+
+    this.assets = new AccountAssets(wallet);
+    this.balance = new AccountBalance(this.assets);
   }
 
   get account() {

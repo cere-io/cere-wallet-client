@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
-import { makeAutoObservable, when } from 'mobx';
+import { providers } from 'ethers';
+import { makeAutoObservable, runInAction, when } from 'mobx';
 import { createWalletEngine, createProvider } from '@cere-wallet/wallet-engine';
 import {
   createWalletConnection,
@@ -8,19 +9,20 @@ import {
   RpcConnection,
 } from '@cere-wallet/communication';
 
+import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 
-export class EmbeddedWalletStore {
+export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
-
   readonly accountStore: AccountStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
   readonly popupManagerStore: PopupManagerStore;
 
+  private currentProvider: Provider | null = null;
   private walletConnection?: WalletConnection;
   private rpcConnection?: RpcConnection;
 
@@ -31,9 +33,13 @@ export class EmbeddedWalletStore {
       onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
     });
 
-    this.accountStore = new AccountStore(this.instanceId);
-    this.networkStore = new NetworkStore(this.instanceId);
-    this.approvalStore = new ApprovalStore(this.popupManagerStore, this.networkStore);
+    this.accountStore = new AccountStore(this);
+    this.networkStore = new NetworkStore(this);
+    this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
+  }
+
+  get provider() {
+    return this.currentProvider;
   }
 
   async init() {
@@ -101,7 +107,9 @@ export class EmbeddedWalletStore {
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    this.approvalStore.provider = provider;
-    this.rpcConnection = createRpcConnection({ engine, logger: console });
+    runInAction(() => {
+      this.rpcConnection = createRpcConnection({ engine, logger: console });
+      this.currentProvider = new providers.Web3Provider(provider);
+    });
   }
 }

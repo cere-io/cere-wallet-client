@@ -1,20 +1,41 @@
 import { randomBytes } from 'crypto';
-import { makeAutoObservable } from 'mobx';
+import { providers } from 'ethers';
+import { makeAutoObservable, runInAction, when } from 'mobx';
+import { createProvider } from '@cere-wallet/wallet-engine';
+
+import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
 import { NetworkStore } from '../NetworkStore';
 
-export class WalletStore {
+export class WalletStore implements Wallet {
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
+  private currentProvider: Provider | null = null;
 
   constructor(readonly instanceId: string = randomBytes(16).toString('hex')) {
     makeAutoObservable(this);
 
-    this.accountStore = new AccountStore(this.instanceId);
-    this.networkStore = new NetworkStore(this.instanceId);
+    this.accountStore = new AccountStore(this);
+    this.networkStore = new NetworkStore(this);
+  }
+
+  get provider() {
+    return this.currentProvider;
   }
 
   async init() {
-    console.log('Wallet instance ID', this.instanceId);
+    await when(() => !!this.accountStore.account && !!this.networkStore.network);
+
+    const network = this.networkStore.network!;
+    const account = this.accountStore.account!;
+
+    const provider = await createProvider({
+      privateKey: account.privateKey,
+      chainConfig: network,
+    });
+
+    runInAction(() => {
+      this.currentProvider = new providers.Web3Provider(provider);
+    });
   }
 }
