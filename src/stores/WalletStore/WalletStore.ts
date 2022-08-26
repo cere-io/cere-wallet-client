@@ -1,5 +1,5 @@
 import { makeAutoObservable, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { createWalletEngine, createProvider } from '@cere-wallet/wallet-engine';
 import {
   createWalletConnection,
   createRpcConnection,
@@ -80,14 +80,21 @@ export class WalletStore {
     const network = this.networkStore.network!;
     const account = this.accountStore.account!;
 
-    const engine = await createWalletEngine({
-      accounts: [account.address],
+    const provider = await createProvider({
       privateKey: account.privateKey,
       chainConfig: network,
-
-      onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
     });
 
+    const engine = createWalletEngine({
+      provider,
+      chainConfig: network,
+      accounts: [account.address],
+
+      onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
+      onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
+    });
+
+    this.approvalStore.provider = provider;
     this.rpcConnection = createRpcConnection({ engine, logger: console });
   }
 }

@@ -1,3 +1,2 @@
 export * from './wallet';
-export * from './ethereumProvider';
-export * from './signer';
+export * from './provider';
