@@ -1,8 +1,11 @@
-import { Container } from '@cere-wallet/ui';
-import { PropsWithChildren } from 'react';
+import { useIsMobile } from '@cere-wallet/ui';
 
-export type WalletLayoutProps = PropsWithChildren<{}>;
+import { WalletLayoutProps } from './types';
+import { DesktopLayout } from './DesktopLayout';
+import { MobileLayout } from './MobileLayout';
 
-export const WalletLayout = ({ children }: WalletLayoutProps) => {
-  return <Container maxWidth="sm">{children}</Container>;
+export const WalletLayout = (props: WalletLayoutProps) => {
+  const isMobile = useIsMobile();
+
+  return isMobile ? <MobileLayout {...props} /> : <DesktopLayout {...props} />;
 };

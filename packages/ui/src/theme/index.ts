@@ -1,4 +1,4 @@
-import { createTheme as createMuiTheme, alpha } from '@mui/material/styles';
+import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles/createPalette' {
   interface TypeText {
@@ -6,7 +6,9 @@ declare module '@mui/material/styles/createPalette' {
   }
 }
 
-export const createTheme = () => {
+export type Theme = MuiTheme;
+
+export const createTheme = (): Theme => {
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -18,6 +20,7 @@ export const createTheme = () => {
       },
 
       text: {
+        primary: '#131B32',
         secondary: '#717684',
         caption: '#A1A4AD',
       },
@@ -84,6 +87,13 @@ export const createTheme = () => {
                 backgroundColor: alpha('#ECF0FF', 0.8),
               },
             },
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            minHeight: '64px',
           },
         },
       },
