@@ -40,6 +40,14 @@ export const createTheme = (): Theme => {
         },
       },
 
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            borderRadius: '30px',
+          },
+        },
+      },
+
       MuiButton: {
         defaultProps: {
           disableElevation: true,
@@ -59,6 +67,7 @@ export const createTheme = (): Theme => {
           },
         },
       },
+
       MuiToggleButtonGroup: {
         styleOverrides: {
           root: {
@@ -90,11 +99,42 @@ export const createTheme = (): Theme => {
           },
         },
       },
+
       MuiTab: {
         styleOverrides: {
-          root: {
+          root: ({ theme }) => ({
             minHeight: '64px',
-          },
+
+            '& .MuiTab-iconWrapper:not(.Mui-selected *)': {
+              color: theme.palette.text.secondary,
+            },
+          }),
+
+          textColorPrimary: ({ theme }) => ({
+            color: theme.palette.text.primary,
+          }),
+        },
+      },
+
+      MuiMenuItem: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            '&.Mui-selected': {
+              color: theme.palette.primary.main,
+
+              '& .MuiListItemIcon-root': {
+                color: theme.palette.primary.main,
+              },
+            },
+          }),
+        },
+      },
+
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.text.secondary,
+          }),
         },
       },
     },

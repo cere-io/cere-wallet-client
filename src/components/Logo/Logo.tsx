@@ -12,7 +12,11 @@ export const Logo = ({ label }: LogoProps) => {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <LogoIcon />
-      {label && <Typography fontWeight="bold">{label}</Typography>}
+      {label && (
+        <Typography noWrap fontWeight="bold">
+          {label}
+        </Typography>
+      )}
     </Stack>
   );
 };

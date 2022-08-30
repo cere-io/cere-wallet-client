@@ -21,6 +21,12 @@ export {
   Tab,
   Chip,
   Avatar,
+  Drawer,
+  IconButton,
+  MenuList,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 
 export type {
@@ -42,6 +48,12 @@ export type {
   TabProps,
   ChipProps,
   AvatarProps,
+  DrawerProps,
+  IconButtonProps,
+  MenuListProps,
+  MenuItemProps,
+  ListItemIconProps,
+  ListItemTextProps,
 } from '@mui/material';
 
 export * from './InfoTable';

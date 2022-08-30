@@ -34,7 +34,7 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
         <HeaderContent>
           <Tabs value={pathname} sx={{ marginBottom: '-1px' }}>
             {menu.map(({ icon, label, path }) => (
-              <Tab icon={icon} iconPosition="start" to={path} value={path} label={label} component={Link} />
+              <Tab key={path} icon={icon} iconPosition="start" to={path} value={path} label={label} component={Link} />
             ))}
           </Tabs>
         </HeaderContent>

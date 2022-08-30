@@ -8,6 +8,8 @@ export {
   MonetizationOn as MonetizationOnIcon,
   Settings as SettingsIcon,
   Category as CategoryIcon,
+  Menu as MenuIcon,
+  Close as CloseIcon,
 } from '@mui/icons-material';
 
 export * from './CereIcon';
