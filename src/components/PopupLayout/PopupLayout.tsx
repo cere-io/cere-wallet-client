@@ -33,7 +33,7 @@ export const PopupLayout = ({
       <Typography variant="h5" fontWeight="bold">
         {title}
       </Typography>
-      {network && <NetworkLabel label={network} />}
+      {network && !loading && <NetworkLabel label={network} />}
     </Section>
 
     {loading ? (
