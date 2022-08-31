@@ -58,3 +58,4 @@ export type {
 
 export * from './InfoTable';
 export * from './Dropdown';
+export * from './Loading';
