@@ -56,7 +56,6 @@ export class ApprovalStore {
 
     const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, '/transaction', {
       network,
-      status: 'pending',
       from: transaction.from,
       to: transaction.to,
       rawData: transaction.data,

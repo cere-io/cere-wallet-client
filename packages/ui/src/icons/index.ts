@@ -12,5 +12,7 @@ export {
   Close as CloseIcon,
 } from '@mui/icons-material';
 
+export type { IconProps } from '@mui/material';
+
 export * from './CereIcon';
 export * from './ChainIcon';

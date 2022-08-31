@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { styled, Button, CereIcon, Container, Typography } from '@cere-wallet/ui';
+import { styled, Button, Logo, Container, Typography, Loading } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
@@ -9,13 +9,10 @@ export type PopupLayoutProps = PropsWithChildren<{
   title?: string;
   network?: string;
   links?: HeaderLinkProps[];
+  loading?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }>;
-
-const Logo = styled(CereIcon)({
-  fontSize: '40px',
-});
 
 const Layout = styled(Container)(({ theme }) => ({
   padding: theme.spacing(0, 3, 3),
@@ -23,41 +20,50 @@ const Layout = styled(Container)(({ theme }) => ({
 
 export const PopupLayout = ({
   title = 'Confirm transaction',
-  network = '',
-  links = [],
+  loading = false,
+  network,
+  links,
   children,
   onCancel,
   onConfirm,
-}: PopupLayoutProps) => {
-  return (
-    <Layout maxWidth="sm">
-      <Section spacing={3} alignItems="center">
+}: PopupLayoutProps) => (
+  <Layout maxWidth="sm">
+    <Section spacing={3} alignItems="center">
+      <Logo size="large" />
+      <Typography variant="h5" fontWeight="bold">
+        {title}
+      </Typography>
+      {network && <NetworkLabel label={network} />}
+    </Section>
+
+    {loading ? (
+      <Loading fullScreen>
         <Logo />
-        <Typography variant="h5" fontWeight="bold">
-          {title}
-        </Typography>
-        <NetworkLabel label={network} />
-      </Section>
+      </Loading>
+    ) : (
+      <>
+        {links && (
+          <Section>
+            {links.map((linkProps) => (
+              <HeaderLink key={linkProps.title} {...linkProps} />
+            ))}
+          </Section>
+        )}
 
-      <Section>
-        {links.map((linkProps) => (
-          <HeaderLink key={linkProps.title} {...linkProps} />
-        ))}
-      </Section>
+        <Section>{children}</Section>
 
-      {children}
+        <Section direction="row" alignSelf="stretch" spacing={2}>
+          <Button size="large" fullWidth variant="contained" onClick={onCancel}>
+            Cancel
+          </Button>
 
-      <Section direction="row" alignSelf="stretch" spacing={2}>
-        <Button size="large" fullWidth variant="contained" onClick={onCancel}>
-          Cancel
-        </Button>
-
-        <Button size="large" fullWidth variant="contained" color="primary" onClick={onConfirm}>
-          Confirm
-        </Button>
-      </Section>
-    </Layout>
-  );
-};
+          <Button size="large" fullWidth variant="contained" color="primary" onClick={onConfirm}>
+            Confirm
+          </Button>
+        </Section>
+      </>
+    )}
+  </Layout>
+);
 
 PopupLayout.Section = Section;
