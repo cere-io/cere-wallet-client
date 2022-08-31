@@ -50,14 +50,14 @@ export const PopupLayout = ({
           </Section>
         )}
 
-        <Section>{children}</Section>
+        {children}
 
         <Section direction="row" alignSelf="stretch" spacing={2}>
-          <Button size="large" fullWidth variant="contained" onClick={onCancel}>
+          <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel}>
             Cancel
           </Button>
 
-          <Button size="large" fullWidth variant="contained" color="primary" onClick={onConfirm}>
+          <Button size="large" fullWidth variant="contained" onClick={onConfirm}>
             Confirm
           </Button>
         </Section>

@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { ConfirmPopupStore } from '~/stores';
 import { PopupLayout, PriceRow, TransactionData } from '~/components';
-import { InfoTable, Stack, Typography, Link } from '@cere-wallet/ui';
+import { InfoTable, Typography, Link } from '@cere-wallet/ui';
 
 const ConfirmPopup = () => {
   const [params] = useSearchParams();
@@ -19,12 +19,12 @@ const ConfirmPopup = () => {
       onCancel={store.decline}
       onConfirm={store.approve}
     >
-      <Stack spacing={1}>
+      <PopupLayout.Section spacing={1}>
         <Typography variant="body2" fontWeight="bold">
           Requested from
         </Typography>
         <Link href={store.app.url}>{store.app.label}</Link>
-      </Stack>
+      </PopupLayout.Section>
 
       <PopupLayout.Section spacing={1}>
         <Typography variant="body2" fontWeight="bold">
