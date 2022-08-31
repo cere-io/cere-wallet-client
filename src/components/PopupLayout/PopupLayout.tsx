@@ -26,44 +26,41 @@ export const PopupLayout = ({
   children,
   onCancel,
   onConfirm,
-}: PopupLayoutProps) => (
-  <Layout maxWidth="sm">
-    <Section spacing={3} alignItems="center">
-      <Logo size="large" />
-      <Typography variant="h5" fontWeight="bold">
-        {title}
-      </Typography>
-      {network && !loading && <NetworkLabel label={network} />}
-    </Section>
+}: PopupLayoutProps) =>
+  loading ? (
+    <Loading fullScreen>
+      <Logo />
+    </Loading>
+  ) : (
+    <Layout maxWidth="sm">
+      <Section spacing={3} alignItems="center">
+        <Logo size="large" />
+        <Typography variant="h5" fontWeight="bold">
+          {title}
+        </Typography>
+        {network && !loading && <NetworkLabel label={network} />}
+      </Section>
 
-    {loading ? (
-      <Loading fullScreen>
-        <Logo />
-      </Loading>
-    ) : (
-      <>
-        {links && (
-          <Section>
-            {links.map((linkProps) => (
-              <HeaderLink key={linkProps.title} {...linkProps} />
-            ))}
-          </Section>
-        )}
-
-        {children}
-
-        <Section direction="row" alignSelf="stretch" spacing={2}>
-          <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel}>
-            Cancel
-          </Button>
-
-          <Button size="large" fullWidth variant="contained" onClick={onConfirm}>
-            Confirm
-          </Button>
+      {links && (
+        <Section>
+          {links.map((linkProps) => (
+            <HeaderLink key={linkProps.title} {...linkProps} />
+          ))}
         </Section>
-      </>
-    )}
-  </Layout>
-);
+      )}
+
+      {children}
+
+      <Section direction="row" alignSelf="stretch" spacing={2}>
+        <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel}>
+          Cancel
+        </Button>
+
+        <Button size="large" fullWidth variant="contained" onClick={onConfirm}>
+          Confirm
+        </Button>
+      </Section>
+    </Layout>
+  );
 
 PopupLayout.Section = Section;

@@ -1,4 +1,4 @@
-import { action, observable, reaction, toJS } from 'mobx';
+import { action, observable, reaction, toJS, comparer } from 'mobx';
 import { createPopupConnection } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
@@ -48,6 +48,10 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
       }
 
       shouldSync = true;
+    },
+    {
+      delay: 10, // Small delay to throttle state sync
+      equals: comparer.shallow,
     },
   );
 
