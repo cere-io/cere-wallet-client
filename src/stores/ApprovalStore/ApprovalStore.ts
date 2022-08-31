@@ -1,27 +1,30 @@
 import { makeAutoObservable, when } from 'mobx';
+import { BigNumber } from 'ethers';
 import {
   PersonalSignRequest,
   SendTransactionRequest,
-  Provider,
   ContractName,
   parseTransactionData,
+  getTokenConfig,
+  TokenConfig,
 } from '@cere-wallet/wallet-engine';
-import { getTokenConfig, TokenConfig } from '@cere/freeport-sdk';
 
+import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { TransactionPopupState } from '../TransactionPopupStore';
 import { ConfirmPopupState } from '../ConfirmPopupStore';
-import { BigNumber } from 'ethers';
 
 const convertPrice = (amount: BigNumber, { decimals }: TokenConfig) => {
   return amount.div(10 ** decimals).toNumber();
 };
 
 export class ApprovalStore {
-  provider?: Provider;
-
-  constructor(private popupManagerStore: PopupManagerStore, private networkStore: NetworkStore) {
+  constructor(
+    private wallet: Wallet,
+    private popupManagerStore: PopupManagerStore,
+    private networkStore: NetworkStore,
+  ) {
     makeAutoObservable(this);
   }
 

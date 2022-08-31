@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from 'react';
 
 import { WalletWidget } from '~/components';
-import { WalletStore } from '~/stores';
+import { EmbeddedWalletStore } from '~/stores';
 
-const Iframe = () => {
-  const store = useMemo(() => new WalletStore(), []);
+const EmbeddedWallet = () => {
+  const store = useMemo(() => new EmbeddedWalletStore(), []);
 
   useEffect(() => {
     store.init();
@@ -13,4 +13,4 @@ const Iframe = () => {
   return <WalletWidget />;
 };
 
-export default Iframe;
+export default EmbeddedWallet;

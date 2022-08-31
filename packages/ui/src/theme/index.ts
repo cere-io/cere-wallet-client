@@ -1,4 +1,4 @@
-import { createTheme as createMuiTheme, alpha } from '@mui/material/styles';
+import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles/createPalette' {
   interface TypeText {
@@ -6,7 +6,9 @@ declare module '@mui/material/styles/createPalette' {
   }
 }
 
-export const createTheme = () => {
+export type Theme = MuiTheme;
+
+export const createTheme = (): Theme => {
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -18,6 +20,7 @@ export const createTheme = () => {
       },
 
       text: {
+        primary: '#131B32',
         secondary: '#717684',
         caption: '#A1A4AD',
       },
@@ -34,6 +37,14 @@ export const createTheme = () => {
       MuiLink: {
         defaultProps: {
           underline: 'none',
+        },
+      },
+
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            borderRadius: '30px',
+          },
         },
       },
 
@@ -56,6 +67,7 @@ export const createTheme = () => {
           },
         },
       },
+
       MuiToggleButtonGroup: {
         styleOverrides: {
           root: {
@@ -85,6 +97,44 @@ export const createTheme = () => {
               },
             },
           },
+        },
+      },
+
+      MuiTab: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            minHeight: '64px',
+
+            '& .MuiTab-iconWrapper:not(.Mui-selected *)': {
+              color: theme.palette.text.secondary,
+            },
+          }),
+
+          textColorPrimary: ({ theme }) => ({
+            color: theme.palette.text.primary,
+          }),
+        },
+      },
+
+      MuiMenuItem: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            '&.Mui-selected': {
+              color: theme.palette.primary.main,
+
+              '& .MuiListItemIcon-root': {
+                color: theme.palette.primary.main,
+              },
+            },
+          }),
+        },
+      },
+
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.text.secondary,
+          }),
         },
       },
     },

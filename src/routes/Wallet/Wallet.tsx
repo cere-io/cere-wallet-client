@@ -1,17 +1,26 @@
-import { Box } from '@cere-wallet/ui';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useMemo } from 'react';
+import { useSearchParams, Outlet } from 'react-router-dom';
 
-const Wallet = () => {
+import { WalletLayout, WalletLayoutProps } from '~/components';
+import { WalletStore } from '~/stores';
+
+export type WalletProps = Pick<WalletLayoutProps, 'menu'>;
+
+const Wallet = ({ menu }: WalletProps) => {
+  const [params] = useSearchParams();
+  const instanceId = params.get('instanceId') || undefined;
+  const store = useMemo(() => new WalletStore(instanceId), [instanceId]);
+
+  useEffect(() => {
+    store.init();
+  }, [store]);
+
   return (
-    <Box
-      sx={{
-        marginTop: 10,
-        fontSize: '40px',
-        textAlign: 'center',
-      }}
-    >
-      Coming soon....
-    </Box>
+    <WalletLayout menu={menu}>
+      <Outlet context={store} />
+    </WalletLayout>
   );
 };
 
-export default Wallet;
+export default observer(Wallet);
