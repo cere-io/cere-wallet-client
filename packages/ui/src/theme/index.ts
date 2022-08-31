@@ -12,7 +12,7 @@ export const createTheme = (): Theme => {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#8520E7',
+        main: '#733BF5',
       },
 
       secondary: {
@@ -50,6 +50,7 @@ export const createTheme = (): Theme => {
 
       MuiButton: {
         defaultProps: {
+          color: 'inherit',
           disableElevation: true,
         },
 
@@ -57,6 +58,10 @@ export const createTheme = (): Theme => {
           contained: {
             borderRadius: '30px',
           },
+
+          containedInherit: ({ theme }) => ({
+            backgroundColor: theme.palette.grey[100],
+          }),
         },
       },
 
