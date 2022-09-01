@@ -49,7 +49,7 @@ export const getContractAddress = (
     deployment: process.env.REACT_APP_ENV,
   });
 
-const getAllContractAdresses = (contractName: ContractName, networkId: string) => {
+const getAllContractAddresses = (contractName: ContractName, networkId: string) => {
   const addresses = applications.map((app) => {
     try {
       return getContractAddress(contractName, networkId, app);
@@ -65,7 +65,7 @@ export const getContractNameByAddress = (address: string, networkId: string) => 
   const contractNames = Object.keys(ContractName) as ContractName[];
   const loweredAddress = address.toLocaleLowerCase();
 
-  return contractNames.find((name) => getAllContractAdresses(name, networkId).includes(loweredAddress));
+  return contractNames.find((name) => getAllContractAddresses(name, networkId).includes(loweredAddress));
 };
 
 export const createERC20Contract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
