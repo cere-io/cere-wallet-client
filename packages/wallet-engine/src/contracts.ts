@@ -1,5 +1,6 @@
 import { Signer } from 'ethers';
 import {
+  ApplicationEnum,
   getContractAddress as getSCAddress,
   Freeport__factory,
   TestERC20__factory,
@@ -16,6 +17,7 @@ export enum ContractName {
   SimpleAuction = 'SimpleAuction',
 }
 
+const applications = [ApplicationEnum.DAVINCI, ApplicationEnum.LIVEONE];
 const contractInterfaceFactoryMap = {
   [ContractName.Freeport]: () => Freeport__factory.createInterface(),
   [ContractName.ERC20]: () => TestERC20__factory.createInterface(),
@@ -26,17 +28,41 @@ export const getContractInterface = (contractName: ContractName) => {
   return contractInterfaceFactoryMap[contractName]();
 };
 
-export const getContractAddress = (contractName: ContractName, networkId: string) =>
+export const getContractAddress = (
+  contractName: ContractName,
+  networkId: string,
+  application: ApplicationEnum = ApplicationEnum.DAVINCI,
+) =>
   getSCAddress({
+    application,
     contractName,
     chainId: parseInt(networkId, 16),
     deployment: process.env.REACT_APP_ENV,
   });
 
-export const createERC20Contract = (signer: Signer, networkId: string) =>
+const getAllContractAdresses = (contractName: ContractName, networkId: string) => {
+  const addresses = applications.map((app) => {
+    try {
+      return getContractAddress(contractName, networkId, app);
+    } catch {
+      return undefined;
+    }
+  });
+
+  return addresses.filter(Boolean).map((address) => address!.toLocaleLowerCase());
+};
+
+export const getContractNameByAddress = (address: string, networkId: string) => {
+  const contractNames = Object.keys(ContractName) as ContractName[];
+  const loweredAddress = address.toLocaleLowerCase();
+
+  return contractNames.find((name) => getAllContractAdresses(name, networkId).includes(loweredAddress));
+};
+
+export const createERC20Contract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
   createERC20({
     signer,
-    contractAddress: getContractAddress(ContractName.ERC20, networkId),
+    contractAddress: getContractAddress(ContractName.ERC20, networkId, application),
   });
 
 export const getTokenConfig = () => fpGetTokenConfig(process.env.REACT_APP_ENV);
