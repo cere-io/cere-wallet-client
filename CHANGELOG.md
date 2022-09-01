@@ -4,6 +4,7 @@
 
 - [DAV-3012] Wallet application screens layout and navigation
 - [DAV-3029] Primary color adjusted according to design
+- [DAV-2983] Add transaction popups loading state
 
 ### v1.1.0
 

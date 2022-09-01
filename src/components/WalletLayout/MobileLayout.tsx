@@ -13,10 +13,10 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  Logo,
 } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
-import { Logo } from '../Logo';
 import { Link } from '../Link';
 
 const Header = styled(Box)(({ theme }) => ({

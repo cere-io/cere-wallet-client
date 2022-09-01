@@ -5,16 +5,13 @@ import { PriceData } from '../types';
 
 export type ConfirmPopupState = {
   network?: ChainConfig;
-  content: string;
-  status: 'pending' | 'approved' | 'declined';
+  content?: string;
+  status?: 'pending' | 'approved' | 'declined';
   fee?: PriceData;
 };
 
 export class ConfirmPopupStore {
-  private shared = createSharedPopupState<ConfirmPopupState>(this.instanceId, {
-    content: '',
-    status: 'pending',
-  });
+  private shared = createSharedPopupState<ConfirmPopupState>(this.instanceId, {});
 
   constructor(public readonly instanceId: string) {
     makeAutoObservable(this, {
@@ -33,7 +30,7 @@ export class ConfirmPopupStore {
   }
 
   get isReady() {
-    return this.shared.isConnected;
+    return !!this.shared.state.status;
   }
 
   get fee() {
