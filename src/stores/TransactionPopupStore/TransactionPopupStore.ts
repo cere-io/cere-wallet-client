@@ -7,7 +7,7 @@ export type TransactionPopupState = {
   network?: ChainConfig;
   from: string;
   to: string;
-  status: 'pending' | 'approved' | 'declined';
+  status?: 'pending' | 'approved' | 'declined';
   toConfirm?: PriceData;
 
   spending?: {
@@ -30,7 +30,6 @@ export class TransactionPopupStore {
   private shared = createSharedPopupState<TransactionPopupState>(this.instanceId, {
     from: '',
     to: '',
-    status: 'pending',
   });
 
   constructor(public readonly instanceId: string) {
@@ -41,7 +40,7 @@ export class TransactionPopupStore {
   }
 
   get isReady() {
-    return this.shared.isConnected;
+    return !!this.shared.state.status;
   }
 
   get spending() {

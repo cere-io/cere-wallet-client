@@ -50,7 +50,6 @@ export const createTheme = (): Theme => {
 
       MuiButton: {
         defaultProps: {
-          color: 'inherit',
           disableElevation: true,
         },
 
