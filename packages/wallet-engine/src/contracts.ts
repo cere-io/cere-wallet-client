@@ -2,11 +2,14 @@ import { Signer } from 'ethers';
 import {
   ApplicationEnum,
   getContractAddress as getSCAddress,
+  createERC20,
+  getTokenConfig as fpGetTokenConfig,
   Freeport__factory,
   TestERC20__factory,
   SimpleAuction__factory,
-  createERC20,
-  getTokenConfig as fpGetTokenConfig,
+  Auction__factory,
+  CollectionFactory__factory,
+  Marketplace__factory,
 } from '@cere/freeport-sdk';
 
 export type { TokenConfig } from '@cere/freeport-sdk';
@@ -15,6 +18,9 @@ export enum ContractName {
   Freeport = 'Freeport',
   ERC20 = 'ERC20',
   SimpleAuction = 'SimpleAuction',
+  Auction = 'Auction',
+  Marketplace = 'Marketplace',
+  CollectionFactory = 'CollectionFactory',
 }
 
 const applications = [ApplicationEnum.DAVINCI, ApplicationEnum.LIVEONE];
@@ -22,6 +28,9 @@ const contractInterfaceFactoryMap = {
   [ContractName.Freeport]: () => Freeport__factory.createInterface(),
   [ContractName.ERC20]: () => TestERC20__factory.createInterface(),
   [ContractName.SimpleAuction]: () => SimpleAuction__factory.createInterface(),
+  [ContractName.Auction]: () => Auction__factory.createInterface(),
+  [ContractName.Marketplace]: () => Marketplace__factory.createInterface(),
+  [ContractName.CollectionFactory]: () => CollectionFactory__factory.createInterface(),
 };
 
 export const getContractInterface = (contractName: ContractName) => {
