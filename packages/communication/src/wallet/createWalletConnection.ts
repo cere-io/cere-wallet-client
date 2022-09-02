@@ -25,6 +25,7 @@ export type WalletConnectionOptions = {
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
   onWindowOpen: (data: WindowOptions) => Promise<void>;
   onWindowClose: (data: WindowOptions) => Promise<void>;
+  onWalletOpen: () => Promise<string>;
 };
 
 export const createWalletConnection = ({
@@ -36,6 +37,7 @@ export const createWalletConnection = ({
   onUserInfoRequest,
   onWindowClose,
   onWindowOpen,
+  onWalletOpen,
 }: WalletConnectionOptions): WalletConnection => {
   const mux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
   const channels = createChannels({ mux, logger });
@@ -137,6 +139,21 @@ export const createWalletConnection = ({
     } else if (name === 'opened_window') {
       onWindowOpen({ instanceId: data.preopenInstanceId });
     }
+  });
+
+  // Handle wallet open requests
+
+  channels.wallet.subscribe(async ({ name }) => {
+    if (name !== 'show_wallet') {
+      return;
+    }
+
+    const instanceId = await onWalletOpen();
+
+    channels.wallet.publish({
+      name: 'show_wallet_instance',
+      data: { instanceId },
+    });
   });
 
   return {

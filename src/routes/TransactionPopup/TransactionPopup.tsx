@@ -14,6 +14,7 @@ const TransactionPopup = () => {
   return (
     <PopupLayout
       title="Confirm transaction"
+      loading={!store.isReady}
       network={store.network?.displayName}
       onCancel={store.decline}
       onConfirm={store.approve}

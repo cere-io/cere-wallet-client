@@ -1,5 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { Logo, Loading } from '@cere-wallet/ui';
+
 import { RedirectPopupStore } from '~/stores';
 
 export const RedirectPopup = () => {
@@ -18,5 +20,9 @@ export const RedirectPopup = () => {
     });
   }, [store, instanceId, navigate]);
 
-  return <></>;
+  return (
+    <Loading fullScreen>
+      <Logo />
+    </Loading>
+  );
 };

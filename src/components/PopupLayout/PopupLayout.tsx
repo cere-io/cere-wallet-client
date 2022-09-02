@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { styled, Button, CereIcon, Container, Typography } from '@cere-wallet/ui';
+import { styled, Button, Logo, Container, Typography, Loading } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
@@ -9,13 +9,10 @@ export type PopupLayoutProps = PropsWithChildren<{
   title?: string;
   network?: string;
   links?: HeaderLinkProps[];
+  loading?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }>;
-
-const Logo = styled(CereIcon)({
-  fontSize: '40px',
-});
 
 const Layout = styled(Container)(({ theme }) => ({
   padding: theme.spacing(0, 3, 3),
@@ -23,27 +20,34 @@ const Layout = styled(Container)(({ theme }) => ({
 
 export const PopupLayout = ({
   title = 'Confirm transaction',
-  network = '',
-  links = [],
+  loading = false,
+  network,
+  links,
   children,
   onCancel,
   onConfirm,
-}: PopupLayoutProps) => {
-  return (
+}: PopupLayoutProps) =>
+  loading ? (
+    <Loading fullScreen>
+      <Logo />
+    </Loading>
+  ) : (
     <Layout maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        <Logo />
+        <Logo size="large" />
         <Typography variant="h5" fontWeight="bold">
           {title}
         </Typography>
-        <NetworkLabel label={network} />
+        {network && !loading && <NetworkLabel label={network} />}
       </Section>
 
-      <Section>
-        {links.map((linkProps) => (
-          <HeaderLink key={linkProps.title} {...linkProps} />
-        ))}
-      </Section>
+      {links && (
+        <Section>
+          {links.map((linkProps) => (
+            <HeaderLink key={linkProps.title} {...linkProps} />
+          ))}
+        </Section>
+      )}
 
       {children}
 
@@ -58,6 +62,5 @@ export const PopupLayout = ({
       </Section>
     </Layout>
   );
-};
 
 PopupLayout.Section = Section;

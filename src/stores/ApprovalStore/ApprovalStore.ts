@@ -1,27 +1,30 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, runInAction, when } from 'mobx';
+import { BigNumber } from 'ethers';
 import {
   PersonalSignRequest,
   SendTransactionRequest,
-  Provider,
   ContractName,
   parseTransactionData,
+  getTokenConfig,
+  TokenConfig,
 } from '@cere-wallet/wallet-engine';
-import { getTokenConfig, TokenConfig } from '@cere/freeport-sdk';
 
+import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { TransactionPopupState } from '../TransactionPopupStore';
 import { ConfirmPopupState } from '../ConfirmPopupStore';
-import { BigNumber } from 'ethers';
 
 const convertPrice = (amount: BigNumber, { decimals }: TokenConfig) => {
   return amount.div(10 ** decimals).toNumber();
 };
 
 export class ApprovalStore {
-  provider?: Provider;
-
-  constructor(private popupManagerStore: PopupManagerStore, private networkStore: NetworkStore) {
+  constructor(
+    private wallet: Wallet,
+    private popupManagerStore: PopupManagerStore,
+    private networkStore: NetworkStore,
+  ) {
     makeAutoObservable(this);
   }
 
@@ -53,56 +56,59 @@ export class ApprovalStore {
 
     const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, '/transaction', {
       network,
-      status: 'pending',
+      parsedData,
       from: transaction.from,
       to: transaction.to,
       rawData: transaction.data,
-      parsedData,
       action: parsedData?.name,
     });
 
-    if (contractName === ContractName.Freeport) {
-      const { name, args } = parsedData;
+    runInAction(() => {
+      if (contractName === ContractName.Freeport) {
+        const { name, args } = parsedData;
 
-      if (name === 'takeOffer') {
-        const price = convertPrice(args.expectedPriceOrZero, tokenConfig);
-        const amount = (args.amount as BigNumber).toNumber();
-        const sum = amount * price;
+        if (name === 'takeOffer') {
+          const price = convertPrice(args.expectedPriceOrZero, tokenConfig);
+          const amount = (args.amount as BigNumber).toNumber();
+          const sum = amount * price;
 
-        popup.state.spending = {
-          fee: { symbol: tokenConfig.symbol, amount: 0 }, // TODO: Detect gas fee
+          popup.state.spending = {
+            fee: { symbol: tokenConfig.symbol, amount: 0 }, // TODO: Detect gas fee
 
-          price: {
-            symbol: tokenConfig.symbol,
-            amount: sum,
-            equalsTo: {
+            price: {
+              symbol: tokenConfig.symbol,
               amount: sum,
-              symbol: 'USD',
+              equalsTo: {
+                amount: sum,
+                symbol: 'USD',
+              },
             },
-          },
 
-          total: {
-            symbol: tokenConfig.symbol,
-            amount: sum,
-            equalsTo: {
+            total: {
+              symbol: tokenConfig.symbol,
               amount: sum,
-              symbol: 'USD',
+              equalsTo: {
+                amount: sum,
+                symbol: 'USD',
+              },
             },
-          },
-        };
+          };
+        }
       }
-    }
 
-    if (contractName === ContractName.ERC20) {
-      const { name, args } = parsedData;
+      if (contractName === ContractName.ERC20) {
+        const { name, args } = parsedData;
 
-      if (name === 'approve') {
-        popup.state.toConfirm = {
-          symbol: tokenConfig.symbol,
-          amount: convertPrice(args.amount, tokenConfig),
-        };
+        if (name === 'approve') {
+          popup.state.toConfirm = {
+            symbol: tokenConfig.symbol,
+            amount: convertPrice(args.amount, tokenConfig),
+          };
+        }
       }
-    }
+
+      popup.state.status = 'pending';
+    });
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
     this.popupManagerStore.closePopup(preopenInstanceId);
