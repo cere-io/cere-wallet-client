@@ -12,6 +12,8 @@ export {
   Close as CloseIcon,
   QrCodeScanner as QrCodeScannerIcon,
   ContentCopy as ContentCopyIcon,
+  Logout as LogoutIcon,
+  Help as HelpIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

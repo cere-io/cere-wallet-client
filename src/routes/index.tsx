@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { CategoryIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
+import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
 import { EmbeddedWallet } from './EmbeddedWallet';
 import { RedirectPopup } from './RedirectPopup';
@@ -13,7 +13,7 @@ import { ComingSoon } from './ComingSoon';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Coins', icon: <MonetizationOnIcon />, path: '/wallet/home' },
-  { label: 'Collectables', icon: <CategoryIcon />, path: '/wallet/collectables' },
+  { label: 'Collectables', icon: <AppsIcon />, path: '/wallet/collectables' },
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 

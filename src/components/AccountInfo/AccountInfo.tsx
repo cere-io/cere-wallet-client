@@ -29,7 +29,7 @@ const AccountInfo = (props: AccountInfoProps) => {
   return (
     <Card>
       <CardHeader
-        title={<Truncate text={userInfo.email} maxLength={16} endingLength={emailDomain.length} />}
+        title={<Truncate text={userInfo.email} maxLength={16} endingLength={emailDomain.length + 1} />}
         subheader={<Address variant="text" address={address} maxLength={16} />}
         avatar={<Avatar src={userInfo.profileImage} />}
         action={

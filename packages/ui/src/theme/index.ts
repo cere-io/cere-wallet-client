@@ -145,6 +145,8 @@ export const createTheme = (): Theme => {
       MuiMenuItem: {
         styleOverrides: {
           root: ({ theme }) => ({
+            height: 48,
+
             '&.Mui-selected': {
               color: theme.palette.primary.main,
 
@@ -230,6 +232,14 @@ export const createTheme = (): Theme => {
               fontSize: theme.typography.pxToRem(20),
             },
           }),
+        },
+      },
+
+      MuiListItemText: {
+        defaultProps: {
+          primaryTypographyProps: {
+            variant: 'button',
+          },
         },
       },
 
