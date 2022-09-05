@@ -10,20 +10,23 @@ export type DropdownAnchorProps = {
 };
 
 const Anchor = styled(Stack)(({ theme }) => ({
-  height: '40px',
-  backgroundColor: '#F5F5F7', // TODO: Move to theme
-  borderRadius: '25px',
+  height: 40,
+  borderRadius: 25,
   padding: theme.spacing(1),
   color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.grey[200],
   cursor: 'pointer',
 }));
 
-const Left = styled('div')({
+const Left = styled('div')(({ theme }) => ({
   [`& .${avatarClasses.root}`]: {
-    width: '30px',
-    height: '30px',
+    width: 30,
+    height: 30,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: theme.palette.background.paper,
   },
-});
+}));
 
 const Center = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,

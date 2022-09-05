@@ -4,8 +4,8 @@ import { getAccountAddress } from '@cere-wallet/wallet-engine';
 
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
-import { AccountAssets } from './AccountAssets';
-import { AccountBalance } from './AccountBalance';
+import { AccountAssetStore } from './AccountAssetStore';
+import { AccountBalanceStore } from './AccountBalanceStore';
 
 type LoginParams = {
   privateKey: string;
@@ -25,18 +25,30 @@ type SharedState = {
 export class AccountStore {
   private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, {});
 
-  readonly assets: AccountAssets;
-  readonly balance: AccountBalance;
+  readonly assetStore: AccountAssetStore;
+  readonly balanceStore: AccountBalanceStore;
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
-    this.assets = new AccountAssets(wallet);
-    this.balance = new AccountBalance(this.assets);
+    this.assetStore = new AccountAssetStore(wallet);
+    this.balanceStore = new AccountBalanceStore(this.assetStore);
   }
 
-  get account() {
-    return this.shared.state.account;
+  get isAuthenticated() {
+    return !!this.shared.state.account;
+  }
+
+  get address() {
+    return this.shared.state.account?.address;
+  }
+
+  get privateKey() {
+    return this.shared.state.account?.privateKey;
+  }
+
+  get userInfo() {
+    return this.shared.state.account?.userInfo;
   }
 
   private set account(account: Account | undefined) {

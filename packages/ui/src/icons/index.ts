@@ -10,9 +10,11 @@ export {
   Category as CategoryIcon,
   Menu as MenuIcon,
   Close as CloseIcon,
+  QrCodeScanner as QrCodeScannerIcon,
+  ContentCopy as ContentCopyIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
 
 export * from './CereIcon';
-export * from './ChainIcon';
+export * from './MaticIcon';

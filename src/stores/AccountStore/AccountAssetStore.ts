@@ -4,17 +4,19 @@ import { makeAutoObservable, runInAction, when } from 'mobx';
 
 import { Provider, Wallet } from '../types';
 
-type Asset = {
+export type Asset = {
   ticker: string;
   displayName: string;
   balance: number;
 };
 
-export class AccountAssets {
+export class AccountAssetStore {
   list: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
+
+    console.log({ wallet });
 
     when(
       () => !!wallet.provider,
@@ -22,7 +24,12 @@ export class AccountAssets {
     );
   }
 
+  get nativeToken() {
+    return this.list.find(({ ticker }) => ticker === 'matic'); // TODO: Properly detect native token
+  }
+
   private async onProviderReady(provider: Provider) {
+    console.log('onProviderReady');
     const { symbol, decimals } = getTokenConfig();
 
     const signer = provider.getSigner();

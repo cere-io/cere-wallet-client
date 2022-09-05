@@ -24,15 +24,11 @@ export class WalletStore implements Wallet {
   }
 
   async init() {
-    await when(() => !!this.accountStore.account && !!this.networkStore.network);
+    await when(() => this.accountStore.isAuthenticated && !!this.networkStore.network);
 
-    const network = this.networkStore.network!;
-    const account = this.accountStore.account!;
-
-    const provider = await createProvider({
-      privateKey: account.privateKey,
-      chainConfig: network,
-    });
+    const chainConfig = this.networkStore.network!;
+    const privateKey = this.accountStore.privateKey!;
+    const provider = await createProvider({ privateKey, chainConfig });
 
     runInAction(() => {
       this.currentProvider = new providers.Web3Provider(provider);

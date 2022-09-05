@@ -22,7 +22,6 @@ export {
   Chip,
   Avatar,
   Drawer,
-  IconButton,
   MenuList,
   MenuItem,
   ListItemIcon,
@@ -49,14 +48,16 @@ export type {
   ChipProps,
   AvatarProps,
   DrawerProps,
-  IconButtonProps,
   MenuListProps,
   MenuItemProps,
   ListItemIconProps,
   ListItemTextProps,
 } from '@mui/material';
 
+export * from './IconButton';
 export * from './InfoTable';
 export * from './Dropdown';
 export * from './Loading';
 export * from './Logo';
+export * from './Truncate';
+export * from './Address';
