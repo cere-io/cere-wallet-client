@@ -19,20 +19,15 @@ import { useAccountStore } from '~/hooks';
 export type AccountDropdownProps = {};
 
 const AccountDropdown = (props: AccountDropdownProps) => {
-  const { userInfo } = useAccountStore();
+  const { account } = useAccountStore();
   const [open, setOpen] = useState(false);
 
-  if (!userInfo) {
+  if (!account) {
     return null;
   }
 
   return (
-    <Dropdown
-      open={open}
-      onToggle={setOpen}
-      label={userInfo.email}
-      leftElement={<Avatar src={userInfo.profileImage} />}
-    >
+    <Dropdown open={open} onToggle={setOpen} label={account.email} leftElement={<Avatar src={account.avatar} />}>
       <Stack width={350} spacing={2}>
         <AccountInfo />
 

@@ -16,8 +16,6 @@ export class AccountAssetStore {
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
-    console.log({ wallet });
-
     when(
       () => !!wallet.provider,
       () => this.onProviderReady(wallet.provider!),
@@ -29,7 +27,6 @@ export class AccountAssetStore {
   }
 
   private async onProviderReady(provider: Provider) {
-    console.log('onProviderReady');
     const { symbol, decimals } = getTokenConfig();
 
     const signer = provider.getSigner();

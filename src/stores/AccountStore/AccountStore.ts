@@ -7,19 +7,20 @@ import { createSharedState } from '../sharedState';
 import { AccountAssetStore } from './AccountAssetStore';
 import { AccountBalanceStore } from './AccountBalanceStore';
 
-type LoginParams = {
+type LoginData = {
   privateKey: string;
   userInfo: UserInfo;
 };
 
-type Account = {
+export type Account = {
   address: string;
   privateKey: string;
-  userInfo: UserInfo;
+  email: string;
+  avatar?: string;
 };
 
 type SharedState = {
-  account?: Account;
+  loginData?: LoginData;
 };
 
 export class AccountStore {
@@ -35,32 +36,33 @@ export class AccountStore {
     this.balanceStore = new AccountBalanceStore(this.assetStore);
   }
 
-  get isAuthenticated() {
-    return !!this.shared.state.account;
+  private set loginData(loginData: LoginData | undefined) {
+    this.shared.state.loginData = loginData;
   }
 
-  get address() {
-    return this.shared.state.account?.address;
+  private get loginData() {
+    return this.shared.state.loginData;
   }
 
-  get privateKey() {
-    return this.shared.state.account?.privateKey;
+  get account(): Account | undefined {
+    if (!this.loginData) {
+      return undefined;
+    }
+
+    return {
+      privateKey: this.loginData.privateKey,
+      address: getAccountAddress(this.loginData.privateKey),
+      email: this.loginData.userInfo.email,
+      avatar: this.loginData.userInfo.profileImage,
+    };
   }
 
   get userInfo() {
-    return this.shared.state.account?.userInfo;
+    return this.loginData?.userInfo;
   }
 
-  private set account(account: Account | undefined) {
-    this.shared.state.account = account;
-  }
-
-  async login({ privateKey, userInfo }: LoginParams) {
-    this.account = {
-      privateKey,
-      userInfo,
-      address: getAccountAddress(privateKey),
-    };
+  async login(data: LoginData) {
+    this.loginData = data;
 
     return true;
   }
@@ -70,7 +72,7 @@ export class AccountStore {
   }
 
   async logout() {
-    this.account = undefined;
+    this.loginData = undefined;
 
     return true;
   }

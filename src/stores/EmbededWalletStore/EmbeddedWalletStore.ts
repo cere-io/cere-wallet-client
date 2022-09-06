@@ -88,12 +88,10 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   private async setupRpcConnection() {
-    await when(() => !!this.accountStore.isAuthenticated && !!this.networkStore.network);
+    await when(() => !!this.accountStore.account && !!this.networkStore.network);
 
+    const { privateKey, address } = this.accountStore.account!;
     const chainConfig = this.networkStore.network!;
-    const privateKey = this.accountStore.privateKey!;
-    const address = this.accountStore.address!;
-
     const provider = await createProvider({ privateKey, chainConfig });
 
     const engine = createWalletEngine({

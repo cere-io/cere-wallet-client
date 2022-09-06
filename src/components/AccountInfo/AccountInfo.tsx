@@ -18,20 +18,20 @@ import { AccountBalance } from '../AccountBalance';
 export type AccountInfoProps = {};
 
 const AccountInfo = (props: AccountInfoProps) => {
-  const { address, userInfo } = useAccountStore();
+  const { account } = useAccountStore();
 
-  if (!address || !userInfo) {
+  if (!account) {
     return null;
   }
 
-  const [, emailDomain] = userInfo.email.split('@');
+  const [, emailDomain] = account.email.split('@');
 
   return (
     <Card>
       <CardHeader
-        title={<Truncate text={userInfo.email} maxLength={16} endingLength={emailDomain.length + 1} />}
-        subheader={<Address variant="text" address={address} maxLength={16} />}
-        avatar={<Avatar src={userInfo.profileImage} />}
+        title={<Truncate text={account.email} maxLength={16} endingLength={emailDomain.length + 1} />}
+        subheader={<Address variant="text" address={account.address} maxLength={16} />}
+        avatar={<Avatar src={account.avatar} />}
         action={
           <Stack direction="row" spacing={1}>
             <IconButton>

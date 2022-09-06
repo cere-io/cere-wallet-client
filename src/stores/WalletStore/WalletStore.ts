@@ -24,10 +24,10 @@ export class WalletStore implements Wallet {
   }
 
   async init() {
-    await when(() => this.accountStore.isAuthenticated && !!this.networkStore.network);
+    await when(() => !!this.accountStore.account && !!this.networkStore.network);
 
+    const { privateKey } = this.accountStore.account!;
     const chainConfig = this.networkStore.network!;
-    const privateKey = this.accountStore.privateKey!;
     const provider = await createProvider({ privateKey, chainConfig });
 
     runInAction(() => {

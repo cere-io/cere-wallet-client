@@ -15,12 +15,12 @@ const Content = styled(Paper)(({ theme }) => ({
 }));
 
 export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWidgetProps) => {
-  const { address } = useAccountStore();
+  const { account } = useAccountStore();
   const qrButtonSize = dense ? 32 : 40;
-  const addressElement = address && (
+  const addressElement = account && (
     <Stack direction="row" spacing={1} alignItems="center">
       <Address
-        address={address}
+        address={account.address}
         variant={dense ? 'filled' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
