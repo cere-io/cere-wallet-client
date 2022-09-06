@@ -86,9 +86,13 @@ export const createTheme = (): Theme => {
 
       MuiToggleButton: {
         styleOverrides: {
-          sizeSmall: {
-            lineHeight: '18px',
-          },
+          sizeSmall: ({ theme }) => ({
+            lineHeight: theme.typography.pxToRem(16),
+          }),
+
+          sizeMedium: ({ theme }) => ({
+            lineHeight: theme.typography.pxToRem(16),
+          }),
         },
       },
 
@@ -102,27 +106,21 @@ export const createTheme = (): Theme => {
             borderColor: theme.palette.divider,
           }),
 
-          grouped: {
-            borderRadius: [30, '!important'],
+          grouped: ({ theme }) => ({
+            borderRadius: 30,
             border: 'none',
 
             '&:not(:first-of-type)': {
-              marginLeft: '4px',
+              marginLeft: 4,
+              borderTopLeftRadius: 30,
+              borderBottomLeftRadius: 30,
             },
 
-            '&:hover': {
-              backgroundColor: alpha('#ECF0FF', 0.3),
+            '&:not(:last-of-type)': {
+              borderTopRightRadius: 30,
+              borderBottomRightRadius: 30,
             },
-
-            '&.Mui-selected': {
-              backgroundColor: '#ECF0FF',
-              color: '#2D5BFF',
-
-              '&:hover': {
-                backgroundColor: alpha('#ECF0FF', 0.8),
-              },
-            },
-          },
+          }),
         },
       },
 
