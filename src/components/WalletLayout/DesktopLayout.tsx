@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { styled, Stack, Box, Tabs, Tab, Logo } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
-import { AccountDropdown } from '../AccountDropDown';
+import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
 
 const Header = styled(Box)(({ theme }) => ({
@@ -20,6 +20,9 @@ const HeaderContent = styled(Box)({
 
 const Content = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 4),
+  width: '100%',
+  maxWidth: 990,
+  alignSelf: 'center',
 }));
 
 export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {

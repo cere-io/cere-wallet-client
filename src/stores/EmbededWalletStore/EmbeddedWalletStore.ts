@@ -70,7 +70,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return this.accountStore.account?.userInfo;
+        return this.accountStore.userInfo;
       },
 
       onWindowClose: async ({ instanceId }) => {
@@ -90,18 +90,14 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.accountStore.account && !!this.networkStore.network);
 
-    const network = this.networkStore.network!;
-    const account = this.accountStore.account!;
-
-    const provider = await createProvider({
-      privateKey: account.privateKey,
-      chainConfig: network,
-    });
+    const { privateKey, address } = this.accountStore.account!;
+    const chainConfig = this.networkStore.network!;
+    const provider = await createProvider({ privateKey, chainConfig });
 
     const engine = createWalletEngine({
       provider,
-      chainConfig: network,
-      accounts: [account.address],
+      chainConfig,
+      accounts: [address],
 
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),

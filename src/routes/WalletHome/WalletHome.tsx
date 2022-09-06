@@ -1,52 +1,84 @@
-import { InfoTable, Card, CardContent, CardHeader, Stack } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
-import { useOutletContext } from 'react-router-dom';
+import {
+  NoActivityIcon,
+  NoCoinsIcon,
+  Paper,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+  useIsMobile,
+} from '@cere-wallet/ui';
 
-import { WalletStore } from '~/stores';
+import { AccountBalanceWidget } from '~/components';
+import { useState } from 'react';
 
-const Wallet = () => {
-  const store = useOutletContext<WalletStore>();
-
-  const account = store.accountStore.account;
-  const assets = store.accountStore.assets;
-  const network = store.networkStore.network;
+const WalletHome = () => {
+  const isMobile = useIsMobile();
+  const [currentTab, setCurrentTab] = useState<'coins' | 'activity'>('coins');
 
   return (
     <Stack spacing={4}>
-      <Card variant="outlined">
-        <CardHeader title="Account" />
-        <CardContent>
-          <InfoTable dense>
-            <InfoTable.Row label="Email" value={account?.userInfo.email} />
-            <InfoTable.Row label="Name" value={account?.userInfo.name} />
-            <InfoTable.Row label="Address" value={account?.address} />
-          </InfoTable>
-        </CardContent>
-      </Card>
+      <AccountBalanceWidget title="Coins" dense={isMobile} />
 
-      <Card variant="outlined">
-        <CardHeader title="Network" />
-        <CardContent>
-          <InfoTable dense>
-            <InfoTable.Row label="Network" value={network?.displayName} />
-            <InfoTable.Row label="Chain ID" value={network?.chainId && parseInt(network?.chainId, 16)} />
-            <InfoTable.Row label="Currency" value={network?.tickerName} />
-          </InfoTable>
-        </CardContent>
-      </Card>
+      <Stack spacing={3}>
+        <ToggleButtonGroup
+          exclusive
+          fullWidth
+          size={isMobile ? 'small' : 'medium'}
+          value={currentTab}
+          onChange={(event, value) => value && setCurrentTab(value)}
+          color="primary"
+          sx={{
+            maxWidth: 430,
+            alignSelf: 'center',
+          }}
+        >
+          <ToggleButton value="coins">Coins</ToggleButton>
+          <ToggleButton value="activity">Activity</ToggleButton>
+        </ToggleButtonGroup>
 
-      <Card variant="outlined">
-        <CardHeader title="Assets" />
-        <CardContent>
-          <InfoTable dense>
-            {assets.list.map((asset) => (
-              <InfoTable.Row key={asset.ticker} label={asset.displayName} value={asset.balance} />
-            ))}
-          </InfoTable>
-        </CardContent>
-      </Card>
+        {/**
+         * TODO: Replace the component below with real implementation
+         */}
+        <Paper
+          variant="outlined"
+          sx={{
+            height: 400,
+            borderRadius: 4,
+            display: 'flex',
+            paddingTop: 10,
+            paddingX: 8,
+            justifyContent: 'center',
+          }}
+        >
+          <Stack spacing={1} alignItems="center">
+            {currentTab === 'coins' ? (
+              <>
+                <NoCoinsIcon sx={{ fontSize: '120px' }} />
+                <Typography align="center" fontWeight="bold">
+                  Coins not found
+                </Typography>
+                <Typography align="center" variant="body2" color="text.secondary">
+                  Add coins to your overview to see the balance and activity
+                </Typography>
+              </>
+            ) : (
+              <>
+                <NoActivityIcon sx={{ fontSize: '120px' }} />
+                <Typography align="center" fontWeight="bold">
+                  You have no transactions yet
+                </Typography>
+                <Typography align="center" variant="body2" color="text.secondary">
+                  Use your wallet in transactions and they will automatically show here
+                </Typography>
+              </>
+            )}
+          </Stack>
+        </Paper>
+      </Stack>
     </Stack>
   );
 };
 
-export default observer(Wallet);
+export default observer(WalletHome);

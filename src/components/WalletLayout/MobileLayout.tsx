@@ -14,10 +14,13 @@ import {
   ListItemIcon,
   ListItemText,
   Logo,
+  LogoutIcon,
+  HelpIcon,
 } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
 import { Link } from '../Link';
+import { AccountInfo } from '../AccountInfo';
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -41,7 +44,7 @@ const Content = styled(Box)(({ theme }) => ({
 const Sidebar = styled(Stack)(({ theme }) => ({
   flex: 1,
   padding: theme.spacing(0, 2, 2),
-  width: '80vw',
+  width: '92vw',
   boxSizing: 'border-box',
 }));
 
@@ -52,11 +55,16 @@ const SidebarHeader = styled(Box)({
   height: '48px',
 });
 
-const SidebarContent = styled(Box)({
+const SidebarContent = styled(Stack)({
   flex: 1,
 });
 
-const SidebarFooter = styled(Box)({});
+const SidebarFooter = styled(Box)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  borderTopWidth: 1,
+  borderTopStyle: 'solid',
+  borderTopColor: theme.palette.divider,
+}));
 
 const CloseButton = styled(IconButton)({
   backgroundColor: '#F5F5F7',
@@ -93,19 +101,33 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
             </CloseButton>
           </SidebarHeader>
 
-          <SidebarContent>
-            <Box sx={{ borderRadius: 4, padding: 10, border: '1px solid #E7E8EB' }}>Coming soon...</Box>
+          <SidebarContent spacing={2}>
+            <AccountInfo />
 
-            <MenuList>
+            <MenuList disablePadding>
               {menu.map(({ icon, label, path }) => (
                 <MenuItem key={path} selected={active?.path === path} to={path} component={Link} onClick={handleClose}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primaryTypographyProps={{ variant: 'button' }}>{label}</ListItemText>
+                  <ListItemText>{label}</ListItemText>
                 </MenuItem>
               ))}
+
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <HelpIcon />
+                </ListItemIcon>
+                <ListItemText>Help</ListItemText>
+              </MenuItem>
             </MenuList>
           </SidebarContent>
-          <SidebarFooter>Coming soon...</SidebarFooter>
+          <SidebarFooter>
+            <MenuItem>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText>Log Out</ListItemText>
+            </MenuItem>
+          </SidebarFooter>
         </Sidebar>
       </Drawer>
     </>

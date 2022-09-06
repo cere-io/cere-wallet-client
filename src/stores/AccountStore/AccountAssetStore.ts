@@ -4,13 +4,13 @@ import { makeAutoObservable, runInAction, when } from 'mobx';
 
 import { Provider, Wallet } from '../types';
 
-type Asset = {
+export type Asset = {
   ticker: string;
   displayName: string;
   balance: number;
 };
 
-export class AccountAssets {
+export class AccountAssetStore {
   list: Asset[] = [];
 
   constructor(private wallet: Wallet) {
@@ -20,6 +20,10 @@ export class AccountAssets {
       () => !!wallet.provider,
       () => this.onProviderReady(wallet.provider!),
     );
+  }
+
+  get nativeToken() {
+    return this.list.find(({ ticker }) => ticker === 'matic'); // TODO: Properly detect native token
   }
 
   private async onProviderReady(provider: Provider) {
