@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 import {
   NoActivityIcon,
   NoCoinsIcon,
@@ -11,7 +12,6 @@ import {
 } from '@cere-wallet/ui';
 
 import { AccountBalanceWidget } from '~/components';
-import { useState } from 'react';
 
 const WalletHome = () => {
   const isMobile = useIsMobile();
