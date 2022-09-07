@@ -4,3 +4,4 @@ export * from './TransactionData';
 export * from './PriceRow';
 export * from './WalletLayout';
 export * from './AccountBalanceWidget';
+export * from './PageHeader';

@@ -6,10 +6,12 @@ import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
 
 const Header = styled(Box)(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  borderBottom: '1px solid #E7E8EB',
-  padding: theme.spacing(0, 4),
+  borderBottomWidth: 1,
+  borderBottomStyle: 'solid',
+  borderBottomColor: theme.palette.divider,
 }));
 
 const HeaderContent = styled(Box)({
@@ -17,6 +19,20 @@ const HeaderContent = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
 });
+
+const HeaderLeft = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: theme.spacing(4),
+}));
+
+const HeaderRight = styled(HeaderLeft)(({ theme }) => ({
+  left: 'auto',
+  right: theme.spacing(4),
+}));
 
 const Content = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 4),
@@ -31,7 +47,9 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
   return (
     <Stack spacing={4} marginY={2}>
       <Header>
-        <Logo label="Cere wallet" />
+        <HeaderLeft>
+          <Logo label="Cere wallet" />
+        </HeaderLeft>
 
         <HeaderContent>
           <Tabs value={pathname} sx={{ marginBottom: '-1px' }}>
@@ -41,7 +59,9 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
           </Tabs>
         </HeaderContent>
 
-        <AccountDropdown />
+        <HeaderRight>
+          <AccountDropdown />
+        </HeaderRight>
       </Header>
       <Content>{children}</Content>
     </Stack>

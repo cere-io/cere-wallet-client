@@ -57,7 +57,7 @@ export const Address = ({
   onCopy,
   showCopy = !!onCopy,
 }: AddressProps) => {
-  const addressElement = <Truncate text={address} endingLength={4} maxLength={maxLength} />;
+  const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
 
   return variant === 'text' ? (
     addressElement

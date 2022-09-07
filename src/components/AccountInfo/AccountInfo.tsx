@@ -24,12 +24,10 @@ const AccountInfo = (props: AccountInfoProps) => {
     return null;
   }
 
-  const [, emailDomain] = account.email.split('@');
-
   return (
     <Card>
       <CardHeader
-        title={<Truncate text={account.email} maxLength={16} endingLength={emailDomain.length + 1} />}
+        title={<Truncate variant="email" text={account.email} maxLength={16} />}
         subheader={<Address variant="text" address={account.address} maxLength={16} />}
         avatar={<Avatar src={account.avatar} />}
         action={

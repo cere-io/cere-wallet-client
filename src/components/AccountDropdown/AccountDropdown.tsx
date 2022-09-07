@@ -11,6 +11,7 @@ import {
   ListItemText,
   Divider,
   LogoutIcon,
+  Truncate,
 } from '@cere-wallet/ui';
 
 import { AccountInfo } from '../AccountInfo';
@@ -27,7 +28,12 @@ const AccountDropdown = (props: AccountDropdownProps) => {
   }
 
   return (
-    <Dropdown open={open} onToggle={setOpen} label={account.email} leftElement={<Avatar src={account.avatar} />}>
+    <Dropdown
+      open={open}
+      onToggle={setOpen}
+      label={<Truncate text={account.email} variant="email" maxLength={20} />}
+      leftElement={<Avatar src={account.avatar} />}
+    >
       <Stack width={350} spacing={2}>
         <AccountInfo />
 

@@ -249,6 +249,20 @@ export const createTheme = (): Theme => {
           },
         },
       },
+
+      MuiChip: {
+        styleOverrides: {
+          filled: ({ theme, ownerState: props }) => {
+            const color = props.color === 'default' ? undefined : theme.palette[props.color || 'primary'].main;
+
+            return {
+              color,
+              backgroundColor: color && alpha(color, 0.08),
+              fontWeight: theme.typography.fontWeightBold,
+            };
+          },
+        },
+      },
     },
   });
 
