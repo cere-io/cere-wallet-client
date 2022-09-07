@@ -9,7 +9,8 @@ import { TransactionPopup } from './TransactionPopup';
 // Full-page wallet routes
 import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
-import { ComingSoon } from './ComingSoon';
+import { Collectables } from './Collectables';
+import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Coins', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -29,8 +30,8 @@ export const Router = () => {
 
         <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
           <Route path="home" element={<WalletHome />} />
-          <Route path="collectables" element={<ComingSoon />} />
-          <Route path="settings" element={<ComingSoon />} />
+          <Route path="collectables" element={<Collectables />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -22,3 +22,4 @@ export * from './CereIcon';
 export * from './MaticIcon';
 export * from './NoActivityIcon';
 export * from './NoCoinsIcon';
+export * from './ComingSoonIcon';

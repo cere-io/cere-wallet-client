@@ -2,7 +2,8 @@ import { observer } from 'mobx-react-lite';
 import { Address, IconButton, MaticIcon, Paper, QrCodeScannerIcon, Stack, styled, Typography } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
-import AccountBalance from '../AccountBalance/AccountBalance';
+import { AccountBalance } from '../AccountBalance';
+import { PageHeader } from '../PageHeader';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -42,13 +43,8 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
   );
 
   return (
-    <Stack spacing={2}>
-      {!dense && (
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="h5">{title}</Typography>
-          {addressElement}
-        </Stack>
-      )}
+    <Stack>
+      {!dense && <PageHeader title={title} rightElement={addressElement} />}
 
       <Content
         elevation={0}
