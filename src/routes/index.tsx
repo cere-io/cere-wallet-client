@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
+import { AuthScreen } from '@cere-wallet/authentication';
 
 import { EmbeddedWallet } from './EmbeddedWallet';
 import { RedirectPopup } from './RedirectPopup';
@@ -11,6 +12,7 @@ import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Collectables } from './Collectables';
 import { Settings } from './Settings';
+import { Login } from './Login';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Coins', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -27,6 +29,9 @@ export const Router = () => {
         <Route path="/redirect" element={<RedirectPopup />} />
         <Route path="/confirm" element={<ConfirmPopup />} />
         <Route path="/transaction" element={<TransactionPopup />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/authorize" element={<AuthScreen />} />
 
         <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
           <Route path="home" element={<WalletHome />} />
