@@ -23,3 +23,6 @@ export * from './MaticIcon';
 export * from './NoActivityIcon';
 export * from './NoCoinsIcon';
 export * from './ComingSoonIcon';
+export * from './UsdcIcon';
+export * from './TransactionInIcon';
+export * from './TransactionOutIcon';

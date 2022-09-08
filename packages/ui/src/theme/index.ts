@@ -25,6 +25,14 @@ export const createTheme = (): Theme => {
         main: '#2D5BFF',
       },
 
+      success: {
+        main: '#28B411',
+      },
+
+      error: {
+        main: '#ED2121',
+      },
+
       text: {
         primary: '#131B32',
         secondary: '#717684',
@@ -145,6 +153,10 @@ export const createTheme = (): Theme => {
           root: ({ theme }) => ({
             height: 48,
 
+            '& .MuiListItemIcon-root': {
+              color: theme.palette.text.secondary,
+            },
+
             '&.Mui-selected': {
               color: theme.palette.primary.main,
 
@@ -152,6 +164,19 @@ export const createTheme = (): Theme => {
                 color: theme.palette.primary.main,
               },
             },
+
+            '& .MuiListItemText-primary': {
+              ...theme.typography.button,
+            },
+          }),
+        },
+      },
+
+      MuiListItem: {
+        styleOverrides: {
+          dense: ({ theme }) => ({
+            paddingTop: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
           }),
         },
       },
@@ -159,7 +184,31 @@ export const createTheme = (): Theme => {
       MuiListItemIcon: {
         styleOverrides: {
           root: ({ theme }) => ({
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.primary,
+          }),
+        },
+      },
+
+      MuiListItemText: {
+        defaultProps: {
+          primaryTypographyProps: {
+            fontWeight: 'bold',
+          },
+        },
+
+        styleOverrides: {
+          root: {
+            '& .MuiTypography-root': {
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            },
+          },
+
+          dense: ({ theme }) => ({
+            '& .MuiListItemText-secondary': {
+              ...theme.typography.caption,
+            },
           }),
         },
       },
@@ -230,14 +279,6 @@ export const createTheme = (): Theme => {
               fontSize: theme.typography.pxToRem(20),
             },
           }),
-        },
-      },
-
-      MuiListItemText: {
-        defaultProps: {
-          primaryTypographyProps: {
-            variant: 'button',
-          },
         },
       },
 

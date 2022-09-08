@@ -24,8 +24,7 @@ export {
   Drawer,
   MenuList,
   MenuItem,
-  ListItemIcon,
-  ListItemText,
+  Badge,
 } from '@mui/material';
 
 export type {
@@ -50,8 +49,10 @@ export type {
   DrawerProps,
   MenuListProps,
   MenuItemProps,
+  ListItemProps,
+  ListItemAvatarProps,
   ListItemIconProps,
-  ListItemTextProps,
+  BadgeProps,
 } from '@mui/material';
 
 export * from './IconButton';
@@ -62,3 +63,4 @@ export * from './Logo';
 export * from './Truncate';
 export * from './Address';
 export * from './CommingSoon';
+export * from './List';
