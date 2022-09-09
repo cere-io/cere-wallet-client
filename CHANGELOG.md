@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [DAV-3036] Wallet asset overview widget
 
 ### v1.2.0
 
