@@ -13,7 +13,7 @@ export class AccountBalanceStore {
     const token = getTokenConfig();
     this.selectedToken = {
       displayName: token.symbol,
-      ticker: token.symbol.toLocaleLowerCase(),
+      ticker: token.symbol,
       network: 'Polygon',
     };
   }

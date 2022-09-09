@@ -22,7 +22,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly networkStore: NetworkStore;
   readonly popupManagerStore: PopupManagerStore;
 
-  private currentProvider: Provider | null = null;
+  private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
   private rpcConnection?: RpcConnection;
 
@@ -40,6 +40,14 @@ export class EmbeddedWalletStore implements Wallet {
 
   get provider() {
     return this.currentProvider;
+  }
+
+  get network() {
+    return this.networkStore.network;
+  }
+
+  get account() {
+    return this.accountStore.account;
   }
 
   async init() {

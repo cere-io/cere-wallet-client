@@ -8,8 +8,7 @@ export type AssetListItemProps = ListItemProps & {
 };
 
 export const AssetListItem = ({ asset, ...props }: AssetListItemProps) => {
-  const { ticker, displayName, network, balance = 0 } = asset;
-  const formattedBalance = +balance.toFixed(2);
+  const { ticker, displayName, network, balance } = asset;
 
   return (
     <ListItem {...props}>
@@ -18,7 +17,7 @@ export const AssetListItem = ({ asset, ...props }: AssetListItemProps) => {
       </ListItemIcon>
 
       <ListItemText primary={displayName} secondary={network} />
-      <ListItemText align="right" primary={formattedBalance} secondary="- USD" />
+      {balance !== undefined && <ListItemText align="right" primary={+balance.toFixed(2)} secondary="- USD" />}
     </ListItem>
   );
 };

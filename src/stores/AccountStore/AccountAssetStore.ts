@@ -1,14 +1,44 @@
-import { utils } from 'ethers';
+import { Signer, utils } from 'ethers';
+import { makeAutoObservable, when } from 'mobx';
 import { createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
-import { makeAutoObservable, runInAction, when } from 'mobx';
 
 import { Provider, Wallet, Asset } from '../types';
 
+const getErc20Balance = async (signer: Signer, chainId: string, address: string) => {
+  const { decimals } = getTokenConfig();
+  const erc20 = createERC20Contract(signer, chainId);
+  const balance = await erc20.balanceOf(address);
+
+  return balance.div(10 ** decimals).toNumber();
+};
+
+const getNativeBalance = async (signer: Signer) => {
+  const balance = await signer.getBalance();
+
+  return +utils.formatEther(balance);
+};
+
 export class AccountAssetStore {
-  list: Asset[] = [];
+  readonly list: Asset[];
+
+  private tokenConfig = getTokenConfig();
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
+
+    this.list = [
+      {
+        ticker: 'matic',
+        displayName: 'Matic',
+        network: 'Polygon',
+      },
+
+      {
+        ticker: this.tokenConfig.symbol,
+        displayName: this.tokenConfig.symbol,
+        network: 'Polygon',
+      },
+    ];
 
     when(
       () => !!wallet.provider,
@@ -21,33 +51,25 @@ export class AccountAssetStore {
   }
 
   private async onProviderReady(provider: Provider) {
-    const { symbol, decimals } = getTokenConfig();
+    const { chainId } = this.wallet.network!;
+    const { address } = this.wallet.account!;
 
     const signer = provider.getSigner();
-    const chainId = await signer.getChainId();
-    const address = await signer.getAddress();
 
-    const nativeBalance = await signer.getBalance();
-
-    const erc20 = createERC20Contract(signer, chainId.toString(16));
-    const erc20Balance = await erc20.balanceOf(address);
-
-    runInAction(() => {
-      this.list = [
-        {
-          ticker: 'matic',
-          displayName: 'Matic',
-          network: 'Polygon',
-          balance: +utils.formatEther(nativeBalance),
-        },
-
-        {
-          ticker: symbol.toLocaleLowerCase(),
-          displayName: symbol,
-          network: 'Polygon',
-          balance: erc20Balance.div(10 ** decimals).toNumber(),
-        },
-      ];
+    getNativeBalance(signer).then((balance) => {
+      this.updateBalance(this.nativeToken!.ticker, balance);
     });
+
+    getErc20Balance(signer, chainId, address).then((balance) => {
+      this.updateBalance(this.tokenConfig.symbol, balance);
+    });
+  }
+
+  private updateBalance(ticker: string, balance: number) {
+    const asset = this.list.find((asset) => asset.ticker === ticker);
+
+    if (asset) {
+      asset.balance = balance;
+    }
   }
 }

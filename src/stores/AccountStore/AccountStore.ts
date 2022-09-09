@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccountAddress } from '@cere-wallet/wallet-engine';
 
-import { Wallet } from '../types';
+import { Account, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 import { AccountAssetStore } from './AccountAssetStore';
 import { AccountBalanceStore } from './AccountBalanceStore';
@@ -10,13 +10,6 @@ import { AccountBalanceStore } from './AccountBalanceStore';
 type LoginData = {
   privateKey: string;
   userInfo: UserInfo;
-};
-
-export type Account = {
-  address: string;
-  privateKey: string;
-  email: string;
-  avatar?: string;
 };
 
 type SharedState = {

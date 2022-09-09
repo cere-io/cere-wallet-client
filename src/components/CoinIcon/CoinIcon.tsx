@@ -7,7 +7,7 @@ export type CoinIconProps = IconProps & {
 };
 
 export const CoinIcon = ({ coin, ...props }: CoinIconProps) => {
-  const Icon = coinIconsMap[coin] || RemoveCircleOutlineIcon;
+  const Icon = coinIconsMap[coin.toLocaleLowerCase()] || RemoveCircleOutlineIcon;
 
   return <Icon {...props} />;
 };

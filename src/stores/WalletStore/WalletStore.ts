@@ -10,7 +10,7 @@ import { NetworkStore } from '../NetworkStore';
 export class WalletStore implements Wallet {
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
-  private currentProvider: Provider | null = null;
+  private currentProvider?: Provider;
 
   constructor(readonly instanceId: string = randomBytes(16).toString('hex')) {
     makeAutoObservable(this);
@@ -21,6 +21,14 @@ export class WalletStore implements Wallet {
 
   get provider() {
     return this.currentProvider;
+  }
+
+  get network() {
+    return this.networkStore.network;
+  }
+
+  get account() {
+    return this.accountStore.account;
   }
 
   async init() {
