@@ -14,6 +14,7 @@ export {
   ContentCopy as ContentCopyIcon,
   Logout as LogoutIcon,
   Help as HelpIcon,
+  RemoveCircleOutline as RemoveCircleOutlineIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

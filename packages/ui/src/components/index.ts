@@ -53,6 +53,7 @@ export type {
   ListItemAvatarProps,
   ListItemIconProps,
   BadgeProps,
+  IconProps,
 } from '@mui/material';
 
 export * from './IconButton';

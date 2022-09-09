@@ -2,13 +2,7 @@ import { utils } from 'ethers';
 import { createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
 import { makeAutoObservable, runInAction, when } from 'mobx';
 
-import { Provider, Wallet } from '../types';
-
-export type Asset = {
-  ticker: string;
-  displayName: string;
-  balance: number;
-};
+import { Provider, Wallet, Asset } from '../types';
 
 export class AccountAssetStore {
   list: Asset[] = [];
@@ -43,11 +37,14 @@ export class AccountAssetStore {
         {
           ticker: 'matic',
           displayName: 'Matic',
+          network: 'Polygon',
           balance: +utils.formatEther(nativeBalance),
         },
+
         {
           ticker: symbol.toLocaleLowerCase(),
           displayName: symbol,
+          network: 'Polygon',
           balance: erc20Balance.div(10 ** decimals).toNumber(),
         },
       ];

@@ -1,34 +1,31 @@
-import {
-  List,
-  ListNoItems,
-  NoCoinsIcon,
-  // ListItem,
-  // ListItemIcon,
-  // ListItemText,
-  // MaticIcon,
-} from '@cere-wallet/ui';
+import { observer } from 'mobx-react-lite';
+import { List, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
+import { useAccountStore } from '~/hooks';
+import AssetListItem from './AssetListItem';
 
 export type AssetListProps = {
   dense?: boolean;
 };
 
-export const AssetList = ({ dense }: AssetListProps) => {
+const AssetList = ({ dense }: AssetListProps) => {
+  const { assetStore } = useAccountStore();
+  const { list } = assetStore;
+
   return (
     <List dense={dense} variant="outlined">
-      {/* <ListItem divider>
-        <ListItemIcon inset>
-          <MaticIcon fontSize="inherit" />
-        </ListItemIcon>
+      {list.map((asset, index) => (
+        <AssetListItem key={asset.ticker} divider={list.length !== index + 1} asset={asset} />
+      ))}
 
-        <ListItemText primary="MATIC" secondary="Polygon" />
-        <ListItemText align="right" primary="100" secondary="$6.96 USD" />
-      </ListItem> */}
-
-      <ListNoItems
-        icon={<NoCoinsIcon fontSize="inherit" />}
-        title="Coins not found"
-        description="Add coins to your overview to see the balance and activity "
-      />
+      {!list.length && (
+        <ListNoItems
+          icon={<NoCoinsIcon fontSize="inherit" />}
+          title="Coins not found"
+          description="Add coins to your overview to see the balance and activity "
+        />
+      )}
     </List>
   );
 };
+
+export default observer(AssetList);

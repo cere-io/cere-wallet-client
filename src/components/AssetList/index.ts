@@ -1,1 +1,1 @@
-export * from './AssetList';
+export { default as AssetList, type AssetListProps } from './AssetList';

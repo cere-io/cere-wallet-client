@@ -14,6 +14,9 @@ export type ActivityListProps = {
   dense?: boolean;
 };
 
+/**
+ * TODO: Not yet fully implemented. Only UI is ready. Need to attach business logic
+ */
 export const ActivityList = ({ dense }: ActivityListProps) => {
   return (
     <List variant="outlined" dense={dense}>

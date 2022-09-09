@@ -6,6 +6,13 @@ export type PriceData = {
   equalsTo?: Omit<PriceData, 'equalsTo'>;
 };
 
+export type Asset = {
+  ticker: string;
+  displayName: string;
+  network: string;
+  balance?: number;
+};
+
 export type Provider = ethers.providers.JsonRpcProvider;
 export type Wallet = {
   readonly instanceId: string;

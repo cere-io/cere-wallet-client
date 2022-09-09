@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
-import { AccountAssetStore, Asset } from './AccountAssetStore';
+import { Asset } from '../types';
+import { AccountAssetStore } from './AccountAssetStore';
 
 export class AccountBalanceStore {
   selectedToken: Omit<Asset, 'balance'>;
@@ -13,6 +14,7 @@ export class AccountBalanceStore {
     this.selectedToken = {
       displayName: token.symbol,
       ticker: token.symbol.toLocaleLowerCase(),
+      network: 'Polygon',
     };
   }
 
