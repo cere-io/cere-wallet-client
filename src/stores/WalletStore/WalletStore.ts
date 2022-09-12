@@ -45,7 +45,6 @@ export class WalletStore implements Wallet {
     const chainConfig = this.networkStore.network!;
     const provider = await createProvider({ privateKey, chainConfig });
 
-    console.log('Wallet init');
     runInAction(() => {
       this.currentProvider = new providers.Web3Provider(provider);
     });
