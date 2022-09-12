@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { List, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
-import { useWalletStore } from '~/hooks';
+import { useAssetStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
 
 export type AssetListProps = {
@@ -8,8 +8,7 @@ export type AssetListProps = {
 };
 
 const AssetList = ({ dense }: AssetListProps) => {
-  const { assetStore } = useWalletStore();
-  const { list } = assetStore;
+  const { list } = useAssetStore();
 
   return (
     <List dense={dense} variant="outlined">
