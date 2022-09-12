@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { List, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
-import { useAccountStore } from '~/hooks';
+import { useWalletStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
 
 export type AssetListProps = {
@@ -8,7 +8,7 @@ export type AssetListProps = {
 };
 
 const AssetList = ({ dense }: AssetListProps) => {
-  const { assetStore } = useAccountStore();
+  const { assetStore } = useWalletStore();
   const { list } = assetStore;
 
   return (
@@ -21,7 +21,7 @@ const AssetList = ({ dense }: AssetListProps) => {
         <ListNoItems
           icon={<NoCoinsIcon fontSize="inherit" />}
           title="Coins not found"
-          description="Add coins to your overview to see the balance and activity "
+          description="Add coins to your overview to see the balance and activity"
         />
       )}
     </List>

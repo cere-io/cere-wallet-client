@@ -2,12 +2,12 @@ import { makeAutoObservable } from 'mobx';
 import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset } from '../types';
-import { AccountAssetStore } from './AccountAssetStore';
+import { AssetStore } from '../AssetStore';
 
-export class AccountBalanceStore {
+export class BalanceStore {
   selectedToken: Omit<Asset, 'balance'>;
 
-  constructor(private assets: AccountAssetStore) {
+  constructor(private assetStore: AssetStore) {
     makeAutoObservable(this);
 
     const token = getTokenConfig();
@@ -19,11 +19,11 @@ export class AccountBalanceStore {
   }
 
   get nativeBalance() {
-    return this.assets.nativeToken?.balance;
+    return this.assetStore.nativeToken?.balance;
   }
 
   get balance() {
-    const selectedToken = this.assets.list.find(({ ticker }) => this.selectedToken.ticker === ticker);
+    const selectedToken = this.assetStore.list.find(({ ticker }) => this.selectedToken.ticker === ticker);
 
     return selectedToken?.balance;
   }

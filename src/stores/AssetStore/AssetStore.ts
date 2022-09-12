@@ -18,7 +18,7 @@ const getNativeBalance = async (signer: Signer) => {
   return +utils.formatEther(balance);
 };
 
-export class AccountAssetStore {
+export class AssetStore {
   readonly list: Asset[];
 
   private tokenConfig = getTokenConfig();

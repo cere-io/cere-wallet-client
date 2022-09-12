@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { Typography, TypographyProps } from '@cere-wallet/ui';
 
-import { useAccountStore } from '~/hooks';
+import { useWalletStore } from '~/hooks';
 
 export type AccountBalanceProps = TypographyProps;
 
 export const AccountBalance = (props: AccountBalanceProps) => {
-  const { balanceStore } = useAccountStore();
+  const { balanceStore } = useWalletStore();
 
   return (
     <Typography {...props}>
