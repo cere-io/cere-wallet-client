@@ -8,7 +8,8 @@ const createBalanceResource = ({ provider, network, account }: Wallet, { decimal
   let currentListener: () => {};
 
   const erc20 = createERC20Contract(provider!.getSigner(), network!.chainId);
-  const eventFilter = erc20.filters.Transfer(null, account!.address);
+  const receiveFilter = erc20.filters.Transfer(null, account!.address);
+  const sendFilter = erc20.filters.Transfer(account!.address);
 
   return fromResource<number>(
     (sink) => {
@@ -26,10 +27,12 @@ const createBalanceResource = ({ provider, network, account }: Wallet, { decimal
       /**
        * Update erc20 token balance on each transfer event
        */
-      provider!.on(eventFilter, currentListener);
+      provider!.on(receiveFilter, currentListener);
+      provider!.on(sendFilter, currentListener);
     },
     () => {
-      provider!.off(eventFilter, currentListener);
+      provider!.off(receiveFilter, currentListener);
+      provider!.off(sendFilter, currentListener);
     },
   );
 };
