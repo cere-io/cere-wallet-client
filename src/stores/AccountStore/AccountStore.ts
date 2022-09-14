@@ -2,21 +2,12 @@ import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccountAddress } from '@cere-wallet/wallet-engine';
 
-import { Wallet } from '../types';
+import { Account, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
-import { AccountAssetStore } from './AccountAssetStore';
-import { AccountBalanceStore } from './AccountBalanceStore';
 
 type LoginData = {
   privateKey: string;
   userInfo: UserInfo;
-};
-
-export type Account = {
-  address: string;
-  privateKey: string;
-  email: string;
-  avatar?: string;
 };
 
 type SharedState = {
@@ -26,14 +17,8 @@ type SharedState = {
 export class AccountStore {
   private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, {});
 
-  readonly assetStore: AccountAssetStore;
-  readonly balanceStore: AccountBalanceStore;
-
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
-
-    this.assetStore = new AccountAssetStore(wallet);
-    this.balanceStore = new AccountBalanceStore(this.assetStore);
   }
 
   private set loginData(loginData: LoginData | undefined) {

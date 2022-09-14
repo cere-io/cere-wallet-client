@@ -6,21 +6,36 @@ import { createProvider } from '@cere-wallet/wallet-engine';
 import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
 import { NetworkStore } from '../NetworkStore';
+import { AssetStore } from '../AssetStore';
+import { BalanceStore } from '../BalanceStore';
 
 export class WalletStore implements Wallet {
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
-  private currentProvider: Provider | null = null;
+  readonly assetStore: AssetStore;
+  readonly balanceStore: BalanceStore;
+
+  private currentProvider?: Provider;
 
   constructor(readonly instanceId: string = randomBytes(16).toString('hex')) {
     makeAutoObservable(this);
 
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
+    this.assetStore = new AssetStore(this);
+    this.balanceStore = new BalanceStore(this.assetStore);
   }
 
   get provider() {
     return this.currentProvider;
+  }
+
+  get network() {
+    return this.networkStore.network;
+  }
+
+  get account() {
+    return this.accountStore.account;
   }
 
   async init() {
