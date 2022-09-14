@@ -97,6 +97,12 @@ export type WalletChannelOut = {
   };
 };
 
+export type WidgetChannelIn = unknown;
+export type WidgetChannelOut = {
+  name: 'widget';
+  data: boolean;
+};
+
 export const createChannels = (options: CreateChannelOptions) => ({
   init: createChannel<InitChannelIn, InitChannelOut>('init_stream', options),
   login: createChannel<LoginChannelIn, LoginChannelOut>('login_with_private_key', options),
@@ -106,4 +112,5 @@ export const createChannels = (options: CreateChannelOptions) => ({
   window: createChannel<WindowChannelIn, WindowChannelOut>('window', options),
   widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>('torus-widget-visibility', options),
   wallet: createChannel<WalletChannelIn, WalletChannelOut>('show_wallet', options),
+  widget: createChannel<WidgetChannelIn, WidgetChannelOut>('widget', options),
 });

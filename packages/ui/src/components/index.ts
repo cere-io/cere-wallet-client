@@ -11,6 +11,7 @@ export {
   Card,
   CardHeader,
   CardContent,
+  CardActions,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -25,6 +26,7 @@ export {
   MenuList,
   MenuItem,
   Badge,
+  Backdrop,
 } from '@mui/material';
 
 export type {
@@ -36,6 +38,7 @@ export type {
   CardProps,
   CardHeaderProps,
   CardContentProps,
+  CardActionsProps,
   ToggleButtonProps,
   ToggleButtonGroupProps,
   TypographyProps,
@@ -54,6 +57,7 @@ export type {
   ListItemIconProps,
   BadgeProps,
   IconProps,
+  BackdropProps,
 } from '@mui/material';
 
 export * from './IconButton';
