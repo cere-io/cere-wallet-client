@@ -3,6 +3,7 @@
 ### vNext
 
 - [DAV-3036] Wallet asset overview widget
+- [DAV-3119] Assets balance real-time update
 
 ### v1.2.0
 
