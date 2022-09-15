@@ -13,9 +13,13 @@ import {
   CardActions,
   IconButton,
   Stack,
+  Truncate,
+  Address,
 } from '@cere-wallet/ui';
 
-import Widget, { WidgetProps } from './Widget';
+import { useEmbeddedWalletStore } from '~/hooks';
+import { AccountBalance } from '../AccountBalance';
+import Widget from './Widget';
 
 const Card = styled(UICard)({
   border: 'none',
@@ -35,13 +39,19 @@ const Actions = styled(CardActions)({
   justifyContent: 'flex-end',
 });
 
-const WalletWidget = ({ store }: WidgetProps) => {
+const WalletWidget = () => {
+  const { account, network } = useEmbeddedWalletStore();
+
+  if (!account || !network) {
+    return null;
+  }
+
   return (
-    <Widget store={store}>
+    <Widget>
       <Card>
         <Header
-          title="merel.kloots@cere.io"
-          subheader="0x1758df97...f13dcff426"
+          title={<Truncate variant="email" text={account.email} maxLength={16} />}
+          subheader={<Address variant="text" address={account.address} maxLength={16} />}
           avatar={<Avatar />}
           action={
             <IconButton>
@@ -54,7 +64,7 @@ const WalletWidget = ({ store }: WidgetProps) => {
             <Typography variant="caption" color="text.caption">
               TOTAL VALUE
             </Typography>
-            <Typography fontWeight="bold">100 CERE</Typography>
+            <AccountBalance fontWeight="bold" />
           </Box>
 
           <Typography
@@ -67,7 +77,7 @@ const WalletWidget = ({ store }: WidgetProps) => {
             spacing={0.5}
           >
             <WifiIcon fontSize="inherit" />
-            <Typography variant="caption">Mumbai Matic</Typography>
+            <Typography variant="caption">{network.displayName}</Typography>
           </Typography>
         </Content>
         <Actions>

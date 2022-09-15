@@ -2,6 +2,7 @@ import { UIProvider } from '@cere-wallet/ui';
 import { useEffect, useMemo } from 'react';
 
 import { WalletWidget } from '~/components';
+import { WalletContext } from '~/hooks';
 import { EmbeddedWalletStore } from '~/stores';
 
 const EmbeddedWallet = () => {
@@ -13,7 +14,9 @@ const EmbeddedWallet = () => {
 
   return (
     <UIProvider transparentBody>
-      <WalletWidget store={store} />
+      <WalletContext.Provider value={store}>
+        <WalletWidget />
+      </WalletContext.Provider>
     </UIProvider>
   );
 };

@@ -1,12 +1,10 @@
 import { useCallback, SyntheticEvent, PropsWithChildren } from 'react';
-import { IconButton, Backdrop, styled, CereLightIcon, Paper } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
+import { IconButton, Backdrop, styled, CereLightIcon, Paper } from '@cere-wallet/ui';
 
-import { EmbeddedWalletStore } from '~/stores';
+import { useEmbeddedWalletStore } from '~/hooks';
 
-export type WidgetProps = PropsWithChildren<{
-  store: EmbeddedWalletStore;
-}>;
+export type WidgetProps = PropsWithChildren<{}>;
 
 const Overlay = styled(Backdrop)({
   alignItems: 'flex-end',
@@ -36,7 +34,9 @@ const WidgetContent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1.5),
 }));
 
-const Widget = ({ store, children }: WidgetProps) => {
+const Widget = ({ children }: WidgetProps) => {
+  const store = useEmbeddedWalletStore();
+
   const handleOpen = useCallback(
     (event: SyntheticEvent) => {
       event.stopPropagation();
