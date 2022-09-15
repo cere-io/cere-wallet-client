@@ -19,6 +19,7 @@ import {
 
 import { useEmbeddedWalletStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
+import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
 
 const Card = styled(UICard)({
@@ -41,6 +42,7 @@ const Actions = styled(CardActions)({
 
 const WalletWidget = () => {
   const { account, network } = useEmbeddedWalletStore();
+  const showWallet = useShowWallet();
 
   if (!account || !network) {
     return null;
@@ -50,9 +52,9 @@ const WalletWidget = () => {
     <Widget>
       <Card>
         <Header
-          title={<Truncate variant="email" text={account.email} maxLength={16} />}
-          subheader={<Address variant="text" address={account.address} maxLength={16} />}
-          avatar={<Avatar />}
+          title={<Truncate variant="email" text={account.email} maxLength={20} />}
+          subheader={<Address variant="text" address={account.address} maxLength={20} />}
+          avatar={<Avatar src={account.avatar} />}
           action={
             <IconButton>
               <ContentCopyIcon />
@@ -71,7 +73,6 @@ const WalletWidget = () => {
             component={Stack}
             variant="caption"
             color="text.secondary"
-            fontWeight="bold"
             direction="row"
             alignItems="baseline"
             spacing={0.5}
@@ -81,7 +82,9 @@ const WalletWidget = () => {
           </Typography>
         </Content>
         <Actions>
-          <Button variant="text">Open Wallet</Button>
+          <Button variant="text" onClick={showWallet}>
+            Open Wallet
+          </Button>
         </Actions>
       </Card>
     </Widget>

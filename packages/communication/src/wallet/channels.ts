@@ -77,10 +77,18 @@ export type WindowChannelIn = {
   };
 };
 
-export type WindowChannelOut = {
-  preopenInstanceId: string;
-  close: boolean;
-};
+export type WindowChannelOut =
+  | {
+      preopenInstanceId: string;
+      close: boolean;
+    }
+  | {
+      name: 'create_window';
+      data: {
+        preopenInstanceId: string;
+        url: string;
+      };
+    };
 
 export type WidgetVisibilityChannel = {
   data: boolean;
