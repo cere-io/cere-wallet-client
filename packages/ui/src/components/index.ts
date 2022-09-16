@@ -69,3 +69,5 @@ export * from './Truncate';
 export * from './Address';
 export * from './CommingSoon';
 export * from './List';
+export * from './Dialog';
+export * from './QRCode';

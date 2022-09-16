@@ -22,7 +22,7 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
     <Stack direction="row" spacing={1} alignItems="center">
       <Address
         address={account.address}
-        variant={dense ? 'filled' : 'outlined'}
+        variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
         icon={!dense && <MaticIcon />}

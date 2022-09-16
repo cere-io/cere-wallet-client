@@ -7,7 +7,7 @@ export type AddressProps = Pick<TruncateProps, 'maxLength'> & {
   address: string;
   icon?: ReactNode;
   size?: 'small' | 'medium';
-  variant?: 'text' | 'outlined' | 'filled';
+  variant?: 'default' | 'text' | 'outlined' | 'filled';
 
   onCopy?: () => void;
   showCopy?: boolean;
@@ -21,7 +21,7 @@ const Wrapper = styled(Stack, {
   borderStyle: 'solid',
   borderWidth: variant === 'outlined' ? 1 : 0,
   borderColor: theme.palette.divider,
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: variant === 'filled' ? theme.palette.grey[100] : theme.palette.background.paper,
 
   ...(size === 'small'
     ? {
@@ -49,7 +49,7 @@ const Icon = styled('div')(({ theme }) => ({
 }));
 
 export const Address = ({
-  variant = 'outlined',
+  variant = 'default',
   size = 'medium',
   icon,
   address,
