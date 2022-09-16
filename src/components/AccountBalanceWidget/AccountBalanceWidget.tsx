@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { Address, IconButton, MaticIcon, Paper, QrCodeScannerIcon, Stack, styled, Typography } from '@cere-wallet/ui';
+import { Address, MaticIcon, Paper, Stack, styled, Typography } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { PageHeader } from '../PageHeader';
+import { AddressQRButton } from '../AddressQRButton';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -29,16 +30,15 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
         onCopy={() => console.log('onCopy')}
       />
 
-      <IconButton
+      <AddressQRButton
+        address={account.address}
         variant="outlined"
         sx={{
           width: qrButtonSize,
           height: qrButtonSize,
           borderWidth: dense ? 0 : 1,
         }}
-      >
-        <QrCodeScannerIcon fontSize={dense ? 'small' : 'medium'} />
-      </IconButton>
+      />
     </Stack>
   );
 
