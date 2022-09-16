@@ -15,11 +15,13 @@ export {
   Logout as LogoutIcon,
   Help as HelpIcon,
   RemoveCircleOutline as RemoveCircleOutlineIcon,
+  Wifi as WifiIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
 
 export * from './CereIcon';
+export * from './CereLightIcon';
 export * from './MaticIcon';
 export * from './NoActivityIcon';
 export * from './NoCoinsIcon';
