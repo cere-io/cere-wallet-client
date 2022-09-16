@@ -4,6 +4,7 @@
 
 - [DAV-3036] Wallet asset overview widget
 - [DAV-3119] Assets balance real-time update
+- [DAV-3153] Update asset section label and menu item
 
 ### v1.2.0
 

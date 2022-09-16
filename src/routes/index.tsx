@@ -13,7 +13,7 @@ import { Collectables } from './Collectables';
 import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
-  { label: 'Coins', icon: <MonetizationOnIcon />, path: '/wallet/home' },
+  { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
   { label: 'Collectables', icon: <AppsIcon />, path: '/wallet/collectables' },
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
