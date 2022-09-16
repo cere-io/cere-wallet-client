@@ -2,7 +2,7 @@ import { Box, ComingSoon } from '@cere-wallet/ui';
 
 import { PageHeader } from '~/components';
 
-export const Collectables = () => (
+export const Collectibles = () => (
   <>
     <PageHeader title="Collectables" />
 

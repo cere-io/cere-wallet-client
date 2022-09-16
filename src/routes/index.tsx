@@ -9,7 +9,7 @@ import { TransactionPopup } from './TransactionPopup';
 // Full-page wallet routes
 import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
-import { Collectables } from './Collectables';
+import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
@@ -30,7 +30,7 @@ export const Router = () => {
 
         <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
           <Route path="home" element={<WalletHome />} />
-          <Route path="collectables" element={<Collectables />} />
+          <Route path="collectibles" element={<Collectibles />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
