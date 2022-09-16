@@ -4,6 +4,7 @@
 
 - [DAV-3036] Wallet asset overview widget
 - [DAV-3119] Assets balance real-time update
+- [DAV-3037] Add coming soon indicator to menu
 
 ### v1.2.0
 

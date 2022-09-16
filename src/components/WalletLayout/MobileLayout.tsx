@@ -16,6 +16,7 @@ import {
   Logo,
   LogoutIcon,
   HelpIcon,
+  Chip,
 } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
@@ -74,6 +75,10 @@ const CloseButton = styled(IconButton)({
   },
 });
 
+const MenuItemText = styled(ListItemText)({
+  flexGrow: 0,
+});
+
 export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
@@ -105,10 +110,13 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
             <AccountInfo />
 
             <MenuList disablePadding>
-              {menu.map(({ icon, label, path }) => (
+              {menu.map(({ icon, label, path, comingSoon }) => (
                 <MenuItem key={path} selected={active?.path === path} to={path} component={Link} onClick={handleClose}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{label}</ListItemText>
+                  <MenuItemText>
+                    {label}
+                    {comingSoon && <Chip size="small" color="secondary" label="Soon" sx={{ marginLeft: 1 }} />}
+                  </MenuItemText>
                 </MenuItem>
               ))}
 
@@ -116,7 +124,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
                 <ListItemIcon>
                   <HelpIcon />
                 </ListItemIcon>
-                <ListItemText>Help</ListItemText>
+                <MenuItemText>Help</MenuItemText>
               </MenuItem>
             </MenuList>
           </SidebarContent>
@@ -125,7 +133,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText>Log Out</ListItemText>
+              <MenuItemText>Log Out</MenuItemText>
             </MenuItem>
           </SidebarFooter>
         </Sidebar>

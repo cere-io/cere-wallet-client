@@ -293,6 +293,16 @@ export const createTheme = (): Theme => {
 
       MuiChip: {
         styleOverrides: {
+          sizeSmall: {
+            height: 'auto',
+          },
+
+          labelSmall: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(12),
+            lineHeight: theme.typography.pxToRem(20),
+            padding: theme.spacing(0, 1.5),
+          }),
+
           filled: ({ theme, ownerState: props }) => {
             const color = props.color === 'default' ? undefined : theme.palette[props.color || 'primary'].main;
 
