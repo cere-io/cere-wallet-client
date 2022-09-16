@@ -75,10 +75,6 @@ const CloseButton = styled(IconButton)({
   },
 });
 
-const MenuItemText = styled(ListItemText)({
-  flexGrow: 0,
-});
-
 export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
@@ -113,10 +109,10 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
               {menu.map(({ icon, label, path, comingSoon }) => (
                 <MenuItem key={path} selected={active?.path === path} to={path} component={Link} onClick={handleClose}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <MenuItemText>
+                  <ListItemText>
                     {label}
                     {comingSoon && <Chip size="small" color="secondary" label="Soon" sx={{ marginLeft: 1 }} />}
-                  </MenuItemText>
+                  </ListItemText>
                 </MenuItem>
               ))}
 
@@ -124,7 +120,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
                 <ListItemIcon>
                   <HelpIcon />
                 </ListItemIcon>
-                <MenuItemText>Help</MenuItemText>
+                <ListItemText>Help</ListItemText>
               </MenuItem>
             </MenuList>
           </SidebarContent>
@@ -133,7 +129,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <MenuItemText>Log Out</MenuItemText>
+              <ListItemText>Log Out</ListItemText>
             </MenuItem>
           </SidebarFooter>
         </Sidebar>
