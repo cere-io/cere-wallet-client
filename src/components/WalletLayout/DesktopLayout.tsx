@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { styled, Stack, Box, Tabs, Tab, Logo } from '@cere-wallet/ui';
+import { styled, Stack, Box, Tabs, Tab, Logo, Chip } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
 import { AccountDropdown } from '../AccountDropdown';
@@ -41,6 +41,12 @@ const Content = styled(Box)(({ theme }) => ({
   alignSelf: 'center',
 }));
 
+const SoonChip = styled(Chip)({
+  position: 'absolute',
+  right: 14,
+  top: 0,
+});
+
 export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
   const { pathname } = useLocation();
 
@@ -53,8 +59,21 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
 
         <HeaderContent>
           <Tabs value={pathname} sx={{ marginBottom: '-1px' }}>
-            {menu.map(({ icon, label, path }) => (
-              <Tab key={path} icon={icon} iconPosition="start" to={path} value={path} label={label} component={Link} />
+            {menu.map(({ icon, label, path, comingSoon }) => (
+              <Tab
+                key={path}
+                icon={icon}
+                iconPosition="start"
+                to={path}
+                value={path}
+                label={
+                  <>
+                    {label}
+                    {comingSoon && <SoonChip size="small" color="secondary" label="Soon" />}
+                  </>
+                }
+                component={Link}
+              />
             ))}
           </Tabs>
         </HeaderContent>

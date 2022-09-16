@@ -1,4 +1,4 @@
-import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material/styles';
+import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material';
 
 declare module '@mui/material/styles/createPalette' {
   interface TypeText {
@@ -13,8 +13,9 @@ declare module '@mui/material/IconButton' {
 }
 
 export type Theme = MuiTheme;
+export type ThemeOptions = {};
 
-export const createTheme = (): Theme => {
+export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -58,6 +59,10 @@ export const createTheme = (): Theme => {
 
       h6: {
         fontWeight: 'bold',
+      },
+
+      caption: {
+        lineHeight: 1.5,
       },
     },
 
@@ -293,6 +298,16 @@ export const createTheme = (): Theme => {
 
       MuiChip: {
         styleOverrides: {
+          sizeSmall: {
+            height: 'auto',
+          },
+
+          labelSmall: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(12),
+            lineHeight: theme.typography.pxToRem(20),
+            padding: theme.spacing(0, 1.5),
+          }),
+
           filled: ({ theme, ownerState: props }) => {
             const color = props.color === 'default' ? undefined : theme.palette[props.color || 'primary'].main;
 

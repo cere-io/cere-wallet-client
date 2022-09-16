@@ -14,7 +14,7 @@ import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
-  { label: 'Collectables', icon: <AppsIcon />, path: '/wallet/collectables' },
+  { label: 'Collectibles', icon: <AppsIcon />, path: '/wallet/collectibles', comingSoon: true },
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
