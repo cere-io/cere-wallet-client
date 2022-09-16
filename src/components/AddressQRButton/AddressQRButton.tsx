@@ -1,12 +1,12 @@
-import { IconButton, QrCodeScannerIcon } from '@cere-wallet/ui';
+import { IconButton, IconButtonProps, QrCodeScannerIcon } from '@cere-wallet/ui';
 import { useCallback, useState } from 'react';
 import { AddressQRDialog } from '../AddressQRDialog';
 
-export type AddressQRButtonProps = {
+export type AddressQRButtonProps = IconButtonProps & {
   address: string;
 };
 
-export const AddressQRButton = ({ address }: AddressQRButtonProps) => {
+export const AddressQRButton = ({ address, ...props }: AddressQRButtonProps) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = useCallback(() => setOpen(true), []);
@@ -14,8 +14,8 @@ export const AddressQRButton = ({ address }: AddressQRButtonProps) => {
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <QrCodeScannerIcon />
+      <IconButton {...props} onClick={handleOpen}>
+        <QrCodeScannerIcon fontSize="small" />
       </IconButton>
       <AddressQRDialog address={address} open={open} onClose={handleClose} />
     </>
