@@ -6,11 +6,11 @@ import { AccountBalanceWidget, ActivityList, AssetList } from '~/components';
 
 const WalletHome = () => {
   const isMobile = useIsMobile();
-  const [currentTab, setCurrentTab] = useState<'coins' | 'activity'>('coins');
+  const [currentTab, setCurrentTab] = useState<'assets' | 'activity'>('assets');
 
   return (
     <Stack spacing={4}>
-      <AccountBalanceWidget title="Coins" dense={isMobile} />
+      <AccountBalanceWidget title="Account overview" dense={isMobile} />
 
       <Stack spacing={3}>
         <ToggleButtonGroup
@@ -25,11 +25,11 @@ const WalletHome = () => {
             alignSelf: 'center',
           }}
         >
-          <ToggleButton value="coins">Coins</ToggleButton>
+          <ToggleButton value="assets">Assets</ToggleButton>
           <ToggleButton value="activity">Activity</ToggleButton>
         </ToggleButtonGroup>
 
-        {currentTab === 'coins' ? <AssetList dense={isMobile} /> : <ActivityList dense={isMobile} />}
+        {currentTab === 'assets' ? <AssetList dense={isMobile} /> : <ActivityList dense={isMobile} />}
       </Stack>
     </Stack>
   );
