@@ -7,13 +7,13 @@ import {
   CardHeader,
   ContentCopyIcon,
   IconButton,
-  QrCodeScannerIcon,
   Stack,
   Truncate,
 } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
+import { AddressQRButton } from '../AddressQRButton';
 
 export type AccountInfoProps = {};
 
@@ -35,9 +35,7 @@ const AccountInfo = (props: AccountInfoProps) => {
             <IconButton>
               <ContentCopyIcon />
             </IconButton>
-            <IconButton>
-              <QrCodeScannerIcon />
-            </IconButton>
+            <AddressQRButton address={account.address} />
           </Stack>
         }
       />

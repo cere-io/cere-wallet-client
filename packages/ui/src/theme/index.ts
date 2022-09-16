@@ -86,6 +86,10 @@ export const createTheme = (): Theme => {
             borderRadius: 30,
           },
 
+          outlined: {
+            borderRadius: 30,
+          },
+
           containedInherit: ({ theme }) => ({
             backgroundColor: theme.palette.grey[100],
           }),
@@ -302,6 +306,48 @@ export const createTheme = (): Theme => {
               fontWeight: theme.typography.fontWeightBold,
             };
           },
+        },
+      },
+
+      MuiPaper: {
+        styleOverrides: {
+          rounded: {
+            borderRadius: 12,
+          },
+        },
+      },
+
+      MuiDialog: {
+        styleOverrides: {
+          paperFullScreen: {
+            marginTop: '30vh',
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+          },
+        },
+      },
+
+      MuiDialogTitle: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            padding: theme.spacing(3, 3, 2, 3),
+          }),
+        },
+      },
+
+      MuiDialogContent: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            padding: theme.spacing(2, 3),
+          }),
+        },
+      },
+
+      MuiDialogActions: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            padding: theme.spacing(2, 3),
+          }),
         },
       },
     },
