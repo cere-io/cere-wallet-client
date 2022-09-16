@@ -19,8 +19,8 @@ const AssetList = ({ dense }: AssetListProps) => {
       {!list.length && (
         <ListNoItems
           icon={<NoCoinsIcon fontSize="inherit" />}
-          title="Coins not found"
-          description="Add coins to your overview to see the balance and activity"
+          title="Assets not found"
+          description="Add assets to your overview to see the balance and activity"
         />
       )}
     </List>

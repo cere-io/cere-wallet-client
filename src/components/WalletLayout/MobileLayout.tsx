@@ -16,6 +16,7 @@ import {
   Logo,
   LogoutIcon,
   HelpIcon,
+  Chip,
 } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
@@ -105,10 +106,13 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
             <AccountInfo />
 
             <MenuList disablePadding>
-              {menu.map(({ icon, label, path }) => (
+              {menu.map(({ icon, label, path, comingSoon }) => (
                 <MenuItem key={path} selected={active?.path === path} to={path} component={Link} onClick={handleClose}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{label}</ListItemText>
+                  <ListItemText>
+                    {label}
+                    {comingSoon && <Chip size="small" color="secondary" label="Soon" sx={{ marginLeft: 1 }} />}
+                  </ListItemText>
                 </MenuItem>
               ))}
 
