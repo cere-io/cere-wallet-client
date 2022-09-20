@@ -17,7 +17,7 @@ export {
   RemoveCircleOutline as RemoveCircleOutlineIcon,
   Wifi as WifiIcon,
   Check as CheckIcon,
-  CheckOutlined as CheckOutlinedIcon,
+  CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
