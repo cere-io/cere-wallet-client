@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
 import { EmbeddedWallet } from './EmbeddedWallet';
@@ -18,22 +18,28 @@ const walletMenu: WalletProps['menu'] = [
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
-export const Router = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate replace to="/wallet/home" />} />
-        <Route path="/popup" element={<EmbeddedWallet />} />
-        <Route path="/redirect" element={<RedirectPopup />} />
-        <Route path="/confirm" element={<ConfirmPopup />} />
-        <Route path="/transaction" element={<TransactionPopup />} />
+const Redirect = ({ to }: { to: string }) => {
+  const location = useLocation();
 
-        <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
-          <Route path="home" element={<WalletHome />} />
-          <Route path="collectibles" element={<Collectibles />} />
-          <Route path="settings" element={<Settings />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+  return <Navigate replace to={{ ...location, pathname: to }} />;
 };
+
+export const Router = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Redirect to="/wallet/home" />} />
+      <Route path="/wallet/topup" element={<Redirect to="/wallet/home" />} />
+
+      <Route path="/popup" element={<EmbeddedWallet />} />
+      <Route path="/redirect" element={<RedirectPopup />} />
+      <Route path="/confirm" element={<ConfirmPopup />} />
+      <Route path="/transaction" element={<TransactionPopup />} />
+
+      <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
+        <Route path="home" element={<WalletHome />} />
+        <Route path="collectibles" element={<Collectibles />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
+);
