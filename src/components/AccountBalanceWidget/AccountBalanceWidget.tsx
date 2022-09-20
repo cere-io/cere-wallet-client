@@ -22,12 +22,12 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
   const addressElement = account && (
     <Stack direction="row" spacing={1} alignItems="center">
       <Address
+        showCopy
         address={account.address}
         variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
         icon={!dense && <MaticIcon />}
-        onCopy={() => console.log('onCopy')}
       />
 
       <AddressQRButton

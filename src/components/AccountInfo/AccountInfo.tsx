@@ -1,15 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import {
-  Address,
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  ContentCopyIcon,
-  IconButton,
-  Stack,
-  Truncate,
-} from '@cere-wallet/ui';
+import { Address, Avatar, Card, CardContent, CardHeader, CopyButton, Stack, Truncate } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
@@ -32,9 +22,7 @@ const AccountInfo = (props: AccountInfoProps) => {
         avatar={<Avatar src={account.avatar} />}
         action={
           <Stack direction="row" spacing={1}>
-            <IconButton>
-              <ContentCopyIcon />
-            </IconButton>
+            <CopyButton value={account.address} />
             <AddressQRButton address={account.address} />
           </Stack>
         }

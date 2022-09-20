@@ -15,6 +15,7 @@ import {
   Stack,
   Truncate,
   Address,
+  CopyButton,
 } from '@cere-wallet/ui';
 
 import { useEmbeddedWalletStore } from '~/hooks';
@@ -55,11 +56,7 @@ const WalletWidget = () => {
           title={<Truncate variant="email" text={account.email} maxLength={20} />}
           subheader={<Address variant="text" address={account.address} maxLength={20} />}
           avatar={<Avatar src={account.avatar} />}
-          action={
-            <IconButton>
-              <ContentCopyIcon />
-            </IconButton>
-          }
+          action={<CopyButton value={account.address} />}
         />
         <Content>
           <Box marginBottom={1}>

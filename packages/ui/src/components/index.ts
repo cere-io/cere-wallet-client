@@ -71,3 +71,4 @@ export * from './CommingSoon';
 export * from './List';
 export * from './Dialog';
 export * from './QRCode';
+export * from './CopyButton';
