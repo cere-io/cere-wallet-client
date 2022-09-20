@@ -1,5 +1,5 @@
-import { Stack, styled, Typography, svgIconClasses } from '@mui/material';
 import { ReactNode } from 'react';
+import { Stack, styled, Typography, svgIconClasses } from '@mui/material';
 
 import { Truncate, TruncateProps } from '../Truncate';
 import { CopyButton } from '../CopyButton';
