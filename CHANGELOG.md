@@ -8,6 +8,7 @@
 - [DAV-3153] Update asset section label and menu item
 - [DAV-3037] Add coming soon indicator to menu
 - [DAV-3039] Show embedded wallet widget
+- [DAV-3074] Allow users to copy wallet address
 - [DAV-3188] Show Account Overview instead of Top Up (Temp solution)
 
 ### v1.2.0
