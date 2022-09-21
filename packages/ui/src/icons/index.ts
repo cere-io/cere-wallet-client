@@ -16,6 +16,8 @@ export {
   Help as HelpIcon,
   RemoveCircleOutline as RemoveCircleOutlineIcon,
   Wifi as WifiIcon,
+  Check as CheckIcon,
+  CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

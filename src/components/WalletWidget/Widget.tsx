@@ -32,6 +32,7 @@ const WidgetContent = styled(Paper)(({ theme }) => ({
   bottom: theme.spacing(4),
   left: theme.spacing(4),
   padding: theme.spacing(1.5),
+  maxWidth: '85vw',
 }));
 
 const Widget = ({ children }: WidgetProps) => {

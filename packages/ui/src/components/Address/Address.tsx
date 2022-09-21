@@ -1,15 +1,14 @@
-import { ContentCopy } from '@mui/icons-material';
-import { IconButton, Stack, styled, Typography, svgIconClasses } from '@mui/material';
 import { ReactNode } from 'react';
+import { Stack, styled, Typography, svgIconClasses } from '@mui/material';
+
 import { Truncate, TruncateProps } from '../Truncate';
+import { CopyButton } from '../CopyButton';
 
 export type AddressProps = Pick<TruncateProps, 'maxLength'> & {
   address: string;
   icon?: ReactNode;
   size?: 'small' | 'medium';
   variant?: 'default' | 'text' | 'outlined' | 'filled';
-
-  onCopy?: () => void;
   showCopy?: boolean;
 };
 
@@ -48,15 +47,7 @@ const Icon = styled('div')(({ theme }) => ({
   },
 }));
 
-export const Address = ({
-  variant = 'default',
-  size = 'medium',
-  icon,
-  address,
-  maxLength,
-  onCopy,
-  showCopy = !!onCopy,
-}: AddressProps) => {
+export const Address = ({ variant = 'default', size = 'medium', icon, address, maxLength, showCopy }: AddressProps) => {
   const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
 
   return variant === 'text' ? (
@@ -72,11 +63,7 @@ export const Address = ({
     >
       {icon && <Icon>{icon}</Icon>}
       <Typography variant="body2">{addressElement}</Typography>
-      {showCopy && (
-        <IconButton size="small" onClick={onCopy}>
-          <ContentCopy fontSize="small" />
-        </IconButton>
-      )}
+      {showCopy && <CopyButton size="small" value={address} successMessage="Address copied" />}
     </Wrapper>
   );
 };
