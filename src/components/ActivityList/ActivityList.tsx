@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import {
   List,
   ListNoItems,
@@ -16,7 +17,7 @@ export type ActivityListProps = {
   dense?: boolean;
 };
 
-export const ActivityList = ({ dense }: ActivityListProps) => {
+const ActivityList = ({ dense }: ActivityListProps) => {
   const { list } = useActivityStore();
 
   return (
@@ -35,7 +36,6 @@ export const ActivityList = ({ dense }: ActivityListProps) => {
         const title = type === 'in' ? 'Receive' : 'Send';
         const caption = type === 'in' ? `From: ${activity.from}` : `To: ${activity.to}`;
         const flowSign = type === 'in' ? '' : '-';
-        const dateLabel = date.toDateString();
 
         const isLast = index === list.length - 1;
         const flowTitle = `${flowSign}${flow.amount} ${flow.symbol}`;
@@ -47,7 +47,7 @@ export const ActivityList = ({ dense }: ActivityListProps) => {
               {type === 'in' ? <TransactionInIcon /> : <TransactionOutIcon />}
             </ListItemIcon>
 
-            <ListItemText primary={title} secondary={`${dateLabel} | ${caption}`} />
+            <ListItemText primary={title} secondary={`${date} | ${caption}`} />
             <ListItemText
               primaryTypographyProps={{ color }}
               align="right"
@@ -60,3 +60,5 @@ export const ActivityList = ({ dense }: ActivityListProps) => {
     </List>
   );
 };
+
+export default observer(ActivityList);

@@ -1,1 +1,1 @@
-export * from './ActivityList';
+export { default as ActivityList, type ActivityListProps } from './ActivityList';

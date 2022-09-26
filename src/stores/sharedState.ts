@@ -1,13 +1,13 @@
 import { action, observable, reaction, toJS, comparer } from 'mobx';
 import { createPopupConnection } from '@cere-wallet/communication';
 
-export type SharedState<T = unknown> = {
+export type SharedState<T extends {} = {}> = {
   state: T;
   readonly isConnected: boolean;
   disconnect: () => Promise<void>;
 };
 
-export const createSharedState = <T = unknown>(channel: string, initialState: T): SharedState<T> => {
+export const createSharedState = <T extends {} = {}>(channel: string, initialState: T): SharedState<T> => {
   let shouldSync = true;
   const shared = observable(
     {
@@ -16,7 +16,7 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
       disconnect: () => connection.disconnect(),
     },
     {
-      state: observable.shallow,
+      state: observable.deep,
     },
   );
 
@@ -25,7 +25,7 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
     initialState: toJS(shared.state),
     onData: action((state) => {
       shouldSync = false;
-      Object.assign(shared.state, state);
+      shared.state = state;
     }),
 
     onConnect: action(() => {
@@ -51,7 +51,6 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
     },
     {
       delay: 10, // Small delay to throttle state sync
-      equals: comparer.shallow,
     },
   );
 
@@ -67,8 +66,8 @@ export type RedirectState = {
 export const createSharedRedirectState = (instanceId: string) =>
   createSharedState<RedirectState>(`redirect.${instanceId}`, { url: null });
 
-export const createSharedPopupState = <T = unknown>(instanceId: string, initialState: T) =>
+export const createSharedPopupState = <T extends {} = {}>(instanceId: string, initialState: T) =>
   createSharedState<T>(`popup.${instanceId}`, initialState);
 
-export const createSharedWalletState = <T = unknown>(instanceId: string, initialState: T) =>
+export const createSharedWalletState = <T extends {} = {}>(instanceId: string, initialState: T) =>
   createSharedState<T>(`wallet.${instanceId}`, initialState);
