@@ -1,5 +1,5 @@
 import { action, observable, reaction, toJS } from 'mobx';
-import { createPopupConnection } from '@cere-wallet/communication';
+import { createPopupConnection, PopupConnectionOptions } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
   state: T;
@@ -7,7 +7,13 @@ export type SharedState<T = unknown> = {
   disconnect: () => Promise<void>;
 };
 
-export const createSharedState = <T = unknown>(channel: string, initialState: T): SharedState<T> => {
+export type SharedStateOptions = Pick<PopupConnectionOptions, 'readOnly'>;
+
+export const createSharedState = <T = unknown>(
+  channel: string,
+  initialState: T,
+  { readOnly = false }: SharedStateOptions = {},
+): SharedState<T> => {
   let shouldSync = true;
   const shared = observable(
     {
@@ -21,6 +27,7 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
   );
 
   const connection = createPopupConnection<T>(channel, {
+    readOnly,
     logger: console,
     initialState: toJS(shared.state),
     onData: action((state) => {
@@ -36,6 +43,10 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
       shared.isConnected = false;
     }),
   });
+
+  if (readOnly) {
+    return shared;
+  }
 
   /**
    * Synchronize state between all instances on the channel

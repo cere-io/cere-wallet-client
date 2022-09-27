@@ -19,6 +19,8 @@ import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
 
 export class EmbeddedWalletStore implements Wallet {
+  readonly isRoot = true;
+
   readonly instanceId = randomBytes(16).toString('hex');
   readonly accountStore: AccountStore;
   readonly approvalStore: ApprovalStore;

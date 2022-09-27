@@ -11,6 +11,8 @@ import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
 
 export class WalletStore implements Wallet {
+  readonly isRoot = false;
+
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;

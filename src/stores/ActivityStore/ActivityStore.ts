@@ -19,9 +19,13 @@ type SharedState = {
 };
 
 export class ActivityStore {
-  private shared = createSharedState<SharedState>(`activity.${this.wallet.instanceId}`, {
-    list: [],
-  });
+  private shared = createSharedState<SharedState>(
+    `activity.${this.wallet.instanceId}`,
+    {
+      list: [],
+    },
+    { readOnly: !this.wallet.isRoot },
+  );
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
