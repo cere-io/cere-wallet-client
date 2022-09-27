@@ -35,7 +35,7 @@ export class PopupManagerStore {
     this.onClose?.(instanceId);
   }
 
-  async proceedTo<T extends {} = {}>(instanceId: string, toUrl: string, initialState: T) {
+  async proceedTo<T = unknown>(instanceId: string, toUrl: string, initialState: T) {
     await this.redirect(instanceId, toUrl);
 
     const popup = createSharedPopupState<T>(instanceId, initialState);
