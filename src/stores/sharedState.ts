@@ -25,7 +25,7 @@ export const createSharedState = <T = unknown>(channel: string, initialState: T)
     initialState: toJS(shared.state),
     onData: action((state) => {
       shouldSync = false;
-      Object.assign(shared.state, state);
+      shared.state = state;
     }),
 
     onConnect: action(() => {

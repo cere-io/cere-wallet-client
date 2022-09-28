@@ -73,14 +73,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         },
       },
 
-      MuiButtonBase: {
-        styleOverrides: {
-          root: {
-            borderRadius: 30,
-          },
-        },
-      },
-
       MuiButton: {
         defaultProps: {
           disableElevation: true,
@@ -95,8 +87,55 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             borderRadius: 30,
           },
 
+          text: {
+            borderRadius: 30,
+          },
+
           containedInherit: ({ theme }) => ({
             backgroundColor: theme.palette.grey[100],
+          }),
+
+          sizeLarge: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(16),
+            paddingLeft: 32,
+            paddingRight: 32,
+            paddingTop: 10,
+            paddingBottom: 10,
+          }),
+
+          sizeMedium: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(14),
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 8,
+            paddingBottom: 8,
+          }),
+
+          sizeSmall: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(12),
+            lineHeight: theme.typography.pxToRem(18),
+            paddingLeft: 14,
+            paddingRight: 14,
+            paddingTop: 6,
+            paddingBottom: 6,
+          }),
+
+          iconSizeLarge: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(18),
+            },
+          }),
+
+          iconSizeMedium: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(16),
+            },
+          }),
+
+          iconSizeSmall: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(14),
+            },
           }),
         },
       },

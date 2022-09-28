@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Route,
+  Navigate,
+  useLocation,
+  createRoutesFromElements,
+} from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
 import { EmbeddedWallet } from './EmbeddedWallet';
@@ -24,22 +31,23 @@ const Redirect = ({ to }: { to: string }) => {
   return <Navigate replace to={{ ...location, pathname: to }} />;
 };
 
-export const Router = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Redirect to="/wallet/home" />} />
-      <Route path="/wallet/topup" element={<Redirect to="/wallet/home" />} />
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route index element={<Redirect to="/wallet/home" />} />
+      <Route path="popup" element={<EmbeddedWallet />} />
+      <Route path="redirect" element={<RedirectPopup />} />
+      <Route path="confirm" element={<ConfirmPopup />} />
+      <Route path="transaction" element={<TransactionPopup />} />
 
-      <Route path="/popup" element={<EmbeddedWallet />} />
-      <Route path="/redirect" element={<RedirectPopup />} />
-      <Route path="/confirm" element={<ConfirmPopup />} />
-      <Route path="/transaction" element={<TransactionPopup />} />
-
-      <Route path="/wallet" element={<Wallet menu={walletMenu} />}>
+      <Route path="wallet" element={<Wallet menu={walletMenu} />}>
         <Route path="home" element={<WalletHome />} />
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="topup" element={<Redirect to="/wallet/home" />} />
       </Route>
-    </Routes>
-  </BrowserRouter>
+    </Route>,
+  ),
 );
+
+export const Router = () => <RouterProvider router={router} />;

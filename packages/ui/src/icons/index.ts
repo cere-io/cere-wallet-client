@@ -31,3 +31,5 @@ export * from './ComingSoonIcon';
 export * from './UsdcIcon';
 export * from './TransactionInIcon';
 export * from './TransactionOutIcon';
+export * from './TopUpIcon';
+export * from './TransferIcon';
