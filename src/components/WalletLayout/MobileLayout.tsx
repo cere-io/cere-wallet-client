@@ -22,6 +22,7 @@ import {
 import { WalletLayoutProps } from './types';
 import { Link } from '../Link';
 import { AccountInfo } from '../AccountInfo';
+import { useActiveMenuItem } from './useActiveMenuItem';
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -76,17 +77,16 @@ const CloseButton = styled(IconButton)({
 });
 
 export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
-  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const active = useActiveMenuItem(menu);
   const handleClose = useCallback(() => setOpen(false), []);
-  const active = useMemo(() => menu.find((item) => item.path === pathname), [menu, pathname]);
 
   return (
     <>
       <Stack spacing={2}>
         <Header>
           <Logo />
-          <HeaderContent>{active?.label}</HeaderContent>
+          <HeaderContent>{active.label}</HeaderContent>
           <IconButton onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
@@ -107,7 +107,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
 
             <MenuList disablePadding>
               {menu.map(({ icon, label, path, comingSoon }) => (
-                <MenuItem key={path} selected={active?.path === path} to={path} component={Link} onClick={handleClose}>
+                <MenuItem key={path} selected={active.path === path} to={path} component={Link} onClick={handleClose}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>
                     {label}

@@ -18,6 +18,7 @@ export {
   Wifi as WifiIcon,
   Check as CheckIcon,
   CheckCircle as CheckCircleIcon,
+  KeyboardBackspace as BackIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

@@ -5,6 +5,7 @@ import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
+import { Link } from '../Link';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -84,7 +85,14 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
               Transfer
             </Button>
 
-            <Button fullWidth={dense} size={dense ? 'medium' : 'large'} variant="contained" startIcon={<TopUpIcon />}>
+            <Button
+              to="topup"
+              component={Link}
+              fullWidth={dense}
+              size={dense ? 'medium' : 'large'}
+              variant="contained"
+              startIcon={<TopUpIcon />}
+            >
               Top Up
             </Button>
           </Stack>
