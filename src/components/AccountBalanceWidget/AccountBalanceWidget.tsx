@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import { Address, MaticIcon, Paper, Stack, styled, Typography } from '@cere-wallet/ui';
+import { Address, Button, MaticIcon, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
+import { Link } from '../Link';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -53,16 +54,48 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
           paddingY: dense ? 3 : 6,
         }}
       >
-        <Stack spacing={1}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant={dense ? 'body2' : 'h6'} fontWeight="bold" color="text.secondary">
-              Total Balance
-            </Typography>
+        <Stack
+          spacing={2}
+          justifyContent="space-between"
+          direction={dense ? undefined : 'row'}
+          alignItems={dense ? undefined : 'center'}
+        >
+          <Stack spacing={1}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant={dense ? 'body2' : 'h6'} fontWeight="bold" color="text.secondary">
+                Total Balance
+              </Typography>
 
-            {dense && addressElement}
+              {dense && addressElement}
+            </Stack>
+
+            <AccountBalance variant={dense ? 'h5' : 'h4'} />
           </Stack>
 
-          <AccountBalance variant={dense ? 'h5' : 'h4'} />
+          <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+            <Button
+              sx={{
+                visibility: 'hidden', // This button is needed just to book the space. Implementation will be added later
+              }}
+              fullWidth={dense}
+              size={dense ? 'medium' : 'large'}
+              variant="contained"
+              startIcon={<TransferIcon />}
+            >
+              Transfer
+            </Button>
+
+            <Button
+              to="topup"
+              component={Link}
+              fullWidth={dense}
+              size={dense ? 'medium' : 'large'}
+              variant="contained"
+              startIcon={<TopUpIcon />}
+            >
+              Top Up
+            </Button>
+          </Stack>
         </Stack>
       </Content>
     </Stack>

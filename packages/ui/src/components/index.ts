@@ -27,6 +27,10 @@ export {
   MenuItem,
   Badge,
   Backdrop,
+  Alert,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@mui/material';
 
 export type {
@@ -58,6 +62,10 @@ export type {
   BadgeProps,
   IconProps,
   BackdropProps,
+  AlertProps,
+  AccordionProps,
+  AccordionDetailsProps,
+  AccordionSummaryProps,
 } from '@mui/material';
 
 export * from './IconButton';

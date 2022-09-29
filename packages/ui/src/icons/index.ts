@@ -18,6 +18,8 @@ export {
   Wifi as WifiIcon,
   Check as CheckIcon,
   CheckCircle as CheckCircleIcon,
+  KeyboardBackspace as BackIcon,
+  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
@@ -31,3 +33,5 @@ export * from './ComingSoonIcon';
 export * from './UsdcIcon';
 export * from './TransactionInIcon';
 export * from './TransactionOutIcon';
+export * from './TopUpIcon';
+export * from './TransferIcon';

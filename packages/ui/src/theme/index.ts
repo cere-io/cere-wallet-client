@@ -1,4 +1,14 @@
-import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material';
+import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    neutral: PaletteColor;
+  }
+
+  interface PaletteOptions {
+    neutral: PaletteColor;
+  }
+}
 
 declare module '@mui/material/styles/createPalette' {
   interface TypeText {
@@ -12,12 +22,25 @@ declare module '@mui/material/IconButton' {
   }
 }
 
+declare module '@mui/material/Alert' {
+  interface AlertPropsColorOverrides {
+    neutral: true;
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
 
 export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
     palette: {
+      neutral: {
+        main: colors.grey[400],
+        dark: colors.grey[500],
+        light: '#F5F5F7',
+        contrastText: '#FFFFFF',
+      },
+
       primary: {
         main: '#733BF5',
       },
@@ -73,14 +96,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         },
       },
 
-      MuiButtonBase: {
-        styleOverrides: {
-          root: {
-            borderRadius: 30,
-          },
-        },
-      },
-
       MuiButton: {
         defaultProps: {
           disableElevation: true,
@@ -95,8 +110,55 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             borderRadius: 30,
           },
 
+          text: {
+            borderRadius: 30,
+          },
+
           containedInherit: ({ theme }) => ({
             backgroundColor: theme.palette.grey[100],
+          }),
+
+          sizeLarge: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(16),
+            paddingLeft: 32,
+            paddingRight: 32,
+            paddingTop: 10,
+            paddingBottom: 10,
+          }),
+
+          sizeMedium: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(14),
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 8,
+            paddingBottom: 8,
+          }),
+
+          sizeSmall: ({ theme }) => ({
+            fontSize: theme.typography.pxToRem(12),
+            lineHeight: theme.typography.pxToRem(18),
+            paddingLeft: 14,
+            paddingRight: 14,
+            paddingTop: 6,
+            paddingBottom: 6,
+          }),
+
+          iconSizeLarge: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(18),
+            },
+          }),
+
+          iconSizeMedium: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(16),
+            },
+          }),
+
+          iconSizeSmall: ({ theme }) => ({
+            '& .MuiSvgIcon-root': {
+              fontSize: theme.typography.pxToRem(14),
+            },
           }),
         },
       },
@@ -362,6 +424,127 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             padding: theme.spacing(2, 3),
+          }),
+        },
+      },
+
+      MuiAlert: {
+        styleOverrides: {
+          root: ({ theme, ownerState: { variant, severity, color } }) => {
+            const baseStyles = {
+              padding: theme.spacing(1, 2),
+            };
+
+            if (variant === 'filled') {
+              return {
+                ...baseStyles,
+                color: theme.palette.neutral.contrastText,
+              };
+            }
+
+            if (variant === 'standard') {
+              return {
+                ...baseStyles,
+                color: theme.palette.text.secondary,
+                backgroundColor: theme.palette.neutral.light,
+              };
+            }
+
+            if (variant === 'outlined') {
+              return {
+                ...baseStyles,
+                borderColor: theme.palette.neutral.main,
+              };
+            }
+
+            return baseStyles;
+          },
+
+          icon: ({ ownerState: { variant, color } }) =>
+            variant !== 'filled' &&
+            color === 'neutral' && {
+              color: `inherit!important`,
+            },
+        },
+      },
+
+      MuiAccordion: {
+        defaultProps: {
+          elevation: 0,
+        },
+
+        styleOverrides: {
+          root: {
+            backgroundColor: 'transparent',
+
+            '&:before': {
+              display: 'none',
+            },
+
+            '&.Mui-expanded': {
+              marginBottom: 0,
+              marginTop: 0,
+
+              minHeight: 'auto',
+            },
+          },
+
+          gutters: ({ theme }) => ({
+            padding: theme.spacing(1, 0),
+
+            '&:first-of-type': {
+              paddingTop: theme.spacing(2),
+            },
+
+            '&:last-of-type': {
+              paddingBottom: theme.spacing(2),
+            },
+          }),
+
+          rounded: {
+            '&:first-of-type': {
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16,
+            },
+
+            '&:last-of-type': {
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            },
+          },
+        },
+      },
+
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            minHeight: 'auto',
+            alignItems: 'flex-start',
+
+            '&.Mui-expanded': {
+              minHeight: 'auto',
+            },
+          },
+
+          content: ({ theme }) => ({
+            margin: 0,
+
+            '&.Mui-expanded': {
+              margin: theme.spacing(0, 0, 1, 0),
+            },
+          }),
+
+          expanded: {
+            margin: 0,
+          },
+        },
+      },
+
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            paddingTop: 0,
+            paddingBottom: 0,
           }),
         },
       },

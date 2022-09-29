@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from 'react';
 
-type WalletMenuItem = {
+export type WalletMenuItem = {
   label: string;
   path: string;
   icon: ReactElement;

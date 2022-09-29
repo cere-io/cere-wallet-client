@@ -1,9 +1,9 @@
-import { useLocation } from 'react-router-dom';
 import { styled, Stack, Box, Tabs, Tab, Logo, Chip } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
 import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
+import { useActiveMenuItem } from './useActiveMenuItem';
 
 const Header = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -48,7 +48,7 @@ const SoonChip = styled(Chip)({
 });
 
 export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
-  const { pathname } = useLocation();
+  const active = useActiveMenuItem(menu);
 
   return (
     <Stack spacing={4} marginY={2}>
@@ -58,7 +58,7 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
         </HeaderLeft>
 
         <HeaderContent>
-          <Tabs value={pathname} sx={{ marginBottom: '-1px' }}>
+          <Tabs value={active.path} sx={{ marginBottom: '-1px' }}>
             {menu.map(({ icon, label, path, comingSoon }) => (
               <Tab
                 key={path}
