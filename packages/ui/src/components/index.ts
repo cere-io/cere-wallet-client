@@ -27,6 +27,7 @@ export {
   MenuItem,
   Badge,
   Backdrop,
+  Alert,
 } from '@mui/material';
 
 export type {
@@ -58,6 +59,7 @@ export type {
   BadgeProps,
   IconProps,
   BackdropProps,
+  AlertProps,
 } from '@mui/material';
 
 export * from './IconButton';

@@ -1,4 +1,14 @@
-import { createTheme as createMuiTheme, alpha, Theme as MuiTheme } from '@mui/material';
+import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    neutral: PaletteColor;
+  }
+
+  interface PaletteOptions {
+    neutral: PaletteColor;
+  }
+}
 
 declare module '@mui/material/styles/createPalette' {
   interface TypeText {
@@ -12,12 +22,25 @@ declare module '@mui/material/IconButton' {
   }
 }
 
+declare module '@mui/material/Alert' {
+  interface AlertPropsColorOverrides {
+    neutral: true;
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
 
 export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
     palette: {
+      neutral: {
+        main: colors.grey[400],
+        dark: colors.grey[500],
+        light: '#F5F5F7',
+        contrastText: '#FFFFFF',
+      },
+
       primary: {
         main: '#733BF5',
       },
@@ -402,6 +425,46 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           root: ({ theme }) => ({
             padding: theme.spacing(2, 3),
           }),
+        },
+      },
+
+      MuiAlert: {
+        styleOverrides: {
+          root: ({ theme, ownerState: { variant, severity, color } }) => {
+            const baseStyles = {
+              padding: theme.spacing(1, 2),
+            };
+
+            if (variant === 'filled') {
+              return {
+                ...baseStyles,
+                color: theme.palette.neutral.contrastText,
+              };
+            }
+
+            if (variant === 'standard') {
+              return {
+                ...baseStyles,
+                color: theme.palette.text.secondary,
+                backgroundColor: theme.palette.neutral.light,
+              };
+            }
+
+            if (variant === 'outlined') {
+              return {
+                ...baseStyles,
+                borderColor: theme.palette.neutral.main,
+              };
+            }
+
+            return baseStyles;
+          },
+
+          icon: ({ ownerState: { variant, color } }) =>
+            variant !== 'filled' &&
+            color === 'neutral' && {
+              color: `inherit!important`,
+            },
         },
       },
     },
