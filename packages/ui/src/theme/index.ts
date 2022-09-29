@@ -523,6 +523,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
             '&.Mui-expanded': {
               minHeight: 'auto',
+              margin: 0,
             },
           },
 
@@ -533,10 +534,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
               margin: theme.spacing(0, 0, 1, 0),
             },
           }),
-
-          expanded: {
-            margin: 0,
-          },
         },
       },
 

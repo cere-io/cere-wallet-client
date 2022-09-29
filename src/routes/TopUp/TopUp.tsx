@@ -15,7 +15,7 @@ const TopUp = () => {
     <>
       <PageHeader title="Top Up" backUrl=".." />
 
-      <Stack direction={isMobile ? 'column' : 'row'} spacing={isMobile ? 3 : 8}>
+      <Stack spacing={isMobile ? 3 : 8} direction={isMobile ? 'column' : 'row'} alignItems="flex-start">
         <Stack spacing={isMobile ? 3 : 4} flex={3}>
           {isAlertVisible && (
             <Alert severity="info" color="neutral" onClose={hideAlert}>
