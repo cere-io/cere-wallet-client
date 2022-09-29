@@ -1,13 +1,15 @@
-import { Address, Alert, Box, CopyButton, IconButton, Paper, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
+import { Address, Alert, CopyButton, IconButton, Paper, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 
 import { PageHeader, FAQ, AddressQRButton } from '~/components';
 import { CoinIcon } from '~/components/CoinIcon';
 import { useAccountStore } from '~/hooks';
+import { useAlertVisible } from './useAlertVisible';
 
 const TopUp = () => {
   const isMobile = useIsMobile();
   const { account } = useAccountStore();
+  const [isAlertVisible, hideAlert] = useAlertVisible();
 
   return (
     <>
@@ -15,10 +17,12 @@ const TopUp = () => {
 
       <Stack direction={isMobile ? 'column' : 'row'} spacing={isMobile ? 3 : 8}>
         <Stack spacing={isMobile ? 3 : 4} flex={3}>
-          <Alert severity="info" color="neutral" onClose={() => {}}>
-            Fund your wallet with USDC. Send USDC from an exchange or other wallet via Polygon network to this wallet
-            address.
-          </Alert>
+          {isAlertVisible && (
+            <Alert severity="info" color="neutral" onClose={hideAlert}>
+              Fund your wallet with USDC. Send USDC from an exchange or other wallet via Polygon network to this wallet
+              address.
+            </Alert>
+          )}
 
           {account && (
             <Stack spacing={1.5}>
