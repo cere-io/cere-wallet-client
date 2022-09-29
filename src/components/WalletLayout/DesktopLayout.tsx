@@ -1,10 +1,8 @@
-import { matchRoutes, useLocation, useMatches } from 'react-router-dom';
 import { styled, Stack, Box, Tabs, Tab, Logo, Chip } from '@cere-wallet/ui';
 
 import { WalletLayoutProps } from './types';
 import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
-import { useMemo } from 'react';
 import { useActiveMenuItem } from './useActiveMenuItem';
 
 const Header = styled(Box)(({ theme }) => ({
