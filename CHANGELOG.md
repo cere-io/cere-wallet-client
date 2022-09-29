@@ -11,6 +11,7 @@
 - [DAV-3074] Allow users to copy wallet address
 - [DAV-3188] Show Account Overview instead of Top Up (Temp solution)
 - [DAV-3062] Track ERC20 activity only when the wallet is active (Temp solution, no indexer support yet)
+- [DAV-3253] Top Up screen implementation
 
 ### v1.2.0
 
