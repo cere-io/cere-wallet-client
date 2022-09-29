@@ -8,12 +8,16 @@ import { AccountStore } from '../AccountStore';
 import { NetworkStore } from '../NetworkStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
+import { ActivityStore } from '../ActivityStore';
 
 export class WalletStore implements Wallet {
+  readonly isRoot = false;
+
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
+  readonly activityStore: ActivityStore;
 
   private currentProvider?: Provider;
 
@@ -24,6 +28,7 @@ export class WalletStore implements Wallet {
     this.accountStore = new AccountStore(this);
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
+    this.activityStore = new ActivityStore(this);
   }
 
   get provider() {

@@ -9,7 +9,11 @@ type SharedState = {
 };
 
 export class NetworkStore {
-  private shared = createSharedState<SharedState>(`network.${this.wallet.instanceId}`, {});
+  private shared = createSharedState<SharedState>(
+    `network.${this.wallet.instanceId}`,
+    {},
+    { readOnly: !this.wallet.isRoot },
+  );
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);

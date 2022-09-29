@@ -10,6 +10,7 @@
 - [DAV-3039] Show embedded wallet widget
 - [DAV-3074] Allow users to copy wallet address
 - [DAV-3188] Show Account Overview instead of Top Up (Temp solution)
+- [DAV-3062] Track ERC20 activity only when the wallet is active (Temp solution, no indexer support yet)
 
 ### v1.2.0
 
