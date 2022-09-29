@@ -2,7 +2,9 @@ import { BroadcastChannel } from '@toruslabs/broadcast-channel';
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 
 export const createBradcastChannel = <T = unknown>(channel: string, logger?: ConsoleLike) => {
-  const connection = new BroadcastChannel(channel);
+  const connection = new BroadcastChannel(channel, {
+    webWorkerSupport: false,
+  });
 
   const publish = (message: T) => {
     logger?.debug('Popup (Outgoing)', channel, message);

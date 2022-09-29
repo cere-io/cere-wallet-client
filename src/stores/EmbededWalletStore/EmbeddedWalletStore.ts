@@ -16,14 +16,18 @@ import { NetworkStore } from '../NetworkStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
+import { ActivityStore } from '../ActivityStore';
 
 export class EmbeddedWalletStore implements Wallet {
+  readonly isRoot = true;
+
   readonly instanceId = randomBytes(16).toString('hex');
   readonly accountStore: AccountStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
+  readonly activityStore: ActivityStore;
   readonly popupManagerStore: PopupManagerStore;
 
   private currentProvider?: Provider;
@@ -42,6 +46,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.accountStore = new AccountStore(this);
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
+    this.activityStore = new ActivityStore(this);
 
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }

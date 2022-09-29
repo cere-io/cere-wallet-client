@@ -10,6 +10,7 @@ export type PopupConnection<T = unknown> = {
 
 export type PopupConnectionOptions<T = unknown> = {
   logger?: ConsoleLike;
+  readOnly?: boolean;
   initialState: T;
   onData: (state: T) => void;
   onDisconnect: () => void;
@@ -28,7 +29,7 @@ type Message =
 
 export const createPopupConnection = <T = unknown>(
   channel: string,
-  { logger, initialState, onData, onConnect, onDisconnect }: PopupConnectionOptions<T>,
+  { logger, initialState, readOnly = false, onData, onConnect, onDisconnect }: PopupConnectionOptions<T>,
 ): PopupConnection<T> => {
   let prevState: T = initialState;
   const { publish, subscribe, close } = createBradcastChannel<Message>(channel, logger);
@@ -44,7 +45,7 @@ export const createPopupConnection = <T = unknown>(
       if (!payload) {
         publish({ name: 'handshake', payload: true });
 
-        if (prevState) {
+        if (prevState && !readOnly) {
           publish({ name: 'update', payload: prevState });
         }
       }
@@ -61,7 +62,11 @@ export const createPopupConnection = <T = unknown>(
       onDisconnect();
     },
 
-    publish: (state) => {
+    publish: async (state) => {
+      if (readOnly) {
+        return;
+      }
+
       prevState = state;
 
       return publish({ name: 'update', payload: state });
