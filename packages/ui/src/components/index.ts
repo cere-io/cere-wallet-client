@@ -28,6 +28,9 @@ export {
   Badge,
   Backdrop,
   Alert,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@mui/material';
 
 export type {
@@ -60,6 +63,9 @@ export type {
   IconProps,
   BackdropProps,
   AlertProps,
+  AccordionProps,
+  AccordionDetailsProps,
+  AccordionSummaryProps,
 } from '@mui/material';
 
 export * from './IconButton';

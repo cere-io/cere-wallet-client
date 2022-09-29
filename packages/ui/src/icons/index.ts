@@ -19,6 +19,7 @@ export {
   Check as CheckIcon,
   CheckCircle as CheckCircleIcon,
   KeyboardBackspace as BackIcon,
+  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

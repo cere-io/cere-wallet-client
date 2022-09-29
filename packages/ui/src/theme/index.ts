@@ -467,6 +467,87 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             },
         },
       },
+
+      MuiAccordion: {
+        defaultProps: {
+          elevation: 0,
+        },
+
+        styleOverrides: {
+          root: {
+            backgroundColor: 'transparent',
+
+            '&:before': {
+              display: 'none',
+            },
+
+            '&.Mui-expanded': {
+              marginBottom: 0,
+              marginTop: 0,
+
+              minHeight: 'auto',
+            },
+          },
+
+          gutters: ({ theme }) => ({
+            padding: theme.spacing(1, 0),
+
+            '&:first-of-type': {
+              paddingTop: theme.spacing(2),
+            },
+
+            '&:last-of-type': {
+              paddingBottom: theme.spacing(2),
+            },
+          }),
+
+          rounded: {
+            '&:first-of-type': {
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16,
+            },
+
+            '&:last-of-type': {
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            },
+          },
+        },
+      },
+
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            minHeight: 'auto',
+            alignItems: 'flex-start',
+
+            '&.Mui-expanded': {
+              minHeight: 'auto',
+            },
+          },
+
+          content: ({ theme }) => ({
+            margin: 0,
+
+            '&.Mui-expanded': {
+              margin: theme.spacing(0, 0, 1, 0),
+            },
+          }),
+
+          expanded: {
+            margin: 0,
+          },
+        },
+      },
+
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            paddingTop: 0,
+            paddingBottom: 0,
+          }),
+        },
+      },
     },
   });
 

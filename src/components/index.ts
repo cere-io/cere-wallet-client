@@ -7,3 +7,5 @@ export * from './AccountBalanceWidget';
 export * from './PageHeader';
 export * from './AssetList';
 export * from './ActivityList';
+export * from './FAQ';
+export * from './AddressQRButton';

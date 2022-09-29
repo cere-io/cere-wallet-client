@@ -1,1 +1,1 @@
-export * from './TopUp';
+export { default as TopUp } from './TopUp';
