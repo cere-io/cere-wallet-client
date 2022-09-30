@@ -12,7 +12,7 @@ const TopUp = () => {
   const [isAlertVisible, hideAlert] = useAlertVisible();
 
   const polygonLink = (
-    <Link target="_blank" href="https://wallet.polygon.technology/login/">
+    <Link target="_blank" href="https://polygon.technology/">
       Polygon network
     </Link>
   );
