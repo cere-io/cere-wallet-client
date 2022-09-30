@@ -9,6 +9,21 @@ export type UserInfo = {
   verifierId: string;
 };
 
+type BannerTextLines = {
+  variant: 'primary' | 'secondary';
+  color: string;
+  text: string;
+};
+
+export type AppContext = {
+  banner: {
+    thumbnailUrl: string;
+    badgeUrl: string;
+    contentRows: BannerTextLines[];
+    rightRows: BannerTextLines[];
+  };
+};
+
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
@@ -111,6 +126,13 @@ export type WidgetChannelOut = {
   data: boolean;
 };
 
+export type AppContextChannelIn = {
+  name: 'set_context';
+  data: AppContext | undefined;
+};
+
+export type AppContextChannelOut = unknown;
+
 export const createChannels = (options: CreateChannelOptions) => ({
   init: createChannel<InitChannelIn, InitChannelOut>('init_stream', options),
   login: createChannel<LoginChannelIn, LoginChannelOut>('login_with_private_key', options),
@@ -121,4 +143,5 @@ export const createChannels = (options: CreateChannelOptions) => ({
   widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>('torus-widget-visibility', options),
   wallet: createChannel<WalletChannelIn, WalletChannelOut>('show_wallet', options),
   widget: createChannel<WidgetChannelIn, WidgetChannelOut>('widget', options),
+  appContext: createChannel<AppContextChannelIn, AppContextChannelOut>('app_context', options),
 });

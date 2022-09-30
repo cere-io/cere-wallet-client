@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
 
-import { WalletLayout, WalletLayoutProps } from '~/components';
+import { AppContextBanner, WalletLayout, WalletLayoutProps } from '~/components';
 import { WalletContext } from '~/hooks';
 import { WalletStore } from '~/stores';
 
@@ -19,6 +19,8 @@ const Wallet = ({ menu }: WalletProps) => {
 
   return (
     <WalletContext.Provider value={store}>
+      <AppContextBanner />
+
       <WalletLayout menu={menu}>
         <Outlet />
       </WalletLayout>

@@ -57,7 +57,6 @@ export type {
   MenuListProps,
   MenuItemProps,
   ListItemProps,
-  ListItemAvatarProps,
   ListItemIconProps,
   BadgeProps,
   IconProps,

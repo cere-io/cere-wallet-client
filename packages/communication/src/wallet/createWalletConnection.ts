@@ -2,7 +2,7 @@ import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
-import { createChannels, InitChannelIn, LoginChannelIn, UserInfo } from './channels';
+import { createChannels, InitChannelIn, LoginChannelIn, UserInfo, AppContextChannelIn } from './channels';
 
 type WindowOptions = {
   instanceId: string;
@@ -27,6 +27,7 @@ export type WalletConnectionOptions = {
   onWindowOpen: (data: WindowOptions) => Promise<void>;
   onWindowClose: (data: WindowOptions) => Promise<void>;
   onWalletOpen: () => Promise<string>;
+  onAppContextUpdate: (context: AppContextChannelIn['data']) => Promise<void>;
 };
 
 export const createWalletConnection = ({
@@ -39,6 +40,7 @@ export const createWalletConnection = ({
   onWindowClose,
   onWindowOpen,
   onWalletOpen,
+  onAppContextUpdate,
 }: WalletConnectionOptions): WalletConnection => {
   const mux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
   const channels = createChannels({ mux, logger });
@@ -155,6 +157,16 @@ export const createWalletConnection = ({
       name: 'show_wallet_instance',
       data: { instanceId },
     });
+  });
+
+  // Handle wallet context requests
+
+  channels.appContext.subscribe(async ({ name, data }) => {
+    if (name !== 'set_context') {
+      return;
+    }
+
+    onAppContextUpdate(data);
   });
 
   return {
