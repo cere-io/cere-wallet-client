@@ -21,7 +21,7 @@ export const PageHeader = ({ title, rightElement, backUrl }: PageHeaderProps) =>
   return isMobile && !backUrl ? null : (
     <Stack direction="row" alignItems="center" marginBottom={2} spacing={1} height={40}>
       {backUrl && (
-        <IconButton onClick={handleBack}>
+        <IconButton onClick={handleBack} color="inherit">
           <BackIcon />
         </IconButton>
       )}
