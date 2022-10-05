@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.3.0
+
 - [DAV-3036] Wallet asset overview widget
 - [DAV-3119] Assets balance real-time update
 - [DAV-3079] Add address QR code dialog
