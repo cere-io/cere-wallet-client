@@ -2,53 +2,56 @@ import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccountAddress } from '@cere-wallet/wallet-engine';
 
-import { Wallet } from '../types';
+import { Account, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
-import { AccountAssets } from './AccountAssets';
-import { AccountBalance } from './AccountBalance';
 
-type LoginParams = {
-  privateKey: string;
-  userInfo: UserInfo;
-};
-
-type Account = {
-  address: string;
+type LoginData = {
   privateKey: string;
   userInfo: UserInfo;
 };
 
 type SharedState = {
-  account?: Account;
+  loginData?: LoginData;
 };
 
 export class AccountStore {
-  private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, {});
-
-  readonly assets: AccountAssets;
-  readonly balance: AccountBalance;
+  private shared = createSharedState<SharedState>(
+    `account.${this.wallet.instanceId}`,
+    {},
+    { readOnly: !this.wallet.isRoot },
+  );
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
-
-    this.assets = new AccountAssets(wallet);
-    this.balance = new AccountBalance(this.assets);
   }
 
-  get account() {
-    return this.shared.state.account;
+  private set loginData(loginData: LoginData | undefined) {
+    this.shared.state.loginData = loginData;
   }
 
-  private set account(account: Account | undefined) {
-    this.shared.state.account = account;
+  private get loginData() {
+    return this.shared.state.loginData;
   }
 
-  async login({ privateKey, userInfo }: LoginParams) {
-    this.account = {
-      privateKey,
-      userInfo,
-      address: getAccountAddress(privateKey),
+  get account(): Account | undefined {
+    if (!this.loginData) {
+      return undefined;
+    }
+
+    return {
+      privateKey: this.loginData.privateKey,
+      address: getAccountAddress(this.loginData.privateKey),
+      email: this.loginData.userInfo.email,
+      avatar: this.loginData.userInfo.profileImage,
     };
+  }
+
+  get userInfo() {
+    return this.loginData?.userInfo;
+  }
+
+  async login(data: LoginData) {
+    this.loginData = data;
 
     return true;
   }
@@ -58,7 +61,7 @@ export class AccountStore {
   }
 
   async logout() {
-    this.account = undefined;
+    this.loginData = undefined;
 
     return true;
   }

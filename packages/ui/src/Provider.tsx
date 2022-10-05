@@ -1,15 +1,27 @@
 import { useMemo, PropsWithChildren } from 'react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
 import { createTheme } from './theme';
 
-export type UIProviderProps = PropsWithChildren<{}>;
+export type UIProviderProps = PropsWithChildren<{
+  transparentBody?: boolean;
+}>;
 
-export const UIProvider = ({ children }: UIProviderProps) => {
-  const theme = useMemo(() => createTheme(), []);
+export const UIProvider = ({ children, transparentBody }: UIProviderProps) => {
+  const theme = useMemo(() => createTheme({ transparentBody }), [transparentBody]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+
+      {transparentBody && (
+        <GlobalStyles
+          styles={{
+            body: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+      )}
 
       {children}
     </ThemeProvider>

@@ -1,4 +1,4 @@
-import { styled, Stack, Typography, ChainIcon } from '@cere-wallet/ui';
+import { styled, Stack, Typography, MaticIcon } from '@cere-wallet/ui';
 
 export type NetworkLabelProps = {
   label: string;
@@ -19,7 +19,8 @@ const Label = styled(Typography)({
   color: '#717684',
 });
 
-const Icon = styled(ChainIcon)({
+const Icon = styled(MaticIcon)({
+  // TODO: Properly detect network icon
   color: '#8247E5',
 });
 

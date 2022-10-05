@@ -32,7 +32,7 @@ export const TransactionData = ({ hex, data }: TransactionDataProps) => {
   const json = useMemo(() => JSON.stringify(data, null, 2), [data]);
   const currentType = !type && json ? 'json' : type;
   const handleChange: NonNullable<ToggleButtonGroupProps['onChange']> = useCallback(
-    (event, value) => setType(value),
+    (event, value) => value && setType(value),
     [],
   );
 

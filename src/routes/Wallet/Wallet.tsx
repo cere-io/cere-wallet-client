@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
 
 import { WalletLayout, WalletLayoutProps } from '~/components';
+import { WalletContext } from '~/hooks';
 import { WalletStore } from '~/stores';
 
 export type WalletProps = Pick<WalletLayoutProps, 'menu'>;
@@ -17,9 +18,11 @@ const Wallet = ({ menu }: WalletProps) => {
   }, [store]);
 
   return (
-    <WalletLayout menu={menu}>
-      <Outlet context={store} />
-    </WalletLayout>
+    <WalletContext.Provider value={store}>
+      <WalletLayout menu={menu}>
+        <Outlet />
+      </WalletLayout>
+    </WalletContext.Provider>
   );
 };
 

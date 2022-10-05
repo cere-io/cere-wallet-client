@@ -10,9 +10,28 @@ export {
   Category as CategoryIcon,
   Menu as MenuIcon,
   Close as CloseIcon,
+  QrCodeScanner as QrCodeScannerIcon,
+  ContentCopy as ContentCopyIcon,
+  Logout as LogoutIcon,
+  Help as HelpIcon,
+  RemoveCircleOutline as RemoveCircleOutlineIcon,
+  Wifi as WifiIcon,
+  Check as CheckIcon,
+  CheckCircle as CheckCircleIcon,
+  KeyboardBackspace as BackIcon,
+  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
 
 export * from './CereIcon';
-export * from './ChainIcon';
+export * from './CereLightIcon';
+export * from './MaticIcon';
+export * from './NoActivityIcon';
+export * from './NoCoinsIcon';
+export * from './ComingSoonIcon';
+export * from './UsdcIcon';
+export * from './TransactionInIcon';
+export * from './TransactionOutIcon';
+export * from './TopUpIcon';
+export * from './TransferIcon';

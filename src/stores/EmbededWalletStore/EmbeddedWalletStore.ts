@@ -14,17 +14,26 @@ import { AccountStore } from '../AccountStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';
 import { PopupManagerStore } from '../PopupManagerStore';
+import { AssetStore } from '../AssetStore';
+import { BalanceStore } from '../BalanceStore';
+import { ActivityStore } from '../ActivityStore';
 
 export class EmbeddedWalletStore implements Wallet {
+  readonly isRoot = true;
+
   readonly instanceId = randomBytes(16).toString('hex');
   readonly accountStore: AccountStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
+  readonly assetStore: AssetStore;
+  readonly balanceStore: BalanceStore;
+  readonly activityStore: ActivityStore;
   readonly popupManagerStore: PopupManagerStore;
 
-  private currentProvider: Provider | null = null;
+  private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
   private rpcConnection?: RpcConnection;
+  private _isFullscreen = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -35,11 +44,32 @@ export class EmbeddedWalletStore implements Wallet {
 
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
+    this.assetStore = new AssetStore(this);
+    this.balanceStore = new BalanceStore(this.assetStore);
+    this.activityStore = new ActivityStore(this);
+
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
+  }
+
+  get isFullscreen() {
+    return this._isFullscreen;
+  }
+
+  set isFullscreen(isFull) {
+    this._isFullscreen = isFull;
+    this.walletConnection?.toggleFullscreen(isFull);
   }
 
   get provider() {
     return this.currentProvider;
+  }
+
+  get network() {
+    return this.networkStore.network;
+  }
+
+  get account() {
+    return this.accountStore.account;
   }
 
   async init() {
@@ -70,7 +100,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return this.accountStore.account?.userInfo;
+        return this.accountStore.userInfo;
       },
 
       onWindowClose: async ({ instanceId }) => {
@@ -90,18 +120,14 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.accountStore.account && !!this.networkStore.network);
 
-    const network = this.networkStore.network!;
-    const account = this.accountStore.account!;
-
-    const provider = await createProvider({
-      privateKey: account.privateKey,
-      chainConfig: network,
-    });
+    const { privateKey, address } = this.accountStore.account!;
+    const chainConfig = this.networkStore.network!;
+    const provider = await createProvider({ privateKey, chainConfig });
 
     const engine = createWalletEngine({
       provider,
-      chainConfig: network,
-      accounts: [account.address],
+      chainConfig,
+      accounts: [address],
 
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),

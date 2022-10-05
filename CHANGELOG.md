@@ -4,6 +4,19 @@
 
 -
 
+### v1.3.0
+
+- [DAV-3036] Wallet asset overview widget
+- [DAV-3119] Assets balance real-time update
+- [DAV-3079] Add address QR code dialog
+- [DAV-3153] Update asset section label and menu item
+- [DAV-3037] Add coming soon indicator to menu
+- [DAV-3039] Show embedded wallet widget
+- [DAV-3074] Allow users to copy wallet address
+- [DAV-3188] Show Account Overview instead of Top Up (Temp solution)
+- [DAV-3062] Track ERC20 activity only when the wallet is active (Temp solution, no indexer support yet)
+- [DAV-3253] Top Up screen implementation
+
 ### v1.2.0
 
 - [DAV-3012] Wallet application screens layout and navigation
