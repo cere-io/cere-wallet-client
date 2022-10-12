@@ -1,13 +1,8 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
+import { makeAutoObservable, reaction, when } from 'mobx';
 import { createWalletEngine, createProvider } from '@cere-wallet/wallet-engine';
-import {
-  createWalletConnection,
-  createRpcConnection,
-  WalletConnection,
-  RpcConnection,
-} from '@cere-wallet/communication';
+import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
@@ -32,7 +27,6 @@ export class EmbeddedWalletStore implements Wallet {
 
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
-  private rpcConnection?: RpcConnection;
   private _isFullscreen = false;
 
   constructor() {
@@ -62,6 +56,10 @@ export class EmbeddedWalletStore implements Wallet {
 
   get provider() {
     return this.currentProvider;
+  }
+
+  private set provider(provider) {
+    this.currentProvider = provider;
   }
 
   get network() {
@@ -118,24 +116,34 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   private async setupRpcConnection() {
-    await when(() => !!this.accountStore.account && !!this.networkStore.network);
+    await when(() => !!this.networkStore.network);
 
-    const { privateKey, address } = this.accountStore.account!;
     const chainConfig = this.networkStore.network!;
-    const provider = await createProvider({ privateKey, chainConfig });
-
     const engine = createWalletEngine({
-      provider,
       chainConfig,
-      accounts: [address],
 
+      getAccounts: () => (this.accountStore.account ? [this.accountStore.account.address] : []),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    runInAction(() => {
-      this.rpcConnection = createRpcConnection({ engine, logger: console });
-      this.currentProvider = new providers.Web3Provider(provider);
-    });
+    createRpcConnection({ engine, logger: console });
+
+    /**
+     * Setup provider when account privateKey is ready
+     */
+    reaction(
+      () => this.accountStore.account?.privateKey,
+      async (privateKey) => {
+        if (!privateKey) {
+          return;
+        }
+
+        const provider = await createProvider({ privateKey, chainConfig });
+        this.provider = new providers.Web3Provider(provider);
+
+        engine.setupProvider(provider);
+      },
+    );
   }
 }

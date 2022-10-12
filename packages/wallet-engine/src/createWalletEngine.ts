@@ -8,18 +8,28 @@ import {
   ProviderMiddlewareOptions,
 } from './middleware';
 
-export type WalletEngine = JRPCEngine;
+export class WalletEngine extends JRPCEngine {
+  constructor(private options: WalletEngineOptions) {
+    super();
+
+    this.push(createWalletMiddleware(options));
+
+    if (options.provider) {
+      this.setupProvider(options.provider);
+    }
+  }
+
+  setupProvider(provider: SafeEventEmitterProvider) {
+    this.push(createProviderMiddleware(this.options));
+    this.push(ethersProviderAsMiddleware(provider) as JRPCMiddleware<unknown, unknown>);
+  }
+}
+
 export type WalletEngineOptions = WalletMiddlewareOptions &
   ProviderMiddlewareOptions & {
-    provider: SafeEventEmitterProvider;
+    provider?: SafeEventEmitterProvider;
   };
 
 export const createWalletEngine = (options: WalletEngineOptions) => {
-  const engine = new JRPCEngine();
-
-  engine.push(createWalletMiddleware(options));
-  engine.push(createProviderMiddleware(options));
-  engine.push(ethersProviderAsMiddleware(options.provider) as JRPCMiddleware<unknown, unknown>);
-
-  return engine;
+  return new WalletEngine(options);
 };
