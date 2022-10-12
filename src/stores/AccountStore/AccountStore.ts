@@ -5,13 +5,13 @@ import { getAccountAddress } from '@cere-wallet/wallet-engine';
 import { Account, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
-type LoginData = {
+type PrivateKeyLoginData = {
   privateKey: string;
   userInfo: UserInfo;
 };
 
 type SharedState = {
-  loginData?: LoginData;
+  loginData?: PrivateKeyLoginData;
 };
 
 export class AccountStore {
@@ -25,7 +25,7 @@ export class AccountStore {
     makeAutoObservable(this);
   }
 
-  private set loginData(loginData: LoginData | undefined) {
+  private set loginData(loginData: PrivateKeyLoginData | undefined) {
     this.shared.state.loginData = loginData;
   }
 
@@ -50,7 +50,7 @@ export class AccountStore {
     return this.loginData?.userInfo;
   }
 
-  async login(data: LoginData) {
+  async loginWithPrivateKey(data: PrivateKeyLoginData) {
     this.loginData = data;
 
     return true;

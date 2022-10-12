@@ -21,6 +21,7 @@ import { WalletHome } from './WalletHome';
 import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
+import { Login, LoginEnd } from './Login';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -58,6 +59,10 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
+      <Route path="login">
+        <Route index element={<Login />} />
+        <Route path="end" element={<LoginEnd />} />
+      </Route>
     </Route>,
   ),
 );

@@ -2,7 +2,7 @@ import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
-import { createChannels, InitChannelIn, LoginChannelIn, UserInfo } from './channels';
+import { createChannels, InitChannelIn, PrivateKeyLoginChannelIn, UserInfo, LoginChannelIn } from './channels';
 
 type WindowOptions = {
   instanceId: string;
@@ -20,7 +20,8 @@ type InitData = Omit<InitChannelIn['data'], 'network'> & {
 export type WalletConnectionOptions = {
   logger?: ConsoleLike;
   onInit: (data: InitData) => Promise<boolean>;
-  onLogin: (data: LoginChannelIn['data']) => Promise<boolean>;
+  onLogin: (data: LoginChannelIn['data']) => Promise<string>;
+  onLoginWithPrivateKey: (data: PrivateKeyLoginChannelIn['data']) => Promise<boolean>;
   onRehydrate: () => Promise<boolean>;
   onLogout: () => Promise<boolean>;
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
@@ -33,6 +34,7 @@ export const createWalletConnection = ({
   logger,
   onInit,
   onRehydrate,
+  onLoginWithPrivateKey,
   onLogin,
   onLogout,
   onUserInfoRequest,
@@ -88,7 +90,7 @@ export const createWalletConnection = ({
       return;
     }
 
-    const success = await onLogin(data);
+    const success = await onLoginWithPrivateKey(data);
 
     channels.login.publish({
       name: 'login_with_private_key_response',
@@ -155,6 +157,24 @@ export const createWalletConnection = ({
       name: 'show_wallet_instance',
       data: { instanceId },
     });
+  });
+
+  // Handle auth requests
+
+  channels.auth.subscribe(async ({ name, data }) => {
+    if (name !== 'oauth') {
+      return;
+    }
+
+    try {
+      const selectedAddress = await onLogin(data);
+
+      channels.auth.publish({ selectedAddress });
+    } catch (error) {
+      if (error instanceof Error) {
+        channels.auth.publish({ err: error.message });
+      }
+    }
   });
 
   return {

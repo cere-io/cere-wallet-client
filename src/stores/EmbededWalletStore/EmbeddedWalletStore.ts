@@ -12,6 +12,7 @@ import { PopupManagerStore } from '../PopupManagerStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
+import { AuthenticationStore } from '../AuthenticationStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly isRoot = true;
@@ -23,6 +24,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
+  readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
 
   private currentProvider?: Provider;
@@ -41,7 +43,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
-
+    this.authenticationStore = new AuthenticationStore(this, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }
 
@@ -86,7 +88,11 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onLogin: async (data) => {
-        return this.accountStore.login(data);
+        return this.authenticationStore.login(data);
+      },
+
+      onLoginWithPrivateKey: async (data) => {
+        return this.accountStore.loginWithPrivateKey(data);
       },
 
       onLogout: () => {
