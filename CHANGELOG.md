@@ -2,6 +2,7 @@
 
 ### vNext
 
+- [DAV-3116] Onboarding modal on Account Overview
 - [DAV-3077] Add url to Help link in mobile menu and profile dropdown
 
 ### v1.3.0
@@ -16,7 +17,6 @@
 - [DAV-3188] Show Account Overview instead of Top Up (Temp solution)
 - [DAV-3062] Track ERC20 activity only when the wallet is active (Temp solution, no indexer support yet)
 - [DAV-3253] Top Up screen implementation
-- [DAV-3116] Onboarding modal on Account Overview
 
 ### v1.2.0
 
