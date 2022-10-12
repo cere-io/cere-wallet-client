@@ -5,6 +5,8 @@ import {
   Navigate,
   useLocation,
   createRoutesFromElements,
+  To,
+  resolvePath,
 } from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
@@ -26,10 +28,11 @@ const walletMenu: WalletProps['menu'] = [
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
-const Redirect = ({ to }: { to: string }) => {
+const Redirect = ({ to }: { to: To }) => {
   const location = useLocation();
+  const { pathname, hash } = resolvePath(to, location.pathname);
 
-  return <Navigate replace to={{ ...location, pathname: to }} />;
+  return <Navigate replace to={{ ...location, pathname, hash }} />;
 };
 
 const router = createBrowserRouter(
@@ -52,8 +55,9 @@ const router = createBrowserRouter(
 
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="settings" element={<Settings />} />
-        <Route path="topup" element={<Redirect to="wallet/home" />} />
       </Route>
+
+      <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
     </Route>,
   ),
 );

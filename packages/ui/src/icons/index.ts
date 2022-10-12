@@ -20,6 +20,8 @@ export {
   CheckCircle as CheckCircleIcon,
   KeyboardBackspace as BackIcon,
   ExpandMore as ExpandMoreIcon,
+  East as EastIcon,
+  SouthEast as SouthEastIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
