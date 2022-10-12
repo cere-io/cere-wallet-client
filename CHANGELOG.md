@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [DAV-3077] Add url to Help link in mobile menu and profile dropdown
 
 ### v1.3.0
 
