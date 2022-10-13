@@ -39,7 +39,7 @@ const TransactionPopup = () => {
           </InfoTable>
 
           <Stack spacing={2}>
-            <Typography variant="body2" color="text.secondary" fontWeight="bold">
+            <Typography variant="body16Medium" color="text.secondary">
               Data:
             </Typography>
             <TransactionData {...store.data} />
@@ -49,7 +49,7 @@ const TransactionPopup = () => {
 
       {store.toConfirm && (
         <PopupLayout.Section>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body16Regular" color="text.secondary">
             By confirming this transaction you allow this contract to spend up to
             <b>{` ${store.toConfirm.amount} ${store.toConfirm.symbol} `}</b>
             of your token balance

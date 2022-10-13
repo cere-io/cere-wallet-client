@@ -28,8 +28,56 @@ declare module '@mui/material/Alert' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    poster: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    body16Medium?: React.CSSProperties;
+    body16Regular?: React.CSSProperties;
+    body16Light?: React.CSSProperties;
+    body14Medium?: React.CSSProperties;
+    body14Regular?: React.CSSProperties;
+
+    caption13Medium?: React.CSSProperties;
+    caption12Semibold?: React.CSSProperties;
+    caption12Regular?: React.CSSProperties;
+    caption10Semibold?: React.CSSProperties;
+    caption10Regular?: React.CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    h5: false;
+    h6: false;
+    caption: false;
+    body1: true; // FIXME disable
+    body2: false;
+
+    body16Medium: true;
+    body16Regular: true;
+    body16Light: true;
+    body14Medium: true;
+    body14Regular: true;
+
+    caption13Medium: true;
+    caption12Semibold: true;
+    caption12Regular: true;
+    caption10Semibold: true;
+    caption10Regular: true;
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
+
+/** ******************************************************************************* **/
+/** CERE Wallet design system see here                                              **/
+/** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
+/** ******************************************************************************* **/
 
 export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
@@ -70,24 +118,107 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       fontFamily: '"Lexend","Roboto","Helvetica","Arial",sans-serif',
       button: {
         textTransform: 'none',
-        fontWeight: 'bold',
+        fontWeight: '600',
+      },
+
+      h1: {
+        fontSize: '32px', // 32px
+        lineHeight: '40px', // 40px
+        fontWeight: '700',
+      },
+
+      h2: {
+        fontSize: '28px',
+        lineHeight: '36px',
+        fontWeight: '700',
+      },
+
+      h3: {
+        fontSize: '24px',
+        lineHeight: '32px',
+        fontWeight: '700',
       },
 
       h4: {
-        fontSize: '28px',
-        fontWeight: 'bold',
-      },
-
-      h5: {
-        fontWeight: 'bold',
+        fontSize: '20px',
+        lineHeight: '26px',
+        fontWeight: '700',
       },
 
       h6: {
         fontWeight: 'bold',
       },
 
-      caption: {
-        lineHeight: 1.5,
+      subtitle1: {
+        fontSize: '16px',
+        lineHeight: '24px',
+        fontWeight: '600',
+      },
+
+      subtitle2: {
+        fontSize: '14px',
+        lineHeight: '22px',
+        fontWeight: '600',
+      },
+
+      body16Medium: {
+        fontSize: '16px',
+        lineHeight: '24px',
+        fontWeight: '500',
+      },
+
+      body16Regular: {
+        fontSize: '16px',
+        lineHeight: '24px',
+        fontWeight: '400',
+      },
+
+      body16Light: {
+        fontSize: '16px',
+        lineHeight: '24px',
+        fontWeight: '300',
+      },
+
+      body14Medium: {
+        fontSize: '14px',
+        lineHeight: '22px',
+        fontWeight: '500',
+      },
+
+      body14Regular: {
+        fontSize: '14px',
+        lineHeight: '22px',
+        fontWeight: '400',
+      },
+
+      caption13Medium: {
+        fontSize: '13px',
+        lineHeight: '22px',
+        fontWeight: '500',
+      },
+
+      caption12Semibold: {
+        fontSize: '12px',
+        lineHeight: '20px',
+        fontWeight: '600',
+      },
+
+      caption12Regular: {
+        fontSize: '12px',
+        lineHeight: '20px',
+        fontWeight: '400',
+      },
+
+      caption10Semibold: {
+        fontSize: '10px',
+        lineHeight: '16px',
+        fontWeight: '600',
+      },
+
+      caption10Regular: {
+        fontSize: '10px',
+        lineHeight: '16px',
+        fontWeight: '400',
       },
     },
 
@@ -130,6 +261,9 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             paddingRight: 32,
             paddingTop: 10,
             paddingBottom: 10,
+            width: 311,
+            height: 44,
+            borderRadius: 50,
           }),
 
           sizeMedium: ({ theme }) => ({
@@ -315,7 +449,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           },
 
           subheaderTypographyProps: {
-            variant: 'caption',
+            variant: 'caption12Regular',
             noWrap: true,
             textOverflow: 'ellipsis',
           },
@@ -562,6 +696,14 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             borderStyle: 'solid',
             borderColor: theme.palette.divider,
             borderRadius: '16px',
+          }),
+        },
+      },
+
+      MuiMobileStepper: {
+        styleOverrides: {
+          dotActive: ({ theme }) => ({
+            backgroundColor: theme.palette.text.primary,
           }),
         },
       },

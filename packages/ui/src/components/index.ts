@@ -32,6 +32,7 @@ export {
   AccordionDetails,
   AccordionSummary,
   TextField,
+  MobileStepper,
 } from '@mui/material';
 
 export type {
@@ -68,6 +69,7 @@ export type {
   AccordionDetailsProps,
   AccordionSummaryProps,
   TextFieldProps,
+  MobileStepperProps,
 } from '@mui/material';
 
 export * from './IconButton';
