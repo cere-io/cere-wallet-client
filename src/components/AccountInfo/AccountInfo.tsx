@@ -13,7 +13,7 @@ import {
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
-import { AddressQRButton } from '~/components';
+import { AddressQRButton } from '../AddressQRButton';
 
 export type AccountInfoProps = {};
 
