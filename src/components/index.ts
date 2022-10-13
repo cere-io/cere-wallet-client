@@ -11,5 +11,3 @@ export * from './FAQ';
 export * from './AddressQRButton';
 export * from './Login';
 export * from './OnboardingDialog';
-export * from './Login';
-export * from './OnboardingDialog';
