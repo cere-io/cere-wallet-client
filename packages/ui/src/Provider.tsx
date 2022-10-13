@@ -1,6 +1,7 @@
 import { useMemo, PropsWithChildren } from 'react';
 import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
 import { createTheme } from './theme';
+import '@fontsource/lexend';
 
 export type UIProviderProps = PropsWithChildren<{
   transparentBody?: boolean;

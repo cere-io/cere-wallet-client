@@ -31,6 +31,7 @@ export {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  TextField,
 } from '@mui/material';
 
 export type {
@@ -66,6 +67,7 @@ export type {
   AccordionProps,
   AccordionDetailsProps,
   AccordionSummaryProps,
+  TextFieldProps,
 } from '@mui/material';
 
 export * from './IconButton';
@@ -80,3 +82,4 @@ export * from './List';
 export * from './Dialog';
 export * from './QRCode';
 export * from './CopyButton';
+export * from './OtpInput';

@@ -6,11 +6,14 @@
     "@cere-wallet/communication": "0.0.0",
     "@cere-wallet/ui": "0.0.0",
     "@cere-wallet/wallet-engine": "0.0.0",
+    "@fontsource/lexend": "^4.5.13",
+    "axios": "^1.1.2",
     "ethers": "^5.6.9",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
     "mobx-utils": "^6.0.5",
     "react": "^18.2.0",
+    "react-code-input": "^3.10.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1"
   },
@@ -30,7 +33,8 @@
   },
   "scripts": {
     "start": "PORT=4050 craco start",
-    "build": "craco build"
+    "build": "craco build",
+    "refactor": "prettier --write '**/*.{js,json,jsx,ts,tsx}' --ignore-path .eslintignore"
   },
   "workspaces": [
     "packages/*"
