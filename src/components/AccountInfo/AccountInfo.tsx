@@ -34,7 +34,7 @@ const AccountInfo = (props: AccountInfoProps) => {
         avatar={<Avatar src={account.avatar} />}
         action={
           <Stack direction="row" spacing={1}>
-            <CopyButton value={account.address} successMessage="OtpInput copied" />
+            <CopyButton value={account.address} successMessage="Address copied" />
             <AddressQRButton address={account.address} />
           </Stack>
         }
