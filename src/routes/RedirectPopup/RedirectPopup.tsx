@@ -16,7 +16,7 @@ export const RedirectPopup = () => {
     }
 
     return store.waitForRedirectRequest((url) => {
-      navigate(url, { replace: true });
+      window.location.replace(url);
     });
   }, [store, instanceId, navigate]);
 

@@ -47,15 +47,13 @@ export class PopupManagerStore {
   }
 
   private async redirect(instanceId: string, toUrl: string) {
+    const url = new URL(toUrl, window.origin);
+    url.searchParams.append('instanceId', instanceId);
+
     await when(() => !!this.redirects[instanceId]);
 
-    const [path, search] = toUrl.split('&');
-    const searchParams = new URLSearchParams(search);
-
-    searchParams.append('instanceId', instanceId);
-
     runInAction(() => {
-      this.redirects[instanceId].state.url = `${path}?${searchParams}`;
+      this.redirects[instanceId].state.url = url.toString();
     });
   }
 }

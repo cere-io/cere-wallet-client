@@ -43,7 +43,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
-    this.authenticationStore = new AuthenticationStore(this, this.popupManagerStore);
+    this.authenticationStore = new AuthenticationStore(this, this.accountStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }
 
@@ -73,8 +73,7 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   async init() {
-    await this.setupWalletConnection();
-    await this.setupRpcConnection();
+    await Promise.all([this.setupWalletConnection(), this.setupRpcConnection()]);
   }
 
   private async setupWalletConnection() {
@@ -100,7 +99,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onRehydrate: () => {
-        return this.accountStore.rehydrate();
+        return this.authenticationStore.rehydrate();
       },
 
       onUserInfoRequest: async () => {

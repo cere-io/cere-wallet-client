@@ -7,34 +7,26 @@ type UseIdTokenOptions = {
   onReceive?: (idToken: string) => void;
 };
 
-type RequestParams = {
-  email: string;
-  password: string;
-};
-
 export const useIdToken = ({ onReceive }: UseIdTokenOptions = {}) => {
   const [loading, setLoading] = useState(false);
   const [idToken, setIdToken] = useState<string>();
 
-  const request = useCallback(
-    async (params: RequestParams) => {
-      setLoading(true);
-      const response = await fetch('https://id.dev.cere.io/identity/id-token', {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
+  const request = useCallback(async () => {
+    setLoading(true);
+    const response = await fetch('https://id.dev.cere.io/identity/id-token', {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
 
-      const idToken = await response.text();
+    const idToken = await response.text();
 
-      setLoading(false);
-      onReceive?.(idToken);
-      setIdToken(idToken);
+    setLoading(false);
+    onReceive?.(idToken);
+    setIdToken(idToken);
 
-      return idToken;
-    },
-    [onReceive],
-  );
+    return idToken;
+  }, [onReceive]);
 
   return {
     idToken,
