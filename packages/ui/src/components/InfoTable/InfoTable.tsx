@@ -11,7 +11,7 @@ export type InfoTableProps = PropsWithChildren<
 
 export const InfoTable = ({ children, dense = false, ...props }: InfoTableProps) => (
   <Box {...props}>
-    <Typography component="div" variant={dense ? 'body2' : 'body1'}>
+    <Typography component="div" variant={dense ? 'body16Medium' : 'body1'}>
       <Stack spacing={dense ? 1 : 2} marginBottom={dense ? 1 : 2} divider={!dense && <Divider />}>
         {children}
       </Stack>

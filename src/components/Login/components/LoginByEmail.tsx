@@ -1,10 +1,5 @@
-import { Button, Stack, Typography, TextField, CereIcon, useIsMobile, styled } from '@cere-wallet/ui';
+import { Button, Stack, Typography, TextField, CereIcon, useIsMobile } from '@cere-wallet/ui';
 import { ChangeEvent, useState } from 'react';
-
-const Container = styled(Stack)({
-  alignItems: 'center',
-  padding: '16px',
-});
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -22,29 +17,31 @@ export const LoginByEmail = ({ variant = 'signin', onSubmit }: LogInProps) => {
   };
 
   return (
-    <Container>
-      <Stack spacing={1} width={isMobile ? '100%' : '400px'}>
+    <Stack direction="column" alignItems="center">
+      <Stack direction="column" spacing="5px" alignItems="stretch" maxWidth={isMobile ? '100%' : '350px'}>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography variant="h4" flex={1}>
             CERE wallet
           </Typography>
           <CereIcon />
         </Stack>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body16Regular" color="text.secondary">
           Send and receive any currency or simply top up with your card.
         </Typography>
         <TextField
           variant="outlined"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
         />
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body16Regular" color="text.secondary">
           By using your Cere wallet you automatically agree to our <a href="#">Terms & Conditions</a> and{' '}
           <a href="#">Privacy Policy</a>
         </Typography>
-        <Button variant="contained" onClick={handleSubmit}>
-          Sign {variant === 'signin' ? 'In' : 'Up'}
-        </Button>
+        <Stack direction="column" alignItems="center">
+          <Button variant="contained" size="large" onClick={handleSubmit}>
+            Sign {variant === 'signin' ? 'In' : 'Up'}
+          </Button>
+        </Stack>
       </Stack>
-    </Container>
+    </Stack>
   );
 };

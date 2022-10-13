@@ -1,11 +1,11 @@
-import { Address, BackIcon, IconButton, Stack, styled } from '@cere-wallet/ui';
+import { Address, Button, CereIcon, IconButton, Divider, Stack, styled } from '@cere-wallet/ui';
 import { useState } from 'react';
-import { LoginByEmail } from './components';
-import { Otp } from './components';
+import { InfoStepper, LoginByEmail, Otp } from './components';
 import { AuthApiService } from '~/api/auth-api.service';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const Container = styled(Stack)({
-  alignItems: 'center',
+  alignItems: 'stretch',
   padding: '16px',
 });
 
@@ -14,21 +14,29 @@ interface LogInProps {
 }
 
 enum PageEnum {
-  WIZARD_PAGE,
-  LOG_IN,
+  STEPPER_PAGE,
+  LOG_IN_PAGE,
   OTP_PAGE,
   TOKEN_PAGE, // technical page
 }
 
+const CereLogo = styled(CereIcon)(({ theme }) => ({
+  fontSize: theme.typography.pxToRem(48),
+}));
+
 export const SignIn = ({ variant = 'signin' }: LogInProps) => {
-  const [activePage, setActivePage] = useState<PageEnum>(PageEnum.LOG_IN);
+  const [activePage, setActivePage] = useState<PageEnum>(PageEnum.STEPPER_PAGE);
   const [email, setEmail] = useState<string>('');
   const [token, setToken] = useState<string | null>(null); // technical page
 
   const handleBack = async () => {
-    if (activePage > 1) {
+    if (activePage > 0) {
       setActivePage(activePage - 1);
     }
+  };
+
+  const handleNewWallet = async () => {
+    setActivePage(PageEnum.LOG_IN_PAGE);
   };
 
   const handleSendOtp = async (email: string) => {
@@ -52,16 +60,36 @@ export const SignIn = ({ variant = 'signin' }: LogInProps) => {
 
   return (
     <Container>
-      <IconButton onClick={handleBack}>
-        <BackIcon />
-      </IconButton>
-      {activePage === PageEnum.LOG_IN && (
+      {activePage === PageEnum.STEPPER_PAGE && (
+        <Stack alignItems="center" spacing="5px">
+          <CereLogo />
+          <InfoStepper />
+          <Divider />
+          <Button variant="contained" size="large" onClick={handleNewWallet}>
+            Create a new wallet
+          </Button>
+          <Button variant="outlined" size="large" onClick={handleNewWallet}>
+            I already have a wallet
+          </Button>
+        </Stack>
+      )}
+      {activePage === PageEnum.LOG_IN_PAGE && (
         <>
+          <Stack direction="row" justifyContent="flex-start">
+            <IconButton onClick={handleBack}>
+              <ChevronLeftIcon sx={{ fontSize: 36 }} />
+            </IconButton>
+          </Stack>
           <LoginByEmail onSubmit={handleSendOtp} variant={variant} />
         </>
       )}
       {activePage === PageEnum.OTP_PAGE && (
         <>
+          <Stack direction="row" justifyContent="flex-start">
+            <IconButton onClick={handleBack}>
+              <ChevronLeftIcon sx={{ fontSize: 36 }} />
+            </IconButton>
+          </Stack>
           <Otp email={email} onVerify={handleVerify} onResend={() => handleSendOtp(email)} />
         </>
       )}
