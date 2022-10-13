@@ -13,7 +13,7 @@ import {
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
-import { AddressQRButton } from '../AddressQRButton';
+import { AddressQRButton } from '~/components';
 
 export type AccountInfoProps = {};
 
@@ -34,7 +34,7 @@ const AccountInfo = (props: AccountInfoProps) => {
         avatar={<Avatar src={account.avatar} />}
         action={
           <Stack direction="row" spacing={1}>
-            <CopyButton value={account.address} successMessage="Address copied" />
+            <CopyButton value={account.address} successMessage="OtpInput copied" />
             <AddressQRButton address={account.address} />
           </Stack>
         }
