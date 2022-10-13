@@ -59,12 +59,8 @@ export const OtpInput = ({ onChange }: OtpProps) => {
       type={'text'}
       inputMode="url"
       fields={DIGITS_NUMBER}
-      // filterChars={[' ']}
       onChange={handleCodeChange}
-      // inputStyle={baseCodeInputStyle as any}
-      // inputStyleInvalid={inputStyleInvalid as any}
       isValid={!error}
-      // className={clsx(codeWrapperStyles, firefoxInputStyles)}
     />
   );
 };
