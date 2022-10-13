@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom/client';
-import '@fontsource/lexend';
 
 import { App } from './App';
 

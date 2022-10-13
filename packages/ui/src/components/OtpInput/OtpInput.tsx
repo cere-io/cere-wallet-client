@@ -44,11 +44,10 @@ export const OtpInput = ({ onChange }: OtpProps) => {
   const [error, setError] = useState<string>();
 
   const handleCodeChange = (value: string) => {
-    console.log('handleCodeChange', value);
     if (!value) {
       setError('');
     }
-    if (onChange && typeof onChange === 'function') {
+    if (typeof onChange === 'function') {
       onChange(value);
     }
   };

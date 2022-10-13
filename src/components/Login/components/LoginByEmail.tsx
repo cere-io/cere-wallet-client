@@ -1,5 +1,5 @@
 import { Button, Stack, Typography, TextField, CereIcon, useIsMobile, styled } from '@cere-wallet/ui';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 const Container = styled(Stack)({
   alignItems: 'center',
@@ -16,7 +16,7 @@ export const LoginByEmail = ({ variant = 'signin', onSubmit }: LogInProps) => {
   const [email, setEmail] = useState<string>('');
 
   const handleSubmit = () => {
-    if (onSubmit && typeof onSubmit === 'function') {
+    if (typeof onSubmit === 'function') {
       onSubmit(email);
     }
   };
@@ -33,7 +33,10 @@ export const LoginByEmail = ({ variant = 'signin', onSubmit }: LogInProps) => {
         <Typography variant="body2" color="text.secondary">
           Send and receive any currency or simply top up with your card.
         </Typography>
-        <TextField variant="outlined" onChange={(event) => setEmail(event.target.value)} />
+        <TextField
+          variant="outlined"
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+        />
         <Typography variant="body2" color="text.secondary">
           By using your Cere wallet you automatically agree to our <a href="#">Terms & Conditions</a> and{' '}
           <a href="#">Privacy Policy</a>

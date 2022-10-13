@@ -1,7 +1,7 @@
 import { Address, BackIcon, IconButton, Stack, styled } from '@cere-wallet/ui';
 import { useState } from 'react';
-import { LoginByEmail } from '~/components/Login/components/LoginByEmail';
-import { Otp } from '~/components/Login/components/Otp';
+import { LoginByEmail } from './components';
+import { Otp } from './components';
 import { AuthApiService } from '~/api/auth-api.service';
 
 const Container = styled(Stack)({
@@ -57,7 +57,7 @@ export const SignIn = ({ variant = 'signin' }: LogInProps) => {
       </IconButton>
       {activePage === PageEnum.LOG_IN && (
         <>
-          <LoginByEmail onSubmit={handleSendOtp} />
+          <LoginByEmail onSubmit={handleSendOtp} variant={variant} />
         </>
       )}
       {activePage === PageEnum.OTP_PAGE && (

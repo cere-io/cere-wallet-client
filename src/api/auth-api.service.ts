@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://api.wallet.dev.cere.io',
+  baseURL: 'https://api.wallet.dev.cere.io',
 });
 
 export class AuthApiService {

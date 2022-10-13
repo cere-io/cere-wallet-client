@@ -19,13 +19,13 @@ export const Otp = ({ email, onVerify, onResend }: OtpProps) => {
   const [code, setCode] = useState<string>('');
 
   const handleVerify = () => {
-    if (onVerify && typeof onVerify === 'function') {
+    if (typeof onVerify === 'function') {
       onVerify(code);
     }
   };
 
   const handleResend = () => {
-    if (onResend && typeof onResend === 'function') {
+    if (typeof onResend === 'function') {
       onResend();
     }
   };
