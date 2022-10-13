@@ -1,5 +1,4 @@
 import { Button, Stack, Typography, TextField, CereIcon, useIsMobile, styled, OtpInput } from '@cere-wallet/ui';
-import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const Container = styled(Stack)({
@@ -15,7 +14,6 @@ interface OtpProps {
 
 export const Otp = ({ email, onVerify, onResend }: OtpProps) => {
   const isMobile = useIsMobile();
-  const location = useLocation();
   const [code, setCode] = useState<string>('');
 
   const handleVerify = () => {
@@ -29,9 +27,6 @@ export const Otp = ({ email, onVerify, onResend }: OtpProps) => {
       onResend();
     }
   };
-
-  console.log('location', location);
-  console.log('code', code);
 
   return (
     <Container>
