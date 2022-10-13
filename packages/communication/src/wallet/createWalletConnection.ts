@@ -69,11 +69,6 @@ export const createWalletConnection = ({
     const rehydrated = await onRehydrate();
     const userInfo = rehydrated && (await onUserInfoRequest());
 
-    channels.init.publish({
-      name: 'init_complete',
-      data: { success },
-    });
-
     if (userInfo) {
       channels.status.publish({
         loggedIn: true,
@@ -81,6 +76,11 @@ export const createWalletConnection = ({
         verifier: userInfo.verifier,
       });
     }
+
+    channels.init.publish({
+      name: 'init_complete',
+      data: { success },
+    });
   });
 
   // Handle login with private key requests

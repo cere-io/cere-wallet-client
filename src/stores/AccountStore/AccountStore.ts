@@ -5,19 +5,19 @@ import { getAccountAddress } from '@cere-wallet/wallet-engine';
 import { Account, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
-type PrivateKeyLoginData = {
+export type AccountLoginData = {
   privateKey: string;
   userInfo: UserInfo;
 };
 
 type SharedState = {
-  loginData?: PrivateKeyLoginData;
+  loginData: AccountLoginData | null;
 };
 
 export class AccountStore {
   private shared = createSharedState<SharedState>(
     `account.${this.wallet.instanceId}`,
-    {},
+    { loginData: null },
     { readOnly: !this.wallet.isRoot },
   );
 
@@ -25,11 +25,11 @@ export class AccountStore {
     makeAutoObservable(this);
   }
 
-  private set loginData(loginData: PrivateKeyLoginData | undefined) {
+  set loginData(loginData: AccountLoginData | null) {
     this.shared.state.loginData = loginData;
   }
 
-  private get loginData() {
+  get loginData() {
     return this.shared.state.loginData;
   }
 
@@ -48,21 +48,5 @@ export class AccountStore {
 
   get userInfo() {
     return this.loginData?.userInfo;
-  }
-
-  async loginWithPrivateKey(data: PrivateKeyLoginData) {
-    this.loginData = data;
-
-    return true;
-  }
-
-  async rehydrate() {
-    return false;
-  }
-
-  async logout() {
-    this.loginData = undefined;
-
-    return true;
   }
 }

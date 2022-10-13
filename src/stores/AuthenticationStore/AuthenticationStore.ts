@@ -3,7 +3,7 @@ import OpenLogin from '@toruslabs/openlogin';
 
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
-import { AccountStore } from '../AccountStore';
+import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
 
 type LoginData = {
@@ -45,8 +45,8 @@ export class AuthenticationStore {
     const clientId = 'BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k';
 
     this.openLogin = new OpenLogin({
-      network: 'testnet',
       clientId,
+      network: 'testnet',
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
       loginConfig: {
@@ -80,7 +80,19 @@ export class AuthenticationStore {
     return await this.loginWithRedirect();
   }
 
-  async logout() {}
+  async loginWithPrivateKey(data: AccountLoginData) {
+    this.accountStore.loginData = data;
+
+    return true;
+  }
+
+  async logout() {
+    await this.openLogin.logout();
+
+    this.accountStore.loginData = null;
+
+    return true;
+  }
 
   private getLoginUrl(params: LoginParams) {
     return this.openLogin.getEncodedLoginUrl(getLoginParams(params));
@@ -112,18 +124,12 @@ export class AuthenticationStore {
   }
 
   private async syncAccount() {
-    if (!this.openLogin.privKey) {
-      await this.accountStore.logout();
-
-      return undefined;
-    }
-
-    const userInfo = await this.openLogin.getUserInfo();
-
-    this.accountStore.loginWithPrivateKey({
-      privateKey: this.openLogin.privKey,
-      userInfo,
-    });
+    this.accountStore.loginData = this.openLogin.privKey
+      ? {
+          privateKey: this.openLogin.privKey,
+          userInfo: await this.openLogin.getUserInfo(),
+        }
+      : null;
 
     return this.accountStore.account;
   }

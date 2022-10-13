@@ -1,8 +1,19 @@
 import EventEmitter from 'events';
 import Torus, { TorusParams } from '@cere/torus-embed';
 
+const buildEnvMap = {
+  local: 'development',
+  dev: 'cere-dev',
+  stage: 'cere-stage',
+  prod: 'cere',
+} as const;
+
 export type WalletEvent = 'status-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'errored';
+export type WalletInitOptions = {
+  env?: keyof typeof buildEnvMap;
+  network: TorusParams['network'];
+};
 
 export class EmbedWallet {
   private torus: Torus;
@@ -35,10 +46,11 @@ export class EmbedWallet {
     };
   }
 
-  async init() {
+  async init({ network, env = 'prod' }: WalletInitOptions) {
     await this.torus.init({
-      buildEnv: 'development',
-      enableLogging: true,
+      network,
+      buildEnv: buildEnvMap[env],
+      enableLogging: env !== 'prod',
       loginConfig: {
         cere: {
           name: 'Cere Wallet',
@@ -48,13 +60,9 @@ export class EmbedWallet {
           },
         },
       },
-      network: {
-        host: 'https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab',
-        chainId: 80001,
-      },
     });
 
-    this.status = 'ready';
+    this.status = this.torus.isLoggedIn ? 'connected' : 'ready';
   }
 
   async connect() {
@@ -64,7 +72,7 @@ export class EmbedWallet {
   }
 
   async disconnect() {
-    this.torus.logout();
+    await this.torus.logout();
     this.status = 'ready';
   }
 }

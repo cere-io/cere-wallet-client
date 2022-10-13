@@ -91,11 +91,11 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onLoginWithPrivateKey: async (data) => {
-        return this.accountStore.loginWithPrivateKey(data);
+        return this.authenticationStore.loginWithPrivateKey(data);
       },
 
       onLogout: () => {
-        return this.accountStore.logout();
+        return this.authenticationStore.logout();
       },
 
       onRehydrate: () => {
