@@ -9,6 +9,7 @@ export * from './AssetList';
 export * from './ActivityList';
 export * from './FAQ';
 export * from './AddressQRButton';
+export * from './Login';
 export * from './OnboardingDialog';
 export * from './Login';
 export * from './OnboardingDialog';
