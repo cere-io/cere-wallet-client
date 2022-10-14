@@ -55,9 +55,6 @@ export class EmbedWallet {
         cere: {
           name: 'Cere Wallet',
           typeOfLogin: 'jwt',
-          jwtParameters: {
-            domain: window.origin,
-          },
         },
       },
     });

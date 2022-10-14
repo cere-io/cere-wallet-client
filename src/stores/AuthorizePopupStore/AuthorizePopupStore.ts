@@ -1,15 +1,25 @@
 import { createSharedPopupState } from '../sharedState';
+import { OpenLoginStore } from '../OpenLoginStore';
 
 export type AuthorizePopupState = {
   result?: string;
 };
 
 export class AuthorizePopupStore {
-  private shared = createSharedPopupState<AuthorizePopupState>(this.popupId, {});
+  private openLoginStore = new OpenLoginStore();
+  private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
 
-  constructor(public readonly popupId: string) {}
+  constructor(public readonly preopenInstanceId: string) {}
 
-  acceptAuthorization(result: AuthorizePopupState['result']) {
+  async start() {
+    await this.openLoginStore.init();
+    await this.openLoginStore.login({
+      preopenInstanceId: this.preopenInstanceId,
+      redirectUrl: '/authorize/end',
+    });
+  }
+
+  end(result: AuthorizePopupState['result']) {
     this.shared.state.result = result;
   }
 }

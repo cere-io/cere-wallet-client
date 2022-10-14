@@ -1,39 +1,16 @@
-import { makeAutoObservable, when } from 'mobx';
-import OpenLogin from '@toruslabs/openlogin';
-
+import { makeAutoObservable, toJS, when } from 'mobx';
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
+import { OpenLoginStore } from '../OpenLoginStore';
 
 type LoginData = {
   preopenInstanceId?: string;
 };
 
-type LoginParams = {
-  popupId?: string;
-  idToken?: string;
-  redirectUrl?: string;
-};
-
-const getLoginParams = ({ redirectUrl = '/authorize/done', idToken, popupId }: LoginParams = {}) => {
-  const url = new URL(redirectUrl, window.origin);
-
-  if (popupId) {
-    url.searchParams.append('popupId', popupId);
-  }
-
-  return {
-    loginProvider: 'jwt',
-    redirectUrl: url.toString(),
-    extraLoginOptions: {
-      id_token: idToken,
-    },
-  };
-};
-
 export class AuthenticationStore {
-  private openLogin: OpenLogin;
+  private openLoginStore = new OpenLoginStore();
 
   constructor(
     private wallet: Wallet,
@@ -41,74 +18,21 @@ export class AuthenticationStore {
     private popupManagerStore: PopupManagerStore,
   ) {
     makeAutoObservable(this);
-
-    const clientId = 'BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k';
-
-    this.openLogin = new OpenLogin({
-      clientId,
-      network: 'testnet',
-      uxMode: 'redirect',
-      replaceUrlOnRedirect: false,
-      loginConfig: {
-        jwt: {
-          clientId,
-          verifier: 'cere-wallet-dev',
-          name: 'Cere',
-          typeOfLogin: 'jwt',
-          jwtParameters: {
-            client_id: clientId,
-            domain: window.origin,
-            verifierIdField: 'email',
-            isVerifierIdCaseSensitive: false,
-          },
-        },
-      },
-    });
   }
 
   async rehydrate() {
-    await this.openLogin.init();
+    await this.openLoginStore.init();
+    const account = await this.syncAccount();
 
-    return !!this.syncAccount();
+    return !!account;
   }
 
   async login({ preopenInstanceId }: LoginData) {
     if (preopenInstanceId) {
-      return await this.loginInPopup(preopenInstanceId);
+      await this.loginInPopup(preopenInstanceId);
+    } else {
+      await this.openLoginStore.login();
     }
-
-    return await this.loginWithRedirect();
-  }
-
-  async loginWithPrivateKey(data: AccountLoginData) {
-    this.accountStore.loginData = data;
-
-    return true;
-  }
-
-  async logout() {
-    await this.openLogin.logout();
-
-    this.accountStore.loginData = null;
-
-    return true;
-  }
-
-  private getLoginUrl(params: LoginParams) {
-    return this.openLogin.getEncodedLoginUrl(getLoginParams(params));
-  }
-
-  private async loginInPopup(popupId: string) {
-    const loginUrl = await this.getLoginUrl({ popupId });
-    const popup = await this.popupManagerStore.proceedTo<AuthorizePopupState>(popupId, loginUrl, {});
-
-    await when(() => !!popup.state.result);
-
-    const jsonResult = Buffer.from(popup.state.result!, 'base64').toString();
-    const result = jsonResult && JSON.parse(jsonResult);
-
-    this.popupManagerStore.closePopup(popupId);
-    this.openLogin._syncState(result);
 
     const account = await this.syncAccount();
 
@@ -119,15 +43,34 @@ export class AuthenticationStore {
     return account.address;
   }
 
-  private async loginWithRedirect(): Promise<string> {
-    throw new Error('Login with redirect is not yet implemented');
+  async loginWithPrivateKey(data: AccountLoginData) {
+    this.accountStore.loginData = data;
+
+    return true;
+  }
+
+  async logout() {
+    await this.openLoginStore.logout();
+
+    this.accountStore.loginData = null;
+
+    return true;
+  }
+
+  private async loginInPopup(popupId: string) {
+    const popup = await this.popupManagerStore.proceedTo<AuthorizePopupState>(popupId, '/authorize/start', {});
+
+    await when(() => !!popup.state.result);
+
+    this.popupManagerStore.closePopup(popupId);
+    this.openLoginStore.syncWithEncodedState(popup.state.result!);
   }
 
   private async syncAccount() {
-    this.accountStore.loginData = this.openLogin.privKey
+    this.accountStore.loginData = this.openLoginStore.privateKey
       ? {
-          privateKey: this.openLogin.privKey,
-          userInfo: await this.openLogin.getUserInfo(),
+          privateKey: this.openLoginStore.privateKey,
+          userInfo: await this.openLoginStore.getUserInfo(),
         }
       : null;
 

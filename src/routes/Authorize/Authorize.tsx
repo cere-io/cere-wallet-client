@@ -2,13 +2,14 @@ import { observer } from 'mobx-react-lite';
 import { Button, Container, Stack } from '@cere-wallet/ui';
 import { useIdToken } from './useIdToken';
 
-const createNextUrl = (idToken: string) => {
+const createNextUrl = (idToken?: string) => {
   const url = new URL(window.location.href);
-  const redirectUri = url.searchParams.get('redirect_uri');
-  const nextUrl = new URL(redirectUri!);
-
+  const nextUrl = new URL(url.searchParams.get('redirect_uri')!);
   const nextParams = new URLSearchParams(url.search);
-  nextParams.set('id_token', idToken);
+
+  if (idToken) {
+    nextParams.set('id_token', idToken);
+  }
 
   nextUrl.hash = nextParams.toString();
 

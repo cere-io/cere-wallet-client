@@ -48,7 +48,7 @@ export class PopupManagerStore {
 
   private async redirect(instanceId: string, toUrl: string) {
     const url = new URL(toUrl, window.origin);
-    url.searchParams.append('instanceId', instanceId);
+    url.searchParams.append('preopenInstanceId', instanceId);
 
     await when(() => !!this.redirects[instanceId]);
 

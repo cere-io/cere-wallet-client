@@ -4,10 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 export const usePopupStore = <T>(storeFactory: (popupId: string) => T, deps: any[] = []): T => {
   const factoryRef = useRef(storeFactory);
   const [searchParams] = useSearchParams();
-  const popupId = searchParams.get('popupId');
+  const popupId = searchParams.get('preopenInstanceId');
 
   if (!popupId) {
-    throw Error('No `popupId` found in query');
+    throw Error('No `preopenInstanceId` found in query');
   }
 
   factoryRef.current = storeFactory;

@@ -1,15 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { InfoTable, Stack, Typography } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
+import { usePopupStore } from '~/hooks';
 
 const TransactionPopup = () => {
-  const [params] = useSearchParams();
-  const instanceId = params.get('instanceId');
-  const store = useMemo(() => new TransactionPopupStore(instanceId!), [instanceId]);
+  const store = usePopupStore((popupId) => new TransactionPopupStore(popupId));
 
   return (
     <PopupLayout
