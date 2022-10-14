@@ -39,7 +39,7 @@ export const OtpPage = ({ email }: OtpProps) => {
     const value = getFormValues('code');
     const token = await AuthApiService.getToken(email, value);
     if (token) {
-      console.log('GET TOKEN', token);
+      console.log('GET TOKEN', token); // TODO integration should be here
     } else {
       setError('code', { message: 'The code is wrong, please try again' });
     }
