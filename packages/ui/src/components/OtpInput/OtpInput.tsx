@@ -1,14 +1,15 @@
 import ReactCodeInput from 'react-code-input';
-import { useState } from 'react';
 import { styled } from '@cere-wallet/ui';
+import { Typography, Stack } from '@mui/material';
 
 const DIGITS_NUMBER = 6;
 
 interface OtpProps {
+  errorMessage?: string;
   onChange?: (code: string) => void;
 }
 
-const CodeInput = styled(ReactCodeInput)({
+const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
   textAlign: 'center',
   input: {
     height: '56px',
@@ -28,8 +29,8 @@ const CodeInput = styled(ReactCodeInput)({
     '& :last-of-type': {
       marginRight: '0 auto !important',
     },
-    '& :focus': {
-      border: `2px solid red !important`,
+    '&:focus': {
+      border: `2px solid ${theme.palette.primary.main} !important`,
     },
 
     '@media (min-width: 376px)': {
@@ -38,28 +39,29 @@ const CodeInput = styled(ReactCodeInput)({
       },
     },
   },
-});
+}));
 
-export const OtpInput = ({ onChange }: OtpProps) => {
-  const [error, setError] = useState<string>();
-
+export const OtpInput = ({ onChange, errorMessage }: OtpProps) => {
   const handleCodeChange = (value: string) => {
-    if (!value) {
-      setError('');
-    }
     if (typeof onChange === 'function') {
       onChange(value);
     }
   };
 
   return (
-    <CodeInput
-      name="OTP"
-      type={'text'}
-      inputMode="url"
-      fields={DIGITS_NUMBER}
-      onChange={handleCodeChange}
-      isValid={!error}
-    />
+    <Stack direction="column" textAlign="center" spacing={1}>
+      <CodeInput
+        name="OTP"
+        type={'text'}
+        inputMode="url"
+        fields={DIGITS_NUMBER}
+        onChange={handleCodeChange}
+        inputStyleInvalid={{ border: '1px solid red' }}
+        isValid={!errorMessage}
+      />
+      <Typography variant="body14Regular" color="error.main">
+        {errorMessage}
+      </Typography>
+    </Stack>
   );
 };

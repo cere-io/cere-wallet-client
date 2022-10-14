@@ -261,7 +261,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             paddingRight: 32,
             paddingTop: 10,
             paddingBottom: 10,
-            width: 311,
             height: 44,
             borderRadius: 50,
           }),
