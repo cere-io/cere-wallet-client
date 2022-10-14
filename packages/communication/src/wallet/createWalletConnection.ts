@@ -2,6 +2,7 @@ import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
+import { getChainConfig } from './getChainConfig';
 import { createChannels, InitChannelIn, PrivateKeyLoginChannelIn, UserInfo, LoginChannelIn } from './channels';
 
 type WindowOptions = {
@@ -55,15 +56,7 @@ export const createWalletConnection = ({
     const { network, ...restData } = data;
     const success = await onInit({
       ...restData,
-      chainConfig: {
-        chainNamespace: 'eip155',
-        chainId: `0x${network.chainId.toString(16)}`,
-        rpcTarget: network.host,
-        displayName: network.networkName,
-        blockExplorer: network.blockExplorer,
-        ticker: network.ticker,
-        tickerName: network.tickerName,
-      },
+      chainConfig: getChainConfig(data.network),
     });
 
     const rehydrated = await onRehydrate();
