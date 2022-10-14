@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Container, Stack } from '@cere-wallet/ui';
-import { useIdToken } from './useIdToken';
+import { useCallback } from 'react';
+import { SignIn } from '~/components';
 
 const createNextUrl = (idToken?: string) => {
   const url = new URL(window.location.href);
@@ -17,21 +17,11 @@ const createNextUrl = (idToken?: string) => {
 };
 
 const Authorize = () => {
-  const { request, loading } = useIdToken({
-    onReceive: (token) => {
-      window.location.replace(createNextUrl(token));
-    },
-  });
+  const handleTokenReady = useCallback((idToken: string) => {
+    window.location.replace(createNextUrl(idToken));
+  }, []);
 
-  return (
-    <Container maxWidth="md">
-      <Stack alignItems="center" paddingY={5}>
-        <Button disabled={loading} variant="contained" color="primary" onClick={request}>
-          Login
-        </Button>
-      </Stack>
-    </Container>
-  );
+  return <SignIn onTokenReady={handleTokenReady} />;
 };
 
 export default observer(Authorize);
