@@ -21,7 +21,7 @@ import { WalletHome } from './WalletHome';
 import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
-import { Login } from './Login';
+import { IntroRoute, LoginRoute, OtpRoute } from './Login';
 import { Authorize, AuthorizeClose, AuthorizeRedirect } from './Authorize';
 
 const walletMenu: WalletProps['menu'] = [
@@ -41,7 +41,13 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<Redirect to="wallet/home" />} />
-      <Route path="login" element={<Login />} />
+      <Route path="login">
+        <Route index element={<IntroRoute />} />
+        <Route path="intro" element={<IntroRoute />} />
+        <Route path="signin" element={<LoginRoute variant="signin" />} />
+        <Route path="signup" element={<LoginRoute variant="signup" />} />
+        <Route path="otp" element={<OtpRoute />} />
+      </Route>
       <Route path="popup" element={<EmbeddedWallet />} />
       <Route path="redirect" element={<RedirectPopup />} />
       <Route path="confirm" element={<ConfirmPopup />} />

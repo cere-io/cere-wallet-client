@@ -8,12 +8,8 @@ import {
   ManageYourFundsIcon,
 } from '@cere-wallet/ui';
 import { ReactElement, useState } from 'react';
-import { InfoStepperPage } from './';
-
-const Container = styled(Stack)({
-  display: 'flex',
-  width: '350px',
-});
+import { InfoStepperItem } from './';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const ImagePage1 = styled(ComingSoonIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(240),
@@ -31,13 +27,13 @@ export const InfoStepper = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const STEPPER_PAGES: ReactElement[] = [
-    InfoStepperPage(
+    InfoStepperItem(
       <ImagePage1 />,
       'Direct access to your collectibles',
       'All your items seamlessly available in one place',
     ),
-    InfoStepperPage(<ImagePage2 />, 'Securely store your tokens', 'You are in control of your keys and assets'),
-    InfoStepperPage(
+    InfoStepperItem(<ImagePage2 />, 'Securely store your tokens', 'You are in control of your keys and assets'),
+    InfoStepperItem(
       <ImagePage3 />,
       'Manage funds to buy and sell',
       'Send and receive any currency or simply top up with your card',
@@ -49,22 +45,24 @@ export const InfoStepper = () => {
   };
 
   return (
-    <Container>
+    <Stack direction="column" justifyContent="stretch">
       {STEPPER_PAGES[activeStep]}
       <MobileStepper
-        style={{ flex: 1 }}
         variant="dots"
         steps={STEPPER_PAGES.length}
         position="static"
         activeStep={activeStep}
         nextButton={
           // TODO added style here because we don't hav a button for it in UI KIT
-          <Typography variant="subtitle1" onClick={handleNext} style={{ cursor: 'pointer', paddingLeft: '0 auto' }}>
-            Next
-          </Typography>
+          <Stack direction="row">
+            <Typography variant="subtitle1" onClick={handleNext} style={{ cursor: 'pointer', paddingLeft: '0 auto' }}>
+              Next
+            </Typography>
+            <PlayArrowIcon onClick={handleNext} />
+          </Stack>
         }
         backButton={<></>}
       />
-    </Container>
+    </Stack>
   );
 };
