@@ -7,11 +7,14 @@
     "@cere-wallet/ui": "0.0.0",
     "@cere-wallet/wallet-engine": "0.0.0",
     "@toruslabs/openlogin": "^2.7.0",
+    "@fontsource/lexend": "^4.5.13",
+    "axios": "^1.1.2",
     "ethers": "^5.6.9",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
     "mobx-utils": "^6.0.5",
     "react": "^18.2.0",
+    "react-code-input": "^3.10.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1"
   },
@@ -34,6 +37,7 @@
     "start": "PORT=4050 craco start",
     "playground": "craco start --config .cracorc.playground.js",
     "build": "craco build",
+    "refactor": "prettier --write '**/*.{js,json,jsx,ts,tsx}' --ignore-path .eslintignore",
     "sdk:build": "npm run build --workspace=@cere/embed-wallet --if-present",
     "sdk:publish": "npm publish --workspace=@cere/embed-wallet"
   },

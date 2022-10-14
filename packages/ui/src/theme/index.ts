@@ -67,12 +67,14 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
     },
 
     typography: {
+      fontFamily: '"Lexend","Roboto","Helvetica","Arial",sans-serif',
       button: {
         textTransform: 'none',
         fontWeight: 'bold',
       },
 
       h4: {
+        fontSize: '28px',
         fontWeight: 'bold',
       },
 
@@ -112,6 +114,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
           text: {
             borderRadius: 30,
+            padding: '0 !important',
+            '&:hover': {
+              backgroundColor: 'inherit',
+            },
           },
 
           containedInherit: ({ theme }) => ({
@@ -545,6 +551,17 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           root: ({ theme }) => ({
             paddingTop: 0,
             paddingBottom: 0,
+          }),
+        },
+      },
+
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: theme.palette.divider,
+            borderRadius: '16px',
           }),
         },
       },
