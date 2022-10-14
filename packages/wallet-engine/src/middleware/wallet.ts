@@ -24,5 +24,9 @@ export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: 
     eth_requestAccounts: createAsyncMiddleware(async (req, res) => {
       res.result = getAccounts();
     }),
+
+    eth_accounts: createAsyncMiddleware(async (req, res) => {
+      res.result = getAccounts();
+    }),
   });
 };
