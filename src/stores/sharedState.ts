@@ -1,4 +1,4 @@
-import { action, observable, reaction, toJS, when } from 'mobx';
+import { action, observable, reaction, toJS, when, IReactionDisposer } from 'mobx';
 import { createPopupConnection, PopupConnectionOptions } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
@@ -51,6 +51,9 @@ export const createSharedState = <T = unknown>(
   /**
    * Synchronize state between all instances on the channel
    */
+
+  let disposeWhenReaction: IReactionDisposer;
+
   reaction(
     () => toJS(shared.state),
     (state) => {
@@ -60,7 +63,11 @@ export const createSharedState = <T = unknown>(
         return;
       }
 
-      when(
+      if (disposeWhenReaction) {
+        disposeWhenReaction();
+      }
+
+      disposeWhenReaction = when(
         () => shared.isConnected,
         () => connection.publish(state),
       );
