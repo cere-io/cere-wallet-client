@@ -38,6 +38,10 @@ export class EmbedWallet {
     return this.currentStatus;
   }
 
+  get provider() {
+    return this.torus.provider;
+  }
+
   subscribe(eventName: WalletEvent, listener: (...args: any[]) => void) {
     this.eventEmitter.on(eventName, listener);
 

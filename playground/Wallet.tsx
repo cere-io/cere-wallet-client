@@ -1,4 +1,5 @@
 import { Button, Stack } from '@cere-wallet/ui';
+import { providers } from 'ethers';
 import { useCallback, useEffect } from 'react';
 import { useWallet, useWalletStatus } from './WalletContext';
 
@@ -24,12 +25,27 @@ export const Wallet = () => {
     wallet.disconnect();
   }, [wallet]);
 
+  const handleGetAddress = useCallback(async () => {
+    const provider = new providers.Web3Provider(wallet.provider);
+    const signer = provider.getSigner();
+
+    const address = await signer.getAddress();
+
+    alert(`Address: ${address}`);
+  }, [wallet]);
+
   return (
-    <Stack alignItems="center" paddingY={5}>
+    <Stack alignItems="center" spacing={2} paddingY={5}>
       {status === 'connected' || status === 'disconnecting' ? (
-        <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
-          Disconnect wallet
-        </Button>
+        <>
+          <Button variant="outlined" color="primary" onClick={handleGetAddress}>
+            Get Address
+          </Button>
+
+          <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
+            Disconnect wallet
+          </Button>
+        </>
       ) : (
         <Button variant="contained" color="primary" disabled={status === 'not-ready'} onClick={handleConnect}>
           Connect wallet
