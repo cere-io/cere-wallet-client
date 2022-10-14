@@ -12,10 +12,12 @@ import {
   Divider,
   LogoutIcon,
   Truncate,
+  Link,
 } from '@cere-wallet/ui';
 
-import { AccountInfo } from '../AccountInfo';
 import { useAccountStore } from '~/hooks';
+import { WALLET_HELP_URL } from '~/constants';
+import { AccountInfo } from '../AccountInfo';
 
 export type AccountDropdownProps = {};
 
@@ -38,7 +40,7 @@ const AccountDropdown = (props: AccountDropdownProps) => {
         <AccountInfo />
 
         <MenuList disablePadding>
-          <MenuItem>
+          <MenuItem component={Link} target="_blank" href={WALLET_HELP_URL}>
             <ListItemIcon>
               <HelpIcon />
             </ListItemIcon>
