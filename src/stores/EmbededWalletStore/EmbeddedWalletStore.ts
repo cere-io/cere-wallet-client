@@ -77,7 +77,7 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   private async setupWalletConnection() {
-    this.walletConnection = createWalletConnection({
+    const walletConnection = createWalletConnection({
       logger: console,
 
       onInit: async (data) => {
@@ -118,6 +118,18 @@ export class EmbeddedWalletStore implements Wallet {
         return this.instanceId;
       },
     });
+
+    /**
+     * TODO: Refactor to prevent duplicated messages
+     */
+    reaction(
+      () => !!this.accountStore.account,
+      (loggedIn) => {
+        walletConnection.setLoggedInStatus(loggedIn);
+      },
+    );
+
+    this.walletConnection = walletConnection;
   }
 
   private async setupRpcConnection() {

@@ -9,7 +9,7 @@ const buildEnvMap = {
 } as const;
 
 export type WalletEvent = 'status-update';
-export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'errored';
+export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
 export type WalletInitOptions = {
   env?: keyof typeof buildEnvMap;
   network: TorusParams['network'];
@@ -69,6 +69,7 @@ export class EmbedWallet {
   }
 
   async disconnect() {
+    this.status = 'disconnecting';
     await this.torus.logout();
     this.status = 'ready';
   }

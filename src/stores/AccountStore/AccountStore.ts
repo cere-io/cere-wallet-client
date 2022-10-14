@@ -43,6 +43,7 @@ export class AccountStore {
       address: getAccountAddress(this.loginData.privateKey),
       email: this.loginData.userInfo.email,
       avatar: this.loginData.userInfo.profileImage,
+      verifier: this.loginData.userInfo.verifier,
     };
   }
 

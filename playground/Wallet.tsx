@@ -26,8 +26,8 @@ export const Wallet = () => {
 
   return (
     <Stack alignItems="center" paddingY={5}>
-      {status === 'connected' ? (
-        <Button variant="contained" color="primary" onClick={handleDisconnect}>
+      {status === 'connected' || status === 'disconnecting' ? (
+        <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
           Disconnect wallet
         </Button>
       ) : (
