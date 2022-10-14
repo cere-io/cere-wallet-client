@@ -33,7 +33,9 @@
   "scripts": {
     "start": "PORT=4050 craco start",
     "playground": "craco start --config .cracorc.playground.js",
-    "build": "craco build"
+    "build": "craco build",
+    "sdk:build": "npm run build --workspace=@cere/embed-wallet --if-present",
+    "sdk:publish": "npm run publish --workspace=@cere/embed-wallet --if-present"
   },
   "workspaces": [
     "packages/*"
