@@ -122,8 +122,8 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       },
 
       h1: {
-        fontSize: '32px', // 32px
-        lineHeight: '40px', // 40px
+        fontSize: '32px',
+        lineHeight: '40px',
         fontWeight: '700',
       },
 
