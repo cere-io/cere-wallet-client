@@ -83,10 +83,6 @@ export type RedirectState = {
   url: string | null;
 };
 
-export type AuthState = {
-  privateKey?: string;
-};
-
 export const createSharedRedirectState = (instanceId: string) =>
   createSharedState<RedirectState>(`redirect.${instanceId}`, { url: null });
 
