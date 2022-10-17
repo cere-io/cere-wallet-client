@@ -1,4 +1,4 @@
-import { Address, BackIcon, IconButton, Stack, styled } from '@cere-wallet/ui';
+import { BackIcon, IconButton, Stack, styled } from '@cere-wallet/ui';
 import { useState } from 'react';
 import { LoginByEmail } from './components';
 import { Otp } from './components';
@@ -11,19 +11,18 @@ const Container = styled(Stack)({
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
+  onTokenReady?: (idToken: string) => void;
 }
 
 enum PageEnum {
   WIZARD_PAGE,
   LOG_IN,
   OTP_PAGE,
-  TOKEN_PAGE, // technical page
 }
 
-export const SignIn = ({ variant = 'signin' }: LogInProps) => {
+export const SignIn = ({ variant = 'signin', onTokenReady }: LogInProps) => {
   const [activePage, setActivePage] = useState<PageEnum>(PageEnum.LOG_IN);
   const [email, setEmail] = useState<string>('');
-  const [token, setToken] = useState<string | null>(null); // technical page
 
   const handleBack = async () => {
     if (activePage > 1) {
@@ -43,8 +42,7 @@ export const SignIn = ({ variant = 'signin' }: LogInProps) => {
   const handleVerify = async (code: string) => {
     const token = await AuthApiService.getToken(email, code);
     if (token) {
-      setToken(token);
-      setActivePage(PageEnum.TOKEN_PAGE);
+      onTokenReady?.(token);
     } else {
       console.error('Otp sending error');
     }
@@ -63,12 +61,6 @@ export const SignIn = ({ variant = 'signin' }: LogInProps) => {
       {activePage === PageEnum.OTP_PAGE && (
         <>
           <Otp email={email} onVerify={handleVerify} onResend={() => handleSendOtp(email)} />
-        </>
-      )}
-      {activePage === PageEnum.TOKEN_PAGE && ( // technical page
-        <>
-          your token:
-          <Address showCopy address={token || ''} size={'small'} maxLength={24} />
         </>
       )}
     </Container>

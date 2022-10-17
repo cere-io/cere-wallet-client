@@ -2,15 +2,15 @@ import { CustomChainConfig } from '@web3auth/base';
 import { createScaffoldMiddleware, createAsyncMiddleware } from '@toruslabs/openlogin-jrpc';
 
 export type WalletMiddlewareOptions = {
-  accounts: string[];
+  getAccounts: () => string[];
   chainConfig: CustomChainConfig;
 };
 
-export const createWalletMiddleware = ({ accounts, chainConfig }: WalletMiddlewareOptions) => {
+export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: WalletMiddlewareOptions) => {
   return createScaffoldMiddleware({
     wallet_getProviderState: createAsyncMiddleware(async (req, res) => {
       res.result = {
-        accounts,
+        accounts: getAccounts(),
         chainId: chainConfig.chainId,
         isUnlocked: true,
         networkVersion: chainConfig.chainId,
@@ -19,6 +19,14 @@ export const createWalletMiddleware = ({ accounts, chainConfig }: WalletMiddlewa
 
     wallet_sendDomainMetadata: createAsyncMiddleware(async (req, res) => {
       res.result = true;
+    }),
+
+    eth_requestAccounts: createAsyncMiddleware(async (req, res) => {
+      res.result = getAccounts();
+    }),
+
+    eth_accounts: createAsyncMiddleware(async (req, res) => {
+      res.result = getAccounts();
     }),
   });
 };

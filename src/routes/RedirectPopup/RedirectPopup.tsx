@@ -1,24 +1,17 @@
-import { useEffect, useMemo } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Logo, Loading } from '@cere-wallet/ui';
 
 import { RedirectPopupStore } from '~/stores';
+import { usePopupStore } from '~/hooks';
 
 export const RedirectPopup = () => {
-  const [params] = useSearchParams();
-  const navigate = useNavigate();
-  const instanceId = params.get('preopenInstanceId');
-  const store = useMemo(() => instanceId && new RedirectPopupStore(instanceId), [instanceId]);
+  const store = usePopupStore((popupId) => new RedirectPopupStore(popupId));
 
   useEffect(() => {
-    if (!store) {
-      return;
-    }
-
     return store.waitForRedirectRequest((url) => {
-      navigate(url, { replace: true });
+      window.location.replace(url);
     });
-  }, [store, instanceId, navigate]);
+  }, [store]);
 
   return (
     <Loading fullScreen>

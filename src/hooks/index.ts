@@ -5,3 +5,4 @@ export * from './useAccountStore';
 export * from './useBalanceStore';
 export * from './useAssetStore';
 export * from './useActivityStore';
+export * from './usePopupStore';

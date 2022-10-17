@@ -1,13 +1,8 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
-import { createWalletEngine, createProvider } from '@cere-wallet/wallet-engine';
-import {
-  createWalletConnection,
-  createRpcConnection,
-  WalletConnection,
-  RpcConnection,
-} from '@cere-wallet/communication';
+import { makeAutoObservable, reaction, toJS, when } from 'mobx';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
@@ -17,6 +12,7 @@ import { PopupManagerStore } from '../PopupManagerStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
+import { AuthenticationStore } from '../AuthenticationStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly isRoot = true;
@@ -28,11 +24,11 @@ export class EmbeddedWalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
+  readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
 
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
-  private rpcConnection?: RpcConnection;
   private _isFullscreen = false;
 
   constructor() {
@@ -47,7 +43,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
-
+    this.authenticationStore = new AuthenticationStore(this, this.accountStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }
 
@@ -64,6 +60,10 @@ export class EmbeddedWalletStore implements Wallet {
     return this.currentProvider;
   }
 
+  private set provider(provider) {
+    this.currentProvider = provider;
+  }
+
   get network() {
     return this.networkStore.network;
   }
@@ -73,12 +73,11 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   async init() {
-    await this.setupWalletConnection();
-    await this.setupRpcConnection();
+    await Promise.all([this.setupWalletConnection(), this.setupRpcConnection()]);
   }
 
   private async setupWalletConnection() {
-    this.walletConnection = createWalletConnection({
+    const walletConnection = createWalletConnection({
       logger: console,
 
       onInit: async (data) => {
@@ -88,19 +87,23 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onLogin: async (data) => {
-        return this.accountStore.login(data);
+        return this.authenticationStore.login(data);
+      },
+
+      onLoginWithPrivateKey: async (data) => {
+        return this.authenticationStore.loginWithPrivateKey(data);
       },
 
       onLogout: () => {
-        return this.accountStore.logout();
+        return this.authenticationStore.logout();
       },
 
       onRehydrate: () => {
-        return this.accountStore.rehydrate();
+        return this.authenticationStore.rehydrate();
       },
 
       onUserInfoRequest: async () => {
-        return this.accountStore.userInfo;
+        return toJS(this.accountStore.userInfo);
       },
 
       onWindowClose: async ({ instanceId }) => {
@@ -115,27 +118,48 @@ export class EmbeddedWalletStore implements Wallet {
         return this.instanceId;
       },
     });
+
+    /**
+     * TODO: Refactor to prevent duplicated messages
+     */
+    reaction(
+      () => !!this.accountStore.account,
+      (loggedIn) => {
+        walletConnection.setLoggedInStatus(loggedIn);
+      },
+    );
+
+    this.walletConnection = walletConnection;
   }
 
   private async setupRpcConnection() {
-    await when(() => !!this.accountStore.account && !!this.networkStore.network);
+    await when(() => !!this.networkStore.network);
 
-    const { privateKey, address } = this.accountStore.account!;
     const chainConfig = this.networkStore.network!;
-    const provider = await createProvider({ privateKey, chainConfig });
-
-    const engine = createWalletEngine({
-      provider,
+    const engine = await createWalletEngine({
       chainConfig,
-      accounts: [address],
 
+      getAccounts: () => (this.accountStore.account ? [this.accountStore.account.address] : []),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    runInAction(() => {
-      this.rpcConnection = createRpcConnection({ engine, logger: console });
-      this.currentProvider = new providers.Web3Provider(provider);
-    });
+    createRpcConnection({ engine, logger: console });
+
+    this.provider = new providers.Web3Provider(engine.provider);
+
+    /**
+     * Setup provider when account privateKey is ready
+     */
+    reaction(
+      () => this.accountStore.account?.privateKey,
+      async (privateKey) => {
+        if (!privateKey) {
+          return;
+        }
+
+        engine.setupProvider(privateKey);
+      },
+    );
   }
 }
