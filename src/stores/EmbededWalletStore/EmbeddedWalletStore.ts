@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, when } from 'mobx';
-import { createWalletEngine, createProvider } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, toJS, when } from 'mobx';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Provider, Wallet } from '../types';
@@ -103,7 +103,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return this.accountStore.userInfo;
+        return toJS(this.accountStore.userInfo);
       },
 
       onWindowClose: async ({ instanceId }) => {
@@ -136,7 +136,7 @@ export class EmbeddedWalletStore implements Wallet {
     await when(() => !!this.networkStore.network);
 
     const chainConfig = this.networkStore.network!;
-    const engine = createWalletEngine({
+    const engine = await createWalletEngine({
       chainConfig,
 
       getAccounts: () => (this.accountStore.account ? [this.accountStore.account.address] : []),
@@ -145,6 +145,8 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     createRpcConnection({ engine, logger: console });
+
+    this.provider = new providers.Web3Provider(engine.provider);
 
     /**
      * Setup provider when account privateKey is ready
@@ -156,10 +158,7 @@ export class EmbeddedWalletStore implements Wallet {
           return;
         }
 
-        const provider = await createProvider({ privateKey, chainConfig });
-        this.provider = new providers.Web3Provider(provider);
-
-        engine.setupProvider(provider);
+        engine.setupProvider(privateKey);
       },
     );
   }

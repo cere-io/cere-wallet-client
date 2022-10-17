@@ -1,5 +1,6 @@
 import { JRPCEngine, JRPCMiddleware } from '@toruslabs/openlogin-jrpc';
-import { ethersProviderAsMiddleware, SafeEventEmitterProvider } from 'eth-json-rpc-middleware';
+import { ethersProviderAsMiddleware } from 'eth-json-rpc-middleware';
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
 import {
   createWalletMiddleware,
@@ -8,28 +9,51 @@ import {
   ProviderMiddlewareOptions,
 } from './middleware';
 
+export type WalletEngineOptions = WalletMiddlewareOptions &
+  ProviderMiddlewareOptions & {
+    privateKey?: string;
+  };
+
 export class WalletEngine extends JRPCEngine {
+  providerFactory: EthereumPrivateKeyProvider;
+
   constructor(private options: WalletEngineOptions) {
     super();
 
-    this.push(createWalletMiddleware(options));
-
-    if (options.provider) {
-      this.setupProvider(options.provider);
-    }
+    this.providerFactory = new EthereumPrivateKeyProvider({
+      config: {
+        chainConfig: options.chainConfig,
+      },
+    });
   }
 
-  setupProvider(provider: SafeEventEmitterProvider) {
+  get provider() {
+    if (!this.providerFactory.provider) {
+      throw new Error('Wallet engine provider is not ready');
+    }
+
+    return this.providerFactory.provider;
+  }
+
+  async setupProvider(privateKey: string) {
+    await this.providerFactory.setupProvider(privateKey);
+  }
+
+  async init() {
+    this.push(createWalletMiddleware(this.options));
     this.push(createProviderMiddleware(this.options));
-    this.push(ethersProviderAsMiddleware(provider) as JRPCMiddleware<unknown, unknown>);
+
+    await this.setupProvider(this.options.privateKey || 'invalid-private-key');
+
+    if (this.providerFactory.provider) {
+      this.push(ethersProviderAsMiddleware(this.providerFactory.provider) as JRPCMiddleware<unknown, unknown>);
+    }
   }
 }
 
-export type WalletEngineOptions = WalletMiddlewareOptions &
-  ProviderMiddlewareOptions & {
-    provider?: SafeEventEmitterProvider;
-  };
+export const createWalletEngine = async (options: WalletEngineOptions) => {
+  const engine = new WalletEngine(options);
+  await engine.init();
 
-export const createWalletEngine = (options: WalletEngineOptions) => {
-  return new WalletEngine(options);
+  return engine;
 };

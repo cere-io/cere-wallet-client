@@ -1,4 +1,4 @@
-import { makeAutoObservable, toJS, when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
@@ -21,10 +21,7 @@ export class AuthenticationStore {
   }
 
   async rehydrate() {
-    await this.openLoginStore.init();
-    const account = await this.syncAccount();
-
-    return !!account;
+    return false; // TODO: Implement rehydrate flow
   }
 
   async login({ preopenInstanceId }: LoginData) {

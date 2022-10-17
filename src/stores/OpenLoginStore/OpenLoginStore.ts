@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import OpenLogin from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
+
+import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 
 type LoginParams = {
   preopenInstanceId?: string;
@@ -29,17 +31,18 @@ export class OpenLoginStore {
   constructor() {
     makeAutoObservable(this);
 
-    const clientId = 'BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k';
+    const clientId = OPEN_LOGIN_CLIENT_ID;
 
     this.openLogin = new OpenLogin({
       clientId,
-      network: 'testnet',
+      network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
+      storageKey: 'session',
       loginConfig: {
         jwt: {
           clientId,
-          verifier: 'cere-wallet-dev',
+          verifier: OPEN_LOGIN_VERIFIER,
           name: 'Cere',
           typeOfLogin: 'jwt',
           jwtParameters: {
@@ -58,14 +61,23 @@ export class OpenLoginStore {
   }
 
   async init() {
+    if (this.openLogin.provider.initialized) {
+      return; // Do nothing if already initialized
+    }
+
     await this.openLogin.init();
   }
 
   async login(params?: LoginParams) {
+    await this.init();
     await this.openLogin.login(createLoginParams(params));
   }
 
   async logout() {
+    if (!this.openLogin.privKey) {
+      return; // Do nothing if not logged in
+    }
+
     await this.openLogin.logout();
   }
 

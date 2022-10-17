@@ -3,7 +3,14 @@ import { ChainConfig } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
 import { getChainConfig } from './getChainConfig';
-import { createChannels, InitChannelIn, PrivateKeyLoginChannelIn, UserInfo, LoginChannelIn } from './channels';
+import {
+  createChannels,
+  InitChannelIn,
+  PrivateKeyLoginChannelIn,
+  UserInfo,
+  LoginChannelIn,
+  NetworkInterface,
+} from './channels';
 
 type WindowOptions = {
   instanceId: string;
@@ -32,6 +39,11 @@ export type WalletConnectionOptions = {
   onWalletOpen: () => Promise<string>;
 };
 
+const defaultNetwork: NetworkInterface = {
+  host: process.env.REACT_APP_DEFAULT_RPC || 'matic',
+  chainId: process.env.REACT_APP_DEFAULT_CHAIN_ID ? Number(process.env.REACT_APP_DEFAULT_CHAIN_ID) : undefined,
+};
+
 export const createWalletConnection = ({
   logger,
   onInit,
@@ -54,10 +66,10 @@ export const createWalletConnection = ({
       return;
     }
 
-    const { network, ...restData } = data;
+    const { network = defaultNetwork, ...restData } = data;
     const success = await onInit({
       ...restData,
-      chainConfig: getChainConfig(data.network),
+      chainConfig: getChainConfig(network),
     });
 
     const rehydrated = await onRehydrate();
@@ -86,15 +98,15 @@ export const createWalletConnection = ({
 
     const success = await onLoginWithPrivateKey(data);
 
-    channels.login.publish({
-      name: 'login_with_private_key_response',
-      data: { success },
-    });
-
     channels.status.publish({
       loggedIn: success,
       rehydrate: false,
       verifier: data.userInfo.verifier,
+    });
+
+    channels.login.publish({
+      name: 'login_with_private_key_response',
+      data: { success },
     });
   });
 

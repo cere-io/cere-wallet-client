@@ -9,18 +9,20 @@ export type UserInfo = {
   verifierId: string;
 };
 
+export type NetworkInterface = {
+  host: 'matic' | 'mumbai' | string;
+  chainId?: number;
+  networkName?: string;
+  blockExplorer?: string;
+  ticker?: string;
+  tickerName?: string;
+};
+
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
     torusWidgetVisibility: boolean;
-    network: {
-      blockExplorer: string;
-      chainId: number;
-      host: string;
-      networkName: string;
-      ticker: string;
-      tickerName: string;
-    };
+    network: NetworkInterface;
   };
 };
 

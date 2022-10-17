@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import Torus, { TorusParams } from '@cere/torus-embed';
+import Torus, { NetworkInterface } from '@cere/torus-embed';
 
 const buildEnvMap = {
   local: 'development',
@@ -10,9 +10,14 @@ const buildEnvMap = {
 
 export type WalletEvent = 'status-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
+
+export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
+  host: 'matic' | 'mumbai' | string;
+};
+
 export type WalletInitOptions = {
   env?: keyof typeof buildEnvMap;
-  network: TorusParams['network'];
+  network?: NetworkConfig;
 };
 
 export class EmbedWallet {
@@ -55,12 +60,6 @@ export class EmbedWallet {
       network,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',
-      loginConfig: {
-        cere: {
-          name: 'Cere Wallet',
-          typeOfLogin: 'jwt',
-        },
-      },
     });
 
     this.status = this.torus.isLoggedIn ? 'connected' : 'ready';
@@ -68,7 +67,7 @@ export class EmbedWallet {
 
   async connect() {
     this.status = 'connecting';
-    await this.torus.login({ verifier: 'cere' });
+    await this.torus.login({ verifier: 'sdk' });
     this.status = 'connected';
   }
 

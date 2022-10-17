@@ -31,7 +31,7 @@ export class ActivityStore {
     makeAutoObservable(this);
 
     when(
-      () => !!wallet.provider,
+      () => !!wallet.provider && !!wallet.account,
       () => this.onReady(),
     );
   }
