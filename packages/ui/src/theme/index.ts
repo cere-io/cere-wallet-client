@@ -1,4 +1,5 @@
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import * as React from 'react';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -29,23 +30,19 @@ declare module '@mui/material/Alert' {
 }
 
 declare module '@mui/material/styles' {
+  interface TypographyStyleOptions {
+    fontWeight: 'fontWeightBold' | 'fontWeightSemibold' | 'fontWeightMedium' | 'fontWeightRegular' | 'fontWeightLight';
+  }
+
   interface TypographyVariants {
     poster: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    body16Medium?: React.CSSProperties;
-    body16Regular?: React.CSSProperties;
-    body16Light?: React.CSSProperties;
-    body14Medium?: React.CSSProperties;
-    body14Regular?: React.CSSProperties;
-
-    caption13Medium?: React.CSSProperties;
-    caption12Semibold?: React.CSSProperties;
-    caption12Regular?: React.CSSProperties;
-    caption10Semibold?: React.CSSProperties;
-    caption10Regular?: React.CSSProperties;
+    caption1?: React.CSSProperties;
+    caption2?: React.CSSProperties;
+    caption3?: React.CSSProperties;
   }
 }
 
@@ -54,20 +51,10 @@ declare module '@mui/material/Typography' {
     h5: false;
     h6: false;
     caption: false;
-    body1: true; // FIXME disable
-    body2: false;
 
-    body16Medium: true;
-    body16Regular: true;
-    body16Light: true;
-    body14Medium: true;
-    body14Regular: true;
-
-    caption13Medium: true;
-    caption12Semibold: true;
-    caption12Regular: true;
-    caption10Semibold: true;
-    caption10Regular: true;
+    caption1: true;
+    caption2: true;
+    caption3: true;
   }
 }
 
@@ -124,29 +111,25 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       h1: {
         fontSize: '32px',
         lineHeight: '40px',
-        fontWeight: '700',
+        fontWeight: 700,
       },
 
       h2: {
         fontSize: '28px',
         lineHeight: '36px',
-        fontWeight: '700',
+        fontWeight: 700,
       },
 
       h3: {
         fontSize: '24px',
         lineHeight: '32px',
-        fontWeight: '700',
+        fontWeight: 700,
       },
 
       h4: {
         fontSize: '20px',
         lineHeight: '26px',
-        fontWeight: '700',
-      },
-
-      h6: {
-        fontWeight: 'bold',
+        fontWeight: 700,
       },
 
       subtitle1: {
@@ -161,64 +144,29 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         fontWeight: '600',
       },
 
-      body16Medium: {
+      body1: {
         fontSize: '16px',
         lineHeight: '24px',
-        fontWeight: '500',
       },
 
-      body16Regular: {
-        fontSize: '16px',
-        lineHeight: '24px',
-        fontWeight: '400',
-      },
-
-      body16Light: {
-        fontSize: '16px',
-        lineHeight: '24px',
-        fontWeight: '300',
-      },
-
-      body14Medium: {
+      body2: {
         fontSize: '14px',
         lineHeight: '22px',
-        fontWeight: '500',
       },
 
-      body14Regular: {
-        fontSize: '14px',
-        lineHeight: '22px',
-        fontWeight: '400',
-      },
-
-      caption13Medium: {
+      caption1: {
         fontSize: '13px',
         lineHeight: '22px',
-        fontWeight: '500',
       },
 
-      caption12Semibold: {
+      caption2: {
         fontSize: '12px',
         lineHeight: '20px',
-        fontWeight: '600',
       },
 
-      caption12Regular: {
-        fontSize: '12px',
-        lineHeight: '20px',
-        fontWeight: '400',
-      },
-
-      caption10Semibold: {
+      caption3: {
         fontSize: '10px',
         lineHeight: '16px',
-        fontWeight: '600',
-      },
-
-      caption10Regular: {
-        fontSize: '10px',
-        lineHeight: '16px',
-        fontWeight: '400',
       },
     },
 
@@ -448,7 +396,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           },
 
           subheaderTypographyProps: {
-            variant: 'caption12Regular',
+            variant: 'caption2',
             noWrap: true,
             textOverflow: 'ellipsis',
           },

@@ -6,7 +6,7 @@ export const InfoStepperItem = (img: ReactElement, title: string, text: string) 
     <Stack direction="column" alignItems="center">
       {img}
       <Typography variant="h4">{title}</Typography>
-      <Typography variant="body16Regular" color="text.secondary" minHeight="50px">
+      <Typography variant="body1" color="text.secondary" minHeight="50px">
         {text}
       </Typography>
     </Stack>

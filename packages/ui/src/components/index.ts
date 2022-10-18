@@ -14,7 +14,6 @@ export {
   CardActions,
   ToggleButton,
   ToggleButtonGroup,
-  Typography,
   Link,
   Divider,
   Collapse,
@@ -48,7 +47,6 @@ export type {
   CardActionsProps,
   ToggleButtonProps,
   ToggleButtonGroupProps,
-  TypographyProps,
   LinkProps,
   DividerProps,
   CollapseProps,
@@ -87,3 +85,4 @@ export * from './Dialog';
 export * from './QRCode';
 export * from './CopyButton';
 export * from './OtpInput';
+export * from './Typography';

@@ -4,7 +4,7 @@ import { AuthApiService } from '~/api/auth-api.service';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface OtpProps {
   email: string;
@@ -76,11 +76,11 @@ export const OtpPage = ({ email }: OtpProps) => {
         </Typography>
         <CereIcon />
       </Stack>
-      <Typography variant="body14Regular" color="text.secondary">
+      <Typography variant="body2" color="text.secondary">
         Access CERE using code sent to your email
       </Typography>
       <TextField value={email} variant="outlined" disabled={true} />
-      <Typography variant="body14Regular" color="text.secondary">
+      <Typography variant="body2" color="text.secondary">
         Verification code
       </Typography>
       <OtpInput
@@ -92,11 +92,11 @@ export const OtpPage = ({ email }: OtpProps) => {
         Verify
       </Button>
       {timeLeft ? (
-        <Typography variant="body16Regular" align="center">
+        <Typography variant="body1" align="center">
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (
-        <Typography variant="body16Regular" align="center">
+        <Typography variant="body1" align="center">
           Did not receive a code?{' '}
           <Button variant="text" onClick={handleResend}>
             Resend code

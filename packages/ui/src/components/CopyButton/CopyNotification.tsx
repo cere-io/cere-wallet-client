@@ -22,7 +22,7 @@ export const CopyNotification = ({ open, message }: CopyNotificationProps) => (
     <Content variant="outlined">
       <Stack spacing={1} direction="row" alignItems="center">
         <CheckCircleIcon fontSize="small" color="success" />
-        <Typography variant="body16Regular">{message}</Typography>
+        <Typography variant="body1">{message}</Typography>
       </Stack>
     </Content>
   </Snackbar>

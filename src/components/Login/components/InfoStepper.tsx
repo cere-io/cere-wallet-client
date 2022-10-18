@@ -6,10 +6,10 @@ import {
   ComingSoonIcon,
   StoreYourTokensIcon,
   ManageYourFundsIcon,
+  PlayArrowIcon,
 } from '@cere-wallet/ui';
 import { ReactElement, useState } from 'react';
 import { InfoStepperItem } from './';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const ImagePage1 = styled(ComingSoonIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(240),

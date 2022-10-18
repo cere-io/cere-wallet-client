@@ -8,8 +8,10 @@ export type HeaderLinkProps = {
 
 export const HeaderLink = ({ title, label, url }: HeaderLinkProps) => (
   <Stack spacing={1} direction="row" alignItems="center">
-    <Typography variant="body16Medium">{title}</Typography>
-    <Link target="_blank" href={url} variant="body16Regular">
+    <Typography variant="body1" fontWeight="medium">
+      {title}
+    </Typography>
+    <Link target="_blank" href={url} variant="body1">
       {label}
     </Link>
   </Stack>

@@ -23,7 +23,7 @@ export const ComingSoon = ({ title, description }: ComingSoonProps) => (
     )}
 
     {description && (
-      <Typography variant="body16Regular" color="text.secondary" align="center">
+      <Typography variant="body1" color="text.secondary" align="center">
         {description}
       </Typography>
     )}

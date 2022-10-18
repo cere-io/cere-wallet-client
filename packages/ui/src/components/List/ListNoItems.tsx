@@ -19,7 +19,7 @@ export const ListNoItems = ({ icon, title, description }: ListNoItemsProps) => (
     <Typography align="center" fontWeight="bold">
       {title}
     </Typography>
-    <Typography align="center" variant="body16Regular" color="text.secondary">
+    <Typography align="center" variant="body1" color="text.secondary">
       {description}
     </Typography>
   </Stack>

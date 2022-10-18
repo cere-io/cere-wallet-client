@@ -62,7 +62,7 @@ export const Address = ({ variant = 'default', size = 'medium', icon, address, m
       icon={icon}
     >
       {icon && <Icon>{icon}</Icon>}
-      <Typography variant="body16Regular">{addressElement}</Typography>
+      <Typography variant="body1">{addressElement}</Typography>
       {showCopy && <CopyButton size="small" value={address} successMessage="Address copied" />}
     </Wrapper>
   );
