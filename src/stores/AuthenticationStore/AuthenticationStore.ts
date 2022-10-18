@@ -21,10 +21,13 @@ export class AuthenticationStore {
   }
 
   async rehydrate() {
-    await this.openLoginStore.init();
+    if (this.openLoginStore.sessionId) {
+      await this.openLoginStore.init();
+    }
+
     await this.syncAccount();
 
-    return true;
+    return !!this.accountStore.account;
   }
 
   async login({ preopenInstanceId }: LoginData) {

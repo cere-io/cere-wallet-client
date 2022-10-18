@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { getIFrameOrigin } from '@cere-wallet/communication';
 
 type LoginParams = {
   preopenInstanceId?: string;
@@ -36,9 +37,10 @@ export class OpenLoginStore {
     this.openLogin = new OpenLogin({
       clientId,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
+      no3PC: true,
       uxMode: 'redirect',
-      storageKey: 'session',
       replaceUrlOnRedirect: false,
+      _sessionNamespace: this.sessionNamespace,
 
       loginConfig: {
         jwt: {
@@ -55,6 +57,18 @@ export class OpenLoginStore {
         },
       },
     });
+  }
+
+  get sessionNamespace() {
+    try {
+      return new URL(getIFrameOrigin()).hostname;
+    } catch {
+      return undefined;
+    }
+  }
+
+  get sessionId() {
+    return this.openLogin.state.store.get('sessionId');
   }
 
   get privateKey() {
@@ -80,17 +94,16 @@ export class OpenLoginStore {
     }
 
     await this.openLogin.logout();
+    this.openLogin.state.store.resetStore();
   }
 
   async getUserInfo() {
     return this.openLogin.getUserInfo();
   }
 
-  syncWithEncodedState(encodedState: string, sessionId?: string) {
+  async syncWithEncodedState(encodedState: string, sessionId?: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
     const state = jsonResult && JSON.parse(jsonResult);
-
-    console.log('Auth result', { encodedState, sessionId });
 
     if (sessionId) {
       this.openLogin.state.store.set('sessionId', sessionId);
