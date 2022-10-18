@@ -59,7 +59,7 @@ export const OtpInput = ({ onChange, errorMessage }: OtpProps) => {
         inputStyleInvalid={{ border: '1px solid red' }}
         isValid={!errorMessage}
       />
-      <Typography variant="body14Regular" color="error.main">
+      <Typography variant="body2" color="error.main">
         {errorMessage}
       </Typography>
     </Stack>

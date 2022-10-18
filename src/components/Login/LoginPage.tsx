@@ -1,4 +1,4 @@
-import { Button, Stack, Typography, TextField, CereIcon, FormControl } from '@cere-wallet/ui';
+import { Button, Stack, Typography, Link, TextField, CereIcon, FormControl } from '@cere-wallet/ui';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -57,7 +57,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
         </Typography>
         <CereIcon />
       </Stack>
-      <Typography variant="body14Regular" color="text.secondary">
+      <Typography variant="body2" color="text.secondary">
         Send and receive any currency or simply top up with your card.
       </Typography>
       <FormControl>
@@ -71,9 +71,9 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
           variant="outlined"
         />
       </FormControl>
-      <Typography variant="caption12Regular" color="text.secondary">
-        By using your Cere wallet you automatically agree to our <a href="#">Terms & Conditions</a> and{' '}
-        <a href="#">Privacy Policy</a>
+      <Typography variant="caption2" color="text.secondary">
+        By using your Cere wallet you automatically agree to our <Link href="#">Terms & Conditions</Link> and{' '}
+        <Link href="#">Privacy Policy</Link>
       </Typography>
       <Button variant="contained" size="large" type="submit">
         Sign {variant === 'signin' ? 'In' : 'Up'}

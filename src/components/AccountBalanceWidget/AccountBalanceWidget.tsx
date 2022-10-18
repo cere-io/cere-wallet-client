@@ -62,7 +62,11 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
         >
           <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Typography variant={dense ? 'body14Medium' : 'h4'} color="text.secondary">
+              <Typography
+                variant={dense ? 'body2' : 'h4'}
+                fontWeight={dense ? 'medium' : undefined}
+                color="text.secondary"
+              >
                 Total Balance
               </Typography>
 

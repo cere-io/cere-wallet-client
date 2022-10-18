@@ -22,6 +22,7 @@ export {
   ExpandMore as ExpandMoreIcon,
   East as EastIcon,
   SouthEast as SouthEastIcon,
+  PlayArrow as PlayArrowIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

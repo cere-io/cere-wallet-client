@@ -35,7 +35,9 @@ export const PopupLayout = ({
     <Layout maxWidth="sm">
       <Section spacing={3} alignItems="center">
         <Logo size="large" />
-        <Typography variant="caption12Semibold">{title}</Typography>
+        <Typography variant="caption2" fontWeight="semibold">
+          {title}
+        </Typography>
         {network && !loading && <NetworkLabel label={network} />}
       </Section>
 
