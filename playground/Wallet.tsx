@@ -51,7 +51,12 @@ export const Wallet = () => {
           </Button>
         </>
       ) : (
-        <Button variant="contained" color="primary" disabled={status === 'not-ready'} onClick={handleConnect}>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={status === 'not-ready' || status === 'connecting'}
+          onClick={handleConnect}
+        >
           Connect wallet
         </Button>
       )}

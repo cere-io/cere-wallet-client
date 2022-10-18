@@ -66,16 +66,32 @@ export class EmbedWallet {
   }
 
   async connect() {
+    const prevStatus = this.status;
     this.status = 'connecting';
-    const [address] = await this.torus.login({ verifier: this.torus.currentVerifier || 'unknown' });
-    this.status = 'connected';
 
-    return address;
+    try {
+      const [address] = await this.torus.login({ verifier: this.torus.currentVerifier || 'unknown' });
+      this.status = 'connected';
+
+      return address;
+    } catch (error) {
+      this.status = prevStatus;
+
+      throw error;
+    }
   }
 
   async disconnect() {
+    const prevStatus = this.status;
     this.status = 'disconnecting';
-    await this.torus.logout();
-    this.status = 'ready';
+
+    try {
+      await this.torus.logout();
+      this.status = 'ready';
+    } catch (error) {
+      this.status = prevStatus;
+
+      throw error;
+    }
   }
 }
