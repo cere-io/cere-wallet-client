@@ -3,10 +3,11 @@ import { OpenLoginStore } from '../OpenLoginStore';
 
 export type AuthorizePopupState = {
   result?: string;
+  sessionId?: string;
 };
 
 export class AuthorizePopupStore {
-  private openLoginStore = new OpenLoginStore();
+  private openLoginStore = new OpenLoginStore({ storageKey: 'session' });
   private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
 
   constructor(public readonly preopenInstanceId: string) {}
@@ -19,7 +20,8 @@ export class AuthorizePopupStore {
     });
   }
 
-  end(result: AuthorizePopupState['result']) {
+  async end({ result, sessionId }: AuthorizePopupState) {
     this.shared.state.result = result;
+    this.shared.state.sessionId = sessionId;
   }
 }

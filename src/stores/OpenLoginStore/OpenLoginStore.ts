@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
+import { randomBytes } from 'crypto';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
+import { getIFrameOrigin } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 
@@ -28,7 +30,7 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
-  constructor() {
+  constructor(options: Pick<OpenLoginOptions, 'storageKey'> = {}) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
@@ -36,9 +38,12 @@ export class OpenLoginStore {
     this.openLogin = new OpenLogin({
       clientId,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
+      no3PC: true,
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
-      storageKey: 'session',
+      _sessionNamespace: this.sessionNamespace,
+      ...options,
+
       loginConfig: {
         jwt: {
           clientId,
@@ -56,8 +61,34 @@ export class OpenLoginStore {
     });
   }
 
+  get sessionNamespace() {
+    try {
+      return new URL(getIFrameOrigin()).hostname;
+    } catch {
+      return undefined;
+    }
+  }
+
+  get sessionId() {
+    return this.openLogin.state.store.get('sessionId');
+  }
+
   get privateKey() {
     return this.openLogin.privKey;
+  }
+
+  async getLoginUrl(loginParams: LoginParams = {}) {
+    const sessionId = this.sessionId || randomBytes(32).toString('hex');
+    const session = {
+      _sessionNamespace: this.openLogin.state.sessionNamespace,
+      _loginConfig: this.openLogin.state.loginConfig,
+      _sessionId: sessionId,
+    };
+
+    return this.openLogin.getEncodedLoginUrl({
+      ...session,
+      ...createLoginParams(loginParams),
+    });
   }
 
   async init() {
@@ -79,15 +110,20 @@ export class OpenLoginStore {
     }
 
     await this.openLogin.logout();
+    this.openLogin.state.store.resetStore();
   }
 
   async getUserInfo() {
     return this.openLogin.getUserInfo();
   }
 
-  syncWithEncodedState(encodedState: string) {
+  async syncWithEncodedState(encodedState: string, sessionId?: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
     const state = jsonResult && JSON.parse(jsonResult);
+
+    if (sessionId) {
+      this.openLogin.state.store.set('sessionId', sessionId);
+    }
 
     this.openLogin._syncState(state);
   }

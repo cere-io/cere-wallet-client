@@ -8,13 +8,14 @@ import { AuthorizePopupStore } from '~/stores';
 const AuthorizeEnd = () => {
   const store = usePopupStore((popupId) => new AuthorizePopupStore(popupId));
   const params = new URLSearchParams(window.location.hash.slice(1));
-  const encodedResult = params.get('result');
+  const result = params.get('result');
+  const sessionId = params.get('sessionId');
 
   useEffect(() => {
-    if (encodedResult) {
-      store.end(encodedResult);
+    if (result && sessionId) {
+      store.end({ result, sessionId });
     }
-  }, [encodedResult, store]);
+  }, [result, sessionId, store]);
 
   return (
     <Loading fullScreen>

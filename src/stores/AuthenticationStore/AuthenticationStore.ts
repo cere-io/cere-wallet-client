@@ -21,7 +21,13 @@ export class AuthenticationStore {
   }
 
   async rehydrate() {
-    return false; // TODO: Implement rehydrate flow
+    if (this.openLoginStore.sessionId) {
+      await this.openLoginStore.init();
+    }
+
+    await this.syncAccount();
+
+    return !!this.accountStore.account;
   }
 
   async login({ preopenInstanceId }: LoginData) {
@@ -57,10 +63,16 @@ export class AuthenticationStore {
   private async loginInPopup(popupId: string) {
     const popup = await this.popupManagerStore.proceedTo<AuthorizePopupState>(popupId, '/authorize/start', {});
 
-    await when(() => !!popup.state.result);
-
+    await Promise.race([when(() => !popup.isConnected), when(() => !!popup.state.result)]);
     this.popupManagerStore.closePopup(popupId);
-    this.openLoginStore.syncWithEncodedState(popup.state.result!);
+
+    if (!popup.isConnected) {
+      throw new Error('User has closed the login popup');
+    }
+
+    if (popup.state.result) {
+      this.openLoginStore.syncWithEncodedState(popup.state.result, popup.state.sessionId);
+    }
   }
 
   private async syncAccount() {
