@@ -7,7 +7,7 @@ export type AuthorizePopupState = {
 };
 
 export class AuthorizePopupStore {
-  private openLoginStore = new OpenLoginStore();
+  private openLoginStore = new OpenLoginStore({ storageKey: 'session' });
   private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
 
   constructor(public readonly preopenInstanceId: string) {}

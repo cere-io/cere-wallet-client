@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { getIFrameOrigin } from '@cere-wallet/communication';
@@ -29,7 +29,7 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
-  constructor() {
+  constructor(options: Pick<OpenLoginOptions, 'storageKey'> = {}) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
@@ -41,6 +41,7 @@ export class OpenLoginStore {
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
       _sessionNamespace: this.sessionNamespace,
+      ...options,
 
       loginConfig: {
         jwt: {
