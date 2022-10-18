@@ -1,8 +1,9 @@
 import { makeAutoObservable } from 'mobx';
+import { randomBytes } from 'crypto';
 import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
+import { getIFrameOrigin } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
-import { getIFrameOrigin } from '@cere-wallet/communication';
 
 type LoginParams = {
   preopenInstanceId?: string;
@@ -74,6 +75,20 @@ export class OpenLoginStore {
 
   get privateKey() {
     return this.openLogin.privKey;
+  }
+
+  async getLoginUrl(loginParams: LoginParams = {}) {
+    const sessionId = this.sessionId || randomBytes(32).toString('hex');
+    const session = {
+      _sessionNamespace: this.openLogin.state.sessionNamespace,
+      _loginConfig: this.openLogin.state.loginConfig,
+      _sessionId: sessionId,
+    };
+
+    return this.openLogin.getEncodedLoginUrl({
+      ...session,
+      ...createLoginParams(loginParams),
+    });
   }
 
   async init() {
