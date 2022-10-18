@@ -123,9 +123,12 @@ export class EmbeddedWalletStore implements Wallet {
      * TODO: Refactor to prevent duplicated messages
      */
     reaction(
-      () => !!this.accountStore.account,
+      () => !!this.account,
       (loggedIn) => {
-        walletConnection.setLoggedInStatus(loggedIn);
+        walletConnection.setLoggedInStatus({
+          loggedIn,
+          verifier: this.account?.verifier,
+        });
       },
     );
 

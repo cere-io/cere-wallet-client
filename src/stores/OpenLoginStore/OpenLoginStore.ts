@@ -37,8 +37,9 @@ export class OpenLoginStore {
       clientId,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       uxMode: 'redirect',
-      replaceUrlOnRedirect: false,
       storageKey: 'session',
+      replaceUrlOnRedirect: false,
+
       loginConfig: {
         jwt: {
           clientId,
@@ -85,9 +86,15 @@ export class OpenLoginStore {
     return this.openLogin.getUserInfo();
   }
 
-  syncWithEncodedState(encodedState: string) {
+  syncWithEncodedState(encodedState: string, sessionId?: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
     const state = jsonResult && JSON.parse(jsonResult);
+
+    console.log('Auth result', { encodedState, sessionId });
+
+    if (sessionId) {
+      this.openLogin.state.store.set('sessionId', sessionId);
+    }
 
     this.openLogin._syncState(state);
   }

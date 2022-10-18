@@ -3,6 +3,7 @@ import { OpenLoginStore } from '../OpenLoginStore';
 
 export type AuthorizePopupState = {
   result?: string;
+  sessionId?: string;
 };
 
 export class AuthorizePopupStore {
@@ -19,7 +20,8 @@ export class AuthorizePopupStore {
     });
   }
 
-  end(result: AuthorizePopupState['result']) {
+  async end({ result, sessionId }: AuthorizePopupState) {
     this.shared.state.result = result;
+    this.shared.state.sessionId = sessionId;
   }
 }

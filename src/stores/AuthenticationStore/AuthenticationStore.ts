@@ -21,7 +21,10 @@ export class AuthenticationStore {
   }
 
   async rehydrate() {
-    return false; // TODO: Implement rehydrate flow
+    await this.openLoginStore.init();
+    await this.syncAccount();
+
+    return true;
   }
 
   async login({ preopenInstanceId }: LoginData) {
@@ -60,7 +63,7 @@ export class AuthenticationStore {
     await when(() => !!popup.state.result);
 
     this.popupManagerStore.closePopup(popupId);
-    this.openLoginStore.syncWithEncodedState(popup.state.result!);
+    this.openLoginStore.syncWithEncodedState(popup.state.result!, popup.state.sessionId);
   }
 
   private async syncAccount() {

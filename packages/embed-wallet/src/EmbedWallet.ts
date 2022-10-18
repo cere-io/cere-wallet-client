@@ -67,8 +67,10 @@ export class EmbedWallet {
 
   async connect() {
     this.status = 'connecting';
-    await this.torus.login({ verifier: 'sdk' });
+    const [address] = await this.torus.login({ verifier: this.torus.currentVerifier || 'unknown' });
     this.status = 'connected';
+
+    return address;
   }
 
   async disconnect() {
