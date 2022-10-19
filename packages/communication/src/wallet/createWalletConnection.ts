@@ -10,6 +10,7 @@ import {
   UserInfo,
   LoginChannelIn,
   NetworkInterface,
+  StatusChannelOut,
 } from './channels';
 
 type WindowOptions = {
@@ -19,7 +20,7 @@ type WindowOptions = {
 export type WalletConnection = {
   toggleFullscreen: (isFull: boolean) => void;
   closeWindow: (instanceId: string) => boolean;
-  setLoggedInStatus: (loggedIn: boolean) => void;
+  setLoggedInStatus: (status: StatusChannelOut) => void;
 };
 
 type InitData = Omit<InitChannelIn['data'], 'network'> & {
@@ -186,6 +187,6 @@ export const createWalletConnection = ({
   return {
     toggleFullscreen: (isFull) => channels.widget.publish({ name: 'widget', data: isFull }),
     closeWindow: (instanceId) => channels.window.publish({ preopenInstanceId: instanceId, close: true }),
-    setLoggedInStatus: (loggedIn) => channels.status.publish({ loggedIn }),
+    setLoggedInStatus: (status) => channels.status.publish(status),
   };
 };
