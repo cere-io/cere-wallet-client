@@ -6,15 +6,15 @@ export const IntroRoute = () => {
 
   if (isMobile) {
     return (
-      <Stack direction="column" textAlign="justify" padding="16px">
+      <Stack direction="column" textAlign="justify" padding={2}>
         <IntroPage />
       </Stack>
     );
   }
 
   return (
-    <Stack direction="row" justifyContent="center" alignItems="center" padding="16px" height="100vh">
-      <Stack width="375px">
+    <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
+      <Stack width={375}>
         <IntroPage />
       </Stack>
     </Stack>

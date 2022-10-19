@@ -9,31 +9,25 @@ export const OtpRoute = () => {
   const navigate = useNavigate();
 
   const email = location.state?.email;
+  const redirectUrl = location.state?.redirectUrl;
 
   if (isMobile) {
     return (
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="stretch"
-        padding="16px"
-        height="100vh"
-        spacing="76px"
-      >
+      <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding={2} height="100vh" spacing={9}>
         <ArrowBackIosIcon onClick={() => navigate(-1)} />
         <Stack direction="column" textAlign="justify">
-          <OtpPage email={email} />
+          <OtpPage email={email} redirectUrl={redirectUrl} />
         </Stack>
       </Stack>
     );
   }
 
   return (
-    <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding="16px" height="100vh">
+    <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding={2} height="100vh">
       <ArrowBackIosIcon onClick={() => navigate(-1)} />
-      <Stack direction="row" justifyContent="center" alignItems="center" padding="16px" height="100vh">
-        <Stack width="375px">
-          <OtpPage email={email} />
+      <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
+        <Stack width={375}>
+          <OtpPage email={email} redirectUrl={redirectUrl} />
         </Stack>
       </Stack>
     </Stack>

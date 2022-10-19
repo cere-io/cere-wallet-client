@@ -1,5 +1,5 @@
 import { Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 interface OtpProps {
   email: string;
+  redirectUrl: string;
 }
 
 const validationSchema = yup
@@ -16,7 +17,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email }: OtpProps) => {
+export const OtpPage = ({ email, redirectUrl }: OtpProps) => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
@@ -35,11 +36,20 @@ export const OtpPage = ({ email }: OtpProps) => {
     },
   });
 
+  const authRedirectUrl = useCallback(
+    (token: string) => {
+      const newUrl = new URL(redirectUrl);
+      newUrl.searchParams.set('id_token', token);
+      return newUrl.toString();
+    },
+    [redirectUrl],
+  );
+
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
     const token = await AuthApiService.getToken(email, value);
     if (token) {
-      console.log('GET TOKEN', token); // TODO integration should be here
+      window.location.href = authRedirectUrl(token);
     } else {
       setError('code', { message: 'The code is wrong, please try again' });
     }
@@ -56,14 +66,14 @@ export const OtpPage = ({ email }: OtpProps) => {
 
   useEffect(() => {
     if (!email) {
-      navigate('/login');
+      navigate('/authorize' + redirectUrl);
     }
-  }, [email, navigate]);
+  }, [email, navigate, redirectUrl]);
 
   return (
     <Stack
       direction="column"
-      spacing="16px"
+      spacing={2}
       alignItems="stretch"
       component="form"
       noValidate

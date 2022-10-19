@@ -9,14 +9,7 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
 
   if (isMobile) {
     return (
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="stretch"
-        padding="16px"
-        height="100vh"
-        spacing="76px"
-      >
+      <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding={2} height="100vh" spacing={9}>
         <ArrowBackIosIcon onClick={() => navigate(-1)} />
         <Stack direction="column" textAlign="justify">
           <LoginPage variant={variant} />
@@ -26,10 +19,10 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
   }
 
   return (
-    <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding="16px" height="100vh">
+    <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding={2} height="100vh">
       <ArrowBackIosIcon onClick={() => navigate(-1)} />
-      <Stack direction="row" justifyContent="center" alignItems="center" padding="16px" height="100vh">
-        <Stack width="375px">
+      <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
+        <Stack width={375}>
           <LoginPage variant={variant} />
         </Stack>
       </Stack>

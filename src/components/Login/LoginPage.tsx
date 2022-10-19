@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -17,6 +17,8 @@ const validationSchema = yup
 
 export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect_uri');
 
   const {
     register,
@@ -35,7 +37,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
     const value = getFormValues('email');
 
     if (await AuthApiService.sendOtp(value)) {
-      navigate('/login/otp', { state: { email: value } });
+      navigate('/authorize/otp', { state: { email: value, redirectUrl } });
     } else {
       console.error('OtpPage sending error');
     }
@@ -44,7 +46,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
   return (
     <Stack
       direction="column"
-      spacing="16px"
+      spacing={2}
       alignItems="stretch"
       component="form"
       noValidate
