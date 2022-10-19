@@ -21,6 +21,15 @@ export class PopupManagerStore {
 
   registerRedirect(instanceId: string) {
     this.redirects[instanceId] = createSharedRedirectState(instanceId);
+
+    return this.redirects[instanceId];
+  }
+
+  registerPopup<T = unknown>(instanceId: string, initialState: T) {
+    const popup = createSharedPopupState<T>(instanceId, initialState);
+    this.popups[instanceId] = popup;
+
+    return popup;
   }
 
   unregisterAll(instanceId: string) {
@@ -37,23 +46,23 @@ export class PopupManagerStore {
 
   async proceedTo<T = unknown>(instanceId: string, toUrl: string, initialState: T) {
     await this.redirect(instanceId, toUrl);
-
-    const popup = createSharedPopupState<T>(instanceId, initialState);
-    this.popups[instanceId] = popup;
+    const popup = this.registerPopup(instanceId, initialState);
 
     await when(() => popup.isConnected);
 
     return popup;
   }
 
-  private async redirect(instanceId: string, toUrl: string) {
+  async redirect(instanceId: string, toUrl: string) {
     const url = new URL(toUrl, window.origin);
     url.searchParams.append('preopenInstanceId', instanceId);
 
-    await when(() => !!this.redirects[instanceId]);
+    await when(() => this.redirects[instanceId] && this.redirects[instanceId].isConnected);
 
     runInAction(() => {
       this.redirects[instanceId].state.url = url.toString();
     });
+
+    return this.redirects[instanceId];
   }
 }

@@ -19,7 +19,7 @@ export type NetworkInterface = {
 };
 
 export type LoginData = {
-  preopenInstanceId: string;
+  preopenInstanceId?: string;
   calledFromEmbed: boolean;
   verifier: string;
   login_hint: string;

@@ -71,14 +71,18 @@ export class EmbedWallet {
     this.status = this.torus.isLoggedIn ? 'connected' : 'ready';
   }
 
-  async connect(options: WalletConnectOptions = {}) {
+  async connect({ redirectUrl, mode, ...options }: WalletConnectOptions = {}) {
     const prevStatus = this.status;
     this.status = 'connecting';
 
     try {
       const [address] = await this.torus.login({
         verifier: this.torus.currentVerifier || 'unknown',
-        loginOptions: options,
+        loginOptions: {
+          ...options,
+          uxMode: mode,
+          redirectUrl: mode === 'redirect' ? redirectUrl || window.location.href : undefined,
+        },
       });
 
       this.status = 'connected';

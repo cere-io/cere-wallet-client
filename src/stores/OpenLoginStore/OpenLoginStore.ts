@@ -5,10 +5,14 @@ import { getIFrameOrigin } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 
-type LoginParams = {
+export type LoginParams = {
   preopenInstanceId?: string;
   idToken?: string;
   redirectUrl?: string;
+};
+
+type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
+  sessionNamespace?: string;
 };
 
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
@@ -30,19 +34,19 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
-  constructor(options: Pick<OpenLoginOptions, 'storageKey'> = {}) {
+  constructor({ storageKey, sessionNamespace }: OpenLoginStoreOptions = {}) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
 
     this.openLogin = new OpenLogin({
       clientId,
+      storageKey,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       no3PC: true,
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: this.sessionNamespace,
-      ...options,
+      _sessionNamespace: sessionNamespace || this.sessionNamespace,
 
       loginConfig: {
         jwt: {
