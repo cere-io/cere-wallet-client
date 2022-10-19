@@ -109,64 +109,64 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       },
 
       h1: {
-        fontSize: '32px',
-        lineHeight: '40px',
+        fontSize: '2rem', // 32px
+        lineHeight: '2.5rem', // 40px
         fontWeight: 700,
       },
 
       h2: {
-        fontSize: '28px',
-        lineHeight: '36px',
+        fontSize: '1.75rem', // 28px
+        lineHeight: '2.25rem', // 36px
         fontWeight: 700,
       },
 
       h3: {
-        fontSize: '24px',
-        lineHeight: '32px',
+        fontSize: '1.5rem', // 24px,
+        lineHeight: '2rem', // 32px,
         fontWeight: 700,
       },
 
       h4: {
-        fontSize: '20px',
-        lineHeight: '26px',
+        fontSize: '1.25rem', // 20px,
+        lineHeight: '1.625rem', // 26px,
         fontWeight: 700,
       },
 
       subtitle1: {
-        fontSize: '16px',
-        lineHeight: '24px',
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
         fontWeight: '600',
       },
 
       subtitle2: {
-        fontSize: '14px',
-        lineHeight: '22px',
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
         fontWeight: '600',
       },
 
       body1: {
-        fontSize: '16px',
-        lineHeight: '24px',
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
       },
 
       body2: {
-        fontSize: '14px',
-        lineHeight: '22px',
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
       },
 
       caption1: {
-        fontSize: '13px',
-        lineHeight: '22px',
+        fontSize: '0.8125rem', // 13px,
+        lineHeight: '1.375rem', // 14px,
       },
 
       caption2: {
-        fontSize: '12px',
-        lineHeight: '20px',
+        fontSize: '0.75rem', // 12px,
+        lineHeight: '1.25rem', // 20px,
       },
 
       caption3: {
-        fontSize: '10px',
-        lineHeight: '16px',
+        fontSize: '0.625rem', // 10px,
+        lineHeight: '1rem', // 16px,
       },
     },
 
@@ -293,7 +293,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiTab: {
         styleOverrides: {
           root: ({ theme }) => ({
-            minHeight: '64px',
+            minHeight: 64,
 
             '& .MuiTab-iconWrapper:not(.Mui-selected *)': {
               color: theme.palette.text.secondary,
@@ -642,7 +642,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             borderWidth: 1,
             borderStyle: 'solid',
             borderColor: theme.palette.divider,
-            borderRadius: '16px',
+            borderRadius: theme.typography.pxToRem(16),
           }),
         },
       },
