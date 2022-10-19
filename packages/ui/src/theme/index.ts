@@ -50,8 +50,12 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     h5: false;
     h6: false;
-    caption: false;
 
+    /** TODO Date 2022-10-18 it's temporary added 3 captions instead of one,
+     * we are waiting update from designer,
+     * see https://cere-network.slack.com/archives/C028JGHFY9F/p1665687294408469
+     */
+    caption: false;
     caption1: true;
     caption2: true;
     caption3: true;
