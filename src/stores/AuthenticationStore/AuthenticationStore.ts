@@ -1,13 +1,11 @@
 import { makeAutoObservable, when } from 'mobx';
+import { LoginData } from '@cere-wallet/communication';
+
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-
-type LoginData = {
-  preopenInstanceId?: string;
-};
 
 export class AuthenticationStore {
   private openLoginStore = new OpenLoginStore();
