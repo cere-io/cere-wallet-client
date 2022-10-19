@@ -20,6 +20,12 @@ export type WalletInitOptions = {
   network?: NetworkConfig;
 };
 
+export type WalletConnectOptions = {
+  idToken?: string;
+  mode?: 'redirect' | 'popup';
+  redirectUrl?: string;
+};
+
 export class EmbedWallet {
   private torus: Torus;
   private eventEmitter: EventEmitter;
@@ -65,12 +71,20 @@ export class EmbedWallet {
     this.status = this.torus.isLoggedIn ? 'connected' : 'ready';
   }
 
-  async connect() {
+  async connect({ redirectUrl, mode, ...options }: WalletConnectOptions = {}) {
     const prevStatus = this.status;
     this.status = 'connecting';
 
     try {
-      const [address] = await this.torus.login({ verifier: this.torus.currentVerifier || 'unknown' });
+      const [address] = await this.torus.login({
+        verifier: this.torus.currentVerifier || 'unknown',
+        loginOptions: {
+          ...options,
+          uxMode: mode,
+          redirectUrl: mode === 'redirect' ? redirectUrl || window.location.href : undefined,
+        },
+      });
+
       this.status = 'connected';
 
       return address;

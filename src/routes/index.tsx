@@ -21,8 +21,8 @@ import { WalletHome } from './WalletHome';
 import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
-import { Authorize, AuthorizeStart, AuthorizeEnd } from './Authorize';
 import { Login } from './Login';
+import { Authorize, AuthorizeClose, AuthorizeRedirect } from './Authorize';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -63,8 +63,8 @@ const router = createBrowserRouter(
 
       <Route path="authorize">
         <Route index element={<Authorize />} />
-        <Route path="start" element={<AuthorizeStart />} />
-        <Route path="end" element={<AuthorizeEnd />} />
+        <Route path="close" element={<AuthorizeClose />} />
+        <Route path="redirect" element={<AuthorizeRedirect />} />
       </Route>
     </Route>,
   ),

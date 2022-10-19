@@ -18,6 +18,18 @@ export type NetworkInterface = {
   tickerName?: string;
 };
 
+export type LoginData = {
+  preopenInstanceId?: string;
+  calledFromEmbed: boolean;
+  verifier: string;
+  login_hint: string;
+  loginOptions: {
+    mode?: 'redirect' | 'popup';
+    idToken?: string;
+    redirectUrl?: string;
+  };
+};
+
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
@@ -88,6 +100,12 @@ export type WindowChannelOut =
       name: 'create_window';
       data: {
         preopenInstanceId: string;
+        url?: string;
+      };
+    }
+  | {
+      name: 'redirect';
+      data: {
         url: string;
       };
     };
@@ -115,12 +133,7 @@ export type WidgetChannelOut = {
 
 export type LoginChannelIn = {
   name: 'oauth';
-  data: {
-    preopenInstanceId: string;
-    calledFromEmbed: boolean;
-    verifier: string;
-    login_hint: string;
-  };
+  data: LoginData;
 };
 
 export type LoginChannelOut = {

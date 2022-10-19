@@ -1,3 +1,3 @@
 export { default as Authorize } from './Authorize';
-export { default as AuthorizeEnd } from './AuthorizeEnd';
-export { default as AuthorizeStart } from './AuthorizeStart';
+export { default as AuthorizeClose } from './AuthorizeClose';
+export { default as AuthorizeRedirect } from './AuthorizeRedirect';

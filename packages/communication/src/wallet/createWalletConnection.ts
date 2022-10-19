@@ -18,9 +18,11 @@ type WindowOptions = {
 };
 
 export type WalletConnection = {
-  toggleFullscreen: (isFull: boolean) => void;
+  toggleFullscreen: (isFull: boolean) => boolean;
+  setLoggedInStatus: (status: StatusChannelOut) => boolean;
   closeWindow: (instanceId: string) => boolean;
-  setLoggedInStatus: (status: StatusChannelOut) => void;
+  createWindow: (instanceId: string, url?: string) => boolean;
+  redirect: (url: string) => boolean;
 };
 
 type InitData = Omit<InitChannelIn['data'], 'network'> & {
@@ -186,7 +188,24 @@ export const createWalletConnection = ({
 
   return {
     toggleFullscreen: (isFull) => channels.widget.publish({ name: 'widget', data: isFull }),
-    closeWindow: (instanceId) => channels.window.publish({ preopenInstanceId: instanceId, close: true }),
     setLoggedInStatus: (status) => channels.status.publish(status),
+
+    redirect: (url: string) =>
+      channels.window.publish({
+        name: 'redirect',
+        data: { url },
+      }),
+
+    closeWindow: (instanceId) =>
+      channels.window.publish({
+        preopenInstanceId: instanceId,
+        close: true,
+      }),
+
+    createWindow: (preopenInstanceId, url) =>
+      channels.window.publish({
+        name: 'create_window',
+        data: { preopenInstanceId, url },
+      }),
   };
 };

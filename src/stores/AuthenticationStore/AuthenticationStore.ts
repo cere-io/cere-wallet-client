@@ -1,13 +1,10 @@
 import { makeAutoObservable, when } from 'mobx';
+
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore } from '../OpenLoginStore';
-
-type LoginData = {
-  preopenInstanceId?: string;
-};
+import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 
 export class AuthenticationStore {
   private openLoginStore = new OpenLoginStore();
@@ -30,11 +27,44 @@ export class AuthenticationStore {
     return !!this.accountStore.account;
   }
 
-  async login({ preopenInstanceId }: LoginData) {
-    if (preopenInstanceId) {
-      await this.loginInPopup(preopenInstanceId);
-    } else {
-      await this.openLoginStore.login();
+  getRedirectUrl({ redirectUrl, ...params }: LoginParams = {}) {
+    const url = new URL('/authorize/redirect', window.origin);
+
+    if (redirectUrl) {
+      url.searchParams.append('redirectUrl', redirectUrl);
+    }
+
+    return this.openLoginStore.getLoginUrl({
+      ...params,
+      redirectUrl: url.toString(),
+    });
+  }
+
+  async loginWithPrivateKey(data: AccountLoginData) {
+    this.accountStore.loginData = data;
+
+    return true;
+  }
+
+  async loginInPopup(popupId: string, params: LoginParams = {}) {
+    const loginUrl = await this.openLoginStore.getLoginUrl({
+      ...params,
+      preopenInstanceId: popupId,
+      redirectUrl: '/authorize/close',
+    });
+
+    const redirect = await this.popupManagerStore.redirect(popupId, loginUrl);
+    const closePopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(popupId, {});
+
+    await Promise.race([when(() => !redirect.isConnected), when(() => !!closePopup.state.result)]);
+    this.popupManagerStore.closePopup(popupId);
+
+    if (!redirect.isConnected) {
+      throw new Error('User has closed the login popup');
+    }
+
+    if (closePopup.state.result) {
+      this.openLoginStore.syncWithEncodedState(closePopup.state.result, closePopup.state.sessionId);
     }
 
     const account = await this.syncAccount();
@@ -46,33 +76,12 @@ export class AuthenticationStore {
     return account.address;
   }
 
-  async loginWithPrivateKey(data: AccountLoginData) {
-    this.accountStore.loginData = data;
-
-    return true;
-  }
-
   async logout() {
     await this.openLoginStore.logout();
 
     this.accountStore.loginData = null;
 
     return true;
-  }
-
-  private async loginInPopup(popupId: string) {
-    const popup = await this.popupManagerStore.proceedTo<AuthorizePopupState>(popupId, '/authorize/start', {});
-
-    await Promise.race([when(() => !popup.isConnected), when(() => !!popup.state.result)]);
-    this.popupManagerStore.closePopup(popupId);
-
-    if (!popup.isConnected) {
-      throw new Error('User has closed the login popup');
-    }
-
-    if (popup.state.result) {
-      this.openLoginStore.syncWithEncodedState(popup.state.result, popup.state.sessionId);
-    }
   }
 
   private async syncAccount() {

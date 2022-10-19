@@ -8,13 +8,7 @@ export const Wallet = () => {
   const status = useWalletStatus();
 
   useEffect(() => {
-    wallet.init({
-      env: 'local',
-      network: {
-        host: 'https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab',
-        chainId: 80001,
-      },
-    });
+    wallet.init({ env: 'local' });
   }, [wallet]);
 
   const handleConnect = useCallback(() => {
