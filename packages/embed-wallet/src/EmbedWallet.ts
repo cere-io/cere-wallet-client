@@ -10,6 +10,12 @@ const buildEnvMap = {
 
 export type WalletEvent = 'status-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
+export type WalletScreen = 'home' | 'topup' | 'settings';
+export type UserInfo = {
+  email: string;
+  name: string;
+  profileImage: string;
+};
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'mumbai' | string;
@@ -107,5 +113,19 @@ export class EmbedWallet {
 
       throw error;
     }
+  }
+
+  async getUserInfo(): Promise<UserInfo> {
+    const { email, name, profileImage } = await this.torus.getUserInfo('');
+
+    return {
+      email,
+      name,
+      profileImage,
+    };
+  }
+
+  async showWallet(screen: WalletScreen = 'home', params?: Record<string, string>) {
+    this.torus.showWallet(screen, params);
   }
 }
