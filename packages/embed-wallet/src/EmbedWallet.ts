@@ -15,6 +15,7 @@ export type UserInfo = {
   email: string;
   name: string;
   profileImage: string;
+  idToken: string;
 };
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
@@ -116,9 +117,11 @@ export class EmbedWallet {
   }
 
   async getUserInfo(): Promise<UserInfo> {
-    const { email, name, profileImage } = await this.torus.getUserInfo('');
+    const torusUserInfo: unknown = await this.torus.getUserInfo('');
+    const { email, name, idToken, profileImage } = torusUserInfo as UserInfo;
 
     return {
+      idToken,
       email,
       name,
       profileImage,
