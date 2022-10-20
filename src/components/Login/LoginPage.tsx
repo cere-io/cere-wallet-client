@@ -9,13 +9,13 @@ import {
   IconButton,
   GoogleIcon,
   FacebookIcon,
-  Divider,
 } from '@cere-wallet/ui';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Divider } from '@mui/material';
 import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 
 interface LogInProps {
@@ -62,6 +62,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
 
   const onGoogleAuth = async () => {
     const token = await getTokenWithGoogle();
+    console.log('token', token);
     if (token) {
       window.location.href = createNextUrl(token);
     } else {
@@ -71,6 +72,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
 
   const onFacebookAuth = async () => {
     const token = await getTokenWithFacebook();
+    console.log('token', token);
     if (token) {
       window.location.href = createNextUrl(token);
     } else {

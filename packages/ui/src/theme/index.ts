@@ -1,4 +1,5 @@
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import { CSSProperties } from 'react';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -25,6 +26,14 @@ declare module '@mui/material/IconButton' {
 declare module '@mui/material/Alert' {
   interface AlertPropsColorOverrides {
     neutral: true;
+  }
+}
+
+declare module '@mui/material/styles' {
+  interface TypographyVariantsOptions {
+    caption1?: CSSProperties;
+    caption2?: CSSProperties;
+    caption3?: CSSProperties;
   }
 }
 
