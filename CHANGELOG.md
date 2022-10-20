@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [DAV-2698] Add SDK package and built-in authentication
 
 ### v1.4.0
 
