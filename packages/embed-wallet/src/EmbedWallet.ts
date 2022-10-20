@@ -10,6 +10,13 @@ const buildEnvMap = {
 
 export type WalletEvent = 'status-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
+export type WalletScreen = 'home' | 'topup' | 'settings';
+export type UserInfo = {
+  email: string;
+  name: string;
+  profileImage: string;
+  idToken: string;
+};
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'mumbai' | string;
@@ -36,13 +43,15 @@ export class EmbedWallet {
     this.torus = new Torus();
   }
 
-  private set status(status: WalletStatus) {
-    if (this.currentStatus === status) {
-      return;
+  private setStatus(status: WalletStatus) {
+    const prevStatus = this.currentStatus;
+
+    if (this.currentStatus !== status) {
+      this.currentStatus = status;
+      this.eventEmitter.emit('status-update', this.currentStatus);
     }
 
-    this.currentStatus = status;
-    this.eventEmitter.emit('status-update', this.currentStatus);
+    return () => this.setStatus(prevStatus);
   }
 
   get status() {
@@ -68,12 +77,11 @@ export class EmbedWallet {
       enableLogging: env !== 'prod',
     });
 
-    this.status = this.torus.isLoggedIn ? 'connected' : 'ready';
+    this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 
   async connect({ redirectUrl, mode, ...options }: WalletConnectOptions = {}) {
-    const prevStatus = this.status;
-    this.status = 'connecting';
+    const rollback = this.setStatus('connecting');
 
     try {
       const [address] = await this.torus.login({
@@ -85,27 +93,42 @@ export class EmbedWallet {
         },
       });
 
-      this.status = 'connected';
+      this.setStatus('connected');
 
       return address;
     } catch (error) {
-      this.status = prevStatus;
+      rollback();
 
       throw error;
     }
   }
 
   async disconnect() {
-    const prevStatus = this.status;
-    this.status = 'disconnecting';
+    const rollback = this.setStatus('disconnecting');
 
     try {
       await this.torus.logout();
-      this.status = 'ready';
+      this.setStatus('ready');
     } catch (error) {
-      this.status = prevStatus;
+      rollback();
 
       throw error;
     }
+  }
+
+  async getUserInfo(): Promise<UserInfo> {
+    const torusUserInfo: unknown = await this.torus.getUserInfo('');
+    const { email, name, idToken, profileImage } = torusUserInfo as UserInfo;
+
+    return {
+      idToken,
+      email,
+      name,
+      profileImage,
+    };
+  }
+
+  async showWallet(screen: WalletScreen = 'home', params?: Record<string, string>) {
+    this.torus.showWallet(screen, params);
   }
 }
