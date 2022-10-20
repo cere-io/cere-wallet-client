@@ -65,6 +65,8 @@ export class AuthenticationStore {
 
     if (closePopup.state.result) {
       this.openLoginStore.syncWithEncodedState(closePopup.state.result, closePopup.state.sessionId);
+
+      await this.openLoginStore.init();
     }
 
     const account = await this.syncAccount();

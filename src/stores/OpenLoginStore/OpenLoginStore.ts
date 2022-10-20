@@ -65,6 +65,10 @@ export class OpenLoginStore {
     });
   }
 
+  get initialized() {
+    return this.openLogin.provider.initialized;
+  }
+
   get sessionNamespace() {
     try {
       return new URL(getIFrameOrigin()).hostname;
@@ -96,7 +100,7 @@ export class OpenLoginStore {
   }
 
   async init() {
-    if (this.openLogin.provider.initialized) {
+    if (this.initialized) {
       return; // Do nothing if already initialized
     }
 
@@ -113,7 +117,10 @@ export class OpenLoginStore {
       return; // Do nothing if not logged in
     }
 
-    await this.openLogin.logout();
+    if (this.initialized) {
+      await this.openLogin.logout();
+    }
+
     this.openLogin.state.store.resetStore();
   }
 
