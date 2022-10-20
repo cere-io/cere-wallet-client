@@ -61,16 +61,16 @@ const WalletWidget = () => {
         />
         <Content>
           <Box marginBottom={1}>
-            <Typography variant="caption2" color="text.caption">
+            <Typography variant="caption" color="text.caption">
               TOTAL VALUE
             </Typography>
             <AccountBalance fontWeight="bold" />
           </Box>
 
-          <Typography variant="caption2" color="text.secondary">
+          <Typography variant="caption" color="text.secondary">
             <Stack direction="row" alignItems="baseline" spacing={0.5}>
               <WifiIcon fontSize="inherit" />
-              <Typography variant="caption2">{network.displayName}</Typography>
+              <Typography variant="caption">{network.displayName}</Typography>
             </Stack>
           </Typography>
         </Content>

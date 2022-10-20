@@ -1,5 +1,5 @@
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
-import * as React from 'react';
+import { CSSProperties } from 'react';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -30,19 +30,10 @@ declare module '@mui/material/Alert' {
 }
 
 declare module '@mui/material/styles' {
-  interface TypographyStyleOptions {
-    fontWeight: 'fontWeightBold' | 'fontWeightSemibold' | 'fontWeightMedium' | 'fontWeightRegular' | 'fontWeightLight';
-  }
-
-  interface TypographyVariants {
-    poster: React.CSSProperties;
-  }
-
-  // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    caption1?: React.CSSProperties;
-    caption2?: React.CSSProperties;
-    caption3?: React.CSSProperties;
+    caption1?: CSSProperties;
+    caption2?: CSSProperties;
+    caption3?: CSSProperties;
   }
 }
 
@@ -50,15 +41,6 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     h5: false;
     h6: false;
-
-    /** TODO Date 2022-10-18 it's temporary added 3 captions instead of one,
-     * we are waiting update from designer,
-     * see https://cere-network.slack.com/archives/C028JGHFY9F/p1665687294408469
-     */
-    caption: false;
-    caption1: true;
-    caption2: true;
-    caption3: true;
   }
 }
 
@@ -106,7 +88,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
     },
 
     typography: {
-      fontFamily: '"Lexend","Roboto","Helvetica","Arial",sans-serif',
+      fontFamily: '"Lexend", sans-serif',
       button: {
         textTransform: 'none',
         fontWeight: '600',
@@ -158,19 +140,15 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         lineHeight: '1.375rem', // 14px,
       },
 
-      caption1: {
-        fontSize: '0.8125rem', // 13px,
-        lineHeight: '1.375rem', // 14px,
-      },
-
-      caption2: {
+      caption: {
         fontSize: '0.75rem', // 12px,
-        lineHeight: '1.25rem', // 20px,
+        lineHeight: '1rem', // 16px,
       },
 
-      caption3: {
+      overline: {
         fontSize: '0.625rem', // 10px,
         lineHeight: '1rem', // 16px,
+        textTransform: 'uppercase',
       },
     },
 
@@ -400,7 +378,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           },
 
           subheaderTypographyProps: {
-            variant: 'caption2',
+            variant: 'caption',
             noWrap: true,
             textOverflow: 'ellipsis',
           },

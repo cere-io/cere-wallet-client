@@ -5,24 +5,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { createNextUrl } from './auth.service';
 
 interface OtpProps {
   email: string;
 }
-
-const createNextUrl = (idToken?: string) => {
-  const url = new URL(window.location.href);
-  const nextUrl = new URL(url.searchParams.get('redirect_uri')!);
-  const nextParams = new URLSearchParams(url.search);
-
-  if (idToken) {
-    nextParams.set('id_token', idToken);
-  }
-
-  nextUrl.hash = nextParams.toString();
-
-  return nextUrl.toString();
-};
 
 const validationSchema = yup
   .object({
@@ -66,7 +53,15 @@ export const OtpPage = ({ email }: OtpProps) => {
   };
 
   useEffect(() => {
-    timeLeft > 0 && setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    let timer: NodeJS.Timeout;
+
+    if (timeLeft > 0) {
+      timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [timeLeft]);
 
   useEffect(() => {
