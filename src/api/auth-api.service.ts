@@ -9,8 +9,8 @@ export class AuthApiService {
     let result: AxiosResponse<{ code: 'SUCCESS' | 'ERROR' }> | null = null;
     try {
       result = await api.post<{ code: 'SUCCESS' | 'ERROR' }>('/auth/otp/send', { email });
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error(err?.message);
     }
     return result?.data?.code === 'SUCCESS';
   }

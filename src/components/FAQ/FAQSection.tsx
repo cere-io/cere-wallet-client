@@ -19,7 +19,7 @@ export const FAQSection = ({ title, children, defaultExpanded }: FAQSectionProps
       <Typography fontWeight="bold">{title}</Typography>
     </AccordionSummary>
     <AccordionDetails>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body1" color="text.secondary">
         {children}
       </Typography>
     </AccordionDetails>

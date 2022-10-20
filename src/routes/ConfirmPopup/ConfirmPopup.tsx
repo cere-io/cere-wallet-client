@@ -17,14 +17,14 @@ const ConfirmPopup = () => {
       onConfirm={store.approve}
     >
       <PopupLayout.Section spacing={1}>
-        <Typography variant="body2" fontWeight="bold">
+        <Typography variant="body1" fontWeight="medium">
           Requested from
         </Typography>
         <Link href={store.app.url}>{store.app.label}</Link>
       </PopupLayout.Section>
 
       <PopupLayout.Section spacing={1}>
-        <Typography variant="body2" fontWeight="bold">
+        <Typography variant="body1" fontWeight="medium">
           Data:
         </Typography>
         <TransactionData hex={store.content} />

@@ -33,11 +33,11 @@ export const OnboardingDialog = ({ open, onClose, ...props }: OnboardingDialogPr
       <DialogContent>
         <Stack height="100%" alignItems="center">
           <Stack spacing={1} marginBottom={4}>
-            <Typography align="center" variant="h6">
+            <Typography align="center" variant="h3">
               Welcome to Cere Wallet!
             </Typography>
 
-            <Typography align="center" variant="body2" color="text.secondary">
+            <Typography align="center" variant="body1" color="text.secondary">
               Here’s what most people do to fund their wallet in order to purchase
             </Typography>
           </Stack>
@@ -46,11 +46,11 @@ export const OnboardingDialog = ({ open, onClose, ...props }: OnboardingDialogPr
             <Stack direction="row" spacing={isMobile ? 2 : 3} alignItems="center">
               <SouthEastIcon />
               <Stack>
-                <Typography variant={isMobile ? 'body2' : 'body1'} fontWeight="bold">
+                <Typography variant="body1" fontWeight={isMobile ? 'medium' : 'regular'}>
                   Send funds from external wallet
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body1" color="text.secondary">
                   Send USDC via Polygon to your wallet
                 </Typography>
               </Stack>
