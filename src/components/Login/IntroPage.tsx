@@ -17,10 +17,10 @@ export const IntroPage = () => {
       </Stack>
       <InfoStepper />
       <Divider />
-      <Button variant="contained" size="large" onClick={() => navigate('/authorize/signup' + location.search)}>
+      <Button variant="contained" size="large" onClick={() => navigate({ ...location, pathname: '/authorize/signup' })}>
         Create a new wallet
       </Button>
-      <Button variant="outlined" size="large" onClick={() => navigate('/authorize/signin' + location.search)}>
+      <Button variant="outlined" size="large" onClick={() => navigate({ ...location, pathname: '/authorize/signin' })}>
         I already have a wallet
       </Button>
     </Stack>

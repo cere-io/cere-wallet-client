@@ -1,15 +1,28 @@
 import { Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthApiService } from '~/api/auth-api.service';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 interface OtpProps {
   email: string;
-  redirectUrl: string;
 }
+
+const createNextUrl = (idToken?: string) => {
+  const url = new URL(window.location.href);
+  const nextUrl = new URL(url.searchParams.get('redirect_uri')!);
+  const nextParams = new URLSearchParams(url.search);
+
+  if (idToken) {
+    nextParams.set('id_token', idToken);
+  }
+
+  nextUrl.hash = nextParams.toString();
+
+  return nextUrl.toString();
+};
 
 const validationSchema = yup
   .object({
@@ -17,7 +30,8 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, redirectUrl }: OtpProps) => {
+export const OtpPage = ({ email }: OtpProps) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
@@ -36,20 +50,11 @@ export const OtpPage = ({ email, redirectUrl }: OtpProps) => {
     },
   });
 
-  const authRedirectUrl = useCallback(
-    (token: string) => {
-      const newUrl = new URL(redirectUrl);
-      newUrl.searchParams.set('id_token', token);
-      return newUrl.toString();
-    },
-    [redirectUrl],
-  );
-
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
     const token = await AuthApiService.getToken(email, value);
     if (token) {
-      window.location.href = authRedirectUrl(token);
+      window.location.href = createNextUrl(token);
     } else {
       setError('code', { message: 'The code is wrong, please try again' });
     }
@@ -66,9 +71,9 @@ export const OtpPage = ({ email, redirectUrl }: OtpProps) => {
 
   useEffect(() => {
     if (!email) {
-      navigate('/authorize' + redirectUrl);
+      navigate({ ...location, pathname: '/authorize' });
     }
-  }, [email, navigate, redirectUrl]);
+  }, [email, location, navigate]);
 
   return (
     <Stack
