@@ -9,18 +9,32 @@ export type UserInfo = {
   verifierId: string;
 };
 
+export type NetworkInterface = {
+  host: 'matic' | 'mumbai' | string;
+  chainId?: number;
+  networkName?: string;
+  blockExplorer?: string;
+  ticker?: string;
+  tickerName?: string;
+};
+
+export type LoginData = {
+  preopenInstanceId?: string;
+  calledFromEmbed: boolean;
+  verifier: string;
+  login_hint: string;
+  loginOptions: {
+    mode?: 'redirect' | 'popup';
+    idToken?: string;
+    redirectUrl?: string;
+  };
+};
+
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
     torusWidgetVisibility: boolean;
-    network: {
-      blockExplorer: string;
-      chainId: number;
-      host: string;
-      networkName: string;
-      ticker: string;
-      tickerName: string;
-    };
+    network: NetworkInterface;
   };
 };
 
@@ -31,7 +45,7 @@ export type InitChannelOut = {
   };
 };
 
-export type LoginChannelIn = {
+export type PrivateKeyLoginChannelIn = {
   name: 'login_with_private_key_request';
   data: {
     privateKey: string;
@@ -39,7 +53,7 @@ export type LoginChannelIn = {
   };
 };
 
-export type LoginChannelOut = {
+export type PrivateKeyLoginChannelOut = {
   name: 'login_with_private_key_response';
   data: {
     success: boolean;
@@ -86,6 +100,12 @@ export type WindowChannelOut =
       name: 'create_window';
       data: {
         preopenInstanceId: string;
+        url?: string;
+      };
+    }
+  | {
+      name: 'redirect';
+      data: {
         url: string;
       };
     };
@@ -111,9 +131,19 @@ export type WidgetChannelOut = {
   data: boolean;
 };
 
+export type LoginChannelIn = {
+  name: 'oauth';
+  data: LoginData;
+};
+
+export type LoginChannelOut = {
+  err?: string;
+  selectedAddress?: string;
+};
+
 export const createChannels = (options: CreateChannelOptions) => ({
   init: createChannel<InitChannelIn, InitChannelOut>('init_stream', options),
-  login: createChannel<LoginChannelIn, LoginChannelOut>('login_with_private_key', options),
+  login: createChannel<PrivateKeyLoginChannelIn, PrivateKeyLoginChannelOut>('login_with_private_key', options),
   logout: createChannel<LogoutChannelInOut, LogoutChannelInOut>('logout', options),
   status: createChannel<StatusChannelIn, StatusChannelOut>('status', options),
   userInfo: createChannel<UserInfoChannelIn, UserInfoChannelOut>('user_info_access', options),
@@ -121,4 +151,5 @@ export const createChannels = (options: CreateChannelOptions) => ({
   widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>('torus-widget-visibility', options),
   wallet: createChannel<WalletChannelIn, WalletChannelOut>('show_wallet', options),
   widget: createChannel<WidgetChannelIn, WidgetChannelOut>('widget', options),
+  auth: createChannel<LoginChannelIn, LoginChannelOut>('oauth', options),
 });

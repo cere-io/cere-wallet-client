@@ -14,7 +14,6 @@ export {
   CardActions,
   ToggleButton,
   ToggleButtonGroup,
-  Typography,
   Link,
   Divider,
   Collapse,
@@ -31,6 +30,9 @@ export {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  TextField,
+  MobileStepper,
+  FormControl,
 } from '@mui/material';
 
 export type {
@@ -45,7 +47,6 @@ export type {
   CardActionsProps,
   ToggleButtonProps,
   ToggleButtonGroupProps,
-  TypographyProps,
   LinkProps,
   DividerProps,
   CollapseProps,
@@ -66,6 +67,9 @@ export type {
   AccordionProps,
   AccordionDetailsProps,
   AccordionSummaryProps,
+  TextFieldProps,
+  MobileStepperProps,
+  FormControlProps,
 } from '@mui/material';
 
 export * from './IconButton';
@@ -80,3 +84,5 @@ export * from './List';
 export * from './Dialog';
 export * from './QRCode';
 export * from './CopyButton';
+export * from './OtpInput';
+export * from './Typography';

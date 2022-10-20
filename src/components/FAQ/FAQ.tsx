@@ -14,7 +14,7 @@ const Wrapper = styled(Box)(({ theme }) => ({
 export const FAQ = ({ title, children, ...props }: FAQProps) => (
   <Wrapper {...props}>
     {title && (
-      <Typography marginLeft={2} marginTop={2} marginBottom={-1} variant="h6">
+      <Typography marginLeft={2} marginTop={2} marginBottom={-1} variant="h3">
         {title}
       </Typography>
     )}
