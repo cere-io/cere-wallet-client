@@ -42,7 +42,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
   },
 }));
 
-export const OtpInput = forwardRef<{}, OtpProps>(({ onChange, errorMessage }, ref) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
   const handleCodeChange = (value: string) => {
     if (typeof onChange === 'function') {
       onChange(value);
@@ -52,6 +52,7 @@ export const OtpInput = forwardRef<{}, OtpProps>(({ onChange, errorMessage }, re
   return (
     <Stack direction="column" textAlign="center" spacing={1}>
       <CodeInput
+        ref={ref}
         name="OTP"
         type={'text'}
         inputMode="url"
