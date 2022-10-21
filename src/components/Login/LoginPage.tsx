@@ -9,13 +9,13 @@ import {
   IconButton,
   GoogleIcon,
   FacebookIcon,
+  Divider,
 } from '@cere-wallet/ui';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Divider } from '@mui/material';
 import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 
 interface LogInProps {

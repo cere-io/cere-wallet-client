@@ -53,11 +53,7 @@ export const OtpPage = ({ email }: OtpProps) => {
   };
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (timeLeft > 0) {
-      timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-    }
+    let timer = timeLeft ? setTimeout(() => setTimeLeft(timeLeft - 1), 1000) : undefined;
 
     return () => {
       clearTimeout(timer);
