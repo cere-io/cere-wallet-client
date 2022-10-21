@@ -17,7 +17,4 @@ export const IconButton = styled(MuiIconButton, {
   ...(variant === 'filled' && {
     backgroundColor: theme.palette.grey[100],
   }),
-  ...(size === 'large' && {
-    borderRadius: theme.typography.pxToRem(12),
-  }),
 }));

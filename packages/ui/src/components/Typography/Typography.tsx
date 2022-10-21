@@ -1,26 +1,13 @@
-import { Typography as MuiTypography, TypographyProps as MuiTypographyProps } from '@mui/material';
+import { ElementType } from 'react';
+import { Typography as MuiTypography, TypographyProps as MuiTypographyProps, TypographyTypeMap } from '@mui/material';
 
-import * as React from 'react';
-
-export enum FontWeight {
-  'bold' = 700,
-  'semibold' = 600,
-  'medium' = 500,
-  'regular' = 400,
-  'light' = 300,
-}
-
-interface additionalProps {
+export type TypographyProps<D extends ElementType = TypographyTypeMap['defaultComponent'], P = {}> = Omit<
+  MuiTypographyProps<D, P>,
+  'fontWeight'
+> & {
   fontWeight?: 'bold' | 'semibold' | 'medium' | 'regular' | 'light';
-}
-
-export type TypographyProps = MuiTypographyProps & additionalProps;
-
-export const Typography = ({ fontWeight, children, ...props }: TypographyProps) => {
-  return (
-    // @ts-ignore
-    <MuiTypography fontWeight={fontWeight ? FontWeight[fontWeight] : undefined} {...props}>
-      {children}
-    </MuiTypography>
-  );
 };
+
+export const Typography = <D extends ElementType = TypographyTypeMap['defaultComponent'], P = {}>(
+  props: TypographyProps<D, P>,
+) => <MuiTypography {...props} />;

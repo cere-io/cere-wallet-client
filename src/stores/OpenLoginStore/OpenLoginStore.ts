@@ -38,6 +38,7 @@ export class OpenLoginStore {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
+    const appUrl = new URL(this.appUrl || window.origin);
 
     this.openLogin = new OpenLogin({
       clientId,
@@ -47,6 +48,25 @@ export class OpenLoginStore {
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
       _sessionNamespace: sessionNamespace || this.sessionNamespace,
+
+      whiteLabel: {
+        dark: false,
+        logoDark: `${appUrl.origin}/images/logo.svg`,
+        logoLight: `${appUrl.origin}/images/logo-light.svg`,
+
+        /**
+         * TODO: get this information from the app context
+         */
+        name: appUrl.hostname,
+        url: appUrl.origin,
+
+        /**
+         * TODO: Figure out how to use `UI Kit` theme variables here
+         */
+        theme: {
+          primary: '#733BF5',
+        },
+      },
 
       loginConfig: {
         jwt: {
@@ -65,16 +85,20 @@ export class OpenLoginStore {
     });
   }
 
+  private get appUrl() {
+    try {
+      return new URL(getIFrameOrigin());
+    } catch {
+      return undefined;
+    }
+  }
+
   get initialized() {
     return this.openLogin.provider.initialized;
   }
 
   get sessionNamespace() {
-    try {
-      return new URL(getIFrameOrigin()).hostname;
-    } catch {
-      return undefined;
-    }
+    return this.appUrl?.hostname;
   }
 
   get sessionId() {
@@ -88,9 +112,10 @@ export class OpenLoginStore {
   async getLoginUrl(loginParams: LoginParams = {}) {
     const sessionId = this.sessionId || randomBytes(32).toString('hex');
     const session = {
+      _sessionId: sessionId,
       _sessionNamespace: this.openLogin.state.sessionNamespace,
       _loginConfig: this.openLogin.state.loginConfig,
-      _sessionId: sessionId,
+      _whiteLabelData: this.openLogin.state.whiteLabel,
     };
 
     return this.openLogin.getEncodedLoginUrl({
