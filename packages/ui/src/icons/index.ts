@@ -20,6 +20,9 @@ export {
   CheckCircle as CheckCircleIcon,
   KeyboardBackspace as BackIcon,
   ExpandMore as ExpandMoreIcon,
+  East as EastIcon,
+  SouthEast as SouthEastIcon,
+  PlayArrow as PlayArrowIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
@@ -35,3 +38,5 @@ export * from './TransactionInIcon';
 export * from './TransactionOutIcon';
 export * from './TopUpIcon';
 export * from './TransferIcon';
+export * from './StoreYourTokensIcon';
+export * from './ManageYourFundsIcon';

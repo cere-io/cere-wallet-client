@@ -16,8 +16,10 @@ import {
   LogoutIcon,
   HelpIcon,
   Chip,
+  Link as UILink,
 } from '@cere-wallet/ui';
 
+import { WALLET_HELP_URL } from '~/constants';
 import { WalletLayoutProps } from './types';
 import { Link } from '../Link';
 import { AccountInfo } from '../AccountInfo';
@@ -115,7 +117,7 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
                 </MenuItem>
               ))}
 
-              <MenuItem onClick={handleClose}>
+              <MenuItem component={UILink} target="_blank" href={WALLET_HELP_URL}>
                 <ListItemIcon>
                   <HelpIcon />
                 </ListItemIcon>

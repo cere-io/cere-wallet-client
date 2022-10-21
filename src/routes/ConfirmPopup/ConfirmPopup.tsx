@@ -1,15 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { InfoTable, Typography, Link } from '@cere-wallet/ui';
 
 import { ConfirmPopupStore } from '~/stores';
 import { PopupLayout, PriceRow, TransactionData } from '~/components';
-import { InfoTable, Typography, Link } from '@cere-wallet/ui';
+import { usePopupStore } from '~/hooks';
 
 const ConfirmPopup = () => {
-  const [params] = useSearchParams();
-  const instanceId = params.get('instanceId');
-  const store = useMemo(() => new ConfirmPopupStore(instanceId!), [instanceId]);
+  const store = usePopupStore((popupId) => new ConfirmPopupStore(popupId));
 
   return (
     <PopupLayout
@@ -20,14 +17,14 @@ const ConfirmPopup = () => {
       onConfirm={store.approve}
     >
       <PopupLayout.Section spacing={1}>
-        <Typography variant="body2" fontWeight="bold">
+        <Typography variant="body1" fontWeight="medium">
           Requested from
         </Typography>
         <Link href={store.app.url}>{store.app.label}</Link>
       </PopupLayout.Section>
 
       <PopupLayout.Section spacing={1}>
-        <Typography variant="body2" fontWeight="bold">
+        <Typography variant="body1" fontWeight="medium">
           Data:
         </Typography>
         <TransactionData hex={store.content} />

@@ -62,14 +62,18 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
         >
           <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Typography variant={dense ? 'body2' : 'h6'} fontWeight="bold" color="text.secondary">
+              <Typography
+                variant={dense ? 'body2' : 'h4'}
+                fontWeight={dense ? 'medium' : undefined}
+                color="text.secondary"
+              >
                 Total Balance
               </Typography>
 
               {dense && addressElement}
             </Stack>
 
-            <AccountBalance variant={dense ? 'h5' : 'h4'} />
+            <AccountBalance variant={dense ? 'h2' : 'h1'} />
           </Stack>
 
           <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>

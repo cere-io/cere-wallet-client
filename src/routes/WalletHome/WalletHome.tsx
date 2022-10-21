@@ -1,12 +1,17 @@
-import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
 
-import { AccountBalanceWidget, ActivityList, AssetList } from '~/components';
+import { AccountBalanceWidget, ActivityList, AssetList, OnboardingDialog } from '~/components';
 
 const WalletHome = () => {
   const isMobile = useIsMobile();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState<'assets' | 'activity'>('assets');
+
+  const showOnboarding = location.hash.slice(1) === 'onboarding';
 
   return (
     <Stack spacing={4}>
@@ -15,7 +20,6 @@ const WalletHome = () => {
       <Stack spacing={3}>
         <ToggleButtonGroup
           exclusive
-          fullWidth
           size={isMobile ? 'small' : 'medium'}
           value={currentTab}
           onChange={(event, value) => value && setCurrentTab(value)}
@@ -31,6 +35,8 @@ const WalletHome = () => {
 
         {currentTab === 'assets' ? <AssetList dense={isMobile} /> : <ActivityList dense={isMobile} />}
       </Stack>
+
+      <OnboardingDialog open={showOnboarding} onClose={() => navigate({ ...location, hash: '' })} />
     </Stack>
   );
 };

@@ -17,13 +17,13 @@ export const ComingSoon = ({ title, description }: ComingSoonProps) => (
     <Chip color="secondary" label="Coming Soon" />
 
     {title && (
-      <Typography variant="h6" align="center">
+      <Typography variant="h3" align="center">
         {title}
       </Typography>
     )}
 
     {description && (
-      <Typography color="text.secondary" align="center">
+      <Typography variant="body1" color="text.secondary" align="center">
         {description}
       </Typography>
     )}

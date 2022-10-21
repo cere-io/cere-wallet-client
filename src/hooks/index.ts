@@ -6,3 +6,4 @@ export * from './useBalanceStore';
 export * from './useAssetStore';
 export * from './useActivityStore';
 export * from './useAppContextStore';
+export * from './usePopupStore';

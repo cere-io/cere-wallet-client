@@ -2,6 +2,15 @@
 
 ### vNext
 
+- [DAV-2698] Add SDK package and built-in authentication
+
+### v1.4.0
+
+- [DAV-3116] Onboarding modal on Account Overview
+- [DAV-3077] Add url to Help link in mobile menu and profile dropdown
+
+### v1.3.0
+
 - [DAV-3036] Wallet asset overview widget
 - [DAV-3119] Assets balance real-time update
 - [DAV-3079] Add address QR code dialog

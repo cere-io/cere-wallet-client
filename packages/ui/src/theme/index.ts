@@ -1,4 +1,5 @@
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import * as React from 'react';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -28,8 +29,46 @@ declare module '@mui/material/Alert' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface TypographyStyleOptions {
+    fontWeight: 'fontWeightBold' | 'fontWeightSemibold' | 'fontWeightMedium' | 'fontWeightRegular' | 'fontWeightLight';
+  }
+
+  interface TypographyVariants {
+    poster: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    caption1?: React.CSSProperties;
+    caption2?: React.CSSProperties;
+    caption3?: React.CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    h5: false;
+    h6: false;
+
+    /** TODO Date 2022-10-18 it's temporary added 3 captions instead of one,
+     * we are waiting update from designer,
+     * see https://cere-network.slack.com/archives/C028JGHFY9F/p1665687294408469
+     */
+    caption: false;
+    caption1: true;
+    caption2: true;
+    caption3: true;
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
+
+/** ******************************************************************************* **/
+/** CERE Wallet design system see here                                              **/
+/** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
+/** ******************************************************************************* **/
 
 export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
@@ -67,25 +106,71 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
     },
 
     typography: {
+      fontFamily: '"Lexend","Roboto","Helvetica","Arial",sans-serif',
       button: {
         textTransform: 'none',
-        fontWeight: 'bold',
+        fontWeight: '600',
+      },
+
+      h1: {
+        fontSize: '2rem', // 32px
+        lineHeight: '2.5rem', // 40px
+        fontWeight: 700,
+      },
+
+      h2: {
+        fontSize: '1.75rem', // 28px
+        lineHeight: '2.25rem', // 36px
+        fontWeight: 700,
+      },
+
+      h3: {
+        fontSize: '1.5rem', // 24px,
+        lineHeight: '2rem', // 32px,
+        fontWeight: 700,
       },
 
       h4: {
-        fontWeight: 'bold',
+        fontSize: '1.25rem', // 20px,
+        lineHeight: '1.625rem', // 26px,
+        fontWeight: 700,
       },
 
-      h5: {
-        fontWeight: 'bold',
+      subtitle1: {
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
+        fontWeight: '600',
       },
 
-      h6: {
-        fontWeight: 'bold',
+      subtitle2: {
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
+        fontWeight: '600',
       },
 
-      caption: {
-        lineHeight: 1.5,
+      body1: {
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
+      },
+
+      body2: {
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
+      },
+
+      caption1: {
+        fontSize: '0.8125rem', // 13px,
+        lineHeight: '1.375rem', // 14px,
+      },
+
+      caption2: {
+        fontSize: '0.75rem', // 12px,
+        lineHeight: '1.25rem', // 20px,
+      },
+
+      caption3: {
+        fontSize: '0.625rem', // 10px,
+        lineHeight: '1rem', // 16px,
       },
     },
 
@@ -112,6 +197,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
           text: {
             borderRadius: 30,
+            padding: '0 !important',
+            '&:hover': {
+              backgroundColor: 'inherit',
+            },
           },
 
           containedInherit: ({ theme }) => ({
@@ -124,6 +213,8 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             paddingRight: 32,
             paddingTop: 10,
             paddingBottom: 10,
+            height: 44,
+            borderRadius: 50,
           }),
 
           sizeMedium: ({ theme }) => ({
@@ -206,7 +297,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiTab: {
         styleOverrides: {
           root: ({ theme }) => ({
-            minHeight: '64px',
+            minHeight: 64,
 
             '& .MuiTab-iconWrapper:not(.Mui-selected *)': {
               color: theme.palette.text.secondary,
@@ -309,7 +400,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           },
 
           subheaderTypographyProps: {
-            variant: 'caption',
+            variant: 'caption2',
             noWrap: true,
             textOverflow: 'ellipsis',
           },
@@ -396,11 +487,14 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
       MuiDialog: {
         styleOverrides: {
-          paperFullScreen: {
-            marginTop: '30vh',
-            borderTopLeftRadius: 12,
-            borderTopRightRadius: 12,
-          },
+          /**
+           * TODO: Confirm with design and remove if not needed
+           */
+          // paperFullScreen: {
+          //   marginTop: '30vh',
+          //   borderTopLeftRadius: 12,
+          //   borderTopRightRadius: 12,
+          // },
         },
       },
 
@@ -542,6 +636,25 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           root: ({ theme }) => ({
             paddingTop: 0,
             paddingBottom: 0,
+          }),
+        },
+      },
+
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: theme.palette.divider,
+            borderRadius: theme.typography.pxToRem(16),
+          }),
+        },
+      },
+
+      MuiMobileStepper: {
+        styleOverrides: {
+          dotActive: ({ theme }) => ({
+            backgroundColor: theme.palette.text.primary,
           }),
         },
       },

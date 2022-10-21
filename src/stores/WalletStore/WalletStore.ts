@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { createProvider } from '@cere-wallet/wallet-engine';
 
 import { Provider, Wallet } from '../types';
@@ -39,6 +39,10 @@ export class WalletStore implements Wallet {
     return this.currentProvider;
   }
 
+  private set provider(provider) {
+    this.currentProvider = provider;
+  }
+
   get network() {
     return this.networkStore.network;
   }
@@ -54,8 +58,6 @@ export class WalletStore implements Wallet {
     const chainConfig = this.networkStore.network!;
     const provider = await createProvider({ privateKey, chainConfig });
 
-    runInAction(() => {
-      this.currentProvider = new providers.Web3Provider(provider);
-    });
+    this.provider = new providers.Web3Provider(provider);
   }
 }

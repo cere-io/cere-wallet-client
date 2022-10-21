@@ -26,21 +26,22 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 
 const Wrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'showClose',
-})<Pick<DialogProps, 'showClose'>>(({ theme, showClose }) =>
-  !showClose
-    ? {}
-    : {
-        position: 'relative',
+})<Pick<DialogProps, 'showClose'>>(({ theme, showClose }) => ({
+  display: 'flex',
+  flex: 1,
 
-        [`& .${dialogContentClasses.root}`]: {
-          paddingTop: theme.spacing(8),
-        },
+  ...(showClose && {
+    position: 'relative',
 
-        [`& .${dialogTitleClasses.root}`]: {
-          paddingRight: theme.spacing(8),
-        },
-      },
-);
+    [`& .${dialogContentClasses.root}`]: {
+      paddingTop: theme.spacing(8),
+    },
+
+    [`& .${dialogTitleClasses.root}`]: {
+      paddingRight: theme.spacing(8),
+    },
+  }),
+}));
 
 export const Dialog = ({ showClose = true, children, onClose, ...props }: DialogProps) => {
   const isMobile = useIsMobile();

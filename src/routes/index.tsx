@@ -5,6 +5,8 @@ import {
   Navigate,
   useLocation,
   createRoutesFromElements,
+  To,
+  resolvePath,
 } from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
@@ -19,6 +21,7 @@ import { WalletHome } from './WalletHome';
 import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
+import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -26,17 +29,17 @@ const walletMenu: WalletProps['menu'] = [
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
-const Redirect = ({ to }: { to: string }) => {
+const Redirect = ({ to }: { to: To }) => {
   const location = useLocation();
+  const { pathname, hash } = resolvePath(to, location.pathname);
 
-  return <Navigate replace to={{ ...location, pathname: to }} />;
+  return <Navigate replace to={{ ...location, pathname, hash }} />;
 };
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<Redirect to="wallet/home" />} />
-
       <Route path="popup" element={<EmbeddedWallet />} />
       <Route path="redirect" element={<RedirectPopup />} />
       <Route path="confirm" element={<ConfirmPopup />} />
@@ -52,7 +55,18 @@ const router = createBrowserRouter(
 
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="settings" element={<Settings />} />
-        <Route path="topup" element={<Redirect to="wallet/home" />} />
+      </Route>
+
+      <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
+
+      <Route path="authorize">
+        <Route index element={<IntroRoute />} />
+        <Route path="close" element={<AuthorizeClose />} />
+        <Route path="redirect" element={<AuthorizeRedirect />} />
+        <Route path="intro" element={<IntroRoute />} />
+        <Route path="signin" element={<LoginRoute variant="signin" />} />
+        <Route path="signup" element={<LoginRoute variant="signup" />} />
+        <Route path="otp" element={<OtpRoute />} />
       </Route>
     </Route>,
   ),
