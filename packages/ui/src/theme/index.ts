@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
 
 declare module '@mui/material/styles' {
@@ -25,6 +26,12 @@ declare module '@mui/material/IconButton' {
 declare module '@mui/material/Alert' {
   interface AlertPropsColorOverrides {
     neutral: true;
+  }
+}
+
+declare module '@mui/material/styles' {
+  interface TypographyVariantsOptions {
+    fontWeightSemibold?: CSSProperties['fontWeight'];
   }
 }
 
@@ -80,6 +87,12 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
     typography: {
       fontFamily: '"Lexend", sans-serif',
+      fontWeightBold: 700,
+      fontWeightSemibold: 600,
+      fontWeightMedium: 500,
+      fontWeightRegular: 400,
+      fontWeightLight: 300,
+
       button: {
         textTransform: 'none',
         fontWeight: '600',
@@ -112,13 +125,13 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       subtitle1: {
         fontSize: '1rem', // 16px,
         lineHeight: '1.5rem', // 24px,
-        fontWeight: '600',
+        fontWeight: 600,
       },
 
       subtitle2: {
         fontSize: '0.875rem', // 14px,
         lineHeight: '1.375rem', // 14px,
-        fontWeight: '600',
+        fontWeight: 600,
       },
 
       body1: {
