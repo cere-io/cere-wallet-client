@@ -6,7 +6,7 @@ export type IconButtonProps = MuiIconButtonProps & {
 
 export const IconButton = styled(MuiIconButton, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<IconButtonProps>(({ theme, variant = 'icon' }) => ({
+})<IconButtonProps>(({ theme, variant = 'icon', size }) => ({
   ...(variant === 'outlined' && {
     backgroundColor: theme.palette.background.paper,
     borderWidth: 1,
@@ -16,5 +16,8 @@ export const IconButton = styled(MuiIconButton, {
 
   ...(variant === 'filled' && {
     backgroundColor: theme.palette.grey[100],
+  }),
+  ...(size === 'large' && {
+    borderRadius: theme.typography.pxToRem(12),
   }),
 }));
