@@ -1,6 +1,7 @@
 import ReactCodeInput from 'react-code-input';
 import { styled } from '@cere-wallet/ui';
 import { Typography, Stack } from '@mui/material';
+import { forwardRef } from 'react';
 
 const DIGITS_NUMBER = 6;
 
@@ -41,7 +42,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
   },
 }));
 
-export const OtpInput = ({ onChange, errorMessage }: OtpProps) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
   const handleCodeChange = (value: string) => {
     if (typeof onChange === 'function') {
       onChange(value);
@@ -51,6 +52,7 @@ export const OtpInput = ({ onChange, errorMessage }: OtpProps) => {
   return (
     <Stack direction="column" textAlign="center" spacing={1}>
       <CodeInput
+        ref={ref}
         name="OTP"
         type={'text'}
         inputMode="url"
@@ -64,4 +66,4 @@ export const OtpInput = ({ onChange, errorMessage }: OtpProps) => {
       </Typography>
     </Stack>
   );
-};
+});
