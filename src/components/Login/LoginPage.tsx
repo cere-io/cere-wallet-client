@@ -62,7 +62,6 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
 
   const onGoogleAuth = async () => {
     const token = await getTokenWithGoogle();
-    console.log('token', token);
     if (token) {
       window.location.href = createNextUrl(token);
     } else {
@@ -72,7 +71,6 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
 
   const onFacebookAuth = async () => {
     const token = await getTokenWithFacebook();
-    console.log('token', token);
     if (token) {
       window.location.href = createNextUrl(token);
     } else {
