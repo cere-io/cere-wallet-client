@@ -51,8 +51,8 @@ export class OpenLoginStore {
 
       whiteLabel: {
         dark: false,
-        logoDark: `${appUrl.origin}/images/logo.svg`,
-        logoLight: `${appUrl.origin}/images/logo-light.svg`,
+        logoDark: `${window.origin}/images/logo.svg`,
+        logoLight: `${window.origin}/images/logo-light.svg`,
 
         /**
          * TODO: get this information from the app context
