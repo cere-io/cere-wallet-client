@@ -40,6 +40,7 @@ declare module '@mui/material/styles' {
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    fontWeightSemibold?: React.CSSProperties['fontWeight'];
     caption1?: React.CSSProperties;
     caption2?: React.CSSProperties;
     caption3?: React.CSSProperties;
@@ -107,6 +108,12 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
     typography: {
       fontFamily: '"Lexend","Roboto","Helvetica","Arial",sans-serif',
+      fontWeightBold: 700,
+      fontWeightSemibold: 600,
+      fontWeightMedium: 500,
+      fontWeightRegular: 400,
+      fontWeightLight: 300,
+
       button: {
         textTransform: 'none',
         fontWeight: '600',
@@ -139,13 +146,13 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       subtitle1: {
         fontSize: '1rem', // 16px,
         lineHeight: '1.5rem', // 24px,
-        fontWeight: '600',
+        fontWeight: 600,
       },
 
       subtitle2: {
         fontSize: '0.875rem', // 14px,
         lineHeight: '1.375rem', // 14px,
-        fontWeight: '600',
+        fontWeight: 600,
       },
 
       body1: {
