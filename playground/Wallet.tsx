@@ -8,7 +8,7 @@ export const Wallet = () => {
   const status = useWalletStatus();
 
   useEffect(() => {
-    wallet.init({ env: 'local' });
+    wallet.init({ env: 'dev' });
   }, [wallet]);
 
   const handleConnect = useCallback(() => {
