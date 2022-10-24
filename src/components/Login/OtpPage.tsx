@@ -39,7 +39,7 @@ export const OtpPage = ({ email }: OtpProps) => {
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
-    const token = await AuthApiService.getToken(email, value);
+    const token = await AuthApiService.getTokenByEmail(email, value);
     if (token) {
       window.location.href = createNextUrl(token);
     } else {
