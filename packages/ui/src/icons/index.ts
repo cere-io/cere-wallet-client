@@ -40,3 +40,5 @@ export * from './TopUpIcon';
 export * from './TransferIcon';
 export * from './StoreYourTokensIcon';
 export * from './ManageYourFundsIcon';
+export * from './Facebook';
+export * from './Google';
