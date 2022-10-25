@@ -15,6 +15,11 @@ type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
   sessionNamespace?: string;
 };
 
+type App = {
+  name?: string;
+  url?: string;
+};
+
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
   const url = new URL(redirectUrl, window.origin);
 
@@ -38,8 +43,6 @@ export class OpenLoginStore {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
-    const appUrl = new URL(this.appUrl || window.origin);
-
     this.openLogin = new OpenLogin({
       clientId,
       storageKey,
@@ -53,12 +56,6 @@ export class OpenLoginStore {
         dark: false,
         logoDark: `${window.origin}/images/logo.svg`,
         logoLight: `${window.origin}/images/logo-light.svg`,
-
-        /**
-         * TODO: get this information from the app context
-         */
-        name: appUrl.hostname,
-        url: appUrl.origin,
 
         /**
          * TODO: Figure out how to use `UI Kit` theme variables here
@@ -83,6 +80,8 @@ export class OpenLoginStore {
         },
       },
     });
+
+    this.configureApp();
   }
 
   private get appUrl() {
@@ -107,6 +106,20 @@ export class OpenLoginStore {
 
   get privateKey() {
     return this.openLogin.privKey;
+  }
+
+  configureApp(app?: App) {
+    const appUrl = new URL(this.appUrl || window.origin);
+
+    const whiteLabel = {
+      ...this.openLogin.state.whiteLabel,
+      ...(app || {
+        name: appUrl.hostname,
+        url: appUrl.origin,
+      }),
+    };
+
+    this.openLogin._syncState({ whiteLabel });
   }
 
   async getLoginUrl(loginParams: LoginParams = {}) {

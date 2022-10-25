@@ -9,6 +9,7 @@ import { NetworkStore } from '../NetworkStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
+import { AppContextStore } from '../AppContextStore';
 
 export class WalletStore implements Wallet {
   readonly isRoot = false;
@@ -18,6 +19,7 @@ export class WalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
+  readonly appContextStore: AppContextStore;
 
   private currentProvider?: Provider;
 
@@ -29,6 +31,7 @@ export class WalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
+    this.appContextStore = new AppContextStore(this);
   }
 
   get provider() {

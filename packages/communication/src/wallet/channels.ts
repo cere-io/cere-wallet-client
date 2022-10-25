@@ -1,3 +1,4 @@
+import type { Context, NetworkConfig } from '@cere/embed-wallet';
 import { createChannel, CreateChannelOptions } from './createChannel';
 
 export type UserInfo = {
@@ -9,14 +10,8 @@ export type UserInfo = {
   verifierId: string;
 };
 
-export type NetworkInterface = {
-  host: 'matic' | 'mumbai' | string;
-  chainId?: number;
-  networkName?: string;
-  blockExplorer?: string;
-  ticker?: string;
-  tickerName?: string;
-};
+export type AppContext = Context;
+export type NetworkInterface = NetworkConfig;
 
 export type LoginData = {
   preopenInstanceId?: string;
@@ -33,6 +28,7 @@ export type LoginData = {
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
+    context: Context;
     torusWidgetVisibility: boolean;
     network: NetworkInterface;
   };
@@ -122,6 +118,7 @@ export type WalletChannelOut = {
   name: 'show_wallet_instance';
   data: {
     instanceId: string;
+    target?: string;
   };
 };
 
@@ -130,6 +127,16 @@ export type WidgetChannelOut = {
   name: 'widget';
   data: boolean;
 };
+
+export type AppContextChannelIn = {
+  name: 'set_context';
+  data: {
+    key: string;
+    context: AppContext;
+  };
+};
+
+export type AppContextChannelOut = unknown;
 
 export type LoginChannelIn = {
   name: 'oauth';
@@ -151,5 +158,6 @@ export const createChannels = (options: CreateChannelOptions) => ({
   widgetVisibilty: createChannel<WidgetVisibilityChannel, WidgetVisibilityChannel>('torus-widget-visibility', options),
   wallet: createChannel<WalletChannelIn, WalletChannelOut>('show_wallet', options),
   widget: createChannel<WidgetChannelIn, WidgetChannelOut>('widget', options),
+  appContext: createChannel<AppContextChannelIn, AppContextChannelOut>('app_context', options),
   auth: createChannel<LoginChannelIn, LoginChannelOut>('oauth', options),
 });

@@ -12,6 +12,7 @@ import { PopupManagerStore } from '../PopupManagerStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
+import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 
 export class EmbeddedWalletStore implements Wallet {
@@ -24,6 +25,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
+  readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
 
@@ -43,7 +45,8 @@ export class EmbeddedWalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
-    this.authenticationStore = new AuthenticationStore(this, this.accountStore, this.popupManagerStore);
+    this.appContextStore = new AppContextStore(this);
+    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
   }
 
@@ -82,6 +85,7 @@ export class EmbeddedWalletStore implements Wallet {
 
       onInit: async (data) => {
         this.networkStore.network = data.chainConfig;
+        this.appContextStore.context = data.context;
 
         return true;
       },
@@ -122,7 +126,14 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
-        return this.instanceId;
+        return {
+          instanceId: this.instanceId,
+          target: this.instanceId,
+        };
+      },
+
+      onAppContextUpdate: async ({ context }) => {
+        this.appContextStore.context = context;
       },
     });
 

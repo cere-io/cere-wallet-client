@@ -58,7 +58,6 @@ export type {
   MenuListProps,
   MenuItemProps,
   ListItemProps,
-  ListItemAvatarProps,
   ListItemIconProps,
   BadgeProps,
   IconProps,
@@ -86,3 +85,4 @@ export * from './QRCode';
 export * from './CopyButton';
 export * from './OtpInput';
 export * from './Typography';
+export * from './Banner';

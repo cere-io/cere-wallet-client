@@ -1,46 +1,38 @@
 import EventEmitter from 'events';
-import Torus, { NetworkInterface } from '@cere/torus-embed';
+import { Substream } from '@toruslabs/openlogin-jrpc';
+import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 
-const buildEnvMap = {
+import { createContext } from './createContext';
+import {
+  WalletStatus,
+  WalletEvent,
+  WalletScreen,
+  WalletEnvironment,
+  WalletInitOptions,
+  WalletConnectOptions,
+  WalletShowOptions,
+  WalletSetContextOptions,
+  UserInfo,
+  Context,
+} from './types';
+
+const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   local: 'development',
   dev: 'cere-dev',
   stage: 'cere-stage',
   prod: 'cere',
-} as const;
-
-export type WalletEvent = 'status-update';
-export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
-export type WalletScreen = 'home' | 'topup' | 'settings';
-export type UserInfo = {
-  email: string;
-  name: string;
-  profileImage: string;
-  idToken: string;
-};
-
-export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
-  host: 'matic' | 'mumbai' | string;
-};
-
-export type WalletInitOptions = {
-  env?: keyof typeof buildEnvMap;
-  network?: NetworkConfig;
-};
-
-export type WalletConnectOptions = {
-  idToken?: string;
-  mode?: 'redirect' | 'popup';
-  redirectUrl?: string;
 };
 
 export class EmbedWallet {
   private torus: Torus;
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
+  private defaultContext: Context;
 
   constructor() {
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
+    this.defaultContext = createContext();
   }
 
   private setStatus(status: WalletStatus) {
@@ -62,6 +54,10 @@ export class EmbedWallet {
     return this.torus.provider;
   }
 
+  private get contextStream() {
+    return this.torus.communicationMux.getStream('app_context') as Substream;
+  }
+
   subscribe(eventName: WalletEvent, listener: (...args: any[]) => void) {
     this.eventEmitter.on(eventName, listener);
 
@@ -70,9 +66,12 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, env = 'prod' }: WalletInitOptions) {
+  async init({ network, context, env = 'prod' }: WalletInitOptions) {
+    this.defaultContext = createContext(context);
+
     await this.torus.init({
       network,
+      context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',
     });
@@ -128,7 +127,20 @@ export class EmbedWallet {
     };
   }
 
-  async showWallet(screen: WalletScreen = 'home', params?: Record<string, string>) {
-    this.torus.showWallet(screen, params);
+  async showWallet(screen: WalletScreen = 'home', { params, target, onClose }: WalletShowOptions = {}) {
+    this.torus.showWallet(screen, params, {
+      target,
+      onClose,
+    });
+  }
+
+  async setContext(context: Context | null, { key = 'default' }: WalletSetContextOptions = {}) {
+    this.contextStream.write({
+      name: 'set_context',
+      data: {
+        key,
+        context: createContext(this.defaultContext, context),
+      },
+    });
   }
 }

@@ -47,7 +47,7 @@ const TopUp = () => {
                   <Typography flex={1} color="text.secondary">
                     <Address variant="text" address={account.address} maxLength={isMobile ? 24 : undefined} />
                   </Typography>
-                  <CopyButton value={account.address} successMessage="Address copied" />
+                  <CopyButton value={account.address} variant="outlined" successMessage="Address copied" />
                   <AddressQRButton address={account.address} variant="outlined" />
                 </Stack>
                 <Stack direction="row" spacing={1} marginTop={1}>
