@@ -31,7 +31,6 @@ export class WalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
-    this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
   }
 
