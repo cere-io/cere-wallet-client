@@ -48,6 +48,10 @@ export const Wallet = () => {
     wallet.showWallet();
   }, [wallet]);
 
+  const handleTopUp = useCallback(async () => {
+    wallet.showWallet('topup');
+  }, [wallet]);
+
   const handleSetContext = useCallback(async () => {
     wallet.setContext({
       banner: {
@@ -107,6 +111,10 @@ export const Wallet = () => {
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>
             Show wallet
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleTopUp}>
+            Top Up
           </Button>
 
           <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>

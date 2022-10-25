@@ -85,6 +85,7 @@ export class EmbeddedWalletStore implements Wallet {
 
       onInit: async (data) => {
         this.networkStore.network = data.chainConfig;
+        this.appContextStore.context = data.context;
 
         return true;
       },
@@ -125,10 +126,13 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
-        return this.instanceId;
+        return {
+          instanceId: this.instanceId,
+          target: this.instanceId,
+        };
       },
 
-      onAppContextUpdate: async (context) => {
+      onAppContextUpdate: async ({ context }) => {
         this.appContextStore.context = context;
       },
     });

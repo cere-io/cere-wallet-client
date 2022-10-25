@@ -57,3 +57,13 @@ export type WalletConnectOptions = {
   mode?: 'redirect' | 'popup';
   redirectUrl?: string;
 };
+
+export type WalletShowOptions = {
+  target?: string;
+  params?: Record<string, string>;
+  onClose?: () => void;
+};
+
+export type WalletSetContextOptions = {
+  key?: string;
+};

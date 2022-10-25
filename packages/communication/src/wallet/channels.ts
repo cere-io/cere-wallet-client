@@ -28,6 +28,7 @@ export type LoginData = {
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
+    context: Context;
     torusWidgetVisibility: boolean;
     network: NetworkInterface;
   };
@@ -117,6 +118,7 @@ export type WalletChannelOut = {
   name: 'show_wallet_instance';
   data: {
     instanceId: string;
+    target?: string;
   };
 };
 
@@ -128,7 +130,10 @@ export type WidgetChannelOut = {
 
 export type AppContextChannelIn = {
   name: 'set_context';
-  data: AppContext | undefined;
+  data: {
+    key: string;
+    context: AppContext;
+  };
 };
 
 export type AppContextChannelOut = unknown;

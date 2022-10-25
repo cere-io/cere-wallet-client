@@ -1,5 +1,5 @@
 import { Box, BoxProps, Portal, styled, GlobalStyles, dialogClasses, backdropClasses } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { BannerPlaceProps, bannerPlacementIdMap } from './BannerPlace';
 
@@ -20,18 +20,18 @@ export const Banner = ({ placement = 'top', height, ...props }: BannerProps) => 
   const [detectedHeight, setDetectedHeight] = useState(0);
   const resultHeight = height || detectedHeight;
 
+  const updateHeight = (element: HTMLDivElement | null) => {
+    element && setDetectedHeight(element.clientHeight);
+  };
+
   if (!container) {
     throw new Error('Banner placement not found');
   }
 
-  useEffect(() => {
-    setDetectedHeight(container.clientHeight);
-  }, [container]);
-
   return (
     <>
       <Portal container={container}>
-        <BannerContent {...props} />
+        <BannerContent ref={updateHeight} {...props} />
       </Portal>
 
       {!!resultHeight && (

@@ -18,6 +18,6 @@ export const useShowWallet = () => {
   const { instanceId } = useEmbeddedWalletStore();
 
   return useCallback(() => {
-    window.open(`/wallet/home?instanceId=${instanceId}`, '_blank', windowFeatures);
+    window.open(`/wallet/home?instanceId=${instanceId}`, instanceId, windowFeatures);
   }, [instanceId]);
 };

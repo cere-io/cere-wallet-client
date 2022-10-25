@@ -12,6 +12,7 @@ import {
   NetworkInterface,
   StatusChannelOut,
   AppContextChannelIn,
+  WalletChannelOut,
 } from './channels';
 
 type WindowOptions = {
@@ -40,7 +41,7 @@ export type WalletConnectionOptions = {
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
   onWindowOpen: (data: WindowOptions) => Promise<void>;
   onWindowClose: (data: WindowOptions) => Promise<void>;
-  onWalletOpen: () => Promise<string>;
+  onWalletOpen: () => Promise<WalletChannelOut['data']>;
   onAppContextUpdate: (context: AppContextChannelIn['data']) => Promise<void>;
 };
 
@@ -163,11 +164,11 @@ export const createWalletConnection = ({
       return;
     }
 
-    const instanceId = await onWalletOpen();
+    const data = await onWalletOpen();
 
     channels.wallet.publish({
+      data,
       name: 'show_wallet_instance',
-      data: { instanceId },
     });
   });
 

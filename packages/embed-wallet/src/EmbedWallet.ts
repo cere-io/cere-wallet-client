@@ -10,6 +10,8 @@ import {
   WalletEnvironment,
   WalletInitOptions,
   WalletConnectOptions,
+  WalletShowOptions,
+  WalletSetContextOptions,
   UserInfo,
   Context,
 } from './types';
@@ -25,7 +27,6 @@ export class EmbedWallet {
   private torus: Torus;
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
-  private currentContext: Context | null = null;
   private defaultContext: Context;
 
   constructor() {
@@ -49,10 +50,6 @@ export class EmbedWallet {
     return this.currentStatus;
   }
 
-  get context() {
-    return this.currentContext || this.defaultContext;
-  }
-
   get provider() {
     return this.torus.provider;
   }
@@ -70,13 +67,15 @@ export class EmbedWallet {
   }
 
   async init({ network, context, env = 'prod' }: WalletInitOptions) {
+    this.defaultContext = createContext(context);
+
     await this.torus.init({
       network,
+      context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',
     });
 
-    this.setContext(context || null);
     this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 
@@ -128,16 +127,20 @@ export class EmbedWallet {
     };
   }
 
-  async showWallet(screen: WalletScreen = 'home', params?: Record<string, string>) {
-    this.torus.showWallet(screen, params);
+  async showWallet(screen: WalletScreen = 'home', { params, target, onClose }: WalletShowOptions = {}) {
+    this.torus.showWallet(screen, params, {
+      target,
+      onClose,
+    });
   }
 
-  async setContext(context: Context | null) {
-    this.currentContext = context && createContext(this.defaultContext, this.currentContext, context);
-
+  async setContext(context: Context | null, { key = 'default' }: WalletSetContextOptions = {}) {
     this.contextStream.write({
       name: 'set_context',
-      data: this.currentContext,
+      data: {
+        key,
+        context: createContext(this.defaultContext, context),
+      },
     });
   }
 }
