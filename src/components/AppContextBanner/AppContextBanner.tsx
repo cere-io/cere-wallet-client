@@ -36,8 +36,9 @@ const typographyPropsMap: Record<Row['variant'], TypographyProps<any>> = {
 };
 
 const BadgeImage = styled(Avatar)(({ theme }) => ({
-  width: 20,
-  height: 20,
+  width: 23,
+  height: 23,
+  padding: 3,
   backgroundColor: theme.palette.background.paper,
 }));
 
