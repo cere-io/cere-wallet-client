@@ -33,7 +33,6 @@ export {
   TextField,
   MobileStepper,
   FormControl,
-  GlobalStyles,
 } from '@mui/material';
 
 export type {
@@ -70,7 +69,6 @@ export type {
   TextFieldProps,
   MobileStepperProps,
   FormControlProps,
-  GlobalStylesProps,
 } from '@mui/material';
 
 export * from './IconButton';
