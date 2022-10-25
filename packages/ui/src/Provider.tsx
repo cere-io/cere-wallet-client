@@ -1,7 +1,8 @@
+import '@fontsource/lexend';
 import { useMemo, PropsWithChildren } from 'react';
 import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
 import { createTheme } from './theme';
-import '@fontsource/lexend';
+import { BannerPlace } from './components';
 
 export type UIProviderProps = PropsWithChildren<{
   transparentBody?: boolean;
@@ -13,6 +14,7 @@ export const UIProvider = ({ children, transparentBody }: UIProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <BannerPlace placement="top" />
 
       {transparentBody && (
         <GlobalStyles

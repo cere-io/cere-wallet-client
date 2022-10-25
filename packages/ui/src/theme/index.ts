@@ -179,10 +179,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
           text: {
             borderRadius: 30,
-            padding: '0 !important',
-            '&:hover': {
-              backgroundColor: 'inherit',
-            },
           },
 
           containedInherit: ({ theme }) => ({
@@ -195,8 +191,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
             paddingRight: 32,
             paddingTop: 10,
             paddingBottom: 10,
-            height: 44,
-            borderRadius: 50,
           }),
 
           sizeMedium: ({ theme }) => ({
@@ -296,6 +290,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             height: 48,
+            borderRadius: 30,
 
             '& .MuiListItemIcon-root': {
               color: theme.palette.text.secondary,

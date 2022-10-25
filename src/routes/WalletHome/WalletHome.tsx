@@ -20,10 +20,11 @@ const WalletHome = () => {
       <Stack spacing={3}>
         <ToggleButtonGroup
           exclusive
+          fullWidth
+          color="primary"
           size={isMobile ? 'small' : 'medium'}
           value={currentTab}
           onChange={(event, value) => value && setCurrentTab(value)}
-          color="primary"
           sx={{
             maxWidth: 430,
             alignSelf: 'center',

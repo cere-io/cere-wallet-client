@@ -26,7 +26,7 @@ export const PageHeader = ({ title, rightElement, backUrl }: PageHeaderProps) =>
         </IconButton>
       )}
 
-      <Typography variant="body1" fontWeight="medium" flex={1}>
+      <Typography variant="h3" flex={1}>
         {title}
       </Typography>
 

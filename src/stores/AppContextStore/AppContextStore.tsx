@@ -26,4 +26,12 @@ export class AppContextStore {
   set context(context: AppContext | undefined) {
     this.shared.state.context = context;
   }
+
+  get banner() {
+    return this.context?.banner;
+  }
+
+  get app() {
+    return this.context?.app;
+  }
 }

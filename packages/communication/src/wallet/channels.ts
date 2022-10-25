@@ -1,3 +1,4 @@
+import type { Context, NetworkConfig } from '@cere/embed-wallet';
 import { createChannel, CreateChannelOptions } from './createChannel';
 
 export type UserInfo = {
@@ -9,29 +10,8 @@ export type UserInfo = {
   verifierId: string;
 };
 
-type BannerTextLines = {
-  variant: 'primary' | 'secondary';
-  color: string;
-  text: string;
-};
-
-export type AppContext = {
-  banner: {
-    thumbnailUrl: string;
-    badgeUrl: string;
-    contentRows: BannerTextLines[];
-    rightRows: BannerTextLines[];
-  };
-};
-
-export type NetworkInterface = {
-  host: 'matic' | 'mumbai' | string;
-  chainId?: number;
-  networkName?: string;
-  blockExplorer?: string;
-  ticker?: string;
-  tickerName?: string;
-};
+export type AppContext = Context;
+export type NetworkInterface = NetworkConfig;
 
 export type LoginData = {
   preopenInstanceId?: string;

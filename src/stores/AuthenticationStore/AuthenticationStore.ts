@@ -1,20 +1,27 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, reaction, when } from 'mobx';
 
-import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
 import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
+import { AppContextStore } from '../AppContextStore';
 
 export class AuthenticationStore {
   private openLoginStore = new OpenLoginStore();
 
   constructor(
-    private wallet: Wallet,
     private accountStore: AccountStore,
+    private contextStore: AppContextStore,
     private popupManagerStore: PopupManagerStore,
   ) {
     makeAutoObservable(this);
+
+    reaction(
+      () => this.contextStore.app,
+      (app) => {
+        this.openLoginStore.configureApp(app);
+      },
+    );
   }
 
   async rehydrate() {

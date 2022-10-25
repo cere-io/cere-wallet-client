@@ -1,6 +1,8 @@
 import { Button, Stack } from '@cere-wallet/ui';
 import { providers } from 'ethers';
 import { useCallback, useEffect } from 'react';
+
+import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
 
 export const Wallet = () => {
@@ -8,7 +10,15 @@ export const Wallet = () => {
   const status = useWalletStatus();
 
   useEffect(() => {
-    wallet.init({ env: 'local' });
+    wallet.init({
+      env: 'local',
+      context: {
+        app: {
+          name: 'Cere wallet playground',
+          url: window.origin,
+        },
+      },
+    });
   }, [wallet]);
 
   const handleConnect = useCallback(() => {
@@ -38,8 +48,53 @@ export const Wallet = () => {
     wallet.showWallet();
   }, [wallet]);
 
+  const handleSetContext = useCallback(async () => {
+    wallet.setContext({
+      banner: {
+        thumbnailUrl: nftImageUrl,
+        badgeUrl: logoUrl,
+        content: [
+          {
+            text: 'You’re about to purchase:',
+            variant: 'secondary',
+          },
+
+          {
+            text: 'Pixel Vault NFT',
+            variant: 'primary',
+          },
+        ],
+
+        right: [
+          {
+            text: '100 USDC',
+            variant: 'primary',
+            color: 'primary.main',
+          },
+
+          {
+            text: 'Required',
+            variant: 'secondary',
+          },
+        ],
+      },
+    });
+  }, [wallet]);
+
+  const handleUnsetContext = useCallback(async () => {
+    wallet.setContext(null);
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
+      <Button variant="outlined" color="primary" onClick={handleSetContext}>
+        Set context
+      </Button>
+
+      <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleUnsetContext}>
+        Unset context
+      </Button>
+
       {status === 'connected' || status === 'disconnecting' ? (
         <>
           <Button variant="outlined" color="primary" onClick={handleGetAddress}>
