@@ -79,13 +79,7 @@ const AppContextBanner = (props: AppContextBannerProps) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               badgeContent={<BadgeImage src={banner.badgeUrl} />}
             >
-              <Avatar
-                variant="rounded"
-                src={banner.thumbnailUrl}
-                imgProps={{
-                  sx: { objectFit: 'contain' },
-                }}
-              />
+              <Avatar variant="rounded" src={banner.thumbnailUrl} />
             </Badge>
           </ListItemAvatar>
         )}
