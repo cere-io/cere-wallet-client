@@ -11,6 +11,10 @@ export type LoginParams = {
   redirectUrl?: string;
 };
 
+export type InitParams = {
+  sessionId?: string;
+};
+
 type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
   sessionNamespace?: string;
 };
@@ -137,9 +141,13 @@ export class OpenLoginStore {
     });
   }
 
-  async init() {
+  async init({ sessionId }: InitParams = {}) {
     if (this.initialized) {
       return; // Do nothing if already initialized
+    }
+
+    if (sessionId) {
+      this.openLogin.state.store.set('sessionId', sessionId);
     }
 
     await this.openLogin.init();

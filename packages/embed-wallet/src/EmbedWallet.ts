@@ -3,6 +3,7 @@ import { Substream } from '@toruslabs/openlogin-jrpc';
 import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 
 import { createContext } from './createContext';
+import { getAuthRedirectResult } from './getAuthRedirectResult';
 import {
   WalletStatus,
   WalletEvent,
@@ -68,9 +69,11 @@ export class EmbedWallet {
 
   async init({ network, context, env = 'prod' }: WalletInitOptions) {
     this.defaultContext = createContext(context);
+    const { sessionId } = getAuthRedirectResult();
 
     await this.torus.init({
       network,
+      sessionId,
       context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',

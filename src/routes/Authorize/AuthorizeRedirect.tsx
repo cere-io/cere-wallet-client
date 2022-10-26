@@ -4,6 +4,16 @@ import { useMemo } from 'react';
 
 import { OpenLoginStore } from '~/stores/OpenLoginStore';
 
+const createRedirectUrl = (url: string, sessionId: string) => {
+  const finalUrl = new URL(url);
+  const hashParams = new URLSearchParams(finalUrl.hash.slice(1));
+
+  hashParams.append('sessionId', sessionId);
+  finalUrl.hash = hashParams.toString();
+
+  return finalUrl.toString();
+};
+
 const AuthorizeRedirect = () => {
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
   const queryParams = new URLSearchParams(window.location.search);
@@ -18,8 +28,8 @@ const AuthorizeRedirect = () => {
     store.syncWithEncodedState(result, sessionId);
   }
 
-  if (redirectUrl) {
-    window.location.replace(redirectUrl);
+  if (redirectUrl && sessionId) {
+    window.location.replace(createRedirectUrl(redirectUrl, sessionId));
   }
 
   return (

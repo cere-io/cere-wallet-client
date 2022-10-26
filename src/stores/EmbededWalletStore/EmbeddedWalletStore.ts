@@ -109,8 +109,8 @@ export class EmbeddedWalletStore implements Wallet {
         return this.authenticationStore.logout();
       },
 
-      onRehydrate: () => {
-        return this.authenticationStore.rehydrate();
+      onRehydrate: ({ sessionId }) => {
+        return this.authenticationStore.rehydrate({ sessionId });
       },
 
       onUserInfoRequest: async () => {
