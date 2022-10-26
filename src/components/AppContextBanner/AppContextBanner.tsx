@@ -71,16 +71,18 @@ const AppContextBanner = (props: AppContextBannerProps) => {
           </IconButton>
         )}
 
-        <ListItemAvatar>
-          <Badge
-            invisible={!banner.badgeUrl}
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<BadgeImage src={banner.badgeUrl} />}
-          >
-            <Avatar variant="rounded" src={banner.thumbnailUrl} />
-          </Badge>
-        </ListItemAvatar>
+        {banner.thumbnailUrl && (
+          <ListItemAvatar>
+            <Badge
+              invisible={!banner.badgeUrl}
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={<BadgeImage src={banner.badgeUrl} />}
+            >
+              <Avatar variant="rounded" src={banner.thumbnailUrl} />
+            </Badge>
+          </ListItemAvatar>
+        )}
 
         <ListItemText
           primary={contentTitle.text}

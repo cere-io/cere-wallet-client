@@ -5,6 +5,7 @@
 - [DAV-2698] Add SDK package and built-in authentication
 - [DAV-2359] Add wallet context support
 - [DAV-3597] Fix authentication issue in Safari
+- [DAV-3136] Show default app banner in case custom banner is not provided
 
 ### v1.4.0
 

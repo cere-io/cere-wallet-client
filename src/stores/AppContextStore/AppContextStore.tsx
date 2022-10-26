@@ -28,7 +28,23 @@ export class AppContextStore {
   }
 
   get banner() {
-    return this.context?.banner;
+    if (this.context?.banner) {
+      return this.context.banner;
+    }
+
+    /**
+     * Return application context banner in case custom banner is not provided.
+     * Or undefined in case the wallet is not in any application context
+     */
+    const appBanner: AppContext['banner'] = this.app && {
+      thumbnailUrl: this.app.logoUrl,
+      content: [
+        { variant: 'primary', text: 'Return to origin app' },
+        { variant: 'secondary', text: this.app.name },
+      ],
+    };
+
+    return appBanner;
   }
 
   get app() {

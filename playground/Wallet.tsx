@@ -16,6 +16,7 @@ export const Wallet = () => {
         app: {
           name: 'Cere wallet playground',
           url: window.origin,
+          logoUrl,
         },
       },
     });
