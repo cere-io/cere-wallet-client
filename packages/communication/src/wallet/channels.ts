@@ -28,6 +28,7 @@ export type LoginData = {
 export type InitChannelIn = {
   name: 'init_stream';
   data: {
+    sessionId?: string;
     context: Context;
     torusWidgetVisibility: boolean;
     network: NetworkInterface;

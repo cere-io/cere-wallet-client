@@ -36,7 +36,7 @@ export type WalletConnectionOptions = {
   onInit: (data: InitData) => Promise<boolean>;
   onLogin: (data: LoginChannelIn['data']) => Promise<string>;
   onLoginWithPrivateKey: (data: PrivateKeyLoginChannelIn['data']) => Promise<boolean>;
-  onRehydrate: () => Promise<boolean>;
+  onRehydrate: (params: Pick<InitData, 'sessionId'>) => Promise<boolean>;
   onLogout: () => Promise<boolean>;
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
   onWindowOpen: (data: WindowOptions) => Promise<void>;
@@ -79,7 +79,7 @@ export const createWalletConnection = ({
       chainConfig: getChainConfig(network),
     });
 
-    const rehydrated = await onRehydrate();
+    const rehydrated = await onRehydrate({ sessionId: data.sessionId });
     const userInfo = rehydrated && (await onUserInfoRequest());
 
     if (userInfo) {

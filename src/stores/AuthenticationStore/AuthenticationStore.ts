@@ -3,7 +3,7 @@ import { makeAutoObservable, reaction, when } from 'mobx';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
+import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 
 export class AuthenticationStore {
@@ -24,9 +24,9 @@ export class AuthenticationStore {
     );
   }
 
-  async rehydrate() {
-    if (this.openLoginStore.sessionId) {
-      await this.openLoginStore.init();
+  async rehydrate({ sessionId }: InitParams = {}) {
+    if (this.openLoginStore.sessionId || sessionId) {
+      await this.openLoginStore.init({ sessionId });
     }
 
     await this.syncAccount();
