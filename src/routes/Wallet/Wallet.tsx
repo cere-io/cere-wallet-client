@@ -1,5 +1,6 @@
+import { fromPromise } from 'mobx-utils';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
 import { Loading, Logo } from '@cere-wallet/ui';
 
@@ -13,14 +14,15 @@ const Wallet = ({ menu }: WalletProps) => {
   const [params] = useSearchParams();
   const instanceId = params.get('instanceId') || undefined;
   const store = useMemo(() => new WalletStore(instanceId), [instanceId]);
-
-  useEffect(() => {
-    store.init();
-  }, [store]);
+  const { state } = useMemo(() => fromPromise(store.init()), [store]);
 
   return (
     <WalletContext.Provider value={store}>
-      {store.isReady() ? (
+      {state === 'pending' ? (
+        <Loading fullScreen>
+          <Logo />
+        </Loading>
+      ) : (
         <>
           <AppContextBanner />
 
@@ -28,10 +30,6 @@ const Wallet = ({ menu }: WalletProps) => {
             <Outlet />
           </WalletLayout>
         </>
-      ) : (
-        <Loading fullScreen>
-          <Logo />
-        </Loading>
       )}
     </WalletContext.Provider>
   );
