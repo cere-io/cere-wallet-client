@@ -17,8 +17,8 @@ export type ContextBanner = {
 };
 
 export type ContextApp = {
-  name: string;
   url: string;
+  name?: string;
   logoUrl?: string;
 };
 

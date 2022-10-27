@@ -9,6 +9,9 @@ import {
   Badge,
   BackIcon,
   IconButton,
+  WindowIcon,
+  PhotoOutlinedIcon,
+  LanguageIcon,
 } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
@@ -42,6 +45,13 @@ const BadgeImage = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
+const Thumbnail = styled(Avatar)(({ theme }) => ({
+  width: 35,
+  height: 35,
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.background.paper,
+}));
+
 const getTypographyProps = ({ variant, color }: Row) => ({
   ...typographyPropsMap[variant],
   color: color || typographyPropsMap[variant].color,
@@ -58,9 +68,15 @@ const AppContextBanner = (props: AppContextBannerProps) => {
     return null;
   }
 
+  const variant = banner.variant || 'banner';
   const hasBackButton = banner.hasBackButton ?? true;
   const [contentTitle, contentText] = banner.content;
   const [rightTitle, rightText] = banner.right || [];
+  const FallbackIcon = variant === 'app' ? WindowIcon : PhotoOutlinedIcon;
+
+  const appBadgeElement = variant === 'app' && !banner.thumbnailUrl && (
+    <LanguageIcon color="primary" fontSize="small" />
+  );
 
   return (
     <Banner paddingLeft={hasBackButton ? 1.5 : 2} paddingRight={2} paddingY={0.5}>
@@ -73,12 +89,14 @@ const AppContextBanner = (props: AppContextBannerProps) => {
 
         <ListItemAvatar>
           <Badge
-            invisible={!banner.badgeUrl}
+            invisible={!banner.badgeUrl && !appBadgeElement}
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<BadgeImage src={banner.badgeUrl} />}
+            badgeContent={<BadgeImage src={banner.badgeUrl}>{appBadgeElement}</BadgeImage>}
           >
-            <Avatar variant="rounded" src={banner.thumbnailUrl} />
+            <Thumbnail variant="rounded" src={banner.thumbnailUrl}>
+              <FallbackIcon sx={{ width: '100%', height: '100%' }} />
+            </Thumbnail>
           </Badge>
         </ListItemAvatar>
 

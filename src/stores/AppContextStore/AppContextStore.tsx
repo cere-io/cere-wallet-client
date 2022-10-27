@@ -4,6 +4,10 @@ import { makeAutoObservable } from 'mobx';
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
+export type ContextBanner = AppContext['banner'] & {
+  variant?: 'app' | 'banner';
+};
+
 type SharedState = {
   context?: AppContext;
 };
@@ -27,11 +31,38 @@ export class AppContextStore {
     this.shared.state.context = context;
   }
 
-  get banner() {
-    return this.context?.banner;
+  get banner(): ContextBanner | undefined {
+    if (this.context?.banner) {
+      return { variant: 'banner', ...this.context.banner };
+    }
+
+    if (!this.context?.app) {
+      return undefined;
+    }
+
+    const name = this.context.app.name || 'Origin App';
+    const domain = new URL(this.context.app.url).hostname;
+
+    /**
+     * Return application context banner in case custom banner is not provided.
+     */
+    return {
+      variant: 'app',
+      thumbnailUrl: this.context.app.logoUrl,
+      content: [
+        { variant: 'primary', text: `Return to ${name}` },
+        { variant: 'secondary', text: domain },
+      ],
+    };
   }
 
-  get app() {
-    return this.context?.app;
+  get app(): AppContext['app'] {
+    if (!this.context?.app) {
+      return undefined;
+    }
+
+    const name = this.context.app.name || new URL(this.context.app.url).hostname;
+
+    return { ...this.context.app, name };
   }
 }

@@ -323,7 +323,16 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiListItemIcon: {
         styleOverrides: {
           root: ({ theme }) => ({
+            minWidth: 52,
             color: theme.palette.text.primary,
+          }),
+        },
+      },
+
+      MuiListItemAvatar: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            minWidth: 52,
           }),
         },
       },

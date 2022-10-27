@@ -23,6 +23,8 @@ export {
   East as EastIcon,
   SouthEast as SouthEastIcon,
   PlayArrow as PlayArrowIcon,
+  PhotoSizeSelectActualOutlined as PhotoOutlinedIcon,
+  LanguageOutlined as LanguageIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
@@ -42,3 +44,4 @@ export * from './StoreYourTokensIcon';
 export * from './ManageYourFundsIcon';
 export * from './Facebook';
 export * from './Google';
+export * from './WindowIcon';
