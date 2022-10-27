@@ -47,11 +47,11 @@ export const OnboardingDialog = ({ open, onClose, ...props }: OnboardingDialogPr
               <SouthEastIcon />
               <Stack>
                 <Typography variant="body1" fontWeight={isMobile ? 'medium' : 'regular'}>
-                  Send funds from external wallet
+                  Receive funds from external wallet
                 </Typography>
 
                 <Typography variant="body1" color="text.secondary">
-                  Send USDC via Polygon to your wallet
+                  Receive USDC via Polygon on your wallet
                 </Typography>
               </Stack>
               <EastIcon />
