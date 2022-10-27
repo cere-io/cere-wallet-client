@@ -36,24 +36,33 @@ export class AppContextStore {
       return { variant: 'banner', ...this.context.banner };
     }
 
-    if (!this.app) {
+    if (!this.context?.app) {
       return undefined;
     }
+
+    const name = this.context.app.name || 'Origin App';
+    const domain = new URL(this.context.app.url).hostname;
 
     /**
      * Return application context banner in case custom banner is not provided.
      */
     return {
       variant: 'app',
-      thumbnailUrl: this.app.logoUrl,
+      thumbnailUrl: this.context.app.logoUrl,
       content: [
-        { variant: 'primary', text: 'Return to origin app' },
-        { variant: 'secondary', text: this.app.name },
+        { variant: 'primary', text: `Return to ${name}` },
+        { variant: 'secondary', text: domain },
       ],
     };
   }
 
-  get app() {
-    return this.context?.app;
+  get app(): AppContext['app'] {
+    if (!this.context?.app) {
+      return undefined;
+    }
+
+    const name = this.context.app.name || new URL(this.context.app.url).hostname;
+
+    return { ...this.context.app, name };
   }
 }
