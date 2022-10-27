@@ -16,7 +16,7 @@ export class AppContextStore {
   private shared = createSharedState<SharedState>(
     `context.${this.wallet.instanceId}`,
     {},
-    { readOnly: !this.wallet.isRoot },
+    { readOnly: !this.wallet.isRoot() },
   );
 
   constructor(private wallet: Wallet) {

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
+import { Loading, Logo } from '@cere-wallet/ui';
 
 import { AppContextBanner, WalletLayout, WalletLayoutProps } from '~/components';
 import { WalletContext } from '~/hooks';
@@ -19,11 +20,19 @@ const Wallet = ({ menu }: WalletProps) => {
 
   return (
     <WalletContext.Provider value={store}>
-      <AppContextBanner />
+      {store.isReady() ? (
+        <>
+          <AppContextBanner />
 
-      <WalletLayout menu={menu}>
-        <Outlet />
-      </WalletLayout>
+          <WalletLayout menu={menu}>
+            <Outlet />
+          </WalletLayout>
+        </>
+      ) : (
+        <Loading fullScreen>
+          <Logo />
+        </Loading>
+      )}
     </WalletContext.Provider>
   );
 };

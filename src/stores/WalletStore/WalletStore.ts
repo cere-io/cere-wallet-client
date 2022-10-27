@@ -12,8 +12,6 @@ import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 
 export class WalletStore implements Wallet {
-  readonly isRoot = false;
-
   readonly accountStore: AccountStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
@@ -29,9 +27,17 @@ export class WalletStore implements Wallet {
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
     this.assetStore = new AssetStore(this);
-    this.balanceStore = new BalanceStore(this.assetStore);
+    this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
+  }
+
+  isRoot() {
+    return false;
+  }
+
+  isReady() {
+    return !!(this.provider && this.network && this.account);
   }
 
   get provider() {
@@ -51,11 +57,12 @@ export class WalletStore implements Wallet {
   }
 
   async init() {
-    await when(() => !!this.accountStore.account && !!this.networkStore.network);
+    await when(() => !!this.account && !!this.network);
 
-    const { privateKey } = this.accountStore.account!;
-    const chainConfig = this.networkStore.network!;
-    const provider = await createProvider({ privateKey, chainConfig });
+    const provider = await createProvider({
+      privateKey: this.account!.privateKey,
+      chainConfig: this.network!,
+    });
 
     this.provider = new providers.Web3Provider(provider);
   }

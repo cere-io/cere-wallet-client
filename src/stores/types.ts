@@ -23,10 +23,15 @@ export type Asset = {
 };
 
 export type Provider = ethers.providers.JsonRpcProvider;
-export type Wallet = {
-  readonly isRoot: boolean;
+
+export interface Wallet {
   readonly instanceId: string;
   readonly network?: ChainConfig;
   readonly provider?: Provider;
   readonly account?: Account;
-};
+
+  isRoot(): boolean;
+  isReady(): this is ReadyWallet;
+}
+
+export type ReadyWallet = Required<Wallet>;
