@@ -27,12 +27,12 @@ const getAddressData = (address: string, blockExplorer?: string) => ({
 });
 
 export class TransactionPopupStore {
-  private shared = createSharedPopupState<TransactionPopupState>(this.instanceId, {
+  private shared = createSharedPopupState<TransactionPopupState>(this.preopenInstanceId, {
     from: '',
     to: '',
   });
 
-  constructor(public readonly instanceId: string) {
+  constructor(public readonly preopenInstanceId: string) {
     makeAutoObservable(this, {
       approve: action.bound,
       decline: action.bound,

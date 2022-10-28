@@ -11,6 +11,7 @@ export type Account = {
   address: string;
   privateKey: string;
   email: string;
+  verifier: string;
   avatar?: string;
 };
 

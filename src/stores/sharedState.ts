@@ -1,4 +1,4 @@
-import { action, observable, reaction, toJS } from 'mobx';
+import { action, observable, reaction, toJS, when, IReactionDisposer } from 'mobx';
 import { createPopupConnection, PopupConnectionOptions } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
@@ -51,17 +51,26 @@ export const createSharedState = <T = unknown>(
   /**
    * Synchronize state between all instances on the channel
    */
+
+  let disposeWhenReaction: IReactionDisposer;
+
   reaction(
     () => toJS(shared.state),
     (state) => {
-      if (shouldSync) {
-        connection.publish(state);
+      if (!shouldSync) {
+        shouldSync = true;
+
+        return;
       }
 
-      shouldSync = true;
-    },
-    {
-      delay: 10, // Small delay to throttle state sync
+      if (disposeWhenReaction) {
+        disposeWhenReaction();
+      }
+
+      disposeWhenReaction = when(
+        () => shared.isConnected,
+        () => connection.publish(state),
+      );
     },
   );
 
@@ -79,6 +88,3 @@ export const createSharedRedirectState = (instanceId: string) =>
 
 export const createSharedPopupState = <T = unknown>(instanceId: string, initialState: T) =>
   createSharedState<T>(`popup.${instanceId}`, initialState);
-
-export const createSharedWalletState = <T = unknown>(instanceId: string, initialState: T) =>
-  createSharedState<T>(`wallet.${instanceId}`, initialState);

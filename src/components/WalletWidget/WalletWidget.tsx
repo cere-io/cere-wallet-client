@@ -67,16 +67,11 @@ const WalletWidget = () => {
             <AccountBalance fontWeight="bold" />
           </Box>
 
-          <Typography
-            component={Stack}
-            variant="caption"
-            color="text.secondary"
-            direction="row"
-            alignItems="baseline"
-            spacing={0.5}
-          >
-            <WifiIcon fontSize="inherit" />
-            <Typography variant="caption">{network.displayName}</Typography>
+          <Typography variant="caption" color="text.secondary">
+            <Stack direction="row" alignItems="baseline" spacing={0.5}>
+              <WifiIcon fontSize="inherit" />
+              <Typography variant="caption">{network.displayName}</Typography>
+            </Stack>
           </Typography>
         </Content>
         <Actions>

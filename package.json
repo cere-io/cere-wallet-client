@@ -1,20 +1,29 @@
 {
   "name": "cere-wallet-client",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "dependencies": {
     "@cere-wallet/communication": "0.0.0",
     "@cere-wallet/ui": "0.0.0",
     "@cere-wallet/wallet-engine": "0.0.0",
+    "@fontsource/lexend": "^4.5.13",
+    "@hookform/resolvers": "^2.9.9",
+    "@toruslabs/openlogin": "^2.7.0",
+    "axios": "^1.1.2",
     "ethers": "^5.6.9",
+    "firebase": "^9.12.1",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
     "mobx-utils": "^6.0.5",
     "react": "^18.2.0",
+    "react-code-input": "^3.10.1",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.1"
+    "react-hook-form": "^7.37.0",
+    "react-router-dom": "^6.4.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@cere/embed-wallet": "*",
     "@craco/craco": "^7.0.0-alpha.7",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
@@ -30,7 +39,11 @@
   },
   "scripts": {
     "start": "PORT=4050 craco start",
-    "build": "craco build"
+    "build": "craco build",
+    "playground": "craco start --config .cracorc.playground.js",
+    "refactor": "prettier --write '**/*.{js,json,jsx,ts,tsx}' --ignore-path .eslintignore",
+    "sdk:build": "npm run build --workspace=@cere/embed-wallet --if-present",
+    "sdk:publish": "npm publish --workspace=@cere/embed-wallet"
   },
   "workspaces": [
     "packages/*"

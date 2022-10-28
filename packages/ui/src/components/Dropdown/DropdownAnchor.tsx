@@ -37,7 +37,7 @@ export const DropdownAnchor = forwardRef(({ open, label, leftElement, onOpen }: 
   return (
     <Anchor ref={ref} spacing={1} direction="row" alignItems="center" onClick={onOpen}>
       <Left>{leftElement}</Left>
-      <Center variant="body2">{label}</Center>
+      <Center variant="body1">{label}</Center>
       {open ? <ArrowDropUp /> : <ArrowDropDown />}
     </Anchor>
   );

@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
 
 declare module '@mui/material/styles' {
@@ -28,8 +29,26 @@ declare module '@mui/material/Alert' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface TypographyVariantsOptions {
+    fontWeightSemibold?: CSSProperties['fontWeight'];
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    h5: false;
+    h6: false;
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
+
+/** ******************************************************************************* **/
+/** CERE Wallet design system see here                                              **/
+/** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
+/** ******************************************************************************* **/
 
 export const createTheme = (options: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
@@ -67,25 +86,73 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
     },
 
     typography: {
+      fontFamily: '"Lexend", sans-serif',
+      fontWeightBold: 700,
+      fontWeightSemibold: 600,
+      fontWeightMedium: 500,
+      fontWeightRegular: 400,
+      fontWeightLight: 300,
+
       button: {
         textTransform: 'none',
-        fontWeight: 'bold',
+        fontWeight: '600',
+      },
+
+      h1: {
+        fontSize: '2rem', // 32px
+        lineHeight: '2.5rem', // 40px
+        fontWeight: 700,
+      },
+
+      h2: {
+        fontSize: '1.75rem', // 28px
+        lineHeight: '2.25rem', // 36px
+        fontWeight: 700,
+      },
+
+      h3: {
+        fontSize: '1.5rem', // 24px,
+        lineHeight: '2rem', // 32px,
+        fontWeight: 700,
       },
 
       h4: {
-        fontWeight: 'bold',
+        fontSize: '1.25rem', // 20px,
+        lineHeight: '1.625rem', // 26px,
+        fontWeight: 700,
       },
 
-      h5: {
-        fontWeight: 'bold',
+      subtitle1: {
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
+        fontWeight: 600,
       },
 
-      h6: {
-        fontWeight: 'bold',
+      subtitle2: {
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
+        fontWeight: 600,
+      },
+
+      body1: {
+        fontSize: '1rem', // 16px,
+        lineHeight: '1.5rem', // 24px,
+      },
+
+      body2: {
+        fontSize: '0.875rem', // 14px,
+        lineHeight: '1.375rem', // 14px,
       },
 
       caption: {
-        lineHeight: 1.5,
+        fontSize: '0.75rem', // 12px,
+        lineHeight: '1rem', // 16px,
+      },
+
+      overline: {
+        fontSize: '0.625rem', // 10px,
+        lineHeight: '1rem', // 16px,
+        textTransform: 'uppercase',
       },
     },
 
@@ -206,7 +273,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiTab: {
         styleOverrides: {
           root: ({ theme }) => ({
-            minHeight: '64px',
+            minHeight: 64,
 
             '& .MuiTab-iconWrapper:not(.Mui-selected *)': {
               color: theme.palette.text.secondary,
@@ -223,6 +290,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             height: 48,
+            borderRadius: 30,
 
             '& .MuiListItemIcon-root': {
               color: theme.palette.text.secondary,
@@ -255,7 +323,16 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiListItemIcon: {
         styleOverrides: {
           root: ({ theme }) => ({
+            minWidth: 52,
             color: theme.palette.text.primary,
+          }),
+        },
+      },
+
+      MuiListItemAvatar: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            minWidth: 52,
           }),
         },
       },
@@ -545,6 +622,25 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           root: ({ theme }) => ({
             paddingTop: 0,
             paddingBottom: 0,
+          }),
+        },
+      },
+
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: theme.palette.divider,
+            borderRadius: theme.typography.pxToRem(16),
+          }),
+        },
+      },
+
+      MuiMobileStepper: {
+        styleOverrides: {
+          dotActive: ({ theme }) => ({
+            backgroundColor: theme.palette.text.primary,
           }),
         },
       },

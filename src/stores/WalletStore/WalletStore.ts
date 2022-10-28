@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { createProvider } from '@cere-wallet/wallet-engine';
 
 import { Provider, Wallet } from '../types';
@@ -9,6 +9,7 @@ import { NetworkStore } from '../NetworkStore';
 import { AssetStore } from '../AssetStore';
 import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
+import { AppContextStore } from '../AppContextStore';
 
 export class WalletStore implements Wallet {
   readonly isRoot = false;
@@ -18,6 +19,7 @@ export class WalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
+  readonly appContextStore: AppContextStore;
 
   private currentProvider?: Provider;
 
@@ -29,10 +31,15 @@ export class WalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.balanceStore = new BalanceStore(this.assetStore);
     this.activityStore = new ActivityStore(this);
+    this.appContextStore = new AppContextStore(this);
   }
 
   get provider() {
     return this.currentProvider;
+  }
+
+  private set provider(provider) {
+    this.currentProvider = provider;
   }
 
   get network() {
@@ -50,8 +57,6 @@ export class WalletStore implements Wallet {
     const chainConfig = this.networkStore.network!;
     const provider = await createProvider({ privateKey, chainConfig });
 
-    runInAction(() => {
-      this.currentProvider = new providers.Web3Provider(provider);
-    });
+    this.provider = new providers.Web3Provider(provider);
   }
 }

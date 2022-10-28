@@ -2,9 +2,9 @@ import { autorun, makeAutoObservable } from 'mobx';
 import { createSharedRedirectState } from '../sharedState';
 
 export class RedirectPopupStore {
-  private shared = createSharedRedirectState(this.instanceId);
+  private shared = createSharedRedirectState(this.preopenInstanceId);
 
-  constructor(public readonly instanceId: string) {
+  constructor(public readonly preopenInstanceId: string) {
     makeAutoObservable(this);
   }
 

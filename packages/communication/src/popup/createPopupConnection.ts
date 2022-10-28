@@ -20,7 +20,8 @@ export type PopupConnectionOptions<T = unknown> = {
 type Message =
   | {
       name: 'handshake';
-      payload: boolean;
+      payload?: any;
+      connected?: boolean;
     }
   | {
       name: 'update';
@@ -34,25 +35,29 @@ export const createPopupConnection = <T = unknown>(
   let prevState: T = initialState;
   const { publish, subscribe, close } = createBradcastChannel<Message>(channel, logger);
 
-  subscribe(({ name, payload }) => {
-    if (name === 'update') {
-      onData(payload);
+  subscribe((message) => {
+    if (message.name === 'update') {
+      onData(message.payload);
     }
 
-    if (name === 'handshake') {
+    if (message.name === 'handshake') {
       onConnect();
 
-      if (!payload) {
-        publish({ name: 'handshake', payload: true });
+      if (message.connected && message.payload) {
+        onData(message.payload);
+      }
 
-        if (prevState && !readOnly) {
-          publish({ name: 'update', payload: prevState });
-        }
+      if (!message.connected) {
+        publish({
+          name: 'handshake',
+          connected: true,
+          payload: prevState && !readOnly ? prevState : undefined,
+        });
       }
     }
   });
 
-  publish({ name: 'handshake', payload: false });
+  publish({ name: 'handshake', connected: false });
 
   return {
     channel,

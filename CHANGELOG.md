@@ -4,6 +4,14 @@
 
 -
 
+### v1.5.0
+
+- [DAV-2698] Add SDK package and built-in authentication
+- [DAV-2359] Add wallet context support
+- [DAV-3597] Fix authentication issue in Safari
+- [DAV-3136] Show default app banner in case custom banner is not provided
+- [DAV-3366] Update Top Up onboarding wordings
+
 ### v1.4.0
 
 - [DAV-3116] Onboarding modal on Account Overview

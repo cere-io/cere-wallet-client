@@ -11,7 +11,7 @@ export class AssetStore {
     makeAutoObservable(this);
 
     when(
-      () => !!wallet.provider,
+      () => !!wallet.provider && !!wallet.account,
       () => this.onReady(),
     );
   }

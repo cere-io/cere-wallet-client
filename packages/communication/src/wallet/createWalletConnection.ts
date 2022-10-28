@@ -2,15 +2,29 @@ import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
-import { createChannels, InitChannelIn, LoginChannelIn, UserInfo } from './channels';
+import { getChainConfig } from './getChainConfig';
+import {
+  createChannels,
+  InitChannelIn,
+  PrivateKeyLoginChannelIn,
+  UserInfo,
+  LoginChannelIn,
+  NetworkInterface,
+  StatusChannelOut,
+  AppContextChannelIn,
+  WalletChannelOut,
+} from './channels';
 
 type WindowOptions = {
   instanceId: string;
 };
 
 export type WalletConnection = {
-  toggleFullscreen: (isFull: boolean) => void;
+  toggleFullscreen: (isFull: boolean) => boolean;
+  setLoggedInStatus: (status: StatusChannelOut) => boolean;
   closeWindow: (instanceId: string) => boolean;
+  createWindow: (instanceId: string, url?: string) => boolean;
+  redirect: (url: string) => boolean;
 };
 
 type InitData = Omit<InitChannelIn['data'], 'network'> & {
@@ -20,25 +34,34 @@ type InitData = Omit<InitChannelIn['data'], 'network'> & {
 export type WalletConnectionOptions = {
   logger?: ConsoleLike;
   onInit: (data: InitData) => Promise<boolean>;
-  onLogin: (data: LoginChannelIn['data']) => Promise<boolean>;
-  onRehydrate: () => Promise<boolean>;
+  onLogin: (data: LoginChannelIn['data']) => Promise<string>;
+  onLoginWithPrivateKey: (data: PrivateKeyLoginChannelIn['data']) => Promise<boolean>;
+  onRehydrate: (params: Pick<InitData, 'sessionId'>) => Promise<boolean>;
   onLogout: () => Promise<boolean>;
   onUserInfoRequest: () => Promise<UserInfo | undefined>;
   onWindowOpen: (data: WindowOptions) => Promise<void>;
   onWindowClose: (data: WindowOptions) => Promise<void>;
-  onWalletOpen: () => Promise<string>;
+  onWalletOpen: () => Promise<WalletChannelOut['data']>;
+  onAppContextUpdate: (context: AppContextChannelIn['data']) => Promise<void>;
+};
+
+const defaultNetwork: NetworkInterface = {
+  host: process.env.REACT_APP_DEFAULT_RPC || 'matic',
+  chainId: process.env.REACT_APP_DEFAULT_CHAIN_ID ? Number(process.env.REACT_APP_DEFAULT_CHAIN_ID) : undefined,
 };
 
 export const createWalletConnection = ({
   logger,
   onInit,
   onRehydrate,
+  onLoginWithPrivateKey,
   onLogin,
   onLogout,
   onUserInfoRequest,
   onWindowClose,
   onWindowOpen,
   onWalletOpen,
+  onAppContextUpdate,
 }: WalletConnectionOptions): WalletConnection => {
   const mux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
   const channels = createChannels({ mux, logger });
@@ -50,27 +73,14 @@ export const createWalletConnection = ({
       return;
     }
 
-    const { network, ...restData } = data;
+    const { network = defaultNetwork, ...restData } = data;
     const success = await onInit({
       ...restData,
-      chainConfig: {
-        chainNamespace: 'eip155',
-        chainId: `0x${network.chainId.toString(16)}`,
-        rpcTarget: network.host,
-        displayName: network.networkName,
-        blockExplorer: network.blockExplorer,
-        ticker: network.ticker,
-        tickerName: network.tickerName,
-      },
+      chainConfig: getChainConfig(network),
     });
 
-    const rehydrated = await onRehydrate();
+    const rehydrated = await onRehydrate({ sessionId: data.sessionId });
     const userInfo = rehydrated && (await onUserInfoRequest());
-
-    channels.init.publish({
-      name: 'init_complete',
-      data: { success },
-    });
 
     if (userInfo) {
       channels.status.publish({
@@ -79,6 +89,11 @@ export const createWalletConnection = ({
         verifier: userInfo.verifier,
       });
     }
+
+    channels.init.publish({
+      name: 'init_complete',
+      data: { success },
+    });
   });
 
   // Handle login with private key requests
@@ -88,17 +103,17 @@ export const createWalletConnection = ({
       return;
     }
 
-    const success = await onLogin(data);
-
-    channels.login.publish({
-      name: 'login_with_private_key_response',
-      data: { success },
-    });
+    const success = await onLoginWithPrivateKey(data);
 
     channels.status.publish({
       loggedIn: success,
       rehydrate: false,
       verifier: data.userInfo.verifier,
+    });
+
+    channels.login.publish({
+      name: 'login_with_private_key_response',
+      data: { success },
     });
   });
 
@@ -149,16 +164,62 @@ export const createWalletConnection = ({
       return;
     }
 
-    const instanceId = await onWalletOpen();
+    const data = await onWalletOpen();
 
     channels.wallet.publish({
+      data,
       name: 'show_wallet_instance',
-      data: { instanceId },
     });
+  });
+
+  // Handle wallet context requests
+
+  channels.appContext.subscribe(async ({ name, data }) => {
+    if (name !== 'set_context') {
+      return;
+    }
+
+    onAppContextUpdate(data);
+  });
+
+  // Handle auth requests
+
+  channels.auth.subscribe(async ({ name, data }) => {
+    if (name !== 'oauth') {
+      return;
+    }
+
+    try {
+      const selectedAddress = await onLogin(data);
+
+      channels.auth.publish({ selectedAddress });
+    } catch (error) {
+      if (error instanceof Error) {
+        channels.auth.publish({ err: error.message });
+      }
+    }
   });
 
   return {
     toggleFullscreen: (isFull) => channels.widget.publish({ name: 'widget', data: isFull }),
-    closeWindow: (instanceId) => channels.window.publish({ preopenInstanceId: instanceId, close: true }),
+    setLoggedInStatus: (status) => channels.status.publish(status),
+
+    redirect: (url: string) =>
+      channels.window.publish({
+        name: 'redirect',
+        data: { url },
+      }),
+
+    closeWindow: (instanceId) =>
+      channels.window.publish({
+        preopenInstanceId: instanceId,
+        close: true,
+      }),
+
+    createWindow: (preopenInstanceId, url) =>
+      channels.window.publish({
+        name: 'create_window',
+        data: { preopenInstanceId, url },
+      }),
   };
 };

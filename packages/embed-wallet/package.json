@@ -1,0 +1,20 @@
+{
+  "name": "@cere/embed-wallet",
+  "version": "0.0.12",
+  "types": "./src",
+  "main": "./dist/cjs",
+  "exports": {
+    "import": "./dist/esm",
+    "require": "./dist/cjs"
+  },
+  "dependencies": {
+    "@cere/torus-embed": "0.1.4",
+    "@toruslabs/openlogin-jrpc": "^2.6.0",
+    "@types/readable-stream": "^2.3.14"
+  },
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --project ./tsconfig.json",
+    "build:cjs": "tsc --project ./tsconfig.cjs.json"
+  }
+}

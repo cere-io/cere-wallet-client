@@ -40,7 +40,7 @@ const AccountInfo = (props: AccountInfoProps) => {
         }
       />
       <CardContent>
-        <AccountBalance variant="h6" />
+        <AccountBalance variant="h3" />
       </CardContent>
     </Card>
   );

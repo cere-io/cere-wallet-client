@@ -9,4 +9,6 @@ export * from './AssetList';
 export * from './ActivityList';
 export * from './FAQ';
 export * from './AddressQRButton';
+export * from './AppContextBanner';
+export * from './Login';
 export * from './OnboardingDialog';
