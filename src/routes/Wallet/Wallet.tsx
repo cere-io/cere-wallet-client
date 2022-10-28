@@ -1,7 +1,7 @@
-import { fromPromise } from 'mobx-utils';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
+import { reaction } from 'mobx';
 import { Loading, Logo } from '@cere-wallet/ui';
 
 import { AppContextBanner, WalletLayout, WalletLayoutProps } from '~/components';
@@ -14,15 +14,25 @@ const Wallet = ({ menu }: WalletProps) => {
   const [params] = useSearchParams();
   const instanceId = params.get('instanceId') || undefined;
   const store = useMemo(() => new WalletStore(instanceId), [instanceId]);
-  const { state } = useMemo(() => fromPromise(store.init()), [store]);
+
+  useEffect(() => {
+    store.init();
+
+    return reaction(
+      () => store.status,
+      (status) => {
+        if (status === 'unauthenticated') {
+          store.authenticationStore.login({
+            redirectUrl: window.location.origin,
+          });
+        }
+      },
+    );
+  }, [store]);
 
   return (
     <WalletContext.Provider value={store}>
-      {state === 'pending' ? (
-        <Loading fullScreen>
-          <Logo />
-        </Loading>
-      ) : (
+      {store.status === 'ready' ? (
         <>
           <AppContextBanner />
 
@@ -30,6 +40,10 @@ const Wallet = ({ menu }: WalletProps) => {
             <Outlet />
           </WalletLayout>
         </>
+      ) : (
+        <Loading fullScreen>
+          <Logo />
+        </Loading>
       )}
     </WalletContext.Provider>
   );

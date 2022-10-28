@@ -24,6 +24,8 @@ export type Asset = {
 
 export type Provider = ethers.providers.JsonRpcProvider;
 
+export type WalletStatus = 'idle' | 'ready' | 'unauthenticated' | 'errored';
+
 export interface Wallet {
   readonly instanceId: string;
   readonly network?: ChainConfig;

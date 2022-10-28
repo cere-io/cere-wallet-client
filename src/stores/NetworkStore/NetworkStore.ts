@@ -1,4 +1,4 @@
-import { ChainConfig } from '@cere-wallet/communication';
+import { ChainConfig, getChainConfig, DEFAULT_NETWORK } from '@cere-wallet/communication';
 import { makeAutoObservable } from 'mobx';
 
 import { Wallet } from '../types';
@@ -8,10 +8,14 @@ type SharedState = {
   network?: ChainConfig;
 };
 
+const defaultNetwork = getChainConfig(DEFAULT_NETWORK);
+
 export class NetworkStore {
   private shared = createSharedState<SharedState>(
     `network.${this.wallet.instanceId}`,
-    {},
+    {
+      network: defaultNetwork,
+    },
     { readOnly: !this.wallet.isRoot() },
   );
 

@@ -21,7 +21,7 @@ type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
 
 type App = {
   name?: string;
-  url?: string;
+  url: string;
 };
 
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
@@ -54,7 +54,7 @@ export class OpenLoginStore {
       no3PC: true,
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: sessionNamespace || this.sessionNamespace,
+      _sessionNamespace: sessionNamespace ?? this.sessionNamespace,
 
       whiteLabel: {
         dark: false,
@@ -113,14 +113,13 @@ export class OpenLoginStore {
   }
 
   configureApp(app?: App) {
-    const appUrl = new URL(this.appUrl || window.origin);
+    const url = new URL(app?.url || this.appUrl || window.origin);
+    const name = app ? app.name || url.hostname : 'Cere Wallet';
 
     const whiteLabel = {
       ...this.openLogin.state.whiteLabel,
-      ...(app || {
-        name: appUrl.hostname,
-        url: appUrl.origin,
-      }),
+      name,
+      url: url.origin,
     };
 
     this.openLogin._syncState({ whiteLabel });

@@ -15,13 +15,14 @@ import {
   Link,
 } from '@cere-wallet/ui';
 
-import { useAccountStore } from '~/hooks';
+import { useAccountStore, useAuthenticationStore } from '~/hooks';
 import { WALLET_HELP_URL } from '~/constants';
 import { AccountInfo } from '../AccountInfo';
 
 export type AccountDropdownProps = {};
 
 const AccountDropdown = (props: AccountDropdownProps) => {
+  const authStore = useAuthenticationStore();
   const { account } = useAccountStore();
   const [open, setOpen] = useState(false);
 
@@ -49,7 +50,7 @@ const AccountDropdown = (props: AccountDropdownProps) => {
 
           <Divider />
 
-          <MenuItem>
+          <MenuItem onClick={() => authStore.logout()}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

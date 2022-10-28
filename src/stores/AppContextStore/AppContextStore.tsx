@@ -65,4 +65,8 @@ export class AppContextStore {
 
     return { ...this.context.app, name };
   }
+
+  async disconnect() {
+    this.context = undefined;
+  }
 }
