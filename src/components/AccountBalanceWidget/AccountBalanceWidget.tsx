@@ -21,7 +21,12 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
   const { account } = useAccountStore();
   const qrButtonSize = dense ? 32 : 40;
   const addressElement = account && (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack
+      direction="row"
+      spacing={1}
+      className="wallet-address" // css class "wallet-address" is an anchor for product tour
+      alignItems="center"
+    >
       <Address
         showCopy
         address={account.address}
@@ -89,7 +94,9 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
               Transfer
             </Button>
 
+            {/* css class "wallet-top-up" is an anchor for product tour */}
             <Button
+              className="wallet-top-up"
               to="topup"
               component={Link}
               fullWidth={dense}
