@@ -12,7 +12,7 @@ export const AccountBalance = (props: AccountBalanceProps) => {
     <>
       {/* css class "account-balance" is an anchor for product tour */}
       <Typography {...props} className="account-balance">
-        {balance || 0} {selectedToken.displayName}
+        {balance || 0} {selectedToken?.displayName}
       </Typography>
     </>
   );

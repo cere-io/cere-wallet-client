@@ -1,4 +1,6 @@
-import { Button, Dialog, DialogContent, DialogProps, Stack, TourHeaderImage, Typography } from '@cere-wallet/ui';
+import { Button, Dialog, DialogContent, DialogProps, Stack, Typography } from '@cere-wallet/ui';
+
+import tourHeaderImage from '~/assets/tour-header.png';
 
 export type WalletIntroduceStartProps = DialogProps & {
   onStartTour: () => void;
@@ -8,7 +10,7 @@ export const WalletIntroduceStartDialog = ({ onStartTour, ...props }: WalletIntr
   return (
     <Dialog {...props} maxWidth="xs" fullScreen={false} transitionDuration={0}>
       <DialogContent style={{ padding: 0 }}>
-        <img src={TourHeaderImage} width="100%" alt="Product Tour" />
+        <img src={tourHeaderImage} width="100%" alt="Product Tour" />
         <Stack spacing={1} alignItems="stretch" style={{ backgroundColor: 'white' }} padding={3}>
           <Stack spacing={2} alignItems="center">
             <Typography variant="h3">Cere wallet introducing!</Typography>
