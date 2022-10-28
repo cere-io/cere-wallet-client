@@ -18,7 +18,7 @@ export class AccountStore {
   private shared = createSharedState<SharedState>(
     `account.${this.wallet.instanceId}`,
     { loginData: null },
-    { readOnly: !this.wallet.isRoot },
+    { readOnly: !this.wallet.isRoot() },
   );
 
   constructor(private wallet: Wallet) {

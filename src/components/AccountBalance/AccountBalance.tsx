@@ -10,7 +10,7 @@ export const AccountBalance = (props: AccountBalanceProps) => {
 
   return (
     <Typography {...props}>
-      {balance || 0} {selectedToken.displayName}
+      {balance || 0} {selectedToken?.displayName}
     </Typography>
   );
 };

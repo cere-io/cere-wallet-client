@@ -7,3 +7,4 @@ export * from './useAssetStore';
 export * from './useActivityStore';
 export * from './useAppContextStore';
 export * from './usePopupStore';
+export * from './useAuthenticationStore';

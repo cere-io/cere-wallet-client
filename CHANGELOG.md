@@ -11,6 +11,7 @@
 - [DAV-3597] Fix authentication issue in Safari
 - [DAV-3136] Show default app banner in case custom banner is not provided
 - [DAV-3366] Update Top Up onboarding wordings
+- [DAV-3126] Add wallet loading state + standalone login/logout
 
 ### v1.4.0
 

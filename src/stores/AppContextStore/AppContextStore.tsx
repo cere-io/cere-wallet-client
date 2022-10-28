@@ -16,7 +16,7 @@ export class AppContextStore {
   private shared = createSharedState<SharedState>(
     `context.${this.wallet.instanceId}`,
     {},
-    { readOnly: !this.wallet.isRoot },
+    { readOnly: !this.wallet.isRoot() },
   );
 
   constructor(private wallet: Wallet) {
@@ -64,5 +64,9 @@ export class AppContextStore {
     const name = this.context.app.name || new URL(this.context.app.url).hostname;
 
     return { ...this.context.app, name };
+  }
+
+  async disconnect() {
+    this.context = undefined;
   }
 }

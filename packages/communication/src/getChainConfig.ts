@@ -1,5 +1,5 @@
 import { ChainConfig } from '@cere-wallet/wallet-engine';
-import { NetworkInterface } from './channels';
+import type { NetworkConfig } from '@cere/embed-wallet';
 
 const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
   ![
@@ -12,7 +12,7 @@ const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
     config.tickerName,
   ].some((value) => !value);
 
-export const getChainConfig = (network: NetworkInterface): ChainConfig => {
+export const getChainConfig = (network: NetworkConfig): ChainConfig => {
   let chainConfig: Partial<ChainConfig> = {
     chainNamespace: 'eip155',
     chainId: network.chainId ? `0x${network.chainId.toString(16)}` : undefined,

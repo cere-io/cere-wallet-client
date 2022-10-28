@@ -1,15 +1,15 @@
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 
+import { DEFAULT_NETWORK } from '../constants';
 import { createMux } from '../createMux';
-import { getChainConfig } from './getChainConfig';
+import { getChainConfig } from '../getChainConfig';
 import {
   createChannels,
   InitChannelIn,
   PrivateKeyLoginChannelIn,
   UserInfo,
   LoginChannelIn,
-  NetworkInterface,
   StatusChannelOut,
   AppContextChannelIn,
   WalletChannelOut,
@@ -45,11 +45,6 @@ export type WalletConnectionOptions = {
   onAppContextUpdate: (context: AppContextChannelIn['data']) => Promise<void>;
 };
 
-const defaultNetwork: NetworkInterface = {
-  host: process.env.REACT_APP_DEFAULT_RPC || 'matic',
-  chainId: process.env.REACT_APP_DEFAULT_CHAIN_ID ? Number(process.env.REACT_APP_DEFAULT_CHAIN_ID) : undefined,
-};
-
 export const createWalletConnection = ({
   logger,
   onInit,
@@ -73,7 +68,7 @@ export const createWalletConnection = ({
       return;
     }
 
-    const { network = defaultNetwork, ...restData } = data;
+    const { network = DEFAULT_NETWORK, ...restData } = data;
     const success = await onInit({
       ...restData,
       chainConfig: getChainConfig(network),
