@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.5.0
+
 - [DAV-2698] Add SDK package and built-in authentication
 - [DAV-2359] Add wallet context support
 - [DAV-3597] Fix authentication issue in Safari
