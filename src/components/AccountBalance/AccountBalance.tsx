@@ -9,9 +9,12 @@ export const AccountBalance = (props: AccountBalanceProps) => {
   const { balance, selectedToken } = useBalanceStore();
 
   return (
-    <Typography {...props}>
-      {balance || 0} {selectedToken?.displayName}
-    </Typography>
+    <>
+      {/* css class "account-balance" is an anchor for product tour */}
+      <Typography {...props} className="account-balance">
+        {balance || 0} {selectedToken.displayName}
+      </Typography>
+    </>
   );
 };
 
