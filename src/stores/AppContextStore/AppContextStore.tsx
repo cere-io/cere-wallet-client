@@ -4,6 +4,10 @@ import { makeAutoObservable } from 'mobx';
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
+export type App = Omit<NonNullable<AppContext['app']>, 'name'> & {
+  name: string;
+};
+
 export type ContextBanner = AppContext['banner'] & {
   variant?: 'app' | 'banner';
 };
@@ -56,7 +60,7 @@ export class AppContextStore {
     };
   }
 
-  get app(): AppContext['app'] {
+  get app(): App | undefined {
     if (!this.context?.app) {
       return undefined;
     }

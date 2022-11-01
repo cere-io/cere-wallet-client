@@ -16,7 +16,7 @@ const TransactionPopup = () => {
       onCancel={store.decline}
       onConfirm={store.approve}
       links={[
-        { title: 'App:', label: store.app.label, url: store.app.url },
+        { title: 'App:', label: store.app?.name, url: store.app?.url },
         { title: 'From:', label: store.from.label, url: store.from.url },
         { title: 'To:', label: store.to.label, url: store.to.url },
       ]}

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import { styled, Button, Logo, Container, Typography, Loading } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
@@ -22,12 +22,14 @@ export const PopupLayout = ({
   title = 'Confirm transaction',
   loading = false,
   network,
-  links,
+  links: rawLinks,
   children,
   onCancel,
   onConfirm,
-}: PopupLayoutProps) =>
-  loading ? (
+}: PopupLayoutProps) => {
+  const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
+
+  return loading ? (
     <Loading fullScreen>
       <Logo />
     </Loading>
@@ -62,5 +64,6 @@ export const PopupLayout = ({
       </Section>
     </Layout>
   );
+};
 
 PopupLayout.Section = Section;

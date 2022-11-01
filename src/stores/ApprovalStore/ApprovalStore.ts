@@ -14,6 +14,7 @@ import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { TransactionPopupState } from '../TransactionPopupStore';
 import { ConfirmPopupState } from '../ConfirmPopupStore';
+import { AppContextStore } from '../AppContextStore';
 
 const convertPrice = (amount: BigNumber, { decimals }: TokenConfig) => {
   return amount.div(10 ** decimals).toNumber();
@@ -24,6 +25,7 @@ export class ApprovalStore {
     private wallet: Wallet,
     private popupManagerStore: PopupManagerStore,
     private networkStore: NetworkStore,
+    private contextStore: AppContextStore,
   ) {
     makeAutoObservable(this);
   }
@@ -32,6 +34,7 @@ export class ApprovalStore {
     const tokenConfig = getTokenConfig();
     const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, '/confirm', {
       network: this.networkStore.network,
+      app: this.contextStore.app,
       status: 'pending',
       content,
       fee: { amount: 0, symbol: tokenConfig.symbol }, // TODO: Detect gas fee
@@ -61,6 +64,7 @@ export class ApprovalStore {
       to: transaction.to,
       rawData: transaction.data,
       action: parsedData?.name,
+      app: this.contextStore.app,
     });
 
     runInAction(() => {
