@@ -2,7 +2,7 @@ import { Link, Stack, Typography } from '@cere-wallet/ui';
 
 export type HeaderLinkProps = {
   title: string;
-  label: string;
+  label?: string;
   url?: string;
 };
 
