@@ -16,12 +16,14 @@ const ConfirmPopup = () => {
       onCancel={store.decline}
       onConfirm={store.approve}
     >
-      <PopupLayout.Section spacing={1}>
-        <Typography variant="body1" fontWeight="medium">
-          Requested from
-        </Typography>
-        <Link href={store.app.url}>{store.app.label}</Link>
-      </PopupLayout.Section>
+      {store.app && (
+        <PopupLayout.Section spacing={1}>
+          <Typography variant="body1" fontWeight="medium">
+            Requested from
+          </Typography>
+          <Link href={store.app.url}>{store.app.name}</Link>
+        </PopupLayout.Section>
+      )}
 
       <PopupLayout.Section spacing={1}>
         <Typography variant="body1" fontWeight="medium">

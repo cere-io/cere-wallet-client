@@ -90,6 +90,15 @@ export const Wallet = () => {
     wallet.setContext(null);
   }, [wallet]);
 
+  const handlePersonalSign = useCallback(async () => {
+    const provider = new providers.Web3Provider(wallet.provider);
+    const signer = provider.getSigner();
+
+    const signed = await signer.signMessage('Hello!!!');
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
       <Button variant="outlined" color="primary" onClick={handleSetContext}>
@@ -108,6 +117,10 @@ export const Wallet = () => {
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleUserInfo}>
             Get User Info
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handlePersonalSign}>
+            Sign message
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

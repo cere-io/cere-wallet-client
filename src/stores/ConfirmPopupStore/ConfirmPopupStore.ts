@@ -1,9 +1,14 @@
 import { action, makeAutoObservable } from 'mobx';
-import { ChainConfig, getIFrameOrigin } from '@cere-wallet/communication';
+import { ChainConfig } from '@cere-wallet/communication';
 import { createSharedPopupState } from '../sharedState';
 import { PriceData } from '../types';
 
 export type ConfirmPopupState = {
+  app?: {
+    url: string;
+    name: string;
+  };
+
   network?: ChainConfig;
   content?: string;
   status?: 'pending' | 'approved' | 'declined';
@@ -21,12 +26,7 @@ export class ConfirmPopupStore {
   }
 
   get app() {
-    const originUrl = new URL(getIFrameOrigin());
-
-    return {
-      url: originUrl.toString(),
-      label: originUrl.hostname,
-    };
+    return this.shared.state.app;
   }
 
   get isReady() {
