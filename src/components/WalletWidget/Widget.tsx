@@ -42,13 +42,13 @@ const Widget = ({ children }: WidgetProps) => {
     (event: SyntheticEvent) => {
       event.stopPropagation();
 
-      store.isFullscreen = !store.isFullscreen;
+      store.isWidgetOpened = !store.isWidgetOpened;
     },
     [store],
   );
 
   const handleClose = useCallback(() => {
-    store.isFullscreen = false;
+    store.isWidgetOpened = false;
   }, [store]);
 
   return (
@@ -56,7 +56,7 @@ const Widget = ({ children }: WidgetProps) => {
       <WidgetButton size="large" color="primary" onClick={handleOpen}>
         <CereLightIcon fontSize="inherit" />
       </WidgetButton>
-      {store.isFullscreen && (
+      {store.isWidgetOpened && (
         <WidgetContent variant="outlined" onClick={(event) => event.stopPropagation()}>
           {children}
         </WidgetContent>

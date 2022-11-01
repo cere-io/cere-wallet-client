@@ -1,7 +1,8 @@
 import { UIProvider } from '@cere-wallet/ui';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 
-import { WalletWidget } from '~/components';
+import { PopupManager, WalletWidget } from '~/components';
 import { WalletContext } from '~/hooks';
 import { EmbeddedWalletStore } from '~/stores';
 
@@ -16,9 +17,10 @@ const EmbeddedWallet = () => {
     <UIProvider transparentBody>
       <WalletContext.Provider value={store}>
         <WalletWidget />
+        <PopupManager />
       </WalletContext.Provider>
     </UIProvider>
   );
 };
 
-export default EmbeddedWallet;
+export default observer(EmbeddedWallet);

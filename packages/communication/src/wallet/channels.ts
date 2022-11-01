@@ -84,6 +84,7 @@ export type WindowChannelIn = {
   name?: 'opened_window';
   data: {
     preopenInstanceId: string;
+    popupMode?: 'popup' | 'modal';
     closed?: boolean;
   };
 };
@@ -97,6 +98,7 @@ export type WindowChannelOut =
       name: 'create_window';
       data: {
         preopenInstanceId: string;
+        popupMode?: 'popup' | 'modal';
         url?: string;
       };
     }

@@ -8,3 +8,4 @@ export * from './useActivityStore';
 export * from './useAppContextStore';
 export * from './usePopupStore';
 export * from './useAuthenticationStore';
+export * from './usePopupManagerStore';

@@ -12,6 +12,7 @@ export const Wallet = () => {
   useEffect(() => {
     wallet.init({
       env: 'local',
+      popupMode: 'modal',
       context: {
         app: {
           name: 'Cere wallet playground',

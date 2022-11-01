@@ -29,7 +29,8 @@ export class EmbeddedWalletStore implements Wallet {
 
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
-  private _isFullscreen = false;
+
+  private _isWidgetOpened = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -56,13 +57,16 @@ export class EmbeddedWalletStore implements Wallet {
     return !!(this.provider && this.network && this.account);
   }
 
-  get isFullscreen() {
-    return this._isFullscreen;
+  get isWidgetOpened() {
+    return this._isWidgetOpened;
   }
 
-  set isFullscreen(isFull) {
-    this._isFullscreen = isFull;
-    this.walletConnection?.toggleFullscreen(isFull);
+  set isWidgetOpened(opened) {
+    this._isWidgetOpened = opened;
+  }
+
+  get isFullscreen() {
+    return this.isWidgetOpened || this.popupManagerStore.hasOpenedModals;
   }
 
   get provider() {
@@ -86,7 +90,7 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   private async setupWalletConnection() {
-    const walletConnection = createWalletConnection({
+    this.walletConnection = createWalletConnection({
       logger: console,
 
       onInit: async (data) => {
@@ -123,12 +127,12 @@ export class EmbeddedWalletStore implements Wallet {
         return toJS(this.accountStore.userInfo);
       },
 
-      onWindowClose: async ({ instanceId }) => {
-        this.popupManagerStore.unregisterAll(instanceId);
+      onWindowClose: async ({ preopenInstanceId }) => {
+        this.popupManagerStore.unregisterAll(preopenInstanceId);
       },
 
-      onWindowOpen: async ({ instanceId }) => {
-        this.popupManagerStore.registerRedirect(instanceId);
+      onWindowOpen: async ({ preopenInstanceId, popupMode }) => {
+        this.popupManagerStore.registerRedirect(preopenInstanceId, popupMode);
       },
 
       onWalletOpen: async () => {
@@ -149,14 +153,20 @@ export class EmbeddedWalletStore implements Wallet {
     reaction(
       () => !!this.account,
       (loggedIn) => {
-        walletConnection.setLoggedInStatus({
+        this.walletConnection?.setLoggedInStatus({
           loggedIn,
           verifier: this.account?.verifier,
         });
       },
     );
 
-    this.walletConnection = walletConnection;
+    /**
+     * Send wallet full screen state updates
+     */
+    reaction(
+      () => this.isFullscreen,
+      (isFull) => this.walletConnection?.toggleFullscreen(isFull),
+    );
   }
 
   private async setupRpcConnection() {

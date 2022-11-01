@@ -5,8 +5,15 @@ type PopupManangerOptions = {
   onClose?: (instanceId: string) => void;
 };
 
+type Modal = {
+  instanceId: string;
+  open: boolean;
+};
+
 export class PopupManagerStore {
   private onClose?: PopupManangerOptions['onClose'];
+  private registeredModals: Modal[] = [];
+
   redirects: Record<string, SharedState<RedirectState>> = {};
   popups: Record<string, SharedState> = {};
 
@@ -19,8 +26,28 @@ export class PopupManagerStore {
     this.onClose = options.onClose;
   }
 
-  registerRedirect(instanceId: string) {
+  get modals() {
+    return this.registeredModals;
+  }
+
+  get hasOpenedModals() {
+    return !!this.modals.length;
+  }
+
+  private hideModal(instanceId: string) {
+    const modal = this.registeredModals.find((modal) => modal.instanceId === instanceId);
+
+    if (modal) {
+      modal.open = false;
+    }
+  }
+
+  registerRedirect(instanceId: string, popupType: 'modal' | 'popup' = 'popup') {
     this.redirects[instanceId] = createSharedRedirectState(instanceId);
+
+    if (popupType === 'modal') {
+      this.registeredModals.push({ instanceId, open: true });
+    }
 
     return this.redirects[instanceId];
   }
@@ -38,10 +65,13 @@ export class PopupManagerStore {
 
     delete this.popups[instanceId];
     delete this.redirects[instanceId];
+
+    this.hideModal(instanceId);
   }
 
   closePopup(instanceId: string) {
     this.onClose?.(instanceId);
+    this.hideModal(instanceId);
   }
 
   async proceedTo<T = unknown>(instanceId: string, toUrl: string, initialState: T) {
@@ -64,5 +94,10 @@ export class PopupManagerStore {
     });
 
     return this.redirects[instanceId];
+  }
+
+  disposeModal(instanceId: string) {
+    this.registeredModals = this.registeredModals.filter((modal) => modal.instanceId !== instanceId);
+    console.log('disposeModal', instanceId);
   }
 }
