@@ -11,13 +11,17 @@ export type SharedStateOptions = Pick<PopupConnectionOptions, 'readOnly'> & {
   local?: boolean;
 };
 
-const localMap: Record<string, SharedState<unknown>> = {};
+const localMap: Record<string, SharedState<any>> = {};
 
 export const createSharedState = <T = unknown>(
   channel: string,
   initialState: T,
   { readOnly = false, local = false }: SharedStateOptions = {},
 ): SharedState<T> => {
+  if (localMap[channel]) {
+    return localMap[channel];
+  }
+
   let connection: PopupConnection<T> | undefined;
   let dispose = () => {};
   let shouldSync = true;
