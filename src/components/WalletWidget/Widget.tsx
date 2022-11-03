@@ -2,7 +2,7 @@ import { useCallback, SyntheticEvent, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 import { IconButton, Backdrop, styled, CereLightIcon, Paper } from '@cere-wallet/ui';
 
-import { useEmbeddedWalletStore } from '~/hooks';
+import { useEmbeddedWalletStore, useFullScreen } from '~/hooks';
 
 export type WidgetProps = PropsWithChildren<{}>;
 
@@ -36,6 +36,7 @@ const WidgetContent = styled(Paper)(({ theme }) => ({
 }));
 
 const Widget = ({ children }: WidgetProps) => {
+  const [isFullscreen] = useFullScreen();
   const store = useEmbeddedWalletStore();
 
   const handleOpen = useCallback(
@@ -56,7 +57,7 @@ const Widget = ({ children }: WidgetProps) => {
       <WidgetButton size="large" color="primary" onClick={handleOpen}>
         <CereLightIcon fontSize="inherit" />
       </WidgetButton>
-      {store.isWidgetOpened && (
+      {store.isWidgetOpened && isFullscreen && (
         <WidgetContent variant="outlined" onClick={(event) => event.stopPropagation()}>
           {children}
         </WidgetContent>

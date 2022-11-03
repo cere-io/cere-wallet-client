@@ -16,9 +16,9 @@ export type ConfirmPopupState = {
 };
 
 export class ConfirmPopupStore {
-  private shared = createSharedPopupState<ConfirmPopupState>(this.preopenInstanceId, {});
+  private shared = createSharedPopupState<ConfirmPopupState>(this.preopenInstanceId, {}, { local: this.isLocal });
 
-  constructor(public readonly preopenInstanceId: string) {
+  constructor(public readonly preopenInstanceId: string, private isLocal = false) {
     makeAutoObservable(this, {
       approve: action.bound,
       decline: action.bound,

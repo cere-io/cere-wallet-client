@@ -33,6 +33,7 @@ export {
   TextField,
   MobileStepper,
   FormControl,
+  Slide,
 } from '@mui/material';
 
 export type {
@@ -69,6 +70,7 @@ export type {
   TextFieldProps,
   MobileStepperProps,
   FormControlProps,
+  SlideProps,
 } from '@mui/material';
 
 export * from './IconButton';
