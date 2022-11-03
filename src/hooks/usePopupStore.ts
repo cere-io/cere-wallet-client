@@ -1,10 +1,14 @@
 import { useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export const usePopupStore = <T>(storeFactory: (popupId: string) => T, deps: any[] = []): T => {
   const factoryRef = useRef(storeFactory);
-  const [searchParams] = useSearchParams();
-  const popupId = searchParams.get('preopenInstanceId');
+  const { search, state } = useLocation();
+
+  const popupId = useMemo(
+    () => state?.preopenInstanceId || new URLSearchParams(search).get('preopenInstanceId'),
+    [search, state],
+  );
 
   if (!popupId) {
     throw Error('No `preopenInstanceId` found in query');

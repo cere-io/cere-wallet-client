@@ -32,7 +32,8 @@ export class ApprovalStore {
 
   async approvePersonalSign({ preopenInstanceId, params: [content] }: PersonalSignRequest) {
     const tokenConfig = getTokenConfig();
-    const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, '/confirm', {
+
+    const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, 'confirm', {
       network: this.networkStore.network,
       app: this.contextStore.app,
       status: 'pending',
@@ -57,7 +58,7 @@ export class ApprovalStore {
     const network = this.networkStore.network!;
     const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
 
-    const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, '/transaction', {
+    const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, 'transaction', {
       network,
       parsedData,
       from: transaction.from,

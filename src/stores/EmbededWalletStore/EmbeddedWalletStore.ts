@@ -31,6 +31,7 @@ export class EmbeddedWalletStore implements Wallet {
   private walletConnection?: WalletConnection;
 
   private _isWidgetOpened = false;
+  private _isFullScreen = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -66,7 +67,11 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   get isFullscreen() {
-    return this.isWidgetOpened || this.popupManagerStore.hasOpenedModals;
+    return this.isWidgetOpened || this._isFullScreen;
+  }
+
+  set isFullscreen(isFull) {
+    this._isFullScreen = isFull;
   }
 
   get provider() {
@@ -132,7 +137,13 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWindowOpen: async ({ preopenInstanceId, popupMode }) => {
-        this.popupManagerStore.registerRedirect(preopenInstanceId, popupMode);
+        if (popupMode === 'popup') {
+          this.popupManagerStore.registerRedirect(preopenInstanceId);
+        }
+
+        if (popupMode === 'modal') {
+          this.popupManagerStore.registerModal(preopenInstanceId);
+        }
       },
 
       onWalletOpen: async () => {
@@ -166,6 +177,9 @@ export class EmbeddedWalletStore implements Wallet {
     reaction(
       () => this.isFullscreen,
       (isFull) => this.walletConnection?.toggleFullscreen(isFull),
+      {
+        fireImmediately: true,
+      },
     );
   }
 

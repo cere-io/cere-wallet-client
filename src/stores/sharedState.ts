@@ -1,5 +1,5 @@
 import { action, observable, reaction, toJS, when, IReactionDisposer } from 'mobx';
-import { createPopupConnection, PopupConnectionOptions } from '@cere-wallet/communication';
+import { createPopupConnection, PopupConnectionOptions, PopupConnection } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
   state: T;
@@ -7,26 +7,42 @@ export type SharedState<T = unknown> = {
   disconnect: () => Promise<void>;
 };
 
-export type SharedStateOptions = Pick<PopupConnectionOptions, 'readOnly'>;
+export type SharedStateOptions = Pick<PopupConnectionOptions, 'readOnly'> & {
+  local?: boolean;
+};
+
+const localMap: Record<string, SharedState<unknown>> = {};
 
 export const createSharedState = <T = unknown>(
   channel: string,
   initialState: T,
-  { readOnly = false }: SharedStateOptions = {},
+  { readOnly = false, local = false }: SharedStateOptions = {},
 ): SharedState<T> => {
+  let connection: PopupConnection<T> | undefined;
+  let dispose = () => {};
   let shouldSync = true;
   const shared = observable(
     {
-      isConnected: false,
+      isConnected: local,
       state: initialState,
-      disconnect: () => connection.disconnect(),
+      disconnect: async () => {
+        delete localMap[channel];
+
+        return connection?.disconnect();
+      },
     },
     {
       state: observable.deep,
     },
   );
 
-  const connection = createPopupConnection<T>(channel, {
+  if (local) {
+    localMap[channel] = shared;
+
+    return shared;
+  }
+
+  connection = createPopupConnection<T>(channel, {
     readOnly,
     logger: console,
     initialState: toJS(shared.state),
@@ -41,6 +57,7 @@ export const createSharedState = <T = unknown>(
 
     onDisconnect: action(() => {
       shared.isConnected = false;
+      dispose();
     }),
   });
 
@@ -54,7 +71,7 @@ export const createSharedState = <T = unknown>(
 
   let disposeWhenReaction: IReactionDisposer;
 
-  reaction(
+  dispose = reaction(
     () => toJS(shared.state),
     (state) => {
       if (!shouldSync) {
@@ -69,7 +86,7 @@ export const createSharedState = <T = unknown>(
 
       disposeWhenReaction = when(
         () => shared.isConnected,
-        () => connection.publish(state),
+        () => connection?.publish(state),
       );
     },
   );
@@ -83,8 +100,11 @@ export type RedirectState = {
   url: string | null;
 };
 
-export const createSharedRedirectState = (instanceId: string) =>
-  createSharedState<RedirectState>(`redirect.${instanceId}`, { url: null });
+export const createSharedRedirectState = (instanceId: string, options?: SharedStateOptions) =>
+  createSharedState<RedirectState>(`redirect.${instanceId}`, { url: null }, options);
 
-export const createSharedPopupState = <T = unknown>(instanceId: string, initialState: T) =>
-  createSharedState<T>(`popup.${instanceId}`, initialState);
+export const createSharedPopupState = <T = unknown>(
+  instanceId: string,
+  initialState: T,
+  options?: SharedStateOptions,
+) => createSharedState<T>(`popup.${instanceId}`, initialState, options);

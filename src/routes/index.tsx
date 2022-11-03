@@ -7,6 +7,8 @@ import {
   createRoutesFromElements,
   To,
   resolvePath,
+  Location,
+  useRoutes,
 } from 'react-router-dom';
 import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
@@ -36,40 +38,41 @@ const Redirect = ({ to }: { to: To }) => {
   return <Navigate replace to={{ ...location, pathname, hash }} />;
 };
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/">
-      <Route index element={<Redirect to="wallet/home" />} />
-      <Route path="popup" element={<EmbeddedWallet />} />
-      <Route path="redirect" element={<RedirectPopup />} />
-      <Route path="confirm" element={<ConfirmPopup />} />
-      <Route path="transaction" element={<TransactionPopup />} />
+const routes = createRoutesFromElements(
+  <Route path="/">
+    <Route index element={<Redirect to="wallet/home" />} />
+    <Route path="redirect" element={<RedirectPopup />} />
+    <Route path="confirm" element={<ConfirmPopup />} />
+    <Route path="transaction" element={<TransactionPopup />} />
 
-      <Route path="wallet" element={<Wallet menu={walletMenu} />}>
-        <Route index element={<Redirect to="home" />} />
+    <Route path="popup/*" element={<EmbeddedWallet />} />
 
-        <Route path="home">
-          <Route index element={<WalletHome />} />
-          <Route path="topup" element={<TopUp />} />
-        </Route>
+    <Route path="wallet" element={<Wallet menu={walletMenu} />}>
+      <Route index element={<Redirect to="home" />} />
 
-        <Route path="collectibles" element={<Collectibles />} />
-        <Route path="settings" element={<Settings />} />
+      <Route path="home">
+        <Route index element={<WalletHome />} />
+        <Route path="topup" element={<TopUp />} />
       </Route>
 
-      <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
+      <Route path="collectibles" element={<Collectibles />} />
+      <Route path="settings" element={<Settings />} />
+    </Route>
 
-      <Route path="authorize">
-        <Route index element={<IntroRoute />} />
-        <Route path="close" element={<AuthorizeClose />} />
-        <Route path="redirect" element={<AuthorizeRedirect />} />
-        <Route path="intro" element={<IntroRoute />} />
-        <Route path="signin" element={<LoginRoute variant="signin" />} />
-        <Route path="signup" element={<LoginRoute variant="signup" />} />
-        <Route path="otp" element={<OtpRoute />} />
-      </Route>
-    </Route>,
-  ),
+    <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
+
+    <Route path="authorize">
+      <Route index element={<IntroRoute />} />
+      <Route path="close" element={<AuthorizeClose />} />
+      <Route path="redirect" element={<AuthorizeRedirect />} />
+      <Route path="intro" element={<IntroRoute />} />
+      <Route path="signin" element={<LoginRoute variant="signin" />} />
+      <Route path="signup" element={<LoginRoute variant="signup" />} />
+      <Route path="otp" element={<OtpRoute />} />
+    </Route>
+  </Route>,
 );
+
+const router = createBrowserRouter(routes);
 
 export const Router = () => <RouterProvider router={router} />;
