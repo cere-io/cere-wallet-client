@@ -61,8 +61,6 @@ export class CollectiblesStore {
       .flat(1)
       .reduce((a, v) => ({ ...a, [v.address]: v.name }), {});
 
-    console.log('collections', collectionKeyMap);
-
     const result = freeportNfts.map((nft, i) => ({
       nftId: nft.nftId,
       minter: nft.minter,

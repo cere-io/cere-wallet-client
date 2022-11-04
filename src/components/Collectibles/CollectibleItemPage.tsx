@@ -20,10 +20,7 @@ const TableContainer = styled(Grid)(({ theme }) => ({
 
 export const CollectibleItemPage = ({ nftId }: CollectibleItemProps) => {
   const collectiblesStore = useCollectiblesStore();
-  console.log(`NFTID -> ${nftId}`);
   const nft = collectiblesStore.getNftById(nftId);
-
-  console.log('CollectibleItemPage', 'nft', nft);
 
   return (
     <>
