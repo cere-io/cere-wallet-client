@@ -24,7 +24,13 @@ const EmbeddedModal = ({ modal }: EmbeddedModalProps) => {
   }, [modal, setFullscreen]);
 
   return (
-    <Dialog origin="right" open={modal.open && isFullscreen} onClose={onClose} TransitionProps={{ onExited }}>
+    <Dialog
+      origin="right"
+      maxWidth="xs"
+      open={modal.open && isFullscreen}
+      onClose={onClose}
+      TransitionProps={{ onExited }}
+    >
       <DialogContent>
         <RouteElement
           path={modal.path}

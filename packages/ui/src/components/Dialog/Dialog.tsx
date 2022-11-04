@@ -29,15 +29,13 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
   justifyContent: 'center',
 
   [`& .${dialogClasses.paper}`]: {
-    maxWidth: '100vw',
-
     ...(fullWidth && {
       flex: 1,
       width: 'auto',
 
       [theme.breakpoints.down('md')]: {
         margin: 0,
-        maxWidth: 'none',
+        maxWidth: '100vw',
       },
     }),
 
@@ -50,6 +48,7 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
       marginBottom: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
+      maxHeight: `calc(100vh - ${theme.spacing(10)})`,
     }),
 
     ...(origin === 'right' && {
@@ -92,6 +91,7 @@ const ContentWrapper = styled(Box, {
 })<Pick<DialogProps, 'showClose'>>(({ theme, showClose }) => ({
   display: 'flex',
   flex: 1,
+  overflowY: 'auto',
 
   ...(showClose && {
     position: 'relative',
@@ -115,6 +115,7 @@ const originToSlideDirection: Record<DialogOrigin, SlideProps['direction']> = {
 export const Dialog = ({
   showClose = true,
   origin: rawOrigin,
+  scroll,
   fullWidth,
   TransitionProps,
   children,
@@ -128,6 +129,7 @@ export const Dialog = ({
 
   const transition = origin === 'center' ? Fade : Slide;
   const transitionProps = origin === 'center' ? {} : { direction: originToSlideDirection[origin] };
+  const overflowY = scroll === 'paper' ? 'auto' : undefined;
 
   return (
     <StyledDialog
@@ -141,7 +143,7 @@ export const Dialog = ({
         ...transitionProps,
       }}
     >
-      <ContentWrapper showClose={showClose}>
+      <ContentWrapper showClose={showClose} sx={{ overflowY }}>
         {children}
         {showClose && (
           <CloseButton variant="filled" size="small" onClick={(event) => onClose?.(event, 'closeClick')}>

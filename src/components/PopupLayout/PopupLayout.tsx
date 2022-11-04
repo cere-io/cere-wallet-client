@@ -15,7 +15,7 @@ export type PopupLayoutProps = PropsWithChildren<{
 }>;
 
 const Layout = styled(Container)(({ theme }) => ({
-  padding: theme.spacing(0, 3, 3),
+  paddingBottom: theme.spacing(3),
 }));
 
 export const PopupLayout = ({
@@ -35,7 +35,7 @@ export const PopupLayout = ({
       <Logo />
     </Loading>
   ) : (
-    <Layout maxWidth="sm">
+    <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
         <Logo size="large" />
         <Typography variant={isMobile ? 'h4' : 'h3'}>{title}</Typography>

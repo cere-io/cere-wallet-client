@@ -32,7 +32,7 @@ export const Section = ({
 
   return (
     <Container>
-      <Box marginLeft="-4px">
+      <Box marginLeft="-14px">
         {open ? (
           <Button size="small" component={Link} onClick={collapse}>
             {collapseLabel}
@@ -51,7 +51,7 @@ export const Section = ({
       </Collapse>
 
       {open && (
-        <Box display="flex" justifyContent="flex-end" marginTop={2} marginRight="-4px">
+        <Box display="flex" justifyContent="flex-end" marginTop={2} marginRight="-14px">
           <Button size="small" component={Link} onClick={collapse}>
             {collapseLabel}
           </Button>
