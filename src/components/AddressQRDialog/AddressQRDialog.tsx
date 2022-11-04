@@ -13,7 +13,7 @@ export const AddressQRDialog = ({ address, ...props }: AddressQRDialogProps) => 
   return (
     <Dialog {...props}>
       <DialogContent>
-        <Stack alignItems="center" marginX={4} marginBottom={3}>
+        <Stack alignItems="center" marginBottom={3}>
           <Typography variant="h3">Your public address</Typography>
 
           <Stack spacing={2} alignItems="center" marginTop={3} marginBottom={6}>

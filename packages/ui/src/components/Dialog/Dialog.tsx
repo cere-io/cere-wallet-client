@@ -29,6 +29,8 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
   justifyContent: 'center',
 
   [`& .${dialogClasses.paper}`]: {
+    maxWidth: '100vw',
+
     ...(fullWidth && {
       flex: 1,
       width: 'auto',
@@ -41,6 +43,7 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
 
     ...(fullScreen && {
       flex: 1,
+      borderRadius: 0,
     }),
 
     ...(origin === 'bottom' && {
@@ -54,6 +57,7 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
       borderRadius: 0,
       maxHeight: 'none',
       alignSelf: 'stretch',
+      minWidth: 450,
     }),
   },
 
