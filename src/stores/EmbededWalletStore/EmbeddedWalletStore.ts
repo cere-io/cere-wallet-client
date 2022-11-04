@@ -137,12 +137,10 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWindowOpen: async ({ preopenInstanceId, popupMode }) => {
-        if (popupMode === 'popup') {
-          this.popupManagerStore.registerRedirect(preopenInstanceId);
-        }
-
         if (popupMode === 'modal') {
           this.popupManagerStore.registerModal(preopenInstanceId);
+        } else {
+          this.popupManagerStore.registerRedirect(preopenInstanceId);
         }
       },
 

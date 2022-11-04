@@ -1,5 +1,5 @@
 import { PropsWithChildren, useMemo } from 'react';
-import { styled, Button, Logo, Container, Typography, Loading } from '@cere-wallet/ui';
+import { styled, Button, Logo, Container, Typography, Loading, useIsMobile } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
@@ -27,6 +27,7 @@ export const PopupLayout = ({
   onCancel,
   onConfirm,
 }: PopupLayoutProps) => {
+  const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
 
   return loading ? (
@@ -37,9 +38,7 @@ export const PopupLayout = ({
     <Layout maxWidth="sm">
       <Section spacing={3} alignItems="center">
         <Logo size="large" />
-        <Typography variant="caption" fontWeight="semibold">
-          {title}
-        </Typography>
+        <Typography variant={isMobile ? 'h4' : 'h3'}>{title}</Typography>
         {network && !loading && <NetworkLabel label={network} />}
       </Section>
 

@@ -67,7 +67,7 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod', popupMode = 'popup' }: WalletInitOptions) {
+  async init({ network, context, env = 'prod', popupMode = 'modal' }: WalletInitOptions) {
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
 
