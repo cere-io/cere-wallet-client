@@ -46,3 +46,6 @@ export * from './Facebook';
 export * from './Google';
 export * from './WindowIcon';
 export * from './Success';
+export * from './SearchIcon';
+export * from './ShareIcon';
+export * from './NoCollectiblesIcon';

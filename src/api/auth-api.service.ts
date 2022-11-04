@@ -1,10 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { WALLET_API } from '~/constants';
-
-interface ApiResponse<T> {
-  code: 'SUCCESS' | 'ERROR';
-  data: T;
-}
+import { ApiResponse } from '~/api/interfaces';
 
 interface TokenData {
   token: string;

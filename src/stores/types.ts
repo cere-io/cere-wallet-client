@@ -22,6 +22,18 @@ export type Asset = {
   balance?: number;
 };
 
+export type Nft = {
+  nftId: string;
+  minter: string;
+  title: string;
+  description: string;
+  previewUrl?: string;
+  collectionAddress?: string;
+  collectionName?: string;
+  network: string;
+  quantity: number;
+};
+
 export type Provider = ethers.providers.JsonRpcProvider;
 
 export type WalletStatus = 'idle' | 'ready' | 'unauthenticated' | 'errored';
