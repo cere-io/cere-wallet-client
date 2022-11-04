@@ -2,7 +2,11 @@
 
 ### vNext
 
--
+- 
+
+### v1.6.0
+
+- [DAV-3126] Add wallet loading state + standalone login/logout
 
 ### v1.5.0
 

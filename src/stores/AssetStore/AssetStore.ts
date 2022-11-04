@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, autorun } from 'mobx';
 
 import { Wallet, Asset } from '../types';
 import { NativeToken } from './NativeToken';
@@ -10,10 +10,9 @@ export class AssetStore {
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
-    when(
-      () => !!wallet.provider && !!wallet.account,
-      () => this.onReady(),
-    );
+    autorun(() => {
+      this.assets = wallet.isReady() ? [new NativeToken(wallet), new Erc20Token(wallet)] : [];
+    });
   }
 
   get nativeToken() {
@@ -22,9 +21,5 @@ export class AssetStore {
 
   get list() {
     return this.assets;
-  }
-
-  private async onReady() {
-    this.assets = [new NativeToken(this.wallet), new Erc20Token(this.wallet)];
   }
 }

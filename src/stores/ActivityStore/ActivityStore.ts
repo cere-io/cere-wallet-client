@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { autorun, makeAutoObservable } from 'mobx';
 
 import { PriceData, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
@@ -19,25 +19,25 @@ type SharedState = {
 };
 
 export class ActivityStore {
+  private erc20token = new Erc20Token(this);
   private shared = createSharedState<SharedState>(
     `activity.${this.wallet.instanceId}`,
     {
       list: [],
     },
-    { readOnly: !this.wallet.isRoot },
+    { readOnly: !this.wallet.isRoot() },
   );
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
-    when(
-      () => !!wallet.provider && !!wallet.account,
-      () => this.onReady(),
-    );
-  }
-
-  private async onReady() {
-    new Erc20Token(this, this.wallet);
+    autorun(() => {
+      if (wallet.isReady()) {
+        this.erc20token.start(wallet);
+      } else {
+        this.erc20token.stop();
+      }
+    });
   }
 
   get list() {

@@ -4,6 +4,10 @@ import { makeAutoObservable } from 'mobx';
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
+export type App = Omit<NonNullable<AppContext['app']>, 'name'> & {
+  name: string;
+};
+
 export type ContextBanner = AppContext['banner'] & {
   variant?: 'app' | 'banner';
 };
@@ -16,7 +20,7 @@ export class AppContextStore {
   private shared = createSharedState<SharedState>(
     `context.${this.wallet.instanceId}`,
     {},
-    { readOnly: !this.wallet.isRoot },
+    { readOnly: !this.wallet.isRoot() },
   );
 
   constructor(private wallet: Wallet) {
@@ -56,7 +60,7 @@ export class AppContextStore {
     };
   }
 
-  get app(): AppContext['app'] {
+  get app(): App | undefined {
     if (!this.context?.app) {
       return undefined;
     }
@@ -64,5 +68,9 @@ export class AppContextStore {
     const name = this.context.app.name || new URL(this.context.app.url).hostname;
 
     return { ...this.context.app, name };
+  }
+
+  async disconnect() {
+    this.context = undefined;
   }
 }

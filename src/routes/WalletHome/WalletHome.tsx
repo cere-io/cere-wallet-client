@@ -4,14 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
 
 import { AccountBalanceWidget, ActivityList, AssetList, OnboardingDialog } from '~/components';
+import { WalletProductTour } from '~/components/ProductTours';
 
 const WalletHome = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentTab, setCurrentTab] = useState<'assets' | 'activity'>('assets');
 
+  const [currentTab, setCurrentTab] = useState<'assets' | 'activity'>('assets');
   const showOnboarding = location.hash.slice(1) === 'onboarding';
+  const showProductTour = location.hash.slice(1) === 'product-tour';
 
   return (
     <Stack spacing={4}>
@@ -19,6 +21,7 @@ const WalletHome = () => {
 
       <Stack spacing={3}>
         <ToggleButtonGroup
+          className="wallet-assets"
           exclusive
           fullWidth
           color="primary"
@@ -38,6 +41,7 @@ const WalletHome = () => {
       </Stack>
 
       <OnboardingDialog open={showOnboarding} onClose={() => navigate({ ...location, hash: '' })} />
+      {showProductTour && <WalletProductTour onClose={() => navigate({ ...location, hash: '' })} />}
     </Stack>
   );
 };

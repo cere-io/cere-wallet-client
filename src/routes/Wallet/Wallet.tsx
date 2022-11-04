@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
+import { reaction } from 'mobx';
+import { Loading, Logo } from '@cere-wallet/ui';
 
 import { AppContextBanner, WalletLayout, WalletLayoutProps } from '~/components';
 import { WalletContext } from '~/hooks';
@@ -15,15 +17,34 @@ const Wallet = ({ menu }: WalletProps) => {
 
   useEffect(() => {
     store.init();
+
+    return reaction(
+      () => store.status,
+      (status) => {
+        if (status === 'unauthenticated') {
+          store.authenticationStore.login({
+            redirectUrl: window.location.origin,
+          });
+        }
+      },
+    );
   }, [store]);
 
   return (
     <WalletContext.Provider value={store}>
-      <AppContextBanner />
+      {store.status === 'ready' ? (
+        <>
+          <AppContextBanner />
 
-      <WalletLayout menu={menu}>
-        <Outlet />
-      </WalletLayout>
+          <WalletLayout menu={menu}>
+            <Outlet />
+          </WalletLayout>
+        </>
+      ) : (
+        <Loading fullScreen>
+          <Logo />
+        </Loading>
+      )}
     </WalletContext.Provider>
   );
 };

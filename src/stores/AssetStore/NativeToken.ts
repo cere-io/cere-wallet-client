@@ -2,15 +2,15 @@ import { utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
 
-import { Asset, Wallet } from '../types';
+import { Asset, ReadyWallet } from '../types';
 
-const createBalanceResource = ({ provider }: Wallet) => {
+const createBalanceResource = ({ provider }: ReadyWallet) => {
   let currentListener: () => {};
 
   return fromResource<number>(
     (sink) => {
       currentListener = async () => {
-        const balance = await provider!.getSigner().getBalance();
+        const balance = await provider.getSigner().getBalance();
 
         sink(+utils.formatEther(balance));
       };
@@ -34,20 +34,20 @@ const createBalanceResource = ({ provider }: Wallet) => {
 export class NativeToken implements Asset {
   private balanceResource = createBalanceResource(this.wallet);
 
-  constructor(private wallet: Wallet) {
+  constructor(private wallet: ReadyWallet) {
     makeAutoObservable(this);
   }
 
   get displayName() {
-    return this.wallet.network!.tickerName;
+    return this.wallet.network.tickerName;
   }
 
   get network() {
-    return this.wallet.network!.displayName;
+    return this.wallet.network.displayName;
   }
 
   get ticker() {
-    return this.wallet.network!.ticker;
+    return this.wallet.network.ticker;
   }
 
   get balance() {

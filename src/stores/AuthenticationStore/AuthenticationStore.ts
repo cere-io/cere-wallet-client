@@ -12,7 +12,7 @@ export class AuthenticationStore {
   constructor(
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
-    private popupManagerStore: PopupManagerStore,
+    private popupManagerStore?: PopupManagerStore,
   ) {
     makeAutoObservable(this);
 
@@ -47,6 +47,15 @@ export class AuthenticationStore {
     });
   }
 
+  async login({ redirectUrl, ...params }: LoginParams = {}) {
+    const url = await this.getRedirectUrl({
+      redirectUrl: redirectUrl || window.location.href,
+      ...params,
+    });
+
+    window.location.replace(url);
+  }
+
   async loginWithPrivateKey(data: AccountLoginData) {
     this.accountStore.loginData = data;
 
@@ -54,6 +63,10 @@ export class AuthenticationStore {
   }
 
   async loginInPopup(popupId: string, params: LoginParams = {}) {
+    if (!this.popupManagerStore) {
+      throw new Error('PopupManagerStore dependency was not provided');
+    }
+
     const loginUrl = await this.openLoginStore.getLoginUrl({
       ...params,
       preopenInstanceId: popupId,
@@ -87,8 +100,8 @@ export class AuthenticationStore {
 
   async logout() {
     await this.openLoginStore.logout();
-
-    this.accountStore.loginData = null;
+    await this.contextStore.disconnect();
+    await this.syncAccount();
 
     return true;
   }

@@ -45,3 +45,4 @@ export * from './ManageYourFundsIcon';
 export * from './Facebook';
 export * from './Google';
 export * from './WindowIcon';
+export * from './Success';

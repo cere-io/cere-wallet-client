@@ -1,20 +1,25 @@
 import { makeAutoObservable } from 'mobx';
 import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
-import { Asset } from '../types';
+import { Asset, Wallet } from '../types';
 import { AssetStore } from '../AssetStore';
 
 export class BalanceStore {
-  selectedToken: Omit<Asset, 'balance'>;
-
-  constructor(private assetStore: AssetStore) {
+  constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
+  }
+
+  get selectedToken(): Omit<Asset, 'balance'> | undefined {
+    if (!this.wallet.network) {
+      return undefined;
+    }
 
     const token = getTokenConfig();
-    this.selectedToken = {
+
+    return {
       displayName: token.symbol,
       ticker: token.symbol,
-      network: 'Polygon',
+      network: this.wallet.network.displayName,
     };
   }
 
@@ -23,7 +28,7 @@ export class BalanceStore {
   }
 
   get balance() {
-    const selectedToken = this.assetStore.assets.find(({ ticker }) => this.selectedToken.ticker === ticker);
+    const selectedToken = this.assetStore.assets.find(({ ticker }) => this.selectedToken?.ticker === ticker);
 
     return selectedToken?.balance;
   }

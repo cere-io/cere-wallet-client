@@ -16,8 +16,6 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 
 export class EmbeddedWalletStore implements Wallet {
-  readonly isRoot = true;
-
   readonly instanceId = randomBytes(16).toString('hex');
   readonly accountStore: AccountStore;
   readonly approvalStore: ApprovalStore;
@@ -43,11 +41,19 @@ export class EmbeddedWalletStore implements Wallet {
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
     this.assetStore = new AssetStore(this);
-    this.balanceStore = new BalanceStore(this.assetStore);
+    this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
-    this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore);
+    this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
+  }
+
+  isRoot() {
+    return true;
+  }
+
+  isReady() {
+    return !!(this.provider && this.network && this.account);
   }
 
   get isFullscreen() {
