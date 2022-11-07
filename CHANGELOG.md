@@ -2,12 +2,11 @@
 
 ### vNext
 
-- 
+- [DAV-3155] Add overlay modals support + enable by default in SDK
 
 ### v1.6.0
 
 - [DAV-3126] Add wallet loading state + standalone login/logout
-- [DAV-3155] Add overlay modals support + enable by default in SDK
 
 ### v1.5.0
 
