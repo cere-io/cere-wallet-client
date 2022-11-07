@@ -33,6 +33,8 @@ export const createSharedState = <T = unknown>(
       disconnect: async () => {
         delete localMap[channel];
 
+        shared.isConnected = false;
+
         return connection?.disconnect();
       },
     },
