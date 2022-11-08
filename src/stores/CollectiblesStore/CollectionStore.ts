@@ -1,13 +1,12 @@
-import { makeAutoObservable, autorun, runInAction, when, observable } from 'mobx';
+import { makeAutoObservable, autorun, runInAction, when } from 'mobx';
 
 import { Nft, Wallet } from '../types';
 import { FreeportApiService } from '~/api/freeport-api.service';
 import { DdcApiService } from '~/api/ddc-api.service';
 import { REACT_APP_DDC_API } from '~/constants';
-import { IObservableArray } from 'mobx/dist/internal';
 
 export class CollectiblesStore {
-  private _nfts: IObservableArray<Nft> = observable([]);
+  private _nfts: Nft[] = [];
   private _isLoading: boolean = false;
   private _filter: string = '';
 
@@ -76,8 +75,7 @@ export class CollectiblesStore {
 
     runInAction(() => {
       this._isLoading = false;
-      this._nfts.clear();
-      this._nfts.push(...result);
+      this._nfts = result;
     });
   }
 }

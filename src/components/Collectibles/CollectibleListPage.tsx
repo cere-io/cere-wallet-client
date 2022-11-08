@@ -1,8 +1,8 @@
 import { Stack, styled, Divider, TextField, SearchIcon, Grid, Typography, NoCollectiblesIcon } from '@cere-wallet/ui';
-import { useState } from 'react';
 import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
 import { CollectibleListItem } from './';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 const Container = styled(Stack)(({ theme }) => ({
   borderRadius: '16px',
@@ -27,14 +27,12 @@ const SearchField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-export const CollectibleListPage = () => {
+export const CollectibleListPage = observer(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const collectiblesStore = useCollectiblesStore();
-  const [searchValue, setSearchValue] = useState<string>('');
 
   const onSearchHandler = (searchText: string) => {
-    setSearchValue(searchText);
     collectiblesStore.filter = searchText;
   };
 
@@ -45,7 +43,7 @@ export const CollectibleListPage = () => {
   if (collectiblesStore.nfts.length === 0)
     return (
       <Stack alignItems="center" spacing={2}>
-        <NoCollectiblesIcon style={{ height: 80, width: 155 }} />
+        <NoCollectiblesIcon sx={{ height: 80, width: 155 }} />
         <Typography variant="h4">You have no collectibles yet</Typography>
         <Typography variant="body2">Add your first collectible</Typography>
       </Stack>
@@ -55,19 +53,19 @@ export const CollectibleListPage = () => {
     <Container spacing={2} textAlign="justify">
       <Stack padding={2}>
         <SearchField
-          value={searchValue}
+          value={collectiblesStore.filter}
           variant="outlined"
           label="Search collectibles"
           InputProps={{
-            endAdornment: <SearchIcon style={{ position: 'absolute', left: 16 }} width={16} height={16} />,
+            endAdornment: <SearchIcon sx={{ position: 'absolute', left: 16 }} width={16} height={16} />,
           }}
           onChange={({ target }) => onSearchHandler(target?.value)}
         />
       </Stack>
-      <Divider style={{ width: '100%' }} />
-      <Grid container spacing={0} columns={{ xs: 2, sm: 3, md: 4 }}>
+      <Divider sx={{ width: '100%' }} />
+      <Grid container spacing={1} columns={{ xs: 2, sm: 3, md: 4 }}>
         {collectiblesStore.filteredNfts.map((nft) => (
-          <Grid item xs={1} key={nft.nftId} style={{ padding: 8 }}>
+          <Grid item xs={1} key={nft.nftId}>
             <CollectibleListItem
               imgUrl={nft.previewUrl || 'emptyurl'}
               title={nft.title}
@@ -79,4 +77,4 @@ export const CollectibleListPage = () => {
       </Grid>
     </Container>
   );
-};
+});

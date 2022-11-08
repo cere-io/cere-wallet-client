@@ -11,7 +11,7 @@ type CollectibleListItemProps = PropsWithChildren<
 
 export const CollectibleListItem = ({ children, imgUrl, title, description, ...props }: CollectibleListItemProps) => {
   return (
-    <Card {...props} style={{ maxHeight: 244 }}>
+    <Card {...props} sx={{ maxHeight: 244 }}>
       <CardMedia component="img" alt={title} height={164} image={imgUrl} loading="lazy" />
       <CardContent>
         <Typography gutterBottom variant="subtitle1" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
