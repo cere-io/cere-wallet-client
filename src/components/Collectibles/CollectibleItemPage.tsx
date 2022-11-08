@@ -18,14 +18,16 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
 
   return (
     <>
-      <Typography variant="h4">{nft?.title}</Typography>
-      <Grid container spacing={3} columns={{ xs: 1, md: 7 }}>
+      <Grid container spacing={2} columns={{ xs: 1, md: 7 }}>
+        <Grid item xs={1} md={7}>
+          <Typography variant="h4">{nft?.title}</Typography>
+        </Grid>
         <Grid item xs={1} md={3}>
-          <Stack spacing={2}>
+          <Stack spacing={2} sx={{ border: '1px solid red' }}>
             <CardMedia
               component="img"
               src={nft?.previewUrl}
-              sx={{ borderRadius: 16, maxHeight: 424 }}
+              sx={{ borderRadius: 3, maxHeight: 424 }}
               loading="lazy"
               width="sx"
               // height={164}
@@ -39,52 +41,50 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
           </Stack>
         </Grid>
         <Grid item xs={1} md={4}>
-          <TableContainer container padding={2} spacing={1} columns={{ xs: 5 }}>
+          <TableContainer container spacing={2} padding={2} columns={{ xs: 5 }}>
             {nft?.collectionAddress && (
               <>
                 <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
                   Collection
                 </Grid>
-                <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
+                <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
                   {nft?.collectionName}
                 </Grid>
                 <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
                   Collectible contract address
                 </Grid>
-                <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
+                <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
                   {nft?.collectionAddress}
                 </Grid>
               </>
             )}
             <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
-              Token ID
+              Nft ID
             </Grid>
-            <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
-              26
+            <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
+              {nft?.nftId}
             </Grid>
 
             <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
               Quantity
             </Grid>
-            <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
+            <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
               {nft?.quantity}
             </Grid>
 
             <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
               Token standard
             </Grid>
-            <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
-              ERC721
+            <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
+              ERC20
             </Grid>
             <Grid item xs={2} component={Typography} variant="body1" fontWeight="medium" color="text.secondary">
               Network
             </Grid>
-            <Grid item xs={3} component={Typography} noWrap="true" variant="subtitle1">
-              Polygon Mainnet
+            <Grid item xs={3} component={Typography} noWrap={true} variant="subtitle1">
+              Polygon {process.env.REACT_APP_ENV === 'prod' ? 'Mainnet' : 'Testnet'}
             </Grid>
-            <Grid item xs={5} component={Typography}>
-              <Divider sx={{ width: '100%' }} />
-            </Grid>
+            <Grid item xs={5} component={Divider} sx={{ width: '100%' }} />
             <Grid item xs={5} component={Typography} variant="body2" color="primary.main">
               View in Marketplace
             </Grid>

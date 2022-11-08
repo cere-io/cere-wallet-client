@@ -1,14 +1,27 @@
 import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
+import * as yup from 'yup';
+
+let schema = yup.object().shape({
+  nftId: yup.string().required(),
+  minter: yup.string().required(),
+  collectionAddress: yup.string().nullable(true),
+  supply: yup.number().required(),
+  quantity: yup.number().required(),
+  priceInUsdCents: yup.number().required(),
+  priceInCereUnits: yup.number().required(),
+});
 
 export const freeportNftValidator = (data: unknown): data is FreeportNftInterface => {
-  const nft = data as FreeportNftInterface;
-  return (
-    typeof nft?.nftId === 'string' &&
-    typeof nft?.minter === 'string' &&
-    (typeof nft?.collectionAddress === 'string' || nft?.collectionAddress === null) &&
-    typeof nft?.supply === 'number' &&
-    typeof nft?.quantity === 'number' &&
-    typeof nft?.priceInUsdCents === 'number' &&
-    typeof nft?.priceInCereUnits === 'number'
-  );
+  const result: boolean = schema.isValidSync(data, {});
+
+  // this block only for throwing warning to console
+  if (!result) {
+    try {
+      schema.validateSync(data);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  return result;
 };
