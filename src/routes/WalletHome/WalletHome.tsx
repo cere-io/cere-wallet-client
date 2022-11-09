@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
@@ -17,19 +17,13 @@ const WalletHome = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getActiveFromLocation = (): Tabs => {
-    const tab = location.pathname.split('/')?.pop() || '';
-    console.log('TAB', tab);
-    return tab in Tabs ? Tabs[tab as keyof typeof Tabs] : Tabs.assets;
-  };
-
-  const [currentTab, setCurrentTab] = useState<Tabs>(getActiveFromLocation());
   const showOnboarding = location.hash.slice(1) === 'onboarding';
   const showProductTour = location.hash.slice(1) === 'product-tour';
 
-  useEffect(() => {
-    navigate({ ...location, pathname: `${currentTab}` });
-  }, [currentTab, location, navigate]);
+  const getActiveFromLocation = useCallback(() => {
+    const tab = location.pathname.split('/')?.pop() || '';
+    return tab in Tabs ? Tabs[tab as keyof typeof Tabs] : Tabs.assets;
+  }, [location.pathname]);
 
   return (
     <Stack spacing={4}>
@@ -42,8 +36,8 @@ const WalletHome = () => {
           fullWidth
           color="primary"
           size={isMobile ? 'small' : 'medium'}
-          value={currentTab}
-          onChange={(event, value) => value && setCurrentTab(value)}
+          value={getActiveFromLocation()}
+          onChange={(event, value) => value && navigate({ ...location, pathname: `${value}` })}
           sx={{
             maxWidth: 430,
             alignSelf: 'center',
