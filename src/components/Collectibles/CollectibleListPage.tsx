@@ -9,7 +9,7 @@ const Container = styled(Stack)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
 }));
 
-const SearchField = styled(TextField)(({ theme }) => ({
+const SearchField = styled(TextField)(() => ({
   '& fieldset': {
     borderRadius: 100,
   },
@@ -65,9 +65,9 @@ export const CollectibleListPage = observer(() => {
       <Divider sx={{ width: '100%' }} />
       <Grid container spacing={1} columns={{ xs: 2, sm: 3, md: 4 }}>
         {collectiblesStore.filteredNfts.map((nft) => (
-          <Grid item xs={1} key={nft.nftId}>
+          <Grid item xs={1} key={nft.nftId} sx={{ cursor: 'pointer' }}>
             <CollectibleListItem
-              imgUrl={nft.previewUrl || 'emptyurl'}
+              imgUrl={nft.previewUrl}
               title={nft.title}
               description={nft.description}
               onClick={() => openCollectionItemHandler(nft.nftId)}

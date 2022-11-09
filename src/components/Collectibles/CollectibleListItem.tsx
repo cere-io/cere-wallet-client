@@ -1,18 +1,23 @@
-import { Card, CardProps, CardMedia, CardContent, Typography, ShareIcon, Stack } from '@cere-wallet/ui';
+import { Card, CardProps, CardMedia, CardContent, Typography, ShareIcon, Stack, NoImageIcon } from '@cere-wallet/ui';
 import { PropsWithChildren } from 'react';
 
 type CollectibleListItemProps = PropsWithChildren<
   CardProps & {
-    imgUrl: string;
+    imgUrl?: string;
     title: string;
-    description: string;
+    description?: string;
   }
 >;
 
 export const CollectibleListItem = ({ children, imgUrl, title, description, ...props }: CollectibleListItemProps) => {
   return (
     <Card {...props} sx={{ maxHeight: 244 }}>
-      <CardMedia component="img" alt={title} height={164} image={imgUrl} loading="lazy" />
+      {imgUrl && <CardMedia component="img" alt={title} height={164} image={imgUrl} loading="lazy" />}
+      {!imgUrl && (
+        <Stack alignItems="center" justifyContent="center" height={164} sx={{ background: '#F5F5F7' }}>
+          <NoImageIcon sx={{ height: 120, width: 'auto' }} />
+        </Stack>
+      )}
       <CardContent>
         <Typography gutterBottom variant="subtitle1" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
           {title}

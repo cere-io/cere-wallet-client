@@ -63,8 +63,8 @@ export class CollectiblesStore {
     const result = freeportNfts.map((nft, i) => ({
       nftId: nft.nftId,
       minter: nft.minter,
-      title: assets[i]?.contentMetadata?.title || 'unknown title',
-      description: assets[i]?.contentMetadata?.description || 'unknown description',
+      title: assets[i]?.contentMetadata?.title || nft.nftId,
+      description: assets[i]?.contentMetadata?.description,
       previewUrl:
         cids[i]?.length > 0 ? `${REACT_APP_DDC_API}/assets/v2/${minters[i]}/${cids[i][0]}/preview` : undefined,
       network: 'CERE',

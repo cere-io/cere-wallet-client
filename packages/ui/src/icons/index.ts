@@ -49,3 +49,5 @@ export * from './Success';
 export * from './SearchIcon';
 export * from './ShareIcon';
 export * from './NoCollectiblesIcon';
+export * from './ExternalLinkIcon';
+export * from './NoImageIcon';

@@ -26,7 +26,7 @@ export type Nft = {
   nftId: string;
   minter: string;
   title: string;
-  description: string;
+  description?: string;
   previewUrl?: string;
   collectionAddress?: string;
   collectionName?: string;

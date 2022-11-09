@@ -1,9 +1,7 @@
-import { PageHeader, CollectibleListPage } from '~/components';
+import { CollectibleListPage } from '~/components';
 
 export const Collectibles = () => (
   <>
-    <PageHeader title="Collectibles" />
-
     <CollectibleListPage />
   </>
 );
