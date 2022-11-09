@@ -163,13 +163,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         },
       },
 
-      MuiTypography: {
-        // @ts-ignore
-        variantMapping: {
-          subtitle1: 'span',
-        },
-      },
-
       MuiButton: {
         defaultProps: {
           disableElevation: true,

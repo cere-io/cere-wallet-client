@@ -1,4 +1,4 @@
-import { makeAutoObservable, autorun, runInAction, when } from 'mobx';
+import { makeAutoObservable, runInAction, reaction } from 'mobx';
 
 import { Nft, Wallet } from '../types';
 import { FreeportApiService } from '~/api/freeport-api.service';
@@ -13,12 +13,16 @@ export class CollectiblesStore {
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
-    autorun(async () => {
-      await when(() => wallet.isReady());
-      if (wallet?.account) {
-        await this.updateNfts(wallet.account.address);
-      }
-    });
+    reaction(
+      () => wallet.account?.address,
+      async (address) => {
+        if (address) {
+          await this.updateNfts(address);
+        } else {
+          this._nfts = [];
+        }
+      },
+    );
   }
 
   get nfts(): Nft[] {

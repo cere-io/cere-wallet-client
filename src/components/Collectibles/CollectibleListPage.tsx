@@ -1,8 +1,9 @@
-import { Stack, styled, Divider, TextField, SearchIcon, Grid, Typography, NoCollectiblesIcon } from '@cere-wallet/ui';
+import { Stack, styled, Divider, TextField, SearchIcon, Typography, NoCollectiblesIcon } from '@cere-wallet/ui';
 import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
 import { CollectibleListItem } from './';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { Box } from '@cere/ui';
 
 const Container = styled(Stack)(({ theme }) => ({
   borderRadius: '16px',
@@ -24,6 +25,16 @@ const SearchField = styled(TextField)(() => ({
   },
   '& div:last-child': {
     border: 'none',
+  },
+}));
+
+const GridContainer = styled(Box)(({ theme }) => ({
+  gridTemplateColumns: 'repeat(2, calc(50% - 4px))',
+  [theme.breakpoints.up('sm')]: {
+    gridTemplateColumns: 'repeat(3, calc(33.33% - 5px))',
+  },
+  [theme.breakpoints.up('md')]: {
+    gridTemplateColumns: 'repeat(4, calc(25% - 6px))',
   },
 }));
 
@@ -63,18 +74,18 @@ export const CollectibleListPage = observer(() => {
         />
       </Stack>
       <Divider sx={{ width: '100%' }} />
-      <Grid container spacing={1} columns={{ xs: 2, sm: 3, md: 4 }}>
+      <GridContainer display="grid" padding={1} gap={1}>
         {collectiblesStore.filteredNfts.map((nft) => (
-          <Grid item xs={1} key={nft.nftId} sx={{ cursor: 'pointer' }}>
+          <Box>
             <CollectibleListItem
               imgUrl={nft.previewUrl}
               title={nft.title}
               description={nft.description}
               onClick={() => openCollectionItemHandler(nft.nftId)}
             />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </GridContainer>
     </Container>
   );
 });

@@ -1,4 +1,4 @@
-import { PageHeader, CollectibleItemPage } from '~/components';
+import { CollectibleItemPage } from '~/components';
 import { useParams } from 'react-router-dom';
 
 export const CollectibleItem = () => {
@@ -6,8 +6,6 @@ export const CollectibleItem = () => {
 
   return (
     <>
-      <PageHeader title="Collectables" />
-
       <CollectibleItemPage nftId={nftId || ''} />
     </>
   );
