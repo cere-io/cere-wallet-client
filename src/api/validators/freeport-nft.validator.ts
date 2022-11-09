@@ -12,15 +12,13 @@ let schema = yup.object().shape({
 });
 
 export const freeportNftValidator = (data: unknown): data is FreeportNftInterface => {
-  const result: boolean = schema.isValidSync(data, {});
+  let result: boolean = false;
 
-  // this block only for throwing warning to console
-  if (!result) {
-    try {
-      schema.validateSync(data);
-    } catch (err) {
-      console.warn(err);
-    }
+  try {
+    schema.validateSync(data);
+    result = true;
+  } catch (err) {
+    console.warn(err);
   }
 
   return result;
