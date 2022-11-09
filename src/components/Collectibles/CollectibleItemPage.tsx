@@ -20,7 +20,7 @@ type CollectibleItemProps = {
 const TableContainer = styled(Box)(({ theme }) => ({
   borderRadius: 16,
   [theme.breakpoints.up('md')]: {
-    border: `1px solid ${theme.palette.divider}`,
+    border: `0.063rem solid ${theme.palette.divider}`,
   },
 }));
 
@@ -36,7 +36,7 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
         <Box gridColumn={isMobile ? '1/8' : '1/4'} gridRow="1">
           {nft?.previewUrl && (
             <Box
-              height={isMobile ? 'min(26.5rem, calc(100vw - 71px))' : '100%'}
+              height={isMobile ? 'min(26.5rem, calc(100vw - 4.438rem))' : '100%'}
               sx={{
                 borderRadius: 2,
                 backgroundImage: `url(${nft?.previewUrl})`,
@@ -50,7 +50,7 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
               sx={{ background: '#F5F5F7', borderRadius: 2 }}
               alignItems="center"
               justifyContent="center"
-              height={isMobile ? 'min(26.5rem, calc(100vw - 71px))' : '100%'}
+              height={isMobile ? 'min(26.5rem, calc(100vw - 4.438rem))' : '100%'}
             >
               <NoImageIcon sx={{ height: 120, width: 'auto' }} />
             </Stack>

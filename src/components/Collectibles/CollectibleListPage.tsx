@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { Box } from '@cere/ui';
 
 const Container = styled(Stack)(({ theme }) => ({
-  borderRadius: '16px',
-  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: 16,
+  border: `0.063rem solid ${theme.palette.divider}`,
 }));
 
 const SearchField = styled(TextField)(() => ({
@@ -29,12 +29,12 @@ const SearchField = styled(TextField)(() => ({
 }));
 
 const GridContainer = styled(Box)(({ theme }) => ({
-  gridTemplateColumns: 'repeat(2, calc(50% - 4px))',
+  gridTemplateColumns: 'repeat(2, calc(50% - 0.25rem))',
   [theme.breakpoints.up('sm')]: {
-    gridTemplateColumns: 'repeat(3, calc(33.33% - 5px))',
+    gridTemplateColumns: 'repeat(3, calc(33.33% - 0.313rem))',
   },
   [theme.breakpoints.up('md')]: {
-    gridTemplateColumns: 'repeat(4, calc(25% - 6px))',
+    gridTemplateColumns: 'repeat(4, calc(25% - 0.375rem))',
   },
 }));
 
@@ -76,7 +76,7 @@ export const CollectibleListPage = observer(() => {
       <Divider sx={{ width: '100%' }} />
       <GridContainer display="grid" padding={1} gap={1}>
         {collectiblesStore.filteredNfts.map((nft) => (
-          <Box>
+          <Box key={nft.nftId}>
             <CollectibleListItem
               imgUrl={nft.previewUrl}
               title={nft.title}
