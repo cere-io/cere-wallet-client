@@ -50,6 +50,7 @@ export type WalletInitOptions = {
   env?: WalletEnvironment;
   network?: NetworkConfig;
   context?: Context;
+  popupMode?: 'popup' | 'modal';
 };
 
 export type WalletConnectOptions = {
