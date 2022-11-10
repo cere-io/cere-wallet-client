@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
@@ -24,6 +24,13 @@ const WalletHome = () => {
     const tab = location.pathname.split('/')?.pop() || '';
     return tab in Tabs ? Tabs[tab as keyof typeof Tabs] : Tabs.assets;
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (localStorage.getItem('showProductTour') === 'true' && !showProductTour) {
+      navigate({ ...location, hash: 'product-tour' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack spacing={4}>

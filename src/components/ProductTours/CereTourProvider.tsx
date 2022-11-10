@@ -36,7 +36,7 @@ export const CereTourProvider = ({ children }: ProviderProps): ReactElement<Prov
       }}
       steps={[]}
       showBadge={false}
-      disableInteraction={true}
+      disableInteraction={false}
       components={{
         Close: ({ onClick }) => {
           return (

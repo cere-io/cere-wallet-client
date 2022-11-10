@@ -45,6 +45,7 @@ export default createRoutesFromElements(
       <Route path="home/collectibles/:nftId" element={<CollectibleItem />} />
 
       <Route path="home" element={<WalletHome />}>
+        <Route index element={<Assets />} />
         <Route path="assets" element={<Assets />} />
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="activity" element={<Activity />} />
