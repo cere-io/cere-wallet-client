@@ -6,7 +6,7 @@ import { PopupLayout, PriceRow, TransactionData } from '~/components';
 import { usePopupStore } from '~/hooks';
 
 const ConfirmPopup = () => {
-  const store = usePopupStore((popupId) => new ConfirmPopupStore(popupId));
+  const store = usePopupStore((popupId, isLocal) => new ConfirmPopupStore(popupId, isLocal));
 
   return (
     <PopupLayout

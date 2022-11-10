@@ -32,6 +32,7 @@ export class ApprovalStore {
 
   async approvePersonalSign({ preopenInstanceId, params: [content] }: PersonalSignRequest) {
     const tokenConfig = getTokenConfig();
+
     const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, '/confirm', {
       network: this.networkStore.network,
       app: this.contextStore.app,

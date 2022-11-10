@@ -67,13 +67,14 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod' }: WalletInitOptions) {
+  async init({ network, context, env = 'prod', popupMode = 'modal' }: WalletInitOptions) {
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
 
     await this.torus.init({
       network,
       sessionId,
+      popupMode,
       context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',
