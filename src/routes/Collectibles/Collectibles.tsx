@@ -4,7 +4,7 @@ import { PageHeader } from '~/components';
 
 export const Collectibles = () => (
   <>
-    <PageHeader title="Collectables" />
+    <PageHeader title="Collectibles" />
 
     <Box maxWidth="sm" marginX="auto">
       <ComingSoon
