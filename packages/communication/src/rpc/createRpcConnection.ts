@@ -24,6 +24,16 @@ export const createRpcConnection = ({ engine: walletEngine, logger }: RpcConnect
 
   engine.push(walletEngine.asMiddleware());
 
+  /**
+   * Forward notifications
+   */
+  walletEngine.on('notification', (payload) => {
+    engine.emit('notification', payload);
+  });
+
+  /**
+   * Setup duplex stream
+   */
   providerStream.pipe(engineStream).pipe(providerStream);
 
   return {};

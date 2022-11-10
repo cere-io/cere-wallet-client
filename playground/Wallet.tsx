@@ -1,6 +1,8 @@
 import { Button, Stack } from '@cere-wallet/ui';
 import { providers } from 'ethers';
 import { useCallback, useEffect } from 'react';
+import { ApiPromise } from '@polkadot/api';
+import { PolkadotProvider } from '@cere/embed-wallet';
 
 import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
@@ -19,6 +21,14 @@ export const Wallet = () => {
           logoUrl,
         },
       },
+    });
+
+    wallet.provider.on('connect', (args) => {
+      wallet.provider.request({ method: 'eth_subscribe', params: ['newHeads'] });
+
+      wallet.provider.on('eth_subscription', (data) => {
+        console.log('eth_subscription', data);
+      });
     });
   }, [wallet]);
 
@@ -99,6 +109,13 @@ export const Wallet = () => {
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
 
+  const handleGetPolkadotAddress = useCallback(async () => {
+    const provider = new PolkadotProvider(wallet.provider);
+    const api = await ApiPromise.create({ provider });
+
+    console.log(api);
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
       <Button variant="outlined" color="primary" onClick={handleSetContext}>
@@ -111,6 +128,10 @@ export const Wallet = () => {
 
       {status === 'connected' || status === 'disconnecting' ? (
         <>
+          <Button variant="outlined" color="primary" onClick={handleGetPolkadotAddress}>
+            Get Polkadot Address
+          </Button>
+
           <Button variant="outlined" color="primary" onClick={handleGetAddress}>
             Get Address
           </Button>

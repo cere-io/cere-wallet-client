@@ -16,6 +16,7 @@ import {
   UserInfo,
   Context,
 } from './types';
+import { CereProviderProxy, CereProvider } from './providers';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   local: 'development',
@@ -29,10 +30,12 @@ export class EmbedWallet {
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
   private defaultContext: Context;
+  private providerWrapper: CereProviderProxy;
 
   constructor() {
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
+    this.providerWrapper = new CereProviderProxy();
     this.defaultContext = createContext();
   }
 
@@ -47,12 +50,12 @@ export class EmbedWallet {
     return () => this.setStatus(prevStatus);
   }
 
-  get status() {
-    return this.currentStatus;
+  get provider() {
+    return this.providerWrapper as CereProvider;
   }
 
-  get provider() {
-    return this.torus.provider;
+  get status() {
+    return this.currentStatus;
   }
 
   private get contextStream() {
@@ -79,6 +82,7 @@ export class EmbedWallet {
       enableLogging: env !== 'prod',
     });
 
+    this.providerWrapper.setTarget(this.torus.provider);
     this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 
