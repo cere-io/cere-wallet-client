@@ -1,6 +1,26 @@
 import { ChainConfig } from '@cere-wallet/wallet-engine';
 import type { NetworkConfig } from '@cere/embed-wallet';
 
+const presets = {
+  matic: {
+    chainId: '0x89',
+    rpcTarget: 'https://polygon-rpc.com',
+    displayName: 'Polygon Mainnet',
+    blockExplorer: 'https://polygonscan.com',
+    ticker: 'MATIC',
+    tickerName: 'Matic',
+  },
+
+  mumbai: {
+    chainId: '0x13881',
+    rpcTarget: 'https://rpc.ankr.com/polygon_mumbai',
+    displayName: 'Polygon Mumbai Testnet',
+    blockExplorer: 'https://mumbai.polygonscan.com/',
+    ticker: 'MATIC',
+    tickerName: 'Matic',
+  },
+};
+
 const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
   ![
     config.chainNamespace,
@@ -12,37 +32,29 @@ const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
     config.tickerName,
   ].some((value) => !value);
 
-export const getChainConfig = (network: NetworkConfig): ChainConfig => {
-  let chainConfig: Partial<ChainConfig> = {
+const createChainConfig = (network: Partial<NetworkConfig>, preset?: keyof typeof presets): Partial<ChainConfig> => {
+  const defaults: Partial<ChainConfig> = preset ? presets[preset] : {};
+
+  return {
     chainNamespace: 'eip155',
-    chainId: network.chainId ? `0x${network.chainId.toString(16)}` : undefined,
-    rpcTarget: network.host,
-    displayName: network.networkName,
-    blockExplorer: network.blockExplorer,
-    ticker: network.ticker,
-    tickerName: network.tickerName,
+    chainId: network.chainId ? `0x${network.chainId.toString(16)}` : defaults.chainId,
+    rpcTarget: !network.host || network.host === preset ? defaults.rpcTarget : network.host,
+    displayName: network.networkName || defaults.displayName,
+    blockExplorer: network.blockExplorer || defaults.blockExplorer,
+    ticker: network.ticker || defaults.ticker,
+    tickerName: network.tickerName || defaults.tickerName,
   };
+};
+
+export const getChainConfig = (network: NetworkConfig): ChainConfig => {
+  let chainConfig = createChainConfig(network);
 
   if (network.chainId === 137 || network.host === 'matic') {
-    Object.assign(chainConfig, {
-      chainId: '0x89',
-      rpcTarget: 'https://polygon-rpc.com',
-      displayName: 'Polygon Mainnet',
-      blockExplorer: 'https://polygonscan.com',
-      ticker: 'MATIC',
-      tickerName: 'Polygon',
-    });
+    chainConfig = createChainConfig(network, 'matic');
   }
 
   if (network.chainId === 80001 || network.host === 'mumbai') {
-    Object.assign(chainConfig, {
-      chainId: '0x13881',
-      rpcTarget: 'https://rpc.ankr.com/polygon_mumbai',
-      displayName: 'Polygon Mumbai Testnet',
-      blockExplorer: 'https://mumbai.polygonscan.com/',
-      ticker: 'MATIC',
-      tickerName: 'Polygon',
-    });
+    chainConfig = createChainConfig(network, 'mumbai');
   }
 
   if (!isConfigReady(chainConfig)) {

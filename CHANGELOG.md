@@ -3,6 +3,7 @@
 ### vNext
 
 - [DAV-3155] Add overlay modals support + enable by default in SDK
+- [DAV-3653] Fix custom JSON RPC endpoint SDK option
 
 ### v1.6.0
 
