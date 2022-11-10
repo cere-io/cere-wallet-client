@@ -1,7 +1,7 @@
 ## Release Notes:
 
 ### vNext
-
+- [DAV-3365] Fix microcopy Collectibles
 - [DAV-3350] Fix button jumping to bottom on desktop
 - [DAV-3155] Add overlay modals support + enable by default in SDK
 
