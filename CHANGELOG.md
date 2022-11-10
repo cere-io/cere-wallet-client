@@ -2,10 +2,10 @@
 
 ### vNext
 
+- [DAV-3350] Fix button jumping to bottom on desktop
 - [DAV-3155] Add overlay modals support + enable by default in SDK
 
 ### v1.6.0
-
 - [DAV-3126] Add wallet loading state + standalone login/logout
 
 ### v1.5.0
