@@ -33,7 +33,7 @@ export class PolkadotInjector {
 
   private getAccounts = async () => {
     const response = await this.wallet.provider.request({
-      method: 'eth_requestAccounts',
+      method: 'wallet_requestAccounts',
     });
 
     return transformAccounts(response);
