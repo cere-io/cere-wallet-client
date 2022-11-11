@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
 import { makeAutoObservable, runInAction, when } from 'mobx';
+import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 import { createProvider, Provider as EngineProvider } from '@cere-wallet/wallet-engine';
 
 import { Provider, Wallet, WalletStatus } from '../types';
@@ -39,6 +40,10 @@ export class WalletStore implements Wallet {
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
+
+    if (this.isRoot()) {
+      this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
+    }
   }
 
   isRoot() {
