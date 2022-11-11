@@ -1,6 +1,7 @@
 ## Release Notes:
 
 ### vNext
+- [DAV-2808] Add topup button to widget
 - [DAV-3365] Fix microcopy Collectibles
 - [DAV-3350] Fix button jumping to bottom on desktop
 - [DAV-3155] Add overlay modals support + enable by default in SDK

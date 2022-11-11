@@ -74,7 +74,6 @@ export class EmbedWallet {
     await this.torus.init({
       network,
       sessionId,
-      popupMode,
       context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',

@@ -15,12 +15,14 @@ import {
   Address,
   CopyButton,
   useIsMobile,
+  TopUpIcon,
 } from '@cere-wallet/ui';
 
 import { useEmbeddedWalletStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
+import { useShowTopUp } from './useShowTopUp';
 
 const Card = styled(UICard)({
   border: 'none',
@@ -33,6 +35,7 @@ const Header = styled(CardHeader)({
 
 const Content = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(2, 0, 1, 0),
+  position: 'relative',
 }));
 
 const Actions = styled(CardActions)({
@@ -40,10 +43,22 @@ const Actions = styled(CardActions)({
   justifyContent: 'flex-end',
 });
 
+const TopUpButton = styled(Button)(({ theme }) => ({
+  border: 'none',
+  borderRadius: 30,
+  position: 'absolute',
+  left: 'auto',
+  top: 2,
+  zIndex: 1,
+  backgroundColor: theme.palette.primary.main,
+}));
+
 const WalletWidget = () => {
   const isMobile = useIsMobile();
   const { account, network } = useEmbeddedWalletStore();
   const showWallet = useShowWallet();
+  const showTopUp = useShowTopUp();
+
   const maxLength = isMobile ? 14 : 20;
 
   if (!account || !network) {
@@ -73,6 +88,9 @@ const WalletWidget = () => {
               <Typography variant="caption">{network.displayName}</Typography>
             </Stack>
           </Typography>
+          <TopUpButton onClick={showTopUp}>
+            <TopUpIcon />
+          </TopUpButton>
         </Content>
         <Actions>
           <Button variant="text" onClick={showWallet}>
