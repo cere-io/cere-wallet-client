@@ -473,14 +473,9 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
       MuiDialog: {
         styleOverrides: {
-          /**
-           * TODO: Confirm with design and remove if not needed
-           */
-          // paperFullScreen: {
-          //   marginTop: '30vh',
-          //   borderTopLeftRadius: 12,
-          //   borderTopRightRadius: 12,
-          // },
+          paper: {
+            borderRadius: 16,
+          },
         },
       },
 
