@@ -187,8 +187,6 @@ export class EmbeddedWalletStore implements Wallet {
     const privateKey = this.account?.privateKey;
     const chainConfig = this.networkStore.network!;
 
-    console.log('setupRpcConnection', toJS(chainConfig));
-
     const engine = await createWalletEngine({
       privateKey,
       chainConfig,
