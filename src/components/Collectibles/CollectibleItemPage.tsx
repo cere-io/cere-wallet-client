@@ -1,15 +1,5 @@
-import {
-  Typography,
-  Stack,
-  TransferIcon,
-  useIsMobile,
-  ExternalLinkIcon,
-  Box,
-  NoImageIcon,
-  CopyButton,
-} from '@cere-wallet/ui';
+import { Typography, Stack, useIsMobile, Box, NoImageIcon, CopyButton, styled } from '@cere-wallet/ui';
 import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
-import { Button, Divider, styled } from '@cere/ui';
 import { observer } from 'mobx-react-lite';
 import { PageHeader } from '~/components';
 
@@ -114,12 +104,13 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
             <Typography noWrap={true} variant="subtitle1">
               Polygon {process.env.REACT_APP_ENV === 'prod' ? 'Mainnet' : 'Testnet'}
             </Typography>
-            <Box component={Divider} gridColumn="span 2" sx={{ width: '100%' }} />
-            <Box gridColumn="span 2">
-              <Button variant="text" endIcon={<ExternalLinkIcon />}>
-                View in Marketplace
-              </Button>
-            </Box>
+            {/* TODO functionality Will be added in next iteration */}
+            {/*<Box component={Divider} gridColumn="span 2" sx={{ width: '100%' }} />*/}
+            {/*<Box gridColumn="span 2">*/}
+            {/*  <Button variant="text" endIcon={<ExternalLinkIcon />}>*/}
+            {/*    View in Marketplace*/}
+            {/*  </Button>*/}
+            {/*</Box>*/}
           </TableContainer>
         </Box>
         <Box gridColumn={isMobile ? 'span 7' : 'span 3'} gridRow={isMobile ? 2 : 3}>
@@ -131,9 +122,10 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
               </>
             )}
 
-            <Button size="large" variant="contained" startIcon={<TransferIcon />}>
-              Transfer
-            </Button>
+            {/* TODO functionality Will be added in next iteration */}
+            {/*<Button size="large" variant="contained" startIcon={<TransferIcon />}>*/}
+            {/*  Transfer*/}
+            {/*</Button>*/}
           </Stack>
         </Box>
       </Box>
