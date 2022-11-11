@@ -9,7 +9,13 @@ interface RequestArguments {
 /**
  * EIP-1193 compatible provider with some Cere specific extensions
  */
-export class CereProvider extends EventEmitter {
+export interface ProviderInterface extends EventEmitter {
+  readonly isConnected: boolean;
+
+  request<T = any>({ method, params }: RequestArguments): Promise<T>;
+}
+
+export class ProxyProvider extends EventEmitter implements ProviderInterface {
   protected provider?: TorusInpageProvider;
 
   get isConnected() {
@@ -23,9 +29,7 @@ export class CereProvider extends EventEmitter {
 
     return this.provider.request({ method, params }) as Promise<T>;
   }
-}
 
-export class CereProviderProxy extends CereProvider {
   setTarget(provider: TorusInpageProvider) {
     this.provider = provider;
 

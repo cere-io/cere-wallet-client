@@ -4,6 +4,7 @@ import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
+import { ProxyProvider, ProviderInterface } from './Provider';
 import {
   WalletStatus,
   WalletEvent,
@@ -16,7 +17,6 @@ import {
   UserInfo,
   Context,
 } from './types';
-import { CereProviderProxy, CereProvider } from './providers';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   local: 'development',
@@ -30,12 +30,12 @@ export class EmbedWallet {
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
   private defaultContext: Context;
-  private providerWrapper: CereProviderProxy;
+  private proxyProvider: ProxyProvider;
 
   constructor() {
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
-    this.providerWrapper = new CereProviderProxy();
+    this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
   }
 
@@ -51,7 +51,7 @@ export class EmbedWallet {
   }
 
   get provider() {
-    return this.providerWrapper as CereProvider;
+    return this.proxyProvider as ProviderInterface;
   }
 
   get status() {
@@ -70,7 +70,7 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod' }: WalletInitOptions) {
+  async init({ network, context, env = 'prod' }: WalletInitOptions = {}) {
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
 
@@ -82,7 +82,7 @@ export class EmbedWallet {
       enableLogging: env !== 'prod',
     });
 
-    this.providerWrapper.setTarget(this.torus.provider);
+    this.proxyProvider.setTarget(this.torus.provider);
     this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 

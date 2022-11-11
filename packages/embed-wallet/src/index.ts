@@ -1,3 +1,6 @@
 export * from './types';
+export * from './inject';
+
 export * from './EmbedWallet';
-export * from './providers';
+
+export type { ProviderInterface } from './Provider';
