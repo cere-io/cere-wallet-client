@@ -64,7 +64,7 @@ export const OnboardingDialog = ({ open, onClose, ...props }: OnboardingDialogPr
             onClick={(event) => onClose?.(event, 'closeClick')}
             sx={{
               alignSelf: 'center',
-              marginTop: 'auto',
+              marginTop: isMobile ? 'auto' : 1,
               marginBottom: 1,
             }}
           >
