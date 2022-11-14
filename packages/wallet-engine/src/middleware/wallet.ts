@@ -21,20 +21,5 @@ export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: 
     wallet_sendDomainMetadata: createAsyncMiddleware(async (req, res) => {
       res.result = true;
     }),
-
-    eth_requestAccounts: createAsyncMiddleware(async (req, res) => {
-      res.result = getAccounts();
-    }),
-
-    eth_accounts: createAsyncMiddleware(async (req, res) => {
-      res.result = getAccounts();
-    }),
-
-    /**
-     * TODO: This method should return all accounts in future - not only `polkadot`
-     */
-    wallet_requestAccounts: createAsyncMiddleware(async (req, res) => {
-      res.result = [];
-    }),
   });
 };

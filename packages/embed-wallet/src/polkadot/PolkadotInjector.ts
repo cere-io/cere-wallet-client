@@ -8,8 +8,8 @@ import { EmbedWallet } from '../EmbedWallet';
 const transformAccounts = (accounts: string[]): InjectedAccount[] =>
   accounts.map((address) => ({
     address,
-    name: `Cere wallet address`,
-    type: 'ethereum',
+    name: `Cere wallet`,
+    type: 'ed25519',
   }));
 
 export type PolkadotInjectorOptions = {
@@ -23,7 +23,7 @@ export class PolkadotInjector {
   private injected: boolean = false;
 
   constructor(readonly wallet: EmbedWallet, { name, version }: PolkadotInjectorOptions = {}) {
-    this.name = name || 'Cere Wallet';
+    this.name = name || 'CereWallet';
     this.version = version || '0.0.0';
   }
 
@@ -33,7 +33,7 @@ export class PolkadotInjector {
 
   private getAccounts = async () => {
     const response = await this.wallet.provider.request({
-      method: 'wallet_requestAccounts',
+      method: 'ed25519_accounts',
     });
 
     return transformAccounts(response);
@@ -49,7 +49,7 @@ export class PolkadotInjector {
 
   private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
-      method: 'wallet_sign',
+      method: 'ed25519_sign',
       params: [raw.address, keccak256(raw.data)],
     });
 

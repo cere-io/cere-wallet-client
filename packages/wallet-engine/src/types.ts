@@ -6,8 +6,11 @@ export type KeyType = 'ethereum' | 'ed25519';
 export type KeyPair = {
   type: KeyType;
   address: string;
-  secretKey: string;
+  publicKey: Buffer;
+  secretKey: Buffer;
 };
+
+export type Account = Omit<KeyPair, 'secretKey' | 'publicKey'>;
 
 export type ProviderRequestArguments = {
   readonly method: string;

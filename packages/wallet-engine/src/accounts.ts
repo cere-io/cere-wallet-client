@@ -2,7 +2,7 @@ import Wallet from 'ethereumjs-wallet';
 import { getED25519Key } from '@toruslabs/openlogin-ed25519';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-import { KeyPair, KeyType } from './types';
+import { KeyPair, KeyType, Account } from './types';
 
 const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
   ethereum: (privateKey) => {
@@ -10,26 +10,32 @@ const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
 
     return {
       type: 'ethereum',
+      publicKey: wallet.getPublicKey(),
+      secretKey: wallet.getPrivateKey(),
       address: wallet.getAddressString(),
-      secretKey: wallet.getPrivateKey().toString('hex'),
     };
   },
 
   ed25519: (privateKey) => {
-    const { pk, sk } = getED25519Key(privateKey);
+    const { pk: publicKey, sk: secretKey } = getED25519Key(privateKey);
 
     return {
       type: 'ed25519',
-      address: encodeAddress(pk),
-      secretKey: sk.toString('hex'),
+      publicKey,
+      secretKey,
+      address: encodeAddress(publicKey),
     };
   },
 };
 
-export const getKeyPair = (privateKey: string, type: KeyType = 'ethereum') => {
+export const getKeyPair = (privateKey: string, type: KeyType = 'ethereum'): KeyPair => {
   return pairFactoryMap[type](privateKey);
 };
 
-export const getAccountAddress = (privateKey: string, type: KeyType = 'ethereum') => {
-  return getKeyPair(privateKey, type).address;
-};
+export const getAccount = (privateKey: string, type: KeyType = 'ethereum'): Account => ({
+  type,
+  address: getKeyPair(privateKey, type).address,
+});
+
+export const getAccountAddress = (privateKey: string, type: KeyType = 'ethereum') =>
+  getAccount(privateKey, type).address;

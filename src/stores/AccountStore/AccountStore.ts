@@ -39,8 +39,8 @@ export class AccountStore {
     }
 
     return {
+      address: getAccountAddress(this.loginData.privateKey, 'ethereum'),
       privateKey: this.loginData.privateKey,
-      address: getAccountAddress(this.loginData.privateKey),
       email: this.loginData.userInfo.email,
       avatar: this.loginData.userInfo.profileImage,
       verifier: this.loginData.userInfo.verifier,
