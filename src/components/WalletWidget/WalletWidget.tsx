@@ -48,9 +48,23 @@ const TopUpButton = styled(Button)(({ theme }) => ({
   borderRadius: 30,
   position: 'absolute',
   left: 'auto',
-  top: 2,
+  top: 20,
+  right: 0,
+  width: 36,
+  padding: 0,
+  minWidth: 36,
+  height: 36,
   zIndex: 1,
+  color: 'white',
   backgroundColor: theme.palette.primary.main,
+  '& > svg': {
+    height: 16,
+    width: 16,
+  },
+  '&:hover, &:focus, &:active': {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
 
 const WalletWidget = () => {
