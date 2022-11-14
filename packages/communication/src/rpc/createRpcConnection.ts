@@ -1,4 +1,4 @@
-import { JRPCEngine, Substream, createEngineStream, ConsoleLike } from '@toruslabs/openlogin-jrpc';
+import { JRPCEngine, Substream, createEngineStream, ConsoleLike, JRPCMiddleware } from '@toruslabs/openlogin-jrpc';
 import { WalletEngine } from '@cere-wallet/wallet-engine';
 
 import { createMux } from '../createMux';
@@ -22,7 +22,7 @@ export const createRpcConnection = ({ engine: walletEngine, logger }: RpcConnect
     engine.push(createLoggerMiddleware(logger));
   }
 
-  engine.push(walletEngine.asMiddleware());
+  engine.push(walletEngine.asMiddleware() as JRPCMiddleware<unknown, unknown>);
 
   /**
    * Forward notifications

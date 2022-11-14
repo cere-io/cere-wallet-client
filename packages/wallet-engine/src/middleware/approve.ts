@@ -1,11 +1,11 @@
 import {
   createScaffoldMiddleware,
   createAsyncMiddleware,
-  JRPCRequest,
-  JRPCMiddleware,
-  PendingJRPCResponse,
-  AsyncJRPCEngineNextCallback,
-} from '@toruslabs/openlogin-jrpc';
+  JsonRpcMiddleware,
+  JsonRpcRequest,
+  PendingJsonRpcResponse,
+  AsyncJsonRpcEngineNextCallback,
+} from 'json-rpc-engine';
 
 type WithPreopenedInstanceId = {
   preopenInstanceId: string;
@@ -30,22 +30,22 @@ export type IncomingTransaction = {
 
 export type SendTransactionRequest = ProviderRequest<[IncomingTransaction]>;
 
-export type ProviderMiddlewareOptions = {
+export type ApproveMiddlewareOptions = {
   onSendTransaction?: (request: SendTransactionRequest) => Promise<void>;
   onPersonalSign?: (request: PersonalSignRequest) => Promise<void>;
 };
 
-const hasPreopenedPopup = (req: any): req is JRPCRequest<unknown> & { preopenInstanceId: string } => {
+const hasPreopenedPopup = (req: any): req is JsonRpcRequest<unknown> & { preopenInstanceId: string } => {
   return Object.hasOwn(req, 'preopenInstanceId');
 };
 
 type RequestMiddleware<T, U> = (
-  req: JRPCRequest<T> & WithPreopenedInstanceId,
-  res: PendingJRPCResponse<U>,
-  next: AsyncJRPCEngineNextCallback,
+  req: JsonRpcRequest<T> & WithPreopenedInstanceId,
+  res: PendingJsonRpcResponse<U>,
+  next: AsyncJsonRpcEngineNextCallback,
 ) => Promise<void>;
 
-const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T, U>): JRPCMiddleware<any, any> =>
+const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T, U>): JsonRpcMiddleware<any, any> =>
   createAsyncMiddleware<T, U>(async (req, res, next) => {
     if (!hasPreopenedPopup(req)) {
       return next();
@@ -57,10 +57,10 @@ const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T,
   });
 
 const noop = async () => {};
-export const createProviderMiddleware = ({
+export const createApproveMiddleware = ({
   onPersonalSign = noop,
   onSendTransaction = noop,
-}: ProviderMiddlewareOptions) => {
+}: ApproveMiddlewareOptions) => {
   return createScaffoldMiddleware({
     personal_sign: createRequestMiddleware<[string]>(async (req, res, next) => {
       await onPersonalSign({

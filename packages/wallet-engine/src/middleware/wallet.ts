@@ -1,10 +1,10 @@
-import { CustomChainConfig } from '@web3auth/base';
-import { createScaffoldMiddleware, createAsyncMiddleware } from '@toruslabs/openlogin-jrpc';
-import { convertAddress } from '../getAccountAddress';
+import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
+
+import { ChainConfig } from '../types';
 
 export type WalletMiddlewareOptions = {
   getAccounts: () => string[];
-  chainConfig: CustomChainConfig;
+  chainConfig: ChainConfig;
 };
 
 export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: WalletMiddlewareOptions) => {
@@ -34,7 +34,7 @@ export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: 
      * TODO: This method should return all accounts in future - not only `polkadot`
      */
     wallet_requestAccounts: createAsyncMiddleware(async (req, res) => {
-      res.result = getAccounts().map((address) => convertAddress(address, 'polkadot'));
+      res.result = [];
     }),
   });
 };

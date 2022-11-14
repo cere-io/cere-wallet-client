@@ -187,13 +187,9 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.networkStore.network);
 
-    const privateKey = this.account?.privateKey;
-    const chainConfig = this.networkStore.network!;
-
-    const engine = await createWalletEngine({
-      privateKey,
-      chainConfig,
-
+    const engine = createWalletEngine({
+      chainConfig: this.networkStore.network!,
+      getPrivateKey: () => this.account?.privateKey,
       getAccounts: () => (this.account ? [this.account.address] : []),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
@@ -201,18 +197,6 @@ export class EmbeddedWalletStore implements Wallet {
 
     createRpcConnection({ engine, logger: console });
 
-    if (this.account && this.account?.privateKey !== privateKey) {
-      await engine.setupProvider(this.account.privateKey);
-    }
-
     this.provider = new providers.Web3Provider(engine.provider);
-
-    /**
-     * Setup provider when account privateKey is changed
-     */
-    reaction(
-      () => this.account?.privateKey,
-      (privateKey) => engine.setupProvider(privateKey),
-    );
   }
 }

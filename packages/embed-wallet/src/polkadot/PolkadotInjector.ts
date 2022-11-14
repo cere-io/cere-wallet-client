@@ -49,7 +49,7 @@ export class PolkadotInjector {
 
   private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
-      method: 'eth_sign',
+      method: 'wallet_sign',
       params: [raw.address, keccak256(raw.data)],
     });
 
