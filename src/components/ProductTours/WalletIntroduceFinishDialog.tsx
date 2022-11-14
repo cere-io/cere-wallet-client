@@ -40,7 +40,7 @@ const RightIcon = styled(EastIcon)(({ theme }) => ({
 
 export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props }: WalletIntroduceFinishProps) => {
   return (
-    <Dialog {...props} maxWidth="xs" fullScreen={false} transitionDuration={0}>
+    <Dialog {...props} maxWidth="xs" origin={'center'} transitionDuration={0}>
       <DialogContent style={{ padding: 16 }}>
         <Stack spacing={1} alignItems="center">
           <Success style={{ width: 64, height: 64 }} />
@@ -56,7 +56,7 @@ export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props
               </Typography>
 
               <Typography variant="caption" color="text.secondary">
-                Send USDC via Polygon to your wallet
+                Send funds via Polygon to your wallet
               </Typography>
             </Stack>
             <RightIcon />

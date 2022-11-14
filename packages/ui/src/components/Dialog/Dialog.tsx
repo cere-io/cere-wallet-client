@@ -125,7 +125,7 @@ export const Dialog = ({
   const isMobile = useIsMobile();
   const mobileOrigin = rawOrigin !== 'center' ? 'bottom' : 'center';
   const origin = isMobile ? mobileOrigin : rawOrigin || 'center';
-  const isFullWidth = (isMobile && origin === 'bottom') || fullWidth;
+  const isFullWidth = isMobile && origin === 'bottom' && fullWidth !== false;
 
   const transition = origin === 'center' ? Fade : Slide;
   const transitionProps = origin === 'center' ? {} : { direction: originToSlideDirection[origin] };
