@@ -13,11 +13,10 @@ import {
   StatusChannelOut,
   AppContextChannelIn,
   WalletChannelOut,
+  WindowChannelIn,
 } from './channels';
 
-type WindowOptions = {
-  instanceId: string;
-};
+type WindowOptions = Pick<WindowChannelIn['data'], 'popupMode' | 'preopenInstanceId'>;
 
 export type WalletConnection = {
   toggleFullscreen: (isFull: boolean) => boolean;
@@ -146,9 +145,9 @@ export const createWalletConnection = ({
 
   channels.window.subscribe(({ name, data }) => {
     if (data.closed) {
-      onWindowClose({ instanceId: data.preopenInstanceId });
+      onWindowClose(data);
     } else if (name === 'opened_window') {
-      onWindowOpen({ instanceId: data.preopenInstanceId });
+      onWindowOpen(data);
     }
   });
 

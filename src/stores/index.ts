@@ -5,3 +5,4 @@ export * from './ConfirmPopupStore';
 export * from './RedirectPopupStore';
 export * from './TransactionPopupStore';
 export * from './AuthorizePopupStore';
+export * from './PopupManagerStore';

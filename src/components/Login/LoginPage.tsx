@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
+import { useEffect } from 'react';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -31,6 +32,15 @@ const validationSchema = yup
 export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isSignUp = location.pathname.endsWith('signup');
+    if (isSignUp) {
+      localStorage.setItem('showProductTour', 'true');
+    } else {
+      localStorage.removeItem('showProductTour');
+    }
+  }, [location.pathname]);
 
   const {
     register,

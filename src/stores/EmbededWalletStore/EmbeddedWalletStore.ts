@@ -14,6 +14,7 @@ import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
+import { CollectiblesStore } from '../CollectiblesStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
@@ -21,6 +22,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
+  readonly collectiblesStore: CollectiblesStore;
   readonly balanceStore: BalanceStore;
   readonly activityStore: ActivityStore;
   readonly appContextStore: AppContextStore;
@@ -29,7 +31,9 @@ export class EmbeddedWalletStore implements Wallet {
 
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
-  private _isFullscreen = false;
+
+  private _isWidgetOpened = false;
+  private _isFullScreen = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -41,6 +45,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
     this.assetStore = new AssetStore(this);
+    this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
@@ -56,13 +61,20 @@ export class EmbeddedWalletStore implements Wallet {
     return !!(this.provider && this.network && this.account);
   }
 
+  get isWidgetOpened() {
+    return this._isWidgetOpened;
+  }
+
+  set isWidgetOpened(opened) {
+    this._isWidgetOpened = opened;
+  }
+
   get isFullscreen() {
-    return this._isFullscreen;
+    return this.isWidgetOpened || this._isFullScreen;
   }
 
   set isFullscreen(isFull) {
-    this._isFullscreen = isFull;
-    this.walletConnection?.toggleFullscreen(isFull);
+    this._isFullScreen = isFull;
   }
 
   get provider() {
@@ -86,7 +98,7 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   private async setupWalletConnection() {
-    const walletConnection = createWalletConnection({
+    this.walletConnection = createWalletConnection({
       logger: console,
 
       onInit: async (data) => {
@@ -123,12 +135,16 @@ export class EmbeddedWalletStore implements Wallet {
         return toJS(this.accountStore.userInfo);
       },
 
-      onWindowClose: async ({ instanceId }) => {
-        this.popupManagerStore.unregisterAll(instanceId);
+      onWindowClose: async ({ preopenInstanceId }) => {
+        this.popupManagerStore.unregisterAll(preopenInstanceId);
       },
 
-      onWindowOpen: async ({ instanceId }) => {
-        this.popupManagerStore.registerRedirect(instanceId);
+      onWindowOpen: async ({ preopenInstanceId, popupMode }) => {
+        if (popupMode === 'modal') {
+          this.popupManagerStore.registerModal(preopenInstanceId);
+        } else {
+          this.popupManagerStore.registerRedirect(preopenInstanceId);
+        }
       },
 
       onWalletOpen: async () => {
@@ -149,14 +165,23 @@ export class EmbeddedWalletStore implements Wallet {
     reaction(
       () => !!this.account,
       (loggedIn) => {
-        walletConnection.setLoggedInStatus({
+        this.walletConnection?.setLoggedInStatus({
           loggedIn,
           verifier: this.account?.verifier,
         });
       },
     );
 
-    this.walletConnection = walletConnection;
+    /**
+     * Send wallet full screen state updates
+     */
+    reaction(
+      () => this.isFullscreen,
+      (isFull) => this.walletConnection?.toggleFullscreen(isFull),
+      {
+        fireImmediately: true,
+      },
+    );
   }
 
   private async setupRpcConnection() {

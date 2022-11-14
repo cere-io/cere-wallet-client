@@ -27,11 +27,13 @@ export const WalletProductTour = ({ onClose }: WalletProductTourProps) => {
 
   const handleCloseIntroduceStartDialog = useCallback(() => {
     setIntroduceStartDialog(false);
+    localStorage.removeItem('showProductTour');
     onClose?.();
   }, [setIntroduceStartDialog, onClose]);
 
   const handleCloseIntroduceFinishDialog = useCallback(() => {
     setIntroduceFinishDialog(false);
+    localStorage.removeItem('showProductTour');
     onClose?.();
   }, [setIntroduceFinishDialog, onClose]);
 

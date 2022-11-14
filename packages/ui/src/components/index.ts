@@ -9,6 +9,7 @@ export {
   Paper,
   Container,
   Card,
+  CardMedia,
   CardHeader,
   CardContent,
   CardActions,
@@ -33,6 +34,8 @@ export {
   TextField,
   MobileStepper,
   FormControl,
+  Slide,
+  InputAdornment,
 } from '@mui/material';
 
 export type {
@@ -43,6 +46,7 @@ export type {
   ContainerProps,
   CardProps,
   CardHeaderProps,
+  CardMediaProps,
   CardContentProps,
   CardActionsProps,
   ToggleButtonProps,
@@ -69,6 +73,8 @@ export type {
   TextFieldProps,
   MobileStepperProps,
   FormControlProps,
+  InputAdornmentProps,
+  SlideProps,
 } from '@mui/material';
 
 export * from './IconButton';
