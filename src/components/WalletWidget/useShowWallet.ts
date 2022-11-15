@@ -17,7 +17,10 @@ const windowFeatures = 'directories=0,titlebar=0,toolbar=0,status=0,location=0,m
 export const useShowWallet = () => {
   const { instanceId } = useEmbeddedWalletStore();
 
-  return useCallback(() => {
-    window.open(`/wallet/home?instanceId=${instanceId}`, instanceId, windowFeatures);
-  }, [instanceId]);
+  return useCallback(
+    (directory?: 'path' | 'home' | 'topup') => {
+      window.open(`/wallet/home${directory && `/${directory}`}?instanceId=${instanceId}`, instanceId, windowFeatures);
+    },
+    [instanceId],
+  );
 };
