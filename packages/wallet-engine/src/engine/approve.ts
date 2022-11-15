@@ -7,6 +7,8 @@ import {
   AsyncJsonRpcEngineNextCallback,
 } from 'json-rpc-engine';
 
+import { Engine } from './engine';
+
 type WithPreopenedInstanceId = {
   preopenInstanceId: string;
 };
@@ -30,7 +32,7 @@ export type IncomingTransaction = {
 
 export type SendTransactionRequest = ProviderRequest<[IncomingTransaction]>;
 
-export type ApproveMiddlewareOptions = {
+export type ApproveEngineOptions = {
   onSendTransaction?: (request: SendTransactionRequest) => Promise<void>;
   onPersonalSign?: (request: PersonalSignRequest) => Promise<void>;
 };
@@ -57,23 +59,26 @@ const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T,
   });
 
 const noop = async () => {};
-export const createApproveMiddleware = ({
-  onPersonalSign = noop,
-  onSendTransaction = noop,
-}: ApproveMiddlewareOptions) => {
-  return createScaffoldMiddleware({
-    personal_sign: createRequestMiddleware<[string]>(async (req, res, next) => {
-      await onPersonalSign({
-        preopenInstanceId: req.preopenInstanceId,
-        params: req.params!,
-      });
-    }),
+export const createApproveEngine = ({ onPersonalSign = noop, onSendTransaction = noop }: ApproveEngineOptions) => {
+  const engine = new Engine();
 
-    eth_sendTransaction: createRequestMiddleware<[IncomingTransaction]>(async (req, res, next) => {
-      await onSendTransaction({
-        preopenInstanceId: req.preopenInstanceId,
-        params: req.params!,
-      });
+  engine.push(
+    createScaffoldMiddleware({
+      personal_sign: createRequestMiddleware<[string]>(async (req, res, next) => {
+        await onPersonalSign({
+          preopenInstanceId: req.preopenInstanceId,
+          params: req.params!,
+        });
+      }),
+
+      eth_sendTransaction: createRequestMiddleware<[IncomingTransaction]>(async (req, res, next) => {
+        await onSendTransaction({
+          preopenInstanceId: req.preopenInstanceId,
+          params: req.params!,
+        });
+      }),
     }),
-  });
+  );
+
+  return engine;
 };

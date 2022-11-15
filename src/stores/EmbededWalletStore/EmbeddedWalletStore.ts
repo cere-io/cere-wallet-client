@@ -195,8 +195,16 @@ export class EmbeddedWalletStore implements Wallet {
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    createRpcConnection({ engine, logger: console });
-
     this.provider = new providers.Web3Provider(engine.provider);
+
+    createRpcConnection({
+      engine,
+      logger: console,
+    });
+
+    reaction(
+      () => this.accountStore.accounts,
+      (accounts) => engine.updateAccounts(accounts),
+    );
   }
 }

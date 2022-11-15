@@ -31,6 +31,7 @@ export class EmbedWallet {
   private currentStatus: WalletStatus = 'not-ready';
   private defaultContext: Context;
   private proxyProvider: ProxyProvider;
+  private connectOptions: WalletConnectOptions = {};
 
   constructor() {
     this.eventEmitter = new EventEmitter();
@@ -70,7 +71,8 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod', popupMode = 'modal' }: WalletInitOptions = {}) {
+  async init({ network, context, env = 'prod', popupMode = 'modal', connectOptions = {} }: WalletInitOptions = {}) {
+    this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
 
@@ -87,7 +89,8 @@ export class EmbedWallet {
     this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 
-  async connect({ redirectUrl, mode, ...options }: WalletConnectOptions = {}) {
+  async connect(overrideOptions: WalletConnectOptions = {}) {
+    const { redirectUrl, mode, ...options } = { ...this.connectOptions, ...overrideOptions };
     const rollback = this.setStatus('connecting');
 
     try {

@@ -34,14 +34,16 @@ export class AccountStore {
   }
 
   get accounts() {
-    if (!this.userInfo || !this.privateKey) {
+    const { user, privateKey } = this;
+
+    if (!user || !privateKey) {
       return [];
     }
 
-    const { name } = this.userInfo;
-    const privateKey = this.privateKey;
-
-    return [getAccount({ type: 'ethereum', name, privateKey }), getAccount({ type: 'ed25519', name, privateKey })];
+    return [
+      getAccount({ type: 'ethereum', name: user.name, privateKey }),
+      getAccount({ type: 'ed25519', name: user.name, privateKey }),
+    ];
   }
 
   get account() {

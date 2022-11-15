@@ -27,9 +27,7 @@ export const createRpcConnection = ({ engine: walletEngine, logger }: RpcConnect
   /**
    * Forward notifications
    */
-  walletEngine.on('notification', (payload) => {
-    engine.emit('notification', payload);
-  });
+  walletEngine.forwardEvents(engine);
 
   /**
    * Setup duplex stream

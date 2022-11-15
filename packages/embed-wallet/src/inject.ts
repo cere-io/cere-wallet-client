@@ -5,13 +5,17 @@ type InjectTarget = 'polkadot';
 
 export type InjectOptions = {
   targets?: InjectTarget[];
+  autoConnect?: boolean;
 };
 
 /**
  * Injects the wallet into the global object (Window)
  */
-export const inject = async (wallet: EmbedWallet, { targets = ['polkadot'] }: InjectOptions = {}) => {
+export const inject = async (
+  wallet: EmbedWallet,
+  { targets = ['polkadot'], autoConnect = false }: InjectOptions = {},
+) => {
   if (targets.includes('polkadot')) {
-    new PolkadotInjector(wallet).inject();
+    new PolkadotInjector(wallet, { autoConnect }).inject();
   }
 };
