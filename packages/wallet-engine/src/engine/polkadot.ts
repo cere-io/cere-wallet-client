@@ -38,7 +38,7 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts }: PolkadotEng
         }
 
         const signature = ed25519Sign(message, getKeyPair({ type: 'ed25519', privateKey }));
-        res.result = Buffer.from(signature).toString('hex');
+        res.result = '0x' + Buffer.from(signature).toString('hex');
       }),
     }),
   );

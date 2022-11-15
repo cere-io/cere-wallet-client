@@ -1,4 +1,3 @@
-import { keccak256 } from 'js-sha3';
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
 import type { SignerPayloadRaw, SignerResult, Signer } from '@polkadot/types/types';
@@ -64,7 +63,7 @@ export class PolkadotInjector {
   private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
       method: 'ed25519_sign',
-      params: [raw.address, keccak256(raw.data)],
+      params: [raw.address, raw.data],
     });
 
     return { id: 0, signature };
