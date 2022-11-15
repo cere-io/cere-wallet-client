@@ -61,7 +61,7 @@ export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props
             </Stack>
             <RightIcon />
           </VioletBox>
-          <Divider sx={{ width: '100%' }} />
+          <Divider sx={{ width: '100%', paddingTop: 2 }} />
           <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" minWidth={300}>
             <Typography variant="body2" color="text.secondary">
               4 of 4
