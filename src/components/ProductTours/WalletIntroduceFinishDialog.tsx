@@ -52,11 +52,11 @@ export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props
             <LeftIcon />
             <Stack>
               <Typography variant="body2" color="primary.main" fontWeight="medium">
-                Send funds from external wallet
+                Receive funds from external wallet
               </Typography>
 
               <Typography variant="caption" color="text.secondary">
-                Send funds via Polygon to your wallet
+                Receive USDC via Polygon network on your wallet
               </Typography>
             </Stack>
             <RightIcon />
