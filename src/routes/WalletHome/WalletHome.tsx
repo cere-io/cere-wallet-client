@@ -26,7 +26,7 @@ const WalletHome = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (localStorage.getItem('showProductTour') === 'true' && !showProductTour) {
+    if (localStorage.getItem('showProductTour') !== 'false' && !showProductTour) {
       navigate({ ...location, hash: 'product-tour' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

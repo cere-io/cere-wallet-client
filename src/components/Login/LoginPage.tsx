@@ -35,11 +35,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
-    if (isSignUp) {
-      localStorage.setItem('showProductTour', 'true');
-    } else {
-      localStorage.removeItem('showProductTour');
-    }
+    localStorage.setItem('showProductTour', isSignUp.toString());
   }, [location.pathname]);
 
   const {
