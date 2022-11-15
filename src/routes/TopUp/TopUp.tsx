@@ -1,15 +1,25 @@
-import { Address, Alert, CopyButton, IconButton, Paper, Stack, Typography, useIsMobile, Link } from '@cere-wallet/ui';
+import { Stack, useIsMobile, Link } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 
-import { PageHeader, FAQ, AddressQRButton } from '~/components';
-import { CoinIcon } from '~/components/CoinIcon';
-import { useAccountStore } from '~/hooks';
-import { useAlertVisible } from './useAlertVisible';
+import { PageHeader, FAQ } from '~/components';
+import { ToggleButton, ToggleButtonGroup } from '@cere/ui';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+
+enum Tabs {
+  BUY = 'buy',
+  RECEIVE = 'receive',
+}
 
 const TopUp = () => {
   const isMobile = useIsMobile();
-  const { account } = useAccountStore();
-  const [isAlertVisible, hideAlert] = useAlertVisible();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const getActiveFromLocation = useCallback(() => {
+    const tab = location.pathname.split('/')?.pop();
+    return tab === 'receive' ? Tabs.RECEIVE : Tabs.BUY;
+  }, [location.pathname]);
 
   const polygonLink = (
     <Link target="_blank" href="https://polygon.technology/">
@@ -24,47 +34,33 @@ const TopUp = () => {
   );
 
   return (
-    <>
+    <Stack alignItems="stretch" spacing={2}>
       <PageHeader title="Top Up" backUrl=".." />
 
-      <Stack spacing={isMobile ? 3 : 8} direction={isMobile ? 'column' : 'row'} alignItems="flex-start">
-        <Stack spacing={isMobile ? 3 : 4} flex={3}>
-          {isAlertVisible && (
-            <Alert severity="info" color="neutral" onClose={hideAlert}>
-              Fund your wallet with USDC. Send USDC from an exchange or other wallet via Polygon network to this wallet
-              address.
-            </Alert>
-          )}
+      <ToggleButtonGroup
+        className="wallet-asset-action"
+        exclusive
+        fullWidth
+        color="primary"
+        size={isMobile ? 'small' : 'medium'}
+        value={getActiveFromLocation()}
+        onChange={(event, value) => {
+          console.log('value', value, event);
+          value && navigate({ ...location, pathname: `${value}` });
+        }}
+        sx={{
+          maxWidth: 430,
+          alignSelf: 'center',
+        }}
+      >
+        <ToggleButton value="buy">Buy asset</ToggleButton>
+        <ToggleButton value={Tabs.RECEIVE}>Receive asset</ToggleButton>
+      </ToggleButtonGroup>
 
-          {account && (
-            <Stack spacing={1.5}>
-              <Typography fontWeight="bold">Copy address</Typography>
+      <Stack spacing={3} direction={isMobile ? 'column' : 'row'} alignItems="stretch">
+        <Outlet />
 
-              <Paper variant="outlined" sx={{ padding: 2 }}>
-                <Typography fontWeight="bold">Wallet address (ERC 20)</Typography>
-
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Typography flex={1} color="text.secondary">
-                    <Address variant="text" address={account.address} maxLength={isMobile ? 24 : undefined} />
-                  </Typography>
-                  <CopyButton value={account.address} variant="outlined" successMessage="Address copied" />
-                  <AddressQRButton address={account.address} variant="outlined" />
-                </Stack>
-                <Stack direction="row" spacing={1} marginTop={1}>
-                  <IconButton variant="filled" size="small" disableRipple>
-                    <CoinIcon coin="matic" />
-                  </IconButton>
-
-                  <IconButton variant="filled" size="small" disableRipple>
-                    <CoinIcon coin="usdc" />
-                  </IconButton>
-                </Stack>
-              </Paper>
-            </Stack>
-          )}
-        </Stack>
-
-        <FAQ flex={2} title="FAQ">
+        <FAQ sx={{ maxWidth: isMobile ? 'auto' : 384 }} title="FAQ">
           <FAQ.Section title="How to fund my wallet by sending USDC?">
             Fund your wallet with USDC. Send USDC from an exchange or other wallet via {polygonLink} to this wallet
             address.
@@ -82,7 +78,7 @@ const TopUp = () => {
           </FAQ.Section>
         </FAQ>
       </Stack>
-    </>
+    </Stack>
   );
 };
 

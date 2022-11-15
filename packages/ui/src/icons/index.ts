@@ -51,4 +51,5 @@ export * from './ShareIcon';
 export * from './NoCollectiblesIcon';
 export * from './ExternalLinkIcon';
 export * from './NoImageIcon';
+export * from './LogoRampIcon';
 export * from './TourIcon';
