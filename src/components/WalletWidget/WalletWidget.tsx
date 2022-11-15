@@ -16,13 +16,13 @@ import {
   CopyButton,
   useIsMobile,
   TopUpIcon,
+  IconButton,
 } from '@cere-wallet/ui';
 
 import { useEmbeddedWalletStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
-import { useShowTopUp } from './useShowTopUp';
 
 const Card = styled(UICard)({
   border: 'none',
@@ -43,35 +43,29 @@ const Actions = styled(CardActions)({
   justifyContent: 'flex-end',
 });
 
-const TopUpButton = styled(Button)(({ theme }) => ({
-  border: 'none',
-  borderRadius: 30,
+const TopUpButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   left: 'auto',
   top: 20,
   right: 0,
-  width: 36,
-  padding: 0,
-  minWidth: 36,
-  height: 36,
-  zIndex: 1,
+  padding: 10,
   color: 'white',
   backgroundColor: theme.palette.primary.main,
-  '& > svg': {
-    height: 16,
-    width: 16,
-  },
   '&:hover, &:focus, &:active': {
     color: 'white',
     backgroundColor: theme.palette.primary.main,
   },
 }));
 
+const OpenTopIcon = styled(TopUpIcon)(() => ({
+  height: 16,
+  width: 16,
+}));
+
 const WalletWidget = () => {
   const isMobile = useIsMobile();
   const { account, network } = useEmbeddedWalletStore();
   const showWallet = useShowWallet();
-  const showTopUp = useShowTopUp();
 
   const maxLength = isMobile ? 14 : 20;
 
@@ -102,12 +96,12 @@ const WalletWidget = () => {
               <Typography variant="caption">{network.displayName}</Typography>
             </Stack>
           </Typography>
-          <TopUpButton onClick={showTopUp}>
-            <TopUpIcon />
+          <TopUpButton onClick={() => showWallet('topup')}>
+            <OpenTopIcon />
           </TopUpButton>
         </Content>
         <Actions>
-          <Button variant="text" onClick={showWallet}>
+          <Button variant="text" onClick={() => showWallet()}>
             Open Wallet
           </Button>
         </Actions>
