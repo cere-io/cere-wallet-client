@@ -17,7 +17,7 @@ export type WalletIntroduceFinishProps = DialogProps & {
   onDoneClick?: () => void;
 };
 
-const VioletBox = styled(Stack)(({ theme }) => ({
+const VioletBox = styled(Stack)(() => ({
   backgroundColor: '#F5F1FE',
   borderRadius: '12px',
 }));
@@ -40,7 +40,7 @@ const RightIcon = styled(EastIcon)(({ theme }) => ({
 
 export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props }: WalletIntroduceFinishProps) => {
   return (
-    <Dialog {...props} maxWidth="xs" origin={'center'} transitionDuration={0}>
+    <Dialog {...props} maxWidth="xs" origin="center" transitionDuration={0}>
       <DialogContent style={{ padding: 16 }}>
         <Stack spacing={1} alignItems="center">
           <Success style={{ width: 64, height: 64 }} />
