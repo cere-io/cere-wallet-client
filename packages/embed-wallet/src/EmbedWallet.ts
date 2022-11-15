@@ -51,8 +51,8 @@ export class EmbedWallet {
     return () => this.setStatus(prevStatus);
   }
 
-  get provider() {
-    return this.proxyProvider as ProviderInterface;
+  get provider(): ProviderInterface {
+    return this.proxyProvider;
   }
 
   get status() {
