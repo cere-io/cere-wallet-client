@@ -19,7 +19,11 @@ export const useShowWallet = () => {
 
   return useCallback(
     (directory?: 'path' | 'home' | 'topup') => {
-      window.open(`/wallet/home${directory && `/${directory}`}?instanceId=${instanceId}`, instanceId, windowFeatures);
+      window.open(
+        `/wallet/home${directory ? `/${directory}` : ''}?instanceId=${instanceId}`,
+        instanceId,
+        windowFeatures,
+      );
     },
     [instanceId],
   );
