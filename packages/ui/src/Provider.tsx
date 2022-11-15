@@ -27,6 +27,7 @@ export const UIProvider = ({ children, transparentBody }: UIProviderProps) => {
       )}
 
       {children}
+      <BannerPlace placement="bottom" />
     </ThemeProvider>
   );
 };

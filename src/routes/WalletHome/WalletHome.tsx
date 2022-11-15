@@ -5,6 +5,7 @@ import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-walle
 
 import { AccountBalanceWidget, OnboardingDialog } from '~/components';
 import { WalletProductTour } from '~/components/ProductTours';
+import { OnboardingBanner } from '~/routes/OnboardingBanner';
 
 enum Tabs {
   assets = 'assets',
@@ -19,6 +20,7 @@ const WalletHome = () => {
 
   const showOnboarding = location.hash.slice(1) === 'onboarding';
   const showProductTour = location.hash.slice(1) === 'product-tour';
+  const showOnboardingPopup = location.hash.slice(1) === 'product-tour-popup';
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop() || '';
@@ -28,6 +30,9 @@ const WalletHome = () => {
   useEffect(() => {
     if (localStorage.getItem('showProductTour') !== 'false' && !showProductTour) {
       navigate({ ...location, hash: 'product-tour' });
+    }
+    if (localStorage.getItem('showOnboardingPopup') === 'false' && !showProductTour) {
+      navigate({ ...location, hash: 'product-tour-popup' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,6 +65,8 @@ const WalletHome = () => {
 
       <OnboardingDialog open={showOnboarding} onClose={() => navigate({ ...location, hash: '' })} />
       {showProductTour && <WalletProductTour onClose={() => navigate({ ...location, hash: '' })} />}
+      {showOnboardingPopup && ''}
+      <OnboardingBanner onClose={() => navigate({ ...location, hash: '' })} />
     </Stack>
   );
 };
