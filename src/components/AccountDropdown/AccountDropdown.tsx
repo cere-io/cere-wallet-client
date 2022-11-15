@@ -23,10 +23,10 @@ export type AccountDropdownProps = {};
 
 const AccountDropdown = (props: AccountDropdownProps) => {
   const authStore = useAuthenticationStore();
-  const { account } = useAccountStore();
+  const { user } = useAccountStore();
   const [open, setOpen] = useState(false);
 
-  if (!account) {
+  if (!user) {
     return null;
   }
 
@@ -34,8 +34,8 @@ const AccountDropdown = (props: AccountDropdownProps) => {
     <Dropdown
       open={open}
       onToggle={setOpen}
-      label={<Truncate text={account.email} variant="email" maxLength={20} />}
-      leftElement={<Avatar src={account.avatar} />}
+      label={<Truncate text={user.email} variant="email" maxLength={20} />}
+      leftElement={<Avatar src={user.avatar} />}
     >
       <Stack width={350} spacing={2}>
         <AccountInfo />

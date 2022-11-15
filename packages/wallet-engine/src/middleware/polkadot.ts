@@ -1,18 +1,18 @@
 import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
-
-import { getAccount, getKeyPair } from '../accounts';
 import { ed25519Sign } from '@polkadot/util-crypto';
 
+import { Account } from '../types';
+import { getKeyPair } from '../accounts';
+
 export type PolkadotMiddlewareOptions = {
+  getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
 };
 
-export const createPolkadotMiddleware = ({ getPrivateKey }: PolkadotMiddlewareOptions) => {
+export const createPolkadotMiddleware = ({ getPrivateKey, getAccounts }: PolkadotMiddlewareOptions) => {
   return createScaffoldMiddleware({
     ed25519_accounts: createAsyncMiddleware(async (req, res) => {
-      const privateKey = getPrivateKey();
-
-      res.result = privateKey ? [getAccount(privateKey, 'ed25519').address] : [];
+      res.result = getAccounts().filter((account) => account.type === 'ed25519');
     }),
 
     ed25519_sign: createAsyncMiddleware(async (req, res) => {
@@ -23,7 +23,7 @@ export const createPolkadotMiddleware = ({ getPrivateKey }: PolkadotMiddlewareOp
         throw new Error('No private key was provided!');
       }
 
-      const signature = ed25519Sign(message, getKeyPair(privateKey, 'ed25519'));
+      const signature = ed25519Sign(message, getKeyPair({ type: 'ed25519', privateKey }));
       res.result = Buffer.from(signature).toString('hex');
     }),
   });

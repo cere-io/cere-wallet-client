@@ -1,9 +1,9 @@
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 
-import { ChainConfig } from '../types';
+import { ChainConfig, Account } from '../types';
 
 export type WalletMiddlewareOptions = {
-  getAccounts: () => string[];
+  getAccounts: () => Account[];
   chainConfig: ChainConfig;
 };
 
@@ -11,7 +11,7 @@ export const createWalletMiddleware = ({ getAccounts = () => [], chainConfig }: 
   return createScaffoldMiddleware({
     wallet_getProviderState: createAsyncMiddleware(async (req, res) => {
       res.result = {
-        accounts: getAccounts(),
+        accounts: getAccounts().map((account) => account.address),
         chainId: chainConfig.chainId,
         isUnlocked: true,
         networkVersion: chainConfig.chainId,

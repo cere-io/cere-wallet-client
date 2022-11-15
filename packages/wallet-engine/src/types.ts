@@ -10,7 +10,9 @@ export type KeyPair = {
   secretKey: Buffer;
 };
 
-export type Account = Omit<KeyPair, 'secretKey' | 'publicKey'>;
+export type Account = Omit<KeyPair, 'secretKey' | 'publicKey'> & {
+  name: string;
+};
 
 export type ProviderRequestArguments = {
   readonly method: string;

@@ -132,7 +132,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return toJS(this.accountStore.userInfo);
+        return toJS(this.accountStore.loginData?.userInfo);
       },
 
       onWindowClose: async ({ preopenInstanceId }) => {
@@ -163,11 +163,11 @@ export class EmbeddedWalletStore implements Wallet {
      * TODO: Refactor to prevent duplicated messages
      */
     reaction(
-      () => !!this.account,
+      () => !!this.accountStore.userInfo,
       (loggedIn) => {
         this.walletConnection?.setLoggedInStatus({
           loggedIn,
-          verifier: this.account?.verifier,
+          verifier: this.accountStore.userInfo?.verifier,
         });
       },
     );
@@ -189,8 +189,8 @@ export class EmbeddedWalletStore implements Wallet {
 
     const engine = createWalletEngine({
       chainConfig: this.networkStore.network!,
-      getPrivateKey: () => this.account?.privateKey,
-      getAccounts: () => (this.account ? [this.account.address] : []),
+      getPrivateKey: () => this.accountStore.privateKey,
+      getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });

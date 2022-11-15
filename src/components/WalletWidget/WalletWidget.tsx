@@ -17,7 +17,7 @@ import {
   useIsMobile,
 } from '@cere-wallet/ui';
 
-import { useEmbeddedWalletStore } from '~/hooks';
+import { useAccountStore, useNetworkStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
@@ -42,11 +42,12 @@ const Actions = styled(CardActions)({
 
 const WalletWidget = () => {
   const isMobile = useIsMobile();
-  const { account, network } = useEmbeddedWalletStore();
+  const { account, user } = useAccountStore();
+  const { network } = useNetworkStore();
   const showWallet = useShowWallet();
   const maxLength = isMobile ? 14 : 20;
 
-  if (!account || !network) {
+  if (!account || !user || !network) {
     return null;
   }
 
@@ -54,9 +55,9 @@ const WalletWidget = () => {
     <Widget>
       <Card>
         <Header
-          title={<Truncate variant="email" text={account.email} maxLength={maxLength} />}
+          title={<Truncate variant="email" text={user.email} maxLength={maxLength} />}
           subheader={<Address variant="text" address={account.address} maxLength={maxLength} />}
-          avatar={<Avatar src={account.avatar} />}
+          avatar={<Avatar src={user.avatar} />}
           action={<CopyButton value={account.address} successMessage="Address copied" />}
         />
         <Content>

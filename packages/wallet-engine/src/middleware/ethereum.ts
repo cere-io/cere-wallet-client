@@ -1,23 +1,24 @@
 import { createScaffoldMiddleware, createAsyncMiddleware, mergeMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
-import { ChainConfig } from '../types';
-import { getKeyPair, getAccount } from '../accounts';
+import { Account, ChainConfig } from '../types';
+import { getKeyPair } from '../accounts';
 
 export type EthereumMiddlewareOptions = {
+  getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
 };
 
-export const createEthereumMiddleware = ({ getPrivateKey, chainConfig }: EthereumMiddlewareOptions) => {
+export const createEthereumMiddleware = ({ getPrivateKey, getAccounts, chainConfig }: EthereumMiddlewareOptions) => {
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
   });
 
-  const accountsMiddleware = createAsyncMiddleware(async (req, res, next) => {
-    const privateKey = getPrivateKey();
-
-    res.result = privateKey ? [getAccount(privateKey).address] : [];
+  const accountsMiddleware = createAsyncMiddleware(async (req, res) => {
+    res.result = getAccounts()
+      .filter((account) => account.type === 'ethereum')
+      .map((account) => account.address);
   });
 
   return mergeMiddleware([
@@ -30,7 +31,7 @@ export const createEthereumMiddleware = ({ getPrivateKey, chainConfig }: Ethereu
       const privateKey = getPrivateKey();
 
       if (!providerFactory.provider && privateKey) {
-        const { secretKey } = getKeyPair(privateKey, 'ethereum');
+        const { secretKey } = getKeyPair({ type: 'ethereum', privateKey });
 
         await providerFactory.setupProvider(secretKey.toString('hex'));
       }

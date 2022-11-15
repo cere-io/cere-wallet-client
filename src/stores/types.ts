@@ -1,4 +1,4 @@
-import { ChainConfig } from '@cere-wallet/wallet-engine';
+import { ChainConfig, Account } from '@cere-wallet/wallet-engine';
 import { ethers } from 'ethers';
 
 export type PriceData = {
@@ -7,11 +7,9 @@ export type PriceData = {
   equalsTo?: Omit<PriceData, 'equalsTo'>;
 };
 
-export type Account = {
-  address: string;
-  privateKey: string;
+export type User = {
   email: string;
-  verifier: string;
+  name: string;
   avatar?: string;
 };
 

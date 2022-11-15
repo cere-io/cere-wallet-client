@@ -87,13 +87,13 @@ export class WalletStore implements Wallet {
     if (this.isRoot()) {
       await this.authenticationStore.rehydrate();
     } else {
-      await when(() => !!this.account);
+      await when(() => !!this.accountStore.privateKey);
     }
 
     const engine = createWalletEngine({
       chainConfig: this.network!,
-      getAccounts: () => [this.account!.address],
-      getPrivateKey: () => this.account!.privateKey,
+      getAccounts: () => this.accountStore.accounts,
+      getPrivateKey: () => this.accountStore.privateKey,
     });
 
     runInAction(() => {

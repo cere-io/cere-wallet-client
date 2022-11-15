@@ -28,14 +28,23 @@ const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
   },
 };
 
-export const getKeyPair = (privateKey: string, type: KeyType = 'ethereum'): KeyPair => {
+export type KeyPairOptions = {
+  privateKey: string;
+  type: KeyType;
+};
+
+export type AccountOptions = KeyPairOptions & {
+  name: string;
+};
+
+export const getKeyPair = ({ privateKey, type }: KeyPairOptions): KeyPair => {
   return pairFactoryMap[type](privateKey);
 };
 
-export const getAccount = (privateKey: string, type: KeyType = 'ethereum'): Account => ({
+export const getAccount = ({ privateKey, type, name }: AccountOptions): Account => ({
   type,
-  address: getKeyPair(privateKey, type).address,
+  name,
+  address: getKeyPair({ privateKey, type }).address,
 });
 
-export const getAccountAddress = (privateKey: string, type: KeyType = 'ethereum') =>
-  getAccount(privateKey, type).address;
+export const getAccountAddress = ({ privateKey, type }: KeyPairOptions) => getKeyPair({ privateKey, type }).address;
