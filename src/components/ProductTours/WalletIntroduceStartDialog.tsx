@@ -8,7 +8,7 @@ export type WalletIntroduceStartProps = DialogProps & {
 
 export const WalletIntroduceStartDialog = ({ onStartTour, ...props }: WalletIntroduceStartProps) => {
   return (
-    <Dialog {...props} maxWidth="xs" fullScreen={false} transitionDuration={0}>
+    <Dialog {...props} maxWidth="xs" origin="center" transitionDuration={0}>
       <DialogContent style={{ padding: 0 }}>
         <img src={tourHeaderImage} width="100%" alt="Product Tour" />
         <Stack spacing={1} alignItems="stretch" style={{ backgroundColor: 'white' }} padding={3}>
