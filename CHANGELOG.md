@@ -1,7 +1,7 @@
 ## Release Notes:
 
 ### vNext
-
+- [DAV-3256] Add product tour snackbar
 - [DAV-2808] Add topup button to widget
 
 ### v1.7.0
