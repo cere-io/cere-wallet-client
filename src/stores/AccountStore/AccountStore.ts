@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
-import { getAccountAddress } from '@cere-wallet/wallet-engine';
+import { getAccount } from '@cere-wallet/wallet-engine';
 
-import { Account, Wallet } from '../types';
+import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 
 export type AccountLoginData = {
@@ -33,21 +33,42 @@ export class AccountStore {
     return this.shared.state.loginData;
   }
 
-  get account(): Account | undefined {
-    if (!this.loginData) {
+  get accounts() {
+    const { user, privateKey } = this;
+
+    if (!user || !privateKey) {
+      return [];
+    }
+
+    return [
+      getAccount({ type: 'ethereum', name: user.name, privateKey }),
+      getAccount({ type: 'ed25519', name: user.name, privateKey }),
+    ];
+  }
+
+  get account() {
+    return this.accounts.at(0);
+  }
+
+  get user(): User | undefined {
+    if (!this.userInfo) {
       return undefined;
     }
 
+    const { email, name, profileImage } = this.userInfo;
+
     return {
-      privateKey: this.loginData.privateKey,
-      address: getAccountAddress(this.loginData.privateKey),
-      email: this.loginData.userInfo.email,
-      avatar: this.loginData.userInfo.profileImage,
-      verifier: this.loginData.userInfo.verifier,
+      email,
+      name: name || email,
+      avatar: profileImage,
     };
   }
 
   get userInfo() {
     return this.loginData?.userInfo;
+  }
+
+  get privateKey() {
+    return this.loginData?.privateKey;
   }
 }

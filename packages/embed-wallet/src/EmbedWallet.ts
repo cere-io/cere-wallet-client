@@ -4,6 +4,7 @@ import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
+import { ProxyProvider, ProviderInterface } from './Provider';
 import {
   WalletStatus,
   WalletEvent,
@@ -29,10 +30,13 @@ export class EmbedWallet {
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
   private defaultContext: Context;
+  private proxyProvider: ProxyProvider;
+  private connectOptions: WalletConnectOptions = {};
 
   constructor() {
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
+    this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
   }
 
@@ -47,12 +51,12 @@ export class EmbedWallet {
     return () => this.setStatus(prevStatus);
   }
 
-  get status() {
-    return this.currentStatus;
+  get provider(): ProviderInterface {
+    return this.proxyProvider;
   }
 
-  get provider() {
-    return this.torus.provider;
+  get status() {
+    return this.currentStatus;
   }
 
   private get contextStream() {
@@ -67,7 +71,8 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod', popupMode = 'modal' }: WalletInitOptions) {
+  async init({ network, context, env = 'prod', popupMode = 'modal', connectOptions = {} }: WalletInitOptions = {}) {
+    this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
 
@@ -80,10 +85,12 @@ export class EmbedWallet {
       enableLogging: env !== 'prod',
     });
 
+    this.proxyProvider.setTarget(this.torus.provider);
     this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
   }
 
-  async connect({ redirectUrl, mode, ...options }: WalletConnectOptions = {}) {
+  async connect(overrideOptions: WalletConnectOptions = {}) {
+    const { redirectUrl, mode, ...options } = { ...this.connectOptions, ...overrideOptions };
     const rollback = this.setStatus('connecting');
 
     try {
