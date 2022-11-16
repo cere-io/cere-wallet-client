@@ -132,7 +132,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return toJS(this.accountStore.userInfo);
+        return toJS(this.accountStore.loginData?.userInfo);
       },
 
       onWindowClose: async ({ preopenInstanceId }) => {
@@ -163,11 +163,11 @@ export class EmbeddedWalletStore implements Wallet {
      * TODO: Refactor to prevent duplicated messages
      */
     reaction(
-      () => !!this.account,
+      () => !!this.accountStore.userInfo,
       (loggedIn) => {
         this.walletConnection?.setLoggedInStatus({
           loggedIn,
-          verifier: this.account?.verifier,
+          verifier: this.accountStore.userInfo?.verifier,
         });
       },
     );
@@ -187,32 +187,24 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.networkStore.network);
 
-    const privateKey = this.account?.privateKey;
-    const chainConfig = this.networkStore.network!;
-
-    const engine = await createWalletEngine({
-      privateKey,
-      chainConfig,
-
-      getAccounts: () => (this.account ? [this.account.address] : []),
+    const engine = createWalletEngine({
+      chainConfig: this.networkStore.network!,
+      getPrivateKey: () => this.accountStore.privateKey,
+      getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    createRpcConnection({ engine, logger: console });
-
-    if (this.account && this.account?.privateKey !== privateKey) {
-      await engine.setupProvider(this.account.privateKey);
-    }
-
     this.provider = new providers.Web3Provider(engine.provider);
 
-    /**
-     * Setup provider when account privateKey is changed
-     */
+    createRpcConnection({
+      engine,
+      logger: console,
+    });
+
     reaction(
-      () => this.account?.privateKey,
-      (privateKey) => engine.setupProvider(privateKey),
+      () => this.accountStore.accounts,
+      (accounts) => engine.updateAccounts(accounts),
     );
   }
 }

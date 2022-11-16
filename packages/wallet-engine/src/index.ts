@@ -1,7 +1,7 @@
-export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction } from './middleware';
+export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction } from './engine';
 
+export * from './types';
 export * from './createWalletEngine';
-export * from './getAccountAddress';
-export * from './createProvider';
+export * from './accounts';
 export * from './parseTransactionData';
 export * from './contracts';

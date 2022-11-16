@@ -1,8 +1,8 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
 import { makeAutoObservable, runInAction, when } from 'mobx';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
-import { createProvider, Provider as EngineProvider } from '@cere-wallet/wallet-engine';
 
 import { Provider, Wallet, WalletStatus } from '../types';
 import { AccountStore } from '../AccountStore';
@@ -82,25 +82,22 @@ export class WalletStore implements Wallet {
   }
 
   async init() {
-    let provider: EngineProvider | undefined;
-
     await when(() => !!this.network);
 
     if (this.isRoot()) {
       await this.authenticationStore.rehydrate();
     } else {
-      await when(() => !!this.account);
+      await when(() => !!this.accountStore.privateKey);
     }
 
-    if (this.account && this.network) {
-      provider = await createProvider({
-        privateKey: this.account.privateKey,
-        chainConfig: this.network,
-      });
-    }
+    const engine = createWalletEngine({
+      chainConfig: this.network!,
+      getAccounts: () => this.accountStore.accounts,
+      getPrivateKey: () => this.accountStore.privateKey,
+    });
 
     runInAction(() => {
-      this.currentProvider = provider && new providers.Web3Provider(provider);
+      this.currentProvider = new providers.Web3Provider(engine.provider);
       this.initialized = true;
     });
   }
