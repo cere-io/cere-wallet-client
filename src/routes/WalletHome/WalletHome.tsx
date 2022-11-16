@@ -5,7 +5,7 @@ import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-walle
 
 import { AccountBalanceWidget, OnboardingDialog } from '~/components';
 import { WalletProductTour } from '~/components/ProductTours';
-import { OnboardingBanner } from '~/routes/OnboardingBanner';
+import { OnboardingSnackbar } from '~/routes/OnboardingSnackbar';
 
 enum Tabs {
   assets = 'assets',
@@ -20,22 +20,35 @@ const WalletHome = () => {
 
   const showOnboarding = location.hash.slice(1) === 'onboarding';
   const showProductTour = location.hash.slice(1) === 'product-tour';
-  const showOnboardingPopup = location.hash.slice(1) === 'product-tour-popup';
+  const showOnboardingSnackbar = location.hash.slice(1) === 'product-tour-snackbar';
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop() || '';
     return tab in Tabs ? Tabs[tab as keyof typeof Tabs] : Tabs.assets;
   }, [location.pathname]);
 
+  const handleCloseSnackbar = useCallback(() => {
+    localStorage.setItem('showProductTourSnackbar', 'false');
+    navigate({ ...location, hash: '' });
+  }, [navigate, location]);
+
   useEffect(() => {
     if (localStorage.getItem('showProductTour') !== 'false' && !showProductTour) {
       navigate({ ...location, hash: 'product-tour' });
     }
-    if (localStorage.getItem('showOnboardingPopup') === 'false' && !showProductTour) {
-      navigate({ ...location, hash: 'product-tour-popup' });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('showProductTour') === 'false' &&
+      localStorage.getItem('showProductTourSnackbar') !== 'false' &&
+      !showProductTour
+    ) {
+      navigate({ ...location, hash: 'product-tour-snackbar' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showProductTour]);
 
   return (
     <Stack spacing={4}>
@@ -65,8 +78,7 @@ const WalletHome = () => {
 
       <OnboardingDialog open={showOnboarding} onClose={() => navigate({ ...location, hash: '' })} />
       {showProductTour && <WalletProductTour onClose={() => navigate({ ...location, hash: '' })} />}
-      {showOnboardingPopup && ''}
-      <OnboardingBanner onClose={() => navigate({ ...location, hash: '' })} />
+      <OnboardingSnackbar open={showOnboardingSnackbar} onClose={handleCloseSnackbar} />
     </Stack>
   );
 };
