@@ -1,6 +1,6 @@
 import { styled, Stack, Box, Tabs, Tab, Logo, Chip } from '@cere-wallet/ui';
 
-import { WalletLayoutProps } from './types';
+import { WalletMenuItem } from './types';
 import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
 import { useActiveMenuItem } from './useActiveMenuItem';
@@ -34,20 +34,13 @@ const HeaderRight = styled(HeaderLeft)(({ theme }) => ({
   right: theme.spacing(4),
 }));
 
-const Content = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 4),
-  width: '100%',
-  maxWidth: 990,
-  alignSelf: 'center',
-}));
-
 const SoonChip = styled(Chip)({
   position: 'absolute',
   right: 14,
   top: 0,
 });
 
-export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
+export const DesktopHeader = ({ menu }: { menu: WalletMenuItem[] }) => {
   const active = useActiveMenuItem(menu);
 
   return (
@@ -82,7 +75,6 @@ export const DesktopLayout = ({ children, menu }: WalletLayoutProps) => {
           <AccountDropdown />
         </HeaderRight>
       </Header>
-      <Content>{children}</Content>
     </Stack>
   );
 };

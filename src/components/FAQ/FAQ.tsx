@@ -1,23 +1,24 @@
-import { Box, BoxProps, styled, Typography } from '@cere-wallet/ui';
+import { Stack, StackProps, styled, Typography } from '@cere-wallet/ui';
 
 import { FAQSection } from './FAQSection';
 
-export type FAQProps = BoxProps & {
+export type FAQProps = StackProps & {
   title?: string;
 };
 
-const Wrapper = styled(Box)(({ theme }) => ({
+const Wrapper = styled(Stack)(({ theme }) => ({
   backgroundColor: theme.palette.neutral.light,
-  borderRadius: 16,
+  borderRadius: theme.typography.pxToRem(16),
+  padding: '1rem',
+  margin: 0,
+  [theme.breakpoints.up('md')]: {
+    padding: `2rem`,
+  },
 }));
 
 export const FAQ = ({ title, children, ...props }: FAQProps) => (
   <Wrapper {...props}>
-    {title && (
-      <Typography marginLeft={2} marginTop={2} marginBottom={-1} variant="h3">
-        {title}
-      </Typography>
-    )}
+    {title && <Typography variant="h3">{title}</Typography>}
 
     {children}
   </Wrapper>
