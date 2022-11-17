@@ -1,33 +1,15 @@
 import { FC, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { CloseIcon, Box, Button, IconButton, Stack, styled, Typography, TourIcon, Snackbar } from '@cere-wallet/ui';
+import { CloseIcon, IconButton, Box, Link, Stack, styled, Typography, TourIcon, Snackbar } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-const CloseButton = styled(IconButton)(({ theme }) => ({
-  '&:hover': {
-    '& svg': {
-      fill: theme.palette.primary.main,
-    },
-  },
-}));
-
-const LinkButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  padding: 0,
-  fontSize: 14,
-  fontWeight: 'normal',
-  '&:hover': {
-    backgroundColor: 'white',
-  },
-}));
 
 const SnackbarTourIcon = styled(TourIcon)(() => ({
   width: 40,
   height: 40,
 }));
 
-const SnackarContainer = styled(Snackbar)(({ theme }) => ({
-  background: 'white',
+const SnackbarContainer = styled(Snackbar)(({ theme }) => ({
+  background: theme.palette.background.paper,
   padding: 16,
   boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.1)',
   borderRadius: 16,
@@ -56,7 +38,7 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
   }, [navigate, location]);
 
   return (
-    <SnackarContainer open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+    <SnackbarContainer open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
       <Stack gap={2}>
         <Box>
           <SnackbarTourIcon />
@@ -67,19 +49,19 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
           </Typography>
           <Typography variant="body2" color="text.secondary" fontWeight="regular">
             Get a better understanding through{' '}
-            <LinkButton variant="text" onClick={handleLinkClick}>
+            <Link href="" onClick={handleLinkClick}>
               a short product tour
-            </LinkButton>{' '}
+            </Link>{' '}
             of how your wallet works
           </Typography>
         </Box>
         <Box>
-          <CloseButton size="small" onClick={onClose}>
+          <IconButton size="small" onClick={onClose}>
             <CloseIcon />
-          </CloseButton>
+          </IconButton>
         </Box>
       </Stack>
-    </SnackarContainer>
+    </SnackbarContainer>
   );
 };
 
