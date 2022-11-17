@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.8.0
+
 - [DAV-2808] Add topup button to widget
 
 ### v1.7.0
