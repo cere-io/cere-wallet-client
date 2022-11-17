@@ -28,6 +28,7 @@ export const WalletProductTour = ({ onClose }: WalletProductTourProps) => {
   const handleCloseIntroduceStartDialog = useCallback(() => {
     setIntroduceStartDialog(false);
     localStorage.setItem('showProductTour', 'false');
+    localStorage.setItem('showProductTourSnackbar', 'true');
     onClose?.();
   }, [setIntroduceStartDialog, onClose]);
 

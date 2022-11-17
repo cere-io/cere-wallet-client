@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [DAV-3256] Add product tour snackbar
 
 ### v1.8.0
 
