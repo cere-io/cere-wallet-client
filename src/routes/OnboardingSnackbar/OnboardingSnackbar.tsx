@@ -1,7 +1,6 @@
 import { FC, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { CloseIcon, Box, Button, IconButton, Stack, styled, Typography, TourIcon } from '@cere-wallet/ui';
-import { Snackbar } from '@mui/material';
+import { CloseIcon, Box, Button, IconButton, Stack, styled, Typography, TourIcon, Snackbar } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const CloseButton = styled(IconButton)(({ theme }) => ({

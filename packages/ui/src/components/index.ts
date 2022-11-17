@@ -36,6 +36,7 @@ export {
   FormControl,
   Slide,
   InputAdornment,
+  Snackbar,
 } from '@mui/material';
 
 export type {
@@ -75,6 +76,7 @@ export type {
   FormControlProps,
   InputAdornmentProps,
   SlideProps,
+  SnackbarProps,
 } from '@mui/material';
 
 export * from './IconButton';
