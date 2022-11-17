@@ -2,6 +2,7 @@
 
 ### vNext
 
+- [DAV-3075] Add OpenLogin settings page
 - [DAV-2808] Add topup button to widget
 
 ### v1.7.0

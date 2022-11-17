@@ -35,6 +35,7 @@ export {
   MobileStepper,
   FormControl,
   Slide,
+  Grid,
   InputAdornment,
 } from '@mui/material';
 
@@ -75,6 +76,7 @@ export type {
   FormControlProps,
   InputAdornmentProps,
   SlideProps,
+  GridProps,
 } from '@mui/material';
 
 export * from './IconButton';
