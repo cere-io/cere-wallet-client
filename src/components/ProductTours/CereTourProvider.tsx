@@ -36,7 +36,7 @@ export const CereTourProvider = ({ children }: ProviderProps): ReactElement<Prov
       }}
       steps={[]}
       showBadge={false}
-      disableInteraction={true}
+      disableInteraction={false}
       components={{
         Close: ({ onClick }) => {
           return (
@@ -45,13 +45,13 @@ export const CereTourProvider = ({ children }: ProviderProps): ReactElement<Prov
             </CloseButton>
           );
         },
-        Navigation: ({ currentStep, steps, setCurrentStep, setIsOpen, nextButton }) => {
+        Navigation: ({ currentStep, steps, setCurrentStep, setIsOpen }) => {
           return (
             <Stack spacing={2} marginTop={3}>
               <Divider />
               <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" minWidth={300}>
                 <Typography variant="body2" color="text.secondary">
-                  {currentStep + 1} of {steps.length}
+                  {currentStep + 1} of {steps.length + 1}
                 </Typography>
                 <Stack direction="row" alignItems="center" justifyContent="center">
                   {currentStep > 0 && (

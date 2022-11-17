@@ -17,7 +17,7 @@ export type WalletIntroduceFinishProps = DialogProps & {
   onDoneClick?: () => void;
 };
 
-const VioletBox = styled(Stack)(({ theme }) => ({
+const VioletBox = styled(Stack)(() => ({
   backgroundColor: '#F5F1FE',
   borderRadius: '12px',
 }));
@@ -40,7 +40,7 @@ const RightIcon = styled(EastIcon)(({ theme }) => ({
 
 export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props }: WalletIntroduceFinishProps) => {
   return (
-    <Dialog {...props} maxWidth="xs" fullScreen={false} transitionDuration={0}>
+    <Dialog {...props} maxWidth="xs" origin="center" transitionDuration={0}>
       <DialogContent style={{ padding: 16 }}>
         <Stack spacing={1} alignItems="center">
           <Success style={{ width: 64, height: 64 }} />
@@ -52,16 +52,16 @@ export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props
             <LeftIcon />
             <Stack>
               <Typography variant="body2" color="primary.main" fontWeight="medium">
-                Send funds from external wallet
+                Receive funds from external wallet
               </Typography>
 
               <Typography variant="caption" color="text.secondary">
-                Send USDC via Polygon to your wallet
+                Receive USDC via Polygon network on your wallet
               </Typography>
             </Stack>
             <RightIcon />
           </VioletBox>
-          <Divider />
+          <Divider sx={{ width: '100%', paddingTop: 2 }} />
           <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" minWidth={300}>
             <Typography variant="body2" color="text.secondary">
               4 of 4

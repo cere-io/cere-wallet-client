@@ -46,17 +46,18 @@ export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'mumbai' | string;
 };
 
+export type WalletConnectOptions = {
+  idToken?: string;
+  mode?: 'redirect' | 'popup';
+  redirectUrl?: string;
+};
+
 export type WalletInitOptions = {
   env?: WalletEnvironment;
   network?: NetworkConfig;
   context?: Context;
   popupMode?: 'popup' | 'modal';
-};
-
-export type WalletConnectOptions = {
-  idToken?: string;
-  mode?: 'redirect' | 'popup';
-  redirectUrl?: string;
+  connectOptions?: Partial<WalletConnectOptions>;
 };
 
 export type WalletShowOptions = {

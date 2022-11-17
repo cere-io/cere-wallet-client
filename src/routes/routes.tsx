@@ -1,5 +1,5 @@
 import { Route, Navigate, useLocation, createRoutesFromElements, To, resolvePath } from 'react-router-dom';
-import { AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
+import { MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
 import { EmbeddedWallet } from './EmbeddedWallet';
 import { RedirectPopup } from './RedirectPopup';
@@ -13,11 +13,13 @@ import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
 import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
+import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
+import { Assets } from '~/routes/Assets';
+import { Activity } from '~/routes/Activity';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
-  { label: 'Collectibles', icon: <AppsIcon />, path: '/wallet/collectibles', comingSoon: true },
-  { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
+  { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings', comingSoon: true },
 ];
 
 const Redirect = ({ to }: { to: To }) => {
@@ -39,12 +41,16 @@ export default createRoutesFromElements(
     <Route path="wallet" element={<Wallet menu={walletMenu} />}>
       <Route index element={<Redirect to="home" />} />
 
-      <Route path="home">
-        <Route index element={<WalletHome />} />
-        <Route path="topup" element={<TopUp />} />
+      <Route path="home/topup" element={<TopUp />} />
+      <Route path="home/collectibles/:nftId" element={<CollectibleItem />} />
+
+      <Route path="home" element={<WalletHome />}>
+        <Route index element={<Assets />} />
+        <Route path="assets" element={<Assets />} />
+        <Route path="collectibles" element={<Collectibles />} />
+        <Route path="activity" element={<Activity />} />
       </Route>
 
-      <Route path="collectibles" element={<Collectibles />} />
       <Route path="settings" element={<Settings />} />
     </Route>
 

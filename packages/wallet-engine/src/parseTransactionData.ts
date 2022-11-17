@@ -1,4 +1,4 @@
-import { IncomingTransaction } from './middleware';
+import { IncomingTransaction } from './engine';
 
 import { getContractInterface, getContractNameByAddress } from './contracts';
 

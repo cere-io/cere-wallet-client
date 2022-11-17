@@ -15,9 +15,11 @@ import {
   Address,
   CopyButton,
   useIsMobile,
+  TopUpIcon,
+  IconButton,
 } from '@cere-wallet/ui';
 
-import { useEmbeddedWalletStore } from '~/hooks';
+import { useAccountStore, useNetworkStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
@@ -33,6 +35,7 @@ const Header = styled(CardHeader)({
 
 const Content = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(2, 0, 1, 0),
+  position: 'relative',
 }));
 
 const Actions = styled(CardActions)({
@@ -40,13 +43,34 @@ const Actions = styled(CardActions)({
   justifyContent: 'flex-end',
 });
 
+const TopUpButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  left: 'auto',
+  top: 20,
+  right: 0,
+  padding: 10,
+  color: 'white',
+  backgroundColor: theme.palette.primary.main,
+  '&:hover, &:focus, &:active': {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+
+const OpenTopIcon = styled(TopUpIcon)(() => ({
+  height: 16,
+  width: 16,
+}));
+
 const WalletWidget = () => {
   const isMobile = useIsMobile();
-  const { account, network } = useEmbeddedWalletStore();
+  const { account, user } = useAccountStore();
+  const { network } = useNetworkStore();
   const showWallet = useShowWallet();
+
   const maxLength = isMobile ? 14 : 20;
 
-  if (!account || !network) {
+  if (!account || !user || !network) {
     return null;
   }
 
@@ -54,9 +78,9 @@ const WalletWidget = () => {
     <Widget>
       <Card>
         <Header
-          title={<Truncate variant="email" text={account.email} maxLength={maxLength} />}
+          title={<Truncate variant="email" text={user.email} maxLength={maxLength} />}
           subheader={<Address variant="text" address={account.address} maxLength={maxLength} />}
-          avatar={<Avatar src={account.avatar} />}
+          avatar={<Avatar src={user.avatar} />}
           action={<CopyButton value={account.address} successMessage="Address copied" />}
         />
         <Content>
@@ -73,9 +97,12 @@ const WalletWidget = () => {
               <Typography variant="caption">{network.displayName}</Typography>
             </Stack>
           </Typography>
+          <TopUpButton onClick={() => showWallet('topup')}>
+            <OpenTopIcon />
+          </TopUpButton>
         </Content>
         <Actions>
-          <Button variant="text" onClick={showWallet}>
+          <Button variant="text" onClick={() => showWallet()}>
             Open Wallet
           </Button>
         </Actions>
