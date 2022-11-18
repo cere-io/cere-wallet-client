@@ -10,7 +10,7 @@ import {
 } from '@cere-wallet/ui';
 import { ReactElement } from 'react';
 import { styled } from '@cere/ui';
-import { useRamp } from '~/components/AssetActions/useRamp';
+import { useRamp } from '~/hooks';
 
 export type AssetPurchaseProps = StackProps & {
   name: string;

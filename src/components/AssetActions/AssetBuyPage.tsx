@@ -11,21 +11,21 @@ import { AssetDepositProvider } from './AssetDepositProvider';
 
 const Providers = styled(Stack)(({ theme }) => ({
   '& > div': {
-    border: `0.063rem solid ${theme.palette.divider}`,
+    border: `1px solid ${theme.palette.divider}`,
     borderBottom: `none`,
-    padding: `0.5rem 1rem 1rem 1rem`,
+    padding: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
-      padding: `1.5rem`,
+      padding: theme.spacing(3),
     },
   },
   '& > div:first-of-type': {
-    borderTopLeftRadius: '16px',
-    borderTopRightRadius: '16px',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   '& > div:last-of-type': {
-    borderBottom: `0.063rem solid ${theme.palette.divider}`,
-    borderBottomLeftRadius: '16px',
-    borderBottomRightRadius: '16px',
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
 }));
 

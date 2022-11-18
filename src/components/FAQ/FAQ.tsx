@@ -8,11 +8,11 @@ export type FAQProps = StackProps & {
 
 const Wrapper = styled(Stack)(({ theme }) => ({
   backgroundColor: theme.palette.neutral.light,
-  borderRadius: theme.typography.pxToRem(16),
-  padding: '1rem',
+  borderRadius: 16,
+  padding: theme.spacing(2),
   margin: 0,
   [theme.breakpoints.up('md')]: {
-    padding: `2rem`,
+    padding: theme.spacing(3),
   },
 }));
 
