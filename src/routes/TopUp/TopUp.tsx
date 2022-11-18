@@ -1,8 +1,7 @@
-import { Stack, useIsMobile } from '@cere-wallet/ui';
+import { Stack, useIsMobile, ToggleButton, ToggleButtonGroup } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 
 import { PageHeader } from '~/components';
-import { ToggleButton, ToggleButtonGroup } from '@cere/ui';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 
