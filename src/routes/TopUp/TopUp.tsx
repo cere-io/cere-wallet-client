@@ -1,9 +1,8 @@
-import { Stack, useIsMobile, ToggleButton, ToggleButtonGroup } from '@cere-wallet/ui';
-import { observer } from 'mobx-react-lite';
-
-import { PageHeader } from '~/components';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
+import { PageHeader } from '~/components';
 
 enum Tabs {
   BUY = 'buy',

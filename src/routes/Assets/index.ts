@@ -1,3 +1,3 @@
 export * from './Assets';
-export * from './AssetBuy';
-export * from './AssetReceive';
+export { default as AssetBuy } from './AssetBuy';
+export { default as AssetReceive } from './AssetReceive';

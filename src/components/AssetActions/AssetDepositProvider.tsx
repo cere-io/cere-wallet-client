@@ -1,5 +1,5 @@
-import { Stack, Typography, Radio, Chip, StackProps } from '@cere-wallet/ui';
 import { ReactElement } from 'react';
+import { Chip, Radio, Stack, StackProps, Typography } from '@cere-wallet/ui';
 
 export type AssetPurchaseProviderProps = StackProps & {
   name: string;

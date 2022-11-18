@@ -1,2 +1,8 @@
-export { default as AssetBuyPage } from './AssetBuyPage';
-export { default as AssetReceivePage } from './AssetReceivePage';
+export * from './AssetBuyFaq';
+export * from './AssetReceiveFaq';
+export * from './AssetBuyTopAlert';
+export * from './AssetReceiveTopAlert';
+export * from './AssetRefillProviders';
+export * from './AssetDepositProvider';
+export * from './AssetDeposit';
+export * from './WalletAddress';
