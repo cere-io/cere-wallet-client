@@ -11,7 +11,7 @@ export const useRamp = ({ address }: RampProps) => {
   const startPayment = useCallback(() => {
     const config: IHostConfig = {
       hostAppName: 'Cere Wallet',
-      hostLogoUrl: 'https://wallet.cere.io/favicon.png',
+      hostLogoUrl: `${window.origin}/images/logo.svg`,
       defaultAsset: 'MATIC',
       userAddress: address,
       variant: 'hosted-auto',
