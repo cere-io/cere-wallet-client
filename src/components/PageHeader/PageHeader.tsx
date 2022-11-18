@@ -1,6 +1,6 @@
 import { ReactElement, useCallback } from 'react';
-import { Typography, Stack, useIsMobile, IconButton, BackIcon } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BackIcon, IconButton, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
 
 export type PageHeaderProps = {
   title: string;

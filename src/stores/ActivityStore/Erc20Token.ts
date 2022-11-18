@@ -1,6 +1,5 @@
 import { createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
 import { BigNumber, utils } from 'ethers';
-
 import { ReadyWallet } from '../types';
 import { Activity, ActivityStore } from './ActivityStore';
 

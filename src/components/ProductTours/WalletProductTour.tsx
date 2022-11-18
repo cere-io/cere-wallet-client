@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { introductionTourSteps } from './IntroductionTourSteps';
-import { WalletIntroduceStartDialog } from './WalletIntroduceStartDialog';
-import { WalletIntroduceFinishDialog } from './WalletIntroduceFinishDialog';
 import { useTour } from '@reactour/tour';
+import { introductionTourSteps } from './IntroductionTourSteps';
+import { WalletIntroduceFinishDialog } from './WalletIntroduceFinishDialog';
+import { WalletIntroduceStartDialog } from './WalletIntroduceStartDialog';
 
 type WalletProductTourProps = {
   onClose: () => void;

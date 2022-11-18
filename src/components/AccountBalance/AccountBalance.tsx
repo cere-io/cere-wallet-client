@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import { Typography, TypographyProps } from '@cere-wallet/ui';
-
 import { useBalanceStore } from '~/hooks';
 
 export type AccountBalanceProps = TypographyProps;

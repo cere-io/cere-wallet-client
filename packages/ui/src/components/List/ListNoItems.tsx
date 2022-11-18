@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { styled, Stack, Typography } from '@mui/material';
+import { Stack, Typography, styled } from '@mui/material';
 
 export type ListNoItemsProps = {
   icon: ReactElement;

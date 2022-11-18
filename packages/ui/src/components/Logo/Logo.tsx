@@ -1,5 +1,5 @@
-import { Stack, Typography, styled, svgIconClasses } from '@mui/material';
 import { ReactElement } from 'react';
+import { Stack, Typography, styled, svgIconClasses } from '@mui/material';
 import { CereIcon } from '../../icons';
 
 type LogoSize = 'large' | 'medium' | 'small';

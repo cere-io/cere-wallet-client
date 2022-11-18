@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-  Dropdown,
   Avatar,
-  Stack,
-  MenuList,
-  MenuItem,
+  Divider,
+  Dropdown,
   HelpIcon,
+  Link,
   ListItemIcon,
   ListItemText,
-  Divider,
   LogoutIcon,
+  MenuItem,
+  MenuList,
+  Stack,
   Truncate,
-  Link,
 } from '@cere-wallet/ui';
-
-import { useAccountStore, useAuthenticationStore } from '~/hooks';
 import { WALLET_HELP_URL } from '~/constants';
+import { useAccountStore, useAuthenticationStore } from '~/hooks';
 import { AccountInfo } from '../AccountInfo';
 
 export type AccountDropdownProps = {};

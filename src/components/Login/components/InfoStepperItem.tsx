@@ -1,5 +1,5 @@
-import { Typography, Stack } from '@cere-wallet/ui';
 import { ReactElement } from 'react';
+import { Stack, Typography } from '@cere-wallet/ui';
 
 export const InfoStepperItem = (img: ReactElement, title: string, text: string) => {
   return (

@@ -1,5 +1,4 @@
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
-
 import { createBradcastChannel } from './createBroadcastChannel';
 
 export type PopupConnection<T = unknown> = {

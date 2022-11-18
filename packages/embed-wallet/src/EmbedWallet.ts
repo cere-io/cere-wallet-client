@@ -1,21 +1,20 @@
-import EventEmitter from 'events';
-import { Substream } from '@toruslabs/openlogin-jrpc';
 import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
-
+import { Substream } from '@toruslabs/openlogin-jrpc';
+import EventEmitter from 'events';
+import { ProviderInterface, ProxyProvider } from './Provider';
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
-import { ProxyProvider, ProviderInterface } from './Provider';
 import {
-  WalletStatus,
-  WalletEvent,
-  WalletScreen,
-  WalletEnvironment,
-  WalletInitOptions,
-  WalletConnectOptions,
-  WalletShowOptions,
-  WalletSetContextOptions,
-  UserInfo,
   Context,
+  UserInfo,
+  WalletConnectOptions,
+  WalletEnvironment,
+  WalletEvent,
+  WalletInitOptions,
+  WalletScreen,
+  WalletSetContextOptions,
+  WalletShowOptions,
+  WalletStatus,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {

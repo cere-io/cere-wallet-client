@@ -1,20 +1,19 @@
+import { makeAutoObservable, reaction, toJS, when } from 'mobx';
+import { WalletConnection, createRpcConnection, createWalletConnection } from '@cere-wallet/communication';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, toJS, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
-import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
-
-import { Provider, Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
-import { ApprovalStore } from '../ApprovalStore';
-import { NetworkStore } from '../NetworkStore';
-import { PopupManagerStore } from '../PopupManagerStore';
-import { AssetStore } from '../AssetStore';
-import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
+import { ApprovalStore } from '../ApprovalStore';
+import { AssetStore } from '../AssetStore';
 import { AuthenticationStore } from '../AuthenticationStore';
+import { BalanceStore } from '../BalanceStore';
 import { CollectiblesStore } from '../CollectiblesStore';
+import { NetworkStore } from '../NetworkStore';
+import { PopupManagerStore } from '../PopupManagerStore';
+import { Provider, Wallet } from '../types';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');

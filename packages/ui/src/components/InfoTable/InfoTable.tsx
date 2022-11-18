@@ -1,6 +1,5 @@
-import { Box, BoxProps, Divider, Stack, Typography } from '@mui/material';
 import { PropsWithChildren } from 'react';
-
+import { Box, BoxProps, Divider, Stack, Typography } from '@mui/material';
 import { InfoTableRow } from './InfoTableRow';
 
 export type InfoTableProps = PropsWithChildren<

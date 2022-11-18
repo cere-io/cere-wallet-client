@@ -1,8 +1,7 @@
 import { useCallback, useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
-
 import { AccountBalanceWidget, OnboardingDialog } from '~/components';
 import { WalletProductTour } from '~/components/ProductTours';
 import { OnboardingSnackbar } from '~/routes/OnboardingSnackbar';

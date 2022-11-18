@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { createERC20Contract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
-
+import { TokenConfig, createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
 import { Asset, ReadyWallet } from '../types';
 
 const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {

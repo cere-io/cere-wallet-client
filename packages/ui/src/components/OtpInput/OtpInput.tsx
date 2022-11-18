@@ -1,7 +1,7 @@
+import { forwardRef } from 'react';
 import ReactCodeInput from 'react-code-input';
 import { styled } from '@cere-wallet/ui';
-import { Typography, Stack } from '@mui/material';
-import { forwardRef } from 'react';
+import { Stack, Typography } from '@mui/material';
 
 const DIGITS_NUMBER = 6;
 

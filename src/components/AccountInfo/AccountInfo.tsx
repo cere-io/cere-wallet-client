@@ -10,7 +10,6 @@ import {
   Truncate,
   useIsMobile,
 } from '@cere-wallet/ui';
-
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { AddressQRButton } from '../AddressQRButton';

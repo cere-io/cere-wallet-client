@@ -1,5 +1,5 @@
-import { FreeportCollectionInterface } from '~/api/interfaces/freeport-collection.interface';
 import * as yup from 'yup';
+import { FreeportCollectionInterface } from '~/api/interfaces/freeport-collection.interface';
 
 let schema = yup.object().shape({
   name: yup.string().required(),

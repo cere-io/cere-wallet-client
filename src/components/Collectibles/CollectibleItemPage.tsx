@@ -1,7 +1,7 @@
-import { Typography, Stack, useIsMobile, Box, NoImageIcon, CopyButton, styled } from '@cere-wallet/ui';
-import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
 import { observer } from 'mobx-react-lite';
+import { Box, CopyButton, NoImageIcon, Stack, Typography, styled, useIsMobile } from '@cere-wallet/ui';
 import { PageHeader } from '~/components';
+import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
 
 type CollectibleItemProps = {
   nftId: string;

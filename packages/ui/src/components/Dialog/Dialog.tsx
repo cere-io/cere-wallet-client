@@ -1,20 +1,19 @@
 import { SyntheticEvent } from 'react';
 import {
-  styled,
   Box,
   Fade,
-  Slide,
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
+  Slide,
+  SlideProps,
   dialogClasses,
   dialogContentClasses,
   dialogTitleClasses,
-  SlideProps,
+  styled,
 } from '@mui/material';
-
+import { useIsMobile } from '../../hooks';
 import { CloseIcon } from '../../icons';
 import { IconButton } from '../IconButton';
-import { useIsMobile } from '../../hooks';
 
 type DialogOrigin = 'bottom' | 'right' | 'center';
 

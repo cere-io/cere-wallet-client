@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { InfoTable, Typography, Link } from '@cere-wallet/ui';
-
-import { ConfirmPopupStore } from '~/stores';
+import { InfoTable, Link, Typography } from '@cere-wallet/ui';
 import { PopupLayout, PriceRow, TransactionData } from '~/components';
 import { usePopupStore } from '~/hooks';
+import { ConfirmPopupStore } from '~/stores';
 
 const ConfirmPopup = () => {
   const store = usePopupStore((popupId, isLocal) => new ConfirmPopupStore(popupId, isLocal));

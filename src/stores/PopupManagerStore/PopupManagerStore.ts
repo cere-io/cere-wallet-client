@@ -1,5 +1,5 @@
 import { makeAutoObservable, observable, runInAction, when } from 'mobx';
-import { createSharedRedirectState, createSharedPopupState, SharedState, RedirectState } from '../sharedState';
+import { RedirectState, SharedState, createSharedPopupState, createSharedRedirectState } from '../sharedState';
 
 export type PopupManangerOptions = {
   onClose?: (instanceId: string) => void;

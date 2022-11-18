@@ -1,5 +1,5 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { EmbedWallet } from '@cere/embed-wallet'; // Cere wallet SDK package
+import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { EmbedWallet } from '@cere/embed-wallet';
 
 const WalletContext = createContext<EmbedWallet | null>(null);
 

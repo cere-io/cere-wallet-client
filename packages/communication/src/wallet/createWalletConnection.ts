@@ -1,19 +1,18 @@
-import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { ChainConfig } from '@cere-wallet/wallet-engine';
-
+import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 import { DEFAULT_NETWORK } from '../constants';
 import { createMux } from '../createMux';
 import { getChainConfig } from '../getChainConfig';
 import {
-  createChannels,
-  InitChannelIn,
-  PrivateKeyLoginChannelIn,
-  UserInfo,
-  LoginChannelIn,
-  StatusChannelOut,
   AppContextChannelIn,
+  InitChannelIn,
+  LoginChannelIn,
+  PrivateKeyLoginChannelIn,
+  StatusChannelOut,
+  UserInfo,
   WalletChannelOut,
   WindowChannelIn,
+  createChannels,
 } from './channels';
 
 type WindowOptions = Pick<WindowChannelIn['data'], 'popupMode' | 'preopenInstanceId'>;

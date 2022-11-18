@@ -1,6 +1,5 @@
-import { Box, BoxProps, Portal, styled, GlobalStyles, dialogClasses, backdropClasses } from '@mui/material';
 import { useState } from 'react';
-
+import { Box, BoxProps, GlobalStyles, Portal, backdropClasses, dialogClasses, styled } from '@mui/material';
 import { BannerPlaceProps, bannerPlacementIdMap } from './BannerPlace';
 
 export type BannerProps = BoxProps & {

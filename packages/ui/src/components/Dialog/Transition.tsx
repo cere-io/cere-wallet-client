@@ -1,4 +1,4 @@
-import { forwardRef, ReactElement } from 'react';
+import { ReactElement, forwardRef } from 'react';
 import { Fade, Slide } from '@mui/material';
 import { TransitionProps as MuiTransitionProps } from '@mui/material/transitions';
 import { useIsMobile } from '../../hooks';

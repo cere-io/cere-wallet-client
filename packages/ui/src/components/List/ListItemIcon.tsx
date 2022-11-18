@@ -1,10 +1,10 @@
 import { ReactElement } from 'react';
 import {
-  styled,
   Badge,
-  svgIconClasses,
-  ListItemIcon as MuiListitemIcon,
   ListItemIconProps as MuiListItemIconProps,
+  ListItemIcon as MuiListitemIcon,
+  styled,
+  svgIconClasses,
 } from '@mui/material';
 
 export type ListItemIconProps = MuiListItemIconProps & {

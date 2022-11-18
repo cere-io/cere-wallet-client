@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogContent, DialogProps, Stack, Typography } from '@cere-wallet/ui';
-
 import tourHeaderImage from '~/assets/tour-header.png';
 
 export type WalletIntroduceStartProps = DialogProps & {

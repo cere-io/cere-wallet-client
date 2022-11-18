@@ -1,10 +1,10 @@
-import { Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
-import { AuthApiService } from '~/api/auth-api.service';
-import { useLocation, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, CereIcon, OtpInput, Stack, TextField, Typography } from '@cere-wallet/ui';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { AuthApiService } from '~/api/auth-api.service';
 import { createNextUrl } from './auth.service';
 
 interface OtpProps {

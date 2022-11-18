@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Loading, Logo } from '@cere-wallet/ui';
-
 import { usePopupStore } from '~/hooks';
 import { AuthorizePopupStore } from '~/stores';
 

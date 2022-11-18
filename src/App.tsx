@@ -1,7 +1,6 @@
 import { UIProvider } from '@cere-wallet/ui';
-
-import { Router } from './routes';
 import { CereTourProvider } from '~/components/ProductTours';
+import { Router } from './routes';
 
 export const App = () => (
   <UIProvider>

@@ -1,10 +1,9 @@
 import { makeAutoObservable, reaction, when } from 'mobx';
-
-import { PopupManagerStore } from '../PopupManagerStore';
-import { AccountStore, AccountLoginData } from '../AccountStore';
-import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
+import { AccountLoginData, AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
+import { AuthorizePopupState } from '../AuthorizePopupStore';
+import { InitParams, LoginParams, OpenLoginStore } from '../OpenLoginStore';
+import { PopupManagerStore } from '../PopupManagerStore';
 
 export class AuthenticationStore {
   private openLoginStore = new OpenLoginStore();

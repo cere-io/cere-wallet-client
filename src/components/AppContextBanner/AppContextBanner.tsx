@@ -1,20 +1,20 @@
+import { useCallback } from 'react';
+import { observer } from 'mobx-react-lite';
 import {
-  styled,
-  Banner,
   Avatar,
+  BackIcon,
+  Badge,
+  Banner,
+  IconButton,
+  LanguageIcon,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  TypographyProps,
-  Badge,
-  BackIcon,
-  IconButton,
-  WindowIcon,
   PhotoOutlinedIcon,
-  LanguageIcon,
+  TypographyProps,
+  WindowIcon,
+  styled,
 } from '@cere-wallet/ui';
-import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
 import { useAppContextStore } from '~/hooks';
 
 export type AppContextBannerProps = {};

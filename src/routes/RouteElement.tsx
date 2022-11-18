@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
-import { matchRoutes, renderMatches, To } from 'react-router-dom';
-
+import { To, matchRoutes, renderMatches } from 'react-router-dom';
 import routes from './routes';
 
 const Context = createContext<any>(null);

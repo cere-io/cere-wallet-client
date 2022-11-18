@@ -1,7 +1,6 @@
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
-import type { SignerPayloadRaw, SignerResult, Signer } from '@polkadot/types/types';
-
+import type { Signer, SignerPayloadRaw, SignerResult } from '@polkadot/types/types';
 import { EmbedWallet } from '../EmbedWallet';
 
 export type PolkadotInjectorOptions = {

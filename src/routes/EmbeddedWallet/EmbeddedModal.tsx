@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react';
-import { Dialog, DialogContent } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
-
+import { Dialog, DialogContent } from '@cere-wallet/ui';
 import { useFullScreen, usePopupManagerStore } from '~/hooks';
 import { PopupManagerModal } from '~/stores';
 import { RouteElement } from '../RouteElement';

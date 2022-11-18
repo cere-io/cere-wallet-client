@@ -1,7 +1,6 @@
-import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
-
+import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
+import { Account, ChainConfig } from '../types';
 import { Engine } from './engine';
-import { ChainConfig, Account } from '../types';
 
 export type WalletEngineOptions = {
   getAccounts: () => Account[];

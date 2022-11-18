@@ -1,15 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import {
   List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   ListNoItems,
   NoActivityIcon,
   TransactionInIcon,
   TransactionOutIcon,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from '@cere-wallet/ui';
-
 import { useActivityStore } from '~/hooks';
 import { CoinIcon } from '../CoinIcon';
 

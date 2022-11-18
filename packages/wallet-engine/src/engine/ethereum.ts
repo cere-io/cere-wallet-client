@@ -1,9 +1,8 @@
-import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-
-import { Engine, EventTargetEngine } from './engine';
-import { Account, ChainConfig } from '../types';
+import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
 import { getKeyPair } from '../accounts';
+import { Account, ChainConfig } from '../types';
+import { Engine, EventTargetEngine } from './engine';
 
 export type EthereumEngineOptions = {
   getAccounts: () => Account[];

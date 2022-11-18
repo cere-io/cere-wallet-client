@@ -1,5 +1,4 @@
-import { Box, BoxProps, styled, Typography } from '@cere-wallet/ui';
-
+import { Box, BoxProps, Typography, styled } from '@cere-wallet/ui';
 import { FAQSection } from './FAQSection';
 
 export type FAQProps = BoxProps & {

@@ -1,5 +1,5 @@
-import { EventEmitter } from 'events';
 import { TorusInpageProvider } from '@cere/torus-embed';
+import { EventEmitter } from 'events';
 
 interface RequestArguments {
   readonly method: string;

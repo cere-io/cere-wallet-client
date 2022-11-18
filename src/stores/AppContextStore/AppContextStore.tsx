@@ -1,8 +1,7 @@
-import { AppContext } from '@cere-wallet/communication';
 import { makeAutoObservable } from 'mobx';
-
-import { Wallet } from '../types';
+import { AppContext } from '@cere-wallet/communication';
 import { createSharedState } from '../sharedState';
+import { Wallet } from '../types';
 
 export type App = Omit<NonNullable<AppContext['app']>, 'name'> & {
   name: string;

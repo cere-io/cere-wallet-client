@@ -1,9 +1,8 @@
-import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
 import { ed25519Sign } from '@polkadot/util-crypto';
-
-import { Engine } from './engine';
-import { Account } from '../types';
+import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
 import { getKeyPair } from '../accounts';
+import { Account } from '../types';
+import { Engine } from './engine';
 
 export type PolkadotEngineOptions = {
   getAccounts: () => Account[];

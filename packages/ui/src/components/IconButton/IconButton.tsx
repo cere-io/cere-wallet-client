@@ -1,4 +1,4 @@
-import { styled, IconButton as MuiIconButton, IconButtonProps as MuiIconButtonProps } from '@mui/material';
+import { IconButton as MuiIconButton, IconButtonProps as MuiIconButtonProps, styled } from '@mui/material';
 
 export type IconButtonProps = MuiIconButtonProps & {
   variant?: 'outlined' | 'filled' | 'icon';

@@ -1,13 +1,13 @@
-import {
-  styled,
-  Box,
-  Typography,
-  ToggleButtonGroup,
-  ToggleButton,
-  ToggleButtonGroupProps,
-  Divider,
-} from '@cere-wallet/ui';
 import { useCallback, useMemo, useState } from 'react';
+import {
+  Box,
+  Divider,
+  ToggleButton,
+  ToggleButtonGroup,
+  ToggleButtonGroupProps,
+  Typography,
+  styled,
+} from '@cere-wallet/ui';
 
 export type TransactionDataProps = {
   hex?: string;

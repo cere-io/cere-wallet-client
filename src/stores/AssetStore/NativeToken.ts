@@ -1,7 +1,6 @@
-import { utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-
+import { utils } from 'ethers';
 import { Asset, ReadyWallet } from '../types';
 
 const createBalanceResource = ({ provider }: ReadyWallet) => {

@@ -1,6 +1,6 @@
-import { forwardRef, ReactNode } from 'react';
-import { Stack, styled, avatarClasses, Typography } from '@mui/material';
-import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
+import { ReactNode, forwardRef } from 'react';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import { Stack, Typography, avatarClasses, styled } from '@mui/material';
 
 export type DropdownAnchorProps = {
   open?: boolean;

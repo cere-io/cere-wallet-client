@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { getTokenConfig } from '@cere-wallet/wallet-engine';
-
-import { Asset, Wallet } from '../types';
 import { AssetStore } from '../AssetStore';
+import { Asset, Wallet } from '../types';
 
 export class BalanceStore {
   constructor(private wallet: Wallet, private assetStore: AssetStore) {

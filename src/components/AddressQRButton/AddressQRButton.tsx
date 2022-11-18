@@ -1,5 +1,5 @@
-import { IconButton, IconButtonProps, QrCodeScannerIcon } from '@cere-wallet/ui';
 import { useCallback, useState } from 'react';
+import { IconButton, IconButtonProps, QrCodeScannerIcon } from '@cere-wallet/ui';
 import { AddressQRDialog } from '../AddressQRDialog';
 
 export type AddressQRButtonProps = IconButtonProps & {

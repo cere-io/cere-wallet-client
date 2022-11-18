@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { REACT_APP_FREEPORT_API } from '~/constants';
-import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
-import { freeportNftValidator } from '~/api/validators/freeport-nft.validator';
-import { freeportCollectionValidator } from '~/api/validators/freeport-collection.validator';
 import { FreeportCollectionInterface } from '~/api/interfaces/freeport-collection.interface';
+import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
+import { freeportCollectionValidator } from '~/api/validators/freeport-collection.validator';
+import { freeportNftValidator } from '~/api/validators/freeport-nft.validator';
+import { REACT_APP_FREEPORT_API } from '~/constants';
 
 const api = axios.create({
   baseURL: REACT_APP_FREEPORT_API,

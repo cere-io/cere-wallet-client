@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { styled, Box, CircularProgress, CircularProgressProps } from '@mui/material';
+import { Box, CircularProgress, CircularProgressProps, styled } from '@mui/material';
 
 export type LoadingProps = PropsWithChildren<CircularProgressProps> & {
   fullScreen?: boolean;

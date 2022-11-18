@@ -1,7 +1,6 @@
-import { UIProvider } from '@cere-wallet/ui';
-import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
-
+import { observer } from 'mobx-react-lite';
+import { UIProvider } from '@cere-wallet/ui';
 import { WalletWidget } from '~/components';
 import { WalletContext } from '~/hooks';
 import { EmbeddedWalletStore } from '~/stores';

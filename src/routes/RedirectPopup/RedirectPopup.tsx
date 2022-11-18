@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { Logo, Loading } from '@cere-wallet/ui';
-
-import { RedirectPopupStore } from '~/stores';
+import { Loading, Logo } from '@cere-wallet/ui';
 import { usePopupStore } from '~/hooks';
+import { RedirectPopupStore } from '~/stores';
 
 export const RedirectPopup = () => {
   const store = usePopupStore((popupId) => new RedirectPopupStore(popupId));

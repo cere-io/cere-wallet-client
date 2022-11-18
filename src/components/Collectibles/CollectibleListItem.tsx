@@ -1,5 +1,5 @@
-import { Card, CardProps, CardMedia, CardContent, Typography, ShareIcon, Stack, NoImageIcon } from '@cere-wallet/ui';
 import { PropsWithChildren } from 'react';
+import { Card, CardContent, CardMedia, CardProps, NoImageIcon, ShareIcon, Stack, Typography } from '@cere-wallet/ui';
 
 type CollectibleListItemProps = PropsWithChildren<
   CardProps & {

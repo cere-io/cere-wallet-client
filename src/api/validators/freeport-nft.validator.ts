@@ -1,5 +1,5 @@
-import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
 import * as yup from 'yup';
+import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
 
 let schema = yup.object().shape({
   nftId: yup.string().required(),

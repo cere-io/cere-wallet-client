@@ -1,11 +1,10 @@
-import { forwardRef, Ref } from 'react';
-import { Tooltip } from '@mui/material';
+import { Ref, forwardRef } from 'react';
 import useCopyClipboard from 'react-use-clipboard';
-
-import { ContentCopyIcon, CheckIcon } from '../../icons';
+import { Tooltip } from '@mui/material';
+import { useIsMobile } from '../../hooks';
+import { CheckIcon, ContentCopyIcon } from '../../icons';
 import { IconButton, IconButtonProps } from '../IconButton';
 import { CopyNotification } from './CopyNotification';
-import { useIsMobile } from '../../hooks';
 
 export type CopyButtonProps = Omit<IconButtonProps, 'children'> & {
   value: string;

@@ -1,6 +1,5 @@
-import { IncomingTransaction } from './engine';
-
 import { getContractInterface, getContractNameByAddress } from './contracts';
+import { IncomingTransaction } from './engine';
 
 export const parseTransactionData = (transaction: IncomingTransaction, chainId: string) => {
   const contractName = getContractNameByAddress(transaction.to, chainId);

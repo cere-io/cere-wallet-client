@@ -1,6 +1,6 @@
-import { forwardRef, Ref } from 'react';
-import { styled } from '@mui/material';
+import { Ref, forwardRef } from 'react';
 import QR, { QRCodeProps as QRProps } from 'react-qr-code';
+import { styled } from '@mui/material';
 
 export type QRCodeProps = Omit<QRProps, 'ref'>;
 

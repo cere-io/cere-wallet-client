@@ -1,9 +1,9 @@
-import { Stack, styled, Divider, TextField, SearchIcon, Typography, NoCollectiblesIcon } from '@cere-wallet/ui';
-import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
-import { CollectibleListItem } from './';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { Divider, NoCollectiblesIcon, SearchIcon, Stack, TextField, Typography, styled } from '@cere-wallet/ui';
 import { Box } from '@cere/ui';
+import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
+import { CollectibleListItem } from './';
 
 const Container = styled(Stack)(({ theme }) => ({
   borderRadius: 16,

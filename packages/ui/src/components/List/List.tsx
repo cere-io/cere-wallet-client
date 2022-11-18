@@ -1,9 +1,9 @@
 import {
-  styled,
   List as MuiList,
   ListProps as MuiListProps,
   listItemClasses,
   listItemIconClasses,
+  styled,
 } from '@mui/material';
 
 export type ListProps = MuiListProps & {

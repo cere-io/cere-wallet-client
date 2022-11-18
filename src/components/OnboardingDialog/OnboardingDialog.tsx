@@ -1,16 +1,15 @@
 import {
-  Button as UIButton,
   Dialog,
   DialogContent,
   DialogProps,
   EastIcon,
   SouthEastIcon,
   Stack,
-  styled,
   Typography,
+  Button as UIButton,
+  styled,
   useIsMobile,
 } from '@cere-wallet/ui';
-
 import { Link } from '../Link';
 
 export type OnboardingDialogProps = DialogProps;

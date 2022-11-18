@@ -1,30 +1,29 @@
 import { observer } from 'mobx-react-lite';
 import {
-  Box,
-  Card as UICard,
-  CardHeader,
-  CardContent,
+  Address,
   Avatar,
-  styled,
-  Typography,
-  WifiIcon,
+  Box,
   Button,
   CardActions,
-  Stack,
-  Truncate,
-  Address,
+  CardContent,
+  CardHeader,
   CopyButton,
-  useIsMobile,
-  TopUpIcon,
   IconButton,
-  Logo,
   Loading,
+  Logo,
+  Stack,
+  TopUpIcon,
+  Truncate,
+  Typography,
+  Card as UICard,
+  WifiIcon,
+  styled,
+  useIsMobile,
 } from '@cere-wallet/ui';
-
 import { useAccountStore, useAuthenticationStore, useNetworkStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
-import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
+import { useShowWallet } from './useShowWallet';
 
 const Card = styled(UICard)({
   border: 'none',

@@ -1,7 +1,6 @@
+import { useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Loading, Logo } from '@cere-wallet/ui';
-import { useMemo } from 'react';
-
 import { OpenLoginStore } from '~/stores/OpenLoginStore';
 
 const createRedirectUrl = (url: string, sessionId: string) => {

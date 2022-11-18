@@ -1,5 +1,5 @@
 import type { Context, NetworkConfig } from '@cere/embed-wallet';
-import { createChannel, CreateChannelOptions } from './createChannel';
+import { CreateChannelOptions, createChannel } from './createChannel';
 
 export type UserInfo = {
   email: string;

@@ -1,20 +1,19 @@
 import { makeAutoObservable, runInAction, when } from 'mobx';
-import { BigNumber } from 'ethers';
 import {
+  ContractName,
   PersonalSignRequest,
   SendTransactionRequest,
-  ContractName,
-  parseTransactionData,
-  getTokenConfig,
   TokenConfig,
+  getTokenConfig,
+  parseTransactionData,
 } from '@cere-wallet/wallet-engine';
-
-import { Wallet } from '../types';
-import { PopupManagerStore } from '../PopupManagerStore';
-import { NetworkStore } from '../NetworkStore';
-import { TransactionPopupState } from '../TransactionPopupStore';
-import { ConfirmPopupState } from '../ConfirmPopupStore';
+import { BigNumber } from 'ethers';
 import { AppContextStore } from '../AppContextStore';
+import { ConfirmPopupState } from '../ConfirmPopupStore';
+import { NetworkStore } from '../NetworkStore';
+import { PopupManagerStore } from '../PopupManagerStore';
+import { TransactionPopupState } from '../TransactionPopupStore';
+import { Wallet } from '../types';
 
 const convertPrice = (amount: BigNumber, { decimals }: TokenConfig) => {
   return amount.div(10 ** decimals).toNumber();

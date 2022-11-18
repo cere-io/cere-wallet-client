@@ -1,6 +1,5 @@
-import { JRPCEngine, Substream, createEngineStream, ConsoleLike, JRPCMiddleware } from '@toruslabs/openlogin-jrpc';
 import { WalletEngine } from '@cere-wallet/wallet-engine';
-
+import { ConsoleLike, JRPCEngine, JRPCMiddleware, Substream, createEngineStream } from '@toruslabs/openlogin-jrpc';
 import { createMux } from '../createMux';
 import { createLoggerMiddleware } from './middleware';
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { REACT_APP_DDC_API } from '~/constants';
 import { DdcAssetInterface } from '~/api/interfaces/ddc-asset.interface';
 import { DdcAssetValidator } from '~/api/validators';
+import { REACT_APP_DDC_API } from '~/constants';
 
 const api = axios.create({
   baseURL: REACT_APP_DDC_API,

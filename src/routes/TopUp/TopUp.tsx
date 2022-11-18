@@ -1,7 +1,6 @@
-import { Address, Alert, CopyButton, IconButton, Paper, Stack, Typography, useIsMobile, Link } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
-
-import { PageHeader, FAQ, AddressQRButton } from '~/components';
+import { Address, Alert, CopyButton, IconButton, Link, Paper, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
+import { AddressQRButton, FAQ, PageHeader } from '~/components';
 import { CoinIcon } from '~/components/CoinIcon';
 import { useAccountStore } from '~/hooks';
 import { useAlertVisible } from './useAlertVisible';

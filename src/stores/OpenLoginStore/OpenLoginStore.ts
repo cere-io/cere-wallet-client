@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { randomBytes } from 'crypto';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
 import { getIFrameOrigin } from '@cere-wallet/communication';
-
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
+import { randomBytes } from 'crypto';
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 
 export type LoginParams = {

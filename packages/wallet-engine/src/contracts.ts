@@ -1,16 +1,16 @@
-import { Signer } from 'ethers';
 import {
   ApplicationEnum,
-  getContractAddress as getSCAddress,
-  createERC20,
-  getTokenConfig as fpGetTokenConfig,
-  Freeport__factory,
-  TestERC20__factory,
-  SimpleAuction__factory,
   Auction__factory,
   CollectionFactory__factory,
+  Freeport__factory,
   Marketplace__factory,
+  SimpleAuction__factory,
+  TestERC20__factory,
+  createERC20,
+  getTokenConfig as fpGetTokenConfig,
+  getContractAddress as getSCAddress,
 } from '@cere/freeport-sdk';
+import { Signer } from 'ethers';
 
 export type { TokenConfig } from '@cere/freeport-sdk';
 

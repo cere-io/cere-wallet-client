@@ -1,5 +1,5 @@
-import { Popover, PopoverProps } from '@mui/material';
 import { useRef } from 'react';
+import { Popover, PopoverProps } from '@mui/material';
 import { DropdownAnchor, DropdownAnchorProps } from './DropdownAnchor';
 
 export type DropdownProps = Pick<PopoverProps, 'open' | 'children'> &

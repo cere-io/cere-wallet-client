@@ -1,6 +1,6 @@
-import { Link as UILink, LinkProps as UILinkProps } from '@cere-wallet/ui';
-import { forwardRef, Ref } from 'react';
+import { Ref, forwardRef } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps, useSearchParams } from 'react-router-dom';
+import { Link as UILink, LinkProps as UILinkProps } from '@cere-wallet/ui';
 
 export type LinkProps = UILinkProps & RouterLinkProps;
 

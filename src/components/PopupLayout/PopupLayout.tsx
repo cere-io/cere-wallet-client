@@ -1,6 +1,5 @@
 import { PropsWithChildren, useMemo } from 'react';
-import { styled, Button, Logo, Container, Typography, Loading, useIsMobile } from '@cere-wallet/ui';
-
+import { Button, Container, Loading, Logo, Typography, styled, useIsMobile } from '@cere-wallet/ui';
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
 import { Section } from './Section';

@@ -1,6 +1,5 @@
-import { Paper, Snackbar, Typography, SnackbarProps, styled } from '@mui/material';
+import { Paper, Snackbar, SnackbarProps, Typography, styled } from '@mui/material';
 import { Stack } from '@mui/system';
-
 import { CheckCircleIcon } from '../../icons';
 
 export type CopyNotificationProps = Pick<SnackbarProps, 'message' | 'open'>;

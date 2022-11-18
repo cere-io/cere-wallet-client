@@ -1,7 +1,6 @@
 import { autorun, makeAutoObservable } from 'mobx';
-
-import { PriceData, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { PriceData, Wallet } from '../types';
 import { Erc20Token } from './Erc20Token';
 
 export type Activity = {

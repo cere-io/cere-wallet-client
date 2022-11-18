@@ -1,14 +1,14 @@
+import { ReactElement, useState } from 'react';
 import {
-  Stack,
+  ComingSoonIcon,
+  ManageYourFundsIcon,
   MobileStepper,
+  PlayArrowIcon,
+  Stack,
+  StoreYourTokensIcon,
   Typography,
   styled,
-  ComingSoonIcon,
-  StoreYourTokensIcon,
-  ManageYourFundsIcon,
-  PlayArrowIcon,
 } from '@cere-wallet/ui';
-import { ReactElement, useState } from 'react';
 import { InfoStepperItem } from './';
 
 const ImagePage1 = styled(ComingSoonIcon)(({ theme }) => ({

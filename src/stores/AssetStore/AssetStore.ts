@@ -1,8 +1,7 @@
-import { makeAutoObservable, autorun } from 'mobx';
-
-import { Wallet, Asset } from '../types';
-import { NativeToken } from './NativeToken';
+import { autorun, makeAutoObservable } from 'mobx';
+import { Asset, Wallet } from '../types';
 import { Erc20Token } from './Erc20Token';
+import { NativeToken } from './NativeToken';
 
 export class AssetStore {
   assets: Asset[] = [];

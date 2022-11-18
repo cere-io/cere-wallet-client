@@ -1,7 +1,6 @@
-import { useCallback, SyntheticEvent, PropsWithChildren } from 'react';
+import { PropsWithChildren, SyntheticEvent, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { IconButton, Backdrop, styled, CereLightIcon, Paper } from '@cere-wallet/ui';
-
+import { Backdrop, CereLightIcon, IconButton, Paper, styled } from '@cere-wallet/ui';
 import { useEmbeddedWalletStore, useFullScreen } from '~/hooks';
 
 export type WidgetProps = PropsWithChildren<{}>;

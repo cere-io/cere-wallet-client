@@ -1,9 +1,8 @@
-import { makeAutoObservable, runInAction, reaction } from 'mobx';
-
-import { Nft, Wallet } from '../types';
-import { FreeportApiService } from '~/api/freeport-api.service';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import { DdcApiService } from '~/api/ddc-api.service';
+import { FreeportApiService } from '~/api/freeport-api.service';
 import { REACT_APP_DDC_API } from '~/constants';
+import { Nft, Wallet } from '../types';
 
 export class CollectiblesStore {
   private _nfts: Nft[] = [];

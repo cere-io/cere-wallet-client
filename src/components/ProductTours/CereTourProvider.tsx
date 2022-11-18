@@ -1,6 +1,6 @@
-import { TourProvider, ProviderProps } from '@reactour/tour';
-import { Button, CloseIcon, IconButton, Stack, styled, Typography, Divider } from '@cere-wallet/ui';
 import { ReactElement } from 'react';
+import { Button, CloseIcon, Divider, IconButton, Stack, Typography, styled } from '@cere-wallet/ui';
+import { ProviderProps, TourProvider } from '@reactour/tour';
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',

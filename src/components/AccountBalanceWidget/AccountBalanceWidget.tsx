@@ -1,11 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { Address, Button, MaticIcon, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
-
+import { Address, Button, MaticIcon, Paper, Stack, TopUpIcon, TransferIcon, Typography, styled } from '@cere-wallet/ui';
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
-import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
 import { Link } from '../Link';
+import { PageHeader } from '../PageHeader';
 
 export type AccountBalanceWidgetProps = {
   title: string;

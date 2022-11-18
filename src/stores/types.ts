@@ -1,4 +1,4 @@
-import { ChainConfig, Account } from '@cere-wallet/wallet-engine';
+import { Account, ChainConfig } from '@cere-wallet/wallet-engine';
 import { ethers } from 'ethers';
 
 export type PriceData = {

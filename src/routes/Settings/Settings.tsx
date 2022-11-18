@@ -1,5 +1,4 @@
 import { Box, ComingSoon } from '@cere-wallet/ui';
-
 import { PageHeader } from '~/components';
 
 export const Settings = () => (

@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, FacebookAuthProvider, getAuth, signInWithPopup } from '@firebase/auth';
+import { FacebookAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from '@firebase/auth';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {

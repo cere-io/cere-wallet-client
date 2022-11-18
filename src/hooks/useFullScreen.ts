@@ -1,5 +1,5 @@
-import { useMediaQuery } from '@cere-wallet/ui';
 import { useCallback } from 'react';
+import { useMediaQuery } from '@cere-wallet/ui';
 import { useEmbeddedWalletStore } from './useEmbeddedWalletStore';
 
 export const useFullScreen = () => {

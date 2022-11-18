@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { styled, Stack, Typography } from '@mui/material';
+import { Stack, Typography, styled } from '@mui/material';
 
 export type InfoTableRowProps = {
   label: ReactNode;

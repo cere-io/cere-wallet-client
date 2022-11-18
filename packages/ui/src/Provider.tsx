@@ -1,8 +1,8 @@
+import { PropsWithChildren, useMemo } from 'react';
 import '@fontsource/lexend';
-import { useMemo, PropsWithChildren } from 'react';
-import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
-import { createTheme } from './theme';
+import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { BannerPlace } from './components';
+import { createTheme } from './theme';
 
 export type UIProviderProps = PropsWithChildren<{
   transparentBody?: boolean;

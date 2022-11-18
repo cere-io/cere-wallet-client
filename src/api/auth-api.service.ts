@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { WALLET_API } from '~/constants';
 import { ApiResponse } from '~/api/interfaces';
+import { WALLET_API } from '~/constants';
 
 interface TokenData {
   token: string;

@@ -1,5 +1,5 @@
-import { DdcAssetInterface } from '~/api/interfaces/ddc-asset.interface';
 import * as yup from 'yup';
+import { DdcAssetInterface } from '~/api/interfaces/ddc-asset.interface';
 
 let schema = yup.object().shape({
   contentMetadata: yup.object({

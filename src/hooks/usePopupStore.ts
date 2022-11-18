@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { useRouteElementContext } from '~/routes';
 
 export const usePopupStore = <T>(storeFactory: (popupId: string, local: boolean) => T, deps: any[] = []): T => {

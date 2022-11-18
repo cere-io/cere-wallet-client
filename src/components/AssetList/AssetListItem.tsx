@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { ListItem, ListItemIcon, ListItemText, ListItemProps } from '@cere-wallet/ui';
+import { ListItem, ListItemIcon, ListItemProps, ListItemText } from '@cere-wallet/ui';
 import { Asset } from '~/stores';
 import { CoinIcon } from '../CoinIcon';
 

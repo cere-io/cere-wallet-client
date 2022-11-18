@@ -1,12 +1,11 @@
 import {
-  createScaffoldMiddleware,
-  createAsyncMiddleware,
+  AsyncJsonRpcEngineNextCallback,
   JsonRpcMiddleware,
   JsonRpcRequest,
   PendingJsonRpcResponse,
-  AsyncJsonRpcEngineNextCallback,
+  createAsyncMiddleware,
+  createScaffoldMiddleware,
 } from 'json-rpc-engine';
-
 import { Engine } from './engine';
 
 type WithPreopenedInstanceId = {

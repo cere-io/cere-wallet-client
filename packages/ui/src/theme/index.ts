@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import { Theme as MuiTheme, PaletteColor, alpha, colors, createTheme as createMuiTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Palette {

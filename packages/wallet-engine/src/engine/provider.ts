@@ -1,13 +1,11 @@
-import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
 import { EventEmitter } from 'events';
-
+import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
+import { Account, Provider, ProviderRequestArguments } from '../types';
+import { ApproveEngineOptions, createApproveEngine } from './approve';
 import { Engine } from './engine';
-import { Provider, Account, ProviderRequestArguments } from '../types';
-
-import { createApproveEngine, ApproveEngineOptions } from './approve';
-import { createWalletEngine, WalletEngineOptions } from './wallet';
-import { createEthereumEngine, EthereumEngineOptions } from './ethereum';
-import { createPolkadotEngine, PolkadotEngineOptions } from './polkadot';
+import { EthereumEngineOptions, createEthereumEngine } from './ethereum';
+import { PolkadotEngineOptions, createPolkadotEngine } from './polkadot';
+import { WalletEngineOptions, createWalletEngine } from './wallet';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   ApproveEngineOptions &

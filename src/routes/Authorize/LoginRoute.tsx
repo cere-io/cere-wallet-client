@@ -1,5 +1,5 @@
-import { Stack, useIsMobile } from '@cere-wallet/ui';
 import { useNavigate } from 'react-router-dom';
+import { Stack, useIsMobile } from '@cere-wallet/ui';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { LoginPage } from '~/components';
 

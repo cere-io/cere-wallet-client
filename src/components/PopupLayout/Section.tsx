@@ -1,5 +1,5 @@
-import { Link, Button, StackProps, Collapse, styled, Box, Stack } from '@cere-wallet/ui';
 import { useCallback, useState } from 'react';
+import { Box, Button, Collapse, Link, Stack, StackProps, styled } from '@cere-wallet/ui';
 
 export type SectionProps = StackProps & {
   collapsible?: boolean;

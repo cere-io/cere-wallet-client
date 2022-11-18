@@ -1,8 +1,7 @@
-import { styled, Stack, Box, Tabs, Tab, Logo, Chip } from '@cere-wallet/ui';
-
-import { WalletLayoutProps } from './types';
+import { Box, Chip, Logo, Stack, Tab, Tabs, styled } from '@cere-wallet/ui';
 import { AccountDropdown } from '../AccountDropdown';
 import { Link } from '../Link';
+import { WalletLayoutProps } from './types';
 import { useActiveMenuItem } from './useActiveMenuItem';
 
 const Header = styled(Box)(({ theme }) => ({

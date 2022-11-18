@@ -1,23 +1,23 @@
+import { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Button,
-  Stack,
-  Typography,
-  Link,
-  TextField,
   CereIcon,
-  FormControl,
-  IconButton,
-  GoogleIcon,
-  FacebookIcon,
   Divider,
+  FacebookIcon,
+  FormControl,
+  GoogleIcon,
+  IconButton,
+  Link,
+  Stack,
+  TextField,
+  Typography,
 } from '@cere-wallet/ui';
-import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { AuthApiService } from '~/api/auth-api.service';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
-import { useEffect } from 'react';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';

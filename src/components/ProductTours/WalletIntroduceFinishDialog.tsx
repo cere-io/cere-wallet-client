@@ -1,14 +1,14 @@
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogProps,
+  Divider,
   EastIcon,
   SouthEastIcon,
   Stack,
   Success,
   Typography,
-  Divider,
-  Button,
   styled,
 } from '@cere-wallet/ui';
 

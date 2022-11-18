@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { InfoTable, Stack, Typography } from '@cere-wallet/ui';
-
-import { TransactionPopupStore } from '~/stores';
-import { PopupLayout, TransactionData, PriceRow } from '~/components';
+import { PopupLayout, PriceRow, TransactionData } from '~/components';
 import { usePopupStore } from '~/hooks';
+import { TransactionPopupStore } from '~/stores';
 
 const TransactionPopup = () => {
   const store = usePopupStore((popupId, isLocal) => new TransactionPopupStore(popupId, isLocal));

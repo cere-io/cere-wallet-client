@@ -1,4 +1,4 @@
-import { styled, Stack, Typography, MaticIcon } from '@cere-wallet/ui';
+import { MaticIcon, Stack, Typography, styled } from '@cere-wallet/ui';
 
 export type NetworkLabelProps = {
   label: string;

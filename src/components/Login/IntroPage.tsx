@@ -1,6 +1,6 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, CereIcon, Divider, Stack, styled } from '@cere-wallet/ui';
 import { InfoStepper } from './components';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 const CereLogo = styled(CereIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),

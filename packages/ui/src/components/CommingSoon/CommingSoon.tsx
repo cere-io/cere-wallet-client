@@ -1,5 +1,4 @@
-import { Stack, Chip, styled, Typography } from '@mui/material';
-
+import { Chip, Stack, Typography, styled } from '@mui/material';
 import { ComingSoonIcon } from '../../icons';
 
 export type ComingSoonProps = {

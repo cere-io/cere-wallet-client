@@ -1,5 +1,5 @@
-import { action, observable, reaction, toJS, when, IReactionDisposer } from 'mobx';
-import { createPopupConnection, PopupConnectionOptions, PopupConnection } from '@cere-wallet/communication';
+import { IReactionDisposer, action, observable, reaction, toJS, when } from 'mobx';
+import { PopupConnection, PopupConnectionOptions, createPopupConnection } from '@cere-wallet/communication';
 
 export type SharedState<T = unknown> = {
   state: T;

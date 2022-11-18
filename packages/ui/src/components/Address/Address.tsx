@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
-import { Stack, styled, Typography, svgIconClasses } from '@mui/material';
-
-import { Truncate, TruncateProps } from '../Truncate';
+import { Stack, Typography, styled, svgIconClasses } from '@mui/material';
 import { CopyButton } from '../CopyButton';
+import { Truncate, TruncateProps } from '../Truncate';
 
 export type AddressProps = Pick<TruncateProps, 'maxLength'> & {
   address: string;

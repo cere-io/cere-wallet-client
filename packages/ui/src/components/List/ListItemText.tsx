@@ -1,4 +1,4 @@
-import { styled, ListItemText as MuiListitemText, ListItemTextProps as MuiListItemTextProps } from '@mui/material';
+import { ListItemTextProps as MuiListItemTextProps, ListItemText as MuiListitemText, styled } from '@mui/material';
 
 export type ListItemTextProps = MuiListItemTextProps & {
   align?: 'left' | 'right';

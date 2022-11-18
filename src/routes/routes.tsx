@@ -1,21 +1,19 @@
-import { Route, Navigate, useLocation, createRoutesFromElements, To, resolvePath } from 'react-router-dom';
+import { Navigate, Route, To, createRoutesFromElements, resolvePath, useLocation } from 'react-router-dom';
 import { MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
-
+import { Activity } from '~/routes/Activity';
+import { Assets } from '~/routes/Assets';
+import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
+import { AuthorizeClose, AuthorizeRedirect, IntroRoute, LoginRoute, OtpRoute } from './Authorize';
+import { Collectibles } from './Collectibles';
+import { ConfirmPopup } from './ConfirmPopup';
 import { EmbeddedWallet } from './EmbeddedWallet';
 import { RedirectPopup } from './RedirectPopup';
-import { ConfirmPopup } from './ConfirmPopup';
+import { Settings } from './Settings';
+import { TopUp } from './TopUp';
 import { TransactionPopup } from './TransactionPopup';
-
 // Full-page wallet routes
 import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
-import { Collectibles } from './Collectibles';
-import { Settings } from './Settings';
-import { TopUp } from './TopUp';
-import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
-import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
-import { Assets } from '~/routes/Assets';
-import { Activity } from '~/routes/Activity';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },

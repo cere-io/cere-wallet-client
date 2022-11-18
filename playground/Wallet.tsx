@@ -1,9 +1,8 @@
+import { useCallback, useEffect } from 'react';
 import { Button, Stack } from '@cere-wallet/ui';
 import { providers } from 'ethers';
-import { useCallback, useEffect } from 'react';
-
-import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
+import { logoUrl, nftImageUrl } from './assets';
 
 export const Wallet = () => {
   const wallet = useWallet();

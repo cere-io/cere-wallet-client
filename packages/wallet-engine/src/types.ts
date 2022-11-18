@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+
 export type { CustomChainConfig as ChainConfig } from '@web3auth/base';
 
 export type KeyType = 'ethereum' | 'ed25519';

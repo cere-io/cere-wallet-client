@@ -1,7 +1,7 @@
-import { Stack, useIsMobile } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { OtpPage } from '~/components';
+import { Stack, useIsMobile } from '@cere-wallet/ui';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { OtpPage } from '~/components';
 
 export const OtpRoute = () => {
   const isMobile = useIsMobile();

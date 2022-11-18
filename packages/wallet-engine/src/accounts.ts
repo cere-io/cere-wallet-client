@@ -1,8 +1,7 @@
-import Wallet from 'ethereumjs-wallet';
-import { getED25519Key } from '@toruslabs/openlogin-ed25519';
 import { encodeAddress } from '@polkadot/util-crypto';
-
-import { KeyPair, KeyType, Account } from './types';
+import { getED25519Key } from '@toruslabs/openlogin-ed25519';
+import Wallet from 'ethereumjs-wallet';
+import { Account, KeyPair, KeyType } from './types';
 
 const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
   ethereum: (privateKey) => {

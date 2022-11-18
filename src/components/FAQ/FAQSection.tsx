@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import {
   Accordion,
-  AccordionProps,
   AccordionDetails,
+  AccordionProps,
   AccordionSummary,
   ExpandMoreIcon,
   Typography,

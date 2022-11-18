@@ -1,18 +1,17 @@
+import { makeAutoObservable, runInAction, when } from 'mobx';
+import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
+import { createWalletEngine } from '@cere-wallet/wallet-engine';
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
-import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
-
-import { Provider, Wallet, WalletStatus } from '../types';
 import { AccountStore } from '../AccountStore';
-import { NetworkStore } from '../NetworkStore';
-import { AssetStore } from '../AssetStore';
-import { BalanceStore } from '../BalanceStore';
 import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
+import { AssetStore } from '../AssetStore';
 import { AuthenticationStore } from '../AuthenticationStore';
+import { BalanceStore } from '../BalanceStore';
 import { CollectiblesStore } from '../CollectiblesStore';
+import { NetworkStore } from '../NetworkStore';
+import { Provider, Wallet, WalletStatus } from '../types';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;

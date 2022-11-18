@@ -1,8 +1,7 @@
-import { ChainConfig } from '@cere-wallet/communication';
 import { makeAutoObservable } from 'mobx';
-
-import { Wallet } from '../types';
+import { ChainConfig } from '@cere-wallet/communication';
 import { createSharedState } from '../sharedState';
+import { Wallet } from '../types';
 
 type SharedState = {
   network?: ChainConfig;

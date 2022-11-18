@@ -1,28 +1,27 @@
 import { useCallback, useState } from 'react';
 import {
-  styled,
-  Stack,
   Box,
-  IconButton,
-  MenuIcon,
-  Typography,
-  Drawer,
+  Chip,
   CloseIcon,
-  MenuList,
-  MenuItem,
+  Drawer,
+  HelpIcon,
+  IconButton,
   ListItemIcon,
   ListItemText,
   Logo,
   LogoutIcon,
-  HelpIcon,
-  Chip,
+  MenuIcon,
+  MenuItem,
+  MenuList,
+  Stack,
+  Typography,
   Link as UILink,
+  styled,
 } from '@cere-wallet/ui';
-
 import { WALLET_HELP_URL } from '~/constants';
-import { WalletLayoutProps } from './types';
-import { Link } from '../Link';
 import { AccountInfo } from '../AccountInfo';
+import { Link } from '../Link';
+import { WalletLayoutProps } from './types';
 import { useActiveMenuItem } from './useActiveMenuItem';
 
 const Header = styled(Box)(({ theme }) => ({

@@ -1,9 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccount } from '@cere-wallet/wallet-engine';
-
-import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { User, Wallet } from '../types';
 
 export type AccountLoginData = {
   privateKey: string;

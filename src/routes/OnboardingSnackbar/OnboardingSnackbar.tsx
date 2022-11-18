@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
-import { observer } from 'mobx-react-lite';
-import { CloseIcon, IconButton, Box, Link, Stack, styled, Typography, TourIcon, Snackbar } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { Box, CloseIcon, IconButton, Link, Snackbar, Stack, TourIcon, Typography, styled } from '@cere-wallet/ui';
 
 const SnackbarTourIcon = styled(TourIcon)(() => ({
   width: 40,
