@@ -75,18 +75,14 @@ const OpenTopIcon = styled(TopUpIcon)(() => ({
 
 const WalletWidget = () => {
   const isMobile = useIsMobile();
-  const authStore = useAuthenticationStore();
+  const { isRehydrating } = useAuthenticationStore();
   const { account, user } = useAccountStore();
   const { network } = useNetworkStore();
   const showWallet = useShowWallet();
 
   const maxLength = isMobile ? 14 : 20;
 
-  if (!account || !user || !network) {
-    return null;
-  }
-
-  if (authStore.isRehydrating) {
+  if (isRehydrating) {
     return (
       <Widget>
         <Card>
@@ -98,6 +94,10 @@ const WalletWidget = () => {
         </Card>
       </Widget>
     );
+  }
+
+  if (!account || !user || !network) {
+    return null;
   }
 
   return (
