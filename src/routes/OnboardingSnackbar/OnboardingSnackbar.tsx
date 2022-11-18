@@ -32,10 +32,14 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLinkClick = useCallback(() => {
-    localStorage.setItem('showProductTourSnackbar', 'false');
-    navigate({ ...location, hash: 'product-tour' });
-  }, [navigate, location]);
+  const handleLinkClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      localStorage.setItem('showProductTourSnackbar', 'false');
+      navigate({ ...location, hash: 'product-tour' });
+    },
+    [navigate, location],
+  );
 
   return (
     <SnackbarContainer open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
