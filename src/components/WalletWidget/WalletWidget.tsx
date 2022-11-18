@@ -21,7 +21,7 @@ import {
   Loading,
 } from '@cere-wallet/ui';
 
-import { useAccountStore, useNetworkStore } from '~/hooks';
+import { useAccountStore, useAuthenticationStore, useNetworkStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
@@ -75,6 +75,7 @@ const OpenTopIcon = styled(TopUpIcon)(() => ({
 
 const WalletWidget = () => {
   const isMobile = useIsMobile();
+  const authStore = useAuthenticationStore();
   const { account, user } = useAccountStore();
   const { network } = useNetworkStore();
   const showWallet = useShowWallet();
@@ -82,6 +83,10 @@ const WalletWidget = () => {
   const maxLength = isMobile ? 14 : 20;
 
   if (!account || !user || !network) {
+    return null;
+  }
+
+  if (authStore.isRehydrating) {
     return (
       <Widget>
         <Card>
