@@ -37,6 +37,7 @@ export {
   Slide,
   Grid,
   InputAdornment,
+  Snackbar,
 } from '@mui/material';
 
 export type {
@@ -77,6 +78,7 @@ export type {
   InputAdornmentProps,
   SlideProps,
   GridProps,
+  SnackbarProps,
 } from '@mui/material';
 
 export * from './IconButton';

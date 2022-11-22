@@ -52,3 +52,4 @@ export * from './NoCollectiblesIcon';
 export * from './ExternalLinkIcon';
 export * from './NoImageIcon';
 export * from './SecurityIcon';
+export * from './TourIcon';

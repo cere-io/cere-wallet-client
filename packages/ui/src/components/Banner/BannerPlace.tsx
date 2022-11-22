@@ -1,5 +1,6 @@
 export const bannerPlacementIdMap = {
   top: 'banner-position-top',
+  bottom: 'banner-position-bottom',
 } as const;
 
 export type BannerPlaceProps = {
