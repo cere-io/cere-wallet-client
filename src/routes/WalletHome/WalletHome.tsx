@@ -56,8 +56,8 @@ const WalletHome = () => {
 
       <Stack spacing={3}>
         <ToggleButtonGroup
-          className="wallet-assets"
           exclusive
+          className="wallet-assets"
           fullWidth
           color="primary"
           size={isMobile ? 'small' : 'medium'}
@@ -69,9 +69,7 @@ const WalletHome = () => {
           }}
         >
           <ToggleButton value={Tabs.assets}>Assets</ToggleButton>
-          <ToggleButton className="wallet-collections" value={Tabs.collectibles}>
-            Collectibles
-          </ToggleButton>
+          <ToggleButton value={Tabs.collectibles}>Collectibles</ToggleButton>
           <ToggleButton value={Tabs.activity}>Activity</ToggleButton>
         </ToggleButtonGroup>
 
