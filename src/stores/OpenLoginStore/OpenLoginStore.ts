@@ -155,6 +155,7 @@ export class OpenLoginStore {
   async login(params?: LoginParams) {
     await this.init();
     await this.openLogin.login(createLoginParams(params));
+    await this.getAccountUrl(params);
   }
 
   async logout() {
@@ -182,5 +183,11 @@ export class OpenLoginStore {
     }
 
     this.openLogin._syncState(state);
+  }
+
+  async getAccountUrl(loginParams: LoginParams = {}) {
+    const accountUrl = new URL('/wallet/account', this.openLogin.state.iframeUrl);
+
+    return this.getLoginUrl({ ...loginParams, redirectUrl: accountUrl.toString() });
   }
 }

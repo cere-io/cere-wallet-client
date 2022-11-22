@@ -7,23 +7,28 @@ import {
   IconButton,
   SecurityIcon,
   Stack,
-  styled,
   Typography,
   useIsMobile,
 } from '@cere-wallet/ui';
+import { useEffect, useState } from 'react';
 
 import { PageHeader } from '~/components';
-
-const DecorIconButton = styled(IconButton)(() => ({
-  width: 36,
-  height: 36,
-  '& > svg': {
-    width: 16,
-  },
-}));
+import { useOpenLoginStore } from '~/hooks/useOpenLoginStore';
 
 export const Settings = () => {
   const isMobile = useIsMobile();
+  const store = useOpenLoginStore();
+  const [accountLink, setAccountLink] = useState<string>();
+
+  useEffect(() => {
+    (async () => {
+      const link = await store.getAccountUrl();
+      setAccountLink(link);
+    })();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <PageHeader title="Settings" />
@@ -35,9 +40,9 @@ export const Settings = () => {
               <Grid item>
                 <Box maxWidth="sm">
                   <Stack direction="row" gap={2} alignItems="center">
-                    <DecorIconButton variant="filled" size="medium">
+                    <IconButton variant="filled" size="medium">
                       <SecurityIcon />
-                    </DecorIconButton>
+                    </IconButton>
                     <Typography variant="body1" fontWeight="semibold">
                       Authentication & Security
                     </Typography>
@@ -51,9 +56,11 @@ export const Settings = () => {
                 </Box>
               </Grid>
               <Grid flexGrow={1} marginTop={isMobile ? 3 : 0} item>
-                <Button fullWidth href="https://app.openlogin.com" variant="outlined">
-                  Go to OpenLogin settings
-                </Button>
+                {accountLink && (
+                  <Button fullWidth href={accountLink} variant="outlined">
+                    Go to OpenLogin settings
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </CardContent>

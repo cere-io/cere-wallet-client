@@ -15,10 +15,12 @@ import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
+import { OpenLoginStore } from '../OpenLoginStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
   readonly accountStore: AccountStore;
+  readonly openLoginStore: OpenLoginStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
@@ -44,6 +46,7 @@ export class EmbeddedWalletStore implements Wallet {
 
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
+    this.openLoginStore = new OpenLoginStore(this);
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
