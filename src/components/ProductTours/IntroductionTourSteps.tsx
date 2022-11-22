@@ -25,6 +25,17 @@ export const introductionTourSteps: StepType[] = [
     ),
   },
   {
+    selector: '.wallet-collections',
+    content: (
+      <Stack spacing={1}>
+        <Typography variant="subtitle1">Assets, Collectibles & Activity</Typography>
+        <Typography variant="body2" color="text.secondary">
+          View and manage your assets and collectibles, and view your wallet activity
+        </Typography>
+      </Stack>
+    ),
+  },
+  {
     selector: '.wallet-assets',
     content: (
       <Stack spacing={1}>

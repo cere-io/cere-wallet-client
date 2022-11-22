@@ -69,7 +69,9 @@ const WalletHome = () => {
           }}
         >
           <ToggleButton value={Tabs.assets}>Assets</ToggleButton>
-          <ToggleButton value={Tabs.collectibles}>Collectibles</ToggleButton>
+          <ToggleButton className="wallet-collections" value={Tabs.collectibles}>
+            Collectibles
+          </ToggleButton>
           <ToggleButton value={Tabs.activity}>Activity</ToggleButton>
         </ToggleButtonGroup>
 

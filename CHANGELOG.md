@@ -1,7 +1,7 @@
 ## Release Notes:
 
 ### vNext
-
+- [DAV-3674] Add collections to product tour
 - [DAV-3196] Add widget loading state
 - [DAV-3256] Add product tour snackbar
 
