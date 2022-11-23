@@ -99,6 +99,12 @@ export const Wallet = () => {
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
 
+  const handleGetAccounts = useCallback(async () => {
+    const accounts = await wallet.getAccounts();
+
+    console.log(accounts);
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
       <Button variant="outlined" color="primary" onClick={handleSetContext}>
@@ -113,6 +119,10 @@ export const Wallet = () => {
         <>
           <Button variant="outlined" color="primary" onClick={handleGetAddress}>
             Get Address
+          </Button>
+
+          <Button variant="outlined" color="primary" onClick={handleGetAccounts}>
+            Get Accounts
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleUserInfo}>

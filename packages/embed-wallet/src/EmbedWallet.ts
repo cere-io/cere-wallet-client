@@ -16,6 +16,7 @@ import {
   WalletSetContextOptions,
   UserInfo,
   Context,
+  WalletAccount,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -153,5 +154,9 @@ export class EmbedWallet {
         context: createContext(this.defaultContext, context),
       },
     });
+  }
+
+  async getAccounts(): Promise<WalletAccount[]> {
+    return this.provider.request({ method: 'wallet_accounts' });
   }
 }
