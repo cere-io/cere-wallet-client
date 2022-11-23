@@ -15,10 +15,9 @@ export const useRamp = ({ address }: RampProps) => {
       defaultAsset: 'MATIC',
       userAddress: address,
       variant: 'hosted-auto',
+      hostApiKey: REACT_APP_RAMP_API_KEY,
     };
-    if (process.env.REACT_APP_ENV === 'prod') {
-      config.hostApiKey = REACT_APP_RAMP_API_KEY;
-    } else {
+    if (process.env.REACT_APP_ENV !== 'prod') {
       config.url = 'https://ri-widget-staging.firebaseapp.com/';
     }
     new RampInstantSDK(config).show();
