@@ -17,9 +17,11 @@ import {
   useIsMobile,
   TopUpIcon,
   IconButton,
+  Logo,
+  Loading,
 } from '@cere-wallet/ui';
 
-import { useAccountStore, useNetworkStore } from '~/hooks';
+import { useAccountStore, useAuthenticationStore, useNetworkStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { useShowWallet } from './useShowWallet';
 import Widget from './Widget';
@@ -36,6 +38,15 @@ const Header = styled(CardHeader)({
 const Content = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(2, 0, 1, 0),
   position: 'relative',
+}));
+
+const LoadingContent = styled(CardContent)(({ theme }) => ({
+  padding: theme.spacing(2, 0, 1, 0),
+  minWidth: 324,
+  minHeight: 215,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 
 const Actions = styled(CardActions)({
@@ -64,11 +75,26 @@ const OpenTopIcon = styled(TopUpIcon)(() => ({
 
 const WalletWidget = () => {
   const isMobile = useIsMobile();
+  const { isRehydrating } = useAuthenticationStore();
   const { account, user } = useAccountStore();
   const { network } = useNetworkStore();
   const showWallet = useShowWallet();
 
   const maxLength = isMobile ? 14 : 20;
+
+  if (isRehydrating) {
+    return (
+      <Widget>
+        <Card>
+          <LoadingContent>
+            <Loading>
+              <Logo />
+            </Loading>
+          </LoadingContent>
+        </Card>
+      </Widget>
+    );
+  }
 
   if (!account || !user || !network) {
     return null;

@@ -13,6 +13,7 @@ export class AuthenticationStore {
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
     private popupManagerStore?: PopupManagerStore,
+    private _isRehydrating?: boolean,
   ) {
     makeAutoObservable(this);
 
@@ -24,12 +25,24 @@ export class AuthenticationStore {
     );
   }
 
+  get isRehydrating() {
+    return this._isRehydrating;
+  }
+
+  private set isRehydrating(value) {
+    this._isRehydrating = value;
+  }
+
   async rehydrate({ sessionId }: InitParams = {}) {
+    this.isRehydrating = true;
+
     if (this.openLoginStore.sessionId || sessionId) {
       await this.openLoginStore.init({ sessionId });
     }
 
     await this.syncAccount();
+
+    this.isRehydrating = false;
 
     return !!this.accountStore.account;
   }

@@ -4,6 +4,11 @@
 
 -
 
+### v1.9.0
+
+- [DAV-3196] Add widget loading state
+- [DAV-3256] Add product tour snackbar
+
 ### v1.8.0
 
 - [DAV-2808] Add topup button to widget
