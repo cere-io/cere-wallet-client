@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.9.0
+
 - [DAV-3196] Add widget loading state
 - [DAV-3256] Add product tour snackbar
 
