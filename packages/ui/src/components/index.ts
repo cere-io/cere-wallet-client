@@ -37,6 +37,7 @@ export {
   Slide,
   InputAdornment,
   Snackbar,
+  Radio,
 } from '@mui/material';
 
 export type {
