@@ -1,6 +1,11 @@
 ## Release Notes:
 
 ### vNext
+- [DAV-3674] Add collections to product tour
+
+-
+
+### v1.9.0
 
 - [DAV-3075] Add OpenLogin settings page
 - [DAV-3196] Add widget loading state

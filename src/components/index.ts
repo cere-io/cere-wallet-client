@@ -6,6 +6,7 @@ export * from './WalletLayout';
 export * from './AccountBalanceWidget';
 export * from './PageHeader';
 export * from './AssetList';
+export * from './AssetActions';
 export * from './ActivityList';
 export * from './FAQ';
 export * from './AddressQRButton';

@@ -14,7 +14,7 @@ import { Settings } from './Settings';
 import { TopUp } from './TopUp';
 import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
 import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
-import { Assets } from '~/routes/Assets';
+import { AssetBuy, AssetReceive, Assets } from '~/routes/Assets';
 import { Activity } from '~/routes/Activity';
 
 const walletMenu: WalletProps['menu'] = [
@@ -41,7 +41,12 @@ export default createRoutesFromElements(
     <Route path="wallet" element={<Wallet menu={walletMenu} />}>
       <Route index element={<Redirect to="home" />} />
 
-      <Route path="home/topup" element={<TopUp />} />
+      <Route path="home/topup" element={<TopUp />}>
+        <Route index element={<AssetBuy />} />
+        <Route path="buy" element={<AssetBuy />} />
+        <Route path="receive" element={<AssetReceive />} />
+      </Route>
+
       <Route path="home/collectibles/:nftId" element={<CollectibleItem />} />
 
       <Route path="home" element={<WalletHome />}>
