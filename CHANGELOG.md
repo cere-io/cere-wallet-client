@@ -1,6 +1,7 @@
 ## Release Notes:
 
 ### vNext
+- [DAV-3674] Add collections to product tour
 
 -
 
