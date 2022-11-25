@@ -13,7 +13,7 @@ import { useAccountStore } from '~/hooks';
 
 const AssetBuy = () => {
   const isMobile = useIsMobile();
-  const { account } = useAccountStore();
+  const { account, user } = useAccountStore();
   const [selectedProvider, setSelectedProvider] = useState<number | null>(null);
 
   const selectProviderHandler = useCallback((i: number) => {
@@ -62,6 +62,7 @@ const AssetBuy = () => {
           <AssetDeposit
             id="purchase"
             address={account.address}
+            email={user?.email}
             spacing={2}
             padding={2}
             logo={ASSET_REFILL_PROVIDER_LIST[selectedProvider].smallLogo}

@@ -15,11 +15,12 @@ import { useRamp } from '~/hooks';
 export type AssetPurchaseProps = StackProps & {
   name: string;
   address: string;
+  email?: string;
   logo?: ReactElement;
 };
 
-export const AssetDeposit = ({ name, logo, address, ...props }: AssetPurchaseProps) => {
-  const { startPayment } = useRamp({ address });
+export const AssetDeposit = ({ name, logo, address, email, ...props }: AssetPurchaseProps) => {
+  const { startPayment } = useRamp({ address, email });
 
   return (
     <Paper variant="outlined">
