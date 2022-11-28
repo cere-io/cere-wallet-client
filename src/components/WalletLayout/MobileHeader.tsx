@@ -20,7 +20,7 @@ import {
 } from '@cere-wallet/ui';
 
 import { WALLET_HELP_URL } from '~/constants';
-import { WalletLayoutProps } from './types';
+import { WalletMenuItem } from './types';
 import { Link } from '../Link';
 import { AccountInfo } from '../AccountInfo';
 import { useActiveMenuItem } from './useActiveMenuItem';
@@ -38,10 +38,6 @@ const HeaderContent = styled(Typography)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   fontWeight: theme.typography.fontWeightBold,
-}));
-
-const Content = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 2),
 }));
 
 const Sidebar = styled(Stack)(({ theme }) => ({
@@ -77,7 +73,7 @@ const CloseButton = styled(IconButton)({
   },
 });
 
-export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
+export const MobileHeader = ({ menu }: { menu: WalletMenuItem[] }) => {
   const [open, setOpen] = useState(false);
   const active = useActiveMenuItem(menu);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -92,7 +88,6 @@ export const MobileLayout = ({ children, menu }: WalletLayoutProps) => {
             <MenuIcon />
           </IconButton>
         </Header>
-        <Content>{children}</Content>
       </Stack>
 
       <Drawer anchor="right" open={open} onClose={handleClose}>

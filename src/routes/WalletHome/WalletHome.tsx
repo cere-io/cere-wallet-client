@@ -56,8 +56,8 @@ const WalletHome = () => {
 
       <Stack spacing={3}>
         <ToggleButtonGroup
-          className="wallet-assets"
           exclusive
+          className="wallet-assets"
           fullWidth
           color="primary"
           size={isMobile ? 'small' : 'medium'}
