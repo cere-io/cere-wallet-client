@@ -1,8 +1,8 @@
 # Cere Wallet SDK
 
-Cere Wallet SDK package includes API to integrate the wallet into a web application.
-The main task of the SDK is to set up the wallet IFRAME on the host window and organize the cross window communication between the host window and the IFRAME.
-The SDK provides minimal API to control the wallet. These methods are basically thin wrappers around JSON RPC calls to the wallet client (running in the IFRAME) via the configured communication channel. For security reasons, SDK does not have access to the user private key, so all wallet relate tasks are performed only on the IFRAME side.
+`Cere Wallet SDK` package includes API to integrate the wallet into a web application.
+The main task of the `SDK` is to set up the wallet `IFRAME` on the host window and organize the cross window communication between the host window and the `IFRAME`.
+The `SDK` provides minimal API to control the wallet. These methods are basically thin wrappers around `JSON RPC` calls to the wallet client (running in the `IFRAME`) via the configured communication channel. For security reasons, `SDK` does not have access to the user private key, so all wallet relate tasks are performed only on the `IFRAME` side.
 
 # Installation
 
@@ -23,19 +23,19 @@ yarn add @cere/embed-wallet
 - [EmbedWallet](#embedwallet)
   - [status](#status)
   - [provider](#provider)
-    - [init()](#init)
-    - [connect()](#connect)
-    - [disconnect()](#disconnect)
-    - [subscribe()](#subscribe)
-    - [getUserInfo()](#getuserinfo)
-    - [getAccounts()](#getaccounts)
-    - [showWallet()](#showwallet)
-    - [setContext()](#setcontext)
+  - [init()](#init)
+  - [connect()](#connect)
+  - [disconnect()](#disconnect)
+  - [subscribe()](#subscribe)
+  - [getUserInfo()](#getuserinfo)
+  - [getAccounts()](#getaccounts)
+  - [showWallet()](#showwallet)
+  - [setContext()](#setcontext)
 - [inject()](#inject)
 
 ## EmbedWallet
 
-The SDK constructor does not accepts any arguments.
+The `SDK` constructor does not accepts any arguments.
 
 ```ts
 import { EmbedWallet } from '@cere/embed-wallet';
@@ -187,7 +187,7 @@ console.log(userInfo);
 
 ### getAccounts()
 
-This method returns an array of all available user accounts. The items in this array has the following structure:
+This method returns an array of all available user accounts. The items in this array have the following structure:
 
 - `address` - the account address
 - `type` - type of the account. Currently supported types are: `ethereum` and `ed25519` (`Polkadot`)
