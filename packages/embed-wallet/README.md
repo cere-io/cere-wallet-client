@@ -4,6 +4,20 @@ Cere Wallet SDK package includes API to integrate the wallet into a web applicat
 The main task of the SDK is to set up the wallet IFRAME on the host window and organize the cross window communication between the host window and the IFRAME.
 The SDK provides minimal API to control the wallet. These methods are basically thin wrappers around JSON RPC calls to the wallet client (running in the IFRAME) via the configured communication channel. For security reasons, SDK does not have access to the user private key, so all wallet relate tasks are performed only on the IFRAME side.
 
+# Installation
+
+Using `NPM`:
+
+```bash
+npm install @cere/embed-wallet --save
+```
+
+Using `yarn`:
+
+```bash
+yarn add @cere/embed-wallet
+```
+
 # API
 
 - [EmbedWallet](#embedwallet)
