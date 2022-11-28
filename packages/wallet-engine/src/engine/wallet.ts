@@ -25,6 +25,10 @@ export const createWalletEngine = ({ getAccounts = () => [], chainConfig }: Wall
       wallet_sendDomainMetadata: createAsyncMiddleware(async (req, res) => {
         res.result = true;
       }),
+
+      wallet_accounts: createAsyncMiddleware(async (req, res) => {
+        res.result = getAccounts();
+      }),
     }),
   );
 
