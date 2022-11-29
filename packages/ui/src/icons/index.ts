@@ -53,6 +53,7 @@ export * from './ShareIcon';
 export * from './NoCollectiblesIcon';
 export * from './ExternalLinkIcon';
 export * from './NoImageIcon';
+export * from './SecurityIcon';
 export * from './LogoRampCaptionIcon';
 export * from './LogoRampIcon';
 export * from './DotArrowRightIcon';
