@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import { PageHeader } from '~/components';
-import { useOpenLoginStore } from '~/hooks/useOpenLoginStore';
+import { useOpenLoginStore } from '~/hooks';
 
 export const Settings = () => {
   const isMobile = useIsMobile();
@@ -55,7 +55,7 @@ export const Settings = () => {
               </Grid>
               <Grid flexGrow={1} marginTop={isMobile ? 3 : 0} item>
                 {accountLink && (
-                  <Button fullWidth href={accountLink} variant="outlined">
+                  <Button target="_blank" fullWidth href={accountLink} variant="outlined">
                     Go to OpenLogin settings
                   </Button>
                 )}
