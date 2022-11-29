@@ -1,5 +1,16 @@
 import { observer } from 'mobx-react-lite';
-import { Address, Button, MaticIcon, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
+import {
+  Address,
+  Button,
+  CopyButton,
+  MaticIcon,
+  Paper,
+  Stack,
+  styled,
+  TopUpIcon,
+  TransferIcon,
+  Typography,
+} from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
@@ -20,6 +31,13 @@ const Content = styled(Paper)(({ theme }) => ({
 export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWidgetProps) => {
   const { account } = useAccountStore();
   const qrButtonSize = dense ? 32 : 40;
+
+  const buttonSx = {
+    width: qrButtonSize,
+    height: qrButtonSize,
+    borderWidth: dense ? 0 : 1,
+  };
+
   const addressElement = account && (
     <Stack
       direction="row"
@@ -28,23 +46,15 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
       alignItems="center"
     >
       <Address
-        showCopy
         address={account.address}
         variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
-        icon={!dense && <MaticIcon />}
+        icon={<MaticIcon />}
       />
 
-      <AddressQRButton
-        address={account.address}
-        variant="outlined"
-        sx={{
-          width: qrButtonSize,
-          height: qrButtonSize,
-          borderWidth: dense ? 0 : 1,
-        }}
-      />
+      <CopyButton sx={buttonSx} value={account.address} variant="outlined" successMessage="Address copied" />
+      <AddressQRButton sx={buttonSx} address={account.address} variant="outlined" />
     </Stack>
   );
 

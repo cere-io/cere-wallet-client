@@ -1,5 +1,15 @@
 import { useCallback, useRef } from 'react';
-import { Address, Button, Dialog, DialogContent, DialogProps, QRCode, Stack, Typography } from '@cere-wallet/ui';
+import {
+  Address,
+  Button,
+  CopyButton,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  QRCode,
+  Stack,
+  Typography,
+} from '@cere-wallet/ui';
 import { downloadSvg } from './downloadSvg';
 
 export type AddressQRDialogProps = DialogProps & {
@@ -23,7 +33,12 @@ export const AddressQRDialog = ({ address, ...props }: AddressQRDialogProps) => 
             </Button>
           </Stack>
 
-          <Address address={address} showCopy variant="filled" maxLength={30} />
+          <Address
+            address={address}
+            variant="filled"
+            maxLength={30}
+            endAdornment={<CopyButton size="small" value={address} successMessage="Address copied" />}
+          />
         </Stack>
       </DialogContent>
     </Dialog>
