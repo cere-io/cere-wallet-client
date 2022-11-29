@@ -25,9 +25,7 @@ export const Settings = () => {
       const link = await store.getAccountUrl();
       setAccountLink(link);
     })();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [store]);
 
   return (
     <>

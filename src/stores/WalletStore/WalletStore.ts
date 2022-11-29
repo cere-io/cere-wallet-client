@@ -39,7 +39,7 @@ export class WalletStore implements Wallet {
 
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
-    this.openLoginStore = new OpenLoginStore(this);
+    this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);

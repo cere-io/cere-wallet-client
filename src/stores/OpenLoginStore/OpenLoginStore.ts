@@ -155,7 +155,6 @@ export class OpenLoginStore {
   async login(params?: LoginParams) {
     await this.init();
     await this.openLogin.login(createLoginParams(params));
-    await this.getAccountUrl(params);
   }
 
   async logout() {
