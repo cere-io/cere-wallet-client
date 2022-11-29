@@ -10,6 +10,7 @@
 - [DAV-3075] Add OpenLogin settings page
 - [DAV-3196] Add widget loading state
 - [DAV-3256] Add product tour snackbar
+- Add SDK readme and `getAccounts` method
 
 ### v1.8.0
 
