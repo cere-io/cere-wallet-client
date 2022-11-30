@@ -1,7 +1,9 @@
 ## Release Notes:
 
 ### vNext
+
 - [DAV-3674] Add collections to product tour
+- [DAV-3580] Display Cere mainnet address on UI
 
 -
 

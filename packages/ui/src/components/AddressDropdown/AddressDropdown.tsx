@@ -76,7 +76,7 @@ export const AddressDropdown = ({
             <Icon>{option.icon}</Icon>
             <ListItemText
               primary={option.label}
-              secondary={<Address address={option.address} variant="text" maxLength={24} />}
+              secondary={<Address address={option.address} variant="text" maxLength={22} />}
             />
 
             <Check>{option.address === value && <CheckCircleIcon fontSize="small" color="primary" />}</Check>

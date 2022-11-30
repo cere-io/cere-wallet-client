@@ -38,7 +38,7 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
       <AddressDropdown
         variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
-        maxLength={dense ? 10 : 24}
+        maxLength={dense ? 9 : 24}
       />
 
       <CopyButton sx={buttonSx} value={account.address} variant="outlined" successMessage="Address copied" />
