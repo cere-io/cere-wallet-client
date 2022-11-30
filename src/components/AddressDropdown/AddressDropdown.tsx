@@ -8,10 +8,12 @@ import { CoinIcon } from '../CoinIcon';
 export type AddressDropdownProps = Pick<UIAddressDropdownProps, 'variant' | 'size' | 'maxLength'>;
 
 const AddressDropdown = (props: AddressDropdownProps) => {
-  const { account, accounts } = useAccountStore();
-  const handleChange: UIAddressDropdownProps['onChange'] = useCallback(({ address }) => {
-    console.log({ address });
-  }, []);
+  const store = useAccountStore();
+  const { selectedAccount, accounts } = store;
+  const handleChange: UIAddressDropdownProps['onChange'] = useCallback(
+    ({ address }) => store.selectAccount(address),
+    [store],
+  );
 
   const options = useMemo(
     () =>
@@ -23,11 +25,11 @@ const AddressDropdown = (props: AddressDropdownProps) => {
     [accounts],
   );
 
-  if (!account) {
+  if (!selectedAccount) {
     return null;
   }
 
-  return <UIAddressDropdown {...props} address={account.address} options={options} onChange={handleChange} />;
+  return <UIAddressDropdown {...props} address={selectedAccount.address} options={options} onChange={handleChange} />;
 };
 
 export default observer(AddressDropdown);

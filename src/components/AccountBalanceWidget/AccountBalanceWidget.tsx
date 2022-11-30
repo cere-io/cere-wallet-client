@@ -19,7 +19,7 @@ const Content = styled(Paper)(({ theme }) => ({
 }));
 
 export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWidgetProps) => {
-  const { account } = useAccountStore();
+  const { selectedAccount: account } = useAccountStore();
   const qrButtonSize = dense ? 32 : 40;
 
   const buttonSx = {

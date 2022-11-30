@@ -26,7 +26,8 @@ const Icon = styled(ListItemIcon)(({ theme }) => ({
 
 const Check = styled('div')(({ theme }) => ({
   display: 'flex',
-  marginLeft: theme.spacing(2),
+  justifyContent: 'flex-end',
+  width: theme.spacing(4),
 }));
 
 export const AddressDropdown = ({
@@ -36,6 +37,7 @@ export const AddressDropdown = ({
   maxLength,
   icon,
   variant,
+  onChange,
   ...props
 }: AddressDropdownProps) => {
   const [open, setOpen] = useState(false);
@@ -62,16 +64,22 @@ export const AddressDropdown = ({
       )}
     >
       <MenuList disablePadding dense>
-        {options.map(({ label, address, icon }) => (
-          <ListItemButton>
-            <Icon>{icon}</Icon>
-            <ListItemText primary={label} secondary={<Address address={address} variant="text" maxLength={24} />} />
+        {options.map((option) => (
+          <ListItemButton
+            key={option.address}
+            onClick={() => {
+              if (option.address !== value) {
+                onChange?.(option);
+              }
+            }}
+          >
+            <Icon>{option.icon}</Icon>
+            <ListItemText
+              primary={option.label}
+              secondary={<Address address={option.address} variant="text" maxLength={24} />}
+            />
 
-            {address === value && (
-              <Check>
-                <CheckCircleIcon fontSize="small" color="primary" />
-              </Check>
-            )}
+            <Check>{option.address === value && <CheckCircleIcon fontSize="small" color="primary" />}</Check>
           </ListItemButton>
         ))}
       </MenuList>

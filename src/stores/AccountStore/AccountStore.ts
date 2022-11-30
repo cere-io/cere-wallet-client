@@ -21,6 +21,8 @@ export class AccountStore {
     { readOnly: !this.wallet.isRoot() },
   );
 
+  private selectedAddress?: string;
+
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
   }
@@ -46,8 +48,21 @@ export class AccountStore {
     ];
   }
 
+  /**
+   * Currently it always returns `ethereum` account since we have many places which relies on the account to be `ethereum`
+   *
+   * TODO: Refactor this property related logic to use single account property instead of two: `account` and `selectedAccount`
+   */
   get account() {
-    return this.accounts.at(0);
+    return this.accounts.find(({ type }) => type === 'ethereum');
+  }
+
+  get selectedAccount() {
+    return this.accounts.find((account) => account.address === this.selectedAddress) || this.accounts.at(0);
+  }
+
+  selectAccount(address: string) {
+    this.selectedAddress = address;
   }
 
   get user(): User | undefined {
