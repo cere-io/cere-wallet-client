@@ -20,9 +20,9 @@ export type AccountInfoProps = {};
 const AccountInfo = (props: AccountInfoProps) => {
   const isMobile = useIsMobile();
   const maxLength = isMobile ? 12 : 16;
-  const { account, user } = useAccountStore();
+  const { selectedAccount, user } = useAccountStore();
 
-  if (!account || !user) {
+  if (!selectedAccount || !user) {
     return null;
   }
 
@@ -30,12 +30,12 @@ const AccountInfo = (props: AccountInfoProps) => {
     <Card>
       <CardHeader
         title={<Truncate variant="email" text={user.email} maxLength={maxLength} />}
-        subheader={<Address variant="text" address={account.address} maxLength={maxLength} />}
+        subheader={<Address variant="text" address={selectedAccount.address} maxLength={maxLength} />}
         avatar={<Avatar src={user.avatar} />}
         action={
           <Stack direction="row" spacing={1}>
-            <CopyButton value={account.address} successMessage="Address copied" />
-            <AddressQRButton address={account.address} />
+            <CopyButton value={selectedAccount.address} successMessage="Address copied" />
+            <AddressQRButton address={selectedAccount.address} />
           </Stack>
         }
       />
