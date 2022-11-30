@@ -76,7 +76,7 @@ const OpenTopIcon = styled(TopUpIcon)(() => ({
 const WalletWidget = () => {
   const isMobile = useIsMobile();
   const { isRehydrating } = useAuthenticationStore();
-  const { account, user } = useAccountStore();
+  const { selectedAccount, user } = useAccountStore();
   const { network } = useNetworkStore();
   const showWallet = useShowWallet();
 
@@ -96,7 +96,7 @@ const WalletWidget = () => {
     );
   }
 
-  if (!account || !user || !network) {
+  if (!selectedAccount || !user || !network) {
     return null;
   }
 
@@ -105,9 +105,9 @@ const WalletWidget = () => {
       <Card>
         <Header
           title={<Truncate variant="email" text={user.email} maxLength={maxLength} />}
-          subheader={<Address variant="text" address={account.address} maxLength={maxLength} />}
+          subheader={<Address variant="text" address={selectedAccount.address} maxLength={maxLength} />}
           avatar={<Avatar src={user.avatar} />}
-          action={<CopyButton value={account.address} successMessage="Address copied" />}
+          action={<CopyButton value={selectedAccount.address} successMessage="Address copied" />}
         />
         <Content>
           <Box marginBottom={1}>

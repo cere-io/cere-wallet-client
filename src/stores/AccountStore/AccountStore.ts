@@ -11,17 +11,12 @@ export type AccountLoginData = {
 };
 
 type SharedState = {
+  selectedAddress?: string;
   loginData: AccountLoginData | null;
 };
 
 export class AccountStore {
-  private shared = createSharedState<SharedState>(
-    `account.${this.wallet.instanceId}`,
-    { loginData: null },
-    { readOnly: !this.wallet.isRoot() },
-  );
-
-  private selectedAddress?: string;
+  private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, { loginData: null });
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
@@ -58,11 +53,13 @@ export class AccountStore {
   }
 
   get selectedAccount() {
-    return this.accounts.find((account) => account.address === this.selectedAddress) || this.accounts.at(0);
+    const selectedAddress = this.shared.state.selectedAddress;
+
+    return this.accounts.find((account) => account.address === selectedAddress) || this.accounts.at(0);
   }
 
   selectAccount(address: string) {
-    this.selectedAddress = address;
+    this.shared.state.selectedAddress = address;
   }
 
   get user(): User | undefined {
