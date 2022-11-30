@@ -35,6 +35,7 @@ export {
   MobileStepper,
   FormControl,
   Slide,
+  Grid,
   InputAdornment,
   Snackbar,
   Radio,
@@ -77,6 +78,7 @@ export type {
   FormControlProps,
   InputAdornmentProps,
   SlideProps,
+  GridProps,
   SnackbarProps,
 } from '@mui/material';
 
