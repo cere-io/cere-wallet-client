@@ -82,7 +82,7 @@ export const Address = forwardRef(
           endAdornment={endAdornment}
         >
           {icon && <Icon size={size}>{icon}</Icon>}
-          <Typography noWrap variant="body1" color="text.primary">
+          <Typography noWrap variant={size === 'small' ? 'body2' : 'body1'} color="text.primary">
             {addressElement}
           </Typography>
 
