@@ -16,7 +16,11 @@ type SharedState = {
 };
 
 export class AccountStore {
-  private shared = createSharedState<SharedState>(`account.${this.wallet.instanceId}`, { loginData: null });
+  private shared = createSharedState<SharedState>(
+    `account.${this.wallet.instanceId}`,
+    { loginData: null },
+    { readOnly: !this.wallet.isRoot() },
+  );
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
