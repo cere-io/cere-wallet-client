@@ -25,6 +25,8 @@ export {
   PlayArrow as PlayArrowIcon,
   PhotoSizeSelectActualOutlined as PhotoOutlinedIcon,
   LanguageOutlined as LanguageIcon,
+  ArrowDropDown as ArrowDropDownIcon,
+  ArrowDropUp as ArrowDropUpIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
@@ -53,6 +55,7 @@ export * from './ShareIcon';
 export * from './NoCollectiblesIcon';
 export * from './ExternalLinkIcon';
 export * from './NoImageIcon';
+export * from './SecurityIcon';
 export * from './LogoRampCaptionIcon';
 export * from './LogoRampIcon';
 export * from './DotArrowRightIcon';

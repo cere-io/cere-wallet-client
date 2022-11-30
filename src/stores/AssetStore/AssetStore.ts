@@ -5,21 +5,25 @@ import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 
 export class AssetStore {
-  assets: Asset[] = [];
+  private assets: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
 
     autorun(() => {
-      this.assets = wallet.isReady() ? [new NativeToken(wallet), new Erc20Token(wallet)] : [];
+      this.list = wallet.isReady() ? [new NativeToken(wallet), new Erc20Token(wallet)] : [];
     });
-  }
-
-  get nativeToken() {
-    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
   }
 
   get list() {
     return this.assets;
+  }
+
+  set list(assets: Asset[]) {
+    this.assets = assets;
+  }
+
+  get nativeToken() {
+    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
   }
 }

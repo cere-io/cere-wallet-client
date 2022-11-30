@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import { Address, Button, MaticIcon, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
+import { Button, CopyButton, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
 import { Link } from '../Link';
+import { AddressDropdown } from '../AddressDropdown';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -18,8 +19,15 @@ const Content = styled(Paper)(({ theme }) => ({
 }));
 
 export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWidgetProps) => {
-  const { account } = useAccountStore();
+  const { selectedAccount: account } = useAccountStore();
   const qrButtonSize = dense ? 32 : 40;
+
+  const buttonSx = {
+    width: qrButtonSize,
+    height: qrButtonSize,
+    borderWidth: dense ? 0 : 1,
+  };
+
   const addressElement = account && (
     <Stack
       direction="row"
@@ -27,24 +35,14 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
       className="wallet-address" // css class "wallet-address" is an anchor for product tour
       alignItems="center"
     >
-      <Address
-        showCopy
-        address={account.address}
+      <AddressDropdown
         variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
-        icon={!dense && <MaticIcon />}
       />
 
-      <AddressQRButton
-        address={account.address}
-        variant="outlined"
-        sx={{
-          width: qrButtonSize,
-          height: qrButtonSize,
-          borderWidth: dense ? 0 : 1,
-        }}
-      />
+      <CopyButton sx={buttonSx} value={account.address} variant="outlined" successMessage="Address copied" />
+      <AddressQRButton sx={buttonSx} address={account.address} variant="outlined" />
     </Stack>
   );
 

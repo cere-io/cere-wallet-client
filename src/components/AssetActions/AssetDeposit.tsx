@@ -3,6 +3,7 @@ import {
   Address,
   Button,
   CereIcon,
+  CopyButton,
   DotArrowRightIcon,
   IconButton,
   Paper,
@@ -27,7 +28,11 @@ export const AssetDeposit = ({ name, logo, address, email, ...props }: AssetPurc
       <Stack {...props}>
         <Typography variant="h4">Purchase Cryptocurrency via {name}</Typography>
         <Typography variant="subtitle1">Your address for receiving funds</Typography>
-        <Address variant="outlined" address={address} showCopy={true} />
+        <Address
+          variant="outlined"
+          address={address}
+          endAdornment={<CopyButton size="small" value={address} successMessage="Address copied" />}
+        />
         <Typography variant="body2" color="text.secondary">
           You will be redirected to the third party page
         </Typography>

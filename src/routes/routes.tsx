@@ -19,7 +19,7 @@ import { Activity } from '~/routes/Activity';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
-  { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings', comingSoon: true },
+  { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
 const Redirect = ({ to }: { to: To }) => {

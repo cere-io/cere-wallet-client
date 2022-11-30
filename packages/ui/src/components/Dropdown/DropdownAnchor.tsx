@@ -1,5 +1,5 @@
-import { forwardRef, ReactNode } from 'react';
-import { Stack, styled, avatarClasses, Typography } from '@mui/material';
+import { forwardRef, ReactNode, Ref } from 'react';
+import { Stack, styled, avatarClasses, Typography, Button } from '@mui/material';
 import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
 
 export type DropdownAnchorProps = {
@@ -8,6 +8,10 @@ export type DropdownAnchorProps = {
   leftElement?: ReactNode;
   onOpen?: () => void;
 };
+
+const Clickable = styled(Button)({
+  padding: 0,
+});
 
 const Anchor = styled(Stack)(({ theme }) => ({
   height: 40,
@@ -33,12 +37,14 @@ const Center = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-export const DropdownAnchor = forwardRef(({ open, label, leftElement, onOpen }: DropdownAnchorProps, ref) => {
-  return (
-    <Anchor ref={ref} spacing={1} direction="row" alignItems="center" onClick={onOpen}>
-      <Left>{leftElement}</Left>
-      <Center variant="body1">{label}</Center>
-      {open ? <ArrowDropUp /> : <ArrowDropDown />}
-    </Anchor>
-  );
-});
+export const DropdownAnchor = forwardRef(
+  ({ open, label, leftElement, onOpen }: DropdownAnchorProps, ref: Ref<HTMLButtonElement>) => (
+    <Clickable ref={ref} color="inherit" variant="text" onClick={onOpen}>
+      <Anchor spacing={1} direction="row" alignItems="center">
+        <Left>{leftElement}</Left>
+        <Center variant="body1">{label}</Center>
+        {open ? <ArrowDropUp /> : <ArrowDropDown />}
+      </Anchor>
+    </Clickable>
+  ),
+);

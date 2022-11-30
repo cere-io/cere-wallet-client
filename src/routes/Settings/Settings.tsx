@@ -1,16 +1,69 @@
-import { Box, ComingSoon } from '@cere-wallet/ui';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  IconButton,
+  SecurityIcon,
+  Stack,
+  Typography,
+  useIsMobile,
+} from '@cere-wallet/ui';
+import { useEffect, useState } from 'react';
 
 import { PageHeader } from '~/components';
+import { useOpenLoginStore } from '~/hooks';
 
-export const Settings = () => (
-  <>
-    <PageHeader title="Settings" />
+export const Settings = () => {
+  const isMobile = useIsMobile();
+  const store = useOpenLoginStore();
+  const [accountLink, setAccountLink] = useState<string>();
 
-    <Box maxWidth="sm" marginX="auto">
-      <ComingSoon
-        title="Configure your wallet"
-        description="We are working on the wallet configuration feature and very soon we will be ready to present it to you. Check our updates and we will let you know when it is ready."
-      />
-    </Box>
-  </>
-);
+  useEffect(() => {
+    (async () => {
+      const link = await store.getAccountUrl();
+      setAccountLink(link);
+    })();
+  }, [store]);
+
+  return (
+    <>
+      <PageHeader title="Settings" />
+
+      <Box maxWidth="md">
+        <Card>
+          <CardContent>
+            <Grid spacing={1} direction="row" alignItems="center" container>
+              <Grid item>
+                <Box maxWidth="sm">
+                  <Stack direction="row" gap={2} alignItems="center">
+                    <IconButton variant="filled" size="medium">
+                      <SecurityIcon />
+                    </IconButton>
+                    <Typography variant="body1" fontWeight="semibold">
+                      Authentication & Security
+                    </Typography>
+                  </Stack>
+                  <Box marginTop="16px">
+                    <Typography variant="body2" color="text.secondary">
+                      Click the button bellow to manage your Authentication & Security settings and you will be
+                      redirecting to the OpenLogin settings
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid flexGrow={1} marginTop={isMobile ? 3 : 0} item>
+                {accountLink && (
+                  <Button target="_blank" fullWidth href={accountLink} variant="outlined">
+                    Go to OpenLogin settings
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
+  );
+};

@@ -11,6 +11,7 @@ export type AccountLoginData = {
 };
 
 type SharedState = {
+  selectedAddress?: string;
   loginData: AccountLoginData | null;
 };
 
@@ -46,8 +47,23 @@ export class AccountStore {
     ];
   }
 
+  /**
+   * Currently it always returns `ethereum` account since we have many places which relies on the account to be `ethereum`
+   *
+   * TODO: Refactor this property related logic to use single account property instead of two: `account` and `selectedAccount`
+   */
   get account() {
-    return this.accounts.at(0);
+    return this.accounts.find(({ type }) => type === 'ethereum');
+  }
+
+  get selectedAccount() {
+    const selectedAddress = this.shared.state.selectedAddress;
+
+    return this.accounts.find((account) => account.address === selectedAddress) || this.accounts.at(0);
+  }
+
+  selectAccount(address: string) {
+    this.shared.state.selectedAddress = address;
   }
 
   get user(): User | undefined {

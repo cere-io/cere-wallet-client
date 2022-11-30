@@ -17,7 +17,7 @@ export const WalletAddress = ({ address }: WalletAddressProps) => {
       <Typography fontWeight="bold">Wallet address (ERC 20)</Typography>
 
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography flex={1} color="text.secondary" noWrap={true}>
+        <Typography noWrap flex={1} color="text.secondary">
           <Address variant="text" address={address} />
         </Typography>
         <CopyButton value={address} variant="outlined" successMessage="Address copied" />
