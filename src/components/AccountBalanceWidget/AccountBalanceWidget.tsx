@@ -1,22 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import {
-  Address,
-  Button,
-  CopyButton,
-  MaticIcon,
-  Paper,
-  Stack,
-  styled,
-  TopUpIcon,
-  TransferIcon,
-  Typography,
-} from '@cere-wallet/ui';
+import { Button, CopyButton, Paper, Stack, styled, TopUpIcon, TransferIcon, Typography } from '@cere-wallet/ui';
 
 import { useAccountStore } from '~/hooks';
 import { AccountBalance } from '../AccountBalance';
 import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
 import { Link } from '../Link';
+import { AddressDropdown } from '../AddressDropdown';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -45,12 +35,10 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
       className="wallet-address" // css class "wallet-address" is an anchor for product tour
       alignItems="center"
     >
-      <Address
-        address={account.address}
+      <AddressDropdown
         variant={dense ? 'default' : 'outlined'}
         size={dense ? 'small' : 'medium'}
         maxLength={dense ? 10 : 24}
-        icon={<MaticIcon />}
       />
 
       <CopyButton sx={buttonSx} value={account.address} variant="outlined" successMessage="Address copied" />

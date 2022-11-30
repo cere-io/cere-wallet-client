@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
-import { Stack, styled, Typography, svgIconClasses } from '@mui/material';
+import { forwardRef, ReactNode, Ref } from 'react';
+import { Stack, styled, Typography, svgIconClasses, Button } from '@mui/material';
 
 import { Truncate, TruncateProps } from '../Truncate';
 
 export type AddressProps = Pick<TruncateProps, 'maxLength'> & {
   address: string;
+  onClick?: () => void;
   icon?: ReactNode;
   size?: 'small' | 'medium';
   variant?: 'default' | 'text' | 'outlined' | 'filled';
@@ -56,33 +57,45 @@ const Icon = styled('div')<Pick<AddressProps, 'size'>>(({ theme, size }) => ({
   },
 }));
 
-export const Address = ({
-  variant = 'default',
-  size = 'medium',
-  icon,
-  address,
-  maxLength,
-  endAdornment,
-}: AddressProps) => {
-  const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
+const Clickable = styled(Button)(({ theme }) => ({
+  padding: 0,
+  color: theme.palette.text.secondary,
+}));
 
-  return variant === 'text' ? (
-    addressElement
-  ) : (
-    <Wrapper
-      direction="row"
-      spacing={size === 'medium' ? 1 : 0.5}
-      variant={variant}
-      size={size}
-      endAdornment={endAdornment}
-      icon={icon}
-    >
-      {icon && <Icon size={size}>{icon}</Icon>}
-      <Typography noWrap variant="body1">
-        {addressElement}
-      </Typography>
+export const Address = forwardRef(
+  (
+    { variant = 'default', size = 'medium', icon, address, maxLength, endAdornment, onClick }: AddressProps,
+    ref: Ref<any>,
+  ) => {
+    const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
+    const renderedElement =
+      variant === 'text' ? (
+        addressElement
+      ) : (
+        <Wrapper
+          ref={ref}
+          direction="row"
+          spacing={size === 'medium' ? 1 : 0.5}
+          variant={variant}
+          size={size}
+          icon={icon}
+          endAdornment={endAdornment}
+        >
+          {icon && <Icon size={size}>{icon}</Icon>}
+          <Typography noWrap variant="body1" color="text.primary">
+            {addressElement}
+          </Typography>
 
-      {endAdornment}
-    </Wrapper>
-  );
-};
+          {endAdornment}
+        </Wrapper>
+      );
+
+    return onClick ? (
+      <Clickable variant="text" onClick={onClick}>
+        {renderedElement}
+      </Clickable>
+    ) : (
+      renderedElement
+    );
+  },
+);
