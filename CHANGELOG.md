@@ -1,9 +1,8 @@
 ## Release Notes:
 
 ### vNext
+- [DAV-3702] Fix skipping tour  
 - [DAV-3674] Add collections to product tour
-
--
 
 ### v1.9.0
 
