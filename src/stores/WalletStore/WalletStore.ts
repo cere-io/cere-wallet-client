@@ -13,10 +13,12 @@ import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
+import { OpenLoginStore } from '../OpenLoginStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
   readonly accountStore: AccountStore;
+  readonly openLoginStore: OpenLoginStore;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
   readonly collectiblesStore: CollectiblesStore;
@@ -37,6 +39,7 @@ export class WalletStore implements Wallet {
 
     this.networkStore = new NetworkStore(this);
     this.accountStore = new AccountStore(this);
+    this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);

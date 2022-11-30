@@ -183,4 +183,10 @@ export class OpenLoginStore {
 
     this.openLogin._syncState(state);
   }
+
+  async getAccountUrl(loginParams: LoginParams = {}) {
+    const accountUrl = new URL('/wallet/account', this.openLogin.state.iframeUrl);
+
+    return this.getLoginUrl({ ...loginParams, redirectUrl: accountUrl.toString() });
+  }
 }
