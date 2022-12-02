@@ -38,9 +38,10 @@ export class ExchangeRatesStore {
         const prices = await response.json();
         TOKENS.forEach(({ name }) => {
           const tokenName = name.toUpperCase();
-          contractExchangeRates[tokenName] = prices[tokenName];
+          contractExchangeRates[tokenName] = prices[name];
         });
         this.exchangeRates = contractExchangeRates;
+        console.log('exchangeRates', contractExchangeRates);
       } catch (error) {
         console.warn('CoinGecko rates fetch failed.', error);
       }
