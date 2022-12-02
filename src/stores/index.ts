@@ -6,3 +6,5 @@ export * from './RedirectPopupStore';
 export * from './TransactionPopupStore';
 export * from './AuthorizePopupStore';
 export * from './PopupManagerStore';
+export * from './ExchangeRatesStore';
+export * from './CurrencyStore';

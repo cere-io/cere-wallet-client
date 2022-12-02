@@ -6,13 +6,13 @@ import { useBalanceStore } from '~/hooks';
 export type AccountBalanceProps = TypographyProps;
 
 export const AccountBalance = (props: AccountBalanceProps) => {
-  const { balance, selectedToken } = useBalanceStore();
+  const { selectedTokenUsdBalance } = useBalanceStore();
 
   return (
     <>
       {/* css class "account-balance" is an anchor for product tour */}
       <Typography {...props} className="account-balance">
-        {balance || 0} {selectedToken?.displayName}
+        ${selectedTokenUsdBalance || 0} USD
       </Typography>
     </>
   );
