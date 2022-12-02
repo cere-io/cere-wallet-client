@@ -14,7 +14,6 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-import { CurrencyStore } from '../CurrencyStore';
 import { ExchangeRatesStore } from '../ExchangeRatesStore';
 
 export class WalletStore implements Wallet {
@@ -25,8 +24,6 @@ export class WalletStore implements Wallet {
   readonly assetStore: AssetStore;
   readonly collectiblesStore: CollectiblesStore;
   readonly balanceStore: BalanceStore;
-  readonly exchangeRatesStore: ExchangeRatesStore;
-  readonly currencyStore: CurrencyStore;
   readonly activityStore: ActivityStore;
   readonly authenticationStore: AuthenticationStore;
   readonly appContextStore: AppContextStore;
@@ -47,8 +44,6 @@ export class WalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
-    this.exchangeRatesStore = new ExchangeRatesStore(this);
-    this.currencyStore = new CurrencyStore();
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
