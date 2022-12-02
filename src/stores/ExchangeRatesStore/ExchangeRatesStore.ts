@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 
-import { ETH, COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, tokens } from './enums';
+import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
 import { idleTimeTracker } from './utils';
 import { CurrencyStore, Wallet } from '~/stores';
 
@@ -33,16 +33,16 @@ export class ExchangeRatesStore {
     const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
     const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
 
-    const pairs = tokens.map(({ id }) => id).join(',');
+    const pairs = TOKENS.map(({ id }) => id).join(',');
     const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
     let conversionFactor = 1;
 
-    if (tokens.length > 0 && platform) {
+    if (platform) {
       try {
         const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
-        tokens.forEach(({ name: tokenName }) => {
+        TOKENS.forEach(({ name: tokenName }) => {
           const price = prices[tokenName];
           contractExchangeRates[tokenName] = contractExchangeRates[tokenName] || {};
 
