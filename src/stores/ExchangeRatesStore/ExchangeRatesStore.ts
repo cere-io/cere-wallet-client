@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 
-import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
+import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, MATIC_ID, TOKENS, USD } from './enums';
 import { idleTimeTracker } from './utils';
 import { CurrencyStore, Wallet } from '~/stores';
 
@@ -19,7 +19,6 @@ export class ExchangeRatesStore {
     makeAutoObservable(this);
     this.currency = new CurrencyStore();
     this.interval = DEFAULT_INTERVAL;
-    this.updateExchangeRates();
   }
 
   async updateExchangeRates() {
@@ -42,7 +41,8 @@ export class ExchangeRatesStore {
       try {
         const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
-        TOKENS.forEach(({ name: tokenName }) => {
+        TOKENS.forEach(({ name }) => {
+          const tokenName = name.toUpperCase();
           const price = prices[tokenName];
           contractExchangeRates[tokenName] = contractExchangeRates[tokenName] || {};
 
