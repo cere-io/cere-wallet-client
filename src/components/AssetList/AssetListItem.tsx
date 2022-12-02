@@ -24,7 +24,7 @@ export const AssetListItem = ({ asset, ...props }: AssetListItemProps) => {
         <ListItemText
           align="right"
           primary={+balance.toFixed(2)}
-          secondary={`${getUsdBalance(ticker, balance).toFixed(2)} USD`}
+          secondary={`$${getUsdBalance(ticker, balance).toFixed(2)} USD`}
         />
       )}
     </ListItem>
