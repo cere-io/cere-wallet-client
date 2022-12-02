@@ -12,7 +12,7 @@ export const AccountBalance = (props: AccountBalanceProps) => {
     <>
       {/* css class "account-balance" is an anchor for product tour */}
       <Typography {...props} className="account-balance">
-        ${totalUsdBalance || 0} USD
+        ${totalUsdBalance.toFixed(2) || 0} USD
       </Typography>
     </>
   );
