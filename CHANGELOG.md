@@ -2,12 +2,20 @@
 
 ### vNext
 
--
+- 
+
+### v1.10.0
+- 
+- [DAV-3702] Fix skipping tour  
+- [DAV-3674] Add collections to product tour
+- [DAV-3580] Display Cere mainnet address on UI
 
 ### v1.9.0
 
+- [DAV-3075] Add OpenLogin settings page
 - [DAV-3196] Add widget loading state
 - [DAV-3256] Add product tour snackbar
+- Add SDK readme and `getAccounts` method
 
 ### v1.8.0
 

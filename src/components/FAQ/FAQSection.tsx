@@ -15,10 +15,10 @@ export type FAQSectionProps = Pick<AccordionProps, 'defaultExpanded'> & {
 
 export const FAQSection = ({ title, children, defaultExpanded }: FAQSectionProps) => (
   <Accordion defaultExpanded={defaultExpanded}>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <AccordionSummary sx={{ paddingX: 0 }} expandIcon={<ExpandMoreIcon />}>
       <Typography fontWeight="bold">{title}</Typography>
     </AccordionSummary>
-    <AccordionDetails>
+    <AccordionDetails sx={{ paddingX: 0 }}>
       <Typography variant="body1" color="text.secondary">
         {children}
       </Typography>

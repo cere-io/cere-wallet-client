@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
-
-import { WalletStore, EmbeddedWalletStore } from '~/stores';
+import { EmbeddedWalletStore, WalletStore } from '~/stores';
 
 export const WalletContext = createContext<WalletStore | EmbeddedWalletStore | null>(null);
 

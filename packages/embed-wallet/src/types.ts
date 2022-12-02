@@ -36,6 +36,12 @@ export type UserInfo = {
   idToken: string;
 };
 
+export type WalletAccount = {
+  address: string;
+  type: 'ethereum' | 'ed25519';
+  name: string;
+};
+
 // Wallet options
 export type WalletEvent = 'status-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
