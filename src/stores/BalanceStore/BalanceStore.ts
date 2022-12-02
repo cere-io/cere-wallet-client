@@ -13,7 +13,7 @@ export class BalanceStore {
 
   constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
-    this.exchangeRatesStore = new ExchangeRatesStore(wallet);
+    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
     this.currencyStore = new CurrencyStore();
   }
 
@@ -41,16 +41,12 @@ export class BalanceStore {
     return selectedToken?.balance;
   }
 
-  get selectedTokenUsdBalance() {
-    const selectedToken = this.assetStore.list.find(({ ticker }) => this.selectedToken?.ticker === ticker);
+  get totalUsdBalance() {
     const { exchangeRates } = this.exchangeRatesStore;
+    return this.assetStore.list.reduce<number>((total, item) => {
+      const rate = exchangeRates[item.ticker]?.[USD] || 1;
 
-    if (!selectedToken) {
-      return 0;
-    }
-
-    const rate = exchangeRates[USD] || 1;
-
-    return Math.floor(selectedToken.balance! * rate);
+      return total + Math.floor((item.balance || 0) * rate);
+    }, 0);
   }
 }

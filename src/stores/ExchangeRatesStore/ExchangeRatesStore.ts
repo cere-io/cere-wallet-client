@@ -6,57 +6,57 @@ import { idleTimeTracker } from './utils';
 import { CurrencyStore, Wallet } from '~/stores';
 
 const DEFAULT_INTERVAL = 10 * 1000;
-const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price/';
+const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price';
 
-type ExchangeRates = Record<string, number>;
+type ExchangeRates = Record<string, Record<string, number>>;
 
 export class ExchangeRatesStore {
   private currency: CurrencyStore;
-  private chainId?: string;
   private _handle: NodeJS.Timer | null = null;
   private _exchangeRates: ExchangeRates = {};
 
-  constructor(wallet: Wallet) {
+  constructor(private wallet: Wallet) {
     makeAutoObservable(this);
-
-    this.chainId = wallet.network?.chainId;
     this.currency = new CurrencyStore();
     this.interval = DEFAULT_INTERVAL;
+    this.updateExchangeRates();
   }
 
   async updateExchangeRates() {
-    console.log('UPDATED EXCHANGE RATES', this.chainId);
+    const chainId = this.wallet.network?.chainId;
+    const { currentCurrency } = this.currency;
     const contractExchangeRates: ExchangeRates = {};
-    if (!this.chainId) {
+    if (!chainId) {
       return;
     }
 
-    const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[Number(this.chainId)]?.platform;
-    const nativeCurrency = this.currency ? this.currency.nativeCurrency.toLowerCase() : ETH;
-    const supportedCurrency = COINGECKO_SUPPORTED_CURRENCIES.has(nativeCurrency)
-      ? nativeCurrency
-      : this.currency?.commonDenomination.toLowerCase() || ETH;
+    const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
+    const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
 
-    const pairs = tokens.join(',');
-    const query = `contract_addresses=${pairs}&vs_currencies=${supportedCurrency}`;
+    const pairs = tokens.map(({ id }) => id).join(',');
+    const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
     let conversionFactor = 1;
-    if (supportedCurrency !== nativeCurrency) {
-      conversionFactor = this.currency.commonDenominatorPrice || 1;
-    }
 
     if (tokens.length > 0 && platform) {
       try {
-        const response = await fetch(`${COIN_GECKO_API_PRICE}${platform}?${query}`);
+        const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
         tokens.forEach(({ name: tokenName }) => {
           const price = prices[tokenName];
-          contractExchangeRates[tokenName] =
-            price && conversionFactor ? new BigNumber(price[supportedCurrency]).div(conversionFactor).toNumber() : 0;
+          contractExchangeRates[tokenName] = contractExchangeRates[tokenName] || {};
+
+          if (price && conversionFactor) {
+            contractExchangeRates[tokenName][currentCurrency] = new BigNumber(price[currentCurrency])
+              .div(conversionFactor)
+              .toNumber();
+          } else {
+            contractExchangeRates[tokenName][currentCurrency] = 0;
+          }
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
-        console.warn('MetaMask - TokenRatesController exchange rate fetch failed.', error);
+        console.warn('CoinGecko rates fetch failed.', error);
       }
     }
   }
