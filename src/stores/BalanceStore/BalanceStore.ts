@@ -15,6 +15,7 @@ export class BalanceStore {
     makeAutoObservable(this);
     this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
     this.currencyStore = new CurrencyStore();
+    this.getUsdBalance = this.getUsdBalance.bind(this);
   }
 
   get selectedToken(): Omit<Asset, 'balance'> | undefined {
@@ -48,5 +49,12 @@ export class BalanceStore {
 
       return total + Math.floor((item.balance || 0) * rate);
     }, 0);
+  }
+
+  public getUsdBalance(tickerName: string, balance: number = 0) {
+    const { exchangeRates } = this.exchangeRatesStore;
+    const rate = exchangeRates[tickerName]?.[USD] || 1;
+
+    return balance * rate;
   }
 }
