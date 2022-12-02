@@ -43,7 +43,7 @@ export class ExchangeRatesStore {
           const tokenName = name.toUpperCase();
           const price = prices[tokenName];
           contractExchangeRates[tokenName] = contractExchangeRates[tokenName] || {};
-          contractExchangeRates[tokenName][currentCurrency] = price ? Number(price[currentCurrency]) : 0;
+          contractExchangeRates[tokenName][currentCurrency] = price?.[currentCurrency] || 0;
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
