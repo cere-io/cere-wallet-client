@@ -5,7 +5,7 @@ import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOK
 import { idleTimeTracker } from './utils';
 import { CurrencyStore, Wallet } from '~/stores';
 
-const DEFAULT_INTERVAL = 10 * 1000;
+const DEFAULT_INTERVAL = 30 * 1000;
 const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price';
 
 type ExchangeRates = Record<string, Record<string, number>>;
