@@ -47,7 +47,7 @@ export class BalanceStore {
     return this.assetStore.list.reduce<number>((total, item) => {
       const rate = exchangeRates[item.ticker]?.[USD] || 1;
 
-      return total + item.balance * rate;
+      return total + (item.balance || 0) * rate;
     }, 0);
   }
 
