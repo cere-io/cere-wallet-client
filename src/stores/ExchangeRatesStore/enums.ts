@@ -10,7 +10,7 @@ export const MUMBAI_CHAIN_ID = '0x13881';
 
 export const TOKENS = [
   { id: 'matic-network', name: MATIC },
-  { id: 'orce-bridge-usdc', name: USDC },
+  { id: 'usd-coin', name: USDC },
 ];
 
 export const COINGECKO_PLATFORMS_CHAIN_CODE_MAP: Record<string, { platform: string; currency: string }> = {
