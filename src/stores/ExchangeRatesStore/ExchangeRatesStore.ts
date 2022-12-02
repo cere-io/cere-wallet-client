@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import BigNumber from 'bignumber.js';
 
-import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, MATIC_ID, TOKENS, USD } from './enums';
+import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
 import { idleTimeTracker } from './utils';
 import { CurrencyStore, Wallet } from '~/stores';
 
@@ -19,6 +18,7 @@ export class ExchangeRatesStore {
     makeAutoObservable(this);
     this.currency = new CurrencyStore();
     this.interval = DEFAULT_INTERVAL;
+    this.updateExchangeRates();
   }
 
   async updateExchangeRates() {
@@ -35,8 +35,6 @@ export class ExchangeRatesStore {
     const pairs = TOKENS.map(({ id }) => id).join(',');
     const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
-    let conversionFactor = 1;
-
     if (platform) {
       try {
         const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
@@ -45,14 +43,7 @@ export class ExchangeRatesStore {
           const tokenName = name.toUpperCase();
           const price = prices[tokenName];
           contractExchangeRates[tokenName] = contractExchangeRates[tokenName] || {};
-
-          if (price && conversionFactor) {
-            contractExchangeRates[tokenName][currentCurrency] = new BigNumber(price[currentCurrency])
-              .div(conversionFactor)
-              .toNumber();
-          } else {
-            contractExchangeRates[tokenName][currentCurrency] = 0;
-          }
+          contractExchangeRates[tokenName][currentCurrency] = price ? Number(price[currentCurrency]) : 0;
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
