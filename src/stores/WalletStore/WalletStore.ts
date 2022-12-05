@@ -14,7 +14,6 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-import { ExchangeRatesStore } from '../ExchangeRatesStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;

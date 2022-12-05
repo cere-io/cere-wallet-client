@@ -7,6 +7,8 @@ export const USD = 'usd';
 export const BTC = 'btc';
 export const USDC = 'usdc';
 export const USDC_ID = 'usd-coin';
+export const CERE = 'cere';
+export const CERE_ID = 'cere-network';
 
 export const MUMBAI_CHAIN_ID = '0x13881';
 export const MATIC_CHAIN_ID = '0x89';
@@ -18,6 +20,7 @@ export enum MATIC_PLATFORMS {
 export const TOKENS = [
   { id: MATIC_ID, name: MATIC },
   { id: USDC_ID, name: USDC },
+  { id: CERE_ID, name: CERE },
 ];
 
 export const COINGECKO_PLATFORMS_CHAIN_CODE_MAP: Record<string, { platform: string; currency: string }> = {

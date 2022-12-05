@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 
 import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
 import { idleTimeTracker } from './utils';
@@ -16,12 +16,17 @@ export class ExchangeRatesStore {
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
     this.interval = DEFAULT_INTERVAL;
-    this.updateExchangeRates();
+
+    when(
+      () => !!wallet.network?.chainId,
+      () => this.updateExchangeRates(),
+    );
   }
 
   async updateExchangeRates() {
     const chainId = this.wallet.network?.chainId;
     const contractExchangeRates: ExchangeRates = {};
+
     if (!chainId) {
       return;
     }
