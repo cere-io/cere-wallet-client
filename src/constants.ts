@@ -6,3 +6,4 @@ export const WALLET_API = process.env.REACT_APP_WALLET_API;
 export const REACT_APP_FREEPORT_API = process.env.REACT_APP_FREEPORT_API;
 export const REACT_APP_DDC_API = process.env.REACT_APP_DDC_API;
 export const REACT_APP_RAMP_API_KEY = process.env.REACT_APP_RAMP_API_KEY;
+export const CERE_NETWORK_RPC = process.env.REACT_APP_CERE_NETWORK_RPC;

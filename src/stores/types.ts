@@ -52,6 +52,7 @@ export interface Wallet {
   readonly network?: ChainConfig;
   readonly provider?: Provider;
   readonly account?: Account;
+  readonly accounts: Account[];
 
   isRoot(): boolean;
   isReady(): this is ReadyWallet;

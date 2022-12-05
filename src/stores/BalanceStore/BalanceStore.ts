@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, action } from 'mobx';
 import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, Wallet } from '../types';
@@ -10,9 +10,11 @@ export class BalanceStore {
   exchangeRatesStore: ExchangeRatesStore;
 
   constructor(private wallet: Wallet, private assetStore: AssetStore) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      getUsdBalance: action.bound,
+    });
+
     this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
-    this.getUsdBalance = this.getUsdBalance.bind(this);
   }
 
   get selectedToken(): Omit<Asset, 'balance'> | undefined {
