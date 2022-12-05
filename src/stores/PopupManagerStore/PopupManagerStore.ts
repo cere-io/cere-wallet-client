@@ -58,7 +58,7 @@ export class PopupManagerStore {
     /**
      * In case of opened modal just close it - everything will be unregistered on modal exit
      */
-    if (this.modals[instanceId].open) {
+    if (this.modals[instanceId]?.open) {
       return this.hideModal(instanceId);
     }
 

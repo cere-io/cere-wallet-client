@@ -3,10 +3,16 @@ import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, Wallet } from '../types';
 import { AssetStore } from '../AssetStore';
+import { ExchangeRatesStore } from '../ExchangeRatesStore';
+import { USD, DEFAULT_RATE } from '../ExchangeRatesStore/enums';
 
 export class BalanceStore {
+  exchangeRatesStore: ExchangeRatesStore;
+
   constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
+    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
+    this.getUsdBalance = this.getUsdBalance.bind(this);
   }
 
   get selectedToken(): Omit<Asset, 'balance'> | undefined {
@@ -31,5 +37,22 @@ export class BalanceStore {
     const selectedToken = this.assetStore.list.find(({ ticker }) => this.selectedToken?.ticker === ticker);
 
     return selectedToken?.balance;
+  }
+
+  get totalUsdBalance() {
+    const { exchangeRates } = this.exchangeRatesStore;
+    return this.assetStore.list.reduce<number>((total, item) => {
+      const rate = exchangeRates[item.ticker]?.[USD] || DEFAULT_RATE;
+      const balance = (item.balance || 0) * rate;
+
+      return total + balance;
+    }, 0);
+  }
+
+  public getUsdBalance(tickerName: string, balance: number = 0) {
+    const { exchangeRates } = this.exchangeRatesStore;
+    const rate = exchangeRates[tickerName]?.[USD] || DEFAULT_RATE;
+
+    return balance * rate;
   }
 }

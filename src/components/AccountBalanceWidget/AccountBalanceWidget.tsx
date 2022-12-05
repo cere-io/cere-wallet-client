@@ -70,7 +70,7 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
                 fontWeight={dense ? 'medium' : undefined}
                 color="text.secondary"
               >
-                Total Balance
+                Total balance
               </Typography>
 
               {dense && addressElement}
