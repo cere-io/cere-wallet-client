@@ -23,3 +23,5 @@ export const COINGECKO_PLATFORMS_CHAIN_CODE_MAP: Record<string, { platform: stri
 };
 
 export const COINGECKO_SUPPORTED_CURRENCIES = ['btc', 'eth', 'usd'];
+
+export const DEFAULT_RATE = 0;

@@ -41,7 +41,6 @@ export class ExchangeRatesStore {
           contractExchangeRates[tokenName] = prices[id];
         });
         this.exchangeRates = contractExchangeRates;
-        console.log('exchangeRates', contractExchangeRates);
       } catch (error) {
         console.warn('CoinGecko rates fetch failed.', error);
       }
