@@ -115,14 +115,14 @@ export const Wallet = () => {
         Unset context
       </Button>
 
+      <Button variant="outlined" color="primary" onClick={handleGetAccounts}>
+        Get Accounts
+      </Button>
+
       {status === 'connected' || status === 'disconnecting' ? (
         <>
           <Button variant="outlined" color="primary" onClick={handleGetAddress}>
             Get Address
-          </Button>
-
-          <Button variant="outlined" color="primary" onClick={handleGetAccounts}>
-            Get Accounts
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleUserInfo}>
