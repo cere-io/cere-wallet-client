@@ -4,7 +4,7 @@ export const MATIC_ID = 'matic-network';
 export const MUMBAI = 'mumbai';
 export const MAINNET = 'mainnet';
 export const USD = 'usd';
-
+export const BTC = 'btc';
 export const USDC = 'usdc';
 export const USDC_ID = 'usd-coin';
 
@@ -31,6 +31,6 @@ export const COINGECKO_PLATFORMS_CHAIN_CODE_MAP: Record<string, { platform: stri
   },
 };
 
-export const COINGECKO_SUPPORTED_CURRENCIES = ['btc', 'eth', 'usd'];
+export const COINGECKO_SUPPORTED_CURRENCIES = [BTC, ETH, USD];
 
 export const DEFAULT_RATE = 0;
