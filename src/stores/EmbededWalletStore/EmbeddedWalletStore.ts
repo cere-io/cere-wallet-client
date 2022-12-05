@@ -96,6 +96,10 @@ export class EmbeddedWalletStore implements Wallet {
     return this.accountStore.account;
   }
 
+  get accounts() {
+    return this.accountStore.accounts;
+  }
+
   async init() {
     await Promise.all([this.setupWalletConnection(), this.setupRpcConnection()]);
   }

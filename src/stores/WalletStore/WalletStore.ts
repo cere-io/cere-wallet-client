@@ -84,6 +84,10 @@ export class WalletStore implements Wallet {
     return this.accountStore.account;
   }
 
+  get accounts() {
+    return this.accountStore.accounts;
+  }
+
   async init() {
     await when(() => !!this.network);
 
