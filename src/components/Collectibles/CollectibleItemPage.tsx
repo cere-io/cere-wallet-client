@@ -1,7 +1,18 @@
-import { Typography, Stack, useIsMobile, Box, NoImageIcon, CopyButton, styled } from '@cere-wallet/ui';
+import {
+  Typography,
+  Stack,
+  useIsMobile,
+  Box,
+  NoImageIcon,
+  CopyButton,
+  styled,
+  TransferIcon,
+  Button,
+} from '@cere-wallet/ui';
 import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
 import { observer } from 'mobx-react-lite';
 import { PageHeader } from '~/components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type CollectibleItemProps = {
   nftId: string;
@@ -18,6 +29,7 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
   const collectiblesStore = useCollectiblesStore();
   const nft = collectiblesStore.getNftById(nftId);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -122,10 +134,14 @@ export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) =>
               </>
             )}
 
-            {/* TODO functionality Will be added in next iteration */}
-            {/*<Button size="large" variant="contained" startIcon={<TransferIcon />}>*/}
-            {/*  Transfer*/}
-            {/*</Button>*/}
+            <Button
+              size="large"
+              variant="contained"
+              startIcon={<TransferIcon />}
+              onClick={() => navigate({ pathname: '/wallet/home/transfer' })}
+            >
+              Transfer
+            </Button>
           </Stack>
         </Box>
       </Box>

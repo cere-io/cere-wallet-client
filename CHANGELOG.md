@@ -67,7 +67,7 @@
 
 ### v1.1.0
 
-- [DAV-2787] Transaction confirmation popups
+- [DAV-2787] TransactionStore confirmation popups
 - [DAV-2826] Add blocked popup authorization request
 
 ### v1.0.0

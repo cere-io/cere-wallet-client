@@ -1,8 +1,10 @@
 import { ChainConfig } from '@cere-wallet/communication';
-import { makeAutoObservable } from 'mobx';
+import { autorun, makeAutoObservable } from 'mobx';
 
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { BigNumber } from '@ethersproject/bignumber';
+import { ethers } from 'ethers';
 
 type SharedState = {
   network?: ChainConfig;
@@ -15,8 +17,18 @@ export class NetworkStore {
     { readOnly: !this.wallet.isRoot() },
   );
 
+  private gasPrice: BigNumber | undefined;
+
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
+
+    autorun(async () => {
+      if (wallet.isReady()) {
+        this.gasPrice = await this.wallet.provider?.getGasPrice()!;
+      } else {
+        this.gasPrice = undefined;
+      }
+    });
   }
 
   get network() {
@@ -25,5 +37,9 @@ export class NetworkStore {
 
   set network(config: ChainConfig | undefined) {
     this.shared.state.network = config;
+  }
+
+  get fee() {
+    return this.gasPrice ? ethers.utils.formatEther(this.gasPrice) : '';
   }
 }
