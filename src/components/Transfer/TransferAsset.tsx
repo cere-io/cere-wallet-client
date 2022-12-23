@@ -68,7 +68,7 @@ const TransferAsset = () => {
 
   const updateTotal = useCallback(() => {
     const amountValue = getFormValues('amount');
-    if (!amountValue || !selectedAsset) {
+    if (!+amountValue || !selectedAsset) {
       setTotal(`${network?.fee} ${network?.network?.ticker}`);
       return;
     }
