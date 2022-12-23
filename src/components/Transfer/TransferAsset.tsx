@@ -11,9 +11,9 @@ import { Asset } from '~/stores';
 import { Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionStore } from '~/hooks/useTransactionStore';
-import Big from 'big.js';
+import { BigNumber } from 'bignumber.js';
 
-const ContentSelect = styled(TextField)(({ theme }) => ({
+const ContentSelect = styled(TextField)(() => ({
   '& .MuiSelect-select': {
     padding: 0,
   },
@@ -53,6 +53,7 @@ const TransferAsset = () => {
   const {
     register,
     handleSubmit,
+    setError,
     getValues: getFormValues,
     formState: { errors },
   } = useForm({
@@ -65,50 +66,53 @@ const TransferAsset = () => {
     },
   });
 
-  const updateTotal = (formValue?: string) => {
-    const value = formValue || getFormValues('amount');
-    console.log('value', value);
-
-    if (!selectedAsset || !value) {
+  const updateTotal = useCallback(() => {
+    const amountValue = getFormValues('amount');
+    if (!amountValue || !selectedAsset) {
+      setTotal(`${network?.fee} ${network?.network?.ticker}`);
       return;
     }
 
-    let ret = '';
-    if (selectedAsset?.ticker === network.network?.ticker) {
-      const fee = new Big(network.fee);
-      const va = new Big(value);
-      ret = `${fee.plus(va).toString()} ${selectedAsset?.ticker}`;
+    const tax = new BigNumber(network?.fee);
+    const amount = new BigNumber(getFormValues('amount'));
+    if (network.network?.ticker === selectedAsset?.ticker) {
+      const total = tax.plus(amount);
+      setTotal(`${total.toString()} ${network.network?.ticker}`);
     } else {
-      ret = `${network.fee} ${network.network?.ticker}`;
-      if (value) {
-        ret = `${value} ${selectedAsset?.ticker} + ${ret}`;
+      setTotal(`${amount.toString()} ${selectedAsset?.ticker} + ${network.fee} ${network.network?.ticker}`);
+    }
+  }, [selectedAsset, network, getFormValues]);
+
+  const amountValidate = (): boolean => {
+    const value: string = getFormValues('amount');
+
+    if (selectedAsset) {
+      const maxBalance = new BigNumber(selectedAsset?.balance || '0');
+      const amount = new BigNumber(value);
+      if (amount.gt(maxBalance)) {
+        setError('amount', {
+          message: `this field cannot be greater than balance (${selectedAsset?.ticker} balance is ${
+            selectedAsset?.balance || 0
+          })`,
+        });
+        return false;
       }
     }
-    setTotal(ret);
-  };
 
-  const onSubmit: SubmitHandler<any> = async () => {
-    const value = getFormValues('address');
+    updateTotal();
 
-    console.log('validation OK', value);
+    return true;
   };
 
   const navigateBackHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
 
-  const assetTransferHandler = useCallback(async () => {
-    const { asset, address, amount } = getFormValues();
-
-    if (typeof selectedAsset?.network !== 'string') {
-      throw new Error('network is empty');
+  const onSubmit: SubmitHandler<any> = async ({ asset, address, amount }) => {
+    if (asset && address && amount && amountValidate()) {
+      await transferErc20(asset, address, amount); // TODO integrate transaction page here
     }
-
-    if (asset && address && amount) {
-      console.log(asset, address, amount);
-      await transferErc20(asset, address, amount);
-    }
-  }, [getFormValues, transferErc20, selectedAsset]);
+  };
 
   useEffect(() => {
     updateTotal();
@@ -172,7 +176,7 @@ const TransferAsset = () => {
             {...register('amount')}
             error={!!errors?.amount?.message}
             helperText={errors.amount?.message}
-            onChange={({ target }) => updateTotal(target.value)}
+            onKeyUp={amountValidate}
             required
             name="amount"
             variant="outlined"
@@ -205,7 +209,7 @@ const TransferAsset = () => {
         <Button variant="outlined" fullWidth={true} onClick={() => navigateBackHandler()}>
           Cancel
         </Button>
-        <Button variant="contained" type="submit" fullWidth={true} onClick={() => assetTransferHandler()}>
+        <Button variant="contained" type="submit" fullWidth={true}>
           Transfer
         </Button>
       </Stack>
