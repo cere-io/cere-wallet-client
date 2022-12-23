@@ -2,6 +2,7 @@
 
 ### vNext
 
+- [DAV-3669] Add asset transfer (ethereum)
 - [DAV-3664] Add Native Cere token balance to UI
 - [DAV-3724] Fix a console error when user closes auth popup
 
@@ -67,7 +68,7 @@
 
 ### v1.1.0
 
-- [DAV-2787] TransactionStore confirmation popups
+- [DAV-2787] Transaction confirmation popups
 - [DAV-2826] Add blocked popup authorization request
 
 ### v1.0.0
