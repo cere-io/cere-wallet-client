@@ -2,11 +2,16 @@
 
 ### vNext
 
-- 
+-
+
+### v.1.11.0
+
+- [DAV-3664] Add Native Cere token balance to UI
+- [DAV-3724] Fix a console error when user closes auth popup
 
 ### v1.10.0
-- 
-- [DAV-3702] Fix skipping tour  
+
+- [DAV-3702] Fix skipping tour
 - [DAV-3674] Add collections to product tour
 - [DAV-3580] Display Cere mainnet address on UI
 

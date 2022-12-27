@@ -3,6 +3,7 @@ import { makeAutoObservable, autorun } from 'mobx';
 import { Wallet, Asset } from '../types';
 import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
+import { CereNativeToken } from './CereNativeToken';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -11,7 +12,9 @@ export class AssetStore {
     makeAutoObservable(this);
 
     autorun(() => {
-      this.list = wallet.isReady() ? [new NativeToken(wallet), new Erc20Token(wallet)] : [];
+      this.list = wallet.isReady()
+        ? [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)]
+        : [];
     });
   }
 
