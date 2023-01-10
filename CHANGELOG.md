@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [DAV-3767] Add GTM integration and click IDs
 
 ### v.1.11.0
 

@@ -14,3 +14,4 @@ export * from './AppContextBanner';
 export * from './Login';
 export * from './OnboardingDialog';
 export * from './Collectibles';
+export * from './ProductTours';
