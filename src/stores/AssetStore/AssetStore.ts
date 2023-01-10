@@ -4,6 +4,7 @@ import { Wallet, Asset } from '../types';
 import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
+import { CustomToken } from './CustomToken';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -28,5 +29,11 @@ export class AssetStore {
 
   get nativeToken() {
     return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
+  }
+
+  public addAsset(assetParams: Asset): void {
+    if (this.wallet.isReady()) {
+      this.list = [...this.list, new CustomToken(this.wallet, assetParams)];
+    }
   }
 }
