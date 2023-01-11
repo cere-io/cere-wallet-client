@@ -81,10 +81,9 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
 
           <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
             <Button
-              sx={{
-                visibility: 'hidden', // This button is needed just to book the space. Implementation will be added later
-              }}
               fullWidth={dense}
+              to="transfer"
+              component={Link}
               size={dense ? 'medium' : 'large'}
               variant="contained"
               startIcon={<TransferIcon />}
