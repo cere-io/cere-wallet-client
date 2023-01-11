@@ -61,7 +61,12 @@ export class TransactionPopupStore {
   }
 
   get app() {
-    return this.shared.state.app;
+    return (
+      this.shared.state.app || {
+        name: 'Cere wallet',
+        url: window.origin,
+      }
+    );
   }
 
   get from() {

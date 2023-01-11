@@ -61,7 +61,7 @@ const TransferAsset = () => {
     mode: 'onSubmit',
     defaultValues: {
       asset: undefined,
-      address: '0x8F306c4E03032E80933938D9E2EA3a44750F7Ec9',
+      address: '0x9317382d69804b22f2b5d1779ecbf62c8c11aa67',
       amount: '0',
     },
   });

@@ -1,7 +1,7 @@
-import { useEmbeddedWalletStore } from './useEmbeddedWalletStore';
+import { useWalletStore } from './useWalletStore';
 
 export const usePopupManagerStore = () => {
-  const walletStore = useEmbeddedWalletStore();
+  const walletStore = useWalletStore();
 
   return walletStore.popupManagerStore;
 };

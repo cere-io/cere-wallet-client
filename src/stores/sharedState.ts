@@ -28,6 +28,7 @@ export const createSharedState = <T = unknown>(
 
   const shared = observable(
     {
+      id: channel,
       isConnected: local,
       state: initialState,
       disconnect: async () => {

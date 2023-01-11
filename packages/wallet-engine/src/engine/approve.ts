@@ -10,7 +10,7 @@ import {
 import { Engine } from './engine';
 
 type WithPreopenedInstanceId = {
-  preopenInstanceId: string;
+  preopenInstanceId?: string;
 };
 
 type ProviderRequest<T = unknown> = WithPreopenedInstanceId & {
@@ -37,22 +37,14 @@ export type ApproveEngineOptions = {
   onPersonalSign?: (request: PersonalSignRequest) => Promise<void>;
 };
 
-const hasPreopenedPopup = (req: any): req is JsonRpcRequest<unknown> & { preopenInstanceId: string } => {
-  return Object.hasOwn(req, 'preopenInstanceId');
-};
-
 type RequestMiddleware<T, U> = (
-  req: JsonRpcRequest<T> & WithPreopenedInstanceId,
+  req: JsonRpcRequest<T> & Partial<WithPreopenedInstanceId>,
   res: PendingJsonRpcResponse<U>,
   next: AsyncJsonRpcEngineNextCallback,
 ) => Promise<void>;
 
 const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T, U>): JsonRpcMiddleware<any, any> =>
   createAsyncMiddleware<T, U>(async (req, res, next) => {
-    if (!hasPreopenedPopup(req)) {
-      return next();
-    }
-
     await handler(req, res, next);
 
     next();

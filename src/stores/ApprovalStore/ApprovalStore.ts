@@ -32,8 +32,8 @@ export class ApprovalStore {
 
   async approvePersonalSign({ preopenInstanceId, params: [content] }: PersonalSignRequest) {
     const tokenConfig = getTokenConfig();
-
-    const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(preopenInstanceId, '/confirm', {
+    const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
+    const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(instanceId, '/confirm', {
       network: this.networkStore.network,
       app: this.contextStore.app,
       status: 'pending',
@@ -42,7 +42,7 @@ export class ApprovalStore {
     });
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
-    this.popupManagerStore.closePopup(preopenInstanceId);
+    this.popupManagerStore.closePopup(instanceId);
 
     if (!popup.isConnected) {
       throw new Error('User has closed the confirmation popup');
@@ -57,8 +57,8 @@ export class ApprovalStore {
     const tokenConfig = getTokenConfig();
     const network = this.networkStore.network!;
     const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
-
-    const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(preopenInstanceId, '/transaction', {
+    const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
+    const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(instanceId, '/transaction', {
       network,
       parsedData,
       from: transaction.from,
@@ -116,7 +116,7 @@ export class ApprovalStore {
     });
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
-    this.popupManagerStore.closePopup(preopenInstanceId);
+    this.popupManagerStore.closePopup(instanceId);
 
     if (!popup.isConnected) {
       throw new Error('User has closed the confirmation popup');
