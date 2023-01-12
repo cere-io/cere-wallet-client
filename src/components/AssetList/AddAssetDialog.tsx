@@ -33,6 +33,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Asset>({
     ticker: '',
+    symbol: '',
     displayName: '',
     network: MATIC,
   });
@@ -81,9 +82,9 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog maxWidth="xs" fullScreen={isMobile} fullWidth open={open} onClose={onClose}>
+    <Dialog fullScreen={isMobile} open={open} onClose={onClose}>
       <DialogContent>
-        <Box>
+        <Box sx={{ width: 416 }}>
           {step === 0 && (
             <>
               <Stack marginBottom={2} gap={0}>
@@ -144,7 +145,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                     onChange={handleChange}
                   />
                   <TextField fullWidth size="small" name="symbol" label="Token symbol" onChange={handleChange} />
-                  <TextField fullWidth size="small" name="name" label="Token name" onChange={handleChange} />
+                  <TextField fullWidth size="small" name="displayName" label="Token name" onChange={handleChange} />
                   <TextField
                     fullWidth
                     size="small"

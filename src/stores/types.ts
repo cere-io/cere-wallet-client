@@ -19,6 +19,7 @@ export type Asset = {
   displayName: string;
   network: string;
   thumb?: string;
+  symbol?: string;
   decimals?: number;
   balance?: number;
 };
