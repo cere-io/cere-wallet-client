@@ -13,7 +13,7 @@ export const SearchAsset: FC<SearchAssetProps> = ({ onChange }) => {
   return (
     <TextField
       InputProps={{
-        startAdornment: <SearchIcon />,
+        startAdornment: <SearchIcon sx={{ width: 20, height: 20, marginRight: '10px' }} />,
       }}
       size="small"
       fullWidth

@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import {
+  Box,
   Dialog,
   DialogContent,
   Stack,
@@ -20,6 +21,7 @@ import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
+import { MATIC } from '~/stores/ExchangeRatesStore/enums';
 
 interface AddAssetDialogProps {
   open: boolean;
@@ -29,23 +31,36 @@ interface AddAssetDialogProps {
 export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<Partial<Asset>>({});
+  const [form, setForm] = useState<Asset>({
+    ticker: '',
+    displayName: '',
+    network: MATIC,
+  });
+
   const [network, setNetwork] = useState('');
   const [search, setSearch] = useState('');
   const assetStore = useAssetStore();
 
-  const onSubmit = useCallback(
-    (asset: Asset) => {
-      assetStore.addAsset(asset);
-    },
-    [assetStore],
+  const { list: tokensList, popularList } = assetStore;
+
+  const list = useMemo(
+    () =>
+      tokensList.filter((asset) => {
+        let networkMatch = true;
+        let searchMatch = true;
+        if (network) {
+          networkMatch = asset.network === network;
+        }
+        if (search.length > 0) {
+          searchMatch = asset.displayName.includes(search) || asset.ticker.includes(search);
+        }
+        return networkMatch && searchMatch;
+      }),
+    [search, tokensList, network],
   );
 
-  const { list, popularList } = assetStore;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(form as Asset);
+  const handleSubmit = () => {
+    assetStore.addAsset(form);
   };
 
   const handleGoCustomStep = () => {
@@ -66,13 +81,13 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog fullScreen={isMobile} fullWidth open={open} onClose={onClose}>
+    <Dialog maxWidth="xs" fullScreen={isMobile} fullWidth open={open} onClose={onClose}>
       <DialogContent>
-        <form onSubmit={handleSubmit}>
+        <Box>
           {step === 0 && (
             <>
-              <Stack marginBottom={1} gap={0}>
-                <Typography variant="h3">Add asset</Typography>
+              <Stack marginBottom={2} gap={0}>
+                <Typography variant="h4">Add asset</Typography>
               </Stack>
               <List variant="outlined">
                 <ListItem divider>
@@ -113,31 +128,43 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
           {step === 1 && (
             <>
               <Stack alignItems="center" marginBottom={3}>
-                <Stack direction="row" gap={1}>
+                <Stack sx={{ width: '100%' }} direction="row" alignItems="center" justifyContent="start" gap={1}>
                   <IconButton onClick={handleGoList}>
                     <ArrowLeftIcon />
                   </IconButton>
-                  <Typography variant="h3">Add custom asset</Typography>
+                  <Typography variant="h4">Add custom asset</Typography>
                 </Stack>
-                <Stack spacing={2} alignItems="center" marginTop={3} marginBottom={6}>
-                  <Select label="network" onChange={handleChangeNetwork} />
-                  <TextField label="Token contract address" onChange={handleChange} />
-                  <TextField label="Token symbol" onChange={handleChange} />
-                  <TextField label="Token name" onChange={handleChange} />
-                  <TextField label="Decimals of precision" onChange={handleChange} />
+                <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
+                  <SwitchNetwork onChange={handleChangeNetwork} />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    name="address"
+                    label="Token contract address"
+                    onChange={handleChange}
+                  />
+                  <TextField fullWidth size="small" name="symbol" label="Token symbol" onChange={handleChange} />
+                  <TextField fullWidth size="small" name="name" label="Token name" onChange={handleChange} />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    name="decimals"
+                    label="Decimals of precision"
+                    onChange={handleChange}
+                  />
                 </Stack>
               </Stack>
               <Stack direction="row" alignItems="center" justifyContent="space-between" marginBottom={3} gap={1}>
                 <Button fullWidth type="button" onClick={onClose} variant="outlined">
                   Cancel
                 </Button>
-                <Button fullWidth type="submit" variant="contained">
+                <Button fullWidth onClick={handleSubmit} variant="contained">
                   Add
                 </Button>
               </Stack>
             </>
           )}
-        </form>
+        </Box>
       </DialogContent>
     </Dialog>
   );

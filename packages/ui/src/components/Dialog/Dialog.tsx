@@ -113,6 +113,7 @@ const originToSlideDirection: Record<DialogOrigin, SlideProps['direction']> = {
 };
 
 export const Dialog = ({
+  maxWidth,
   showClose = true,
   origin: rawOrigin,
   scroll,

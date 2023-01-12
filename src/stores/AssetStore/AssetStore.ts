@@ -24,10 +24,13 @@ export class AssetStore {
         const nativeTokens = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
         this.list = preservedTokens.length > 0 ? preservedTokens : nativeTokens;
         this.nativeTokens = nativeTokens;
+
         this.getPopularTokens(wallet);
       }
+    });
 
-      return () => localStorage.setItem('tokens', JSON.stringify(this.list));
+    autorun(() => {
+      localStorage.setItem('tokens', JSON.stringify(this.list));
     });
   }
 
