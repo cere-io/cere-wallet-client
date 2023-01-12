@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
-import { MenuItem, Select, styled } from '@cere-wallet/ui';
+import { MenuItem, Select } from '@cere-wallet/ui';
 import { MATIC, MUMBAI } from '~/stores/ExchangeRatesStore/enums';
+
+const ALL_NETWORKS = 'All networks';
 
 interface SwitchNetworkProps {
   onChange: (value: string) => void;
 }
 
-const StyledSelect = styled(Select)(({ theme }) => ({
-  height: 48,
-}));
-
-const networkList = [MATIC, MUMBAI];
+const networkList = [MATIC, MUMBAI, ALL_NETWORKS];
 
 export const SwitchNetwork: FC<SwitchNetworkProps> = ({ onChange }) => {
   const handleChange = (item: Record<string, any>) => {
@@ -18,12 +16,12 @@ export const SwitchNetwork: FC<SwitchNetworkProps> = ({ onChange }) => {
   };
 
   return (
-    <StyledSelect fullWidth placeholder="network" onChange={handleChange}>
+    <Select fullWidth placeholder="network" size="small" onChange={handleChange}>
       {networkList.map((name) => (
-        <MenuItem key={name} value={name}>
+        <MenuItem key={name} defaultValue={ALL_NETWORKS} value={name}>
           {name}
         </MenuItem>
       ))}
-    </StyledSelect>
+    </Select>
   );
 };

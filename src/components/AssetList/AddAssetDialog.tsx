@@ -75,16 +75,16 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                 <Typography variant="h3">Add asset</Typography>
               </Stack>
               <List variant="outlined">
-                <ListItem>
-                  <Stack direction="row" alignItems="space-between" marginBottom={3}>
+                <ListItem divider>
+                  <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={3} gap={2}>
                     <SearchAsset onChange={setSearch} />
                     <SwitchNetwork onChange={setNetwork} />
                   </Stack>
                 </ListItem>
                 {list.map((asset) => (
-                  <CustomListItem key={asset.displayName} added asset={asset} />
+                  <CustomListItem divider key={asset.displayName} added asset={asset} />
                 ))}
-                <ListItem>
+                <ListItem divider>
                   <Stack sx={{ width: '100%' }} direction="column" marginBottom={3} gap={1}>
                     <Button
                       onClick={handleGoCustomStep}
@@ -101,7 +101,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                   </Stack>
                 </ListItem>
                 {popularList.map((asset) => (
-                  <CustomListItem key={asset.displayName} asset={asset} />
+                  <CustomListItem key={asset.displayName} asset={asset} divider />
                 ))}
               </List>
             </>

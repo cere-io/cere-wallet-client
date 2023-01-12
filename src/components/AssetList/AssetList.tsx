@@ -1,32 +1,24 @@
 import { observer } from 'mobx-react-lite';
-import { Button, List, ListItem, ListNoItems, NoCoinsIcon, useIsMobile } from '@cere-wallet/ui';
+import { Button, List, ListItem, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
 import { useAssetStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
 import { useCallback, useState } from 'react';
 import { ManageAssetsIcon } from 'packages/ui/src/icons/ManageAssetsIcon';
 import { AddAssetDialog } from './AddAssetDialog';
-import { Asset } from '~/stores';
-import { useNavigate } from 'react-router-dom';
 
 export type AssetListProps = {
   dense?: boolean;
 };
 
 const AssetList = ({ dense }: AssetListProps) => {
-  const isMobile = useIsMobile();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const assetStore = useAssetStore();
 
   const { list } = assetStore;
 
   const handleShow = useCallback(() => {
-    if (isMobile) {
-      navigate('wallet/home/assets/management');
-    } else {
-      setOpen(true);
-    }
-  }, [setOpen, isMobile, navigate]);
+    setOpen(true);
+  }, [setOpen]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
