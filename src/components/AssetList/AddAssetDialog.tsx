@@ -85,17 +85,21 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                   <CustomListItem divider key={asset.displayName} added asset={asset} />
                 ))}
                 <ListItem divider>
-                  <Stack sx={{ width: '100%' }} direction="column" marginBottom={3} gap={1}>
+                  <Stack sx={{ width: '100%' }} direction="column" marginBottom={1} marginTop={1} gap={1}>
                     <Button
                       onClick={handleGoCustomStep}
                       type="button"
+                      size="large"
                       startIcon={<AddIcon />}
                       fullWidth
+                      sx={{
+                        fontWeight: 'medium',
+                      }}
                       variant="outlined"
                     >
                       Add custom asset
                     </Button>
-                    <Typography variant="body2" marginTop={2} color="text.secondary" fontWeight="bold">
+                    <Typography variant="body1" marginTop={2} color="text.secondary" fontWeight="bold">
                       Popular coins
                     </Typography>
                   </Stack>
