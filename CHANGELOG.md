@@ -1,8 +1,7 @@
 ## Release Notes:
 
 ### vNext
-
--
+- [DAV-3491] Add custom asset management
 
 ### v.1.11.0
 

@@ -39,6 +39,8 @@ export {
   InputAdornment,
   Snackbar,
   Radio,
+  Select,
+  Input,
 } from '@mui/material';
 
 export type {
@@ -80,6 +82,8 @@ export type {
   SlideProps,
   GridProps,
   SnackbarProps,
+  SelectProps,
+  Options,
 } from '@mui/material';
 
 export * from './IconButton';

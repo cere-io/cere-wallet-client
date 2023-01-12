@@ -1,39 +1,32 @@
 import { observer } from 'mobx-react-lite';
-import { Box, Button, List, ListItem, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
+import { Button, List, ListItem, ListNoItems, NoCoinsIcon, useIsMobile } from '@cere-wallet/ui';
 import { useAssetStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
 import { useCallback, useState } from 'react';
 import { ManageAssetsIcon } from 'packages/ui/src/icons/ManageAssetsIcon';
 import { AddAssetDialog } from './AddAssetDialog';
 import { Asset } from '~/stores';
+import { useNavigate } from 'react-router-dom';
 
 export type AssetListProps = {
   dense?: boolean;
 };
 
 const AssetList = ({ dense }: AssetListProps) => {
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const assetStore = useAssetStore();
 
   const { list } = assetStore;
 
-  const handleAddAsset = useCallback(
-    (asset: Asset) => {
-      assetStore.addAsset(
-        asset || {
-          ticker: 'custom',
-          displayName: 'custom',
-          network: 'custom',
-          balance: 0,
-        },
-      );
-    },
-    [assetStore],
-  );
-
   const handleShow = useCallback(() => {
-    setOpen(true);
-  }, [setOpen]);
+    if (isMobile) {
+      navigate('wallet/home/assets/management');
+    } else {
+      setOpen(true);
+    }
+  }, [setOpen, isMobile, navigate]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -53,15 +46,13 @@ const AssetList = ({ dense }: AssetListProps) => {
             description="Add assets to your overview to see the balance and activity"
           />
         )}
-        <ListItem>
-          <Box justifyContent="center">
-            <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
-              Manage assets
-            </Button>
-          </Box>
+        <ListItem sx={{ justifyContent: 'center' }}>
+          <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
+            Manage assets
+          </Button>
         </ListItem>
       </List>
-      <AddAssetDialog open={open} onClose={handleClose} onSubmit={handleAddAsset} />
+      <AddAssetDialog open={open} onClose={handleClose} />
     </>
   );
 };

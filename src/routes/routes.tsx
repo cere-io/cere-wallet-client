@@ -16,6 +16,7 @@ import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } f
 import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
 import { AssetBuy, AssetReceive, Assets } from '~/routes/Assets';
 import { Activity } from '~/routes/Activity';
+import { CollectiblesManagement } from './CollectiblesManagement';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -48,7 +49,7 @@ export default createRoutesFromElements(
       </Route>
 
       <Route path="home/collectibles/:nftId" element={<CollectibleItem />} />
-
+      <Route path="home/collectibles/management" element={<CollectiblesManagement />} />
       <Route path="home" element={<WalletHome />}>
         <Route index element={<Assets />} />
         <Route path="assets" element={<Assets />} />

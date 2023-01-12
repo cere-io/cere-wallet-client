@@ -43,6 +43,10 @@ export class CustomToken implements Asset {
 
   constructor(private wallet: ReadyWallet, asset: Asset) {
     makeAutoObservable(this);
+    this.tokenConfig = {
+      symbol: asset.ticker,
+      decimals: asset.decimals || 0,
+    };
   }
 
   get displayName() {
