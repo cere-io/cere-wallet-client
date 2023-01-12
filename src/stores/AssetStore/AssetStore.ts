@@ -16,13 +16,18 @@ export class AssetStore {
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
     this.list = [];
+
     autorun(() => {
       if (wallet.isReady()) {
+        const preservedTokensFromStorage = localStorage.getItem('tokens');
+        const preservedTokens = preservedTokensFromStorage ? JSON.parse(preservedTokensFromStorage) : [];
         const nativeTokens = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
-        this.list = nativeTokens;
+        this.list = preservedTokens.length > 0 ? preservedTokens : nativeTokens;
         this.nativeTokens = nativeTokens;
         this.getPopularTokens(wallet);
       }
+
+      return () => localStorage.setItem('tokens', JSON.stringify(this.list));
     });
   }
 
@@ -62,16 +67,24 @@ export class AssetStore {
     try {
       const response = await fetch(COIN_GECKO_API_TRENDING);
       const { coins } = await response.json();
+      const items = [...coins, ...this.nativeTokens];
 
-      this.popularList = coins.map(
-        ({ item }: Record<string, any>) =>
-          new CustomToken(wallet, {
-            ticker: item.symbol,
-            displayName: item.name,
-            network: item.network,
-            balance: 0,
-          }),
-      );
+      this.popularList = items.reduce((acc: Asset[], { item }: Record<string, any>) => {
+        const addedToken = this.list.find((asset) => asset.ticker === item.ticker);
+        if (!addedToken) {
+          acc.push(
+            new CustomToken(wallet, {
+              ticker: item.symbol,
+              displayName: item.name,
+              network: item.network,
+              thumb: item.thumb,
+              balance: 0,
+            }),
+          );
+        }
+
+        return acc;
+      }, []);
     } catch (error) {
       console.warn('CoinGecko rates fetch failed.', error);
     }
