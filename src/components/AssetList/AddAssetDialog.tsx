@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import {
   Box,
   Dialog,
+  Divider,
   DialogContent,
   Stack,
   Button,
@@ -39,7 +40,9 @@ const FormItem = styled(Box)(() => ({
 }));
 
 const Field = styled(TextField)(() => ({
-  height: 48,
+  '& .MuiInputBase-root': {
+    height: 48,
+  },
 }));
 
 export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
@@ -178,7 +181,14 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                   </FormItem>
                 </Stack>
               </Stack>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" marginBottom={3} gap={1}>
+              <Stack
+                divider={<Divider />}
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                marginBottom={3}
+                gap={1}
+              >
                 <Button fullWidth type="button" onClick={onClose} variant="outlined">
                   Cancel
                 </Button>
