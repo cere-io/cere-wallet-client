@@ -38,8 +38,9 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
 };
 
 export class CustomToken implements Asset {
-  private tokenConfig = getTokenConfig();
-  private balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
+  private tokenConfig: TokenConfig;
+
+  private balanceResource;
 
   constructor(private wallet: ReadyWallet, asset: Asset) {
     makeAutoObservable(this);
@@ -47,6 +48,7 @@ export class CustomToken implements Asset {
       symbol: asset.ticker,
       decimals: asset.decimals || 0,
     };
+    this.balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
   }
 
   get displayName() {

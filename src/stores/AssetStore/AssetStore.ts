@@ -32,7 +32,17 @@ export class AssetStore {
 
   set list(assets: Asset[]) {
     this.assets = assets;
-    localStorage.setItem('tokens', JSON.stringify(this.assets));
+    const serializedTokens = assets.map((el) => ({
+      ticker: el.symbol,
+      displayName: el.displayName,
+      network: el.network,
+      address: el.address,
+      thumb: el.thumb,
+      symbol: el.symbol,
+      decimals: el.decimals,
+      balance: el.balance,
+    }));
+    localStorage.setItem('tokens', JSON.stringify(serializedTokens));
   }
 
   get popularList() {
