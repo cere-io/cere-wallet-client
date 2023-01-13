@@ -89,6 +89,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const handleSubmit = () => {
     assetStore.addAsset(form);
     onClose();
+    setStep(0);
   };
 
   const handleGoCustomStep = () => {
