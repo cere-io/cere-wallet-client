@@ -14,13 +14,14 @@ export function usePopularAssets() {
     const data = await response.json();
 
     const items: Asset[] = data.сoins.map((item: Record<string, string | number>) => ({
-      ticker: item.ticker,
+      ticker: item.symbol,
       displayName: item.name,
       network: item.network,
       thumb: item.thumb,
       symbol: item.symbol,
       decimals: item.symbol,
     }));
+    console.log('==>', data);
     setData(items);
     setLoading(false);
   }, []);

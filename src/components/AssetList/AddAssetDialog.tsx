@@ -17,14 +17,12 @@ import {
 import { Typography } from '@mui/material';
 import { ArrowLeftIcon } from 'packages/ui/src/icons/ArrowLeftIcon';
 import React, { FC, useState } from 'react';
-import { useAssetStore } from '~/hooks';
+import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
 import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
-import { useSearchAssets } from './useSearchAssets';
-import { usePopularAssets } from './usePopularAssets';
 import { SelectNetwork } from './SelectNetwork';
 
 interface AddAssetDialogProps {
@@ -63,7 +61,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const [step, setStep] = useState(0);
   const { search, setSearch, data: searchData } = useSearchAssets();
   const { data: popularList } = usePopularAssets();
-
+  console.log('-->', popularList);
   const [form, setForm] = useState<Asset>({
     address: '',
     ticker: '',
@@ -76,22 +74,6 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const assetStore = useAssetStore();
 
   const { list: tokensList } = assetStore;
-
-  const list = useMemo(
-    () =>
-      [...tokensList, ...searchData, ...popularList].filter((asset) => {
-        let networkMatch = true;
-        let searchMatch = true;
-        if (network) {
-          networkMatch = asset.network === network;
-        }
-        if (search.length > 0) {
-          searchMatch = asset.displayName?.includes(search) || asset.ticker?.includes(search);
-        }
-        return networkMatch && searchMatch;
-      }),
-    [search, tokensList, popularList, searchData, network],
-  );
 
   const handleSubmit = () => {
     assetStore.addAsset(form);
@@ -114,6 +96,22 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const handleChangeNetwork = (item: any) => {
     setForm((prevForm) => ({ ...prevForm, network: item }));
   };
+
+  const list = useMemo(
+    () =>
+      [...tokensList, ...searchData, ...popularList].filter((asset) => {
+        let networkMatch = true;
+        let searchMatch = true;
+        if (network) {
+          networkMatch = asset.network === network;
+        }
+        if (search.length > 0) {
+          searchMatch = asset.displayName?.includes(search) || asset.ticker?.includes(search);
+        }
+        return networkMatch && searchMatch;
+      }),
+    [search, tokensList, popularList, searchData, network],
+  );
 
   const isValid = useMemo(
     () => form.decimals && form.decimals >= 0 && form.displayName.length > 0 && form.address && form.address.length > 0,
