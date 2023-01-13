@@ -46,7 +46,7 @@ export const CustomListItem = ({ asset, added = false, ...props }: CustomListIte
   return (
     <ListItem {...props}>
       <ListItemIcon inset>
-        <CoinIcon coin={ticker} fontSize="inherit" />
+        <CoinIcon thumb={asset.thumb} coin={ticker} fontSize="inherit" />
       </ListItemIcon>
 
       <ListItemText primary={displayName} secondary={network} />

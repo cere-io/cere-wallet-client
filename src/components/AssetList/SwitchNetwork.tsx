@@ -16,9 +16,9 @@ export const SwitchNetwork: FC<SwitchNetworkProps> = ({ onChange }) => {
   };
 
   return (
-    <Select fullWidth placeholder="network" size="small" onChange={handleChange}>
+    <Select fullWidth placeholder="network" size="small" defaultValue={ALL_NETWORKS} onChange={handleChange}>
       {networkList.map((name) => (
-        <MenuItem key={name} defaultValue={ALL_NETWORKS} value={name}>
+        <MenuItem key={name} value={name}>
           {name}
         </MenuItem>
       ))}

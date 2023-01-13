@@ -144,7 +144,9 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                     label="Token contract address"
                     onChange={handleChange}
                   />
+                  <Typography variant="body2">Token symbol</Typography>
                   <TextField fullWidth size="small" name="symbol" label="Token symbol" onChange={handleChange} />
+
                   <TextField fullWidth size="small" name="displayName" label="Token name" onChange={handleChange} />
                   <TextField
                     fullWidth
