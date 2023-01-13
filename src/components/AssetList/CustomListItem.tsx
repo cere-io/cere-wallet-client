@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-  ListItem,
+  ListItem as ListItemComponent,
   ListItemIcon,
   ListItemText,
   ListItemProps,
@@ -18,6 +18,11 @@ export type CustomListItemProps = ListItemProps & {
   asset: Asset;
   added?: boolean;
 };
+
+const ListItem = styled(ListItemComponent)(() => ({
+  paddingRight: 24,
+  paddingLeft: 24,
+}));
 
 const RemoveButton = styled(Button)(() => ({
   backgroundColor: '#FFF2F2',

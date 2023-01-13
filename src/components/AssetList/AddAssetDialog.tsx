@@ -7,7 +7,7 @@ import {
   Stack,
   Button,
   AddIcon,
-  ListItem,
+  ListItem as ListItemComponent,
   IconButton,
   TextField,
   useIsMobile,
@@ -49,6 +49,16 @@ const Field = styled(TextField)(() => ({
   '& .MuiInputBase-root': {
     height: 48,
   },
+}));
+
+const StyledList = styled(List)(() => ({
+  paddingLeft: 0,
+  paddingRight: 0,
+}));
+
+const ListItem = styled(ListItemComponent)(() => ({
+  paddingRight: 24,
+  paddingLeft: 24,
 }));
 
 const Container = styled(Box)(() => ({
@@ -138,17 +148,17 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
               <Stack marginBottom={2} gap={0}>
                 <Typography variant="h4">Add asset</Typography>
               </Stack>
-              <List variant="outlined">
-                <ListItem divider>
-                  <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={3} gap={2}>
+              <StyledList variant="outlined">
+                <ListItem disableGutters divider>
+                  <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={1} gap={2}>
                     <SearchAsset onChange={setSearch} />
                     <SwitchNetwork onChange={setNetwork} />
                   </Stack>
                 </ListItem>
                 {list.map((asset) => (
-                  <CustomListItem divider key={asset.displayName} added asset={asset} />
+                  <CustomListItem disableGutters divider key={asset.displayName} added asset={asset} />
                 ))}
-                <ListItem divider>
+                <ListItem disableGutters divider>
                   <Stack sx={{ width: '100%' }} direction="column" marginBottom={1} marginTop={1} gap={1}>
                     <Button
                       onClick={handleGoCustomStep}
@@ -170,8 +180,10 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                 </ListItem>
                 {isLoadingPopular && <Loading />}
                 {!isLoadingPopular &&
-                  popularRenderList.map((asset) => <CustomListItem key={asset.displayName} asset={asset} divider />)}
-              </List>
+                  popularRenderList.map((asset) => (
+                    <CustomListItem disableGutters key={asset.displayName} asset={asset} divider />
+                  ))}
+              </StyledList>
             </>
           )}
           {step === 1 && (
