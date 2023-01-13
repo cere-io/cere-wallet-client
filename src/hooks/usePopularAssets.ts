@@ -10,20 +10,23 @@ export function usePopularAssets() {
 
   const fetchSearch = useCallback(async () => {
     setLoading(true);
-    const response = await fetch(`${COIN_GECKO_API_SEARCH}`);
-    const data = await response.json();
-
-    const items: Asset[] = data.сoins.map((item: Record<string, string | number>) => ({
-      ticker: item.symbol,
-      displayName: item.name,
-      network: item.network,
-      thumb: item.thumb,
-      symbol: item.symbol,
-      decimals: item.symbol,
-    }));
-    console.log('==>', data);
-    setData(items);
-    setLoading(false);
+    try {
+      const response = await fetch(`${COIN_GECKO_API_SEARCH}`);
+      const data = await response.json();
+      const items: Asset[] = data.coins?.map((item: Record<string, string | number>) => ({
+        ticker: item.symbol || '',
+        displayName: item.name,
+        network: item.network,
+        thumb: item.thumb,
+        symbol: item.symbol,
+        decimals: item.symbol,
+      }));
+      setData(items);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log('Coingecko failed fetch trending assets:', err);
+    }
   }, []);
 
   useEffect(() => {

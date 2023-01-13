@@ -13,6 +13,7 @@ import {
   useIsMobile,
   List,
   styled,
+  Loading,
 } from '@cere-wallet/ui';
 import { Typography } from '@mui/material';
 import { ArrowLeftIcon } from 'packages/ui/src/icons/ArrowLeftIcon';
@@ -60,8 +61,8 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
   const { search, setSearch, data: searchData } = useSearchAssets();
-  const { data: popularList } = usePopularAssets();
-  console.log('-->', popularList);
+  const { data: popularList, isLoading: isLoadingPopular } = usePopularAssets();
+
   const [form, setForm] = useState<Asset>({
     address: '',
     ticker: '',
@@ -99,7 +100,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
 
   const list = useMemo(
     () =>
-      [...tokensList, ...searchData, ...popularList].filter((asset) => {
+      [...tokensList, ...searchData].filter((asset) => {
         let networkMatch = true;
         let searchMatch = true;
         if (network) {
@@ -110,8 +111,18 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
         }
         return networkMatch && searchMatch;
       }),
-    [search, tokensList, popularList, searchData, network],
+    [search, tokensList, searchData, network],
   );
+
+  const popularRenderList = useMemo(() => {
+    return popularList.reduce((acc: Asset[], item) => {
+      const presentItem = tokensList.find((el) => el.ticker === item.ticker);
+      if (!presentItem) {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+  }, [popularList, tokensList]);
 
   const isValid = useMemo(
     () => form.decimals && form.decimals >= 0 && form.displayName.length > 0 && form.address && form.address.length > 0,
@@ -157,9 +168,9 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                     </Typography>
                   </Stack>
                 </ListItem>
-                {popularList.map((asset) => (
-                  <CustomListItem key={asset.displayName} asset={asset} divider />
-                ))}
+                {isLoadingPopular && <Loading />}
+                {!isLoadingPopular &&
+                  popularRenderList.map((asset) => <CustomListItem key={asset.displayName} asset={asset} divider />)}
               </List>
             </>
           )}
