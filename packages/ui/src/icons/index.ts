@@ -60,3 +60,4 @@ export * from './LogoRampCaptionIcon';
 export * from './LogoRampIcon';
 export * from './DotArrowRightIcon';
 export * from './TourIcon';
+export * from './TransactionProgressIcon';

@@ -4,7 +4,6 @@ import {
   JsonRpcMiddleware,
   JsonRpcRequest,
   PendingJsonRpcResponse,
-  AsyncJsonRpcEngineNextCallback,
 } from 'json-rpc-engine';
 
 import { Engine } from './engine';
@@ -13,11 +12,12 @@ type WithPreopenedInstanceId = {
   preopenInstanceId?: string;
 };
 
-type ProviderRequest<T = unknown> = WithPreopenedInstanceId & {
+type ProviderRequest<T = unknown, U = unknown> = WithPreopenedInstanceId & {
   params: T;
+  proceed: () => Promise<Pick<PendingJsonRpcResponse<U>, 'error' | 'result'>>;
 };
 
-export type PersonalSignRequest = ProviderRequest<[string]>;
+export type PersonalSignRequest = ProviderRequest<[string], string>;
 
 export type IncomingTransaction = {
   from: string;
@@ -30,7 +30,7 @@ export type IncomingTransaction = {
   maxPriorityFeePerGas?: string;
 };
 
-export type SendTransactionRequest = ProviderRequest<[IncomingTransaction]>;
+export type SendTransactionRequest = ProviderRequest<[IncomingTransaction], string>;
 
 export type ApproveEngineOptions = {
   onSendTransaction?: (request: SendTransactionRequest) => Promise<void>;
@@ -39,15 +39,25 @@ export type ApproveEngineOptions = {
 
 type RequestMiddleware<T, U> = (
   req: JsonRpcRequest<T> & Partial<WithPreopenedInstanceId>,
-  res: PendingJsonRpcResponse<U>,
-  next: AsyncJsonRpcEngineNextCallback,
+  proceed: () => Promise<PendingJsonRpcResponse<U>>,
 ) => Promise<void>;
 
 const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T, U>): JsonRpcMiddleware<any, any> =>
   createAsyncMiddleware<T, U>(async (req, res, next) => {
-    await handler(req, res, next);
+    let done = false;
 
-    next();
+    const proceed = async () => {
+      await next();
+      done = true;
+
+      return res;
+    };
+
+    await handler(req, proceed);
+
+    if (!done) {
+      await proceed();
+    }
   });
 
 const noop = async () => {};
@@ -56,17 +66,19 @@ export const createApproveEngine = ({ onPersonalSign = noop, onSendTransaction =
 
   engine.push(
     createScaffoldMiddleware({
-      personal_sign: createRequestMiddleware<[string]>(async (req, res, next) => {
+      personal_sign: createRequestMiddleware<[string]>(async (req, proceed) => {
         await onPersonalSign({
           preopenInstanceId: req.preopenInstanceId,
           params: req.params!,
+          proceed,
         });
       }),
 
-      eth_sendTransaction: createRequestMiddleware<[IncomingTransaction]>(async (req, res, next) => {
+      eth_sendTransaction: createRequestMiddleware<[IncomingTransaction]>(async (req, proceed) => {
         await onSendTransaction({
           preopenInstanceId: req.preopenInstanceId,
           params: req.params!,
+          proceed,
         });
       }),
     }),
