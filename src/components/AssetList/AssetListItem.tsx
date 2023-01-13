@@ -16,7 +16,7 @@ export const AssetListItem = ({ asset, ...props }: AssetListItemProps) => {
   return (
     <ListItem {...props}>
       <ListItemIcon inset>
-        <CoinIcon coin={ticker} fontSize="inherit" />
+        <CoinIcon coin={ticker} thumb={asset.thumb} fontSize="inherit" />
       </ListItemIcon>
 
       <ListItemText primary={displayName} secondary={network} />

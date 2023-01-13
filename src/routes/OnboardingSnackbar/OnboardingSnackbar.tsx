@@ -43,28 +43,30 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
 
   return (
     <SnackbarContainer open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-      <Stack gap={2}>
-        <Box>
-          <SnackbarTourIcon />
-        </Box>
-        <Box>
-          <Typography variant="body1" fontWeight="bold">
-            Not sure how to use your wallet?
-          </Typography>
-          <Typography variant="body2" color="text.secondary" fontWeight="regular">
-            Get a better understanding through{' '}
-            <Link href="" onClick={handleLinkClick}>
-              a short product tour
-            </Link>{' '}
-            of how your wallet works
-          </Typography>
-        </Box>
-        <Box>
-          <IconButton size="small" onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </Stack>
+      <Box>
+        <Stack direction="row" gap={2}>
+          <Box>
+            <SnackbarTourIcon />
+          </Box>
+          <Box>
+            <Typography variant="body1" fontWeight="bold">
+              Not sure how to use your wallet?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" fontWeight="regular">
+              Get a better understanding through{' '}
+              <Link href="" onClick={handleLinkClick}>
+                a short product tour
+              </Link>{' '}
+              of how your wallet works
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton size="small" onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Stack>
+      </Box>
     </SnackbarContainer>
   );
 };
