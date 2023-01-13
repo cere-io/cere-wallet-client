@@ -5,8 +5,9 @@ import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
 import { CustomToken } from './CustomToken';
+import { COIN_GECKO_API } from '~/constants';
 
-const COIN_GECKO_API_TRENDING = 'https://api.coingecko.com/api/v3/search/trending';
+const COIN_GECKO_API_TRENDING = `${COIN_GECKO_API}search/trending`;
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -28,10 +29,6 @@ export class AssetStore {
         this.getPopularTokens(wallet);
       }
     });
-
-    autorun(() => {
-      localStorage.setItem('tokens', JSON.stringify(this.list));
-    });
   }
 
   get list() {
@@ -40,6 +37,7 @@ export class AssetStore {
 
   set list(assets: Asset[]) {
     this.assets = assets;
+    localStorage.setItem('tokens', JSON.stringify(this.list));
   }
 
   get popularList() {
@@ -89,7 +87,7 @@ export class AssetStore {
         return acc;
       }, []);
     } catch (error) {
-      console.warn('CoinGecko rates fetch failed.', error);
+      console.warn('CoinGecko trending coings fetch failed.', error);
     }
   }
 }

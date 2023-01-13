@@ -22,6 +22,7 @@ import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
 import { MATIC } from '~/stores/ExchangeRatesStore/enums';
+import { useSearchAssets } from './useSearchAssets';
 
 interface AddAssetDialogProps {
   open: boolean;
@@ -31,6 +32,8 @@ interface AddAssetDialogProps {
 export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
+  const { search, setSearch, data: searchData } = useSearchAssets();
+
   const [form, setForm] = useState<Asset>({
     ticker: '',
     symbol: '',
@@ -39,25 +42,24 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   });
 
   const [network, setNetwork] = useState('');
-  const [search, setSearch] = useState('');
   const assetStore = useAssetStore();
 
   const { list: tokensList, popularList } = assetStore;
 
   const list = useMemo(
     () =>
-      tokensList.filter((asset) => {
+      [...tokensList, ...searchData].filter((asset) => {
         let networkMatch = true;
         let searchMatch = true;
         if (network) {
           networkMatch = asset.network === network;
         }
         if (search.length > 0) {
-          searchMatch = asset.displayName.includes(search) || asset.ticker.includes(search);
+          searchMatch = asset.displayName?.includes(search) || asset.ticker?.includes(search);
         }
         return networkMatch && searchMatch;
       }),
-    [search, tokensList, network],
+    [search, tokensList, searchData, network],
   );
 
   const handleSubmit = () => {

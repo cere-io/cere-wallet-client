@@ -7,3 +7,4 @@ export const REACT_APP_FREEPORT_API = process.env.REACT_APP_FREEPORT_API;
 export const REACT_APP_DDC_API = process.env.REACT_APP_DDC_API;
 export const REACT_APP_RAMP_API_KEY = process.env.REACT_APP_RAMP_API_KEY;
 export const CERE_NETWORK_RPC = process.env.REACT_APP_CERE_NETWORK_RPC;
+export const COIN_GECKO_API = 'https://api.coingecko.com/api/v3/';
