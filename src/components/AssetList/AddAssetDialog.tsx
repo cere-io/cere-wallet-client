@@ -31,6 +31,12 @@ interface AddAssetDialogProps {
   onClose: () => void;
 }
 
+const StyledDialog = styled(Dialog)(() => ({
+  '& .MuiDialogContent-root': {
+    paddingTop: 24,
+  },
+}));
+
 const Label = styled(Typography)(() => ({
   margin: 0,
 }));
@@ -107,7 +113,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   );
 
   return (
-    <Dialog fullScreen={isMobile} open={open} onClose={onClose}>
+    <StyledDialog fullScreen={isMobile} open={open} onClose={onClose}>
       <DialogContent>
         <Box sx={{ width: 416 }}>
           {step === 0 && (
@@ -200,6 +206,6 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
           )}
         </Box>
       </DialogContent>
-    </Dialog>
+    </StyledDialog>
   );
 };
