@@ -1,8 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { MenuItem, Select } from '@cere-wallet/ui';
 import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
-
-const ALL_NETWORKS = 'All networks';
 
 interface SelectNetworkProps {
   onChange: (value: string) => void;
