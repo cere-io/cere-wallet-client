@@ -2,16 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { COIN_GECKO_API } from '~/constants';
 import { Asset } from '~/stores';
 
-const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}search`;
+const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}search/trending`;
 
-export function useSearchAssets() {
-  const [search, setSearch] = useState('');
+export function usePopularAssets() {
   const [data, setData] = useState<Asset[]>([]);
   const [isLoading, setLoading] = useState(false);
 
   const fetchSearch = useCallback(async () => {
     setLoading(true);
-    const response = await fetch(`${COIN_GECKO_API_SEARCH}?query=${search}`);
+    const response = await fetch(`${COIN_GECKO_API_SEARCH}`);
     const data = await response.json();
 
     const items: Asset[] = data.сoins.map((item: Record<string, string | number>) => ({
@@ -24,7 +23,7 @@ export function useSearchAssets() {
     }));
     setData(items);
     setLoading(false);
-  }, [search]);
+  }, []);
 
   useEffect(() => {
     fetchSearch();
@@ -33,7 +32,5 @@ export function useSearchAssets() {
   return {
     isLoading,
     data,
-    search,
-    setSearch,
   };
 }

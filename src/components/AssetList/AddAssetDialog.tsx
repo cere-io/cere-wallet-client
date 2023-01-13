@@ -24,6 +24,7 @@ import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
 import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
 import { useSearchAssets } from './useSearchAssets';
+import { usePopularAssets } from './usePopularAssets';
 import { SelectNetwork } from './SelectNetwork';
 
 interface AddAssetDialogProps {
@@ -32,8 +33,8 @@ interface AddAssetDialogProps {
 }
 
 const StyledDialog = styled(Dialog)(() => ({
-  '& .MuiDialogContent-root': {
-    paddingTop: 14,
+  '& .MuiBox-root .MuiDialogContent-root': {
+    paddingTop: 24,
   },
 }));
 
@@ -61,6 +62,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
   const { search, setSearch, data: searchData } = useSearchAssets();
+  const { data: popularList } = usePopularAssets();
 
   const [form, setForm] = useState<Asset>({
     address: '',
@@ -73,11 +75,11 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const [network, setNetwork] = useState('');
   const assetStore = useAssetStore();
 
-  const { list: tokensList, popularList } = assetStore;
+  const { list: tokensList } = assetStore;
 
   const list = useMemo(
     () =>
-      [...tokensList, ...searchData].filter((asset) => {
+      [...tokensList, ...searchData, ...popularList].filter((asset) => {
         let networkMatch = true;
         let searchMatch = true;
         if (network) {
@@ -88,7 +90,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
         }
         return networkMatch && searchMatch;
       }),
-    [search, tokensList, searchData, network],
+    [search, tokensList, popularList, searchData, network],
   );
 
   const handleSubmit = () => {
