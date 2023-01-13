@@ -14,7 +14,7 @@ export function useSearchAssets() {
     const response = await fetch(`${COIN_GECKO_API_SEARCH}?query=${search}`);
     const data = await response.json();
 
-    const items: Asset[] = data.сoins.map((item: Record<string, string | number>) => ({
+    const items: Asset[] = data.сoins.map(({ item }: { item: Record<string, string | number> }) => ({
       ticker: item.ticker,
       displayName: item.name,
       network: item.network,

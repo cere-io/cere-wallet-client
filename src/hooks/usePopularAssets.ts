@@ -13,7 +13,8 @@ export function usePopularAssets() {
     try {
       const response = await fetch(`${COIN_GECKO_API_SEARCH}`);
       const data = await response.json();
-      const items: Asset[] = data.coins?.map((item: Record<string, string | number>) => ({
+
+      const items: Asset[] = data.coins?.map(({ item }: { item: Record<string, string | number> }) => ({
         ticker: item.symbol || '',
         displayName: item.name,
         network: item.network,
