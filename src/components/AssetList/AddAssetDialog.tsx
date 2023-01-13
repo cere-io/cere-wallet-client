@@ -11,6 +11,7 @@ import {
   TextField,
   useIsMobile,
   List,
+  styled,
 } from '@cere-wallet/ui';
 import { Typography } from '@mui/material';
 import { ArrowLeftIcon } from 'packages/ui/src/icons/ArrowLeftIcon';
@@ -35,6 +36,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const { search, setSearch, data: searchData } = useSearchAssets();
 
   const [form, setForm] = useState<Asset>({
+    address: '',
     ticker: '',
     symbol: '',
     displayName: '',
@@ -83,6 +85,11 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const handleChangeNetwork = (item: any) => {
     setForm((prevForm) => ({ ...prevForm, network: item }));
   };
+
+  const isValid = useMemo(
+    () => form.decimals && form.decimals >= 0 && form.displayName.length > 0 && form.address && form.address.length > 0,
+    [form],
+  );
 
   return (
     <Dialog fullScreen={isMobile} open={open} onClose={onClose}>
@@ -163,7 +170,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                 <Button fullWidth type="button" onClick={onClose} variant="outlined">
                   Cancel
                 </Button>
-                <Button fullWidth onClick={handleSubmit} variant="contained">
+                <Button fullWidth disabled={!isValid} onClick={handleSubmit} variant="contained">
                   Add
                 </Button>
               </Stack>
