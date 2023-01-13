@@ -33,7 +33,7 @@ interface AddAssetDialogProps {
 
 const StyledDialog = styled(Dialog)(() => ({
   '& .MuiDialogContent-root': {
-    paddingTop: 24,
+    paddingTop: 14,
   },
 }));
 
