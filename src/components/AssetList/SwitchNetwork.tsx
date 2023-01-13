@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { MenuItem, Select } from '@cere-wallet/ui';
-import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
+import { MATIC_PLATFORMS } from '~/stores';
 
 const ALL_NETWORKS = 'All networks';
 

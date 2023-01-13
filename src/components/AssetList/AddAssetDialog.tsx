@@ -22,7 +22,7 @@ import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
-import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
+import { MATIC_PLATFORMS } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
 
 interface AddAssetDialogProps {
