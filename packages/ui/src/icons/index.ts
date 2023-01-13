@@ -62,3 +62,4 @@ export * from './DotArrowRightIcon';
 export * from './TourIcon';
 export * from './AddIcon';
 export * from './RemoveIcon';
+export * from './ArrowLeftIcon';

@@ -14,9 +14,9 @@ import {
   List,
   styled,
   Loading,
+  Typography,
+  ArrowLeftIcon,
 } from '@cere-wallet/ui';
-import { Typography } from '@mui/material';
-import { ArrowLeftIcon } from 'packages/ui/src/icons/ArrowLeftIcon';
 import React, { FC, useState } from 'react';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
