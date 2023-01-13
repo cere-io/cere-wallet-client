@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   Stack,
-  Select,
   Button,
   AddIcon,
   ListItem,
@@ -21,8 +20,9 @@ import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
-import { MATIC } from '~/stores/ExchangeRatesStore/enums';
+import { MATIC_PLATFORMS } from '~/stores/ExchangeRatesStore/enums';
 import { useSearchAssets } from './useSearchAssets';
+import { SelectNetwork } from './SelectNetwork';
 
 interface AddAssetDialogProps {
   open: boolean;
@@ -38,7 +38,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
     ticker: '',
     symbol: '',
     displayName: '',
-    network: MATIC,
+    network: MATIC_PLATFORMS.POLIGON,
   });
 
   const [network, setNetwork] = useState('');
@@ -64,6 +64,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
 
   const handleSubmit = () => {
     assetStore.addAsset(form);
+    onClose();
   };
 
   const handleGoCustomStep = () => {
@@ -138,7 +139,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                   <Typography variant="h4">Add custom asset</Typography>
                 </Stack>
                 <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
-                  <SwitchNetwork onChange={handleChangeNetwork} />
+                  <SelectNetwork onChange={handleChangeNetwork} />
                   <TextField
                     fullWidth
                     size="small"
@@ -146,7 +147,6 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                     label="Token contract address"
                     onChange={handleChange}
                   />
-                  <Typography variant="body2">Token symbol</Typography>
                   <TextField fullWidth size="small" name="symbol" label="Token symbol" onChange={handleChange} />
 
                   <TextField fullWidth size="small" name="displayName" label="Token name" onChange={handleChange} />
