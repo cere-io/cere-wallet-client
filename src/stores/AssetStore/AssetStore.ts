@@ -37,7 +37,7 @@ export class AssetStore {
 
   set list(assets: Asset[]) {
     this.assets = assets;
-    localStorage.setItem('tokens', JSON.stringify(this.list));
+    localStorage.setItem('tokens', JSON.stringify(this.assets));
   }
 
   get popularList() {
