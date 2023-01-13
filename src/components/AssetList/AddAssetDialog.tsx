@@ -51,6 +51,12 @@ const Field = styled(TextField)(() => ({
   },
 }));
 
+const Container = styled(Box)(() => ({
+  width: 416,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+}));
+
 export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
@@ -115,7 +121,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   return (
     <StyledDialog fullScreen={isMobile} open={open} onClose={onClose}>
       <DialogContent>
-        <Box sx={{ width: 416 }}>
+        <Container>
           {step === 0 && (
             <>
               <Stack marginBottom={2} gap={0}>
@@ -204,7 +210,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
               </Stack>
             </>
           )}
-        </Box>
+        </Container>
       </DialogContent>
     </StyledDialog>
   );
