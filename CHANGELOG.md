@@ -1,6 +1,7 @@
 ## Release Notes:
 
 ### vNext
+- [DAV-3719] Fix console error on snackbar apperance 
 - [DAV-3491] Add custom asset management
 
 ### v.1.11.0
