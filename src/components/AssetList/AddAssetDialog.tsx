@@ -30,6 +30,18 @@ interface AddAssetDialogProps {
   onClose: () => void;
 }
 
+const Label = styled(Typography)(() => ({
+  margin: 0,
+}));
+
+const FormItem = styled(Box)(() => ({
+  width: '100%',
+}));
+
+const Field = styled(TextField)(() => ({
+  height: 48,
+}));
+
 export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(0);
@@ -147,23 +159,23 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                 </Stack>
                 <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
                   <SelectNetwork onChange={handleChangeNetwork} />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    name="address"
-                    label="Token contract address"
-                    onChange={handleChange}
-                  />
-                  <TextField fullWidth size="small" name="symbol" label="Token symbol" onChange={handleChange} />
 
-                  <TextField fullWidth size="small" name="displayName" label="Token name" onChange={handleChange} />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    name="decimals"
-                    label="Decimals of precision"
-                    onChange={handleChange}
-                  />
+                  <FormItem>
+                    <Label variant="body2">Token contract address</Label>
+                    <Field fullWidth size="small" name="address" onChange={handleChange} />
+                  </FormItem>
+                  <FormItem>
+                    <Label variant="body2">Token symbol</Label>
+                    <Field fullWidth size="small" name="symbol" onChange={handleChange} />
+                  </FormItem>
+                  <FormItem>
+                    <Label variant="body2">Token name</Label>
+                    <Field fullWidth size="small" name="displayName" onChange={handleChange} />
+                  </FormItem>
+                  <FormItem>
+                    <Label variant="body2">Decimals of precision</Label>
+                    <Field fullWidth size="small" name="decimals" onChange={handleChange} />
+                  </FormItem>
                 </Stack>
               </Stack>
               <Stack direction="row" alignItems="center" justifyContent="space-between" marginBottom={3} gap={1}>
