@@ -41,7 +41,7 @@ const WalletHome = () => {
 
   useEffect(() => {
     if (
-      localStorage.getItem('showProductTour') === 'false' &&
+      localStorage.getItem('showProductTour') !== 'false' &&
       localStorage.getItem('showProductTourSnackbar') !== 'false' &&
       !showProductTour
     ) {
