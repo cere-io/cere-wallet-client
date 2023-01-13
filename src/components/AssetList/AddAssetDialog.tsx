@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, FC, useState } from 'react';
 import {
   Box,
   Dialog,
@@ -17,7 +17,6 @@ import {
   Typography,
   ArrowLeftIcon,
 } from '@cere-wallet/ui';
-import React, { FC, useState } from 'react';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
