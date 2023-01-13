@@ -9,7 +9,7 @@ import { CustomToken } from './CustomToken';
 export class AssetStore {
   private assets: Asset[] = [];
   private popular: Asset[] = [];
-  private nativeTokens: Asset[] = [];
+  public nativeTokens: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
