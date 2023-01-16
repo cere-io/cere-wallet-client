@@ -110,7 +110,7 @@ const TransferAsset = () => {
 
   const onSubmit: SubmitHandler<any> = async ({ asset, address, amount }) => {
     if (asset && address && amount && amountValidate()) {
-      await transferErc20(asset, address, amount); // TODO integrate transaction page here
+      await transferErc20(asset, address, amount);
     }
   };
 

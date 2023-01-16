@@ -18,7 +18,7 @@ export const useTransactionStore = () => {
   };
 
   const transferNativeToken = async (address: string, amount: string): Promise<ContractReceipt> => {
-    const signer = await walletStore.provider?.getSigner()!;
+    const signer = walletStore.provider?.getSigner()!;
     const transaction = await signer.sendTransaction({
       to: address,
       value: ethers.utils.parseEther(amount),

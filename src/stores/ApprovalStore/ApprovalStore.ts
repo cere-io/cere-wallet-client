@@ -143,6 +143,13 @@ export class ApprovalStore {
         };
       });
 
+      const pendingTx = await this.wallet.provider!.getTransaction(transactionId!);
+      const txReceipt = await pendingTx.wait();
+
+      runInAction(() => {
+        popup.state.transaction!.status = txReceipt.status ? 'confirmed' : 'rejected';
+      });
+
       await when(() => !popup.isConnected || popup.state.status === 'done');
     }
 
