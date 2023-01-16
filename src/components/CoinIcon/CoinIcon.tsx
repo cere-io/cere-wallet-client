@@ -1,4 +1,4 @@
-import { IconProps, RemoveCircleOutlineIcon } from '@cere-wallet/ui';
+import { IconProps, RemoveCircleOutlineIcon, Avatar } from '@cere-wallet/ui';
 
 import { coinIconsMap } from './coinIconsMap';
 
@@ -9,7 +9,7 @@ export type CoinIconProps = IconProps & {
 
 export const CoinIcon = ({ coin, thumb, ...props }: CoinIconProps) => {
   if (thumb) {
-    return <img src={thumb} alt={thumb} title={thumb} />;
+    return <Avatar sx={{ width: 32, height: 32 }} src={thumb} alt={thumb} title={thumb} />;
   }
   const Icon = coinIconsMap[coin?.toLocaleLowerCase()] || RemoveCircleOutlineIcon;
 

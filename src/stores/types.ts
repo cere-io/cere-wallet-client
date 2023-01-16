@@ -23,6 +23,7 @@ export type Asset = {
   symbol?: string;
   decimals?: number;
   balance?: number;
+  type?: string;
 };
 
 export type AssetRefillProvider = {

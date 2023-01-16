@@ -131,7 +131,11 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             </Typography>
           </Stack>
         </StyledListItem>
-        {isLoadingPopular && <Loading />}
+        {isLoadingPopular && (
+          <Stack direction="row" alignItems="center" margin={1}>
+            <Loading />
+          </Stack>
+        )}
         {!isLoadingPopular &&
           popularRenderList.map((asset) => (
             <CustomListItem disableGutters key={asset.displayName} asset={asset} onItemClick={handleAdd} divider />
