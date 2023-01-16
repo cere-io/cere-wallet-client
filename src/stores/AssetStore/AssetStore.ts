@@ -8,30 +8,30 @@ import { CustomToken } from './CustomToken';
 
 export class AssetStore {
   private assets: Asset[] = [];
-  private popular: Asset[] = [];
-  public nativeTokens: Asset[] = [];
+  private managableAssets: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
     this.list = [];
 
+    const managableTokensFromStorage = localStorage.getItem('tokens');
+    const parsedAssets: Asset[] = managableTokensFromStorage ? JSON.parse(managableTokensFromStorage) : [];
+
     autorun(() => {
       if (wallet.isReady()) {
-        const preservedTokensFromStorage = localStorage.getItem('tokens');
-        const preservedTokens = preservedTokensFromStorage ? JSON.parse(preservedTokensFromStorage) : [];
         const nativeTokens = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
-        this.list = preservedTokens.length > 0 ? preservedTokens : nativeTokens;
-        this.nativeTokens = nativeTokens;
+        this.list = nativeTokens;
+
+        this.managableAssets = parsedAssets.map((asset) => new CustomToken(wallet, asset));
       }
     });
   }
 
-  get list() {
-    return this.assets;
+  get managableList() {
+    return this.managableAssets;
   }
 
-  set list(assets: Asset[]) {
-    this.assets = assets;
+  set managableList(assets: Asset[]) {
     const serializedTokens = assets.map((el) => ({
       ticker: el.symbol,
       displayName: el.displayName,
@@ -42,15 +42,20 @@ export class AssetStore {
       decimals: el.decimals,
       balance: el.balance,
     }));
+
     localStorage.setItem('tokens', JSON.stringify(serializedTokens));
   }
 
-  get popularList() {
-    return this.popular;
+  get list() {
+    return this.assets;
   }
 
-  set popularList(assets: Asset[]) {
-    this.popular = assets;
+  set list(assets: Asset[]) {
+    this.assets = assets;
+  }
+
+  get commonList() {
+    return [...this.list, ...this.managableAssets];
   }
 
   get nativeToken() {
