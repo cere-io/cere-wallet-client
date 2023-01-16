@@ -5,7 +5,7 @@ import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
 import { CustomToken } from './CustomToken';
-import { serializeAssets } from './helper';
+import { serializeAssets, deserializeAssets } from './helper';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -16,7 +16,7 @@ export class AssetStore {
     this.list = [];
 
     const managableTokensFromStorage = localStorage.getItem('tokens');
-    const parsedAssets: Asset[] = managableTokensFromStorage ? JSON.parse(managableTokensFromStorage) : [];
+    const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
     autorun(() => {
       if (wallet.isReady()) {
@@ -33,7 +33,7 @@ export class AssetStore {
 
   set managableList(assets: Asset[]) {
     this.managableAssets = assets;
-    localStorage.setItem('tokens', JSON.stringify(serializeAssets(assets)));
+    localStorage.setItem('tokens', serializeAssets(assets));
   }
 
   get list() {
@@ -60,7 +60,7 @@ export class AssetStore {
 
   public deleteAsset(assetParams: Asset): void {
     if (this.wallet.isReady()) {
-      this.managableList = this.managableList.filter((asset) => assetParams.ticker !== asset.ticker);
+      this.managableList = this.managableList.filter((asset) => assetParams.symbol !== asset.symbol);
     }
   }
 }

@@ -12,6 +12,7 @@ import {
 } from '@cere-wallet/ui';
 import { Asset } from '~/stores';
 import { CoinIcon } from '../CoinIcon';
+import { useBalanceStore } from '~/hooks';
 
 export type CustomListItemProps = ListItemProps & {
   asset: Asset;
@@ -38,7 +39,8 @@ const AddButton = styled(Button)(() => ({
 }));
 
 export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ...props }: CustomListItemProps) => {
-  const { ticker, displayName, network } = asset;
+  const { ticker, displayName, network, balance } = asset;
+  const { getUsdBalance } = useBalanceStore();
 
   const handleClick = useCallback(() => {
     onItemClick?.(asset);
@@ -52,7 +54,7 @@ export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ..
 
       <ListItemText primary={displayName} secondary={network} />
 
-      {!hideEdit && (
+      {!hideEdit ? (
         <ListItemText
           align="right"
           primary={
@@ -67,6 +69,14 @@ export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ..
             )
           }
         />
+      ) : (
+        balance !== undefined && (
+          <ListItemText
+            align="right"
+            primary={+balance.toFixed(2)}
+            secondary={`$${getUsdBalance(ticker, balance).toFixed(2)} USD`}
+          />
+        )
       )}
     </ListItem>
   );

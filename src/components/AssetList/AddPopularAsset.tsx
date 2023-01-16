@@ -1,10 +1,21 @@
-import { useMemo, FC, useState, useCallback } from 'react';
-import { Box, Stack, Button, AddIcon, ListItem, List, styled, Loading, Typography } from '@cere-wallet/ui';
+import React, { useMemo, FC, useState, useCallback } from 'react';
+import {
+  Box,
+  Stack,
+  Button,
+  AddIcon,
+  ListItem,
+  List,
+  styled,
+  Loading,
+  Typography,
+  SelectChangeEvent,
+} from '@cere-wallet/ui';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
-import { SwitchNetwork } from './SwitchNetwork';
+import { SelectNetwork } from './SelectNetwork';
 
 interface AddPopularAssetProps {
   changeStep: VoidFunction;
@@ -28,6 +39,10 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
   const assetStore = useAssetStore();
 
   const { list, managableList: tokensList } = assetStore;
+
+  const handleChangeNetwork = (item: SelectChangeEvent<unknown>) => {
+    setNetwork(item.target.value as string);
+  };
 
   const handleAdd = useCallback(
     (asset: Asset) => {
@@ -78,7 +93,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         <StyledListItem disableGutters divider>
           <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={1} gap={2}>
             <SearchAsset onChange={setSearch} />
-            <SwitchNetwork onChange={setNetwork} />
+            <SelectNetwork size="small" onChange={handleChangeNetwork} />
           </Stack>
         </StyledListItem>
         <>

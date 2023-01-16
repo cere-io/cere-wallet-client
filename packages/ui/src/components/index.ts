@@ -85,6 +85,7 @@ export type {
   SnackbarProps,
   SelectProps,
   Options,
+  SelectChangeEvent,
 } from '@mui/material';
 
 export * from './IconButton';

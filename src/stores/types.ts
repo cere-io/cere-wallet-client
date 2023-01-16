@@ -17,7 +17,7 @@ export type User = {
 export type Asset = {
   ticker: string;
   displayName: string;
-  network: string;
+  network?: string;
   address?: string;
   thumb?: string;
   symbol?: string;

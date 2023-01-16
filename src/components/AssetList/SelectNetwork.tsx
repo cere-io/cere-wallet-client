@@ -1,15 +1,26 @@
 import { FC } from 'react';
-import { MenuItem, Select, SelectProps } from '@cere-wallet/ui';
-import { MATIC_PLATFORMS } from '~/stores';
+import { EthIcon, Stack, Box, MenuItem, Select, SelectProps } from '@cere-wallet/ui';
+import { NETWORKS_LIST } from '~/stores';
 
-const networkList = [{ value: MATIC_PLATFORMS.POLIGON, name: 'Polygon' }];
+const [ETHEREUM] = NETWORKS_LIST;
 
-export const SelectNetwork: FC<SelectProps> = ({ onChange }) => {
+const ICONS = {
+  [ETHEREUM.name]: <EthIcon />,
+};
+
+interface SelectNetworkProps extends SelectProps {
+  showIcon?: boolean;
+}
+
+export const SelectNetwork: FC<SelectNetworkProps> = ({ showIcon, onChange, size, ...props }) => {
   return (
-    <Select fullWidth placeholder="network" size="small" defaultValue={MATIC_PLATFORMS.POLIGON} onChange={onChange}>
-      {networkList.map((item) => (
+    <Select {...props} size={size} fullWidth placeholder="network" defaultValue={ETHEREUM} onChange={onChange}>
+      {NETWORKS_LIST.map((item) => (
         <MenuItem key={item.name} value={item.value}>
-          {item.name}
+          <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={1}>
+            {showIcon && <span>{ICONS[item.name]}</span>}
+            <span>{item.name}</span>
+          </Stack>
         </MenuItem>
       ))}
     </Select>
