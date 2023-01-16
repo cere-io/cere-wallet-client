@@ -39,7 +39,7 @@ const AddButton = styled(Button)(() => ({
 }));
 
 export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ...props }: CustomListItemProps) => {
-  const { ticker, displayName, network, balance } = asset;
+  const { ticker, displayName, network, balance, type } = asset;
   const { getUsdBalance } = useBalanceStore();
 
   const handleClick = useCallback(() => {
@@ -52,7 +52,7 @@ export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ..
         <CoinIcon thumb={asset.thumb} coin={ticker} fontSize="inherit" />
       </ListItemIcon>
 
-      <ListItemText primary={displayName} secondary={network} />
+      <ListItemText primary={displayName} secondary={`${network} ${type ? ` (${type})` : ''}`} />
 
       {!hideEdit ? (
         <ListItemText

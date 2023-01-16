@@ -60,7 +60,7 @@ export class AssetStore {
 
   public deleteAsset(assetParams: Asset): void {
     if (this.wallet.isReady()) {
-      this.managableList = this.managableList.filter((asset) => assetParams.symbol !== asset.symbol);
+      this.managableList = this.managableList.filter((asset) => assetParams.ticker !== asset.ticker);
     }
   }
 }

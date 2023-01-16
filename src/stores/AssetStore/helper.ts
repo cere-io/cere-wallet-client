@@ -7,7 +7,7 @@ export function serializeAssets(assets: Asset[]) {
       network: el.network,
       address: el.address,
       thumb: el.thumb,
-      symbol: el.symbol,
+      ticker: el.ticker,
       decimals: el.decimals,
       balance: el.balance,
     })),

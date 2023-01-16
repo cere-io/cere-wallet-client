@@ -20,7 +20,6 @@ export type Asset = {
   network?: string;
   address?: string;
   thumb?: string;
-  symbol?: string;
   decimals?: number;
   balance?: number;
   type?: string;

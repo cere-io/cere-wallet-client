@@ -12,10 +12,12 @@ import {
   SelectChangeEvent,
 } from '@cere-wallet/ui';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
-import { Asset } from '~/stores';
+import { Asset, NETWORKS_LIST } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SelectNetwork } from './SelectNetwork';
+
+const [ETHEREUM] = NETWORKS_LIST;
 
 interface AddPopularAssetProps {
   changeStep: VoidFunction;
@@ -35,7 +37,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
   const { search, setSearch, data: searchData } = useSearchAssets();
   const { data: popularList, isLoading: isLoadingPopular } = usePopularAssets();
 
-  const [network, setNetwork] = useState('');
+  const [network, setNetwork] = useState(ETHEREUM.value);
   const assetStore = useAssetStore();
 
   const { list, managableList: tokensList } = assetStore;
