@@ -1,3 +1,4 @@
+import '@mui/lab/themeAugmentation';
 import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
 
@@ -227,6 +228,29 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
               fontSize: theme.typography.pxToRem(14),
             },
           }),
+        },
+      },
+
+      MuiLoadingButton: {
+        styleOverrides: {
+          root: ({ theme, ownerState: props }) => {
+            const color = props.color === 'inherit' ? undefined : theme.palette[props.color || 'primary'];
+            const disabledColor = color && alpha(color.main, theme.palette.action.disabledOpacity);
+            const textColor = color && color.contrastText;
+
+            return (
+              color && {
+                '&.Mui-disabled': {
+                  borderColor: disabledColor,
+                  backgroundColor: props.variant === 'contained' ? disabledColor : undefined,
+                },
+
+                '& .MuiLoadingButton-loadingIndicator': {
+                  color: props.variant === 'contained' ? textColor : color?.main,
+                },
+              }
+            );
+          },
         },
       },
 

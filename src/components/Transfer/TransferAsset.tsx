@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Stack, Typography, MenuItem, styled, AmountInput } from '@cere-wallet/ui';
+import { Stack, Typography, MenuItem, styled, AmountInput, LoadingButton } from '@cere-wallet/ui';
 import { Button, FormControl, TextField } from '@cere/ui';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -55,13 +55,13 @@ const TransferAsset = () => {
     handleSubmit,
     setError,
     getValues: getFormValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
       asset: undefined,
-      address: '0x8F306c4E03032E80933938D9E2EA3a44750F7Ec9',
+      address: '0x9317382d69804b22f2b5d1779ecbf62c8c11aa67',
       amount: '0',
     },
   });
@@ -206,12 +206,12 @@ const TransferAsset = () => {
         </Stack>
       </Summary>
       <Stack direction="row" spacing={2}>
-        <Button variant="outlined" fullWidth={true} onClick={() => navigateBackHandler()}>
+        <Button fullWidth variant="outlined" onClick={() => navigateBackHandler()}>
           Cancel
         </Button>
-        <Button variant="contained" type="submit" fullWidth={true}>
+        <LoadingButton fullWidth loading={isSubmitting} variant="contained" type="submit">
           Transfer
-        </Button>
+        </LoadingButton>
       </Stack>
     </Stack>
   );

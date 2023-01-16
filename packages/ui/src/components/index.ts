@@ -84,6 +84,8 @@ export type {
   SelectProps,
 } from '@mui/material';
 
+export { LoadingButton, type LoadingButtonProps } from '@mui/lab';
+
 export * from './IconButton';
 export * from './InfoTable';
 export * from './Dropdown';
