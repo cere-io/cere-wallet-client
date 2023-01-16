@@ -1,15 +1,5 @@
 import { useMemo, FC, useState } from 'react';
-import {
-  Box,
-  Stack,
-  Button,
-  AddIcon,
-  ListItem as ListItemComponent,
-  List,
-  styled,
-  Loading,
-  Typography,
-} from '@cere-wallet/ui';
+import { Box, Stack, Button, AddIcon, ListItem, List, styled, Loading, Typography } from '@cere-wallet/ui';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
 import CustomListItem from './CustomListItem';
@@ -25,7 +15,7 @@ const StyledList = styled(List)(() => ({
   paddingRight: 0,
 }));
 
-const ListItem = styled(ListItemComponent)(() => ({
+const StyledListItem = styled(ListItem)(() => ({
   paddingRight: 24,
   paddingLeft: 24,
 }));
@@ -71,12 +61,12 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         <Typography variant="h4">Add asset</Typography>
       </Stack>
       <StyledList variant="outlined">
-        <ListItem disableGutters divider>
+        <StyledListItem disableGutters divider>
           <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={1} gap={2}>
             <SearchAsset onChange={setSearch} />
             <SwitchNetwork onChange={setNetwork} />
           </Stack>
-        </ListItem>
+        </StyledListItem>
         <>
           {list.map((asset) => (
             <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
@@ -85,7 +75,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             <CustomListItem disableGutters divider key={asset.displayName} added asset={asset} />
           ))}
         </>
-        <ListItem disableGutters divider>
+        <StyledListItem disableGutters divider>
           <Stack sx={{ width: '100%' }} direction="column" marginBottom={1} marginTop={1} gap={1}>
             <Button
               onClick={changeStep}
@@ -104,7 +94,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
               Popular coins
             </Typography>
           </Stack>
-        </ListItem>
+        </StyledListItem>
         {isLoadingPopular && <Loading />}
         {!isLoadingPopular &&
           popularRenderList.map((asset) => (
