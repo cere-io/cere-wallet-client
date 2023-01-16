@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { createERC20Contract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
+import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
 

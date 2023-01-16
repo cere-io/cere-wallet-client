@@ -5,6 +5,7 @@ import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
 import { CustomToken } from './CustomToken';
+import { serializeAssets } from './helper';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -19,8 +20,7 @@ export class AssetStore {
 
     autorun(() => {
       if (wallet.isReady()) {
-        const nativeTokens = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
-        this.list = nativeTokens;
+        this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
 
         this.managableAssets = parsedAssets.map((asset) => new CustomToken(wallet, asset));
       }
@@ -32,18 +32,8 @@ export class AssetStore {
   }
 
   set managableList(assets: Asset[]) {
-    const serializedTokens = assets.map((el) => ({
-      ticker: el.symbol,
-      displayName: el.displayName,
-      network: el.network,
-      address: el.address,
-      thumb: el.thumb,
-      symbol: el.symbol,
-      decimals: el.decimals,
-      balance: el.balance,
-    }));
-
-    localStorage.setItem('tokens', JSON.stringify(serializedTokens));
+    this.managableAssets = assets;
+    localStorage.setItem('tokens', JSON.stringify(serializeAssets(assets)));
   }
 
   get list() {
@@ -64,13 +54,13 @@ export class AssetStore {
 
   public addAsset(assetParams: Asset): void {
     if (this.wallet.isReady()) {
-      this.list = [...this.list, new CustomToken(this.wallet, assetParams)];
+      this.managableList = [...this.managableList, new CustomToken(this.wallet, assetParams)];
     }
   }
 
   public deleteAsset(assetParams: Asset): void {
     if (this.wallet.isReady()) {
-      this.list = this.list.filter((asset) => assetParams.ticker !== asset.ticker);
+      this.managableList = this.managableList.filter((asset) => assetParams.ticker !== asset.ticker);
     }
   }
 }

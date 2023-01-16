@@ -83,7 +83,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const [network, setNetwork] = useState('');
   const assetStore = useAssetStore();
 
-  const { list: tokensList } = assetStore;
+  const { list, managableList: tokensList } = assetStore;
 
   const handleSubmit = () => {
     assetStore.addAsset(form);
@@ -108,7 +108,7 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
     setForm((prevForm) => ({ ...prevForm, network: item }));
   };
 
-  const list = useMemo(
+  const managableList = useMemo(
     () =>
       [...tokensList, ...searchData].filter((asset) => {
         let networkMatch = true;
@@ -155,9 +155,14 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                     <SwitchNetwork onChange={setNetwork} />
                   </Stack>
                 </ListItem>
-                {list.map((asset) => (
-                  <CustomListItem disableGutters divider key={asset.displayName} added asset={asset} />
-                ))}
+                <>
+                  {list.map((asset) => (
+                    <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
+                  ))}
+                  {managableList.map((asset) => (
+                    <CustomListItem disableGutters divider key={asset.displayName} added asset={asset} />
+                  ))}
+                </>
                 <ListItem disableGutters divider>
                   <Stack sx={{ width: '100%' }} direction="column" marginBottom={1} marginTop={1} gap={1}>
                     <Button

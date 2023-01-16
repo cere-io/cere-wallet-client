@@ -17,6 +17,7 @@ import { useAssetStore } from '~/hooks';
 export type CustomListItemProps = ListItemProps & {
   asset: Asset;
   added?: boolean;
+  hideEdit?: boolean;
 };
 
 const ListItem = styled(ListItemComponent)(() => ({
@@ -36,7 +37,7 @@ const AddButton = styled(Button)(() => ({
   fontWeight: 'normal',
 }));
 
-export const CustomListItem = ({ asset, added = false, ...props }: CustomListItemProps) => {
+export const CustomListItem = ({ asset, added = false, hideEdit, ...props }: CustomListItemProps) => {
   const { ticker, displayName, network } = asset;
   const assetStore = useAssetStore();
 
@@ -56,20 +57,22 @@ export const CustomListItem = ({ asset, added = false, ...props }: CustomListIte
 
       <ListItemText primary={displayName} secondary={network} />
 
-      <ListItemText
-        align="right"
-        primary={
-          added ? (
-            <RemoveButton variant="contained" onClick={handleClick} startIcon={<RemoveIcon />}>
-              Remove
-            </RemoveButton>
-          ) : (
-            <AddButton variant="contained" onClick={handleClick} startIcon={<AddIcon />}>
-              Add asset
-            </AddButton>
-          )
-        }
-      />
+      {!hideEdit && (
+        <ListItemText
+          align="right"
+          primary={
+            added ? (
+              <RemoveButton variant="contained" onClick={handleClick} startIcon={<RemoveIcon />}>
+                Remove
+              </RemoveButton>
+            ) : (
+              <AddButton variant="contained" onClick={handleClick} startIcon={<AddIcon />}>
+                Add asset
+              </AddButton>
+            )
+          }
+        />
+      )}
     </ListItem>
   );
 };
