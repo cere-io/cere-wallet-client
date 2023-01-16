@@ -4,8 +4,10 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useAssetStore } from '~/hooks';
-import { MATIC_PLATFORMS } from '~/stores';
+import { NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
+
+const [ETHEREUM] = NETWORKS_LIST;
 
 interface AddCustomAssetProps {
   onClose: VoidFunction;
@@ -48,7 +50,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
       ticker: '',
       symbol: '',
       displayName: '',
-      network: MATIC_PLATFORMS.POLIGON,
+      network: ETHEREUM.value,
       decimals: 0,
     },
   });
@@ -73,7 +75,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
           <Typography variant="h4">Add custom asset</Typography>
         </Stack>
         <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
-          <SelectNetwork showIcon {...register('network')} />
+          <SelectNetwork size="small" showIcon {...register('network')} />
 
           <FormItem>
             <Label variant="body2">Token contract address</Label>

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { EthIcon, Stack, Box, MenuItem, Select, SelectProps } from '@cere-wallet/ui';
+import { EthIcon, Stack, MenuItem, Select, SelectProps } from '@cere-wallet/ui';
 import { NETWORKS_LIST } from '~/stores';
 
 const [ETHEREUM] = NETWORKS_LIST;
