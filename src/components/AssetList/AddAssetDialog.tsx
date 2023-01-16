@@ -17,18 +17,29 @@ import {
   Typography,
   ArrowLeftIcon,
 } from '@cere-wallet/ui';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
-import { Asset } from '~/stores';
+import { Asset, MATIC_PLATFORMS } from '~/stores';
 import CustomListItem from './CustomListItem';
 import { SearchAsset } from './SearchAsset';
 import { SwitchNetwork } from './SwitchNetwork';
-import { MATIC_PLATFORMS } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
 
 interface AddAssetDialogProps {
   open: boolean;
   onClose: () => void;
 }
+
+const validationSchema = yup
+  .object({
+    address: yup.string().required('Address required'),
+    symbol: yup.string().required('Symbol required'),
+    displayName: yup.string().required('Display Name required'),
+    decimals: yup.number().required('Decimals required'),
+  })
+  .required();
 
 const StyledDialog = styled(Dialog)(() => ({
   '& .MuiBox-root .MuiDialogContent-root': {
@@ -72,12 +83,21 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const { search, setSearch, data: searchData } = useSearchAssets();
   const { data: popularList, isLoading: isLoadingPopular } = usePopularAssets();
 
-  const [form, setForm] = useState<Asset>({
-    address: '',
-    ticker: '',
-    symbol: '',
-    displayName: '',
-    network: MATIC_PLATFORMS.POLIGON,
+  const {
+    register,
+    handleSubmit: onSubmit,
+    formState: { isValid },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: 'onSubmit',
+    defaultValues: {
+      address: '',
+      ticker: '',
+      symbol: '',
+      displayName: '',
+      network: MATIC_PLATFORMS.POLIGON,
+      decimals: 0,
+    },
   });
 
   const [network, setNetwork] = useState('');
@@ -86,9 +106,11 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
   const { list, managableList: tokensList } = assetStore;
 
   const handleSubmit = () => {
-    assetStore.addAsset(form);
-    onClose();
-    setStep(0);
+    onSubmit((formValues) => {
+      assetStore.addAsset(formValues);
+      onClose();
+      setStep(0);
+    });
   };
 
   const handleGoCustomStep = () => {
@@ -97,15 +119,6 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
 
   const handleGoList = () => {
     setStep(0);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  };
-
-  const handleChangeNetwork = (item: any) => {
-    setForm((prevForm) => ({ ...prevForm, network: item }));
   };
 
   const managableList = useMemo(
@@ -133,11 +146,6 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
       return acc;
     }, []);
   }, [popularList, tokensList]);
-
-  const isValid = useMemo(
-    () => form.decimals && form.decimals >= 0 && form.displayName.length > 0 && form.address && form.address.length > 0,
-    [form],
-  );
 
   return (
     <StyledDialog fullScreen={isMobile} open={open} onClose={onClose}>
@@ -201,23 +209,23 @@ export const AddAssetDialog: FC<AddAssetDialogProps> = ({ open, onClose }) => {
                   <Typography variant="h4">Add custom asset</Typography>
                 </Stack>
                 <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
-                  <SelectNetwork onChange={handleChangeNetwork} />
+                  <SelectNetwork {...register('network')} />
 
                   <FormItem>
                     <Label variant="body2">Token contract address</Label>
-                    <Field fullWidth size="small" name="address" onChange={handleChange} />
+                    <Field fullWidth size="small" {...register('address')} />
                   </FormItem>
                   <FormItem>
                     <Label variant="body2">Token symbol</Label>
-                    <Field fullWidth size="small" name="symbol" onChange={handleChange} />
+                    <Field fullWidth size="small" {...register('symbol')} />
                   </FormItem>
                   <FormItem>
                     <Label variant="body2">Token name</Label>
-                    <Field fullWidth size="small" name="displayName" onChange={handleChange} />
+                    <Field fullWidth size="small" {...register('displayName')} />
                   </FormItem>
                   <FormItem>
                     <Label variant="body2">Decimals of precision</Label>
-                    <Field fullWidth size="small" name="decimals" onChange={handleChange} />
+                    <Field fullWidth size="small" {...register('decimals')} />
                   </FormItem>
                 </Stack>
               </Stack>
