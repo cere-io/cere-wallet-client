@@ -12,10 +12,10 @@ import {
 } from '@cere-wallet/ui';
 import { Asset } from '~/stores';
 import { CoinIcon } from '../CoinIcon';
-import { useAssetStore } from '~/hooks';
 
 export type CustomListItemProps = ListItemProps & {
   asset: Asset;
+  onItemClick?: (asset: Asset) => void;
   added?: boolean;
   hideEdit?: boolean;
 };
@@ -37,17 +37,12 @@ const AddButton = styled(Button)(() => ({
   fontWeight: 'normal',
 }));
 
-export const CustomListItem = ({ asset, added = false, hideEdit, ...props }: CustomListItemProps) => {
+export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ...props }: CustomListItemProps) => {
   const { ticker, displayName, network } = asset;
-  const assetStore = useAssetStore();
 
   const handleClick = useCallback(() => {
-    if (added) {
-      assetStore.deleteAsset(asset);
-    } else {
-      assetStore.addAsset(asset);
-    }
-  }, [assetStore, asset, added]);
+    onItemClick?.(asset);
+  }, [asset, onItemClick]);
 
   return (
     <ListItem {...props}>

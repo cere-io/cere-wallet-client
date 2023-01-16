@@ -1,4 +1,4 @@
-import { useMemo, FC, useState } from 'react';
+import { useMemo, FC, useState, useCallback } from 'react';
 import { Box, Stack, Button, AddIcon, ListItem, List, styled, Loading, Typography } from '@cere-wallet/ui';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset } from '~/stores';
@@ -28,6 +28,20 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
   const assetStore = useAssetStore();
 
   const { list, managableList: tokensList } = assetStore;
+
+  const handleAdd = useCallback(
+    (asset: Asset) => {
+      assetStore.addAsset(asset);
+    },
+    [assetStore],
+  );
+
+  const handleDelete = useCallback(
+    (asset: Asset) => {
+      assetStore.deleteAsset(asset);
+    },
+    [assetStore],
+  );
 
   const managableList = useMemo(
     () =>
@@ -72,7 +86,14 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
           ))}
           {managableList.map((asset) => (
-            <CustomListItem disableGutters divider key={asset.displayName} added asset={asset} />
+            <CustomListItem
+              disableGutters
+              divider
+              key={asset.displayName}
+              onItemClick={handleDelete}
+              added
+              asset={asset}
+            />
           ))}
         </>
         <StyledListItem disableGutters divider>
@@ -98,7 +119,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         {isLoadingPopular && <Loading />}
         {!isLoadingPopular &&
           popularRenderList.map((asset) => (
-            <CustomListItem disableGutters key={asset.displayName} asset={asset} divider />
+            <CustomListItem disableGutters key={asset.displayName} asset={asset} onItemClick={handleAdd} divider />
           ))}
       </StyledList>
     </Box>
