@@ -128,7 +128,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             >
               Add custom asset
             </Button>
-            {popularRenderList.lenght > 0 && (
+            {popularRenderList.length > 0 && (
               <Typography variant="body1" marginTop={2} color="text.secondary" fontWeight="bold">
                 Popular coins
               </Typography>
