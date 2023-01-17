@@ -47,8 +47,8 @@ export class ExchangeRatesStore {
       try {
         const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
-        tokens.forEach(({ ticker }) => {
-          contractExchangeRates[ticker] = prices[ticker];
+        tokens.forEach(({ id, ticker }) => {
+          contractExchangeRates[ticker] = prices[id];
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
