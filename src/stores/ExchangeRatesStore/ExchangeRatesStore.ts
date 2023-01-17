@@ -40,7 +40,6 @@ export class ExchangeRatesStore {
 
     const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
     const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
-    console.log('--->', tokens);
     const pairs = tokens.map(({ id }) => id).join(',');
     const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
