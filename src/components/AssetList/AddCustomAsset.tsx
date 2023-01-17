@@ -46,6 +46,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
+      id: '',
       address: '',
       ticker: '',
       symbol: '',

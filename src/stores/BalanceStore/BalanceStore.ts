@@ -17,7 +17,7 @@ export class BalanceStore {
     this.exchangeRatesStore = new ExchangeRatesStore(this.wallet, this.assetStore);
   }
 
-  get selectedToken(): Omit<Asset, 'balance'> | undefined {
+  get selectedToken(): Omit<Asset, 'balance' | 'id'> | undefined {
     if (!this.wallet.network) {
       return undefined;
     }

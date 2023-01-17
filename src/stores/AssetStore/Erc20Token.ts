@@ -40,6 +40,7 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
 export class Erc20Token implements Asset {
   private tokenConfig = getTokenConfig();
   private balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
+  public id: string = 'matic-network';
 
   constructor(private wallet: ReadyWallet) {
     makeAutoObservable(this);

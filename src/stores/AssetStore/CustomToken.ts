@@ -40,6 +40,7 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
 export class CustomToken implements Asset {
   private tokenConfig: TokenConfig;
   private balanceResource;
+  public id: string;
   public network?: string | undefined;
   public thumb?: string | undefined;
   public address?: string | undefined;
@@ -51,6 +52,7 @@ export class CustomToken implements Asset {
       decimals: asset.decimals || 0,
     };
 
+    this.id = asset.id;
     this.address = asset.address;
     this.thumb = asset.thumb;
     this.network = asset.network;

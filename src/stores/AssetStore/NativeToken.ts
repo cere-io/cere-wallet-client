@@ -38,6 +38,10 @@ export class NativeToken implements Asset {
     makeAutoObservable(this);
   }
 
+  get id() {
+    return 'matic-network';
+  }
+
   get displayName() {
     return this.wallet.network.tickerName;
   }
