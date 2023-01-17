@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { COIN_GECKO_API } from '~/constants';
-import { Asset } from '~/stores';
+import { Asset, NETWORKS_LIST } from '~/stores';
 
 const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}search`;
+
+const [ETHERIUM] = NETWORKS_LIST;
 
 export function useSearchAssets() {
   const [search, setSearch] = useState('');
@@ -15,11 +17,10 @@ export function useSearchAssets() {
     const data = await response.json();
 
     const items: Asset[] = data.сoins.map(({ item }: { item: Record<string, string | number> }) => ({
-      ticker: item.ticker,
+      ticker: item.symbol,
       displayName: item.name,
-      network: item.network,
+      network: ETHERIUM.value,
       thumb: item.thumb,
-      symbol: item.symbol,
       decimals: item.symbol,
     }));
     setData(items);

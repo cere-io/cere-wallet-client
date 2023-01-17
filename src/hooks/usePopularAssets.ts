@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { COIN_GECKO_API } from '~/constants';
-import { Asset } from '~/stores';
+import { Asset, NETWORKS_LIST } from '~/stores';
 
+const [ETHERIUM] = NETWORKS_LIST;
 const TOKEN_QUANTITY = 100;
 const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}/coins/markets?vs_currency=usd&category=ethereum-ecosystem&order=market_cap_desc&per_page=${TOKEN_QUANTITY}&page=1&sparkline=false`;
 
@@ -18,7 +19,7 @@ export function usePopularAssets() {
       const items: Asset[] = data.map((item: Record<string, string>) => ({
         ticker: item.symbol || '',
         displayName: item.symbol?.toLocaleUpperCase(),
-        network: 'Ethereum',
+        network: ETHERIUM.value,
         type: 'ERC20',
         thumb: item.image,
         symbol: item.symbol,
