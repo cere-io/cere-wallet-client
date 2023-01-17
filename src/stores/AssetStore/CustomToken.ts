@@ -58,7 +58,7 @@ export class CustomToken implements Asset {
   }
 
   get displayName() {
-    return this.tokenConfig.symbol;
+    return this.tokenConfig.symbol.toLocaleUpperCase();
   }
 
   get ticker() {

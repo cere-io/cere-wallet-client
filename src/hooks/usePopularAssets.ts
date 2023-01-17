@@ -17,7 +17,7 @@ export function usePopularAssets() {
 
       const items: Asset[] = data.map((item: Record<string, string>) => ({
         ticker: item.symbol || '',
-        displayName: item.symbol?.toUpperCase(),
+        displayName: item.symbol?.toLocaleUpperCase(),
         network: 'Ethereum',
         type: 'ERC20',
         thumb: item.image,
