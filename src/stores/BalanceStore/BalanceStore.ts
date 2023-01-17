@@ -36,7 +36,7 @@ export class BalanceStore {
   }
 
   get balance() {
-    const selectedToken = this.assetStore.list.find(({ ticker }) => this.selectedToken?.ticker === ticker);
+    const selectedToken = this.assetStore.commonList.find(({ ticker }) => this.selectedToken?.ticker === ticker);
 
     return selectedToken?.balance;
   }

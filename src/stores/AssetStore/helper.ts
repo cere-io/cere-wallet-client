@@ -3,6 +3,7 @@ import { Asset } from '../types';
 export function serializeAssets(assets: Asset[]) {
   return JSON.stringify(
     assets.map((el) => ({
+      id: el.id,
       displayName: el.displayName,
       network: el.network,
       address: el.address,
