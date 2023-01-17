@@ -14,14 +14,12 @@ interface AddCustomAssetProps {
   changeStep: VoidFunction;
 }
 
-const validationSchema = yup
-  .object({
-    address: yup.string().required('Address required'),
-    symbol: yup.string().required('Symbol required'),
-    displayName: yup.string().required('Display Name required'),
-    decimals: yup.number().required('Decimals required'),
-  })
-  .required();
+const validationSchema = yup.object({
+  address: yup.string().required('Address required'),
+  symbol: yup.string().required('Symbol required'),
+  displayName: yup.string().required('Display Name required'),
+  decimals: yup.number().required('Decimals required'),
+});
 
 const Label = styled(Typography)(() => ({
   margin: 0,
