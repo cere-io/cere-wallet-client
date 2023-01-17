@@ -1,40 +1,36 @@
-import { TextField, TextFieldProps, Button, styled } from '@mui/material';
-import { forwardRef, Ref, useImperativeHandle, useRef } from 'react';
-
-const MaxButton = styled(Button)(({ theme }) => ({
-  position: 'absolute',
-  // width: 62,
-  top: 8,
-  right: 8,
-  borderRadius: 12,
-}));
+import { TextField, TextFieldProps, Button, InputAdornment } from '@mui/material';
+import { forwardRef, useRef, Ref, useImperativeHandle, useCallback } from 'react';
 
 export type AmountInputProps = Omit<TextFieldProps, 'type'> & {
-  maxValue?: number | string;
+  maxValue?: string;
 };
 
 export const AmountInput = forwardRef<null, AmountInputProps>(
-  ({ maxValue, children, ...props }, ref: Ref<HTMLInputElement | null>) => {
-    const innerRef = useRef<HTMLInputElement | null>(null);
+  ({ maxValue, children, onChange, ...props }, ref: Ref<HTMLInputElement | null>) => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    useImperativeHandle(ref, () => inputRef.current);
 
-    useImperativeHandle(ref, () => innerRef.current);
-
-    const onMaxHandler = () => {
-      const el = innerRef?.current?.getElementsByTagName('input')[0];
-      if (el && maxValue) {
-        el.value = String(maxValue);
+    const handleMaxClick = useCallback(() => {
+      if (inputRef.current && maxValue) {
+        inputRef.current.value = maxValue?.toString();
+        inputRef.current.dispatchEvent(new Event('change', { bubbles: true }));
       }
-    };
+    }, [maxValue]);
 
     return (
-      <>
-        <TextField ref={innerRef} {...props}>
-          {children}
-        </TextField>
-        <MaxButton variant="contained" disabled={!maxValue} onClick={() => onMaxHandler()}>
-          Max
-        </MaxButton>
-      </>
+      <TextField
+        {...props}
+        inputRef={inputRef}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <Button variant="contained" disabled={!maxValue} onClick={handleMaxClick} sx={{ borderRadius: '12px' }}>
+                Max
+              </Button>
+            </InputAdornment>
+          ),
+        }}
+      />
     );
   },
 );

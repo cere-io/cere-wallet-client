@@ -340,13 +340,17 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           dense: ({ theme }) => ({
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
+
+            'html & .MuiListItemIcon-root': {
+              minWidth: 44,
+            },
           }),
         },
       },
 
       MuiListItemIcon: {
         styleOverrides: {
-          root: ({ theme }) => ({
+          root: ({ theme, ownerState }) => ({
             minWidth: 52,
             color: theme.palette.text.primary,
           }),
@@ -364,6 +368,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiListItemText: {
         defaultProps: {
           primaryTypographyProps: {
+            color: 'text.primary',
             fontWeight: 'bold',
           },
         },
@@ -661,6 +666,21 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           dotActive: ({ theme }) => ({
             backgroundColor: theme.palette.text.primary,
           }),
+        },
+      },
+
+      MuiSelect: {
+        defaultProps: {
+          MenuProps: {
+            anchorOrigin: {
+              horizontal: 'right',
+              vertical: 'bottom',
+            },
+            transformOrigin: {
+              vertical: -8,
+              horizontal: 'right',
+            },
+          },
         },
       },
     },

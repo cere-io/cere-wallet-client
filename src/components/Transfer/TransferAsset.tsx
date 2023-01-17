@@ -1,26 +1,18 @@
 import { observer } from 'mobx-react-lite';
-import { Stack, Typography, MenuItem, styled, AmountInput, LoadingButton } from '@cere-wallet/ui';
+import { Stack, Typography, styled, AmountInput, LoadingButton } from '@cere-wallet/ui';
 import { Button, FormControl, TextField } from '@cere/ui';
 import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AssetSelectItem } from '~/components';
 import { useAssetStore, useNetworkStore } from '~/hooks';
 import { useCallback, useEffect, useState } from 'react';
-import { Asset } from '~/stores';
+
 import { Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionStore } from '~/hooks/useTransactionStore';
 import { BigNumber } from 'bignumber.js';
 
-const ContentSelect = styled(TextField)(() => ({
-  '& .MuiSelect-select': {
-    padding: 0,
-  },
-  '& .MuiInputBase-root': {
-    minHeight: 57,
-  },
-}));
+import { AssetSelect } from '../AssetSelect';
 
 const Summary = styled(Stack)(({ theme }) => ({
   backgroundColor: theme.palette.neutral.light,
@@ -47,27 +39,30 @@ const TransferAsset = () => {
   const { list } = useAssetStore();
   const network = useNetworkStore();
   const { transferErc20 } = useTransactionStore();
-  const [selectedAsset, setSelectedAsset] = useState<Asset | undefined>();
   const [total, setTotal] = useState<string>('0');
 
   const {
+    control,
     register,
     handleSubmit,
     setError,
     getValues: getFormValues,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
-      asset: undefined,
+      asset: list[0].ticker,
       address: '0x9317382d69804b22f2b5d1779ecbf62c8c11aa67',
       amount: '0',
     },
   });
 
+  const { asset: ticker, amount: amountValue } = watch();
+  const selectedAsset = list.find((asset) => asset.ticker === ticker);
+
   const updateTotal = useCallback(() => {
-    const amountValue = getFormValues('amount');
     if (!+amountValue || !selectedAsset) {
       setTotal(`${network?.fee} ${network?.network?.ticker}`);
       return;
@@ -81,7 +76,7 @@ const TransferAsset = () => {
     } else {
       setTotal(`${amount.toString()} ${selectedAsset?.ticker} + ${network.fee} ${network.network?.ticker}`);
     }
-  }, [selectedAsset, network, getFormValues]);
+  }, [selectedAsset, amountValue, network, getFormValues]);
 
   const amountValidate = (): boolean => {
     const value: string = getFormValues('amount');
@@ -130,57 +125,30 @@ const TransferAsset = () => {
     >
       <Stack>
         <Typography variant="body2">Select asset</Typography>
-        <FormControl>
-          <ContentSelect
-            select
-            {...register('asset')}
-            error={!!errors?.asset?.message}
-            helperText={errors.asset?.message}
-            required
-            autoFocus
-            name="asset"
-            onChange={({ target }) => setSelectedAsset(list.find((asset) => asset.ticker === target.value))}
-            sx={{ padding: 0 }}
-          >
-            {list.map((asset, index) => (
-              <MenuItem key={`${asset.ticker}-${index}`} value={asset.ticker} sx={{ borderRadius: 0, height: 57 }}>
-                <AssetSelectItem
-                  coin={asset.ticker}
-                  name={asset.displayName}
-                  network={asset.network}
-                  balance={asset.balance || 0}
-                />
-              </MenuItem>
-            ))}
-          </ContentSelect>
-        </FormControl>
+        <Controller name="asset" control={control} render={({ field }) => <AssetSelect assets={list} {...field} />} />
       </Stack>
       <Stack>
         <Typography variant="body2">Transfer To</Typography>
-        <FormControl>
-          <TextField
-            {...register('address')}
-            error={!!errors?.address?.message}
-            helperText={errors.address?.message}
-            placeholder="Recipient’s ETH address"
-            name="address"
-            variant="outlined"
-          />
-        </FormControl>
+
+        <TextField
+          {...register('address')}
+          error={!!errors?.address?.message}
+          helperText={errors.address?.message}
+          placeholder="Recipient’s ETH address"
+        />
       </Stack>
       <Stack>
         <Typography variant="body2">Amount</Typography>
         <FormControl>
           <AmountInput
-            maxValue={selectedAsset?.balance}
             {...register('amount')}
+            required
+            maxValue={selectedAsset?.balance?.toString()}
             error={!!errors?.amount?.message}
             helperText={errors.amount?.message}
             onKeyUp={amountValidate}
-            required
-            name="amount"
-            variant="outlined"
           />
+
           {selectedAsset && (
             <Typography variant="body2" color="text.secondary">
               Available balance: {selectedAsset?.balance} {selectedAsset?.ticker}

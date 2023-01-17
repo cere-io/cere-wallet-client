@@ -40,6 +40,7 @@ export {
   Snackbar,
   Radio,
   Select,
+  InputLabel,
 } from '@mui/material';
 
 export type {
@@ -82,6 +83,7 @@ export type {
   GridProps,
   SnackbarProps,
   SelectProps,
+  InputLabelProps,
 } from '@mui/material';
 
 export { LoadingButton, type LoadingButtonProps } from '@mui/lab';
