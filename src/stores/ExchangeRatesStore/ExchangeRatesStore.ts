@@ -1,6 +1,6 @@
 import { makeAutoObservable, when } from 'mobx';
 
-import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
+import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES } from './enums';
 import { idleTimeTracker } from './utils';
 import { Wallet } from '~/stores';
 import { AssetStore } from '../AssetStore';
