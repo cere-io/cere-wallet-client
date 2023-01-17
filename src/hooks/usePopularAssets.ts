@@ -15,9 +15,9 @@ export function usePopularAssets() {
       const response = await fetch(`${COIN_GECKO_API_SEARCH}`);
       const data = await response.json();
 
-      const items: Asset[] = data.map((item: Record<string, string | number>) => ({
+      const items: Asset[] = data.map((item: Record<string, string>) => ({
         ticker: item.symbol || '',
-        displayName: item.name,
+        displayName: item.symbol?.toUpperCase(),
         network: 'Ethereum',
         type: 'ERC20',
         thumb: item.image,
