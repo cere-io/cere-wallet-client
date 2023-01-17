@@ -17,6 +17,7 @@ export function usePopularAssets() {
       const data = await response.json();
 
       const items: Asset[] = data.map((item: Record<string, string>) => ({
+        id: item.id,
         ticker: item.symbol || '',
         displayName: item.symbol?.toLocaleUpperCase(),
         network: ETHERIUM.value,
