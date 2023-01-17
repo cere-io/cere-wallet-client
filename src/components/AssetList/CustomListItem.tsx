@@ -52,7 +52,7 @@ export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ..
         <CoinIcon thumb={asset.thumb} coin={ticker} fontSize="inherit" />
       </ListItemIcon>
 
-      <ListItemText primary={displayName} secondary={`${network} ${type ? ` (${type})` : ''}`} />
+      <ListItemText primary={displayName?.toLocaleUpperCase()} secondary={`${network} ${type ? ` (${type})` : ''}`} />
 
       {!hideEdit ? (
         <ListItemText

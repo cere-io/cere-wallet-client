@@ -3,6 +3,7 @@ import { makeAutoObservable, when } from 'mobx';
 import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
 import { idleTimeTracker } from './utils';
 import { Wallet } from '~/stores';
+import { AssetStore } from '../AssetStore';
 
 const DEFAULT_INTERVAL = 30 * 1000;
 const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price';
@@ -13,7 +14,7 @@ export class ExchangeRatesStore {
   private _handle: NodeJS.Timer | null = null;
   private _exchangeRates: ExchangeRates = {};
 
-  constructor(private wallet: Wallet) {
+  constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
     this.interval = DEFAULT_INTERVAL;
 
@@ -31,19 +32,20 @@ export class ExchangeRatesStore {
       return;
     }
 
+    const tokens = this.assetStore.commonList;
+
     const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
     const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
 
-    const pairs = TOKENS.map(({ id }) => id).join(',');
+    const pairs = tokens.map(({ ticker }) => ticker).join(',');
     const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
     if (platform) {
       try {
         const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
-        TOKENS.forEach(({ id, name }) => {
-          const tokenName = name.toUpperCase();
-          contractExchangeRates[tokenName] = prices[id];
+        tokens.forEach(({ ticker }) => {
+          contractExchangeRates[ticker] = prices[ticker];
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {

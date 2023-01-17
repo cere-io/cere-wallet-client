@@ -14,7 +14,7 @@ export class BalanceStore {
       getUsdBalance: action.bound,
     });
 
-    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
+    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet, this.assetStore);
   }
 
   get selectedToken(): Omit<Asset, 'balance'> | undefined {
