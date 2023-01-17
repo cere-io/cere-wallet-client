@@ -34,13 +34,13 @@ const StyledListItem = styled(ListItem)(() => ({
 }));
 
 export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
-  const { search, setSearch, data: searchData } = useSearchAssets();
+  const { search, setSearch, data: searchData, isLoading: isLoadingSearch } = useSearchAssets();
   const { data: popularList, isLoading: isLoadingPopular } = usePopularAssets();
 
   const [network, setNetwork] = useState(ETHEREUM.value);
   const assetStore = useAssetStore();
 
-  const { list, managableList: tokensList } = assetStore;
+  const { list, managableList } = assetStore;
 
   const handleChangeNetwork = (item: SelectChangeEvent<unknown>) => {
     setNetwork(item.target.value as string);
@@ -60,9 +60,9 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
     [assetStore],
   );
 
-  const managableList = useMemo(
+  const searchList = useMemo(
     () =>
-      [...tokensList, ...searchData].filter((asset) => {
+      [...managableList, ...searchData].filter((asset) => {
         let networkMatch = true;
         let searchMatch = true;
         if (network) {
@@ -73,18 +73,20 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         }
         return networkMatch && searchMatch;
       }),
-    [search, tokensList, searchData, network],
+    [search, managableList, searchData, network],
   );
 
   const popularRenderList = useMemo(() => {
     return popularList.reduce((acc: Asset[], item) => {
-      const presentItem = tokensList.find((el) => el.ticker === item.ticker);
+      const presentItem = managableList.find((el) => el.ticker === item.ticker);
       if (!presentItem) {
         acc.push(item);
       }
       return acc;
     }, []);
-  }, [popularList, tokensList]);
+  }, [popularList, managableList]);
+
+  const isSearchState = search.length > 0;
 
   return (
     <Box>
@@ -95,23 +97,36 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         <StyledListItem disableGutters divider>
           <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={1} gap={2}>
             <SearchAsset onChange={setSearch} />
-            <SelectNetwork size="small" onChange={handleChangeNetwork} />
+            <SelectNetwork size="small" defaultValue={network} onChange={handleChangeNetwork} />
           </Stack>
         </StyledListItem>
         <>
-          {list.map((asset) => (
-            <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
-          ))}
-          {managableList.map((asset) => (
-            <CustomListItem
-              disableGutters
-              divider
-              key={asset.displayName}
-              onItemClick={handleDelete}
-              added
-              asset={asset}
-            />
-          ))}
+          {!isSearchState &&
+            list.map((asset) => (
+              <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
+            ))}
+          {!isSearchState &&
+            managableList.map((asset) => (
+              <CustomListItem
+                disableGutters
+                divider
+                key={asset.displayName}
+                onItemClick={handleDelete}
+                added
+                asset={asset}
+              />
+            ))}
+          {isSearchState &&
+            searchList.map((asset) => (
+              <CustomListItem
+                disableGutters
+                divider
+                key={asset.displayName}
+                onItemClick={handleDelete}
+                added
+                asset={asset}
+              />
+            ))}
         </>
         <StyledListItem disableGutters divider>
           <Stack sx={{ width: '100%' }} direction="column" marginBottom={1} marginTop={1} gap={1}>
@@ -128,19 +143,20 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             >
               Add custom asset
             </Button>
-            {popularRenderList.length > 0 && (
+            {!isSearchState && popularRenderList.length > 0 && (
               <Typography variant="body1" marginTop={2} color="text.secondary" fontWeight="bold">
                 Popular coins
               </Typography>
             )}
           </Stack>
         </StyledListItem>
-        {isLoadingPopular && (
+        {(isLoadingPopular || isLoadingSearch) && (
           <Stack direction="row" alignItems="center" justifyContent="center" margin={1}>
             <Loading />
           </Stack>
         )}
-        {!isLoadingPopular &&
+        {!isSearchState &&
+          !isLoadingPopular &&
           popularRenderList.map((asset) => (
             <CustomListItem disableGutters key={asset.displayName} asset={asset} onItemClick={handleAdd} divider />
           ))}
