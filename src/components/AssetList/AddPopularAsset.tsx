@@ -128,13 +128,15 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             >
               Add custom asset
             </Button>
-            <Typography variant="body1" marginTop={2} color="text.secondary" fontWeight="bold">
-              Popular coins
-            </Typography>
+            {popularRenderList.lenght > 0 && (
+              <Typography variant="body1" marginTop={2} color="text.secondary" fontWeight="bold">
+                Popular coins
+              </Typography>
+            )}
           </Stack>
         </StyledListItem>
         {isLoadingPopular && (
-          <Stack direction="row" alignItems="center" margin={1}>
+          <Stack direction="row" alignItems="center" justifyContent="center" margin={1}>
             <Loading />
           </Stack>
         )}
