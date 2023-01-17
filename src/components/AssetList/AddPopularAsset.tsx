@@ -62,7 +62,8 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
 
   const searchList = useMemo(
     () =>
-      [...managableList, ...searchData].filter((asset) => {
+      searchData.reduce((acc: Asset[], asset: Asset) => {
+        const presentItem = managableList.find((el) => el.ticker === asset.ticker);
         let networkMatch = true;
         let searchMatch = true;
         if (network) {
@@ -71,8 +72,12 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         if (search.length > 0) {
           searchMatch = asset.displayName?.includes(search) || asset.ticker?.includes(search);
         }
-        return networkMatch && searchMatch;
-      }),
+
+        if (!presentItem && (networkMatch || searchMatch)) {
+          acc.push(asset);
+        }
+        return acc;
+      }, []),
     [search, managableList, searchData, network],
   );
 
@@ -97,7 +102,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         <StyledListItem disableGutters divider>
           <Stack direction="row" sx={{ width: '100%' }} alignItems="space-between" marginBottom={1} gap={2}>
             <SearchAsset onChange={setSearch} />
-            <SelectNetwork size="small" defaultValue={network} onChange={handleChangeNetwork} />
+            <SelectNetwork size="small" defaultValue={ETHEREUM.value} onChange={handleChangeNetwork} />
           </Stack>
         </StyledListItem>
         <>
@@ -118,14 +123,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             ))}
           {isSearchState &&
             searchList.map((asset) => (
-              <CustomListItem
-                disableGutters
-                divider
-                key={asset.displayName}
-                onItemClick={handleDelete}
-                added
-                asset={asset}
-              />
+              <CustomListItem disableGutters divider key={asset.displayName} onItemClick={handleDelete} asset={asset} />
             ))}
         </>
         <StyledListItem disableGutters divider>
