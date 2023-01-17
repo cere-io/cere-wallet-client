@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useAssetStore } from '~/hooks';
-import { NETWORKS_LIST } from '~/stores';
+import { ETH_ID, NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
 
 const [ETHEREUM] = NETWORKS_LIST;
@@ -15,10 +15,12 @@ interface AddCustomAssetProps {
 }
 
 const validationSchema = yup.object({
+  id: yup.string(),
+  network: yup.string(),
   address: yup.string().required('Address required'),
-  symbol: yup.string().required('Symbol required'),
+  ticker: yup.string().required('Symbol required'),
   displayName: yup.string().required('Display Name required'),
-  decimals: yup.number().required('Decimals required'),
+  decimals: yup.number().required('Decimals required').integer(),
 });
 
 const Label = styled(Typography)(() => ({
@@ -39,21 +41,22 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
   const {
     register,
     handleSubmit: onSubmit,
+    getValues,
     formState: { isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
-      id: '',
+      id: ETH_ID,
       address: '',
       ticker: '',
-      symbol: '',
       displayName: '',
       network: ETHEREUM.value,
       decimals: 0,
     },
   });
 
+  console.log('-->', getValues());
   const assetStore = useAssetStore();
 
   const handleSubmit = () => {
@@ -82,7 +85,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
           </FormItem>
           <FormItem>
             <Label variant="body2">Token symbol</Label>
-            <Field fullWidth size="small" {...register('symbol')} />
+            <Field fullWidth size="small" {...register('ticker')} />
           </FormItem>
           <FormItem>
             <Label variant="body2">Token name</Label>

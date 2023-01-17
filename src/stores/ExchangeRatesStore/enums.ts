@@ -1,4 +1,5 @@
 export const ETH = 'eth';
+export const ETH_ID = 'ethereum';
 export const MATIC = 'matic';
 export const MATIC_ID = 'matic-network';
 export const MUMBAI = 'mumbai';
