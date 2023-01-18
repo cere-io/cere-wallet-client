@@ -4,17 +4,17 @@ import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
 
-const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {
+const createBalanceResource = ({ provider, network }: ReadyWallet, { decimals }: TokenConfig, address: string) => {
   let currentListener: () => {};
 
   const erc20 = createERC20Contract(provider.getSigner(), network.chainId);
-  const receiveFilter = erc20.filters.Transfer(null, account.address);
-  const sendFilter = erc20.filters.Transfer(account.address);
+  const receiveFilter = erc20.filters.Transfer(null, address);
+  const sendFilter = erc20.filters.Transfer(address);
 
   return fromResource<number>(
     (sink) => {
       currentListener = async () => {
-        const balance = await erc20.balanceOf(account.address);
+        const balance = await erc20.balanceOf(address);
 
         sink(balance.div(10 ** decimals).toNumber());
       };
@@ -43,7 +43,7 @@ export class CustomToken implements Asset {
   public id: string;
   public network?: string | undefined;
   public thumb?: string | undefined;
-  public address?: string | undefined;
+  public address: string;
 
   constructor(private wallet: ReadyWallet, asset: Asset) {
     makeAutoObservable(this);
@@ -53,10 +53,10 @@ export class CustomToken implements Asset {
     };
 
     this.id = asset.id;
-    this.address = asset.address;
+    this.address = asset.address || '';
     this.thumb = asset.thumb;
     this.network = asset.network;
-    this.balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
+    this.balanceResource = createBalanceResource(this.wallet, this.tokenConfig, this.address);
   }
 
   get displayName() {

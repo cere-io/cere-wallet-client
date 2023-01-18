@@ -34,7 +34,7 @@ export function usePopularAssets() {
 
       setData(items);
     } catch (err) {
-      console.log('Coingecko failed fetch trending assets:', err);
+      console.warn('Failed fetch trending assets:', err);
     } finally {
       setLoading(false);
     }

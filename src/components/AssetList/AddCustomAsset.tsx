@@ -17,10 +17,10 @@ interface AddCustomAssetProps {
 const validationSchema = yup.object({
   id: yup.string(),
   network: yup.string(),
-  address: yup.string().required('Address required'),
-  ticker: yup.string().required('Symbol required'),
-  displayName: yup.string().required('Display Name required'),
-  decimals: yup.number().required('Decimals required').integer(),
+  address: yup.string().required(),
+  ticker: yup.string().required(),
+  displayName: yup.string().required(),
+  decimals: yup.number().required(),
 });
 
 const Label = styled(Typography)(() => ({
@@ -41,7 +41,6 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
   const {
     register,
     handleSubmit: onSubmit,
-    getValues,
     formState: { isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -56,7 +55,6 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     },
   });
 
-  console.log('-->', getValues());
   const assetStore = useAssetStore();
 
   const handleSubmit = () => {
