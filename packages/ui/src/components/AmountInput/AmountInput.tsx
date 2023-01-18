@@ -6,14 +6,19 @@ export type AmountInputProps = Omit<TextFieldProps, 'type'> & {
 };
 
 export const AmountInput = forwardRef<null, AmountInputProps>(
-  ({ maxValue, children, onChange, ...props }, ref: Ref<HTMLInputElement | null>) => {
+  ({ maxValue, children, ...props }, ref: Ref<HTMLInputElement | null>) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     useImperativeHandle(ref, () => inputRef.current);
 
     const handleMaxClick = useCallback(() => {
-      if (inputRef.current && maxValue) {
-        inputRef.current.value = maxValue?.toString();
-        inputRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+      const input = inputRef.current;
+
+      if (input && maxValue) {
+        /**
+         * Hacky fix for onChange event manual trigger
+         */
+        Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(input, maxValue);
+        input.dispatchEvent(new Event('change', { bubbles: true }));
       }
     }, [maxValue]);
 

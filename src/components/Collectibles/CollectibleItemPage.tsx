@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import {
   Typography,
   Stack,
@@ -9,10 +11,9 @@ import {
   TransferIcon,
   Button,
 } from '@cere-wallet/ui';
-import { useCollectiblesStore } from '~/hooks/useCollectiblesStore';
-import { observer } from 'mobx-react-lite';
+
+import { useCollectiblesStore } from '~/hooks';
 import { PageHeader } from '~/components';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 type CollectibleItemProps = {
   nftId: string;
