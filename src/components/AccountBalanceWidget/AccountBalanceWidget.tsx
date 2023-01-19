@@ -7,6 +7,7 @@ import { PageHeader } from '../PageHeader';
 import { AddressQRButton } from '../AddressQRButton';
 import { Link } from '../Link';
 import { AddressDropdown } from '../AddressDropdown';
+import { FEATURE_FLAGS } from '~/constants';
 
 export type AccountBalanceWidgetProps = {
   title: string;
@@ -80,16 +81,18 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
           </Stack>
 
           <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
-            <Button
-              fullWidth={dense}
-              to="transfer"
-              component={Link}
-              size={dense ? 'medium' : 'large'}
-              variant="contained"
-              startIcon={<TransferIcon />}
-            >
-              Transfer
-            </Button>
+            {FEATURE_FLAGS.transferAssets && (
+              <Button
+                fullWidth={dense}
+                to="transfer"
+                component={Link}
+                size={dense ? 'medium' : 'large'}
+                variant="contained"
+                startIcon={<TransferIcon />}
+              >
+                Transfer
+              </Button>
+            )}
 
             {/* css class "wallet-top-up" is an anchor for product tour */}
             <Button
