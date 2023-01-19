@@ -51,7 +51,7 @@ export const useTransferForm = ({ assets }: UseTransferFormOptions) =>
     resolver: yupResolver(validationSchema),
     defaultValues: {
       asset: assets[0].ticker,
-      address: '0x9317382d69804b22f2b5d1779ecbf62c8c11aa67', // 0x9317382d69804b22f2b5d1779ecbf62c8c11aa67
+      address: '',
       amount: '',
     },
   });
