@@ -39,9 +39,13 @@ const TransferAsset = () => {
       noValidate
       autoComplete="off"
       onSubmit={handleSubmit(async ({ asset, address, amount }) => {
-        await transfer(asset, address, amount);
+        try {
+          await transfer(asset, address, amount);
 
-        resetField('amount');
+          resetField('amount');
+        } catch (error) {
+          console.warn(error);
+        }
       })}
     >
       <Stack>
