@@ -7,7 +7,7 @@ import { Asset, ReadyWallet } from '../types';
 const createBalanceResource = ({ provider, network }: ReadyWallet, { decimals }: TokenConfig, address: string) => {
   let currentListener: () => {};
 
-  const erc20 = createERC20Contract(provider.getSigner(), network.chainId);
+  const erc20 = createERC20Contract(provider.getSigner(), address);
   const receiveFilter = erc20.filters.Transfer(null, address);
   const sendFilter = erc20.filters.Transfer(address);
 
