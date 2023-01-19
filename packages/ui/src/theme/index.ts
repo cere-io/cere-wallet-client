@@ -539,6 +539,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
               padding: theme.spacing(1, 2),
             };
 
+            if (color !== 'neutral') {
+              return baseStyles;
+            }
+
             if (variant === 'filled') {
               return {
                 ...baseStyles,

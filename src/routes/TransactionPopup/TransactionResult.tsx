@@ -33,7 +33,7 @@ const TransactionComplete = ({ store }: TransactionResultProps) => {
   }
 
   return (
-    <>
+    <Stack marginBottom={3}>
       <Stack spacing={1} alignItems="center" marginBottom={4}>
         <Stack justifyContent="center" alignItems="center" height={200}>
           {icons[transaction.status]}
@@ -49,7 +49,7 @@ const TransactionComplete = ({ store }: TransactionResultProps) => {
       <Button variant="contained" fullWidth onClick={() => store.done()}>
         Continue
       </Button>
-    </>
+    </Stack>
   );
 };
 

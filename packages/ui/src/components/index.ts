@@ -41,6 +41,7 @@ export {
   Radio,
   Select,
   InputLabel,
+  Fade,
 } from '@mui/material';
 
 export type {
@@ -84,6 +85,7 @@ export type {
   SnackbarProps,
   SelectProps,
   InputLabelProps,
+  FadeProps,
 } from '@mui/material';
 
 export { LoadingButton, type LoadingButtonProps } from '@mui/lab';
