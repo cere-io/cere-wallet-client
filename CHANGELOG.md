@@ -1,6 +1,9 @@
 ## Release Notes:
 
 ### vNext
+- 
+
+### v1.12.0
 - [DAV-3702] Fix start point for product tour
 - [DAV-3767] Add GTM integration and click IDs
 
