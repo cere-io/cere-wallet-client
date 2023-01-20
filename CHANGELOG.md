@@ -5,6 +5,7 @@
 - [DAV-3792] Align asset transfer UI with the design
 - [DAV-3734] Add in-wallet transaction modals
 - [DAV-3669] Add asset transfer (ethereum)
+- [DAV-3702] Fix start point for product tour
 - [DAV-3767] Add GTM integration and click IDs
 
 ### v.1.11.0
