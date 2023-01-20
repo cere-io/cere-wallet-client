@@ -132,7 +132,20 @@ export class ApprovalStore {
       );
     }
 
-    if (showDetails) {
+    if (!showDetails) {
+      return this.popupManagerStore.closePopup(instanceId);
+    }
+
+    when(
+      () => !popup.isConnected || popup.state.status === 'done',
+      () => {
+        this.popupManagerStore.closePopup(instanceId);
+      },
+    );
+
+    let isRejected = false;
+
+    try {
       const { result: transactionId } = await proceed();
 
       runInAction(() => {
@@ -143,9 +156,16 @@ export class ApprovalStore {
         };
       });
 
-      await when(() => !popup.isConnected || popup.state.status === 'done');
+      const pendingTx = await this.wallet.provider!.getTransaction(transactionId!);
+      const txReceipt = await pendingTx.wait();
+
+      isRejected = !txReceipt.status;
+    } catch {
+      isRejected = true;
     }
 
-    this.popupManagerStore.closePopup(instanceId);
+    runInAction(() => {
+      popup.state.transaction!.status = isRejected ? 'rejected' : 'confirmed';
+    });
   }
 }

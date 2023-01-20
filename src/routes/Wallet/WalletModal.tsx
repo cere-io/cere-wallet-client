@@ -14,7 +14,6 @@ const WalletModal = ({ modal }: WalletModalProps) => {
 
   return (
     <Dialog
-      origin="center"
       maxWidth="xs"
       open={modal.open}
       onClose={() => popupStore.hideModal(modal.instanceId)}

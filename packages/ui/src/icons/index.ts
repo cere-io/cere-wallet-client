@@ -18,6 +18,7 @@ export {
   Wifi as WifiIcon,
   Check as CheckIcon,
   CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
   KeyboardBackspace as BackIcon,
   ExpandMore as ExpandMoreIcon,
   East as EastIcon,

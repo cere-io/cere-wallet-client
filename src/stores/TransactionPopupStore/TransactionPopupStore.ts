@@ -27,7 +27,7 @@ export type TransactionPopupState = {
   action?: string;
   transaction?: {
     id: string;
-    status: 'pending' | 'confirmed';
+    status: 'pending' | 'confirmed' | 'rejected';
   };
 };
 

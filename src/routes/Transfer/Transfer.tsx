@@ -20,37 +20,35 @@ const Transfer = () => {
   }, [location.pathname]);
 
   return (
-    <Stack alignItems="stretch" spacing={2}>
+    <>
       <PageHeader title="Transfer details" backUrl=".." />
 
-      <ToggleButtonGroup
-        className="wallet-transfer-action"
-        exclusive
-        fullWidth
-        color="primary"
-        size={isMobile ? 'small' : 'medium'}
-        value={getActiveFromLocation()}
-        onChange={(event, value) => {
-          value && navigate({ ...location, pathname: `${value}` });
-        }}
-        sx={{
-          maxWidth: 430,
-          alignSelf: 'center',
-        }}
-      >
-        <ToggleButton value={Tabs.ASSET}>Assets</ToggleButton>
-        <ToggleButton value={Tabs.COLLECTIBLE}>Collectibles</ToggleButton>
-      </ToggleButtonGroup>
+      <Stack alignItems="stretch" spacing={2}>
+        <Stack display="grid" gridTemplateColumns="repeat(9, 1fr)" rowGap={4} columnGap={4}>
+          <Stack gridColumn={isMobile ? '1/10' : '1/6'} spacing={2}>
+            <ToggleButtonGroup
+              className="wallet-transfer-action"
+              exclusive
+              fullWidth
+              color="primary"
+              size={isMobile ? 'small' : 'medium'}
+              value={getActiveFromLocation()}
+              onChange={(event, value) => {
+                value && navigate({ ...location, pathname: `${value}` });
+              }}
+            >
+              <ToggleButton value={Tabs.ASSET}>Assets</ToggleButton>
+              <ToggleButton value={Tabs.COLLECTIBLE}>Collectibles</ToggleButton>
+            </ToggleButtonGroup>
 
-      <Stack display="grid" gridTemplateColumns="repeat(9, 1fr)" rowGap={2} columnGap={4}>
-        <Stack gridColumn={isMobile ? '1/10' : '1/6'} spacing={1}>
-          <Outlet />
-        </Stack>
-        <Stack gridColumn={isMobile ? '1/10' : '6/10'} spacing={3}>
-          <TransferFaq />
+            <Outlet />
+          </Stack>
+          <Stack gridColumn={isMobile ? '1/10' : '6/10'} spacing={3}>
+            <TransferFaq />
+          </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 };
 
