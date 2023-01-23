@@ -1,8 +1,9 @@
+import { utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
 import { createERC20Contract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
 
-import { Asset, ReadyWallet } from '../types';
+import { TransferableAsset, ReadyWallet } from './types';
 
 const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {
   let currentListener: () => {};
@@ -37,7 +38,7 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
   );
 };
 
-export class Erc20Token implements Asset {
+export class Erc20Token implements TransferableAsset {
   private tokenConfig = getTokenConfig();
   private balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
 
@@ -57,7 +58,23 @@ export class Erc20Token implements Asset {
     return this.tokenConfig.symbol;
   }
 
+  get decimals() {
+    return this.tokenConfig.decimals;
+  }
+
   get balance() {
     return this.balanceResource.current();
+  }
+
+  async transfer(to: string, amount: string) {
+    const chainId = this.wallet.network.chainId;
+    const signer = this.wallet.provider.getUncheckedSigner();
+    const contract = createERC20Contract(signer, chainId);
+
+    const transaction = await contract.transfer(to, utils.parseUnits(amount, this.decimals), {
+      gasLimit: 500000, // TODO: Use proper gasLimit value
+    });
+
+    return transaction.wait();
   }
 }

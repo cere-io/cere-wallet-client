@@ -5,7 +5,7 @@ import { AccountInfo } from '@polkadot/types/interfaces';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 import { CERE_NETWORK_RPC } from '~/constants';
-import { Asset, ReadyWallet } from '../types';
+import { Asset, ReadyWallet } from './types';
 
 /**
  * To keep Cere Network support simple at first - we create the API instance here just to get the balance.
