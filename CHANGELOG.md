@@ -1,7 +1,10 @@
 ## Release Notes:
 
 ### vNext
-- 
+
+- [DAV-3792] Align asset transfer UI with the design
+- [DAV-3734] Add in-wallet transaction modals
+- [DAV-3669] Add asset transfer (ethereum)
 
 ### v1.12.0
 - [DAV-3702] Fix start point for product tour

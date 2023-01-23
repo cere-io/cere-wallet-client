@@ -7,7 +7,8 @@ export type TransactionPopupState = {
   network?: ChainConfig;
   from: string;
   to: string;
-  status?: 'pending' | 'approved' | 'declined';
+  step?: 'confirmation' | 'details';
+  status?: 'pending' | 'approved' | 'declined' | 'done';
   toConfirm?: PriceData;
 
   app?: {
@@ -24,6 +25,10 @@ export type TransactionPopupState = {
   rawData?: string;
   parsedData?: object;
   action?: string;
+  transaction?: {
+    id: string;
+    status: 'pending' | 'confirmed' | 'rejected';
+  };
 };
 
 const getAddressData = (address: string, blockExplorer?: string) => ({
@@ -48,8 +53,20 @@ export class TransactionPopupStore {
     });
   }
 
+  get status() {
+    return this.shared.state.status;
+  }
+
+  get step() {
+    return this.shared.state.step;
+  }
+
+  get transaction() {
+    return this.shared.state.transaction;
+  }
+
   get isReady() {
-    return !!this.shared.state.status;
+    return !!this.status;
   }
 
   get spending() {
@@ -61,7 +78,12 @@ export class TransactionPopupStore {
   }
 
   get app() {
-    return this.shared.state.app;
+    return (
+      this.shared.state.app || {
+        name: 'Cere wallet',
+        url: window.origin,
+      }
+    );
   }
 
   get from() {
@@ -96,5 +118,9 @@ export class TransactionPopupStore {
 
   decline() {
     this.shared.state.status = 'declined';
+  }
+
+  done() {
+    this.shared.state.status = 'done';
   }
 }

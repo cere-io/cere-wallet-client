@@ -1,5 +1,5 @@
 import { PropsWithChildren, useMemo } from 'react';
-import { styled, Button, Logo, Container, Typography, Loading, useIsMobile } from '@cere-wallet/ui';
+import { styled, Button, Logo, Container, Typography, Loading, useIsMobile, LoadingButton } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
@@ -10,6 +10,7 @@ export type PopupLayoutProps = PropsWithChildren<{
   network?: string;
   links?: HeaderLinkProps[];
   loading?: boolean;
+  confirming?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }>;
@@ -21,6 +22,7 @@ const Layout = styled(Container)(({ theme }) => ({
 export const PopupLayout = ({
   title = 'Confirm transaction',
   loading = false,
+  confirming = false,
   network,
   links: rawLinks,
   children,
@@ -57,9 +59,9 @@ export const PopupLayout = ({
           Cancel
         </Button>
 
-        <Button size="large" fullWidth variant="contained" onClick={onConfirm}>
+        <LoadingButton fullWidth loading={confirming} size="large" variant="contained" onClick={onConfirm}>
           Confirm
-        </Button>
+        </LoadingButton>
       </Section>
     </Layout>
   );
