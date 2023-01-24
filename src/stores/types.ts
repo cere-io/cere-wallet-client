@@ -18,6 +18,7 @@ export type Asset = {
   ticker: string;
   displayName: string;
   network: string;
+  decimals: number;
   balance?: number;
 };
 

@@ -1,5 +1,6 @@
 import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
-import { ed25519Sign } from '@polkadot/util-crypto';
+import { u8aToHex } from '@polkadot/util';
+import { Keyring } from '@polkadot/keyring';
 
 import { Engine } from './engine';
 import { Account } from '../types';
@@ -8,6 +9,19 @@ import { getKeyPair } from '../accounts';
 export type PolkadotEngineOptions = {
   getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
+};
+
+const getPair = (address: string, privateKey?: string) => {
+  if (!privateKey) {
+    throw new Error('No private key was provided!');
+  }
+
+  const { publicKey, secretKey } = getKeyPair({ type: 'ed25519', privateKey });
+  const keyring = new Keyring({ type: 'ed25519' });
+
+  keyring.addFromPair({ publicKey, secretKey });
+
+  return keyring.getPair(address);
 };
 
 export const createPolkadotEngine = ({ getPrivateKey, getAccounts }: PolkadotEngineOptions) => {
@@ -31,14 +45,10 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts }: PolkadotEng
 
       ed25519_sign: createAsyncMiddleware(async (req, res) => {
         const privateKey = getPrivateKey();
-        const [, message] = req.params as string[];
+        const [address, message] = req.params as string[];
+        const signature = getPair(address, privateKey).sign(message, { withType: true });
 
-        if (!privateKey) {
-          throw new Error('No private key was provided!');
-        }
-
-        const signature = ed25519Sign(message, getKeyPair({ type: 'ed25519', privateKey }));
-        res.result = '0x' + Buffer.from(signature).toString('hex');
+        res.result = u8aToHex(signature);
       }),
     }),
   );

@@ -25,6 +25,7 @@ export class BalanceStore {
     const token = getTokenConfig();
 
     return {
+      decimals: token.decimals,
       displayName: token.symbol,
       ticker: token.symbol,
       network: this.wallet.network.displayName,

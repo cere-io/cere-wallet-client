@@ -17,8 +17,8 @@ const validationSchema = yup.object({
     .required('Address is required field')
     .test(
       'isValidAddress',
-      'Should be ethereum address format',
-      (value) => !!value && isValidAddress(value, 'ethereum'),
+      'Should be of valid address format',
+      (value) => !!value && (isValidAddress(value, 'ed25519') || isValidAddress(value, 'ethereum')), // TODO: Validate address depending on selected asset type
     ),
 
   amount: yup
