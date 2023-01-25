@@ -4,17 +4,21 @@ import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
 
-const createBalanceResource = ({ provider, network }: ReadyWallet, { decimals }: TokenConfig, address: string) => {
+const createBalanceResource = (
+  { provider, account }: ReadyWallet,
+  { decimals }: TokenConfig,
+  tokenContractAddress: string,
+) => {
   let currentListener: () => {};
 
-  const erc20 = createERC20Contract(provider.getSigner(), address);
-  const receiveFilter = erc20.filters.Transfer(null, address);
-  const sendFilter = erc20.filters.Transfer(address);
+  const erc20 = createERC20Contract(provider.getSigner(), tokenContractAddress);
+  const receiveFilter = erc20.filters.Transfer(null, account.address);
+  const sendFilter = erc20.filters.Transfer(account.address);
 
   return fromResource<number>(
     (sink) => {
       currentListener = async () => {
-        const balance = await erc20.balanceOf(address);
+        const balance = await erc20.balanceOf(account.address);
 
         sink(balance.div(10 ** decimals).toNumber());
       };
