@@ -24,6 +24,7 @@ export {
   Avatar,
   Drawer,
   MenuList,
+  ListItem,
   MenuItem,
   Badge,
   Backdrop,
