@@ -18,6 +18,7 @@ export {
   Wifi as WifiIcon,
   Check as CheckIcon,
   CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
   KeyboardBackspace as BackIcon,
   ExpandMore as ExpandMoreIcon,
   East as EastIcon,
@@ -63,3 +64,4 @@ export * from './TourIcon';
 export * from './AddIcon';
 export * from './RemoveIcon';
 export * from './ArrowLeftIcon';
+export * from './TransactionProgressIcon';

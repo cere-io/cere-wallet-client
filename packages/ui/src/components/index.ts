@@ -40,8 +40,10 @@ export {
   Snackbar,
   Radio,
   Skeleton,
-  Select,
   Input,
+  Select,
+  InputLabel,
+  Fade,
 } from '@mui/material';
 
 export type {
@@ -86,7 +88,11 @@ export type {
   SelectProps,
   Options,
   SelectChangeEvent,
+  InputLabelProps,
+  FadeProps,
 } from '@mui/material';
+
+export { LoadingButton, type LoadingButtonProps } from '@mui/lab';
 
 export * from './IconButton';
 export * from './InfoTable';
@@ -103,4 +109,5 @@ export * from './CopyButton';
 export * from './OtpInput';
 export * from './Typography';
 export * from './Banner';
+export * from './AmountInput';
 export * from './AddressDropdown';

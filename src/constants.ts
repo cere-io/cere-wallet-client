@@ -8,3 +8,13 @@ export const REACT_APP_DDC_API = process.env.REACT_APP_DDC_API;
 export const REACT_APP_RAMP_API_KEY = process.env.REACT_APP_RAMP_API_KEY;
 export const CERE_NETWORK_RPC = process.env.REACT_APP_CERE_NETWORK_RPC;
 export const COIN_GECKO_API = 'https://api.coingecko.com/api/v3/';
+export const GTM_ID = process.env.REACT_APP_GMT_ID;
+
+export const ANALYTICS = {
+  createWalletBtnClass: 'create-wallet-btn',
+  existingWalletBtnClass: 'existing-wallet-btn',
+};
+
+export const FEATURE_FLAGS = {
+  transferAssets: process.env.REACT_APP_TRANSFER_ASSETS_FEATURE === 'true',
+};

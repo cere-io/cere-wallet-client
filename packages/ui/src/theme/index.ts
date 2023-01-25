@@ -1,3 +1,4 @@
+import '@mui/lab/themeAugmentation';
 import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
 
@@ -230,6 +231,29 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         },
       },
 
+      MuiLoadingButton: {
+        styleOverrides: {
+          root: ({ theme, ownerState: props }) => {
+            const color = props.color === 'inherit' ? undefined : theme.palette[props.color || 'primary'];
+            const disabledColor = color && alpha(color.main, theme.palette.action.disabledOpacity);
+            const textColor = color && color.contrastText;
+
+            return (
+              color && {
+                '&.Mui-disabled': {
+                  borderColor: disabledColor,
+                  backgroundColor: props.variant === 'contained' ? disabledColor : undefined,
+                },
+
+                '& .MuiLoadingButton-loadingIndicator': {
+                  color: props.variant === 'contained' ? textColor : color?.main,
+                },
+              }
+            );
+          },
+        },
+      },
+
       MuiToggleButton: {
         styleOverrides: {
           sizeSmall: ({ theme }) => ({
@@ -316,13 +340,17 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           dense: ({ theme }) => ({
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
+
+            'html & .MuiListItemIcon-root': {
+              minWidth: 44,
+            },
           }),
         },
       },
 
       MuiListItemIcon: {
         styleOverrides: {
-          root: ({ theme }) => ({
+          root: ({ theme, ownerState }) => ({
             minWidth: 52,
             color: theme.palette.text.primary,
           }),
@@ -340,6 +368,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiListItemText: {
         defaultProps: {
           primaryTypographyProps: {
+            color: 'text.primary',
             fontWeight: 'bold',
           },
         },
@@ -510,6 +539,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
               padding: theme.spacing(1, 2),
             };
 
+            if (color !== 'neutral') {
+              return baseStyles;
+            }
+
             if (variant === 'filled') {
               return {
                 ...baseStyles,
@@ -637,6 +670,21 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
           dotActive: ({ theme }) => ({
             backgroundColor: theme.palette.text.primary,
           }),
+        },
+      },
+
+      MuiSelect: {
+        defaultProps: {
+          MenuProps: {
+            anchorOrigin: {
+              horizontal: 'right',
+              vertical: 'bottom',
+            },
+            transformOrigin: {
+              vertical: -8,
+              horizontal: 'right',
+            },
+          },
         },
       },
     },

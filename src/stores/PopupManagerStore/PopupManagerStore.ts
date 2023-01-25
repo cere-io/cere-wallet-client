@@ -38,6 +38,13 @@ export class PopupManagerStore {
     return this.redirects[instanceId];
   }
 
+  createModal() {
+    const modalId = Math.random().toString(16);
+    this.registerModal(modalId);
+
+    return modalId;
+  }
+
   registerModal(instanceId: string) {
     this.modals[instanceId] = observable.object({ instanceId, open: false });
 
