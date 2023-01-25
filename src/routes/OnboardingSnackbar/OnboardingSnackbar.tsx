@@ -44,7 +44,7 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
   return (
     <SnackbarContainer open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
       <Box>
-        <Stack gap={2}>
+        <Stack direction="row" gap={2}>
           <Box>
             <SnackbarTourIcon />
           </Box>
