@@ -1,13 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { createERC20Contract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
+import { createUSDCContract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
 
 const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {
   let currentListener: () => {};
 
-  const erc20 = createERC20Contract(provider.getSigner(), network.chainId);
+  const erc20 = createUSDCContract(provider.getSigner(), network.chainId);
   const receiveFilter = erc20.filters.Transfer(null, account.address);
   const sendFilter = erc20.filters.Transfer(account.address);
 
