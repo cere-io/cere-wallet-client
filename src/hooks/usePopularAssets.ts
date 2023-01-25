@@ -5,7 +5,7 @@ import { Asset, NETWORKS_LIST } from '~/stores';
 const EXCLUDE_POPULAR_LIST = ['matic', 'usdc', 'cere'];
 const [ETHERIUM] = NETWORKS_LIST;
 const TOKEN_QUANTITY = 100;
-const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}/coins/markets?vs_currency=usd&category=ethereum-ecosystem&order=market_cap_desc&per_page=${TOKEN_QUANTITY}&page=1&sparkline=false`;
+const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}/coins/markets?vs_currency=usd&category=polygon-ecosystem&order=market_cap_desc&per_page=${TOKEN_QUANTITY}&page=1&sparkline=false`;
 
 export function usePopularAssets() {
   const [data, setData] = useState<Asset[]>([]);
