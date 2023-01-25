@@ -38,11 +38,7 @@ const Field = styled(TextField)(() => ({
 }));
 
 export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep }) => {
-  const {
-    register,
-    handleSubmit: onSubmit,
-    formState: { isValid },
-  } = useForm({
+  const { register, handleSubmit: onSubmit } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
