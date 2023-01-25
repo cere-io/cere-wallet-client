@@ -62,7 +62,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
       assetStore.addAsset(formValues);
       changeStep();
       onClose();
-    });
+    })();
   };
 
   return (
@@ -106,7 +106,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
         <Button fullWidth type="button" onClick={onClose} variant="outlined">
           Cancel
         </Button>
-        <Button fullWidth disabled={!isValid} onClick={handleSubmit} variant="contained">
+        <Button fullWidth disabled={false} onClick={handleSubmit} variant="contained">
           Add
         </Button>
       </Stack>

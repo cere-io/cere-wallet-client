@@ -15,7 +15,7 @@ export const AssetListItem = ({ asset, disableInset = false, iconSize = 'inherit
   const { getUsdBalance } = useBalanceStore();
 
   return (
-    <ListItem {...props}>
+    <ListItem component="div" {...props}>
       <ListItemIcon inset>
         <CoinIcon coin={ticker} thumb={asset.thumb} fontSize="inherit" />
       </ListItemIcon>
