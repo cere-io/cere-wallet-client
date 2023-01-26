@@ -46,7 +46,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     register,
     handleSubmit: onSubmit,
     setValue,
-    getValues,
+    watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
@@ -60,19 +60,21 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     },
   });
 
-  const debouncedAddress = useDebounce(getValues().address, 500);
+  const watchAddress = watch('address');
+  const debouncedAddress = useDebounce(watchAddress, 500);
 
   useEffect(() => {
     (async () => {
       if (debouncedAddress) {
         const erc20 = assetStore.getTempToken(debouncedAddress);
-        console.log('TOKEN', erc20);
 
         if (erc20) {
           const name = await erc20.name();
           const ticker = await erc20.symbol();
+          const decimals = await erc20.decimals();
           setValue('displayName', name);
           setValue('ticker', ticker);
+          setValue('decimals', decimals);
         }
       }
     })();
