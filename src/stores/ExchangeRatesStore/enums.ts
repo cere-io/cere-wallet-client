@@ -39,4 +39,7 @@ export const COINGECKO_SUPPORTED_CURRENCIES = [BTC, ETH, USD];
 
 export const DEFAULT_RATE = 0;
 
-export const NETWORKS_LIST = [{ value: 'Ethereum', type: 'ERC20', name: 'Ethereum' }];
+export const NETWORKS_LIST = [
+  { value: 'Ethereum', type: 'ERC20', name: 'Ethereum' },
+  { value: 'Polygon', type: 'ERC20', name: 'Polygon' },
+];
