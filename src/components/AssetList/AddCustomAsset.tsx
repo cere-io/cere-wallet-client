@@ -1,15 +1,12 @@
 import { FC, useEffect } from 'react';
-import { providers } from 'ethers';
 
 import { Box, Divider, Stack, Button, IconButton, TextField, styled, Typography, ArrowLeftIcon } from '@cere-wallet/ui';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useAssetStore, useEmbeddedWalletStore } from '~/hooks';
+import { useAssetStore } from '~/hooks';
 import { ETH_ID, NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
-import { createERC20Contract } from '@cere-wallet/wallet-engine';
-import { useWallet } from 'playground/WalletContext';
 import { useDebounce } from '~/hooks/useDebounce';
 
 const [ETHEREUM] = NETWORKS_LIST;
@@ -43,7 +40,6 @@ const Field = styled(TextField)(() => ({
 }));
 
 export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep }) => {
-  const wallet = useWallet();
   const assetStore = useAssetStore();
 
   const {
@@ -68,10 +64,8 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
 
   useEffect(() => {
     (async () => {
-      if (debouncedAddress && wallet) {
-        const provider = new providers.Web3Provider(wallet.provider);
-        const signer = provider.getSigner();
-        const erc20 = await createERC20Contract(signer, debouncedAddress);
+      if (debouncedAddress) {
+        const erc20 = assetStore.getTempToken(debouncedAddress);
         console.log('TOKEN', erc20);
 
         if (erc20) {
@@ -82,7 +76,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
         }
       }
     })();
-  }, [debouncedAddress, setValue, wallet]);
+  }, [debouncedAddress, setValue, assetStore]);
 
   const handleSubmit = () => {
     onSubmit((formValues) => {
