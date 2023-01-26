@@ -5,11 +5,11 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useAssetStore } from '~/hooks';
-import { ETH_ID, NETWORKS_LIST } from '~/stores';
+import { NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
 import { useDebounce } from '~/hooks/useDebounce';
 
-const [ETHEREUM] = NETWORKS_LIST;
+const [, POLYGON] = NETWORKS_LIST;
 
 interface AddCustomAssetProps {
   onClose: VoidFunction;
@@ -51,11 +51,11 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
-      id: ETH_ID,
+      id: '',
       address: '',
       ticker: '',
       displayName: '',
-      network: ETHEREUM.value,
+      network: POLYGON.value,
       decimals: 0,
     },
   });
