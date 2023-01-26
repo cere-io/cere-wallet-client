@@ -1,11 +1,16 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { providers } from 'ethers';
+
 import { Box, Divider, Stack, Button, IconButton, TextField, styled, Typography, ArrowLeftIcon } from '@cere-wallet/ui';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useAssetStore } from '~/hooks';
+import { useAssetStore, useEmbeddedWalletStore } from '~/hooks';
 import { ETH_ID, NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
+import { createERC20Contract } from '@cere-wallet/wallet-engine';
+import { useWallet } from 'playground/WalletContext';
+import { useDebounce } from '~/hooks/useDebounce';
 
 const [ETHEREUM] = NETWORKS_LIST;
 
@@ -38,7 +43,15 @@ const Field = styled(TextField)(() => ({
 }));
 
 export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep }) => {
-  const { register, handleSubmit: onSubmit } = useForm({
+  const wallet = useWallet();
+  const assetStore = useAssetStore();
+
+  const {
+    register,
+    handleSubmit: onSubmit,
+    setValue,
+    getValues,
+  } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
@@ -51,7 +64,25 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     },
   });
 
-  const assetStore = useAssetStore();
+  const debouncedAddress = useDebounce(getValues().address, 500);
+
+  useEffect(() => {
+    (async () => {
+      if (debouncedAddress && wallet) {
+        const provider = new providers.Web3Provider(wallet.provider);
+        const signer = provider.getSigner();
+        const erc20 = await createERC20Contract(signer, debouncedAddress);
+        console.log('TOKEN', erc20);
+
+        if (erc20) {
+          const name = await erc20.name();
+          const ticker = await erc20.symbol();
+          setValue('displayName', name);
+          setValue('ticker', ticker);
+        }
+      }
+    })();
+  }, [debouncedAddress, setValue, wallet]);
 
   const handleSubmit = () => {
     onSubmit((formValues) => {
