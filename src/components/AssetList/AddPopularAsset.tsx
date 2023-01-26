@@ -48,6 +48,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
 
   const handleAdd = useCallback(
     (asset: Asset) => {
+      console.log('ADD ASSET', asset);
       assetStore.addAsset(asset);
     },
     [assetStore],

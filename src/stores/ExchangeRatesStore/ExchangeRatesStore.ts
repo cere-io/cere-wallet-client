@@ -6,7 +6,7 @@ import { Wallet } from '~/stores';
 import { AssetStore } from '../AssetStore';
 
 const DEFAULT_INTERVAL = 30 * 1000;
-const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price';
+const API_URL = 'https://min-api.cryptocompare.com/data/pricemulti';
 
 type ExchangeRates = Record<string, Record<string, number>>;
 
@@ -40,19 +40,19 @@ export class ExchangeRatesStore {
 
     const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
     const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
-    const pairs = tokens.map(({ id }) => id).join(',');
-    const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
+    const pairs = tokens.map(({ ticker }) => ticker).join(',');
+    const query = `fsyms=${pairs},ETH&tsyms=${supportedCurrencies}`;
 
     if (platform) {
       try {
-        const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
+        const response = await fetch(`${API_URL}?${query}`);
         const prices = await response.json();
-        tokens.forEach(({ id, ticker }) => {
-          contractExchangeRates[ticker] = prices[id];
+        tokens.forEach(({ ticker }) => {
+          contractExchangeRates[ticker] = prices[ticker];
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
-        console.warn('CoinGecko rates fetch failed.', error);
+        console.warn('Rates fetch failed.', error);
       }
     }
   }

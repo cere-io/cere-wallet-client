@@ -15,7 +15,7 @@ export function usePopularAssets() {
         acc.push({
           id: item.id,
           ticker: item.symbol,
-          address: item.address,
+          address: item.contract_address,
           displayName: item.symbol?.toLocaleUpperCase(),
           network: POLYGON.value,
           type: 'ERC20',

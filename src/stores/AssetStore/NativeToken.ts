@@ -42,6 +42,10 @@ export class NativeToken implements Asset {
     return 'matic-network';
   }
 
+  get decimals() {
+    return 6;
+  }
+
   get displayName() {
     return this.wallet.network.tickerName;
   }

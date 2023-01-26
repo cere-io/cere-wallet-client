@@ -21,7 +21,7 @@ export type Asset = {
   network?: string;
   address?: string;
   thumb?: string;
-  decimals?: number;
+  decimals: number;
   balance?: number;
   type?: string;
 };

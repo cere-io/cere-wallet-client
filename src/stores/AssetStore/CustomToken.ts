@@ -19,7 +19,6 @@ const createBalanceResource = (
     (sink) => {
       currentListener = async () => {
         const balance = await erc20.balanceOf(account.address);
-
         sink(balance.div(10 ** decimals).toNumber());
       };
 
@@ -48,18 +47,20 @@ export class CustomToken implements Asset {
   public network?: string | undefined;
   public thumb?: string | undefined;
   public address: string;
+  public decimals: number;
 
   constructor(private wallet: ReadyWallet, asset: Asset) {
     makeAutoObservable(this);
     this.tokenConfig = {
       symbol: asset.ticker,
-      decimals: asset.decimals || 0,
+      decimals: asset.decimals,
     };
 
     this.id = asset.id;
-    this.address = asset.address || '';
+    this.address = asset.address!;
     this.thumb = asset.thumb;
     this.network = asset.network;
+    this.decimals = asset.decimals;
     this.balanceResource = createBalanceResource(this.wallet, this.tokenConfig, this.address);
   }
 

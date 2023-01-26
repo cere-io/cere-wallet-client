@@ -46,6 +46,10 @@ export class Erc20Token implements Asset {
     makeAutoObservable(this);
   }
 
+  get decimals() {
+    return this.tokenConfig.decimals;
+  }
+
   get displayName() {
     return this.tokenConfig.symbol;
   }
