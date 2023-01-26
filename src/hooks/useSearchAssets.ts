@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { COIN_GECKO_API } from '~/constants';
 import { Asset, NETWORKS_LIST } from '~/stores';
+import { useDebounce } from './useDebounce';
 
 const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}search`;
 const EXCLUDE_POPULAR_LIST = ['matic', 'usdc', 'cere'];
@@ -8,16 +9,17 @@ const [ETHERIUM] = NETWORKS_LIST;
 
 export function useSearchAssets() {
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 500);
   const [data, setData] = useState<Asset[]>([]);
   const [isLoading, setLoading] = useState(false);
 
   const fetchSearch = useCallback(async () => {
-    if (!search.length) {
+    if (!debouncedSearch.length) {
       return;
     }
 
     setLoading(true);
-    const response = await fetch(`${COIN_GECKO_API_SEARCH}?query=${search}`);
+    const response = await fetch(`${COIN_GECKO_API_SEARCH}?query=${debouncedSearch}`);
     const data = await response.json();
 
     const items: Asset[] = data.coins.reduce((acc: Asset[], item: Record<string, string>) => {
@@ -36,7 +38,7 @@ export function useSearchAssets() {
     }, []);
     setData(items);
     setLoading(false);
-  }, [search]);
+  }, [debouncedSearch]);
 
   useEffect(() => {
     fetchSearch();
