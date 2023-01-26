@@ -13,3 +13,7 @@ export const ANALYTICS = {
   createWalletBtnClass: 'create-wallet-btn',
   existingWalletBtnClass: 'existing-wallet-btn',
 };
+
+export const FEATURE_FLAGS = {
+  transferAssets: process.env.REACT_APP_TRANSFER_ASSETS_FEATURE === 'true',
+};

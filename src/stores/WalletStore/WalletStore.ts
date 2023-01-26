@@ -14,6 +14,8 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
+import { ApprovalStore } from '../ApprovalStore';
+import { PopupManagerStore } from '../PopupManagerStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
@@ -26,6 +28,8 @@ export class WalletStore implements Wallet {
   readonly activityStore: ActivityStore;
   readonly authenticationStore: AuthenticationStore;
   readonly appContextStore: AppContextStore;
+  readonly popupManagerStore: PopupManagerStore;
+  readonly approvalStore: ApprovalStore;
 
   private currentProvider?: Provider;
   private initialized = false;
@@ -46,6 +50,8 @@ export class WalletStore implements Wallet {
     this.activityStore = new ActivityStore(this);
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
+    this.popupManagerStore = new PopupManagerStore();
+    this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
     if (this.isRoot()) {
       this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
@@ -101,6 +107,8 @@ export class WalletStore implements Wallet {
       chainConfig: this.network!,
       getAccounts: () => this.accountStore.accounts,
       getPrivateKey: () => this.accountStore.privateKey,
+      onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
+      onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),
     });
 
     runInAction(() => {

@@ -1,30 +1,21 @@
-import { useEffect } from 'react';
 import { Dialog, DialogContent } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 
-import { useFullScreen, usePopupManagerStore } from '~/hooks';
+import { usePopupManagerStore } from '~/hooks';
 import { PopupManagerModal } from '~/stores';
 import { RouteElement } from '../RouteElement';
 
-type EmbeddedModalProps = {
+type WalletModalProps = {
   modal: Required<PopupManagerModal>;
 };
 
-const EmbeddedModal = ({ modal }: EmbeddedModalProps) => {
+const WalletModal = ({ modal }: WalletModalProps) => {
   const popupStore = usePopupManagerStore();
-  const [isFullscreen, setFullscreen] = useFullScreen();
-
-  useEffect(() => {
-    setFullscreen(true);
-
-    return () => setFullscreen(false);
-  }, [modal, setFullscreen]);
 
   return (
     <Dialog
-      origin="right"
       maxWidth="xs"
-      open={modal.open && isFullscreen}
+      open={modal.open}
       onClose={() => popupStore.hideModal(modal.instanceId)}
       TransitionProps={{
         onExited: () => popupStore.unregisterAll(modal.instanceId),
@@ -37,4 +28,4 @@ const EmbeddedModal = ({ modal }: EmbeddedModalProps) => {
   );
 };
 
-export default observer(EmbeddedModal);
+export default observer(WalletModal);

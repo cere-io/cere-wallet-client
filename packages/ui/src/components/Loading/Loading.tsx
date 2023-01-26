@@ -30,7 +30,7 @@ const Fullscreen = styled('div')({
 export const Loading = ({ sx, fullScreen = false, size = 60, children, ...props }: LoadingProps) => {
   const spinner = (
     <Box sx={sx} position="relative" display="inline-block" width={size} height={size}>
-      <Content>{children}</Content>
+      {children && <Content>{children}</Content>}
       <CircularProgress {...props} size={size} />
     </Box>
   );
