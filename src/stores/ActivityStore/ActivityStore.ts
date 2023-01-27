@@ -3,6 +3,8 @@ import { autorun, makeAutoObservable } from 'mobx';
 import { PriceData, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 import { Erc20Token } from './Erc20Token';
+import { AssetStore } from '../AssetStore';
+import { CustomToken } from './CustomToken';
 
 export type Activity = {
   type: 'in' | 'out';
@@ -28,11 +30,12 @@ export class ActivityStore {
     { readOnly: !this.wallet.isRoot() },
   );
 
-  constructor(private wallet: Wallet) {
+  constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
 
     autorun(() => {
       if (wallet.isReady()) {
+        this.assetStore.commonList.forEach((asset) => new CustomToken(this).start(wallet, asset.address!));
         this.erc20token.start(wallet);
       } else {
         this.erc20token.stop();
