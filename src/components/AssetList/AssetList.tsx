@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import { Button, List, ListItem, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
+import { Button, List, ListItem, ListNoItems, NoCoinsIcon, ManageAssetsIcon } from '@cere-wallet/ui';
 import { useAssetStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
 import { useCallback, useState } from 'react';
-import { ManageAssetsIcon } from 'packages/ui/src/icons/ManageAssetsIcon';
 import { AddAssetDialog } from './AddAssetDialog';
 import CustomListItem from './CustomListItem';
+import { FEATURE_FLAGS } from '~/constants';
 
 export type AssetListProps = {
   dense?: boolean;
@@ -41,11 +41,13 @@ const AssetList = ({ dense }: AssetListProps) => {
             description="Add assets to your overview to see the balance and activity"
           />
         )}
-        <ListItem sx={{ justifyContent: 'center', marginTop: 1 }}>
-          <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
-            Manage assets
-          </Button>
-        </ListItem>
+        {FEATURE_FLAGS.transferAssets && (
+          <ListItem sx={{ justifyContent: 'center', marginTop: 1 }}>
+            <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
+              Manage assets
+            </Button>
+          </ListItem>
+        )}
       </List>
       <AddAssetDialog open={open} onClose={handleClose} />
     </>

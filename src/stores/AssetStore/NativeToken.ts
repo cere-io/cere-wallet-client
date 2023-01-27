@@ -43,7 +43,7 @@ export class NativeToken implements Asset {
   }
 
   get decimals() {
-    return 6;
+    return 18;
   }
 
   get displayName() {

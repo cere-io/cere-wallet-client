@@ -40,7 +40,6 @@ export {
   InputAdornment,
   Snackbar,
   Radio,
-  Skeleton,
   Input,
   Select,
   InputLabel,

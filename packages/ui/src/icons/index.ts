@@ -65,3 +65,4 @@ export * from './AddIcon';
 export * from './RemoveIcon';
 export * from './ArrowLeftIcon';
 export * from './TransactionProgressIcon';
+export * from './ManageAssetsIcon';
