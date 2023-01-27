@@ -8,9 +8,9 @@ interface AddAssetDialogProps {
   onClose: () => void;
 }
 
-const StyledDialog = styled(Dialog)(() => ({
+const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiBox-root .MuiDialogContent-root': {
-    paddingTop: 24,
+    paddingTop: theme.spacing(3),
   },
 }));
 

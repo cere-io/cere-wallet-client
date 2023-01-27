@@ -86,7 +86,6 @@ export type {
   GridProps,
   SnackbarProps,
   SelectProps,
-  Options,
   SelectChangeEvent,
   InputLabelProps,
   FadeProps,
