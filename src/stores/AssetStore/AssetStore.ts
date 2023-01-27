@@ -7,7 +7,6 @@ import { CereNativeToken } from './CereNativeToken';
 import { CustomToken } from './CustomToken';
 import { serializeAssets, deserializeAssets } from './helper';
 import { createERC20Contract } from '@cere-wallet/wallet-engine';
-import { Signer } from 'ethers';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -66,7 +65,7 @@ export class AssetStore {
     }
   }
 
-  public getTempToken(address: string) {
-    return createERC20Contract(this.wallet?.provider?.getSigner() as Signer, address);
+  public getERC20Contract(address: string) {
+    return createERC20Contract(this.wallet?.provider?.getSigner()!, address);
   }
 }

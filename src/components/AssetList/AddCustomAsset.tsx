@@ -66,7 +66,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
   useEffect(() => {
     (async () => {
       if (debouncedAddress) {
-        const erc20 = assetStore.getTempToken(debouncedAddress);
+        const erc20 = assetStore.getERC20Contract(debouncedAddress);
 
         if (erc20) {
           const name = await erc20.name();
