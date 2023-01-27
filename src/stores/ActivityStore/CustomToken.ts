@@ -1,4 +1,4 @@
-import { createERC20Contract, createUSDCContract, getTokenConfig } from '@cere-wallet/wallet-engine';
+import { createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
 import { BigNumber, utils } from 'ethers';
 
 import { ReadyWallet } from '../types';
