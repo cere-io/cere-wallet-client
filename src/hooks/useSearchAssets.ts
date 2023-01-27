@@ -1,43 +1,34 @@
 import { useCallback, useEffect, useState } from 'react';
-import { COIN_GECKO_API } from '~/constants';
 import { Asset, NETWORKS_LIST } from '~/stores';
 import { useDebounce } from './useDebounce';
+import tokensList from '~/assets/token_data.json';
 
-const COIN_GECKO_API_SEARCH = `${COIN_GECKO_API}search`;
-const EXCLUDE_POPULAR_LIST = ['matic', 'usdc', 'cere'];
-const [ETHERIUM] = NETWORKS_LIST;
+const [, POLYGON] = NETWORKS_LIST;
 
 export function useSearchAssets() {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
   const [data, setData] = useState<Asset[]>([]);
-  const [isLoading, setLoading] = useState(false);
 
-  const fetchSearch = useCallback(async () => {
+  const fetchSearch = useCallback(() => {
     if (!debouncedSearch.length) {
       return;
     }
 
-    setLoading(true);
-    const response = await fetch(`${COIN_GECKO_API_SEARCH}?query=${debouncedSearch}`);
-    const data = await response.json();
-
-    const items: Asset[] = data.coins.reduce((acc: Asset[], item: Record<string, string>) => {
-      if (!EXCLUDE_POPULAR_LIST.includes(item.symbol?.toLowerCase()))
-        acc.push({
-          id: item.id,
-          ticker: item.symbol || '',
-          displayName: item.symbol?.toLocaleUpperCase(),
-          network: ETHERIUM.value,
-          type: 'ERC20',
-          thumb: item.image,
-          decimals: 0,
-          balance: 0,
-        });
+    const items: Asset[] = tokensList.reduce((acc: Asset[], item: Record<string, any>) => {
+      acc.push({
+        id: item.id,
+        ticker: item.symbol || '',
+        displayName: item.symbol?.toLocaleUpperCase(),
+        network: POLYGON.value,
+        type: 'ERC20',
+        thumb: item.image,
+        decimals: 0,
+        balance: 0,
+      });
       return acc;
     }, []);
     setData(items);
-    setLoading(false);
   }, [debouncedSearch]);
 
   useEffect(() => {
@@ -45,7 +36,6 @@ export function useSearchAssets() {
   }, [fetchSearch]);
 
   return {
-    isLoading,
     data,
     search,
     setSearch,

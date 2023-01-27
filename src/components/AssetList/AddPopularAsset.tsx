@@ -1,16 +1,5 @@
 import React, { useMemo, FC, useState, useCallback } from 'react';
-import {
-  Box,
-  Stack,
-  Button,
-  AddIcon,
-  ListItem,
-  List,
-  styled,
-  Loading,
-  Typography,
-  SelectChangeEvent,
-} from '@cere-wallet/ui';
+import { Box, Stack, Button, AddIcon, ListItem, List, styled, Typography, SelectChangeEvent } from '@cere-wallet/ui';
 import { useAssetStore, usePopularAssets, useSearchAssets } from '~/hooks';
 import { Asset, NETWORKS_LIST } from '~/stores';
 import CustomListItem from './CustomListItem';
@@ -34,8 +23,8 @@ const StyledListItem = styled(ListItem)(() => ({
 }));
 
 export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
-  const { search, setSearch, data: searchData, isLoading: isLoadingSearch } = useSearchAssets();
-  const { data: popularList, isLoading: isLoadingPopular } = usePopularAssets();
+  const { search, setSearch, data: searchData } = useSearchAssets();
+  const { data: popularList } = usePopularAssets();
 
   const [network, setNetwork] = useState(ETHEREUM.value);
   const assetStore = useAssetStore();
@@ -148,13 +137,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             )}
           </Stack>
         </StyledListItem>
-        {(isLoadingPopular || isLoadingSearch) && (
-          <Stack direction="row" alignItems="center" justifyContent="center" margin={1}>
-            <Loading />
-          </Stack>
-        )}
         {!isSearchState &&
-          !isLoadingPopular &&
           popularRenderList.map((asset) => (
             <CustomListItem disableGutters key={asset.displayName} asset={asset} onItemClick={handleAdd} divider />
           ))}
