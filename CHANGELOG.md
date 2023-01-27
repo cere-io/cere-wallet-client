@@ -1,7 +1,10 @@
 ## Release Notes:
 
 ### vNext
+
 - [DAV-3491] Add custom asset management
+
+### v1.13.0
 - [DAV-3719] Fix snackbar tour error in console
 - [DAV-3792] Align asset transfer UI with the design
 - [DAV-3734] Add in-wallet transaction modals
