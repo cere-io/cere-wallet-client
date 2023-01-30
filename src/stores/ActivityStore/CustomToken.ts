@@ -21,11 +21,14 @@ export class CustomToken {
   private tokenConfig = getTokenConfig();
   private interface?: utils.Interface;
   private dispose?: () => void;
+  private tokenAddress: string;
 
-  constructor(private activityStore: ActivityStore) {}
+  constructor(private activityStore: ActivityStore, tokenAddress: string) {
+    this.tokenAddress = tokenAddress;
+  }
 
-  start({ provider, account }: ReadyWallet, tokenAddress: string) {
-    const erc20 = createERC20Contract(provider.getSigner(), tokenAddress);
+  start({ provider, account }: ReadyWallet) {
+    const erc20 = createERC20Contract(provider.getSigner(), this.tokenAddress);
     const receiveFilter = erc20.filters.Transfer(null, account.address);
     const sendFilter = erc20.filters.Transfer(account.address);
 

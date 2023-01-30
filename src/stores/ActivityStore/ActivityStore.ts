@@ -21,6 +21,7 @@ type SharedState = {
 };
 
 export class ActivityStore {
+  private launchedTokens: CustomToken[] = [];
   private erc20token = new Erc20Token(this);
   private shared = createSharedState<SharedState>(
     `activity.${this.wallet.instanceId}`,
@@ -35,9 +36,14 @@ export class ActivityStore {
 
     autorun(() => {
       if (wallet.isReady()) {
-        this.assetStore.commonList.forEach((asset) => new CustomToken(this).start(wallet, asset.address!));
+        this.launchedTokens = this.assetStore.commonList.map((asset) => {
+          const token = new CustomToken(this, asset.address!);
+          token.start(wallet);
+          return token;
+        });
         this.erc20token.start(wallet);
       } else {
+        this.launchedTokens.forEach((token) => token.stop());
         this.erc20token.stop();
       }
     });
