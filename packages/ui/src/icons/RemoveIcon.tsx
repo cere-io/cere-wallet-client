@@ -9,8 +9,8 @@ export const RemoveIcon = memo((props: SvgIconProps) => (
       x2="13.6496"
       y2="8.05005"
       stroke="currentColor"
-      stroke-width="1.5"
-      stroke-linecap="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
     />
   </SvgIcon>
 ));
