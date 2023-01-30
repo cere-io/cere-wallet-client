@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useAssetStore } from '~/hooks';
 import { NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
-import { useDebounce } from '~/hooks/useDebounce';
+import { useDebounce } from '~/hooks';
 
 const [, POLYGON] = NETWORKS_LIST;
 

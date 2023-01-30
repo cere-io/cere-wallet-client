@@ -53,7 +53,7 @@ export class CereNativeToken implements Asset {
   }
 
   get decimals() {
-    return 6;
+    return 10;
   }
 
   get id() {
