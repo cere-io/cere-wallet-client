@@ -41,7 +41,7 @@ const AssetList = ({ dense }: AssetListProps) => {
             description="Add assets to your overview to see the balance and activity"
           />
         )}
-        {FEATURE_FLAGS.transferAssets && (
+        {FEATURE_FLAGS.assetsManagement && (
           <ListItem sx={{ justifyContent: 'center', marginTop: 1 }}>
             <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
               Manage assets
