@@ -8,6 +8,7 @@ import { useAssetStore } from '~/hooks';
 import { NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
 import { useDebounce } from '~/hooks';
+import { isValidAddress } from '@cere-wallet/wallet-engine';
 
 const [, POLYGON] = NETWORKS_LIST;
 
@@ -19,7 +20,14 @@ interface AddCustomAssetProps {
 const validationSchema = yup.object({
   id: yup.string(),
   network: yup.string(),
-  address: yup.string().required(),
+  address: yup
+    .string()
+    .required('Address is required field')
+    .test(
+      'isValidAddress',
+      'Should be ethereum address format',
+      (value) => !!value && isValidAddress(value, 'ethereum'),
+    ),
   ticker: yup.string().required(),
   displayName: yup.string().required(),
   decimals: yup.number().required(),
@@ -80,13 +88,11 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     })();
   }, [debouncedAddress, setValue, assetStore]);
 
-  const handleSubmit = () => {
-    onSubmit((formValues) => {
-      assetStore.addAsset(formValues);
-      changeStep();
-      onClose();
-    })();
-  };
+  const handleSubmit = onSubmit((formValues) => {
+    assetStore.addAsset(formValues);
+    changeStep();
+    onClose();
+  });
 
   return (
     <Box>
