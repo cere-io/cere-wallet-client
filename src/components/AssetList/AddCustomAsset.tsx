@@ -28,9 +28,9 @@ const validationSchema = yup.object({
       'Should be ethereum address format',
       (value) => !!value && isValidAddress(value, 'ethereum'),
     ),
-  ticker: yup.string().required(),
-  displayName: yup.string().required(),
-  decimals: yup.number().required(),
+  ticker: yup.string().required('Symbol is required field'),
+  displayName: yup.string().required('Name is required field'),
+  decimals: yup.number().required('Decimals is required field'),
 });
 
 const Label = styled(Typography)(() => ({
