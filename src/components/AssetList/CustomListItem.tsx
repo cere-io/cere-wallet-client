@@ -26,15 +26,15 @@ const ListItem = styled(ListItemComponent)(() => ({
   paddingLeft: 24,
 }));
 
-const RemoveButton = styled(Button)(() => ({
-  backgroundColor: '#FFF2F2',
-  color: '#ED2121',
+const RemoveButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.custom.remove.backgroundColor,
+  color: theme.palette.custom.remove.color,
   fontWeight: 'normal',
 }));
 
-const AddButton = styled(Button)(() => ({
-  backgroundColor: '#F5F1FE',
-  color: '#733BF5',
+const AddButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.custom.add.backgroundColor,
+  color: theme.palette.custom.add.color,
   fontWeight: 'normal',
 }));
 

@@ -5,10 +5,22 @@ import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, 
 declare module '@mui/material/styles' {
   interface Palette {
     neutral: PaletteColor;
+    custom: {
+      [key: string]: {
+        backgroundColor: CSSProperties['color'];
+        color: CSSProperties['color'];
+      };
+    };
   }
 
   interface PaletteOptions {
     neutral: PaletteColor;
+    custom: {
+      [key: string]: {
+        backgroundColor: CSSProperties['color'];
+        color: CSSProperties['color'];
+      };
+    };
   }
 }
 
@@ -77,12 +89,22 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         main: '#ED2121',
       },
 
+      custom: {
+        remove: {
+          backgroundColor: '#FFF2F2',
+          color: '#ED2121',
+        },
+        add: {
+          backgroundColor: '#F5F1FE',
+          color: '#733BF5',
+        },
+      },
+
       text: {
         primary: '#131B32',
         secondary: '#717684',
         caption: '#A1A4AD',
       },
-
       divider: '#E7E8EB',
     },
 
