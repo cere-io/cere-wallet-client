@@ -17,7 +17,6 @@ interface AddCustomAssetProps {
 }
 
 const validationSchema = yup.object({
-  id: yup.string(),
   network: yup.string(),
   address: yup
     .string()
@@ -51,14 +50,14 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
 
   const {
     register,
+    formState: { errors, isValid },
     handleSubmit: onSubmit,
     setValue,
     watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
-    mode: 'onSubmit',
+    mode: 'onTouched',
     defaultValues: {
-      id: '',
       address: '',
       ticker: '',
       displayName: '',
@@ -88,7 +87,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
   }, [debouncedAddress, setValue, assetStore]);
 
   const handleSubmit = onSubmit((formValues) => {
-    assetStore.addAsset(formValues);
+    assetStore.addAsset({ id: '', ...formValues });
     changeStep();
     onClose();
   });
@@ -107,19 +106,43 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
 
           <FormItem>
             <Label variant="body2">Token contract address</Label>
-            <Field fullWidth size="small" {...register('address')} />
+            <Field
+              fullWidth
+              size="small"
+              {...register('address')}
+              error={Boolean(errors.address?.message)}
+              helperText={errors.address?.message}
+            />
           </FormItem>
           <FormItem>
             <Label variant="body2">Token symbol</Label>
-            <Field fullWidth size="small" {...register('ticker')} />
+            <Field
+              fullWidth
+              size="small"
+              {...register('ticker')}
+              error={Boolean(errors.ticker?.message)}
+              helperText={errors.ticker?.message}
+            />
           </FormItem>
           <FormItem>
             <Label variant="body2">Token name</Label>
-            <Field fullWidth size="small" {...register('displayName')} />
+            <Field
+              fullWidth
+              size="small"
+              {...register('displayName')}
+              error={Boolean(errors.displayName?.message)}
+              helperText={errors.displayName?.message}
+            />
           </FormItem>
           <FormItem>
             <Label variant="body2">Decimals of precision</Label>
-            <Field fullWidth size="small" {...register('decimals')} />
+            <Field
+              fullWidth
+              size="small"
+              {...register('decimals')}
+              error={Boolean(errors.decimals?.message)}
+              helperText={errors.decimals?.message}
+            />
           </FormItem>
         </Stack>
       </Stack>
@@ -134,7 +157,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
         <Button fullWidth type="button" onClick={onClose} variant="outlined">
           Cancel
         </Button>
-        <Button fullWidth disabled={false} onClick={handleSubmit} variant="contained">
+        <Button fullWidth disabled={!isValid} onClick={handleSubmit} variant="contained">
           Add
         </Button>
       </Stack>
