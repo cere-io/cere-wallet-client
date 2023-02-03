@@ -1,4 +1,4 @@
-import { SearchIcon, TextField } from '@cere-wallet/ui';
+import { InputAdornment, SearchIcon, TextField } from '@cere-wallet/ui';
 import React, { FC } from 'react';
 
 interface SearchAssetProps {
@@ -13,7 +13,11 @@ export const SearchAsset: FC<SearchAssetProps> = ({ onChange }) => {
   return (
     <TextField
       InputProps={{
-        startAdornment: <SearchIcon sx={{ width: 20, height: 20, marginRight: '10px' }} />,
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon fontSize="small" />
+          </InputAdornment>
+        ),
       }}
       size="small"
       fullWidth
