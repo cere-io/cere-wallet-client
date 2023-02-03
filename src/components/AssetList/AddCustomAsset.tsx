@@ -103,7 +103,7 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
           <Typography variant="h4">Add custom asset</Typography>
         </Stack>
         <Stack spacing={2} sx={{ width: '100%' }} alignItems="center" marginTop={3} marginBottom={6}>
-          <SelectNetwork size="small" showIcon {...register('network')} />
+          <SelectNetwork size="small" showIcon onChange={register('network').onChange} />
 
           <FormItem>
             <Label variant="body2">Token contract address</Label>

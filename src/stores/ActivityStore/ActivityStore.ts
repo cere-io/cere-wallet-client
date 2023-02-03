@@ -36,7 +36,7 @@ export class ActivityStore {
 
     autorun(() => {
       if (wallet.isReady()) {
-        this.launchedTokens = this.assetStore.commonList.map((asset) => {
+        this.launchedTokens = this.assetStore.managableList.map((asset) => {
           const token = new CustomToken(this, asset.address!);
           token.start(wallet);
           return token;
