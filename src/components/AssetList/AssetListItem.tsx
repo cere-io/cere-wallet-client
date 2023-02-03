@@ -16,8 +16,8 @@ export const AssetListItem = ({ asset, disableInset = false, iconSize = 'inherit
 
   return (
     <ListItem component="div" {...props}>
-      <ListItemIcon inset={!disableInset}>
-        <CoinIcon coin={ticker} fontSize={iconSize} />
+      <ListItemIcon inset>
+        <CoinIcon coin={ticker} thumb={asset.thumb} fontSize="inherit" />
       </ListItemIcon>
 
       <ListItemText primary={displayName} secondary={network} />

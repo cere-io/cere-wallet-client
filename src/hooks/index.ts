@@ -14,5 +14,8 @@ export * from './useNetworkStore';
 export * from './useRamp';
 export * from './useAlertVisible';
 export * from './useOpenLoginStore';
+export * from './usePopularAssets';
+export * from './useSearchAssets';
 export * from './useTransactionStore';
 export * from './useCollectiblesStore';
+export * from './useDebounce';

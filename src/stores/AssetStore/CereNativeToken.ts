@@ -52,6 +52,14 @@ export class CereNativeToken implements Asset {
     makeAutoObservable(this);
   }
 
+  get decimals() {
+    return 10;
+  }
+
+  get id() {
+    return 'cere-network';
+  }
+
   get displayName() {
     return 'Cere';
   }
