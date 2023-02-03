@@ -17,9 +17,9 @@ const StyledList = styled(List)(() => ({
   paddingRight: 0,
 }));
 
-const StyledListItem = styled(ListItem)(() => ({
-  paddingRight: 24,
-  paddingLeft: 24,
+const StyledListItem = styled(ListItem)(({ theme }) => ({
+  paddingRight: theme.spacing(3),
+  paddingLeft: theme.spacing(3),
 }));
 
 export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {

@@ -21,9 +21,9 @@ export type CustomListItemProps = ListItemProps & {
   hideEdit?: boolean;
 };
 
-const ListItem = styled(ListItemComponent)(() => ({
-  paddingRight: 24,
-  paddingLeft: 24,
+const ListItem = styled(ListItemComponent)(({ theme }) => ({
+  paddingRight: theme.spacing(3),
+  paddingLeft: theme.spacing(3),
 }));
 
 const RemoveButton = styled(Button)(({ theme }) => ({
