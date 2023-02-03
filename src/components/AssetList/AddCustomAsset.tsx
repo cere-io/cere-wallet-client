@@ -4,10 +4,9 @@ import { Box, Divider, Stack, Button, IconButton, TextField, styled, Typography,
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useAssetStore } from '~/hooks';
+import { useAssetStore, useDebounce } from '~/hooks';
 import { NETWORKS_LIST } from '~/stores';
 import { SelectNetwork } from './SelectNetwork';
-import { useDebounce } from '~/hooks';
 import { isValidAddress } from '@cere-wallet/wallet-engine';
 
 const [, POLYGON] = NETWORKS_LIST;
