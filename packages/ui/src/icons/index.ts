@@ -61,8 +61,4 @@ export * from './LogoRampCaptionIcon';
 export * from './LogoRampIcon';
 export * from './DotArrowRightIcon';
 export * from './TourIcon';
-export * from './AddIcon';
-export * from './RemoveIcon';
-export * from './ArrowLeftIcon';
 export * from './TransactionProgressIcon';
-export * from './ManageAssetsIcon';

@@ -24,7 +24,6 @@ export {
   Avatar,
   Drawer,
   MenuList,
-  ListItem,
   MenuItem,
   Badge,
   Backdrop,
@@ -40,7 +39,6 @@ export {
   InputAdornment,
   Snackbar,
   Radio,
-  Input,
   Select,
   InputLabel,
   Fade,
@@ -86,7 +84,6 @@ export type {
   GridProps,
   SnackbarProps,
   SelectProps,
-  SelectChangeEvent,
   InputLabelProps,
   FadeProps,
 } from '@mui/material';

@@ -2,7 +2,7 @@
 
 ### vNext
 
-- [DAV-3491] Add custom asset management
+-
 
 ### v1.13.0
 - [DAV-3719] Fix snackbar tour error in console

@@ -1,56 +1,29 @@
 import { observer } from 'mobx-react-lite';
-import { Button, List, ListItem, ListNoItems, NoCoinsIcon, ManageAssetsIcon } from '@cere-wallet/ui';
+import { List, ListNoItems, NoCoinsIcon } from '@cere-wallet/ui';
 import { useAssetStore } from '~/hooks';
 import AssetListItem from './AssetListItem';
-import { useCallback, useState } from 'react';
-import { AddAssetDialog } from './AddAssetDialog';
-import CustomListItem from './CustomListItem';
-import { FEATURE_FLAGS } from '~/constants';
 
 export type AssetListProps = {
   dense?: boolean;
 };
 
 const AssetList = ({ dense }: AssetListProps) => {
-  const [open, setOpen] = useState(false);
-  const assetStore = useAssetStore();
-
-  const { list, managableList } = assetStore;
-
-  const handleShow = useCallback(() => {
-    setOpen(true);
-  }, [setOpen]);
-
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+  const { list } = useAssetStore();
 
   return (
-    <>
-      <List dense={dense} variant="outlined">
-        {list.map((asset, index) => (
-          <AssetListItem key={asset.ticker} divider={list.length !== index + 1} asset={asset} />
-        ))}
-        {managableList.map((asset, index) => (
-          <CustomListItem key={asset.ticker} hideEdit divider asset={asset} />
-        ))}
-        {!list.length && !managableList.length && (
-          <ListNoItems
-            icon={<NoCoinsIcon fontSize="inherit" />}
-            title="Assets not found"
-            description="Add assets to your overview to see the balance and activity"
-          />
-        )}
-        {FEATURE_FLAGS.assetsManagement && (
-          <ListItem sx={{ justifyContent: 'center', marginTop: 1 }}>
-            <Button onClick={handleShow} startIcon={<ManageAssetsIcon />} variant="outlined">
-              Manage assets
-            </Button>
-          </ListItem>
-        )}
-      </List>
-      <AddAssetDialog open={open} onClose={handleClose} />
-    </>
+    <List dense={dense} variant="outlined">
+      {list.map((asset, index) => (
+        <AssetListItem key={asset.ticker} divider={list.length !== index + 1} asset={asset} />
+      ))}
+
+      {!list.length && (
+        <ListNoItems
+          icon={<NoCoinsIcon fontSize="inherit" />}
+          title="Assets not found"
+          description="Add assets to your overview to see the balance and activity"
+        />
+      )}
+    </List>
   );
 };
 

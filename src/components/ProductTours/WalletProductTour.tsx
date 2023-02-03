@@ -35,7 +35,7 @@ export const WalletProductTour = ({ onClose }: WalletProductTourProps) => {
   const handleCloseIntroduceFinishDialog = useCallback(() => {
     setIntroduceFinishDialog(false);
     localStorage.setItem('showProductTour', 'false');
-    localStorage.setItem('showProductTourSnackbar', 'false');
+    localStorage.setItem('showProductTourSnackbar', 'true');
     onClose?.();
   }, [setIntroduceFinishDialog, onClose]);
 

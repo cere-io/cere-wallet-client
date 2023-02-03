@@ -1,12 +1,11 @@
 import { makeAutoObservable, when } from 'mobx';
 
-import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES } from './enums';
+import { COINGECKO_PLATFORMS_CHAIN_CODE_MAP, COINGECKO_SUPPORTED_CURRENCIES, TOKENS } from './enums';
 import { idleTimeTracker } from './utils';
 import { Wallet } from '~/stores';
-import { AssetStore } from '../AssetStore';
 
 const DEFAULT_INTERVAL = 30 * 1000;
-const API_URL = 'https://min-api.cryptocompare.com/data/pricemulti';
+const COIN_GECKO_API_PRICE = 'https://api.coingecko.com/api/v3/simple/price';
 
 type ExchangeRates = Record<string, Record<string, number>>;
 
@@ -14,13 +13,9 @@ export class ExchangeRatesStore {
   private _handle: NodeJS.Timer | null = null;
   private _exchangeRates: ExchangeRates = {};
 
-  constructor(private wallet: Wallet, private assetStore: AssetStore) {
+  constructor(private wallet: Wallet) {
     makeAutoObservable(this);
     this.interval = DEFAULT_INTERVAL;
-    when(
-      () => this.assetStore.commonList.length > 0,
-      () => this.updateExchangeRates(),
-    );
 
     when(
       () => !!wallet.network?.chainId,
@@ -36,23 +31,23 @@ export class ExchangeRatesStore {
       return;
     }
 
-    const tokens = this.assetStore.commonList;
-
     const platform = COINGECKO_PLATFORMS_CHAIN_CODE_MAP[chainId]?.platform;
     const supportedCurrencies = COINGECKO_SUPPORTED_CURRENCIES.join(',');
-    const pairs = tokens.map(({ ticker }) => ticker).join(',');
-    const query = `fsyms=${pairs},ETH&tsyms=${supportedCurrencies}`;
+
+    const pairs = TOKENS.map(({ id }) => id).join(',');
+    const query = `ids=${pairs}&vs_currencies=${supportedCurrencies}`;
 
     if (platform) {
       try {
-        const response = await fetch(`${API_URL}?${query}`);
+        const response = await fetch(`${COIN_GECKO_API_PRICE}?${query}`);
         const prices = await response.json();
-        tokens.forEach(({ ticker }) => {
-          contractExchangeRates[ticker] = prices[ticker];
+        TOKENS.forEach(({ id, name }) => {
+          const tokenName = name.toUpperCase();
+          contractExchangeRates[tokenName] = prices[id];
         });
         this.exchangeRates = contractExchangeRates;
       } catch (error) {
-        console.warn('Rates fetch failed.', error);
+        console.warn('CoinGecko rates fetch failed.', error);
       }
     }
   }

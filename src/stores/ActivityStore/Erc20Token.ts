@@ -1,4 +1,4 @@
-import { createUSDCContract, getTokenConfig } from '@cere-wallet/wallet-engine';
+import { createERC20Contract, getTokenConfig } from '@cere-wallet/wallet-engine';
 import { BigNumber, utils } from 'ethers';
 
 import { ReadyWallet } from '../types';
@@ -25,7 +25,7 @@ export class Erc20Token {
   constructor(private activityStore: ActivityStore) {}
 
   start({ provider, network, account }: ReadyWallet) {
-    const erc20 = createUSDCContract(provider.getSigner(), network.chainId);
+    const erc20 = createERC20Contract(provider.getSigner(), network.chainId);
     const receiveFilter = erc20.filters.Transfer(null, account.address);
     const sendFilter = erc20.filters.Transfer(account.address);
 
