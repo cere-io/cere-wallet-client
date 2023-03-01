@@ -45,7 +45,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
 export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
   const handleCodeChange = (value: string) => {
     if (typeof onChange === 'function') {
-      onChange(value);
+      onChange(value.toLowerCase());
     }
   };
 

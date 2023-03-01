@@ -1,4 +1,4 @@
-import { Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
+import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,7 +27,7 @@ export const OtpPage = ({ email }: OtpProps) => {
     handleSubmit,
     setError,
     getValues: getFormValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue: setFormValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -94,9 +94,9 @@ export const OtpPage = ({ email }: OtpProps) => {
         onChange={(val) => setFormValue('code', val)}
         errorMessage={errors?.code?.message}
       />
-      <Button variant="contained" size="large" type="submit">
+      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
         Verify
-      </Button>
+      </LoadingButton>
       {timeLeft ? (
         <Typography variant="body1" align="center">
           Resend verification code in <strong>{timeLeft}</strong> seconds

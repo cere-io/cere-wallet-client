@@ -3,8 +3,8 @@ import { useRouteElementContext } from '../RouteElement';
 
 const Frame = styled('iframe')({
   width: '100%',
-  height: '100%',
-  minHeight: '600px',
+  height: '100vh',
+  maxHeight: '99%',
   border: 'none',
 });
 
