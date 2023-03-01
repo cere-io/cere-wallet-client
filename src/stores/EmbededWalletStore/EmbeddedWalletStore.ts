@@ -116,11 +116,15 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onLogin: async (data) => {
-        if (data.loginOptions.mode === 'redirect' || !data.preopenInstanceId) {
+        if (data.loginOptions.uxMode === 'redirect' || !data.preopenInstanceId) {
           this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(data.loginOptions));
 
           // Return never resolving promise to keep `connecting` state till redirection
           return new Promise(() => {});
+        }
+
+        if (data.loginOptions.uxMode === 'modal') {
+          return this.authenticationStore.loginInModal(data.preopenInstanceId, data);
         }
 
         return this.authenticationStore.loginInPopup(data.preopenInstanceId, data);

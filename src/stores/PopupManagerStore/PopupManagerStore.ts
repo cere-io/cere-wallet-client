@@ -46,7 +46,7 @@ export class PopupManagerStore {
   }
 
   registerModal(instanceId: string) {
-    this.modals[instanceId] = observable.object({ instanceId, open: false });
+    this.modals[instanceId] ||= observable.object({ instanceId, open: false });
 
     return this.modals[instanceId];
   }

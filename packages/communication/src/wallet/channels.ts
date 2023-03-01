@@ -19,7 +19,7 @@ export type LoginData = {
   verifier: string;
   login_hint: string;
   loginOptions: {
-    mode?: 'redirect' | 'popup';
+    uxMode?: 'redirect' | 'popup' | 'modal';
     idToken?: string;
     redirectUrl?: string;
   };
