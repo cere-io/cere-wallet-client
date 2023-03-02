@@ -1,15 +1,40 @@
-import { styled } from '@cere-wallet/ui';
-import { useRouteElementContext } from '../RouteElement';
+import { styled, Loading, Logo } from '@cere-wallet/ui';
+import { useCallback, useEffect, useState } from 'react';
+import { usePopupStore } from '~/hooks';
+import { RedirectPopupStore } from '~/stores';
 
 const Frame = styled('iframe')({
   width: '100%',
   height: '100vh',
-  maxHeight: '99%',
+  maxHeight: 'calc(100% - 10px)',
   border: 'none',
 });
 
 export const FramePopup = () => {
-  const { preopenInstanceId } = useRouteElementContext();
+  const [url, setUrl] = useState<string>();
+  const [loaded, setLoaded] = useState(false);
+  const handleLoad = useCallback(() => setLoaded(true), []);
 
-  return <Frame title="Redirect" src={`/redirect?preopenInstanceId=${preopenInstanceId}`} />;
+  const store = usePopupStore((popupId) => new RedirectPopupStore(popupId, true));
+
+  useEffect(() => {
+    return store.waitForRedirectRequest(setUrl);
+  }, [store]);
+
+  return (
+    <>
+      {!loaded && (
+        <Loading sx={{ position: 'absolute' }} fullScreen>
+          <Logo />
+        </Loading>
+      )}
+
+      <Frame
+        style={{ visibility: loaded ? 'visible' : 'hidden' }}
+        onLoad={handleLoad}
+        title="Embedded browser"
+        src={url}
+      />
+    </>
+  );
 };

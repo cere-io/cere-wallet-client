@@ -521,6 +521,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             padding: theme.spacing(2, 3),
+
+            [theme.breakpoints.down('sm')]: {
+              padding: theme.spacing(2, 1),
+            },
           }),
         },
       },

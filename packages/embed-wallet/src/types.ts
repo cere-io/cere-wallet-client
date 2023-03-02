@@ -59,6 +59,7 @@ export type WalletConnectOptions = {
 };
 
 export type WalletInitOptions = {
+  clientVersion?: string;
   env?: WalletEnvironment;
   network?: NetworkConfig;
   context?: Context;
