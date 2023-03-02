@@ -3,15 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { usePopupStore } from '~/hooks';
 import { RedirectPopupStore } from '~/stores';
 
-const Container = styled('div')({
-  position: 'relative',
-  height: '100vh',
-  maxHeight: '99%',
-});
-
 const Frame = styled('iframe')({
   width: '100%',
-  height: '100%',
+  height: '100vh',
+  maxHeight: 'calc(100% - 10px)',
   border: 'none',
 });
 
@@ -27,21 +22,19 @@ export const FramePopup = () => {
   }, [store]);
 
   return (
-    <Container>
+    <>
       {!loaded && (
         <Loading sx={{ position: 'absolute' }} fullScreen>
           <Logo />
         </Loading>
       )}
 
-      {url && (
-        <Frame
-          style={{ visibility: loaded ? 'visible' : 'hidden' }}
-          onLoad={handleLoad}
-          title="Embedded browser"
-          src={url}
-        />
-      )}
-    </Container>
+      <Frame
+        style={{ visibility: loaded ? 'visible' : 'hidden' }}
+        onLoad={handleLoad}
+        title="Embedded browser"
+        src={url}
+      />
+    </>
   );
 };
