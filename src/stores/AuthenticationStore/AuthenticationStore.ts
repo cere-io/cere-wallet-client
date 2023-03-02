@@ -107,7 +107,7 @@ export class AuthenticationStore {
     const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(modalId, {});
     const modal = this.popupManagerStore.registerModal(modalId);
 
-    this.popupManagerStore.registerRedirect(modalId);
+    this.popupManagerStore.registerRedirect(modalId, true);
     this.popupManagerStore.showModal(modalId, '/frame');
 
     const loginUrl = await this.openLoginStore.getLoginUrl({
