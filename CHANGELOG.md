@@ -2,15 +2,18 @@
 
 ### vNext
 
+- [feature] Add support for authentication flow in modals
 - [DAV-3491] Add custom asset management
 
 ### v1.13.0
+
 - [DAV-3719] Fix snackbar tour error in console
 - [DAV-3792] Align asset transfer UI with the design
 - [DAV-3734] Add in-wallet transaction modals
 - [DAV-3669] Add asset transfer (ethereum)
 
 ### v1.12.0
+
 - [DAV-3702] Fix start point for product tour
 - [DAV-3767] Add GTM integration and click IDs
 
