@@ -2,6 +2,10 @@
 
 ### vNext
 
+
+
+### v1.14.0
+
 - [feature] Add support for authentication flow in modals
 - [DAV-3491] Add custom asset management
 
