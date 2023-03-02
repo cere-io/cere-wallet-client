@@ -1,5 +1,5 @@
 import {
-  Button,
+  LoadingButton,
   Stack,
   Typography,
   Link,
@@ -42,7 +42,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
     register,
     handleSubmit,
     getValues: getFormValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
@@ -114,6 +114,9 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
           autoFocus
           name="email"
           label="Email"
+          autoCorrect="off"
+          autoCapitalize="off"
+          type="email"
           variant="outlined"
         />
       </FormControl>
@@ -121,9 +124,9 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
         By using your Cere wallet you automatically agree to our <Link href="#">Terms & Conditions</Link> and{' '}
         <Link href="#">Privacy Policy</Link>
       </Typography>
-      <Button variant="contained" size="large" type="submit">
+      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
         Sign {variant === 'signin' ? 'In' : 'Up'}
-      </Button>
+      </LoadingButton>
       <Divider>Or</Divider>
       <Stack direction="row" justifyContent="center" spacing={2}>
         <IconButton size="large" variant="outlined" onClick={onGoogleAuth}>

@@ -54,7 +54,7 @@ export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
 
 export type WalletConnectOptions = {
   idToken?: string;
-  mode?: 'redirect' | 'popup';
+  mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
 };
 

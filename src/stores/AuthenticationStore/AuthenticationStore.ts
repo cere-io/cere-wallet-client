@@ -87,17 +87,59 @@ export class AuthenticationStore {
     });
 
     const redirect = await this.popupManagerStore.redirect(popupId, loginUrl);
-    const closePopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(popupId, {});
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(popupId, {});
 
-    await Promise.race([when(() => !redirect.isConnected), when(() => !!closePopup.state.result)]);
+    await when(() => !redirect.isConnected || !!authPopup.state.result);
     this.popupManagerStore.closePopup(popupId);
 
     if (!redirect.isConnected) {
       throw new Error('User has closed the login popup');
     }
 
-    if (closePopup.state.result) {
-      this.openLoginStore.syncWithEncodedState(closePopup.state.result, closePopup.state.sessionId);
+    return this.syncAccountWithState(authPopup.state);
+  }
+
+  async loginInModal(modalId: string, params: LoginParams = {}): Promise<string> {
+    if (!this.popupManagerStore) {
+      throw new Error('PopupManagerStore dependency was not provided');
+    }
+
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(modalId, {});
+    const modal = this.popupManagerStore.registerModal(modalId);
+
+    this.popupManagerStore.registerRedirect(modalId);
+    this.popupManagerStore.showModal(modalId, '/frame');
+
+    const loginUrl = await this.openLoginStore.getLoginUrl({
+      ...params,
+      preopenInstanceId: modalId,
+      redirectUrl: '/authorize/close',
+    });
+
+    this.popupManagerStore.redirect(modalId, loginUrl);
+
+    await when(() => !!authPopup.state.result || !modal.open);
+
+    if (!modal.open) {
+      throw new Error('User has closed the login modal');
+    } else {
+      this.popupManagerStore.hideModal(modalId);
+    }
+
+    return this.syncAccountWithState(authPopup.state);
+  }
+
+  async logout() {
+    await this.openLoginStore.logout();
+    await this.contextStore.disconnect();
+    await this.syncAccount();
+
+    return true;
+  }
+
+  private async syncAccountWithState(state: AuthorizePopupState) {
+    if (state.result) {
+      this.openLoginStore.syncWithEncodedState(state.result, state.sessionId);
 
       await this.openLoginStore.init();
     }
@@ -109,14 +151,6 @@ export class AuthenticationStore {
     }
 
     return account.address;
-  }
-
-  async logout() {
-    await this.openLoginStore.logout();
-    await this.contextStore.disconnect();
-    await this.syncAccount();
-
-    return true;
   }
 
   private async syncAccount() {

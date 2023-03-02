@@ -18,22 +18,25 @@ export const IntroPage = () => {
       </Stack>
       <InfoStepper />
       <Divider />
-      <Button
-        variant="contained"
-        size="large"
-        className={ANALYTICS.createWalletBtnClass}
-        onClick={() => navigate({ ...location, pathname: '/authorize/signup' })}
-      >
-        Create a new wallet
-      </Button>
-      <Button
-        variant="outlined"
-        size="large"
-        className={ANALYTICS.existingWalletBtnClass}
-        onClick={() => navigate({ ...location, pathname: '/authorize/signin' })}
-      >
-        I already have a wallet
-      </Button>
+
+      <Stack direction="column" alignItems="stretch" spacing={1} paddingTop={2}>
+        <Button
+          variant="contained"
+          size="large"
+          className={ANALYTICS.createWalletBtnClass}
+          onClick={() => navigate({ ...location, pathname: '/authorize/signup' })}
+        >
+          Create a new wallet
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          className={ANALYTICS.existingWalletBtnClass}
+          onClick={() => navigate({ ...location, pathname: '/authorize/signin' })}
+        >
+          I already have a wallet
+        </Button>
+      </Stack>
     </Stack>
   );
 };

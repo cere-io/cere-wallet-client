@@ -15,10 +15,11 @@ import { TopUp } from './TopUp';
 import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
 import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
 import { AssetBuy, AssetReceive, Assets } from '~/routes/Assets';
-import { Activity } from '~/routes/Activity';
-import { Transfer } from '~/routes/Transfer';
-import TransferCollectibles from '~/routes/Transfer/TransferCollectibles';
+import { Activity } from './Activity';
+import { Transfer } from './Transfer';
+import TransferCollectibles from './Transfer/TransferCollectibles';
 import TransferAsset from '~/components/Transfer/TransferAsset';
+import { FramePopup } from './FramePopup';
 
 const walletMenu: WalletProps['menu'] = [
   { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
@@ -38,6 +39,7 @@ export default createRoutesFromElements(
     <Route path="redirect" element={<RedirectPopup />} />
     <Route path="confirm" element={<ConfirmPopup />} />
     <Route path="transaction" element={<TransactionPopup />} />
+    <Route path="frame" element={<FramePopup />} />
 
     <Route path="popup/*" element={<EmbeddedWallet />} />
 
