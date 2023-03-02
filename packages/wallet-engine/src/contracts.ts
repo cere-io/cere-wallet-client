@@ -68,10 +68,16 @@ export const getContractNameByAddress = (address: string, networkId: string) => 
   return contractNames.find((name) => getAllContractAddresses(name, networkId).includes(loweredAddress));
 };
 
-export const createERC20Contract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
+export const createUSDCContract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
   createERC20({
     signer,
     contractAddress: getContractAddress(ContractName.ERC20, networkId, application),
   });
 
 export const getTokenConfig = () => fpGetTokenConfig(process.env.REACT_APP_ENV);
+
+export const createERC20Contract = (signer: Signer, address: string) =>
+  createERC20({
+    signer,
+    contractAddress: address,
+  });

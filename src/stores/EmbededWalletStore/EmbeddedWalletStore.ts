@@ -50,7 +50,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
-    this.activityStore = new ActivityStore(this);
+    this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
@@ -116,11 +116,15 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onLogin: async (data) => {
-        if (data.loginOptions.mode === 'redirect' || !data.preopenInstanceId) {
+        if (data.loginOptions.uxMode === 'redirect' || !data.preopenInstanceId) {
           this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(data.loginOptions));
 
           // Return never resolving promise to keep `connecting` state till redirection
           return new Promise(() => {});
+        }
+
+        if (data.loginOptions.uxMode === 'modal') {
+          return this.authenticationStore.loginInModal(data.preopenInstanceId, data);
         }
 
         return this.authenticationStore.loginInPopup(data.preopenInstanceId, data);

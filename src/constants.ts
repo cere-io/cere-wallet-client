@@ -16,4 +16,5 @@ export const ANALYTICS = {
 
 export const FEATURE_FLAGS = {
   transferAssets: process.env.REACT_APP_TRANSFER_ASSETS_FEATURE === 'true',
+  assetsManagement: process.env.REACT_APP_ASSETS_MANAGEMENT_FEATURE === 'true',
 };

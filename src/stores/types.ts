@@ -15,10 +15,15 @@ export type User = {
 };
 
 export type Asset = {
+  id: string;
   ticker: string;
   displayName: string;
-  network: string;
+  network?: string;
+  address?: string;
+  thumb?: string;
+  decimals: number;
   balance?: number;
+  type?: string;
 };
 
 export type AssetRefillProvider = {
