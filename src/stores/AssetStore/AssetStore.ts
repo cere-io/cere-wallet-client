@@ -3,8 +3,8 @@ import { makeAutoObservable, autorun } from 'mobx';
 import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
+import { UsdcToken } from './UsdcToken';
 import { isTransferableAsset, Wallet, Asset } from './types';
-import { CustomToken } from './CustomToken';
 import { serializeAssets, deserializeAssets } from './helper';
 import { createERC20Contract } from '@cere-wallet/wallet-engine';
 
@@ -21,9 +21,9 @@ export class AssetStore {
 
     autorun(() => {
       if (wallet.isReady()) {
-        this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
+        this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new UsdcToken(wallet)];
 
-        this.managableAssets = parsedAssets.map((asset) => new CustomToken(wallet, asset));
+        this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
       }
     });
   }
@@ -74,7 +74,7 @@ export class AssetStore {
 
   public addAsset(assetParams: Asset): void {
     if (this.wallet.isReady()) {
-      this.managableList = [...this.managableList, new CustomToken(this.wallet, assetParams)];
+      this.managableList = [...this.managableList, new Erc20Token(this.wallet, assetParams)];
     }
   }
 

@@ -58,10 +58,6 @@ export class NativeToken implements TransferableAsset {
     return this.wallet.network.ticker;
   }
 
-  get decimals() {
-    return 18;
-  }
-
   get balance() {
     return this.balanceResource.current();
   }

@@ -28,7 +28,6 @@ export class BalanceStore {
       decimals: token.decimals,
       displayName: token.symbol,
       ticker: token.symbol,
-      decimals: token.decimals,
       network: this.wallet.network.displayName,
     };
   }
