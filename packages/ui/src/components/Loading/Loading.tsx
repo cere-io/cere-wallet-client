@@ -35,5 +35,5 @@ export const Loading = ({ sx, fullScreen = false, size = 60, children, ...props 
     </Box>
   );
 
-  return fullScreen ? <Fullscreen>{spinner}</Fullscreen> : spinner;
+  return fullScreen ? <Fullscreen sx={sx}>{spinner}</Fullscreen> : spinner;
 };

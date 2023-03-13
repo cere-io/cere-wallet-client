@@ -53,6 +53,10 @@ export class CereNativeToken implements TransferableAsset {
     return this.wallet.accounts.find((account) => account.type === 'ed25519')!.address;
   }
 
+  get id() {
+    return 'cere-network';
+  }
+
   get displayName() {
     return 'Cere';
   }

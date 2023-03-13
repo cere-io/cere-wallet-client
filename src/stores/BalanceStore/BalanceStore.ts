@@ -14,10 +14,10 @@ export class BalanceStore {
       getUsdBalance: action.bound,
     });
 
-    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet);
+    this.exchangeRatesStore = new ExchangeRatesStore(this.wallet, this.assetStore);
   }
 
-  get selectedToken(): Omit<Asset, 'balance'> | undefined {
+  get selectedToken(): Omit<Asset, 'balance' | 'id'> | undefined {
     if (!this.wallet.network) {
       return undefined;
     }
@@ -28,6 +28,7 @@ export class BalanceStore {
       decimals: token.decimals,
       displayName: token.symbol,
       ticker: token.symbol,
+      decimals: token.decimals,
       network: this.wallet.network.displayName,
     };
   }
@@ -37,15 +38,15 @@ export class BalanceStore {
   }
 
   get balance() {
-    const selectedToken = this.assetStore.list.find(({ ticker }) => this.selectedToken?.ticker === ticker);
+    const selectedToken = this.assetStore.commonList.find(({ ticker }) => this.selectedToken?.ticker === ticker);
 
     return selectedToken?.balance;
   }
 
   get totalUsdBalance() {
     const { exchangeRates } = this.exchangeRatesStore;
-    return this.assetStore.list.reduce<number>((total, item) => {
-      const rate = exchangeRates[item.ticker]?.[USD] || DEFAULT_RATE;
+    return this.assetStore.commonList.reduce<number>((total, item) => {
+      const rate = exchangeRates[item.ticker]?.[USD.toUpperCase()] || DEFAULT_RATE;
       const balance = (item.balance || 0) * rate;
 
       return total + balance;
@@ -54,7 +55,7 @@ export class BalanceStore {
 
   public getUsdBalance(tickerName: string, balance: number = 0) {
     const { exchangeRates } = this.exchangeRatesStore;
-    const rate = exchangeRates[tickerName]?.[USD] || DEFAULT_RATE;
+    const rate = exchangeRates[tickerName]?.[USD.toUpperCase()] || DEFAULT_RATE;
 
     return balance * rate;
   }

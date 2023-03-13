@@ -32,8 +32,8 @@ export class PopupManagerStore {
     return Object.values(this.modals).find((modal) => modal.path) as Required<PopupManagerModal> | undefined;
   }
 
-  registerRedirect(instanceId: string) {
-    this.redirects[instanceId] = createSharedRedirectState(instanceId);
+  registerRedirect(instanceId: string, local = false) {
+    this.redirects[instanceId] = createSharedRedirectState(instanceId, { local });
 
     return this.redirects[instanceId];
   }
@@ -46,7 +46,7 @@ export class PopupManagerStore {
   }
 
   registerModal(instanceId: string) {
-    this.modals[instanceId] = observable.object({ instanceId, open: false });
+    this.modals[instanceId] ||= observable.object({ instanceId, open: false });
 
     return this.modals[instanceId];
   }

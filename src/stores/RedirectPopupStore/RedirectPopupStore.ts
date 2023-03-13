@@ -1,18 +1,20 @@
-import { autorun, makeAutoObservable } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 import { createSharedRedirectState } from '../sharedState';
 
 export class RedirectPopupStore {
-  private shared = createSharedRedirectState(this.preopenInstanceId);
+  private shared = createSharedRedirectState(this.preopenInstanceId, { local: this.local });
 
-  constructor(public readonly preopenInstanceId: string) {
+  constructor(public readonly preopenInstanceId: string, private local = false) {
     makeAutoObservable(this);
   }
 
   waitForRedirectRequest(onRedirectRequest: (url: string) => void) {
-    return autorun(() => {
-      if (this.shared.state.url) {
-        onRedirectRequest(this.shared.state.url);
-      }
-    });
+    return reaction(
+      () => this.shared.state.url,
+      (url) => url && onRedirectRequest(url),
+      {
+        fireImmediately: true,
+      },
+    );
   }
 }

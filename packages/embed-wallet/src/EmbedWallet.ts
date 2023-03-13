@@ -5,6 +5,7 @@ import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
 import { ProxyProvider, ProviderInterface } from './Provider';
+import { WALLET_CLIENT_VERSION } from './constants';
 import {
   WalletStatus,
   WalletEvent,
@@ -72,7 +73,14 @@ export class EmbedWallet {
     };
   }
 
-  async init({ network, context, env = 'prod', popupMode = 'modal', connectOptions = {} }: WalletInitOptions = {}) {
+  async init({
+    network,
+    context,
+    env = 'prod',
+    popupMode = 'modal',
+    clientVersion = WALLET_CLIENT_VERSION,
+    connectOptions = {},
+  }: WalletInitOptions = {}) {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
     const { sessionId } = getAuthRedirectResult();
@@ -84,6 +92,10 @@ export class EmbedWallet {
       context: this.defaultContext,
       buildEnv: buildEnvMap[env],
       enableLogging: env !== 'prod',
+      integrity: {
+        check: false,
+        version: clientVersion,
+      },
     });
 
     this.proxyProvider.setTarget(this.torus.provider);

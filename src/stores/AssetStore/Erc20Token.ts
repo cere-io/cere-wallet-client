@@ -1,14 +1,14 @@
 import { utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { createERC20Contract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
+import { createUSDCContract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { TransferableAsset, ReadyWallet } from './types';
 
 const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {
   let currentListener: () => {};
 
-  const erc20 = createERC20Contract(provider.getSigner(), network.chainId);
+  const erc20 = createUSDCContract(provider.getSigner(), network.chainId);
   const receiveFilter = erc20.filters.Transfer(null, account.address);
   const sendFilter = erc20.filters.Transfer(account.address);
 
@@ -41,9 +41,14 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
 export class Erc20Token implements TransferableAsset {
   private tokenConfig = getTokenConfig();
   private balanceResource = createBalanceResource(this.wallet, this.tokenConfig);
+  public id: string = 'matic-network';
 
   constructor(private wallet: ReadyWallet) {
     makeAutoObservable(this);
+  }
+
+  get decimals() {
+    return this.tokenConfig.decimals;
   }
 
   get displayName() {

@@ -38,6 +38,14 @@ export class NativeToken implements TransferableAsset {
     makeAutoObservable(this);
   }
 
+  get id() {
+    return 'matic-network';
+  }
+
+  get decimals() {
+    return 18;
+  }
+
   get displayName() {
     return this.wallet.network.tickerName;
   }

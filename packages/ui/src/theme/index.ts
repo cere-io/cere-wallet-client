@@ -63,6 +63,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
       primary: {
         main: '#733BF5',
+        light: '#F5F1FE',
       },
 
       secondary: {
@@ -75,6 +76,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
 
       error: {
         main: '#ED2121',
+        light: '#FFF2F2',
       },
 
       text: {
@@ -82,7 +84,6 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         secondary: '#717684',
         caption: '#A1A4AD',
       },
-
       divider: '#E7E8EB',
     },
 
@@ -520,6 +521,10 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             padding: theme.spacing(2, 3),
+
+            [theme.breakpoints.down('sm')]: {
+              padding: theme.spacing(2, 1),
+            },
           }),
         },
       },

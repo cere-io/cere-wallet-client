@@ -4,18 +4,38 @@ import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
 import { CereNativeToken } from './CereNativeToken';
 import { isTransferableAsset, Wallet, Asset } from './types';
+import { CustomToken } from './CustomToken';
+import { serializeAssets, deserializeAssets } from './helper';
+import { createERC20Contract } from '@cere-wallet/wallet-engine';
 
 export class AssetStore {
   private assets: Asset[] = [];
+  private managableAssets: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
+    this.list = [];
+
+    const managableTokensFromStorage = localStorage.getItem('tokens');
+    const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
     autorun(() => {
-      this.list = wallet.isReady()
-        ? [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)]
-        : [];
+      if (wallet.isReady()) {
+        this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new Erc20Token(wallet)];
+
+        this.managableAssets = parsedAssets.map((asset) => new CustomToken(wallet, asset));
+      }
     });
+  }
+
+  get managableList() {
+    return this.managableAssets;
+  }
+
+  set managableList(assets: Asset[]) {
+    this.managableAssets = assets;
+
+    localStorage.setItem('tokens', serializeAssets(assets));
   }
 
   get list() {
@@ -30,12 +50,12 @@ export class AssetStore {
     return this.assets.filter(isTransferableAsset);
   }
 
-  get nativeToken() {
-    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
+  get commonList() {
+    return [...this.list, ...this.managableAssets];
   }
 
-  getAsset(ticker: string) {
-    return this.assets.find((asset) => asset.ticker === ticker);
+  get nativeToken() {
+    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
   }
 
   transfer(ticker: string, to: string, amount: string) {
@@ -46,5 +66,25 @@ export class AssetStore {
     }
 
     return asset.transfer(to, amount);
+  }
+
+  getAsset(ticker: string) {
+    return this.assets.find((asset) => asset.ticker === ticker);
+  }
+
+  public addAsset(assetParams: Asset): void {
+    if (this.wallet.isReady()) {
+      this.managableList = [...this.managableList, new CustomToken(this.wallet, assetParams)];
+    }
+  }
+
+  public deleteAsset(assetParams: Asset): void {
+    if (this.wallet.isReady()) {
+      this.managableList = this.managableList.filter((asset) => assetParams.ticker !== asset.ticker);
+    }
+  }
+
+  public getERC20Contract(address: string) {
+    return createERC20Contract(this.wallet?.provider?.getSigner()!, address);
   }
 }

@@ -54,11 +54,12 @@ export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
 
 export type WalletConnectOptions = {
   idToken?: string;
-  mode?: 'redirect' | 'popup';
+  mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
 };
 
 export type WalletInitOptions = {
+  clientVersion?: string;
   env?: WalletEnvironment;
   network?: NetworkConfig;
   context?: Context;
