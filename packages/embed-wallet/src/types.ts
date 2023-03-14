@@ -43,7 +43,7 @@ export type WalletAccount = {
 };
 
 // Wallet options
-export type WalletEvent = 'status-update';
+export type WalletEvent = 'status-update' | 'accounts-update' | 'balance-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
 export type WalletScreen = 'home' | 'topup' | 'settings';
 export type WalletEnvironment = 'local' | 'dev' | 'stage' | 'prod';
@@ -67,6 +67,12 @@ export type WalletInitOptions = {
   connectOptions?: Partial<WalletConnectOptions>;
 };
 
+export type WalletTransferOptions = {
+  from: string;
+  to: string;
+  amount: string;
+};
+
 export type WalletShowOptions = {
   target?: string;
   params?: Record<string, string>;
@@ -75,4 +81,13 @@ export type WalletShowOptions = {
 
 export type WalletSetContextOptions = {
   key?: string;
+};
+
+export type ProviderEvent<T = any> = {
+  type: string;
+  data: T;
+};
+
+export type WalletBalance = {
+  balance: string;
 };

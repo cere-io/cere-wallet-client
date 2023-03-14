@@ -1,6 +1,7 @@
 import Wallet from 'ethereumjs-wallet';
 import { getED25519Key } from '@toruslabs/openlogin-ed25519';
-import { encodeAddress, isEthereumAddress } from '@polkadot/util-crypto';
+import { decodeAddress, encodeAddress, isEthereumAddress } from '@polkadot/util-crypto';
+import { hexToU8a, isHex } from '@polkadot/util';
 
 import { KeyPair, KeyType, Account } from './types';
 
@@ -48,5 +49,16 @@ export const getAccount = ({ privateKey, type, name }: AccountOptions): Account 
 });
 
 export const getAccountAddress = ({ privateKey, type }: KeyPairOptions) => getKeyPair({ privateKey, type }).address;
+
+const isValidPolkadotAddress = (address: string) => {
+  try {
+    encodeAddress(isHex(address) ? hexToU8a(address) : decodeAddress(address));
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export const isValidAddress = (address: string, type: KeyType) =>
-  type === 'ethereum' ? isEthereumAddress(address) : true; // TODO: Implement address checker for Polkadot
+  type === 'ethereum' ? isEthereumAddress(address) : isValidPolkadotAddress(address);

@@ -2,7 +2,7 @@ import { utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
 
-import { Asset, ReadyWallet } from '../types';
+import { ReadyWallet, TransferableAsset } from './types';
 
 const createBalanceResource = ({ provider }: ReadyWallet) => {
   let currentListener: () => {};
@@ -31,7 +31,7 @@ const createBalanceResource = ({ provider }: ReadyWallet) => {
   );
 };
 
-export class NativeToken implements Asset {
+export class NativeToken implements TransferableAsset {
   private balanceResource = createBalanceResource(this.wallet);
 
   constructor(private wallet: ReadyWallet) {
@@ -60,5 +60,16 @@ export class NativeToken implements Asset {
 
   get balance() {
     return this.balanceResource.current();
+  }
+
+  async transfer(to: string, amount: string) {
+    const signer = this.wallet.provider.getSigner();
+    const transaction = await signer.sendTransaction({
+      to,
+      value: utils.parseUnits(amount, this.decimals),
+      gasLimit: 500000, // TODO: Use proper gasLimit value
+    });
+
+    return transaction.wait();
   }
 }

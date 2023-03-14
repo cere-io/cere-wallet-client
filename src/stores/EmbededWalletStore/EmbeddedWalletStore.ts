@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, toJS, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
+import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Provider, Wallet } from '../types';
@@ -16,6 +16,7 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
+import { CERE_NETWORK_RPC } from '~/constants';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
@@ -31,6 +32,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
 
+  private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
 
@@ -84,8 +86,8 @@ export class EmbeddedWalletStore implements Wallet {
     return this.currentProvider;
   }
 
-  private set provider(provider) {
-    this.currentProvider = provider;
+  get engine() {
+    return this.currentEngine;
   }
 
   get network() {
@@ -200,22 +202,29 @@ export class EmbeddedWalletStore implements Wallet {
 
     const engine = createWalletEngine({
       chainConfig: this.networkStore.network!,
+      polkadotRpc: CERE_NETWORK_RPC,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
     });
 
-    this.provider = new providers.Web3Provider(engine.provider);
-
     createRpcConnection({
       engine,
       logger: console,
     });
 
+    runInAction(() => {
+      this.currentEngine = engine;
+      this.currentProvider = new providers.Web3Provider(engine.provider);
+    });
+
     reaction(
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
     );
   }
 }

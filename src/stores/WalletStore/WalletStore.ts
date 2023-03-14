@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
+import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 
 import { Provider, Wallet, WalletStatus } from '../types';
@@ -16,6 +16,7 @@ import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
+import { CERE_NETWORK_RPC } from '~/constants';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
@@ -31,6 +32,7 @@ export class WalletStore implements Wallet {
   readonly popupManagerStore: PopupManagerStore;
   readonly approvalStore: ApprovalStore;
 
+  private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
   private initialized = false;
   private isRootInstance = false;
@@ -82,6 +84,10 @@ export class WalletStore implements Wallet {
     return this.currentProvider;
   }
 
+  get engine() {
+    return this.currentEngine;
+  }
+
   get network() {
     return this.networkStore.network;
   }
@@ -105,6 +111,7 @@ export class WalletStore implements Wallet {
 
     const engine = createWalletEngine({
       chainConfig: this.network!,
+      polkadotRpc: CERE_NETWORK_RPC,
       getAccounts: () => this.accountStore.accounts,
       getPrivateKey: () => this.accountStore.privateKey,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
@@ -112,8 +119,18 @@ export class WalletStore implements Wallet {
     });
 
     runInAction(() => {
+      this.currentEngine = engine;
       this.currentProvider = new providers.Web3Provider(engine.provider);
+
       this.initialized = true;
     });
+
+    reaction(
+      () => this.accountStore.accounts,
+      (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
+    );
   }
 }
