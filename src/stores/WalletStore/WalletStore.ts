@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
+import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 
@@ -124,5 +124,13 @@ export class WalletStore implements Wallet {
 
       this.initialized = true;
     });
+
+    reaction(
+      () => this.accountStore.accounts,
+      (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
+    );
   }
 }

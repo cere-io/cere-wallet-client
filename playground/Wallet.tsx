@@ -1,11 +1,17 @@
-import { Button, Stack } from '@cere-wallet/ui';
+import { WalletAccount, WalletBalance } from '@cere/embed-wallet';
+import { Button, Divider, Stack, Typography } from '@cere-wallet/ui';
 import { providers } from 'ethers';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
 
 export const Wallet = () => {
+  const [ethAddress, setEthAddress] = useState<string>();
+  const [ethBalance, setEthBalance] = useState<string>(); // TODO: Implement
+  const [cereAddress, setCereAddress] = useState<string>();
+  const [cereBalance, setCereBalance] = useState<string>();
+
   const wallet = useWallet();
   const status = useWalletStatus();
 
@@ -22,6 +28,18 @@ export const Wallet = () => {
           logoUrl,
         },
       },
+    });
+
+    wallet.subscribe('balance-update', ({ balance }: WalletBalance) => {
+      setCereBalance(balance);
+    });
+
+    wallet.subscribe('accounts-update', (accounts: WalletAccount[]) => {
+      const ethAccount = accounts.find(({ type }) => type === 'ethereum');
+      const cereAccount = accounts.find(({ type }) => type === 'ed25519');
+
+      setCereAddress(cereAccount?.address);
+      setEthAddress(ethAccount?.address);
     });
   }, [wallet]);
 
@@ -110,6 +128,61 @@ export const Wallet = () => {
 
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
+      {status === 'connected' && (
+        <>
+          <Divider flexItem>
+            <Typography color="text.caption">Wallet</Typography>
+          </Divider>
+
+          {ethAddress && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Ethereum Address
+              </Typography>
+              <Typography variant="body2" align="center">
+                {ethAddress}
+              </Typography>
+            </Stack>
+          )}
+
+          {cereAddress && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Cere Address
+              </Typography>
+              <Typography variant="body2" align="center">
+                {cereAddress}
+              </Typography>
+            </Stack>
+          )}
+
+          {ethBalance && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Ethereum Balance
+              </Typography>
+              <Typography variant="body2" align="center">
+                {ethBalance}
+              </Typography>
+            </Stack>
+          )}
+
+          {cereBalance && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Cere Balance
+              </Typography>
+              <Typography variant="body2" align="center">
+                {cereBalance}
+              </Typography>
+            </Stack>
+          )}
+        </>
+      )}
+
+      <Divider flexItem>
+        <Typography color="text.caption">Actions</Typography>
+      </Divider>
       <Button variant="outlined" color="primary" onClick={handleSetContext}>
         Set context
       </Button>

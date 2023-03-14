@@ -45,26 +45,32 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
     return createPair(address, privateKey);
   };
 
-  api.isReady.then(async () => {
-    const [account] = getEd25519Accounts();
+  const startBalanceListener = async (address: string) => {
+    await api.isReady;
 
-    return api.query.system.account(account.address, ({ data }: AccountInfo) => {
+    return api.query.system.account(address, ({ data }: AccountInfo) => {
       const balance = data.free.toString();
 
       engine.emit('message', {
         type: 'ed25519_balanceChanged',
-        data: balance,
+        data: { balance },
       });
     });
-  });
+  };
 
   engine.push(
     createScaffoldMiddleware({
       wallet_updateAccounts: createAsyncMiddleware(async (req, res, next) => {
+        const [account] = getEd25519Accounts();
+
         engine.emit('message', {
-          type: 'ed25519_accountsChanged',
-          data: getEd25519Accounts(),
+          type: 'ed25519_accountChanged',
+          data: account,
         });
+
+        if (account) {
+          startBalanceListener(account.address);
+        }
 
         next();
       }),
@@ -110,7 +116,6 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
 
         const [from, to, amount] = req.params as [string, string, string];
         const pair = getPair(from);
-        console.log({ from, to, amount });
 
         const hash = await api.tx.balances.transfer(to, amount).signAndSend(pair);
 

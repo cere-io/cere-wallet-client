@@ -222,6 +222,9 @@ export class EmbeddedWalletStore implements Wallet {
     reaction(
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
     );
   }
 }

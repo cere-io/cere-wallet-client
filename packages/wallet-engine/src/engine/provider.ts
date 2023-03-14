@@ -57,5 +57,10 @@ export class ProviderEngine extends Engine {
 
   async updateAccounts(accounts: Account[]) {
     await this.provider.request({ method: 'wallet_updateAccounts', params: [accounts] });
+
+    this.emit('message', {
+      type: 'wallet_accountsChanged',
+      data: accounts,
+    });
   }
 }

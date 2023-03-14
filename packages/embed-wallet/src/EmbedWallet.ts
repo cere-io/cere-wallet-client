@@ -18,6 +18,8 @@ import {
   UserInfo,
   Context,
   WalletAccount,
+  ProviderEvent,
+  WalletTransferOptions,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -40,7 +42,20 @@ export class EmbedWallet {
     this.torus = new Torus();
     this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
+
+    this.provider.on('message', this.handleEvenets);
   }
+
+  private handleEvenets = ({ type, data }: ProviderEvent) => {
+    if (type === 'wallet_accountsChanged') {
+      this.eventEmitter.emit('accounts-update', data);
+    }
+
+    // TODO: Add for eth balance as well
+    if (type === 'ed25519_balanceChanged') {
+      this.eventEmitter.emit('balance-update', data);
+    }
+  };
 
   private setStatus(status: WalletStatus) {
     const prevStatus = this.currentStatus;
@@ -170,5 +185,12 @@ export class EmbedWallet {
 
   async getAccounts(): Promise<WalletAccount[]> {
     return this.provider.request({ method: 'wallet_accounts' });
+  }
+
+  /**
+   * Currently only CERE transfer supported
+   */
+  async transfer({ from, to, amount }: WalletTransferOptions) {
+    return this.provider.request({ method: 'ed25519_transfer', params: [from, to, amount] });
   }
 }

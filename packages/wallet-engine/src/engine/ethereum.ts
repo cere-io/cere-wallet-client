@@ -61,8 +61,8 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
          * Custom wallet message
          */
         engine.emit('message', {
-          type: 'eth_accountsChanged',
-          data: accounts,
+          type: 'eth_accountChanged',
+          data: accounts[0],
         });
 
         res.result = true;

@@ -16,7 +16,7 @@ const createBalanceResource = ({ engine }: ReadyWallet, address: string, decimal
 
   return fromResource<number>(
     async (sink) => {
-      updateBalance = (balance) => sink(convertBalance(balance, decimals));
+      updateBalance = ({ balance }) => sink(convertBalance(balance, decimals));
 
       engine.provider.on('ed25519_balanceChanged', updateBalance);
     },
