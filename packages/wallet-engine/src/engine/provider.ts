@@ -15,8 +15,10 @@ export type ProviderEngineOptions = WalletEngineOptions &
   PolkadotEngineOptions;
 
 class EngineProvider extends EventEmitter implements Provider {
-  constructor(private engine: ProviderEngine) {
+  constructor(private engine: Engine) {
     super();
+
+    engine.forwardEvents(this);
   }
 
   async request<T = any>({ method, params }: ProviderRequestArguments): Promise<T> {

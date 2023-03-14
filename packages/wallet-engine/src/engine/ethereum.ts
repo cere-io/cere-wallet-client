@@ -1,7 +1,7 @@
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
-import { Engine, EventTargetEngine } from './engine';
+import { Engine, EngineEventTarget } from './engine';
 import { Account, ChainConfig } from '../types';
 import { getKeyPair } from '../accounts';
 
@@ -12,7 +12,7 @@ export type EthereumEngineOptions = {
 };
 
 class EthereumEngine extends Engine {
-  override forwardEvents(toEngine: EventTargetEngine) {
+  override forwardEvents(toEngine: EngineEventTarget) {
     super.forwardEvents(toEngine);
 
     /**
