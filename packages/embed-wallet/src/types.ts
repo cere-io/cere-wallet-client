@@ -1,4 +1,5 @@
 import type { NetworkInterface } from '@cere/torus-embed';
+import BN from 'bn.js';
 
 // App context
 
@@ -68,9 +69,10 @@ export type WalletInitOptions = {
 };
 
 export type WalletTransferOptions = {
-  from: string;
+  token: 'CERE';
+  from?: string;
   to: string;
-  amount: string;
+  amount: BN | number | string;
 };
 
 export type WalletShowOptions = {
@@ -89,5 +91,8 @@ export type ProviderEvent<T = any> = {
 };
 
 export type WalletBalance = {
-  balance: string;
+  token: 'CERE';
+  balance: BN;
+  amount: BN;
+  decimals: BN;
 };

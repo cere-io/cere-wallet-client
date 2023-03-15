@@ -114,12 +114,12 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
       ed25519_transfer: createAsyncMiddleware(async (req, res) => {
         await api.isReady;
 
-        const [from, to, amount] = req.params as [string, string, string];
+        const [from, to, value] = req.params as [string, string, string];
         const pair = getPair(from);
 
-        const hash = await api.tx.balances.transfer(to, amount).signAndSend(pair);
+        const hash = await api.tx.balances.transfer(to, value).signAndSend(pair);
 
-        res.result = hash;
+        res.result = hash.toHex();
       }),
     }),
   );

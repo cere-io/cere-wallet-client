@@ -30,14 +30,11 @@ export const Wallet = () => {
       },
     });
 
-    wallet.subscribe('balance-update', ({ balance }: WalletBalance) => {
-      setCereBalance(balance);
+    wallet.subscribe('balance-update', ({ amount }: WalletBalance) => {
+      setCereBalance(amount.toString());
     });
 
-    wallet.subscribe('accounts-update', (accounts: WalletAccount[]) => {
-      const ethAccount = accounts.find(({ type }) => type === 'ethereum');
-      const cereAccount = accounts.find(({ type }) => type === 'ed25519');
-
+    wallet.subscribe('accounts-update', ([ethAccount, cereAccount]: WalletAccount[]) => {
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
     });
@@ -124,6 +121,16 @@ export const Wallet = () => {
     const accounts = await wallet.getAccounts();
 
     console.log(accounts);
+  }, [wallet]);
+
+  const handleCereTransfer = useCallback(async () => {
+    const txHash = await wallet.transfer({
+      token: 'CERE',
+      amount: 1,
+      to: '5G14JbHGvQPN9P26BNfguNhCKdfG7iU9JRfTJaJPe2K6R3ey',
+    });
+
+    console.log('TX', txHash);
   }, [wallet]);
 
   return (
@@ -215,6 +222,10 @@ export const Wallet = () => {
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleTopUp}>
             Top Up
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleCereTransfer}>
+            Transfer 1 $CERE
           </Button>
 
           <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
