@@ -1,11 +1,13 @@
 import EventEmitter from 'events';
 import { Substream } from '@toruslabs/openlogin-jrpc';
 import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
+import BN from 'bn.js';
 
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
 import { ProxyProvider, ProviderInterface } from './Provider';
 import { WALLET_CLIENT_VERSION } from './constants';
+
 import {
   WalletStatus,
   WalletEvent,
@@ -20,6 +22,7 @@ import {
   WalletAccount,
   ProviderEvent,
   WalletTransferOptions,
+  WalletBalance,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -27,6 +30,22 @@ const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   dev: 'cere-dev',
   stage: 'cere-stage',
   prod: 'cere',
+};
+
+const createBalance = (
+  token: WalletBalance['token'],
+  rawBalance: string,
+  rawDecimals: string | number,
+): WalletBalance => {
+  const decimals = new BN(rawDecimals);
+  const balance = new BN(rawBalance);
+
+  return {
+    token,
+    balance,
+    decimals,
+    amount: balance.div(new BN(10).pow(decimals)),
+  };
 };
 
 export class EmbedWallet {
@@ -53,7 +72,7 @@ export class EmbedWallet {
 
     // TODO: Add for eth balance as well
     if (type === 'ed25519_balanceChanged') {
-      this.eventEmitter.emit('balance-update', data);
+      this.eventEmitter.emit('balance-update', createBalance('CERE', data.balance, 10)); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
     }
   };
 
@@ -190,7 +209,29 @@ export class EmbedWallet {
   /**
    * Currently only CERE transfer supported
    */
-  async transfer({ from, to, amount }: WalletTransferOptions) {
-    return this.provider.request({ method: 'ed25519_transfer', params: [from, to, amount] });
+  async transfer({ token, from, to, amount }: WalletTransferOptions) {
+    let fromAddress = from;
+
+    if (token !== 'CERE') {
+      throw new Error(`Token "${token}" is not supported`);
+    }
+
+    if (!from) {
+      const [, cereAccount] = await this.getAccounts();
+
+      fromAddress = cereAccount?.address;
+    }
+
+    if (!fromAddress) {
+      throw new Error(`Empty sender address`);
+    }
+
+    const decimals = new BN(10); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
+    const balance = new BN(amount).mul(new BN(10).pow(decimals));
+
+    return this.provider.request({
+      method: 'ed25519_transfer',
+      params: [fromAddress, to, balance.toString()],
+    });
   }
 }
