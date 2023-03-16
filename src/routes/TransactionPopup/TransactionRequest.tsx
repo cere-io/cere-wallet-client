@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { InfoTable, Stack, Typography } from '@cere-wallet/ui';
+import { InfoTable, Stack, Truncate, Typography } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
@@ -18,8 +18,8 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => (
     onConfirm={store.approve}
     links={[
       { title: 'App:', label: store.app?.name, url: store.app?.url },
-      { title: 'From:', label: store.from.label, url: store.from.url },
-      { title: 'To:', label: store.to.label, url: store.to.url },
+      { title: 'From:', label: <Truncate maxLength={35} variant="hex" text={store.from.label} />, url: store.from.url },
+      { title: 'To:', label: <Truncate maxLength={35} variant="hex" text={store.to.label} />, url: store.to.url },
     ]}
   >
     {store.spending && (
