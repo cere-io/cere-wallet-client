@@ -1,4 +1,4 @@
-export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction } from './engine';
+export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction, TransferRequest } from './engine';
 
 export * from './types';
 export * from './createWalletEngine';

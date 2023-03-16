@@ -207,6 +207,7 @@ export class EmbeddedWalletStore implements Wallet {
       getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
+      onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
 
     createRpcConnection({

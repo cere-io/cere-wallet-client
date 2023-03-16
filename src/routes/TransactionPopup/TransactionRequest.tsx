@@ -25,9 +25,10 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => (
     {store.spending && (
       <PopupLayout.Section>
         <InfoTable>
-          <PriceRow label="Purchase cost" price={store.spending.price} />
-          <PriceRow label="Network fee" price={store.spending.fee} />
-          <PriceRow label="Total cost" price={store.spending.total} />
+          {store.spending.transfer && <PriceRow label="Amount" price={store.spending.transfer} />}
+          {store.spending.price && <PriceRow label="Purchase cost" price={store.spending.price} />}
+          {store.spending.fee && <PriceRow label="Network fee" price={store.spending.fee} />}
+          {store.spending.total && <PriceRow label="Total cost" price={store.spending.total} />}
         </InfoTable>
       </PopupLayout.Section>
     )}
