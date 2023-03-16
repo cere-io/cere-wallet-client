@@ -17,6 +17,7 @@ import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { CERE_NETWORK_RPC } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
@@ -31,6 +32,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
+  readonly applicationsStore: ApplicationsStore;
 
   private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
@@ -56,6 +58,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.appContextStore = new AppContextStore(this);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
+    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
   }
 
   isRoot() {

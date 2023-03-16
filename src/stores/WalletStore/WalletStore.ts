@@ -17,6 +17,7 @@ import { OpenLoginStore } from '../OpenLoginStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { CERE_NETWORK_RPC } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
@@ -31,6 +32,7 @@ export class WalletStore implements Wallet {
   readonly appContextStore: AppContextStore;
   readonly popupManagerStore: PopupManagerStore;
   readonly approvalStore: ApprovalStore;
+  readonly applicationsStore: ApplicationsStore;
 
   private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
@@ -54,6 +56,7 @@ export class WalletStore implements Wallet {
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
     this.popupManagerStore = new PopupManagerStore();
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
+    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
 
     if (this.isRoot()) {
       this.networkStore.network = getChainConfig(DEFAULT_NETWORK);

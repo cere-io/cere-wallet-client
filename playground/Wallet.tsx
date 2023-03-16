@@ -23,6 +23,7 @@ export const Wallet = () => {
       },
       context: {
         app: {
+          appId: 'cere-wallet-playground',
           name: 'Cere wallet playground',
           url: window.origin,
           logoUrl,
