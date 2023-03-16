@@ -4,6 +4,7 @@ import { decodeAddress, encodeAddress, isEthereumAddress } from '@polkadot/util-
 import { hexToU8a, isHex } from '@polkadot/util';
 
 import { KeyPair, KeyType, Account } from './types';
+import { CERE_SS58_PREFIX } from './constants';
 
 const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
   ethereum: (privateKey) => {
@@ -24,7 +25,7 @@ const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
       type: 'ed25519',
       publicKey,
       secretKey,
-      address: encodeAddress(publicKey),
+      address: encodeAddress(publicKey, CERE_SS58_PREFIX),
     };
   },
 };
