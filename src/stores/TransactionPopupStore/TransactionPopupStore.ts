@@ -17,9 +17,10 @@ export type TransactionPopupState = {
   };
 
   spending?: {
-    price: PriceData;
-    fee: PriceData;
-    total: PriceData;
+    price?: PriceData;
+    fee?: PriceData;
+    total?: PriceData;
+    transfer?: PriceData;
   };
 
   rawData?: string;
@@ -58,7 +59,7 @@ export class TransactionPopupStore {
   }
 
   get step() {
-    return this.shared.state.step;
+    return this.shared.state.step || 'confirmation';
   }
 
   get transaction() {

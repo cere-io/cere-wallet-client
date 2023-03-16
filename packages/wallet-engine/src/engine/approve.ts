@@ -32,8 +32,18 @@ export type IncomingTransaction = {
 
 export type SendTransactionRequest = ProviderRequest<[IncomingTransaction], string>;
 
+export type TransferParams = {
+  from: string;
+  to: string;
+  token: string;
+  balance: string;
+};
+
+export type TransferRequest = ProviderRequest<[TransferParams], string>;
+
 export type ApproveEngineOptions = {
   onSendTransaction?: (request: SendTransactionRequest) => Promise<void>;
+  onTransfer?: (request: TransferRequest) => Promise<void>;
   onPersonalSign?: (request: PersonalSignRequest) => Promise<void>;
 };
 
@@ -61,7 +71,11 @@ const createRequestMiddleware = <T = any, U = any>(handler: RequestMiddleware<T,
   });
 
 const noop = async () => {};
-export const createApproveEngine = ({ onPersonalSign = noop, onSendTransaction = noop }: ApproveEngineOptions) => {
+export const createApproveEngine = ({
+  onPersonalSign = noop,
+  onSendTransaction = noop,
+  onTransfer = noop,
+}: ApproveEngineOptions) => {
   const engine = new Engine();
 
   engine.push(
@@ -79,6 +93,23 @@ export const createApproveEngine = ({ onPersonalSign = noop, onSendTransaction =
           preopenInstanceId: req.preopenInstanceId,
           params: req.params!,
           proceed,
+        });
+      }),
+
+      ed25519_transfer: createRequestMiddleware<string[]>(async (req, proceed) => {
+        const [from, to, balance] = req.params!;
+
+        await onTransfer({
+          preopenInstanceId: req.preopenInstanceId,
+          proceed,
+          params: [
+            {
+              from,
+              to,
+              balance,
+              token: 'CERE',
+            },
+          ],
         });
       }),
     }),

@@ -116,6 +116,7 @@ export class WalletStore implements Wallet {
       getPrivateKey: () => this.accountStore.privateKey,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),
+      onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
 
     runInAction(() => {
