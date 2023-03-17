@@ -26,8 +26,10 @@ export type ContextApp = {
 
 export type Context = {
   banner?: ContextBanner;
-  app?: ContextApp;
+  app: ContextApp;
 };
+
+export type PartialContext = Omit<Context, 'app'> & { app?: Partial<ContextApp> };
 
 // User information
 
@@ -36,6 +38,7 @@ export type UserInfo = {
   name: string;
   profileImage: string;
   idToken: string;
+  isNewUser: boolean;
 };
 
 export type WalletAccount = {
@@ -61,10 +64,14 @@ export type WalletConnectOptions = {
 };
 
 export type WalletInitOptions = {
+  /**
+   * Alias for `context.app.appId`
+   */
+  appId?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
   network?: NetworkConfig;
-  context?: Context;
+  context?: PartialContext;
   popupMode?: 'popup' | 'modal';
   connectOptions?: Partial<WalletConnectOptions>;
 };

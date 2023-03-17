@@ -23,6 +23,7 @@ import {
   ProviderEvent,
   WalletTransferOptions,
   WalletBalance,
+  PartialContext,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -108,6 +109,7 @@ export class EmbedWallet {
   }
 
   async init({
+    appId,
     network,
     context,
     env = 'prod',
@@ -117,6 +119,8 @@ export class EmbedWallet {
   }: WalletInitOptions = {}) {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
+    this.defaultContext.app.appId ||= appId;
+
     const { sessionId } = getAuthRedirectResult();
 
     await this.torus.init({
@@ -175,13 +179,14 @@ export class EmbedWallet {
 
   async getUserInfo(): Promise<UserInfo> {
     const torusUserInfo: unknown = await this.torus.getUserInfo('');
-    const { email, name, idToken, profileImage } = torusUserInfo as UserInfo;
+    const { email, name, idToken, profileImage, isNewUser } = torusUserInfo as UserInfo;
 
     return {
       idToken,
       email,
       name,
       profileImage,
+      isNewUser,
     };
   }
 
@@ -192,7 +197,7 @@ export class EmbedWallet {
     });
   }
 
-  async setContext(context: Context | null, { key = 'default' }: WalletSetContextOptions = {}) {
+  async setContext(context: PartialContext | null, { key = 'default' }: WalletSetContextOptions = {}) {
     this.contextStream.write({
       name: 'set_context',
       data: {

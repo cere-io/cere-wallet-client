@@ -11,6 +11,7 @@ export const Wallet = () => {
   const [ethBalance, setEthBalance] = useState<string>(); // TODO: Implement
   const [cereAddress, setCereAddress] = useState<string>();
   const [cereBalance, setCereBalance] = useState<string>();
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const wallet = useWallet();
   const status = useWalletStatus();
@@ -25,7 +26,6 @@ export const Wallet = () => {
         app: {
           appId: 'cere-wallet-playground',
           name: 'Cere wallet playground',
-          url: window.origin,
           logoUrl,
         },
       },
@@ -41,8 +41,12 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
-  const handleConnect = useCallback(() => {
-    wallet.connect();
+  const handleConnect = useCallback(async () => {
+    await wallet.connect();
+    const userInfo = await wallet.getUserInfo();
+
+    console.log('userInfo', userInfo);
+    setIsNewUser(userInfo.isNewUser);
   }, [wallet]);
 
   const handleDisconnect = useCallback(() => {
@@ -139,7 +143,7 @@ export const Wallet = () => {
       {status === 'connected' && (
         <>
           <Divider flexItem>
-            <Typography color="text.caption">Wallet</Typography>
+            <Typography color="text.caption">{isNewUser && <b>New </b>}Wallet</Typography>
           </Divider>
 
           {ethAddress && (
