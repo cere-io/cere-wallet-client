@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import axios from 'axios';
 
 import { Wallet } from '../types';
@@ -9,26 +9,60 @@ const api = axios.create({
   baseURL: WALLET_API,
 });
 
+type Application = {
+  appId: string;
+  address: string;
+};
+
 export class ApplicationsStore {
+  private existingApps?: Application[];
+
   constructor(private wallet: Wallet, private contextStore: AppContextStore) {
     makeAutoObservable(this);
 
-    when(
+    reaction(
       () => wallet.isReady(),
-      () => this.trackActivity(),
+      (isReady) => (isReady ? this.onReady() : this.cleanUp()),
     );
+  }
+
+  get isNewUser() {
+    return this.existingApps && !this.existingApps.some(({ appId }) => appId === this.appId);
   }
 
   get appId() {
     return this.contextStore.app?.appId || DEFAULT_APP_ID;
   }
 
-  async trackActivity() {
+  private async onReady() {
+    await this.loadApps();
+    await this.trackActivity();
+  }
+
+  private cleanUp() {
+    this.existingApps = undefined;
+  }
+
+  private async loadApps() {
     const [, account] = this.wallet.accounts;
 
-    await api.post('/applications', {
+    const { data } = await api.post<Application[]>('/applications/find', {
       appId: this.appId,
       address: account.address,
     });
+
+    runInAction(() => {
+      this.existingApps = data;
+    });
+  }
+
+  async trackActivity() {
+    const [, account] = this.wallet.accounts;
+    const application: Application = {
+      appId: this.appId,
+      address: account.address,
+    };
+
+    await api.post('/applications', application);
   }
 }

@@ -1,6 +1,6 @@
-import { Context } from './types';
+import { Context, PartialContext } from './types';
 
-export const createContext = (...contexts: (Context | null | undefined)[]): Context => {
+export const createContext = (...contexts: (PartialContext | null | undefined)[]): Context => {
   const defaultContext: Context = {
     app: {
       url: window.location.origin,

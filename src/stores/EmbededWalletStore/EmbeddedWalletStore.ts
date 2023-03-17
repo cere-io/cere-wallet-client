@@ -49,16 +49,17 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.accountStore = new AccountStore(this);
     this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
     this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
+
+    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
   }
 
   isRoot() {
@@ -148,7 +149,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return toJS(this.accountStore.loginData?.userInfo);
+        return toJS(await this.accountStore.getUserInfo());
       },
 
       onWindowClose: async ({ preopenInstanceId }) => {

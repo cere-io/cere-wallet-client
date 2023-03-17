@@ -46,17 +46,18 @@ export class WalletStore implements Wallet {
     this.instanceId = instanceId || randomBytes(16).toString('hex');
 
     this.networkStore = new NetworkStore(this);
-    this.accountStore = new AccountStore(this);
     this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
     this.popupManagerStore = new PopupManagerStore();
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
     this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
+
+    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
 
     if (this.isRoot()) {
       this.networkStore.network = getChainConfig(DEFAULT_NETWORK);

@@ -8,6 +8,7 @@ export type UserInfo = {
   typeOfLogin: string;
   verifier: string;
   verifierId: string;
+  isNewUser?: boolean;
 };
 
 export type AppContext = Context;
