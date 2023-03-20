@@ -3,6 +3,7 @@ import { Substream } from '@toruslabs/openlogin-jrpc';
 import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
 import BN from 'bn.js';
 
+import { preloadIframe } from './preloadIframe';
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
 import { ProxyProvider, ProviderInterface } from './Provider';
@@ -48,6 +49,8 @@ const createBalance = (
     amount: balance.div(new BN(10).pow(decimals)),
   };
 };
+
+preloadIframe('https://wallet.dev.cere.io/popup'); // TODO: Just for expiriment
 
 export class EmbedWallet {
   private torus: Torus;
