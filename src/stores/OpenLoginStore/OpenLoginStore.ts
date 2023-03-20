@@ -105,7 +105,11 @@ export class OpenLoginStore {
   }
 
   get sessionId() {
-    return this.openLogin.state.store.get('sessionId');
+    try {
+      return this.openLogin.state.store.get('sessionId');
+    } catch {
+      return undefined;
+    }
   }
 
   get privateKey() {

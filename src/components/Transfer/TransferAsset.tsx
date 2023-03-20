@@ -4,15 +4,13 @@ import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography, AmountInput, LoadingButton, Button, TextField, Alert } from '@cere-wallet/ui';
 
-import { useAssetStore, useTransactionStore } from '~/hooks';
+import { useAssetStore } from '~/hooks';
 import { AssetSelect } from '../AssetSelect';
 import { useTransferForm } from './useTransferForm';
 
 const TransferAsset = () => {
   const navigate = useNavigate();
-  const { list } = useAssetStore();
-  const { transfer } = useTransactionStore();
-  const assets = list.filter((asset) => asset.ticker !== 'CERE'); // TODO: Remove when CERE transfer implementation
+  const store = useAssetStore();
 
   const {
     control,
@@ -21,10 +19,10 @@ const TransferAsset = () => {
     resetField,
     watch,
     formState: { errors, isSubmitting },
-  } = useTransferForm({ assets });
+  } = useTransferForm({ assets: store.transferable });
 
   const ticker = watch('asset');
-  const selectedAsset = assets.find((asset) => asset.ticker === ticker);
+  const selectedAsset = store.getAsset(ticker);
 
   useEffect(() => {
     resetField('amount');
@@ -40,7 +38,7 @@ const TransferAsset = () => {
       autoComplete="off"
       onSubmit={handleSubmit(async ({ asset, address, amount }) => {
         try {
-          await transfer(asset, address, amount);
+          await store.transfer(asset, address, amount);
 
           resetField('amount');
         } catch (error) {
@@ -50,7 +48,11 @@ const TransferAsset = () => {
     >
       <Stack>
         <Typography variant="body2">Select asset</Typography>
-        <Controller name="asset" control={control} render={({ field }) => <AssetSelect assets={assets} {...field} />} />
+        <Controller
+          name="asset"
+          control={control}
+          render={({ field }) => <AssetSelect assets={store.transferable} {...field} />}
+        />
       </Stack>
       <Stack>
         <Typography variant="body2">Transfer To</Typography>

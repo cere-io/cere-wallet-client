@@ -1,4 +1,4 @@
-import { ChainConfig, Account } from '@cere-wallet/wallet-engine';
+import { ChainConfig, Account, WalletEngine } from '@cere-wallet/wallet-engine';
 import { ethers } from 'ethers';
 import { ReactElement } from 'react';
 
@@ -48,7 +48,7 @@ export type Nft = {
   quantity: number;
 };
 
-export type Provider = ethers.providers.JsonRpcProvider;
+export type Provider = ethers.providers.Web3Provider;
 
 export type WalletStatus = 'idle' | 'ready' | 'unauthenticated' | 'errored';
 
@@ -56,6 +56,7 @@ export interface Wallet {
   readonly instanceId: string;
   readonly network?: ChainConfig;
   readonly provider?: Provider;
+  readonly engine?: WalletEngine;
   readonly account?: Account;
   readonly accounts: Account[];
 

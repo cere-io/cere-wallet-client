@@ -7,6 +7,7 @@ import {
   parseTransactionData,
   getTokenConfig,
   TokenConfig,
+  TransferRequest,
 } from '@cere-wallet/wallet-engine';
 
 import { Wallet } from '../types';
@@ -167,5 +168,36 @@ export class ApprovalStore {
     runInAction(() => {
       popup.state.transaction!.status = isRejected ? 'rejected' : 'confirmed';
     });
+  }
+
+  async approveTransfer({ preopenInstanceId, proceed, params: [transaction] }: TransferRequest) {
+    const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
+    const popup = await this.popupManagerStore.proceedTo<TransactionPopupState>(instanceId, '/transaction', {
+      status: 'pending',
+      step: 'confirmation',
+      from: transaction.from,
+      to: transaction.to,
+      app: this.contextStore.app,
+      spending: {
+        transfer: {
+          symbol: transaction.token,
+          amount: convertPrice(BigNumber.from(transaction.balance), {
+            decimals: 10, // TODO: Do not hardcode decimals
+            symbol: transaction.token,
+          }),
+        },
+      },
+    });
+
+    await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
+    this.popupManagerStore.closePopup(instanceId);
+
+    if (!popup.isConnected) {
+      throw new Error('User has closed the confirmation popup');
+    }
+
+    if (popup.state.status === 'declined') {
+      throw new Error('User has declined the transfer request');
+    }
   }
 }

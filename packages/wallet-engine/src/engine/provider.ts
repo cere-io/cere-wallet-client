@@ -15,8 +15,10 @@ export type ProviderEngineOptions = WalletEngineOptions &
   PolkadotEngineOptions;
 
 class EngineProvider extends EventEmitter implements Provider {
-  constructor(private engine: ProviderEngine) {
+  constructor(private engine: Engine) {
     super();
+
+    engine.forwardEvents(this);
   }
 
   async request<T = any>({ method, params }: ProviderRequestArguments): Promise<T> {
@@ -55,5 +57,10 @@ export class ProviderEngine extends Engine {
 
   async updateAccounts(accounts: Account[]) {
     await this.provider.request({ method: 'wallet_updateAccounts', params: [accounts] });
+
+    this.emit('message', {
+      type: 'wallet_accountsChanged',
+      data: accounts,
+    });
   }
 }

@@ -1,4 +1,5 @@
 import type { NetworkInterface } from '@cere/torus-embed';
+import BN from 'bn.js';
 
 // App context
 
@@ -18,14 +19,17 @@ export type ContextBanner = {
 
 export type ContextApp = {
   url: string;
+  appId?: string;
   name?: string;
   logoUrl?: string;
 };
 
 export type Context = {
   banner?: ContextBanner;
-  app?: ContextApp;
+  app: ContextApp;
 };
+
+export type PartialContext = Omit<Context, 'app'> & { app?: Partial<ContextApp> };
 
 // User information
 
@@ -34,6 +38,7 @@ export type UserInfo = {
   name: string;
   profileImage: string;
   idToken: string;
+  isNewUser: boolean;
 };
 
 export type WalletAccount = {
@@ -43,7 +48,7 @@ export type WalletAccount = {
 };
 
 // Wallet options
-export type WalletEvent = 'status-update';
+export type WalletEvent = 'status-update' | 'accounts-update' | 'balance-update';
 export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
 export type WalletScreen = 'home' | 'topup' | 'settings';
 export type WalletEnvironment = 'local' | 'dev' | 'stage' | 'prod';
@@ -58,13 +63,27 @@ export type WalletConnectOptions = {
   redirectUrl?: string;
 };
 
-export type WalletInitOptions = {
+export type WalletOptions = {
+  /**
+   * Alias for `context.app.appId`
+   */
+  appId?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
+};
+
+export type WalletInitOptions = WalletOptions & {
   network?: NetworkConfig;
-  context?: Context;
+  context?: PartialContext;
   popupMode?: 'popup' | 'modal';
   connectOptions?: Partial<WalletConnectOptions>;
+};
+
+export type WalletTransferOptions = {
+  token: 'CERE';
+  from?: string;
+  to: string;
+  amount: BN | number | string;
 };
 
 export type WalletShowOptions = {
@@ -75,4 +94,16 @@ export type WalletShowOptions = {
 
 export type WalletSetContextOptions = {
   key?: string;
+};
+
+export type ProviderEvent<T = any> = {
+  type: string;
+  data: T;
+};
+
+export type WalletBalance = {
+  token: 'CERE';
+  balance: BN;
+  amount: BN;
+  decimals: BN;
 };

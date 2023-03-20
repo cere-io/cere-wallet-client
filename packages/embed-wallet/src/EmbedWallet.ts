@@ -1,11 +1,13 @@
 import EventEmitter from 'events';
 import { Substream } from '@toruslabs/openlogin-jrpc';
-import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
+import Torus, { TORUS_BUILD_ENV_TYPE, preloadIframe } from '@cere/torus-embed';
+import BN from 'bn.js';
 
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
 import { ProxyProvider, ProviderInterface } from './Provider';
 import { WALLET_CLIENT_VERSION } from './constants';
+
 import {
   WalletStatus,
   WalletEvent,
@@ -18,6 +20,11 @@ import {
   UserInfo,
   Context,
   WalletAccount,
+  ProviderEvent,
+  WalletTransferOptions,
+  WalletBalance,
+  PartialContext,
+  WalletOptions,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -27,7 +34,25 @@ const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   prod: 'cere',
 };
 
+const createBalance = (
+  token: WalletBalance['token'],
+  rawBalance: string,
+  rawDecimals: string | number,
+): WalletBalance => {
+  const decimals = new BN(rawDecimals);
+  const balance = new BN(rawBalance);
+
+  return {
+    token,
+    balance,
+    decimals,
+    amount: balance.div(new BN(10).pow(decimals)),
+  };
+};
+
 export class EmbedWallet {
+  private options: WalletOptions = {};
+
   private torus: Torus;
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
@@ -35,12 +60,30 @@ export class EmbedWallet {
   private proxyProvider: ProxyProvider;
   private connectOptions: WalletConnectOptions = {};
 
-  constructor() {
+  constructor({ env, clientVersion = WALLET_CLIENT_VERSION, ...options }: WalletOptions = {}) {
+    if (env) {
+      preloadIframe(buildEnvMap[env], clientVersion);
+    }
+
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
     this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
+
+    this.provider.on('message', this.handleEvenets);
+    this.options = { ...options, clientVersion, env: env || 'prod' };
   }
+
+  private handleEvenets = ({ type, data }: ProviderEvent) => {
+    if (type === 'wallet_accountsChanged') {
+      this.eventEmitter.emit('accounts-update', data);
+    }
+
+    // TODO: Add for eth balance as well
+    if (type === 'ed25519_balanceChanged') {
+      this.eventEmitter.emit('balance-update', createBalance('CERE', data.balance, 10)); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
+    }
+  };
 
   private setStatus(status: WalletStatus) {
     const prevStatus = this.currentStatus;
@@ -76,13 +119,16 @@ export class EmbedWallet {
   async init({
     network,
     context,
-    env = 'prod',
     popupMode = 'modal',
-    clientVersion = WALLET_CLIENT_VERSION,
     connectOptions = {},
+    appId = this.options.appId,
+    env = this.options.env || 'prod',
+    clientVersion = this.options.clientVersion,
   }: WalletInitOptions = {}) {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
+    this.defaultContext.app.appId ||= appId;
+
     const { sessionId } = getAuthRedirectResult();
 
     await this.torus.init({
@@ -141,13 +187,14 @@ export class EmbedWallet {
 
   async getUserInfo(): Promise<UserInfo> {
     const torusUserInfo: unknown = await this.torus.getUserInfo('');
-    const { email, name, idToken, profileImage } = torusUserInfo as UserInfo;
+    const { email, name, idToken, profileImage, isNewUser } = torusUserInfo as UserInfo;
 
     return {
       idToken,
       email,
       name,
       profileImage,
+      isNewUser,
     };
   }
 
@@ -158,7 +205,7 @@ export class EmbedWallet {
     });
   }
 
-  async setContext(context: Context | null, { key = 'default' }: WalletSetContextOptions = {}) {
+  async setContext(context: PartialContext | null, { key = 'default' }: WalletSetContextOptions = {}) {
     this.contextStream.write({
       name: 'set_context',
       data: {
@@ -170,5 +217,34 @@ export class EmbedWallet {
 
   async getAccounts(): Promise<WalletAccount[]> {
     return this.provider.request({ method: 'wallet_accounts' });
+  }
+
+  /**
+   * Currently only CERE transfer supported
+   */
+  async transfer({ token, from, to, amount }: WalletTransferOptions) {
+    let fromAddress = from;
+
+    if (token !== 'CERE') {
+      throw new Error(`Token "${token}" is not supported`);
+    }
+
+    if (!from) {
+      const [, cereAccount] = await this.getAccounts();
+
+      fromAddress = cereAccount?.address;
+    }
+
+    if (!fromAddress) {
+      throw new Error(`Empty sender address`);
+    }
+
+    const decimals = new BN(10); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
+    const balance = new BN(amount).mul(new BN(10).pow(decimals));
+
+    return this.provider.request({
+      method: 'ed25519_transfer',
+      params: [fromAddress, to, balance.toString()],
+    });
   }
 }

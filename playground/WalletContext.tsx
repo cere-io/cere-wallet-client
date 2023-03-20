@@ -27,7 +27,13 @@ export const useWalletStatus = () => {
 };
 
 export const WalletProvider = ({ children }: PropsWithChildren<{}>) => {
-  const wallet = useMemo(() => new EmbedWallet(), []);
+  const wallet = useMemo(
+    () =>
+      new EmbedWallet({
+        env: 'local',
+      }),
+    [],
+  );
 
   return <WalletContext.Provider value={wallet}>{children}</WalletContext.Provider>;
 };

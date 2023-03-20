@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, runInAction, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
+import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 
 import { Provider, Wallet, WalletStatus } from '../types';
@@ -16,6 +16,8 @@ import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
+import { CERE_NETWORK_RPC } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
@@ -30,7 +32,9 @@ export class WalletStore implements Wallet {
   readonly appContextStore: AppContextStore;
   readonly popupManagerStore: PopupManagerStore;
   readonly approvalStore: ApprovalStore;
+  readonly applicationsStore: ApplicationsStore;
 
+  private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
   private initialized = false;
   private isRootInstance = false;
@@ -42,16 +46,18 @@ export class WalletStore implements Wallet {
     this.instanceId = instanceId || randomBytes(16).toString('hex');
 
     this.networkStore = new NetworkStore(this);
-    this.accountStore = new AccountStore(this);
     this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
     this.popupManagerStore = new PopupManagerStore();
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
+    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
+
+    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
 
     if (this.isRoot()) {
       this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
@@ -82,6 +88,10 @@ export class WalletStore implements Wallet {
     return this.currentProvider;
   }
 
+  get engine() {
+    return this.currentEngine;
+  }
+
   get network() {
     return this.networkStore.network;
   }
@@ -105,15 +115,27 @@ export class WalletStore implements Wallet {
 
     const engine = createWalletEngine({
       chainConfig: this.network!,
+      polkadotRpc: CERE_NETWORK_RPC,
       getAccounts: () => this.accountStore.accounts,
       getPrivateKey: () => this.accountStore.privateKey,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),
+      onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
 
     runInAction(() => {
+      this.currentEngine = engine;
       this.currentProvider = new providers.Web3Provider(engine.provider);
+
       this.initialized = true;
     });
+
+    reaction(
+      () => this.accountStore.accounts,
+      (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
+    );
   }
 }

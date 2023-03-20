@@ -1,13 +1,14 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { getAccount } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export type AccountLoginData = {
   privateKey: string;
-  userInfo: UserInfo;
+  userInfo: Omit<UserInfo, 'isNewUser'>;
 };
 
 type SharedState = {
@@ -22,7 +23,7 @@ export class AccountStore {
     { readOnly: !this.wallet.isRoot() },
   );
 
-  constructor(private wallet: Wallet) {
+  constructor(private wallet: Wallet, private applicationsStore: ApplicationsStore) {
     makeAutoObservable(this);
   }
 
@@ -80,11 +81,22 @@ export class AccountStore {
     };
   }
 
-  get userInfo() {
-    return this.loginData?.userInfo;
+  get userInfo(): UserInfo | undefined {
+    return !this.loginData
+      ? undefined
+      : {
+          ...this.loginData.userInfo,
+          isNewUser: this.applicationsStore.isNewUser,
+        };
   }
 
   get privateKey() {
     return this.loginData?.privateKey;
+  }
+
+  async getUserInfo() {
+    await when(() => this.applicationsStore.isNewUser !== undefined);
+
+    return this.userInfo;
   }
 }

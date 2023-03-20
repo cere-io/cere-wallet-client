@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, toJS, when } from 'mobx';
-import { createWalletEngine } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
+import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Provider, Wallet } from '../types';
@@ -16,6 +16,8 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
+import { CERE_NETWORK_RPC } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
@@ -30,7 +32,9 @@ export class EmbeddedWalletStore implements Wallet {
   readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
+  readonly applicationsStore: ApplicationsStore;
 
+  private currentEngine?: WalletEngine;
   private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
 
@@ -45,15 +49,17 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.accountStore = new AccountStore(this);
     this.openLoginStore = new OpenLoginStore();
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
+    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
+
+    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
   }
 
   isRoot() {
@@ -84,8 +90,8 @@ export class EmbeddedWalletStore implements Wallet {
     return this.currentProvider;
   }
 
-  private set provider(provider) {
-    this.currentProvider = provider;
+  get engine() {
+    return this.currentEngine;
   }
 
   get network() {
@@ -143,7 +149,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onUserInfoRequest: async () => {
-        return toJS(this.accountStore.loginData?.userInfo);
+        return toJS(await this.accountStore.getUserInfo());
       },
 
       onWindowClose: async ({ preopenInstanceId }) => {
@@ -200,22 +206,30 @@ export class EmbeddedWalletStore implements Wallet {
 
     const engine = createWalletEngine({
       chainConfig: this.networkStore.network!,
+      polkadotRpc: CERE_NETWORK_RPC,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
+      onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
-
-    this.provider = new providers.Web3Provider(engine.provider);
 
     createRpcConnection({
       engine,
       logger: console,
     });
 
+    runInAction(() => {
+      this.currentEngine = engine;
+      this.currentProvider = new providers.Web3Provider(engine.provider);
+    });
+
     reaction(
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
+      {
+        fireImmediately: true,
+      },
     );
   }
 }

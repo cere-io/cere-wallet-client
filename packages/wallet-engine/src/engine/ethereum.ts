@@ -1,7 +1,7 @@
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
-import { Engine, EventTargetEngine } from './engine';
+import { Engine, EngineEventTarget } from './engine';
 import { Account, ChainConfig } from '../types';
 import { getKeyPair } from '../accounts';
 
@@ -12,7 +12,7 @@ export type EthereumEngineOptions = {
 };
 
 class EthereumEngine extends Engine {
-  override forwardEvents(toEngine: EventTargetEngine) {
+  override forwardEvents(toEngine: EngineEventTarget) {
     super.forwardEvents(toEngine);
 
     /**
@@ -61,8 +61,8 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
          * Custom wallet message
          */
         engine.emit('message', {
-          type: 'eth_accountsChanged',
-          data: accounts,
+          type: 'eth_accountChanged',
+          data: accounts[0],
         });
 
         res.result = true;
