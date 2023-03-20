@@ -30,7 +30,7 @@ export const WalletProvider = ({ children }: PropsWithChildren<{}>) => {
   const wallet = useMemo(
     () =>
       new EmbedWallet({
-        env: 'dev',
+        env: 'local',
       }),
     [],
   );

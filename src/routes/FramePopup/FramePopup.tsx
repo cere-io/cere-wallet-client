@@ -18,7 +18,11 @@ export const FramePopup = () => {
   const store = usePopupStore((popupId) => new RedirectPopupStore(popupId, true));
 
   useEffect(() => {
-    return store.waitForRedirectRequest(setUrl);
+    return store.waitForRedirectRequest((url) => {
+      console.log('Opening URL in the frame popup', url);
+
+      setUrl(url);
+    });
   }, [store]);
 
   return (
@@ -29,13 +33,15 @@ export const FramePopup = () => {
         </Loading>
       )}
 
-      <Frame
-        title="Embedded browser"
-        style={{ opacity: loaded ? 1 : 0 }}
-        onLoad={hideLoader}
-        onError={hideLoader}
-        src={url}
-      />
+      {url && (
+        <Frame
+          title="Embedded browser"
+          style={{ opacity: loaded ? 1 : 0 }}
+          onLoad={hideLoader}
+          onError={hideLoader}
+          src={url}
+        />
+      )}
     </>
   );
 };
