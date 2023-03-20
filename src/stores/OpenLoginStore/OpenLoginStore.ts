@@ -51,6 +51,7 @@ export class OpenLoginStore {
       clientId,
       storageKey,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
+      no3PC: true,
       uxMode: 'redirect',
       replaceUrlOnRedirect: false,
       _sessionNamespace: sessionNamespace ?? this.sessionNamespace,
