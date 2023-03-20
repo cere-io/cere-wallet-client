@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import { Substream } from '@toruslabs/openlogin-jrpc';
-import Torus, { TORUS_BUILD_ENV_TYPE } from '@cere/torus-embed';
+import Torus, { TORUS_BUILD_ENV_TYPE, preloadIframe } from '@cere/torus-embed';
 import BN from 'bn.js';
 
 import { createContext } from './createContext';
@@ -24,6 +24,7 @@ import {
   WalletTransferOptions,
   WalletBalance,
   PartialContext,
+  WalletOptions,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -50,6 +51,8 @@ const createBalance = (
 };
 
 export class EmbedWallet {
+  private options: WalletOptions = {};
+
   private torus: Torus;
   private eventEmitter: EventEmitter;
   private currentStatus: WalletStatus = 'not-ready';
@@ -57,13 +60,18 @@ export class EmbedWallet {
   private proxyProvider: ProxyProvider;
   private connectOptions: WalletConnectOptions = {};
 
-  constructor() {
+  constructor({ env, clientVersion = WALLET_CLIENT_VERSION, ...options }: WalletOptions = {}) {
+    if (env) {
+      preloadIframe(buildEnvMap[env], clientVersion);
+    }
+
     this.eventEmitter = new EventEmitter();
     this.torus = new Torus();
     this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
 
     this.provider.on('message', this.handleEvenets);
+    this.options = { ...options, clientVersion, env: env || 'prod' };
   }
 
   private handleEvenets = ({ type, data }: ProviderEvent) => {
@@ -109,13 +117,13 @@ export class EmbedWallet {
   }
 
   async init({
-    appId,
     network,
     context,
-    env = 'prod',
     popupMode = 'modal',
-    clientVersion = WALLET_CLIENT_VERSION,
     connectOptions = {},
+    appId = this.options.appId,
+    env = this.options.env || 'prod',
+    clientVersion = this.options.clientVersion,
   }: WalletInitOptions = {}) {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);

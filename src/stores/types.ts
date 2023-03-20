@@ -1,4 +1,4 @@
-import { ChainConfig, Account, Provider as EngineProvider, WalletEngine } from '@cere-wallet/wallet-engine';
+import { ChainConfig, Account, WalletEngine } from '@cere-wallet/wallet-engine';
 import { ethers } from 'ethers';
 import { ReactElement } from 'react';
 
