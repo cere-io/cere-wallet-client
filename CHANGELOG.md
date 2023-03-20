@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.15.0
+
 - [feature] Update ss58 prefix
 - [feature] Add CERE token transfer SDK method and in-wallet UI
 
