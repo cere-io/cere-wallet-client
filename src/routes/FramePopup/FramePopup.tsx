@@ -13,7 +13,7 @@ const Frame = styled('iframe')({
 export const FramePopup = () => {
   const [url, setUrl] = useState<string>();
   const [loaded, setLoaded] = useState(false);
-  const handleLoad = useCallback(() => setLoaded(true), []);
+  const hideLoader = useCallback(() => setLoaded(true), []);
 
   const store = usePopupStore((popupId) => new RedirectPopupStore(popupId, true));
 
@@ -30,9 +30,10 @@ export const FramePopup = () => {
       )}
 
       <Frame
-        style={{ visibility: loaded ? 'visible' : 'hidden' }}
-        onLoad={handleLoad}
         title="Embedded browser"
+        style={{ opacity: loaded ? 1 : 0 }}
+        onLoad={hideLoader}
+        onError={hideLoader}
         src={url}
       />
     </>
