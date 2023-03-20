@@ -4,10 +4,15 @@ import { usePopupStore } from '~/hooks';
 import { RedirectPopupStore } from '~/stores';
 
 const Frame = styled('iframe')({
+  border: 'none',
+  width: '100%',
+  height: '100%',
+});
+
+const Container = styled('div')({
   width: '100%',
   height: '100vh',
   maxHeight: 'calc(100% - 10px)',
-  border: 'none',
 });
 
 export const FramePopup = () => {
@@ -33,15 +38,17 @@ export const FramePopup = () => {
         </Loading>
       )}
 
-      {url && (
-        <Frame
-          title="Embedded browser"
-          style={{ opacity: loaded ? 1 : 0 }}
-          onLoad={hideLoader}
-          onError={hideLoader}
-          src={url}
-        />
-      )}
+      <Container>
+        {url && (
+          <Frame
+            title="Embedded browser"
+            style={{ opacity: loaded ? 1 : 0 }}
+            onLoad={hideLoader}
+            onError={hideLoader}
+            src={url}
+          />
+        )}
+      </Container>
     </>
   );
 };
