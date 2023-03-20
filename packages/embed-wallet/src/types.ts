@@ -63,13 +63,16 @@ export type WalletConnectOptions = {
   redirectUrl?: string;
 };
 
-export type WalletInitOptions = {
+export type WalletOptions = {
   /**
    * Alias for `context.app.appId`
    */
   appId?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
+};
+
+export type WalletInitOptions = WalletOptions & {
   network?: NetworkConfig;
   context?: PartialContext;
   popupMode?: 'popup' | 'modal';

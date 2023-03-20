@@ -18,10 +18,10 @@ export const Wallet = () => {
 
   useEffect(() => {
     wallet.init({
-      env: 'local',
       connectOptions: {
         mode: 'modal',
       },
+
       context: {
         app: {
           appId: 'cere-wallet-playground',
