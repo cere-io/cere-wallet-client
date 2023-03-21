@@ -12,8 +12,8 @@ export const IntroPage = () => {
   const location = useLocation();
 
   return (
-    <Stack direction="column" alignItems="stretch" spacing={1}>
-      <Stack direction="column" alignItems="center" spacing={1}>
+    <Stack direction="column" alignItems="stretch">
+      <Stack direction="column" alignItems="center">
         <CereLogo />
       </Stack>
       <InfoStepper />
