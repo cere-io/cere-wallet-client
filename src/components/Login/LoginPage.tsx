@@ -18,6 +18,7 @@ import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
+import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -127,15 +128,24 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
       <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
         Sign {variant === 'signin' ? 'In' : 'Up'}
       </LoadingButton>
-      <Divider>Or</Divider>
-      <Stack direction="row" justifyContent="center" spacing={2}>
-        <IconButton size="large" variant="outlined" onClick={onGoogleAuth}>
-          <GoogleIcon />
-        </IconButton>
-        <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
-          <FacebookIcon />
-        </IconButton>
-      </Stack>
+      {!!SUPPORTED_SOCIAL_LOGINS.length && (
+        <>
+          <Divider>Or</Divider>
+          <Stack direction="row" justifyContent="center" spacing={2}>
+            {SUPPORTED_SOCIAL_LOGINS.includes('google') && (
+              <IconButton size="large" variant="outlined" onClick={onGoogleAuth}>
+                <GoogleIcon />
+              </IconButton>
+            )}
+
+            {SUPPORTED_SOCIAL_LOGINS.includes('facebook') && (
+              <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
+                <FacebookIcon />
+              </IconButton>
+            )}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 };
