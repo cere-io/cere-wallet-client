@@ -19,3 +19,8 @@ export const FEATURE_FLAGS = {
   transferAssets: process.env.REACT_APP_TRANSFER_ASSETS_FEATURE === 'true',
   assetsManagement: process.env.REACT_APP_ASSETS_MANAGEMENT_FEATURE === 'true',
 };
+
+/**
+ * TODO: Turn it back when fixed for mobiles
+ */
+export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook')[] = [];
