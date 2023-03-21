@@ -4,6 +4,10 @@
 
 -
 
+### v1.16.0
+
+- Bug fixes
+
 ### v1.15.0
 
 - [feature] Update ss58 prefix
