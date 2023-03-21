@@ -48,7 +48,11 @@ const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScr
       marginBottom: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
-      maxHeight: `calc(100vh - ${theme.spacing(10)})`,
+      maxHeight: `calc(100vh - ${theme.spacing(5)})`,
+
+      [`& .${dialogContentClasses.root}`]: {
+        paddingBottom: 0,
+      },
     }),
 
     ...(origin === 'right' && {
@@ -97,7 +101,7 @@ const ContentWrapper = styled(Box, {
     position: 'relative',
 
     [`& .${dialogContentClasses.root}`]: {
-      paddingTop: theme.spacing(8),
+      paddingTop: theme.spacing(6),
     },
 
     [`& .${dialogTitleClasses.root}`]: {

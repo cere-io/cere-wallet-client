@@ -20,6 +20,7 @@ import {
 } from '@cere-wallet/ui';
 
 import { WALLET_HELP_URL } from '~/constants';
+import { useAuthenticationStore } from '~/hooks';
 import { WalletMenuItem } from './types';
 import { Link } from '../Link';
 import { AccountInfo } from '../AccountInfo';
@@ -74,6 +75,7 @@ const CloseButton = styled(IconButton)({
 });
 
 export const MobileHeader = ({ menu }: { menu: WalletMenuItem[] }) => {
+  const authStore = useAuthenticationStore();
   const [open, setOpen] = useState(false);
   const active = useActiveMenuItem(menu);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -121,7 +123,7 @@ export const MobileHeader = ({ menu }: { menu: WalletMenuItem[] }) => {
             </MenuList>
           </SidebarContent>
           <SidebarFooter>
-            <MenuItem>
+            <MenuItem onClick={() => authStore.logout()}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
