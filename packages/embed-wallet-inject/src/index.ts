@@ -1,4 +1,4 @@
-import { EmbedWallet } from './EmbedWallet';
+import { EmbedWallet } from '@cere/embed-wallet';
 import { PolkadotInjector } from './polkadot';
 
 type InjectTarget = 'polkadot';
