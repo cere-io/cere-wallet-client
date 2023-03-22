@@ -181,6 +181,11 @@ export class OpenLoginStore {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
     const state = jsonResult && JSON.parse(jsonResult);
 
+    /**
+     * Reset the store in case it was not properly inited
+     */
+    this.openLogin.state.store.resetStore();
+
     if (sessionId) {
       this.openLogin.state.store.set('sessionId', sessionId);
     }
