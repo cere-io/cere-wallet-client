@@ -3,6 +3,7 @@ import { InfoTable, Stack, Truncate, Typography } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
+import { ANALYTICS } from '~/constants';
 
 export type TransactionRequestProps = {
   store: TransactionPopupStore;
@@ -16,6 +17,7 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => (
     network={store.network?.displayName}
     onCancel={store.decline}
     onConfirm={store.approve}
+    confirmBtnClassname={ANALYTICS.confirmTransactionBtnClass}
     links={[
       { title: 'App:', label: store.app?.name, url: store.app?.url },
       { title: 'From:', label: <Truncate maxLength={35} variant="hex" text={store.from.label} />, url: store.from.url },
