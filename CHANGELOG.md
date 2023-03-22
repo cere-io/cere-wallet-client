@@ -4,6 +4,10 @@
 
 -
 
+### v1.17.0
+
+- Bug fix for the session creation
+
 ### v1.16.0
 
 - Bug fixes
