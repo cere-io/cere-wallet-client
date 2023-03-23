@@ -94,7 +94,7 @@ export class EmbedWallet {
 
     if (this.currentStatus !== status) {
       this.currentStatus = status;
-      this.eventEmitter.emit('status-update', this.currentStatus);
+      this.eventEmitter.emit('status-update', this.currentStatus, prevStatus);
     }
 
     return () => this.setStatus(prevStatus);
