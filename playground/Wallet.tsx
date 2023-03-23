@@ -31,6 +31,10 @@ export const Wallet = () => {
       },
     });
 
+    wallet.subscribe('status-update', (status, prevStatus) => {
+      console.log('Status update', { status, prevStatus });
+    });
+
     wallet.subscribe('balance-update', ({ amount }: WalletBalance) => {
       setCereBalance(amount.toString());
     });

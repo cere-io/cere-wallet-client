@@ -42,6 +42,7 @@ export type WalletConnectionOptions = {
   onWindowClose: (data: WindowOptions) => Promise<void>;
   onWalletOpen: () => Promise<WalletChannelOut['data']>;
   onAppContextUpdate: (context: AppContextChannelIn['data']) => Promise<void>;
+  onChangeWidgetVisibility: (isVisible: boolean) => Promise<void> | void;
 };
 
 export const createWalletConnection = ({
@@ -56,6 +57,7 @@ export const createWalletConnection = ({
   onWindowOpen,
   onWalletOpen,
   onAppContextUpdate,
+  onChangeWidgetVisibility,
 }: WalletConnectionOptions): WalletConnection => {
   const mux = createMux('iframe_comm', 'embed_comm').setMaxListeners(50);
   const channels = createChannels({ mux, logger });
@@ -192,6 +194,10 @@ export const createWalletConnection = ({
         channels.auth.publish({ err: error.message });
       }
     }
+  });
+
+  channels.widgetVisibilty.subscribe(({ data }) => {
+    onChangeWidgetVisibility(data);
   });
 
   return {

@@ -4,6 +4,10 @@
 
 -
 
+### v1.18.0
+
+- Sign out + Analytic events
+
 ### v1.17.0
 
 - Bug fix for the session creation

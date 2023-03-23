@@ -174,6 +174,13 @@ export class EmbeddedWalletStore implements Wallet {
       onAppContextUpdate: async ({ context }) => {
         this.appContextStore.context = context;
       },
+
+      onChangeWidgetVisibility: (isVisible) => {
+        if (!isVisible) {
+          this.isWidgetOpened = false;
+          this.isFullscreen = false;
+        }
+      },
     });
 
     /**
@@ -194,7 +201,9 @@ export class EmbeddedWalletStore implements Wallet {
      */
     reaction(
       () => this.isFullscreen,
-      (isFull) => this.walletConnection?.toggleFullscreen(isFull),
+      (isFull) => {
+        this.walletConnection?.toggleFullscreen(isFull);
+      },
       {
         fireImmediately: true,
       },
