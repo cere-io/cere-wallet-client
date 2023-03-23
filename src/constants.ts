@@ -11,8 +11,8 @@ export const GTM_ID = process.env.REACT_APP_GMT_ID;
 export const DEFAULT_APP_ID = process.env.REACT_DEFAULT_APP_ID || 'cere-wallet';
 
 export const ANALYTICS = {
-  createWalletBtnClass: 'create-wallet-btn',
-  existingWalletBtnClass: 'existing-wallet-btn',
+  createWalletBtnClass: 'create-wallet-btn CREATE_WALLET_BTN',
+  existingWalletBtnClass: 'existing-wallet-btn EXISTING_WALLET_BTN',
 };
 
 export const FEATURE_FLAGS = {
