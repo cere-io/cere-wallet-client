@@ -13,7 +13,6 @@ export const DEFAULT_APP_ID = process.env.REACT_DEFAULT_APP_ID || 'cere-wallet';
 export const ANALYTICS = {
   createWalletBtnClass: 'create-wallet-btn',
   existingWalletBtnClass: 'EXISTING_WALLET_BTN',
-  confirmTransactionBtnClass: 'CONFIRM_TRANSACTION_BTN',
 };
 
 export const FEATURE_FLAGS = {

@@ -13,7 +13,6 @@ export type PopupLayoutProps = PropsWithChildren<{
   confirming?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
-  confirmBtnClassname?: string;
 }>;
 
 const Layout = styled(Container)(({ theme }) => ({
@@ -29,7 +28,6 @@ export const PopupLayout = ({
   children,
   onCancel,
   onConfirm,
-  confirmBtnClassname,
 }: PopupLayoutProps) => {
   const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
@@ -61,17 +59,7 @@ export const PopupLayout = ({
           Cancel
         </Button>
 
-        <LoadingButton
-          className={confirmBtnClassname}
-          fullWidth
-          loading={confirming}
-          size="large"
-          variant="contained"
-          onClick={() => {
-            console.log('click');
-            onConfirm();
-          }}
-        >
+        <LoadingButton fullWidth loading={confirming} size="large" variant="contained" onClick={onConfirm}>
           Confirm
         </LoadingButton>
       </Section>
