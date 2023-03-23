@@ -77,6 +77,10 @@ export class EmbedWallet {
   private handleEvenets = ({ type, data }: ProviderEvent) => {
     if (type === 'wallet_accountsChanged') {
       this.eventEmitter.emit('accounts-update', data);
+
+      if (!this.torus.isLoggedIn) {
+        this.setStatus('ready');
+      }
     }
 
     // TODO: Add for eth balance as well
