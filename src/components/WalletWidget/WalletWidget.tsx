@@ -54,6 +54,11 @@ const Actions = styled(CardActions)({
   justifyContent: 'flex-end',
 });
 
+const Action = styled(Button)(({ theme }) => ({
+  paddingLeft: theme.spacing(1.5),
+  paddingRight: theme.spacing(1.5),
+}));
+
 const TopUpButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   left: 'auto',
@@ -75,14 +80,14 @@ const OpenTopIcon = styled(TopUpIcon)(() => ({
 
 const WalletWidget = () => {
   const isMobile = useIsMobile();
-  const { isRehydrating } = useAuthenticationStore();
+  const authStore = useAuthenticationStore();
   const { selectedAccount, user } = useAccountStore();
   const { network } = useNetworkStore();
   const showWallet = useShowWallet();
 
   const maxLength = isMobile ? 14 : 20;
 
-  if (isRehydrating) {
+  if (authStore.isRehydrating) {
     return (
       <Widget>
         <Card>
@@ -128,9 +133,13 @@ const WalletWidget = () => {
           </TopUpButton>
         </Content>
         <Actions>
-          <Button variant="text" onClick={() => showWallet()}>
+          <Action variant="text" onClick={() => authStore.logout()}>
+            Sign out
+          </Action>
+
+          <Action variant="text" onClick={() => showWallet()}>
             Open Wallet
-          </Button>
+          </Action>
         </Actions>
       </Card>
     </Widget>
