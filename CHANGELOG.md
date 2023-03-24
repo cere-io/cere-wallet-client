@@ -4,6 +4,10 @@
 
 -
 
+### v1.19.0
+
+- Analytic events
+
 ### v1.18.0
 
 - Sign out + Analytic events
