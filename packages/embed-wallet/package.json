@@ -1,23 +1,30 @@
 {
   "name": "@cere/embed-wallet",
-  "version": "0.2.4",
+  "version": "0.2.6",
+  "description": "Cere Wallet SDK to integrate the wallet into a web application.",
   "sideEffects": false,
-  "types": "./src",
-  "main": "./dist/cjs",
-  "exports": {
-    "import": "./dist/esm",
-    "require": "./dist/cjs"
+  "main": "dist/bundle.umd.js",
+  "unpkg": "dist/bundle.umd.js",
+  "types": "dist/types",
+  "source": "src/index.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "author": "Cere Network <contact@cere.io (https://www.cere.io/)",
+  "bugs": {
+    "url": "https://github.com/cere-io/cere-wallet-client/issues"
   },
+  "homepage": "https://github.com/cere-io/cere-wallet-client/tree/master/packages/embed-wallet",
+  "license": "ISC",
   "dependencies": {
-    "@cere/torus-embed": "0.1.15",
+    "@cere/torus-embed": "0.1.16",
     "@toruslabs/openlogin-jrpc": "^2.6.0",
     "@types/bn.js": "^5.1.1",
     "@types/readable-stream": "^2.3.14",
     "bn.js": "^5.2.1"
   },
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc --project ./tsconfig.json",
-    "build:cjs": "tsc --project ./tsconfig.cjs.json"
+    "build": "webpack"
   }
 }
