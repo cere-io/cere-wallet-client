@@ -1,6 +1,6 @@
 {
   "name": "cere-wallet-client",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "private": true,
   "sideEffects": false,
   "dependencies": {
@@ -43,9 +43,11 @@
     "prettier": "^2.7.1",
     "react-scripts": "5.0.1",
     "source-map-explorer": "^2.5.3",
+    "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "webpack-cli": "^5.0.1"
   },
   "scripts": {
     "start": "PORT=4050 craco start",
@@ -55,7 +57,7 @@
     "refactor": "prettier --write '**/*.{js,json,jsx,ts,tsx}' --ignore-path .eslintignore",
     "check-types": "tsc --noEmit",
     "sdk:build": "npm run build --workspace=@cere/embed-wallet --if-present",
-    "sdk:publish": "npm publish --workspace=@cere/embed-wallet"
+    "sdk:publish": "npm publish --workspace=@cere/embed-wallet --access public"
   },
   "workspaces": [
     "packages/*"
