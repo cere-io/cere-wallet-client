@@ -1,13 +1,11 @@
 {
   "name": "@cere/embed-wallet",
-  "version": "0.2.5-rc.1",
+  "version": "0.2.5-rc.2",
   "description": "Cere Wallet SDK to integrate the wallet into a web application.",
   "sideEffects": false,
-  "main": "dist/embed-wallet.js",
-  "module": "dist/embed-wallet.module.js",
-  "umd:main": "dist/embed-wallet.umd.js",
-  "unpkg": "dist/embed-wallet.umd.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/bundle.umd.js",
+  "unpkg": "dist/bundle.umd.js",
+  "types": "dist/types",
   "source": "src/index.ts",
   "files": [
     "dist",
@@ -27,6 +25,6 @@
     "bn.js": "^5.2.1"
   },
   "scripts": {
-    "build": "microbundle"
+    "build": "webpack"
   }
 }
