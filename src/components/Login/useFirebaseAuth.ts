@@ -18,7 +18,11 @@ const useRedirectResult = (auth: Auth) => {
   const [result, setResult] = useState<UserCredential | null>();
 
   useEffect(() => {
-    getRedirectResult(auth).then(setResult);
+    getRedirectResult(auth)
+      .then(setResult)
+      .catch((error) => {
+        console.error(error);
+      });
   }, [auth]);
 
   return result;
@@ -33,7 +37,13 @@ const useIdToken = (auth: Auth) => {
       return setIdToken(null);
     }
 
-    result?.user.getIdToken(true).then(AuthApiService.getTokenBySocial).then(setIdToken);
+    result?.user
+      .getIdToken(true)
+      .then(AuthApiService.getTokenBySocial)
+      .then(setIdToken)
+      .catch((error) => {
+        console.error(error);
+      });
   }, [result]);
 
   return idToken;
