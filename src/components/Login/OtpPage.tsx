@@ -5,7 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { createNextUrl } from './auth.service';
+
+import { createNextUrl } from './createNextUrl';
 
 interface OtpProps {
   email: string;

@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Social login with redirect
 
 ### v1.19.0
 

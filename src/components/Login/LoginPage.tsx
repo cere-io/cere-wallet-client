@@ -16,9 +16,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
+import { useFirebaseAuth } from './useFirebaseAuth';
+import { createNextUrl } from './createNextUrl';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -33,6 +34,11 @@ const validationSchema = yup
 export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { loading, login } = useFirebaseAuth({
+    onTokenReady: (token) => {
+      window.location.href = createNextUrl(token);
+    },
+  });
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -67,26 +73,6 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
     }
   };
 
-  const onGoogleAuth = async () => {
-    const googleToken = await getTokenWithGoogle();
-    const token = await AuthApiService.getTokenBySocial(googleToken);
-    if (token) {
-      window.location.href = createNextUrl(token);
-    } else {
-      console.error('Google authorization error');
-    }
-  };
-
-  const onFacebookAuth = async () => {
-    const fbToken = await getTokenWithFacebook();
-    const token = await AuthApiService.getTokenBySocial(fbToken);
-    if (token) {
-      window.location.href = createNextUrl(token);
-    } else {
-      console.error('Facebook authorization error');
-    }
-  };
-
   return (
     <Stack
       direction="column"
@@ -109,6 +95,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
       <FormControl>
         <TextField
           {...register('email')}
+          disabled={loading}
           error={!!errors?.email?.message}
           helperText={errors.email?.message}
           required
@@ -125,7 +112,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
         By using your Cere wallet you automatically agree to our <Link href="#">Terms & Conditions</Link> and{' '}
         <Link href="#">Privacy Policy</Link>
       </Typography>
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton disabled={loading} loading={isSubmitting} variant="contained" size="large" type="submit">
         Sign {variant === 'signin' ? 'In' : 'Up'}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
@@ -133,13 +120,13 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
           <Divider>Or</Divider>
           <Stack direction="row" justifyContent="center" spacing={2}>
             {SUPPORTED_SOCIAL_LOGINS.includes('google') && (
-              <IconButton size="large" variant="outlined" onClick={onGoogleAuth}>
+              <IconButton disabled={loading} size="large" variant="outlined" onClick={() => login('google')}>
                 <GoogleIcon />
               </IconButton>
             )}
 
             {SUPPORTED_SOCIAL_LOGINS.includes('facebook') && (
-              <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
+              <IconButton disabled={loading} size="large" variant="outlined" onClick={() => login('facebook')}>
                 <FacebookIcon />
               </IconButton>
             )}
