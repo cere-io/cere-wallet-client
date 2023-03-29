@@ -1,7 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import axios from 'axios';
 
-import { Wallet } from '../types';
+import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
 import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
 
@@ -17,11 +17,11 @@ type Application = {
 export class ApplicationsStore {
   private existingApps?: Application[];
 
-  constructor(private wallet: Wallet, private contextStore: AppContextStore) {
+  constructor(private accountStore: AccountStore, private contextStore: AppContextStore) {
     makeAutoObservable(this);
 
     reaction(
-      () => wallet.isReady(),
+      () => !!accountStore.userInfo,
       (isReady) => (isReady ? this.onReady() : this.cleanUp()),
     );
   }
@@ -43,26 +43,40 @@ export class ApplicationsStore {
     this.existingApps = undefined;
   }
 
-  private async loadApps() {
-    const [, account] = this.wallet.accounts;
+  private get headers() {
+    const { idToken } = this.accountStore.userInfo || {};
 
-    const { data } = await api.post<Application[]>('/applications/find', {
-      appId: this.appId,
-      address: account.address,
-    });
+    return !idToken
+      ? {}
+      : {
+          Authorization: `Bearer ${idToken}`,
+        };
+  }
+
+  private async loadApps() {
+    const [, account] = this.accountStore.accounts;
+    const { data } = await api.post<Application[]>(
+      '/applications/find',
+      {
+        appId: this.appId,
+        address: account.address,
+      },
+      { headers: this.headers },
+    );
 
     runInAction(() => {
       this.existingApps = data;
+      this.accountStore.isNewUser = !data.some(({ appId }) => appId === this.appId);
     });
   }
 
   async trackActivity() {
-    const [, account] = this.wallet.accounts;
+    const [, account] = this.accountStore.accounts;
     const application: Application = {
       appId: this.appId,
       address: account.address,
     };
 
-    await api.post('/applications', application);
+    await api.post('/applications', application, { headers: this.headers });
   }
 }

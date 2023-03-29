@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Use OpenLogin ID Token as bearer authorization in API requests
 
 ### v1.19.0
 
