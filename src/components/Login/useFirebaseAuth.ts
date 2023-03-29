@@ -1,50 +1,27 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { initializeApp, FirebaseOptions } from 'firebase/app';
-import {
-  getAuth,
-  Auth,
-  getRedirectResult,
-  UserCredential,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  signInWithRedirect,
-} from '@firebase/auth';
+import { getAuth, Auth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedirect } from '@firebase/auth';
 
 import { FIREBASE_CONFIG, SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { AuthApiService } from '~/api/auth-api.service';
 
 const useAuth = (options: FirebaseOptions) => useMemo(() => getAuth(initializeApp(options)), [options]);
-const useRedirectResult = (auth: Auth) => {
-  const [result, setResult] = useState<UserCredential | null>();
-
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then(setResult)
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [auth]);
-
-  return result;
-};
 
 const useIdToken = (auth: Auth) => {
-  const result = useRedirectResult(auth);
   const [idToken, setIdToken] = useState<string | null>();
 
   useEffect(() => {
-    if (result === null) {
-      return setIdToken(null);
-    }
+    return auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        return setIdToken(null);
+      }
 
-    result?.user
-      .getIdToken(true)
-      .then(AuthApiService.getTokenBySocial)
-      .then(setIdToken)
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [result]);
+      const socialToken = await user.getIdToken(true);
+      const idToken = await AuthApiService.getTokenBySocial(socialToken);
+
+      setIdToken(idToken);
+    });
+  }, [auth]);
 
   return idToken;
 };
@@ -58,7 +35,7 @@ export type UseFirebaseAuthOptions = {
   onTokenReady?: (token: string) => void;
 };
 
-export const useFirebaseAuth = ({ onTokenReady }: UseFirebaseAuthOptions = {}) => {
+export const useFirebaseAuth = () => {
   const auth = useAuth(FIREBASE_CONFIG);
   const token = useIdToken(auth);
 
@@ -73,12 +50,6 @@ export const useFirebaseAuth = ({ onTokenReady }: UseFirebaseAuthOptions = {}) =
     },
     [auth],
   );
-
-  useEffect(() => {
-    if (token) {
-      onTokenReady?.(token);
-    }
-  }, [token, onTokenReady]);
 
   return { loading: token === undefined, token, login };
 };

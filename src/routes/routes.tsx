@@ -12,7 +12,7 @@ import { WalletHome } from './WalletHome';
 import { Collectibles } from './Collectibles';
 import { Settings } from './Settings';
 import { TopUp } from './TopUp';
-import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect } from './Authorize';
+import { IntroRoute, LoginRoute, OtpRoute, AuthorizeClose, AuthorizeRedirect, SocialAuthRoute } from './Authorize';
 import { CollectibleItem } from '~/routes/Collectibles/CollectibleItem';
 import { AssetBuy, AssetReceive, Assets } from '~/routes/Assets';
 import { Activity } from './Activity';
@@ -79,6 +79,7 @@ export default createRoutesFromElements(
       <Route path="signin" element={<LoginRoute variant="signin" />} />
       <Route path="signup" element={<LoginRoute variant="signup" />} />
       <Route path="otp" element={<OtpRoute />} />
+      <Route path="social-auth/:type" element={<SocialAuthRoute />} />
     </Route>
   </Route>,
 );
