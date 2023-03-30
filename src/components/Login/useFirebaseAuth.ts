@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithRedirect,
-  browserSessionPersistence,
+  browserLocalPersistence,
 } from '@firebase/auth';
 
 import { FIREBASE_CONFIG, SUPPORTED_SOCIAL_LOGINS } from '~/constants';
@@ -18,7 +18,7 @@ const useAuth = (options: FirebaseOptions) =>
   useMemo(() => {
     const auth = getAuth(initializeApp(options));
 
-    auth.setPersistence(browserSessionPersistence);
+    auth.setPersistence(browserLocalPersistence);
 
     return auth;
   }, [options]);
