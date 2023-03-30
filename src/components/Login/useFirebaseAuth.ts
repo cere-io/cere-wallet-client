@@ -1,14 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { initializeApp, FirebaseOptions } from 'firebase/app';
-import {
-  getAuth,
-  Auth,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  signInWithRedirect,
-  inMemoryPersistence,
-  browserPopupRedirectResolver,
-} from '@firebase/auth';
+import { getAuth, Auth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedirect } from '@firebase/auth';
 
 import { FIREBASE_CONFIG, SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { AuthApiService } from '~/api/auth-api.service';
@@ -20,14 +12,7 @@ const providerMap = {
   facebook: FacebookAuthProvider,
 };
 
-const useAuth = (options: FirebaseOptions) =>
-  useMemo(() => {
-    const auth = getAuth(initializeApp(options));
-
-    auth.setPersistence(inMemoryPersistence);
-
-    return auth;
-  }, [options]);
+const useAuth = (options: FirebaseOptions) => useMemo(() => getAuth(initializeApp(options)), [options]);
 
 const useIdToken = (auth: Auth, type: AuthProviderType) => {
   const [idToken, setIdToken] = useState<string | null>();
@@ -63,15 +48,11 @@ export const useFirebaseAuth = (type: AuthProviderType) => {
     provider.addScope('email');
     provider.addScope('profile');
 
-    provider.setCustomParameters({
-      prompt: 'select_account',
-    });
-
     return provider;
   }, [type]);
 
   const login = useCallback(async () => {
-    signInWithRedirect(auth, provider, browserPopupRedirectResolver);
+    signInWithRedirect(auth, provider);
   }, [auth, provider]);
 
   return {
