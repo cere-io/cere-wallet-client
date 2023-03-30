@@ -18,7 +18,7 @@ export const SocialAuth = ({ type }: SocialAuthProps) => {
     }
 
     if (!token) {
-      return login();
+      return void login();
     }
 
     window.location.href = createNextUrl(token);
