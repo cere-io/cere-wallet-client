@@ -6,23 +6,23 @@ import { createNextUrl } from './createNextUrl';
 import { useFirebaseAuth } from './useFirebaseAuth';
 
 export type SocialAuthProps = {
-  type?: typeof SUPPORTED_SOCIAL_LOGINS[number];
+  type: typeof SUPPORTED_SOCIAL_LOGINS[number];
 };
 
 export const SocialAuth = ({ type }: SocialAuthProps) => {
-  const { loading, token, login } = useFirebaseAuth();
+  const { loading, token, login } = useFirebaseAuth(type);
 
   useEffect(() => {
-    if (loading || !type) {
+    if (loading) {
       return;
     }
 
     if (!token) {
-      return login(type);
+      return login();
     }
 
     window.location.href = createNextUrl(token);
-  }, [type, login, token, loading]);
+  }, [login, token, loading]);
 
   return (
     <Loading fullScreen>

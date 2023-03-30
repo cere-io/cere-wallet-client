@@ -4,5 +4,5 @@ import { SocialAuth, SocialAuthProps } from '~/components';
 export const SocialAuthRoute = () => {
   let { type } = useParams<{ type: SocialAuthProps['type'] }>();
 
-  return <SocialAuth type={type} />;
+  return type ? <SocialAuth type={type} /> : null;
 };
