@@ -1,13 +1,13 @@
-import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
+import { PendingJsonRpcResponse, getUniqueId, JsonRpcMiddleware } from 'json-rpc-engine';
 import { EventEmitter } from 'events';
 
 import { Engine } from './engine';
 import { Provider, Account, ProviderRequestArguments } from '../types';
 
-import { createApproveEngine, ApproveEngineOptions } from './approve';
-import { createWalletEngine, WalletEngineOptions } from './wallet';
-import { createEthereumEngine, EthereumEngineOptions } from './ethereum';
-import { createPolkadotEngine, PolkadotEngineOptions } from './polkadot';
+import type { ApproveEngineOptions } from './approve';
+import type { WalletEngineOptions } from './wallet';
+import type { EthereumEngineOptions } from './ethereum';
+import type { PolkadotEngineOptions } from './polkadot';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   ApproveEngineOptions &
@@ -29,30 +29,66 @@ class EngineProvider extends EventEmitter implements Provider {
   }
 }
 
+const createAsyncEngine = (factory: () => Promise<Engine>) => {
+  const engine = new Engine();
+  let middlewarePromise: Promise<JsonRpcMiddleware<unknown, unknown>>;
+
+  const getMiddleware = () => {
+    middlewarePromise ||= factory().then((asyncEngine) => {
+      asyncEngine.forwardEvents(engine);
+
+      return asyncEngine.asMiddleware();
+    });
+
+    return middlewarePromise;
+  };
+
+  engine.push(async (req, res, next, end) => {
+    const middleware = await getMiddleware();
+
+    middleware(req, res, next, end);
+  });
+
+  return engine;
+};
+
 export class ProviderEngine extends Engine {
   readonly provider: Provider = new EngineProvider(this);
 
   constructor(private options: ProviderEngineOptions) {
     super();
 
-    this.pushEngine(createWalletEngine(this.options));
-    this.pushEngine(createApproveEngine(this.options));
-    this.pushEngine(createPolkadotEngine(this.options));
+    this.pushEngine(async () => {
+      const { createWalletEngine } = await import(/* webpackChunkName: "createWalletEngine" */ './wallet');
+      console.log('createWalletEngine');
+
+      return createWalletEngine(this.options);
+    });
+
+    this.pushEngine(async () => {
+      const { createApproveEngine } = await import(/* webpackChunkName: "createApproveEngine" */ './approve');
+      console.log('createApproveEngine');
+
+      return createApproveEngine(this.options);
+    });
+
+    this.pushEngine(async () => {
+      const { createPolkadotEngine } = await import(/* webpackChunkName: "createPolkadotEngine" */ './polkadot');
+      console.log('createPolkadotEngine');
+
+      return createPolkadotEngine(this.options);
+    });
 
     /**
      * Should always be the last one since it is currently handles real RPC requests
      * TODO: Replace with fetch middleware in future
      */
-    this.pushEngine(createEthereumEngine(this.options));
-  }
+    this.pushEngine(async () => {
+      const { createEthereumEngine } = await import(/* webpackChunkName: "createEthereumEngine" */ './ethereum');
+      console.log('createEthereumEngine');
 
-  private pushEngine(engine: Engine) {
-    this.push(engine.asMiddleware());
-
-    /**
-     * Forward all messages from sub-engine
-     */
-    engine.forwardEvents(this);
+      return createEthereumEngine(this.options);
+    });
   }
 
   async updateAccounts(accounts: Account[]) {
