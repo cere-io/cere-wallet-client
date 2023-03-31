@@ -1,4 +1,4 @@
-import { BroadcastChannel } from '@toruslabs/broadcast-channel';
+import { BroadcastChannel } from 'broadcast-channel';
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
 
 export const createBradcastChannel = <T = unknown>(channel: string, logger?: ConsoleLike) => {
