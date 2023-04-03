@@ -1,4 +1,4 @@
-import { ChainConfig } from '@cere-wallet/wallet-engine';
+import type { ChainConfig } from '@cere-wallet/wallet-engine';
 import type { NetworkConfig } from '@cere/embed-wallet';
 
 const presets = {
