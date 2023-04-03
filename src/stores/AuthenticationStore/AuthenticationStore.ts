@@ -8,12 +8,12 @@ import { AppContextStore } from '../AppContextStore';
 
 export class AuthenticationStore {
   private openLoginStore = new OpenLoginStore();
+  private _isRehydrating?: boolean;
 
   constructor(
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
     private popupManagerStore?: PopupManagerStore,
-    private _isRehydrating?: boolean,
   ) {
     makeAutoObservable(this);
 

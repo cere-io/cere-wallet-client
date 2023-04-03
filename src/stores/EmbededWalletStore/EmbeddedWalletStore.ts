@@ -56,9 +56,9 @@ export class EmbeddedWalletStore implements Wallet {
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
-    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
 
-    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.accountStore = new AccountStore(this);
+    this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
   }
 
