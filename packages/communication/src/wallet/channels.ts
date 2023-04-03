@@ -8,6 +8,7 @@ export type UserInfo = {
   typeOfLogin: string;
   verifier: string;
   verifierId: string;
+  idToken?: string;
   isNewUser?: boolean;
 };
 
