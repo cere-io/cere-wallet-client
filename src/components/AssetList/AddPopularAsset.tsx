@@ -35,19 +35,8 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
     setNetwork(item.target.value as string);
   };
 
-  const handleAdd = useCallback(
-    (asset: Asset) => {
-      assetStore.addAsset(asset);
-    },
-    [assetStore],
-  );
-
-  const handleDelete = useCallback(
-    (asset: Asset) => {
-      assetStore.deleteAsset(asset);
-    },
-    [assetStore],
-  );
+  const handleAdd = useCallback((asset: Asset) => assetStore.addAsset(asset), [assetStore]);
+  const handleDelete = useCallback((asset: Asset) => assetStore.deleteAsset(asset), [assetStore]);
 
   const searchList = useMemo(
     () =>
