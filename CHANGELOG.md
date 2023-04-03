@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.20.0
+
 - Update CERE Blockchain RPC URLs
 
 ### v1.19.0
