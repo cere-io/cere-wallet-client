@@ -60,21 +60,18 @@ export class ProviderEngine extends Engine {
 
     this.pushEngine(async () => {
       const { createWalletEngine } = await import(/* webpackChunkName: "createWalletEngine" */ './wallet');
-      console.log('createWalletEngine');
 
       return createWalletEngine(this.options);
     });
 
     this.pushEngine(async () => {
       const { createApproveEngine } = await import(/* webpackChunkName: "createApproveEngine" */ './approve');
-      console.log('createApproveEngine');
 
       return createApproveEngine(this.options);
     });
 
     this.pushEngine(async () => {
       const { createPolkadotEngine } = await import(/* webpackChunkName: "createPolkadotEngine" */ './polkadot');
-      console.log('createPolkadotEngine');
 
       return createPolkadotEngine(this.options);
     });
@@ -85,7 +82,6 @@ export class ProviderEngine extends Engine {
      */
     this.pushEngine(async () => {
       const { createEthereumEngine } = await import(/* webpackChunkName: "createEthereumEngine" */ './ethereum');
-      console.log('createEthereumEngine');
 
       return createEthereumEngine(this.options);
     });

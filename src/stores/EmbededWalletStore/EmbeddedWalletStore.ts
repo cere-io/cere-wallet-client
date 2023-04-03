@@ -237,7 +237,7 @@ export class EmbeddedWalletStore implements Wallet {
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
       {
-        fireImmediately: true,
+        fireImmediately: false, // Fire update accounts only when changed since we never have accounts on intiaial init here
       },
     );
   }
