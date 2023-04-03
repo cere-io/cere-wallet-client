@@ -54,12 +54,12 @@ export class ApplicationsStore {
   }
 
   private async loadApps() {
-    const [, account] = this.accountStore.accounts;
+    const [ethAccount] = this.accountStore.accounts;
     const { data } = await api.post<Application[]>(
       '/applications/find',
       {
         appId: this.appId,
-        address: account.address,
+        address: ethAccount.address,
       },
       { headers: this.headers },
     );
@@ -71,10 +71,10 @@ export class ApplicationsStore {
   }
 
   async trackActivity() {
-    const [, account] = this.accountStore.accounts;
+    const [, cereAccount] = this.accountStore.accounts;
     const application: Application = {
       appId: this.appId,
-      address: account.address,
+      address: cereAccount.address,
     };
 
     await api.post('/applications', application, { headers: this.headers });
