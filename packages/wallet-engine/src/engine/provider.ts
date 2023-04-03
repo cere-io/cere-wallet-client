@@ -1,4 +1,4 @@
-import { PendingJsonRpcResponse, getUniqueId, JsonRpcMiddleware } from 'json-rpc-engine';
+import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
 import { EventEmitter } from 'events';
 
 import { Engine } from './engine';
@@ -28,29 +28,6 @@ class EngineProvider extends EventEmitter implements Provider {
     return error ? Promise.reject(error) : result!;
   }
 }
-
-const createAsyncEngine = (factory: () => Promise<Engine>) => {
-  const engine = new Engine();
-  let middlewarePromise: Promise<JsonRpcMiddleware<unknown, unknown>>;
-
-  const getMiddleware = () => {
-    middlewarePromise ||= factory().then((asyncEngine) => {
-      asyncEngine.forwardEvents(engine);
-
-      return asyncEngine.asMiddleware();
-    });
-
-    return middlewarePromise;
-  };
-
-  engine.push(async (req, res, next, end) => {
-    const middleware = await getMiddleware();
-
-    middleware(req, res, next, end);
-  });
-
-  return engine;
-};
 
 export class ProviderEngine extends Engine {
   readonly provider: Provider = new EngineProvider(this);
