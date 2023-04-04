@@ -1,3 +1,5 @@
+import { providers } from 'ethers';
+import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
@@ -33,6 +35,22 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
     config: { chainConfig },
   });
 
+  const getProvider = async () => {
+    const privateKey = getPrivateKey();
+
+    if (!providerFactory.provider && privateKey) {
+      const { secretKey } = getKeyPair({ type: 'ethereum', privateKey });
+
+      await providerFactory.setupProvider(secretKey.toString('hex'));
+    }
+
+    if (!providerFactory.provider) {
+      throw new Error('Ethereum provider is not ready!');
+    }
+
+    return providerFactory.provider;
+  };
+
   const engine = new EthereumEngine();
   engine.attachProviderEvents(providerFactory);
 
@@ -41,6 +59,30 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
     res.result = getEthereumAccounts().map((account) => account.address);
   });
 
+  const startBalanceListener = async (address: string) => {
+    const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the listener generic for all ERC20
+    const provider = await getProvider();
+    const web3 = new providers.Web3Provider(provider);
+    const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
+
+    const listener = async () => {
+      const balance = await erc20.balanceOf(address);
+
+      engine.emit('message', {
+        type: 'eth_balanceChanged',
+        data: { balance: balance.toString() },
+      });
+    };
+
+    listener();
+
+    const receiveFilter = erc20.filters.Transfer(null, address);
+    const sendFilter = erc20.filters.Transfer(address);
+
+    web3.on(receiveFilter, listener);
+    web3.on(sendFilter, listener);
+  };
+
   engine.push(
     createScaffoldMiddleware({
       eth_accounts: accountsMiddleware,
@@ -48,6 +90,7 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
         const accounts = getEthereumAccounts();
+        const [account] = accounts;
 
         /**
          * Standard eip-1193 event
@@ -62,30 +105,37 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
          */
         engine.emit('message', {
           type: 'eth_accountChanged',
-          data: accounts[0],
+          data: account,
         });
 
+        if (account) {
+          startBalanceListener(account.address);
+        }
+
         res.result = true;
+      }),
+
+      eth_transfer: createAsyncMiddleware(async (req, res) => {
+        const [from, to, value] = req.params as [string, string, string];
+
+        const provider = await getProvider();
+        const web3 = new providers.Web3Provider(provider);
+        const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the handler generic for all ERC20
+        const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
+
+        const { hash } = await erc20.transfer(to, value, { from });
+
+        res.result = hash;
       }),
     }),
   );
 
   engine.push(
     createAsyncMiddleware(async (req, res) => {
-      const privateKey = getPrivateKey();
-
-      if (!providerFactory.provider && privateKey) {
-        const { secretKey } = getKeyPair({ type: 'ethereum', privateKey });
-
-        await providerFactory.setupProvider(secretKey.toString('hex'));
-      }
-
-      if (!providerFactory.provider) {
-        throw new Error('Ethereum provider is not ready!');
-      }
+      const provider = await getProvider();
 
       try {
-        res.result = await providerFactory.provider.request(req);
+        res.result = await provider.request(req);
       } catch (error) {
         if (error instanceof Error) {
           res.error = error;

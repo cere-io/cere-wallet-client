@@ -44,7 +44,7 @@ export class AuthenticationStore {
 
     this.isRehydrating = false;
 
-    return !!this.accountStore.account;
+    return this.accountStore.userInfo;
   }
 
   getRedirectUrl({ redirectUrl, ...params }: LoginParams = {}) {
