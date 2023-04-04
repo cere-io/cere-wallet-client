@@ -63,6 +63,8 @@ export type WalletConnectOptions = {
   redirectUrl?: string;
 };
 
+export type TokenType = 'erc20' | 'native';
+
 export type WalletOptions = {
   /**
    * Alias for `context.app.appId`
@@ -81,6 +83,7 @@ export type WalletInitOptions = WalletOptions & {
 
 export type WalletTransferOptions = {
   token: 'CERE';
+  type: TokenType;
   from?: string;
   to: string;
   amount: BN | number | string;
@@ -103,6 +106,7 @@ export type ProviderEvent<T = any> = {
 
 export type WalletBalance = {
   token: 'CERE';
+  type: TokenType;
   balance: BN;
   amount: BN;
   decimals: BN;

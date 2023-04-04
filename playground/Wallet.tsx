@@ -8,7 +8,7 @@ import { useWallet, useWalletStatus } from './WalletContext';
 
 export const Wallet = () => {
   const [ethAddress, setEthAddress] = useState<string>();
-  const [ethBalance, setEthBalance] = useState<string>(); // TODO: Implement
+  const [ethBalance, setEthBalance] = useState<string>();
   const [cereAddress, setCereAddress] = useState<string>();
   const [cereBalance, setCereBalance] = useState<string>();
   const [isNewUser, setIsNewUser] = useState(false);
@@ -35,11 +35,19 @@ export const Wallet = () => {
       console.log('Status update', { status, prevStatus });
     });
 
-    wallet.subscribe('balance-update', ({ amount }: WalletBalance) => {
-      setCereBalance(amount.toString());
+    wallet.subscribe('balance-update', ({ amount, type }: WalletBalance) => {
+      if (type === 'native') {
+        setCereBalance(amount.toString());
+      }
+
+      if (type === 'erc20') {
+        setEthBalance(amount.toString());
+      }
     });
 
     wallet.subscribe('accounts-update', ([ethAccount, cereAccount]: WalletAccount[]) => {
+      console.log('accounts-update', [ethAccount?.address, cereAccount?.address]);
+
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
     });
@@ -132,11 +140,23 @@ export const Wallet = () => {
     console.log(accounts);
   }, [wallet]);
 
-  const handleCereTransfer = useCallback(async () => {
+  const handleCereNativeTransfer = useCallback(async () => {
     const txHash = await wallet.transfer({
       token: 'CERE',
+      type: 'native',
       amount: 1,
-      to: '5G14JbHGvQPN9P26BNfguNhCKdfG7iU9JRfTJaJPe2K6R3ey',
+      to: '6Pwq4GK8T6bJWDSJMdsGffXxrVoVULaKQfNfSprLtgha9c2k', // wallet-playground@cere.io
+    });
+
+    console.log('TX', txHash);
+  }, [wallet]);
+
+  const handleCereErc20Transfer = useCallback(async () => {
+    const txHash = await wallet.transfer({
+      token: 'CERE',
+      type: 'erc20',
+      amount: 1,
+      to: '0xe6817abe87e8d8faa98c86295165c5f93e5dc8c6', // wallet-playground@cere.io
     });
 
     console.log('TX', txHash);
@@ -174,8 +194,8 @@ export const Wallet = () => {
 
           {ethBalance && (
             <Stack spacing={1} alignItems="center">
-              <Typography width={150} fontWeight="bold" align="center">
-                Ethereum Balance
+              <Typography width={200} fontWeight="bold" align="center">
+                $CERE ERC20 Balance
               </Typography>
               <Typography variant="body2" align="center">
                 {ethBalance}
@@ -185,8 +205,8 @@ export const Wallet = () => {
 
           {cereBalance && (
             <Stack spacing={1} alignItems="center">
-              <Typography width={150} fontWeight="bold" align="center">
-                Cere Balance
+              <Typography width={200} fontWeight="bold" align="center">
+                $CERE Native Balance
               </Typography>
               <Typography variant="body2" align="center">
                 {cereBalance}
@@ -233,8 +253,22 @@ export const Wallet = () => {
             Top Up
           </Button>
 
-          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleCereTransfer}>
-            Transfer 1 $CERE
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleCereNativeTransfer}
+          >
+            Transfer 1 $CERE (Native)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleCereErc20Transfer}
+          >
+            Transfer 1 $CERE (ERC20)
           </Button>
 
           <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
