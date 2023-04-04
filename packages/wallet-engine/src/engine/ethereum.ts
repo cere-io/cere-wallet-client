@@ -2,15 +2,22 @@ import { providers } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
+import { enableBiconomy } from '@cere/freeport-sdk';
 
 import { Engine, EngineEventTarget } from './engine';
 import { Account, ChainConfig } from '../types';
 import { getKeyPair } from '../accounts';
 
+type BiconomyOptions = {
+  apiKey: string;
+  debug?: boolean;
+};
+
 export type EthereumEngineOptions = {
   getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
+  biconomy?: BiconomyOptions;
 };
 
 class EthereumEngine extends Engine {
@@ -30,7 +37,8 @@ class EthereumEngine extends Engine {
   }
 }
 
-export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }: EthereumEngineOptions) => {
+export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, biconomy }: EthereumEngineOptions) => {
+  let biconomyProviderPromise: Promise<providers.Web3Provider>;
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
   });
@@ -51,8 +59,19 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
     return providerFactory.provider;
   };
 
+  const getGaslessProvider = async () => {
+    const provider = await getProvider();
+
+    if (!biconomyProviderPromise && biconomy) {
+      biconomyProviderPromise = enableBiconomy(provider, biconomy.apiKey, !!biconomy.debug);
+    }
+
+    const biconomyProvider = await biconomyProviderPromise;
+
+    return biconomyProvider || new providers.Web3Provider(provider);
+  };
+
   const engine = new EthereumEngine();
-  engine.attachProviderEvents(providerFactory);
 
   const getEthereumAccounts = () => getAccounts().filter((account) => account.type === 'ethereum');
   const accountsMiddleware = createAsyncMiddleware(async (req, res) => {
@@ -118,8 +137,7 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
       eth_transfer: createAsyncMiddleware(async (req, res) => {
         const [from, to, value] = req.params as [string, string, string];
 
-        const provider = await getProvider();
-        const web3 = new providers.Web3Provider(provider);
+        const web3 = await getGaslessProvider();
         const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the handler generic for all ERC20
         const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
 
