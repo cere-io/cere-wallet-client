@@ -1,5 +1,5 @@
 import { providers } from 'ethers';
-import { createERC20Contract } from '../contracts';
+import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
@@ -31,7 +31,6 @@ class EthereumEngine extends Engine {
 }
 
 export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }: EthereumEngineOptions) => {
-  const cereTokenAddress = '0xd111d479e23A8342A81ad595Ea1CAF229B3528c3';
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
   });
@@ -61,9 +60,10 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
   });
 
   const startBalanceListener = async (address: string) => {
+    const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the listener generic for all ERC20
     const provider = await getProvider();
     const web3 = new providers.Web3Provider(provider);
-    const erc20 = createERC20Contract(web3.getSigner(), cereTokenAddress);
+    const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
 
     const listener = async () => {
       const balance = await erc20.balanceOf(address);
@@ -117,9 +117,11 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig }
 
       eth_transfer: createAsyncMiddleware(async (req, res) => {
         const [from, to, value] = req.params as [string, string, string];
+
         const provider = await getProvider();
         const web3 = new providers.Web3Provider(provider);
-        const erc20 = createERC20Contract(web3.getSigner(), cereTokenAddress);
+        const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the handler generic for all ERC20
+        const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
 
         const { hash } = await erc20.transfer(to, value, { from });
 
