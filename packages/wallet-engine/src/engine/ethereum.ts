@@ -2,7 +2,7 @@ import { providers } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-import { enableBiconomy } from '@cere/freeport-sdk';
+import { Biconomy } from '@biconomy/mexa';
 
 import { Engine, EngineEventTarget } from './engine';
 import { Account, ChainConfig } from '../types';
@@ -38,7 +38,7 @@ class EthereumEngine extends Engine {
 }
 
 export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, biconomy }: EthereumEngineOptions) => {
-  let biconomyProviderPromise: Promise<providers.Web3Provider>;
+  let biconomyProviderPromise: Promise<providers.ExternalProvider>;
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
   });
@@ -56,19 +56,23 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
       throw new Error('Ethereum provider is not ready!');
     }
 
+    if (!biconomyProviderPromise && biconomy) {
+      const biconomyInstance = new Biconomy(providerFactory.provider, {
+        ...biconomy,
+        contractAddresses: [],
+      });
+
+      biconomyProviderPromise = biconomyInstance.init().then(() => biconomyInstance.provider);
+    }
+
     return providerFactory.provider;
   };
 
   const getGaslessProvider = async () => {
     const provider = await getProvider();
-
-    if (!biconomyProviderPromise && biconomy) {
-      biconomyProviderPromise = enableBiconomy(provider, biconomy.apiKey, !!biconomy.debug);
-    }
-
     const biconomyProvider = await biconomyProviderPromise;
 
-    return biconomyProvider || new providers.Web3Provider(provider);
+    return new providers.Web3Provider(biconomyProvider || provider);
   };
 
   const engine = new EthereumEngine();
