@@ -16,7 +16,7 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-import { CERE_NETWORK_RPC } from '~/constants';
+import { BICONOMY_API_KEY, CERE_NETWORK_RPC } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 
 export class EmbeddedWalletStore implements Wallet {
@@ -216,6 +216,7 @@ export class EmbeddedWalletStore implements Wallet {
     const engine = createWalletEngine({
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
+      biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
