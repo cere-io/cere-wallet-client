@@ -112,6 +112,23 @@ export const createApproveEngine = ({
           ],
         });
       }),
+
+      eth_transfer: createRequestMiddleware<string[]>(async (req, proceed) => {
+        const [from, to, balance] = req.params!;
+
+        await onTransfer({
+          preopenInstanceId: req.preopenInstanceId,
+          proceed,
+          params: [
+            {
+              from,
+              to,
+              balance,
+              token: 'CERE',
+            },
+          ],
+        });
+      }),
     }),
   );
 
