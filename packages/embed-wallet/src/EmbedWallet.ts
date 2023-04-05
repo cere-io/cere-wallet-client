@@ -36,6 +36,7 @@ const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
 
 const createBalance = (
   token: WalletBalance['token'],
+  type: WalletBalance['type'],
   rawBalance: string,
   rawDecimals: string | number,
 ): WalletBalance => {
@@ -44,6 +45,7 @@ const createBalance = (
 
   return {
     token,
+    type,
     balance,
     decimals,
     amount: balance.div(new BN(10).pow(decimals)),
@@ -69,9 +71,9 @@ export class EmbedWallet {
     this.torus = new Torus();
     this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
+    this.options = { ...options, clientVersion, env: env || 'prod' };
 
     this.provider.on('message', this.handleEvenets);
-    this.options = { ...options, clientVersion, env: env || 'prod' };
   }
 
   private handleEvenets = ({ type, data }: ProviderEvent) => {
@@ -83,9 +85,12 @@ export class EmbedWallet {
       }
     }
 
-    // TODO: Add for eth balance as well
     if (type === 'ed25519_balanceChanged') {
-      this.eventEmitter.emit('balance-update', createBalance('CERE', data.balance, 10)); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
+      this.eventEmitter.emit('balance-update', createBalance('CERE', 'native', data.balance, 10)); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
+    }
+
+    if (type === 'eth_balanceChanged') {
+      this.eventEmitter.emit('balance-update', createBalance('CERE', 'erc20', data.balance, 10)); // TODO: Do not hardcode CERE token decimals. Should be returned from the wallet.
     }
   };
 
@@ -226,7 +231,7 @@ export class EmbedWallet {
   /**
    * Currently only CERE transfer supported
    */
-  async transfer({ token, from, to, amount }: WalletTransferOptions) {
+  async transfer({ token, type, from, to, amount }: WalletTransferOptions) {
     let fromAddress = from;
 
     if (token !== 'CERE') {
@@ -234,9 +239,9 @@ export class EmbedWallet {
     }
 
     if (!from) {
-      const [, cereAccount] = await this.getAccounts();
+      const [ethAccount, cereAccount] = await this.getAccounts();
 
-      fromAddress = cereAccount?.address;
+      fromAddress = type === 'native' ? cereAccount?.address : ethAccount?.address;
     }
 
     if (!fromAddress) {
@@ -247,8 +252,8 @@ export class EmbedWallet {
     const balance = new BN(amount).mul(new BN(10).pow(decimals));
 
     return this.provider.request({
-      method: 'ed25519_transfer',
-      params: [fromAddress, to, balance.toString()],
+      method: type === 'native' ? 'ed25519_transfer' : 'eth_transfer',
+      params: [fromAddress, to, balance.toString(), token],
     });
   }
 }

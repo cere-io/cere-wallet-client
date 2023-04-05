@@ -16,7 +16,7 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-import { CERE_NETWORK_RPC } from '~/constants';
+import { BICONOMY_API_KEY, CERE_NETWORK_RPC } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 
 export class EmbeddedWalletStore implements Wallet {
@@ -56,9 +56,9 @@ export class EmbeddedWalletStore implements Wallet {
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
-    this.applicationsStore = new ApplicationsStore(this, this.appContextStore);
 
-    this.accountStore = new AccountStore(this, this.applicationsStore);
+    this.accountStore = new AccountStore(this);
+    this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
   }
 
@@ -216,6 +216,7 @@ export class EmbeddedWalletStore implements Wallet {
     const engine = createWalletEngine({
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
+      biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: () => this.accountStore.accounts,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),

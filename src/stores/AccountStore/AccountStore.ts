@@ -4,11 +4,10 @@ import { getAccount } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
-import { ApplicationsStore } from '../ApplicationsStore';
 
 export type AccountLoginData = {
   privateKey: string;
-  userInfo: Omit<UserInfo, 'isNewUser'>;
+  userInfo: UserInfo;
 };
 
 type SharedState = {
@@ -23,7 +22,7 @@ export class AccountStore {
     { readOnly: !this.wallet.isRoot() },
   );
 
-  constructor(private wallet: Wallet, private applicationsStore: ApplicationsStore) {
+  constructor(private wallet: Wallet) {
     makeAutoObservable(this);
   }
 
@@ -33,6 +32,18 @@ export class AccountStore {
 
   get loginData() {
     return this.shared.state.loginData;
+  }
+
+  set isNewUser(isNewUser: boolean | undefined) {
+    if (!this.loginData) {
+      return;
+    }
+
+    this.loginData.userInfo.isNewUser = isNewUser;
+  }
+
+  get isNewUser() {
+    return this.loginData?.userInfo.isNewUser;
   }
 
   get accounts() {
@@ -81,13 +92,8 @@ export class AccountStore {
     };
   }
 
-  get userInfo(): UserInfo | undefined {
-    return !this.loginData
-      ? undefined
-      : {
-          ...this.loginData.userInfo,
-          isNewUser: this.applicationsStore.isNewUser,
-        };
+  get userInfo() {
+    return this.loginData ? this.loginData.userInfo : undefined;
   }
 
   get privateKey() {
@@ -95,7 +101,7 @@ export class AccountStore {
   }
 
   async getUserInfo() {
-    await when(() => this.applicationsStore.isNewUser !== undefined);
+    await when(() => this.isNewUser !== undefined);
 
     return this.userInfo;
   }
