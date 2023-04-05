@@ -2,7 +2,10 @@
 
 ### vNext
 
--
+- Use OpenLogin ID Token as bearer authorization in API requests
+- Update CERE Blockchain RPC URLs
+- Add CERE ERC20 balance and transfer support to the SDK
+- Add Biconomy support for CERE ERC20 token transfer transactions
 
 ### v1.19.0
 

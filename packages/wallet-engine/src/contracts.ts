@@ -1,4 +1,4 @@
-import { Signer } from 'ethers';
+import type { Signer } from 'ethers';
 import {
   ApplicationEnum,
   getContractAddress as getSCAddress,
@@ -12,6 +12,8 @@ import {
   Marketplace__factory,
 } from '@cere/freeport-sdk';
 
+import { CERE_TOKEN_ADDRESS } from './constants';
+
 export type { TokenConfig } from '@cere/freeport-sdk';
 
 export enum ContractName {
@@ -21,6 +23,7 @@ export enum ContractName {
   Auction = 'Auction',
   Marketplace = 'Marketplace',
   CollectionFactory = 'CollectionFactory',
+  CereToken = 'CereToken',
 }
 
 const applications = [ApplicationEnum.DAVINCI, ApplicationEnum.LIVEONE];
@@ -31,6 +34,7 @@ const contractInterfaceFactoryMap = {
   [ContractName.Auction]: () => Auction__factory.createInterface(),
   [ContractName.Marketplace]: () => Marketplace__factory.createInterface(),
   [ContractName.CollectionFactory]: () => CollectionFactory__factory.createInterface(),
+  [ContractName.CereToken]: () => TestERC20__factory.createInterface(),
 };
 
 export const getContractInterface = (contractName: ContractName) => {
@@ -41,13 +45,18 @@ export const getContractAddress = (
   contractName: ContractName,
   networkId: string,
   application: ApplicationEnum = ApplicationEnum.DAVINCI,
-) =>
-  getSCAddress({
+) => {
+  if (contractName === ContractName.CereToken) {
+    return CERE_TOKEN_ADDRESS;
+  }
+
+  return getSCAddress({
     application,
     contractName,
     chainId: parseInt(networkId, 16),
     deployment: process.env.REACT_APP_ENV,
   });
+};
 
 const getAllContractAddresses = (contractName: ContractName, networkId: string) => {
   const addresses = applications.map((app) => {
@@ -74,10 +83,10 @@ export const createUSDCContract = (signer: Signer, networkId: string, applicatio
     contractAddress: getContractAddress(ContractName.ERC20, networkId, application),
   });
 
-export const getTokenConfig = () => fpGetTokenConfig(process.env.REACT_APP_ENV);
-
 export const createERC20Contract = (signer: Signer, address: string) =>
   createERC20({
     signer,
     contractAddress: address,
   });
+
+export const getTokenConfig = () => fpGetTokenConfig(process.env.REACT_APP_ENV);
