@@ -3,6 +3,10 @@
 ### vNext
 
 - Social login with redirect
+- Disable Biconomy for CERE ERC20 transfer
+
+### v1.21.0
+
 - Use OpenLogin ID Token as bearer authorization in API requests
 - Update CERE Blockchain RPC URLs
 - Add CERE ERC20 balance and transfer support to the SDK
@@ -11,6 +15,8 @@
 ### v1.19.0
 
 - Analytic events
+- Use OpenLogin ID Token as bearer authorization in API requests
+- Update CERE Blockchain RPC URLs
 
 ### v1.18.0
 
