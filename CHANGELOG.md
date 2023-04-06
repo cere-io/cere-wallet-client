@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Disable Biconomy for CERE ERC20 transfer
 
 ### v1.21.0
 
