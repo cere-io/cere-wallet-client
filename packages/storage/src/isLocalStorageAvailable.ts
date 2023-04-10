@@ -7,11 +7,10 @@ type Availability = 'quotaExceeded' | 'notWritable' | 'notSupported' | 'writable
 const testWrite = (): Availability => {
   const key = 'localStorageTest';
   const value = 'succeeds';
-  const storage = window.localStorage;
 
   try {
-    storage.setItem(key, value);
-    storage.removeItem(key);
+    window.localStorage.setItem(key, value);
+    window.localStorage.removeItem(key);
 
     return 'writable';
   } catch (error) {
@@ -20,7 +19,7 @@ const testWrite = (): Availability => {
 };
 
 export const getLocalStorageAvailability = (): Availability => {
-  const inWindow = typeof window.localStorage === 'object' && typeof window.localStorage.setItem === 'function';
+  const inWindow = 'localStorage' in window;
 
   if (!inWindow) {
     return 'notSupported';

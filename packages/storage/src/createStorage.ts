@@ -7,7 +7,9 @@ export const createStorage = () => {
   console.log('Local storage availbalility:', availability);
 
   if (availability === 'quotaExceeded') {
-    window.localStorage.clear();
+    try {
+      window.localStorage.clear();
+    } catch {}
 
     availability = getLocalStorageAvailability();
   }
