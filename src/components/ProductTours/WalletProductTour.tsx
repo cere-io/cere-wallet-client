@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useTour } from '@reactour/tour';
+import { getGlobalStorage } from '@cere-wallet/storage';
+
 import { introductionTourSteps } from './IntroductionTourSteps';
 import { WalletIntroduceStartDialog } from './WalletIntroduceStartDialog';
 import { WalletIntroduceFinishDialog } from './WalletIntroduceFinishDialog';
-import { useTour } from '@reactour/tour';
 
 type WalletProductTourProps = {
   onClose: () => void;
@@ -27,15 +29,19 @@ export const WalletProductTour = ({ onClose }: WalletProductTourProps) => {
 
   const handleCloseIntroduceStartDialog = useCallback(() => {
     setIntroduceStartDialog(false);
-    localStorage.setItem('showProductTour', 'false');
-    localStorage.setItem('showProductTourSnackbar', 'false');
+
+    getGlobalStorage().setItem('showProductTour', 'false');
+    getGlobalStorage().setItem('showProductTourSnackbar', 'false');
+
     onClose?.();
   }, [setIntroduceStartDialog, onClose]);
 
   const handleCloseIntroduceFinishDialog = useCallback(() => {
     setIntroduceFinishDialog(false);
-    localStorage.setItem('showProductTour', 'false');
-    localStorage.setItem('showProductTourSnackbar', 'false');
+
+    getGlobalStorage().setItem('showProductTour', 'false');
+    getGlobalStorage().setItem('showProductTourSnackbar', 'false');
+
     onClose?.();
   }, [setIntroduceFinishDialog, onClose]);
 

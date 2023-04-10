@@ -3,6 +3,7 @@
 ### vNext
 
 - Disable Biconomy for CERE ERC20 transfer
+- Use safe `localStorage` wrapper
 
 ### v1.21.0
 

@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { CloseIcon, IconButton, Box, Link, Stack, styled, Typography, TourIcon, Snackbar } from '@cere-wallet/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getGlobalStorage } from '@cere-wallet/storage';
 
 const SnackbarTourIcon = styled(TourIcon)(() => ({
   width: 40,
@@ -35,7 +36,7 @@ export const OnboardingSnackbar: FC<OnboardingSnackbarProps> = ({ onClose, open 
   const handleLinkClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
-      localStorage.setItem('showProductTourSnackbar', 'false');
+      getGlobalStorage().setItem('showProductTourSnackbar', 'false');
       navigate({ ...location, hash: 'product-tour' });
     },
     [navigate, location],

@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
+import { getGlobalStorage } from '@cere-wallet/storage';
 
 import { AccountBalanceWidget, OnboardingDialog } from '~/components';
 import { WalletProductTour } from '~/components/ProductTours';
@@ -28,12 +29,12 @@ const WalletHome = () => {
   }, [location.pathname]);
 
   const handleCloseSnackbar = useCallback(() => {
-    localStorage.setItem('showProductTourSnackbar', 'false');
+    getGlobalStorage().setItem('showProductTourSnackbar', 'false');
     navigate({ ...location, hash: '' });
   }, [navigate, location]);
 
   useEffect(() => {
-    if (localStorage.getItem('showProductTour') !== 'false' && !showProductTour) {
+    if (getGlobalStorage().getItem('showProductTour') !== 'false' && !showProductTour) {
       navigate({ ...location, hash: 'product-tour' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,8 +42,8 @@ const WalletHome = () => {
 
   useEffect(() => {
     if (
-      localStorage.getItem('showProductTour') !== 'false' &&
-      localStorage.getItem('showProductTourSnackbar') !== 'false' &&
+      getGlobalStorage().getItem('showProductTour') !== 'false' &&
+      getGlobalStorage().getItem('showProductTourSnackbar') !== 'false' &&
       !showProductTour
     ) {
       navigate({ ...location, hash: 'product-tour-snackbar' });

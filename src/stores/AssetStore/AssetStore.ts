@@ -1,4 +1,6 @@
 import { makeAutoObservable, autorun } from 'mobx';
+import { createERC20Contract } from '@cere-wallet/wallet-engine';
+import { getGlobalStorage } from '@cere-wallet/storage';
 
 import { NativeToken } from './NativeToken';
 import { Erc20Token } from './Erc20Token';
@@ -6,7 +8,6 @@ import { CereNativeToken } from './CereNativeToken';
 import { UsdcToken } from './UsdcToken';
 import { isTransferableAsset, Wallet, Asset } from './types';
 import { serializeAssets, deserializeAssets } from './helper';
-import { createERC20Contract } from '@cere-wallet/wallet-engine';
 
 export class AssetStore {
   private assets: Asset[] = [];
@@ -16,7 +17,7 @@ export class AssetStore {
     makeAutoObservable(this);
     this.list = [];
 
-    const managableTokensFromStorage = localStorage.getItem('tokens');
+    const managableTokensFromStorage = getGlobalStorage().getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
     autorun(() => {
@@ -35,7 +36,7 @@ export class AssetStore {
   set managableList(assets: Asset[]) {
     this.managableAssets = assets;
 
-    localStorage.setItem('tokens', serializeAssets(assets));
+    getGlobalStorage().setItem('tokens', serializeAssets(assets));
   }
 
   get list() {
