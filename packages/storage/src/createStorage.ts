@@ -1,5 +1,5 @@
 import { InMemoryStorage } from './InMemoryStorage';
-import { getLocalStorageAvailability } from './isLocalStorageAvailable';
+import { getLocalStorageAvailability } from './getLocalStorageAvailability';
 
 export const createStorage = () => {
   let availability = getLocalStorageAvailability();
