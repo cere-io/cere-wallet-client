@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer, useObserver } from 'mobx-react-lite';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography, AmountInput, LoadingButton, Button, TextField, Alert } from '@cere-wallet/ui';
@@ -11,6 +11,7 @@ import { useTransferForm } from './useTransferForm';
 const TransferAsset = () => {
   const navigate = useNavigate();
   const store = useAssetStore();
+  const assets = store.transferable;
 
   const {
     control,
@@ -19,10 +20,10 @@ const TransferAsset = () => {
     resetField,
     watch,
     formState: { errors, isSubmitting },
-  } = useTransferForm({ assets: store.transferable });
+  } = useTransferForm({ assets });
 
   const ticker = watch('asset');
-  const selectedAsset = store.getAsset(ticker);
+  const selectedAsset = ticker ? store.getAsset(ticker) : undefined;
 
   useEffect(() => {
     resetField('amount');
@@ -46,14 +47,17 @@ const TransferAsset = () => {
         }
       })}
     >
-      <Stack>
-        <Typography variant="body2">Select asset</Typography>
-        <Controller
-          name="asset"
-          control={control}
-          render={({ field }) => <AssetSelect assets={store.transferable} {...field} />}
-        />
-      </Stack>
+      {!!selectedAsset && (
+        <Stack>
+          <Typography variant="body2">Select asset</Typography>
+          <Controller
+            name="asset"
+            control={control}
+            render={({ field }) => <AssetSelect assets={assets} {...field} />}
+          />
+        </Stack>
+      )}
+
       <Stack>
         <Typography variant="body2">Transfer To</Typography>
 
@@ -77,7 +81,7 @@ const TransferAsset = () => {
           error={!!errors.amount?.message}
           helperText={
             errors.amount?.message ||
-            (selectedAsset?.balance && `Available balance: ${selectedAsset.balance} ${selectedAsset.displayName}`)
+            (selectedAsset && `Available balance: ${selectedAsset.balance} ${selectedAsset.displayName}`)
           }
         />
       </Stack>

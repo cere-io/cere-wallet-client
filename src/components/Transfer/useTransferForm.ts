@@ -5,6 +5,7 @@ import { isValidAddress } from '@cere-wallet/wallet-engine';
 
 import { Asset } from '~/stores';
 import { BigNumber } from 'ethers';
+import { useEffect } from 'react';
 
 export type UseTransferFormOptions = {
   assets: Asset[];
@@ -45,13 +46,21 @@ const validationSchema = yup.object({
     }),
 });
 
-export const useTransferForm = ({ assets }: UseTransferFormOptions) =>
-  useForm({
+export const useTransferForm = ({ assets }: UseTransferFormOptions) => {
+  const defaultAsset = assets[0]?.ticker || '';
+  const form = useForm({
     context: { assets },
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      asset: assets[0].ticker,
+      asset: '',
       address: '',
       amount: '',
     },
   });
+
+  useEffect(() => {
+    form.reset({ asset: defaultAsset }, { keepDirtyValues: true });
+  }, [defaultAsset, form]);
+
+  return form;
+};
