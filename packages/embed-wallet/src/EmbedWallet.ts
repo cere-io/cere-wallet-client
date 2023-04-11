@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-import { Substream } from '@toruslabs/openlogin-jrpc';
 import Torus, { TORUS_BUILD_ENV_TYPE, preloadIframe } from '@cere/torus-embed';
 import BN from 'bn.js';
 
@@ -114,7 +113,13 @@ export class EmbedWallet {
   }
 
   private get contextStream() {
-    return this.torus.communicationMux.getStream('app_context') as Substream;
+    const stream = this.torus.communicationMux.getStream('app_context');
+
+    if (typeof stream === 'symbol') {
+      throw new Error('Symbol streams are not supported');
+    }
+
+    return stream;
   }
 
   subscribe(eventName: WalletEvent, listener: (...args: any[]) => void) {

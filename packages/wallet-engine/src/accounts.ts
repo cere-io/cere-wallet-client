@@ -49,8 +49,6 @@ export const getAccount = ({ privateKey, type, name }: AccountOptions): Account 
   address: getKeyPair({ privateKey, type }).address,
 });
 
-export const getAccountAddress = ({ privateKey, type }: KeyPairOptions) => getKeyPair({ privateKey, type }).address;
-
 const isValidPolkadotAddress = (address: string) => {
   try {
     encodeAddress(isHex(address) ? hexToU8a(address) : decodeAddress(address));

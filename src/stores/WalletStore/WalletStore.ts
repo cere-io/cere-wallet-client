@@ -134,7 +134,7 @@ export class WalletStore implements Wallet {
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
       {
-        fireImmediately: true,
+        fireImmediately: true, // Fire update accounts immediately since we already have them here
       },
     );
   }

@@ -1,31 +1,33 @@
 import { makeAutoObservable, autorun } from 'mobx';
 
-import { NativeToken } from './NativeToken';
-import { Erc20Token } from './Erc20Token';
-import { CereNativeToken } from './CereNativeToken';
-import { UsdcToken } from './UsdcToken';
-import { isTransferableAsset, Wallet, Asset } from './types';
+import { isTransferableAsset, Wallet, Asset, ReadyWallet } from './types';
 import { serializeAssets, deserializeAssets } from './helper';
-import { createERC20Contract } from '@cere-wallet/wallet-engine';
 
 export class AssetStore {
-  private assets: Asset[] = [];
+  private assets: undefined | Asset[];
   private managableAssets: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
-    this.list = [];
+
+    autorun(() => {
+      if (wallet.isReady()) {
+        this.init(wallet);
+      }
+    });
+  }
+
+  async init(wallet: ReadyWallet) {
+    const { CereNativeToken } = await import(/* webpackChunkName: "CereNativeToken" */ './CereNativeToken');
+    const { NativeToken } = await import(/* webpackChunkName: "NativeToken" */ './NativeToken');
+    const { UsdcToken } = await import(/* webpackChunkName: "UsdcToken" */ './UsdcToken');
+    const { Erc20Token } = await import(/* webpackChunkName: "Erc20Token" */ './Erc20Token');
 
     const managableTokensFromStorage = localStorage.getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
-    autorun(() => {
-      if (wallet.isReady()) {
-        this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new UsdcToken(wallet)];
-
-        this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
-      }
-    });
+    this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new UsdcToken(wallet)];
+    this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
   }
 
   get managableList() {
@@ -38,8 +40,12 @@ export class AssetStore {
     localStorage.setItem('tokens', serializeAssets(assets));
   }
 
+  get loading() {
+    return this.assets === undefined;
+  }
+
   get list() {
-    return this.assets;
+    return this.assets || [];
   }
 
   set list(assets: Asset[]) {
@@ -47,7 +53,7 @@ export class AssetStore {
   }
 
   get transferable() {
-    return this.assets.filter(isTransferableAsset);
+    return this.list.filter(isTransferableAsset);
   }
 
   get commonList() {
@@ -55,7 +61,7 @@ export class AssetStore {
   }
 
   get nativeToken() {
-    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
+    return this.list.find(({ ticker }) => ticker === this.wallet.network?.ticker);
   }
 
   transfer(ticker: string, to: string, amount: string) {
@@ -69,22 +75,26 @@ export class AssetStore {
   }
 
   getAsset(ticker: string) {
-    return this.assets.find((asset) => asset.ticker === ticker);
+    return this.list.find((asset) => asset.ticker === ticker);
   }
 
-  public addAsset(assetParams: Asset): void {
+  async addAsset(assetParams: Asset) {
+    const { Erc20Token } = await import('./Erc20Token');
+
     if (this.wallet.isReady()) {
       this.managableList = [...this.managableList, new Erc20Token(this.wallet, assetParams)];
     }
   }
 
-  public deleteAsset(assetParams: Asset): void {
+  deleteAsset(assetParams: Asset) {
     if (this.wallet.isReady()) {
       this.managableList = this.managableList.filter((asset) => assetParams.ticker !== asset.ticker);
     }
   }
 
-  public getERC20Contract(address: string) {
-    return createERC20Contract(this.wallet?.provider?.getSigner()!, address);
+  async getERC20Contract(address: string) {
+    const { createERC20Contract } = await import('@cere-wallet/wallet-engine');
+
+    return createERC20Contract(this.wallet.provider!.getSigner(), address);
   }
 }
