@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { observer, useObserver } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import { Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography, AmountInput, LoadingButton, Button, TextField, Alert } from '@cere-wallet/ui';

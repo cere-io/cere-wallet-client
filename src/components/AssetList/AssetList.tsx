@@ -17,8 +17,6 @@ const AssetList = ({ dense }: AssetListProps) => {
 
   const { loading, list, managableList } = assetStore;
 
-  console.log({ loading, list, managableList });
-
   const handleShow = useCallback(() => {
     setOpen(true);
   }, [setOpen]);
