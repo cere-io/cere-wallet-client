@@ -21,7 +21,7 @@ const walletMenu: WalletProps['menu'] = [
 
 export const WalletRouter = () => (
   <Routes>
-    <Route path="wallet/topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
+    <Route path="topup" element={<Redirect to={{ pathname: '../home', hash: 'onboarding' }} />} />
 
     <Route element={<Wallet menu={walletMenu} />}>
       <Route index element={<Redirect to="home" />} />
