@@ -4,12 +4,11 @@ import { isTransferableAsset, Wallet, Asset, ReadyWallet } from './types';
 import { serializeAssets, deserializeAssets } from './helper';
 
 export class AssetStore {
-  private assets: Asset[] = [];
+  private assets: undefined | Asset[];
   private managableAssets: Asset[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
-    this.list = [];
 
     autorun(() => {
       if (wallet.isReady()) {
@@ -41,8 +40,12 @@ export class AssetStore {
     localStorage.setItem('tokens', serializeAssets(assets));
   }
 
+  get loading() {
+    return this.assets === undefined;
+  }
+
   get list() {
-    return this.assets;
+    return this.assets || [];
   }
 
   set list(assets: Asset[]) {
@@ -50,7 +53,7 @@ export class AssetStore {
   }
 
   get transferable() {
-    return this.assets.filter(isTransferableAsset);
+    return this.list.filter(isTransferableAsset);
   }
 
   get commonList() {
@@ -58,7 +61,7 @@ export class AssetStore {
   }
 
   get nativeToken() {
-    return this.assets.find(({ ticker }) => ticker === this.wallet.network?.ticker);
+    return this.list.find(({ ticker }) => ticker === this.wallet.network?.ticker);
   }
 
   transfer(ticker: string, to: string, amount: string) {
@@ -72,7 +75,7 @@ export class AssetStore {
   }
 
   getAsset(ticker: string) {
-    return this.assets.find((asset) => asset.ticker === ticker);
+    return this.list.find((asset) => asset.ticker === ticker);
   }
 
   async addAsset(assetParams: Asset) {
