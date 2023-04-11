@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { matchRoutes, renderMatches, To } from 'react-router-dom';
 
-import routes from './routes';
+import { getRoutes } from './AppRouter';
 
 const Context = createContext<any>(null);
 
@@ -18,7 +18,7 @@ type RouteElementProps<T extends {} = any> = {
 };
 
 export const RouteElement = <T extends {} = any>({ path, baseName, context }: RouteElementProps<T>) => {
-  const matches = matchRoutes(routes, path, baseName);
+  const matches = matchRoutes(getRoutes(), path, baseName);
   const element = renderMatches(matches);
 
   return <Context.Provider value={context}>{element}</Context.Provider>;
