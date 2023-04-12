@@ -3,6 +3,7 @@
 ### vNext
 
 - Disable Biconomy for CERE ERC20 transfer
+- Application bundle optimization to improve load speed
 
 ### v1.21.0
 
