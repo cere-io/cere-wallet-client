@@ -1,6 +1,7 @@
 import { makeAutoObservable, action } from 'mobx';
 
 import { Wallet } from '../types';
+import { COIN_TICKER_ALIAS } from '~/constants';
 import { AssetStore } from '../AssetStore';
 import { ExchangeRatesStore } from '../ExchangeRatesStore';
 import { USD, DEFAULT_RATE } from '../ExchangeRatesStore/enums';
@@ -57,8 +58,10 @@ export class BalanceStore {
   }
 
   public getUsdBalance(tickerName: string, balance: number = 0) {
+    const ticker = COIN_TICKER_ALIAS[tickerName] || tickerName; // TODO: Find a better way to handle tickers conflicts
+
     const { exchangeRates } = this.exchangeRatesStore;
-    const rate = exchangeRates[tickerName]?.[USD.toUpperCase()] || DEFAULT_RATE;
+    const rate = exchangeRates[ticker]?.[USD.toUpperCase()] || DEFAULT_RATE;
 
     return balance * rate;
   }
