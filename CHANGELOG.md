@@ -4,6 +4,7 @@
 
 - Disable Biconomy for CERE ERC20 transfer
 - Application bundle optimization to improve load speed
+- Add CERE ERC20 token to default assets
 
 ### v1.21.0
 

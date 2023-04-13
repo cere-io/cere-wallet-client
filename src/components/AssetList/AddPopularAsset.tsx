@@ -86,14 +86,14 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
         <>
           {!isSearchState &&
             list.map((asset) => (
-              <CustomListItem disableGutters divider hideEdit key={asset.displayName} added asset={asset} />
+              <CustomListItem disableGutters divider hideEdit key={asset.ticker} added asset={asset} />
             ))}
           {!isSearchState &&
             managableList.map((asset) => (
               <CustomListItem
                 disableGutters
                 divider
-                key={asset.displayName}
+                key={asset.ticker}
                 onItemClick={handleDelete}
                 added
                 asset={asset}
@@ -101,7 +101,7 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
             ))}
           {isSearchState &&
             searchList.map((asset) => (
-              <CustomListItem disableGutters divider key={asset.displayName} onItemClick={handleDelete} asset={asset} />
+              <CustomListItem disableGutters divider key={asset.ticker} onItemClick={handleDelete} asset={asset} />
             ))}
         </>
         <StyledListItem disableGutters divider>
