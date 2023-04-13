@@ -5,6 +5,7 @@
 - Disable Biconomy for CERE ERC20 transfer
 - Application bundle optimization to improve load speed
 - Add CERE ERC20 token to default assets
+- Disable OPT code auto-capitalization
 
 ### v1.21.0
 
