@@ -18,15 +18,25 @@ export class AssetStore {
   }
 
   async init(wallet: ReadyWallet) {
-    const { CereNativeToken } = await import(/* webpackChunkName: "CereNativeToken" */ './CereNativeToken');
-    const { NativeToken } = await import(/* webpackChunkName: "NativeToken" */ './NativeToken');
-    const { UsdcToken } = await import(/* webpackChunkName: "UsdcToken" */ './UsdcToken');
-    const { Erc20Token } = await import(/* webpackChunkName: "Erc20Token" */ './Erc20Token');
+    const [{ CereNativeToken }, { NativeToken }, { UsdcToken }, { Erc20Token }, { CereErc20Token }] = await Promise.all(
+      [
+        import(/* webpackChunkName: "CereNativeToken" */ './CereNativeToken'),
+        import(/* webpackChunkName: "NativeToken" */ './NativeToken'),
+        import(/* webpackChunkName: "UsdcToken" */ './UsdcToken'),
+        import(/* webpackChunkName: "Erc20Token" */ './Erc20Token'),
+        import(/* webpackChunkName: "CereErc20Token" */ './CereErc20Token'),
+      ],
+    );
 
     const managableTokensFromStorage = localStorage.getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
-    this.list = [new CereNativeToken(wallet), new NativeToken(wallet), new UsdcToken(wallet)];
+    this.list = [
+      new CereNativeToken(wallet),
+      new CereErc20Token(wallet),
+      new NativeToken(wallet),
+      new UsdcToken(wallet),
+    ];
     this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
   }
 
