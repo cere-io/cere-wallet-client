@@ -10,6 +10,8 @@
 - Application bundle optimization to improve load speed
 - Add CERE ERC20 token to default assets
 - Disable OPT code auto-capitalization
+- Optimize login flow to decrease time to login
+- Increase assets balance pooling interval to 10 seconds
 
 ### v1.21.0
 
