@@ -29,3 +29,5 @@ export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook')[] = [];
 export const COIN_TICKER_ALIAS: Record<string, string> = {
   CERE_ERC20: 'CERE',
 };
+
+export const RPC_POLLING_INTERVAL = 10000;
