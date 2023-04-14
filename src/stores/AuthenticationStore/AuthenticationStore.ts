@@ -1,4 +1,5 @@
 import { makeAutoObservable, reaction, when } from 'mobx';
+import { LoginOptions } from '@cere-wallet/communication';
 
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
@@ -47,17 +48,8 @@ export class AuthenticationStore {
     return this.accountStore.userInfo;
   }
 
-  getRedirectUrl({ redirectUrl, ...params }: LoginParams = {}) {
-    const url = new URL('/authorize/redirect', window.origin);
-
-    if (redirectUrl) {
-      url.searchParams.append('redirectUrl', redirectUrl);
-    }
-
-    return this.openLoginStore.getLoginUrl({
-      ...params,
-      redirectUrl: url.toString(),
-    });
+  getRedirectUrl(params: LoginParams = {}) {
+    return this.getLoginUrl('redirect', params);
   }
 
   async login({ redirectUrl, ...params }: LoginParams = {}) {
@@ -80,12 +72,7 @@ export class AuthenticationStore {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
-    const loginUrl = await this.openLoginStore.getLoginUrl({
-      ...params,
-      preopenInstanceId: popupId,
-      redirectUrl: '/authorize/close',
-    });
-
+    const loginUrl = await this.getLoginUrl('popup', params);
     const redirect = await this.popupManagerStore.redirect(popupId, loginUrl);
     const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(popupId, {});
 
@@ -110,12 +97,7 @@ export class AuthenticationStore {
     this.popupManagerStore.registerRedirect(modalId, true);
     this.popupManagerStore.showModal(modalId, '/frame');
 
-    const loginUrl = await this.openLoginStore.getLoginUrl({
-      ...params,
-      preopenInstanceId: modalId,
-      redirectUrl: '/authorize/close',
-    });
-
+    const loginUrl = await this.getLoginUrl('modal', params);
     this.popupManagerStore.redirect(modalId, loginUrl);
 
     await when(() => !!authPopup.state.result || !modal.open);
@@ -137,11 +119,30 @@ export class AuthenticationStore {
     return true;
   }
 
+  private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: LoginParams) {
+    const preopenInstanceId = params.preopenInstanceId || 'redirect';
+    const startUrl = new URL('/authorize', window.origin);
+    let callbackUrl = mode === 'redirect' ? '/authorize/redirect' : '/authorize/close';
+
+    if (params.redirectUrl) {
+      callbackUrl += `?redirectUrl=${params.redirectUrl}`;
+    }
+
+    startUrl.searchParams.append('callbackUrl', callbackUrl);
+    startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
+
+    if (this.openLoginStore.sessionNamespace) {
+      startUrl.searchParams.append('sessionNamespace', this.openLoginStore.sessionNamespace);
+    }
+
+    return !params.idToken
+      ? startUrl.toString()
+      : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
+  }
+
   private async syncAccountWithState(state: AuthorizePopupState) {
     if (state.result) {
       this.openLoginStore.syncWithEncodedState(state.result, state.sessionId);
-
-      await this.openLoginStore.init();
     }
 
     const account = await this.syncAccount();

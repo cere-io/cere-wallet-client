@@ -15,16 +15,18 @@ export type UserInfo = {
 export type AppContext = Context;
 export type NetworkInterface = NetworkConfig;
 
+export type LoginOptions = {
+  uxMode?: 'redirect' | 'popup' | 'modal';
+  idToken?: string;
+  redirectUrl?: string;
+};
+
 export type LoginData = {
   preopenInstanceId?: string;
   calledFromEmbed: boolean;
   verifier: string;
   login_hint: string;
-  loginOptions: {
-    uxMode?: 'redirect' | 'popup' | 'modal';
-    idToken?: string;
-    redirectUrl?: string;
-  };
+  loginOptions: LoginOptions;
 };
 
 export type InitChannelIn = {
