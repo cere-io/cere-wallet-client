@@ -5,10 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { createNextUrl } from './auth.service';
 
 interface OtpProps {
   email: string;
+  onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
 const validationSchema = yup
@@ -17,7 +17,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -41,7 +41,7 @@ export const OtpPage = ({ email }: OtpProps) => {
     const value = getFormValues('code');
     const token = await AuthApiService.getTokenByEmail(email, value);
     if (token) {
-      window.location.href = createNextUrl(token);
+      await onRequestLogin(token);
     } else {
       setError('code', { message: 'The code is wrong, please try again' });
     }

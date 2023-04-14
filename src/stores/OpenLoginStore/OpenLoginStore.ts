@@ -15,7 +15,7 @@ export type InitParams = {
   sessionId?: string;
 };
 
-type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
+export type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey' | 'uxMode'> & {
   sessionNamespace?: string;
 };
 
@@ -34,16 +34,14 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
   return {
     loginProvider: 'jwt',
     redirectUrl: url.toString(),
-    extraLoginOptions: {
-      id_token: idToken,
-    },
+    extraLoginOptions: { preopenInstanceId, id_token: idToken },
   };
 };
 
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
-  constructor({ storageKey, sessionNamespace }: OpenLoginStoreOptions = {}) {
+  constructor({ storageKey, sessionNamespace, uxMode }: OpenLoginStoreOptions = {}) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
@@ -52,7 +50,7 @@ export class OpenLoginStore {
       storageKey,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       no3PC: true,
-      uxMode: 'redirect',
+      uxMode: uxMode || 'redirect',
       replaceUrlOnRedirect: false,
       _sessionNamespace: sessionNamespace ?? this.sessionNamespace,
 

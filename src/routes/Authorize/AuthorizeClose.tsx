@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useOutletContext } from 'react-router-dom';
 import { Loading, Logo } from '@cere-wallet/ui';
 
-import { usePopupStore } from '~/hooks';
 import { AuthorizePopupStore } from '~/stores';
 
 const AuthorizeClose = () => {
-  const store = usePopupStore((popupId) => new AuthorizePopupStore(popupId));
+  const store = useOutletContext<AuthorizePopupStore>();
+
   const params = new URLSearchParams(window.location.hash.slice(1));
   const result = params.get('result');
   const sessionId = params.get('sessionId');
