@@ -74,7 +74,6 @@ export class OpenLoginStore {
           name: 'Cere',
           typeOfLogin: 'jwt',
           jwtParameters: {
-            client_id: clientId,
             domain: window.origin,
             verifierIdField: 'email',
             isVerifierIdCaseSensitive: false,
