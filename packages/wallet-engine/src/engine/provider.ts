@@ -4,10 +4,10 @@ import { EventEmitter } from 'events';
 import { Engine } from './engine';
 import { Provider, Account, ProviderRequestArguments } from '../types';
 
-import { createApproveEngine, ApproveEngineOptions } from './approve';
-import { createWalletEngine, WalletEngineOptions } from './wallet';
-import { createEthereumEngine, EthereumEngineOptions } from './ethereum';
-import { createPolkadotEngine, PolkadotEngineOptions } from './polkadot';
+import type { ApproveEngineOptions } from './approve';
+import type { WalletEngineOptions } from './wallet';
+import type { EthereumEngineOptions } from './ethereum';
+import type { PolkadotEngineOptions } from './polkadot';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   ApproveEngineOptions &
@@ -35,24 +35,33 @@ export class ProviderEngine extends Engine {
   constructor(private options: ProviderEngineOptions) {
     super();
 
-    this.pushEngine(createWalletEngine(this.options));
-    this.pushEngine(createApproveEngine(this.options));
-    this.pushEngine(createPolkadotEngine(this.options));
+    this.pushEngine(async () => {
+      const { createWalletEngine } = await import(/* webpackChunkName: "createWalletEngine" */ './wallet');
+
+      return createWalletEngine(this.options);
+    });
+
+    this.pushEngine(async () => {
+      const { createApproveEngine } = await import(/* webpackChunkName: "createApproveEngine" */ './approve');
+
+      return createApproveEngine(this.options);
+    });
+
+    this.pushEngine(async () => {
+      const { createPolkadotEngine } = await import(/* webpackChunkName: "createPolkadotEngine" */ './polkadot');
+
+      return createPolkadotEngine(this.options);
+    });
 
     /**
      * Should always be the last one since it is currently handles real RPC requests
      * TODO: Replace with fetch middleware in future
      */
-    this.pushEngine(createEthereumEngine(this.options));
-  }
+    this.pushEngine(async () => {
+      const { createEthereumEngine } = await import(/* webpackChunkName: "createEthereumEngine" */ './ethereum');
 
-  private pushEngine(engine: Engine) {
-    this.push(engine.asMiddleware());
-
-    /**
-     * Forward all messages from sub-engine
-     */
-    engine.forwardEvents(this);
+      return createEthereumEngine(this.options);
+    });
   }
 
   async updateAccounts(accounts: Account[]) {

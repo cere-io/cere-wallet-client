@@ -1,7 +1,7 @@
 import { makeAutoObservable, action } from 'mobx';
-import { getTokenConfig } from '@cere-wallet/wallet-engine';
 
-import { Asset, Wallet } from '../types';
+import { Wallet } from '../types';
+import { COIN_TICKER_ALIAS } from '~/constants';
 import { AssetStore } from '../AssetStore';
 import { ExchangeRatesStore } from '../ExchangeRatesStore';
 import { USD, DEFAULT_RATE } from '../ExchangeRatesStore/enums';
@@ -17,29 +17,34 @@ export class BalanceStore {
     this.exchangeRatesStore = new ExchangeRatesStore(this.wallet, this.assetStore);
   }
 
-  get selectedToken(): Omit<Asset, 'balance' | 'id'> | undefined {
-    if (!this.wallet.network) {
-      return undefined;
-    }
+  /**
+   * Not used logic
+   * TODO: Uncoment it when select balance token functionality is implemented
+   */
 
-    const token = getTokenConfig();
+  // get selectedToken(): Omit<Asset, 'balance' | 'id'> | undefined {
+  //   if (!this.wallet.network) {
+  //     return undefined;
+  //   }
 
-    return {
-      decimals: token.decimals,
-      displayName: token.symbol,
-      ticker: token.symbol,
-      network: this.wallet.network.displayName,
-    };
-  }
+  //   const token = getTokenConfig();
+
+  //   return {
+  //     decimals: token.decimals,
+  //     displayName: token.symbol,
+  //     ticker: token.symbol,
+  //     network: this.wallet.network.displayName,
+  //   };
+  // }
+
+  // get balance() {
+  //   const selectedToken = this.assetStore.commonList.find(({ ticker }) => this.selectedToken?.ticker === ticker);
+
+  //   return selectedToken?.balance;
+  // }
 
   get nativeBalance() {
     return this.assetStore.nativeToken?.balance;
-  }
-
-  get balance() {
-    const selectedToken = this.assetStore.commonList.find(({ ticker }) => this.selectedToken?.ticker === ticker);
-
-    return selectedToken?.balance;
   }
 
   get totalUsdBalance() {
@@ -53,8 +58,10 @@ export class BalanceStore {
   }
 
   public getUsdBalance(tickerName: string, balance: number = 0) {
+    const ticker = COIN_TICKER_ALIAS[tickerName] || tickerName; // TODO: Find a better way to handle tickers conflicts
+
     const { exchangeRates } = this.exchangeRatesStore;
-    const rate = exchangeRates[tickerName]?.[USD.toUpperCase()] || DEFAULT_RATE;
+    const rate = exchangeRates[ticker]?.[USD.toUpperCase()] || DEFAULT_RATE;
 
     return balance * rate;
   }

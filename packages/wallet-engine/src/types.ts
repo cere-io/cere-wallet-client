@@ -1,8 +1,15 @@
 import EventEmitter from 'events';
-export type { CustomChainConfig as ChainConfig } from '@web3auth/base';
+
+export declare type ChainConfig = {
+  chainId: string;
+  rpcTarget: string;
+  displayName: string;
+  blockExplorer: string;
+  ticker: string;
+  tickerName: string;
+};
 
 export type KeyType = 'ethereum' | 'ed25519';
-
 export type KeyPair = {
   type: KeyType;
   address: string;

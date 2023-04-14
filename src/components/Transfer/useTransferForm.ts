@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import BigNumber from 'bignumber.js';
 import { isValidAddress } from '@cere-wallet/wallet-engine';
 
 import { Asset } from '~/stores';
+import { BigNumber } from 'ethers';
+import { useEffect } from 'react';
 
 export type UseTransferFormOptions = {
   assets: Asset[];
@@ -34,10 +35,10 @@ const validationSchema = yup.object({
         return true;
       }
 
-      const amount = new BigNumber(value);
-      const balance = new BigNumber(selectedAsset.balance);
+      const amount = BigNumber.from(value);
+      const balance = BigNumber.from(selectedAsset.balance);
 
-      return balance.isGreaterThanOrEqualTo(amount)
+      return balance.gte(amount)
         ? true
         : createError({
             message: `Not enough tokens to transfer. Available balance is ${selectedAsset.balance} ${selectedAsset.displayName}`,
@@ -45,13 +46,21 @@ const validationSchema = yup.object({
     }),
 });
 
-export const useTransferForm = ({ assets }: UseTransferFormOptions) =>
-  useForm({
+export const useTransferForm = ({ assets }: UseTransferFormOptions) => {
+  const defaultAsset = assets[0]?.ticker || '';
+  const form = useForm({
     context: { assets },
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      asset: assets[0].ticker,
+      asset: '',
       address: '',
       amount: '',
     },
   });
+
+  useEffect(() => {
+    form.reset({ asset: defaultAsset }, { keepDirtyValues: true });
+  }, [defaultAsset, form]);
+
+  return form;
+};

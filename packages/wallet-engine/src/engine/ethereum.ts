@@ -2,7 +2,6 @@ import { providers } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-import { Biconomy } from '@biconomy/mexa';
 
 import { Engine, EngineEventTarget } from './engine';
 import { Account, ChainConfig } from '../types';
@@ -18,6 +17,20 @@ export type EthereumEngineOptions = {
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
   biconomy?: BiconomyOptions;
+  pollingInterval?: number;
+};
+
+const createBiconomyProvider = async (provider: providers.ExternalProvider, options: BiconomyOptions) => {
+  const { Biconomy } = await import('@biconomy/mexa');
+
+  const biconomyInstance = new Biconomy(provider, {
+    ...options,
+    contractAddresses: [],
+  });
+
+  await biconomyInstance.init();
+
+  return biconomyInstance.provider;
 };
 
 class EthereumEngine extends Engine {
@@ -37,7 +50,13 @@ class EthereumEngine extends Engine {
   }
 }
 
-export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, biconomy }: EthereumEngineOptions) => {
+export const createEthereumEngine = ({
+  getPrivateKey,
+  getAccounts,
+  chainConfig,
+  biconomy,
+  pollingInterval,
+}: EthereumEngineOptions) => {
   let biconomyProviderPromise: Promise<providers.ExternalProvider>;
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
@@ -57,12 +76,7 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
     }
 
     if (!biconomyProviderPromise && biconomy) {
-      const biconomyInstance = new Biconomy(providerFactory.provider, {
-        ...biconomy,
-        contractAddresses: [],
-      });
-
-      biconomyProviderPromise = biconomyInstance.init().then(() => biconomyInstance.provider);
+      biconomyProviderPromise = createBiconomyProvider(providerFactory.provider, biconomy);
     }
 
     return providerFactory.provider;
@@ -87,6 +101,10 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
     const provider = await getProvider();
     const web3 = new providers.Web3Provider(provider);
     const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
+
+    if (pollingInterval) {
+      web3.pollingInterval = pollingInterval;
+    }
 
     const listener = async () => {
       const balance = await erc20.balanceOf(address);

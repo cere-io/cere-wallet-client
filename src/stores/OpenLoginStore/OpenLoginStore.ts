@@ -15,7 +15,7 @@ export type InitParams = {
   sessionId?: string;
 };
 
-type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey'> & {
+export type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey' | 'uxMode'> & {
   sessionNamespace?: string;
 };
 
@@ -34,16 +34,14 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
   return {
     loginProvider: 'jwt',
     redirectUrl: url.toString(),
-    extraLoginOptions: {
-      id_token: idToken,
-    },
+    extraLoginOptions: { preopenInstanceId, id_token: idToken },
   };
 };
 
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
-  constructor({ storageKey, sessionNamespace }: OpenLoginStoreOptions = {}) {
+  constructor({ storageKey, sessionNamespace, uxMode }: OpenLoginStoreOptions = {}) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
@@ -52,7 +50,7 @@ export class OpenLoginStore {
       storageKey,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       no3PC: true,
-      uxMode: 'redirect',
+      uxMode: uxMode || 'redirect',
       replaceUrlOnRedirect: false,
       _sessionNamespace: sessionNamespace ?? this.sessionNamespace,
 
@@ -76,7 +74,6 @@ export class OpenLoginStore {
           name: 'Cere',
           typeOfLogin: 'jwt',
           jwtParameters: {
-            client_id: clientId,
             domain: window.origin,
             verifierIdField: 'email',
             isVerifierIdCaseSensitive: false,
@@ -159,6 +156,8 @@ export class OpenLoginStore {
   async login(params?: LoginParams) {
     await this.init();
     await this.openLogin.login(createLoginParams(params));
+
+    await new Promise(() => {}); // Never ending promise waiting for the full page redirect
   }
 
   async logout() {

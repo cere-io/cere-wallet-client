@@ -4,7 +4,7 @@ import { useSearchParams, Outlet } from 'react-router-dom';
 import { reaction } from 'mobx';
 import { Loading, Logo } from '@cere-wallet/ui';
 
-import { AppContextBanner, WalletLayout, WalletLayoutProps } from '~/components';
+import { AppContextBanner, CereTourProvider, WalletLayout, WalletLayoutProps } from '~/components';
 import { WalletContext } from '~/hooks';
 import { WalletStore } from '~/stores';
 import WalletModal from './WalletModal';
@@ -33,23 +33,25 @@ const Wallet = ({ menu }: WalletProps) => {
   }, [store]);
 
   return (
-    <WalletContext.Provider value={store}>
-      {store.status === 'ready' ? (
-        <>
-          <AppContextBanner />
+    <CereTourProvider steps={[]}>
+      <WalletContext.Provider value={store}>
+        {store.status === 'ready' ? (
+          <>
+            <AppContextBanner />
 
-          <WalletLayout menu={menu}>
-            <Outlet />
-          </WalletLayout>
+            <WalletLayout menu={menu}>
+              <Outlet />
+            </WalletLayout>
 
-          {modal && <WalletModal modal={modal} />}
-        </>
-      ) : (
-        <Loading fullScreen>
-          <Logo />
-        </Loading>
-      )}
-    </WalletContext.Provider>
+            {modal && <WalletModal modal={modal} />}
+          </>
+        ) : (
+          <Loading fullScreen>
+            <Logo />
+          </Loading>
+        )}
+      </WalletContext.Provider>
+    </CereTourProvider>
   );
 };
 

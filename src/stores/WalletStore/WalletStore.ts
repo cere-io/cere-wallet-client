@@ -16,7 +16,7 @@ import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
-import { CERE_NETWORK_RPC } from '~/constants';
+import { CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 
 export class WalletStore implements Wallet {
@@ -114,6 +114,7 @@ export class WalletStore implements Wallet {
     }
 
     const engine = createWalletEngine({
+      pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.network!,
       polkadotRpc: CERE_NETWORK_RPC,
       getAccounts: () => this.accountStore.accounts,
@@ -127,6 +128,8 @@ export class WalletStore implements Wallet {
       this.currentEngine = engine;
       this.currentProvider = new providers.Web3Provider(engine.provider);
 
+      this.currentProvider.pollingInterval = RPC_POLLING_INTERVAL;
+
       this.initialized = true;
     });
 
@@ -134,7 +137,7 @@ export class WalletStore implements Wallet {
       () => this.accountStore.accounts,
       (accounts) => engine.updateAccounts(accounts),
       {
-        fireImmediately: true,
+        fireImmediately: true, // Fire update accounts immediately since we already have them here
       },
     );
   }

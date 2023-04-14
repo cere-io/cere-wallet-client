@@ -1,4 +1,4 @@
-import ReactCodeInput from 'react-code-input';
+import ReactCodeInput from '@cere/react-code-input';
 import { styled } from '@cere-wallet/ui';
 import { Typography, Stack } from '@mui/material';
 import { forwardRef } from 'react';

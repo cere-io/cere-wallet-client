@@ -1,4 +1,4 @@
-import { ChainConfig } from '@cere-wallet/wallet-engine';
+import type { ChainConfig } from '@cere-wallet/wallet-engine';
 import type { NetworkConfig } from '@cere/embed-wallet';
 
 const presets = {
@@ -22,21 +22,14 @@ const presets = {
 };
 
 const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
-  ![
-    config.chainNamespace,
-    config.rpcTarget,
-    config.chainId,
-    config.blockExplorer,
-    config.displayName,
-    config.ticker,
-    config.tickerName,
-  ].some((value) => !value);
+  ![config.rpcTarget, config.chainId, config.blockExplorer, config.displayName, config.ticker, config.tickerName].some(
+    (value) => !value,
+  );
 
 const createChainConfig = (network: Partial<NetworkConfig>, preset?: keyof typeof presets): Partial<ChainConfig> => {
   const defaults: Partial<ChainConfig> = preset ? presets[preset] : {};
 
   return {
-    chainNamespace: 'eip155',
     chainId: network.chainId ? `0x${network.chainId.toString(16)}` : defaults.chainId,
     rpcTarget: !network.host || network.host === preset ? defaults.rpcTarget : network.host,
     displayName: network.networkName || defaults.displayName,
