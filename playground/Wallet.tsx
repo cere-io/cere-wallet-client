@@ -19,7 +19,7 @@ export const Wallet = () => {
   useEffect(() => {
     wallet.init({
       connectOptions: {
-        mode: 'popup',
+        mode: 'modal',
       },
 
       context: {

@@ -157,6 +157,8 @@ export class OpenLoginStore {
   async login(params?: LoginParams) {
     await this.init();
     await this.openLogin.login(createLoginParams(params));
+
+    await new Promise(() => {}); // Never ending promise waiting for the full page redirect
   }
 
   async logout() {
