@@ -143,6 +143,8 @@ export class AuthenticationStore {
   private async syncAccountWithState(state: AuthorizePopupState) {
     if (state.result) {
       this.openLoginStore.syncWithEncodedState(state.result, state.sessionId);
+
+      await this.openLoginStore.init();
     }
 
     const account = await this.syncAccount();
