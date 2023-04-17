@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Fix `Sign Out` from the wallet widget error
 
 ### v1.22.0
 
