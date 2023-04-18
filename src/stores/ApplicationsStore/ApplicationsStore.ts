@@ -21,7 +21,7 @@ export class ApplicationsStore {
     makeAutoObservable(this);
 
     reaction(
-      () => !!accountStore.userInfo,
+      () => accountStore.account,
       (isReady) => (isReady ? this.onReady() : this.cleanUp()),
     );
   }

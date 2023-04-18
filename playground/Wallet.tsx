@@ -45,8 +45,13 @@ export const Wallet = () => {
       }
     });
 
-    wallet.subscribe('accounts-update', ([ethAccount, cereAccount]: WalletAccount[]) => {
-      console.log('accounts-update', [ethAccount?.address, cereAccount?.address]);
+    wallet.subscribe('accounts-update', (accounts: WalletAccount[]) => {
+      console.log(
+        'accounts-update',
+        accounts.map((account) => account.address),
+      );
+
+      const [ethAccount, cereAccount] = accounts;
 
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);

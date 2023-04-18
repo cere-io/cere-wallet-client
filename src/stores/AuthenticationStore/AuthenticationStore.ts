@@ -41,7 +41,7 @@ export class AuthenticationStore {
       await this.openLoginStore.init({ sessionId });
     }
 
-    await this.syncAccount();
+    await this.syncLoginData();
 
     this.isRehydrating = false;
 
@@ -86,7 +86,7 @@ export class AuthenticationStore {
     return this.syncAccountWithState(authPopup.state);
   }
 
-  async loginInModal(modalId: string, params: LoginParams = {}): Promise<string> {
+  async loginInModal(modalId: string, params: LoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -114,7 +114,7 @@ export class AuthenticationStore {
   async logout() {
     await this.openLoginStore.logout();
     await this.contextStore.disconnect();
-    await this.syncAccount();
+    await this.syncLoginData();
 
     return true;
   }
@@ -147,23 +147,24 @@ export class AuthenticationStore {
       await this.openLoginStore.init();
     }
 
-    const account = await this.syncAccount();
+    await this.syncLoginData();
+    await when(() => !!this.accountStore.accounts.length); // Wait for accounts to be created from the privateKey
 
-    if (!account) {
+    if (!this.accountStore.account) {
       throw new Error('Something went wrong during authentication');
     }
 
-    return account.address;
+    return this.accountStore.account.address;
   }
 
-  private async syncAccount() {
-    this.accountStore.loginData = this.openLoginStore.privateKey
+  private async syncLoginData() {
+    const { privateKey } = this.openLoginStore;
+
+    this.accountStore.loginData = privateKey
       ? {
-          privateKey: this.openLoginStore.privateKey,
+          privateKey,
           userInfo: await this.openLoginStore.getUserInfo(),
         }
       : null;
-
-    return this.accountStore.account;
   }
 }

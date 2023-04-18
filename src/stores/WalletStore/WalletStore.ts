@@ -117,12 +117,15 @@ export class WalletStore implements Wallet {
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.network!,
       polkadotRpc: CERE_NETWORK_RPC,
-      getAccounts: () => this.accountStore.accounts,
+      getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
+      onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
       getPrivateKey: () => this.accountStore.privateKey,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
+
+    await engine.updateAccounts();
 
     runInAction(() => {
       this.currentEngine = engine;
@@ -134,11 +137,8 @@ export class WalletStore implements Wallet {
     });
 
     reaction(
-      () => this.accountStore.accounts,
-      (accounts) => engine.updateAccounts(accounts),
-      {
-        fireImmediately: true, // Fire update accounts immediately since we already have them here
-      },
+      () => this.accountStore.privateKey,
+      () => engine.updateAccounts(),
     );
   }
 }

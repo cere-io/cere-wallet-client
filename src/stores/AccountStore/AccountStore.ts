@@ -1,6 +1,6 @@
 import { makeAutoObservable, when } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
-import { getAccount } from '@cere-wallet/wallet-engine';
+import { Account, KeyPair } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
@@ -21,6 +21,8 @@ export class AccountStore {
     { loginData: null },
     { readOnly: !this.wallet.isRoot() },
   );
+
+  private currentAccounts: Account[] = [];
 
   constructor(private wallet: Wallet) {
     makeAutoObservable(this);
@@ -47,16 +49,19 @@ export class AccountStore {
   }
 
   get accounts() {
-    const { user, privateKey } = this;
+    return this.currentAccounts;
+  }
 
-    if (!user || !privateKey) {
-      return [];
-    }
+  updateAccounts(accounts: Account[]) {
+    this.currentAccounts = accounts;
+  }
 
-    return [
-      getAccount({ type: 'ethereum', name: user.name, privateKey }),
-      getAccount({ type: 'ed25519', name: user.name, privateKey }),
-    ];
+  mapAccounts(pairs: KeyPair[]) {
+    return pairs.map<Account>(({ address, type }, index) => ({
+      address,
+      type,
+      name: this.user?.name || `Account #${index}`,
+    }));
   }
 
   /**
