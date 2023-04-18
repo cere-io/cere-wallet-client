@@ -31,6 +31,10 @@ export const Wallet = () => {
       },
     });
 
+    wallet.isReady.then((readyWallet) => {
+      console.log('Ready wallet (isReady)', readyWallet);
+    });
+
     wallet.subscribe('status-update', (status, prevStatus) => {
       console.log('Status update', { status, prevStatus });
     });
