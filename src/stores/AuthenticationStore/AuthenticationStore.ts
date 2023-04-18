@@ -27,7 +27,9 @@ export class AuthenticationStore {
   }
 
   get isRehydrating() {
-    return this._isRehydrating;
+    const { user, accounts } = this.accountStore;
+
+    return this._isRehydrating || (user && !accounts.length);
   }
 
   private set isRehydrating(value) {
