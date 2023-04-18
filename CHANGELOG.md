@@ -3,6 +3,7 @@
 ### vNext
 
 - Fix `Sign Out` from the wallet widget error
+- Send only ETH account address to applications tracking endpoints
 
 ### v1.22.0
 
