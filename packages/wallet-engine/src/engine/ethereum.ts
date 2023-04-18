@@ -126,6 +126,12 @@ export const createEthereumEngine = ({
 
   engine.push(
     createScaffoldMiddleware({
+      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
+        const allAccounts = (res.result as Account[]) || [];
+
+        res.result = [...getEthereumAccounts(), ...allAccounts];
+      }),
+
       eth_accounts: accountsMiddleware,
       eth_requestAccounts: accountsMiddleware,
 

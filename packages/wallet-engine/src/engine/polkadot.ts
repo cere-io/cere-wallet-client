@@ -60,6 +60,14 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
 
   engine.push(
     createScaffoldMiddleware({
+      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
+        const allAccounts = (res.result as Account[]) || [];
+
+        res.result = [...allAccounts, ...getEd25519Accounts()];
+
+        next();
+      }),
+
       wallet_updateAccounts: createAsyncMiddleware(async (req, res, next) => {
         const [account] = getEd25519Accounts();
 

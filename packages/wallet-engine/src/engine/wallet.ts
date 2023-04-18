@@ -26,10 +26,6 @@ export const createWalletEngine = ({ getAccounts = () => [], chainConfig }: Wall
         res.result = true;
       }),
 
-      wallet_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = getAccounts();
-      }),
-
       /**
        * Temp optimizations below
        * TODO: Implement lazy middleware concept and move the middleware below to the appropriate place
