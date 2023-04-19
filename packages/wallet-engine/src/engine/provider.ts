@@ -2,7 +2,7 @@ import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
 import { EventEmitter } from 'events';
 
 import { Engine } from './engine';
-import { Provider, Account, ProviderRequestArguments } from '../types';
+import { Account, Provider, ProviderRequestArguments } from '../types';
 
 import type { ApproveEngineOptions } from './approve';
 import type { WalletEngineOptions } from './wallet';
@@ -12,7 +12,9 @@ import type { PolkadotEngineOptions } from './polkadot';
 export type ProviderEngineOptions = WalletEngineOptions &
   ApproveEngineOptions &
   EthereumEngineOptions &
-  PolkadotEngineOptions;
+  PolkadotEngineOptions & {
+    onUpdateAccounts: (accounts: Account[]) => void;
+  };
 
 class EngineProvider extends EventEmitter implements Provider {
   constructor(private engine: Engine) {
@@ -64,12 +66,15 @@ export class ProviderEngine extends Engine {
     });
   }
 
-  async updateAccounts(accounts: Account[]) {
-    await this.provider.request({ method: 'wallet_updateAccounts', params: [accounts] });
+  async updateAccounts() {
+    const accounts: Account[] = await this.provider.request({ method: 'wallet_updateAccounts' });
+    this.options.onUpdateAccounts(accounts);
 
     this.emit('message', {
       type: 'wallet_accountsChanged',
       data: accounts,
     });
+
+    return accounts;
   }
 }

@@ -60,6 +60,12 @@ export class EmbedWallet {
   private defaultContext: Context;
   private proxyProvider: ProxyProvider;
   private connectOptions: WalletConnectOptions = {};
+  private onAfterInit?: (error?: any) => void;
+
+  /**
+   * @description Promise that resolves when the wallet instance is initialized and ready
+   */
+  readonly isReady: Promise<EmbedWallet>;
 
   constructor({ env, clientVersion = WALLET_CLIENT_VERSION, ...options }: WalletOptions = {}) {
     if (env) {
@@ -71,6 +77,10 @@ export class EmbedWallet {
     this.proxyProvider = new ProxyProvider();
     this.defaultContext = createContext();
     this.options = { ...options, clientVersion, env: env || 'prod' };
+
+    this.isReady = new Promise((resolve, reject) => {
+      this.onAfterInit = (error) => (error ? reject(error) : resolve(this));
+    });
 
     this.provider.on('message', this.handleEvenets);
   }
@@ -145,21 +155,30 @@ export class EmbedWallet {
 
     const { sessionId } = getAuthRedirectResult();
 
-    await this.torus.init({
-      network,
-      sessionId,
-      popupMode,
-      context: this.defaultContext,
-      buildEnv: buildEnvMap[env],
-      enableLogging: env !== 'prod',
-      integrity: {
-        check: false,
-        version: clientVersion,
-      },
-    });
+    try {
+      await this.torus.init({
+        network,
+        sessionId,
+        popupMode,
+        context: this.defaultContext,
+        buildEnv: buildEnvMap[env],
+        enableLogging: env !== 'prod',
+        integrity: {
+          check: false,
+          version: clientVersion,
+        },
+      });
 
-    this.proxyProvider.setTarget(this.torus.provider);
-    this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
+      this.proxyProvider.setTarget(this.torus.provider);
+      this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
+
+      this.onAfterInit?.();
+    } catch (error) {
+      this.setStatus('errored');
+      this.onAfterInit?.(error);
+
+      throw error;
+    }
   }
 
   async connect(overrideOptions: WalletConnectOptions = {}) {

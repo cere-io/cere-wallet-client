@@ -3,7 +3,7 @@ import { u8aToHex } from '@polkadot/util';
 import { Keyring } from '@polkadot/keyring';
 
 import { Engine } from './engine';
-import { Account } from '../types';
+import { Account, KeyPair } from '../types';
 import { getKeyPair } from '../accounts';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -11,7 +11,7 @@ import { AccountInfo } from '@polkadot/types/interfaces';
 
 export type PolkadotEngineOptions = {
   polkadotRpc: string;
-  getAccounts: () => Account[];
+  getAccounts: (pairs: KeyPair[]) => Account[];
   getPrivateKey: () => string | undefined;
 };
 
@@ -38,7 +38,13 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
   const engine = new Engine();
   const api = createApi(polkadotRpc);
 
-  const getEd25519Accounts = () => getAccounts().filter((account) => account.type === 'ed25519');
+  const createAccounts = () => {
+    const privateKey = getPrivateKey();
+    const pair = privateKey && getKeyPair({ type: 'ed25519', privateKey });
+
+    return !pair ? [] : getAccounts([pair]);
+  };
+
   const getPair = (address: string) => {
     const privateKey = getPrivateKey();
 
@@ -60,8 +66,17 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
 
   engine.push(
     createScaffoldMiddleware({
+      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
+        const allAccounts = res.result as Account[];
+
+        res.result = [...allAccounts, ...createAccounts()];
+
+        next();
+      }),
+
       wallet_updateAccounts: createAsyncMiddleware(async (req, res, next) => {
-        const [account] = getEd25519Accounts();
+        const allAccounts = res.result as Account[];
+        const [account] = createAccounts();
 
         engine.emit('message', {
           type: 'ed25519_accountChanged',
@@ -72,11 +87,13 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
           startBalanceListener(account.address);
         }
 
+        res.result = [account, ...allAccounts];
+
         next();
       }),
 
       ed25519_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = getEd25519Accounts();
+        res.result = createAccounts();
       }),
 
       ed25519_sign: createAsyncMiddleware(async (req, res) => {
