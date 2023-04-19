@@ -17,12 +17,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createNextUrl, getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
+import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
+  onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
 const validationSchema = yup
@@ -31,7 +32,7 @@ const validationSchema = yup
   })
   .required();
 
-export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
+export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -73,7 +74,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
     const googleToken = await getTokenWithGoogle();
     const token = await AuthApiService.getTokenBySocial(googleToken);
     if (token) {
-      window.location.href = createNextUrl(token);
+      onRequestLogin(token);
     } else {
       console.error('Google authorization error');
     }
@@ -83,7 +84,7 @@ export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
     const fbToken = await getTokenWithFacebook();
     const token = await AuthApiService.getTokenBySocial(fbToken);
     if (token) {
-      window.location.href = createNextUrl(token);
+      onRequestLogin(token);
     } else {
       console.error('Facebook authorization error');
     }

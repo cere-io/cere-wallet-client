@@ -72,12 +72,11 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
   useEffect(() => {
     (async () => {
       if (debouncedAddress) {
-        const erc20 = assetStore.getERC20Contract(debouncedAddress);
+        const erc20 = await assetStore.getERC20Contract(debouncedAddress);
 
         if (erc20) {
-          const name = await erc20.name();
-          const ticker = await erc20.symbol();
-          const decimals = await erc20.decimals();
+          const [name, ticker, decimals] = await Promise.all([erc20.name(), erc20.symbol(), erc20.decimals()]);
+
           setValue('displayName', name);
           setValue('ticker', ticker);
           setValue('decimals', decimals);
@@ -86,8 +85,9 @@ export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep })
     })();
   }, [debouncedAddress, setValue, assetStore]);
 
-  const handleSubmit = onSubmit((formValues) => {
-    assetStore.addAsset({ id: '', ...formValues });
+  const handleSubmit = onSubmit(async (formValues) => {
+    await assetStore.addAsset({ id: '', ...formValues });
+
     changeStep();
     onClose();
   });
