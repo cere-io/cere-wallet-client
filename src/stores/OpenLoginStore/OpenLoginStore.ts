@@ -113,6 +113,10 @@ export class OpenLoginStore {
     return this.openLogin.privKey;
   }
 
+  get accountUrl() {
+    return new URL('/wallet/account', this.openLogin.state.iframeUrl).toString();
+  }
+
   configureApp(app?: App) {
     const url = new URL(app?.url || this.appUrl || window.origin);
     const name = app ? app.name || url.hostname : 'Cere Wallet';
@@ -190,11 +194,5 @@ export class OpenLoginStore {
     }
 
     this.openLogin._syncState(state);
-  }
-
-  async getAccountUrl(loginParams: LoginParams = {}) {
-    const accountUrl = new URL('/wallet/account', this.openLogin.state.iframeUrl);
-
-    return this.getLoginUrl({ ...loginParams, redirectUrl: accountUrl.toString() });
   }
 }

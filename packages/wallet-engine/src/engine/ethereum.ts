@@ -4,7 +4,7 @@ import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
 import { Engine, EngineEventTarget } from './engine';
-import { Account, ChainConfig } from '../types';
+import { Account, ChainConfig, KeyPair } from '../types';
 import { getKeyPair } from '../accounts';
 
 type BiconomyOptions = {
@@ -13,7 +13,7 @@ type BiconomyOptions = {
 };
 
 export type EthereumEngineOptions = {
-  getAccounts: () => Account[];
+  getAccounts: (pairs: KeyPair[]) => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
   biconomy?: BiconomyOptions;
@@ -91,9 +91,15 @@ export const createEthereumEngine = ({
 
   const engine = new EthereumEngine();
 
-  const getEthereumAccounts = () => getAccounts().filter((account) => account.type === 'ethereum');
+  const createAccounts = () => {
+    const privateKey = getPrivateKey();
+    const pair = privateKey && getKeyPair({ type: 'ethereum', privateKey });
+
+    return !pair ? [] : getAccounts([pair]);
+  };
+
   const accountsMiddleware = createAsyncMiddleware(async (req, res) => {
-    res.result = getEthereumAccounts().map((account) => account.address);
+    res.result = createAccounts().map((account) => account.address);
   });
 
   const startBalanceListener = async (address: string) => {
@@ -126,20 +132,23 @@ export const createEthereumEngine = ({
 
   engine.push(
     createScaffoldMiddleware({
+      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
+        const allAccounts = res.result as Account[];
+
+        res.result = [...createAccounts(), ...allAccounts];
+      }),
+
       eth_accounts: accountsMiddleware,
       eth_requestAccounts: accountsMiddleware,
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
-        const accounts = getEthereumAccounts();
-        const [account] = accounts;
+        const allAccounts = res.result as Account[];
+        const [account] = createAccounts();
 
         /**
          * Standard eip-1193 event
          */
-        engine.emit(
-          'accountsChanged',
-          accounts.map((account) => account.address),
-        );
+        engine.emit('accountsChanged', [account.address]);
 
         /**
          * Custom wallet message
@@ -153,7 +162,7 @@ export const createEthereumEngine = ({
           startBalanceListener(account.address);
         }
 
-        res.result = true;
+        res.result = [account, ...allAccounts];
       }),
 
       eth_transfer: createAsyncMiddleware(async (req, res) => {
