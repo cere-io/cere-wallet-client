@@ -1,4 +1,6 @@
 import { makeAutoObservable, autorun } from 'mobx';
+import { createERC20Contract } from '@cere-wallet/wallet-engine';
+import { getGlobalStorage } from '@cere-wallet/storage';
 
 import { isTransferableAsset, Wallet, Asset, ReadyWallet } from './types';
 import { serializeAssets, deserializeAssets } from './helper';
@@ -28,7 +30,7 @@ export class AssetStore {
       ],
     );
 
-    const managableTokensFromStorage = localStorage.getItem('tokens');
+    const managableTokensFromStorage = getGlobalStorage().getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
     this.list = [
@@ -47,7 +49,7 @@ export class AssetStore {
   set managableList(assets: Asset[]) {
     this.managableAssets = assets;
 
-    localStorage.setItem('tokens', serializeAssets(assets));
+    getGlobalStorage().setItem('tokens', serializeAssets(assets));
   }
 
   get loading() {
