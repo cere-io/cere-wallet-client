@@ -2,10 +2,9 @@ import { providers } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '../contracts';
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-import { Biconomy } from '@biconomy/mexa';
 
 import { Engine, EngineEventTarget } from './engine';
-import { Account, ChainConfig } from '../types';
+import { Account, ChainConfig, KeyPair } from '../types';
 import { getKeyPair } from '../accounts';
 
 type BiconomyOptions = {
@@ -14,10 +13,24 @@ type BiconomyOptions = {
 };
 
 export type EthereumEngineOptions = {
-  getAccounts: () => Account[];
+  getAccounts: (pairs: KeyPair[]) => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
   biconomy?: BiconomyOptions;
+  pollingInterval?: number;
+};
+
+const createBiconomyProvider = async (provider: providers.ExternalProvider, options: BiconomyOptions) => {
+  const { Biconomy } = await import('@biconomy/mexa');
+
+  const biconomyInstance = new Biconomy(provider, {
+    ...options,
+    contractAddresses: [],
+  });
+
+  await biconomyInstance.init();
+
+  return biconomyInstance.provider;
 };
 
 class EthereumEngine extends Engine {
@@ -37,7 +50,13 @@ class EthereumEngine extends Engine {
   }
 }
 
-export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, biconomy }: EthereumEngineOptions) => {
+export const createEthereumEngine = ({
+  getPrivateKey,
+  getAccounts,
+  chainConfig,
+  biconomy,
+  pollingInterval,
+}: EthereumEngineOptions) => {
   let biconomyProviderPromise: Promise<providers.ExternalProvider>;
   const providerFactory: EthereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
@@ -57,12 +76,7 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
     }
 
     if (!biconomyProviderPromise && biconomy) {
-      const biconomyInstance = new Biconomy(providerFactory.provider, {
-        ...biconomy,
-        contractAddresses: [],
-      });
-
-      biconomyProviderPromise = biconomyInstance.init().then(() => biconomyInstance.provider);
+      biconomyProviderPromise = createBiconomyProvider(providerFactory.provider, biconomy);
     }
 
     return providerFactory.provider;
@@ -77,9 +91,15 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
 
   const engine = new EthereumEngine();
 
-  const getEthereumAccounts = () => getAccounts().filter((account) => account.type === 'ethereum');
+  const createAccounts = () => {
+    const privateKey = getPrivateKey();
+    const pair = privateKey && getKeyPair({ type: 'ethereum', privateKey });
+
+    return !pair ? [] : getAccounts([pair]);
+  };
+
   const accountsMiddleware = createAsyncMiddleware(async (req, res) => {
-    res.result = getEthereumAccounts().map((account) => account.address);
+    res.result = createAccounts().map((account) => account.address);
   });
 
   const startBalanceListener = async (address: string) => {
@@ -87,6 +107,10 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
     const provider = await getProvider();
     const web3 = new providers.Web3Provider(provider);
     const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
+
+    if (pollingInterval) {
+      web3.pollingInterval = pollingInterval;
+    }
 
     const listener = async () => {
       const balance = await erc20.balanceOf(address);
@@ -108,20 +132,23 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
 
   engine.push(
     createScaffoldMiddleware({
+      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
+        const allAccounts = res.result as Account[];
+
+        res.result = [...createAccounts(), ...allAccounts];
+      }),
+
       eth_accounts: accountsMiddleware,
       eth_requestAccounts: accountsMiddleware,
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
-        const accounts = getEthereumAccounts();
-        const [account] = accounts;
+        const allAccounts = res.result as Account[];
+        const [account] = createAccounts();
 
         /**
          * Standard eip-1193 event
          */
-        engine.emit(
-          'accountsChanged',
-          accounts.map((account) => account.address),
-        );
+        engine.emit('accountsChanged', [account.address]);
 
         /**
          * Custom wallet message
@@ -135,7 +162,7 @@ export const createEthereumEngine = ({ getPrivateKey, getAccounts, chainConfig, 
           startBalanceListener(account.address);
         }
 
-        res.result = true;
+        res.result = [account, ...allAccounts];
       }),
 
       eth_transfer: createAsyncMiddleware(async (req, res) => {

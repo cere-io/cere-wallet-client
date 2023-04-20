@@ -1,10 +1,11 @@
-import { autorun, makeAutoObservable } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 
-import { PriceData, Wallet } from '../types';
+import { PriceData, ReadyWallet, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
-import { Erc20Token } from './Erc20Token';
 import { AssetStore } from '../AssetStore';
-import { CustomToken } from './CustomToken';
+
+import type { Erc20Token } from './Erc20Token';
+import type { CustomToken } from './CustomToken';
 
 export type Activity = {
   type: 'in' | 'out';
@@ -21,8 +22,7 @@ type SharedState = {
 };
 
 export class ActivityStore {
-  private launchedTokens: CustomToken[] = [];
-  private erc20token = new Erc20Token(this);
+  private startedTokens: (CustomToken | Erc20Token)[] = [];
   private shared = createSharedState<SharedState>(
     `activity.${this.wallet.instanceId}`,
     {
@@ -34,19 +34,38 @@ export class ActivityStore {
   constructor(private wallet: Wallet, private assetStore: AssetStore) {
     makeAutoObservable(this);
 
-    autorun(() => {
-      if (wallet.isReady()) {
-        this.launchedTokens = this.assetStore.managableList.map((asset) => {
-          const token = new CustomToken(this, asset.address!);
-          token.start(wallet);
-          return token;
-        });
-        this.erc20token.start(wallet);
-      } else {
-        this.launchedTokens.forEach((token) => token.stop());
-        this.erc20token.stop();
-      }
+    reaction(
+      () => wallet.isReady(),
+      (isReady) => {
+        if (isReady) {
+          this.init(wallet as ReadyWallet);
+        } else {
+          this.cleanUp();
+        }
+      },
+    );
+  }
+
+  async init(wallet: ReadyWallet) {
+    const { CustomToken } = await import(/* webpackChunkName: "ActivityCustomToken" */ './CustomToken');
+    const { Erc20Token } = await import(/* webpackChunkName: "ActivityErc20Token" */ './Erc20Token');
+
+    this.startedTokens = this.assetStore.managableList.map((asset) => {
+      const token = new CustomToken(this, asset.address!);
+
+      token.start(wallet);
+
+      return token;
     });
+
+    const erc20token = new Erc20Token(this);
+    erc20token.start(wallet);
+
+    this.startedTokens.push(erc20token);
+  }
+
+  async cleanUp() {
+    this.startedTokens.forEach((token) => token.stop());
   }
 
   get list() {

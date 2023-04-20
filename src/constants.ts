@@ -32,3 +32,9 @@ export const FIREBASE_CONFIG = {
   projectId: process.env.REACT_APP_PROJECT_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
+export const COIN_TICKER_ALIAS: Record<string, string> = {
+  CERE_ERC20: 'CERE',
+};
+
+export const RPC_POLLING_INTERVAL = 10000;

@@ -11,6 +11,7 @@ import {
   FacebookIcon,
   Divider,
 } from '@cere-wallet/ui';
+import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,6 +22,7 @@ import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
+  onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
 const validationSchema = yup
@@ -29,13 +31,14 @@ const validationSchema = yup
   })
   .required();
 
-export const LoginPage = ({ variant = 'signin' }: LogInProps) => {
+export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
-    localStorage.setItem('showProductTour', isSignUp.toString());
+
+    getGlobalStorage().setItem('showProductTour', isSignUp.toString());
   }, [location.pathname]);
 
   const {

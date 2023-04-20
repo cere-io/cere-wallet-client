@@ -16,7 +16,7 @@ import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
-import { BICONOMY_API_KEY, CERE_NETWORK_RPC } from '~/constants';
+import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 
 export class EmbeddedWalletStore implements Wallet {
@@ -214,11 +214,13 @@ export class EmbeddedWalletStore implements Wallet {
     await when(() => !!this.networkStore.network);
 
     const engine = createWalletEngine({
+      pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
       biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
       getPrivateKey: () => this.accountStore.privateKey,
-      getAccounts: () => this.accountStore.accounts,
+      getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
+      onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
@@ -232,14 +234,13 @@ export class EmbeddedWalletStore implements Wallet {
     runInAction(() => {
       this.currentEngine = engine;
       this.currentProvider = new providers.Web3Provider(engine.provider);
+
+      this.currentProvider.pollingInterval = RPC_POLLING_INTERVAL;
     });
 
     reaction(
-      () => this.accountStore.accounts,
-      (accounts) => engine.updateAccounts(accounts),
-      {
-        fireImmediately: true,
-      },
+      () => this.accountStore.privateKey,
+      () => engine.updateAccounts(),
     );
   }
 }
