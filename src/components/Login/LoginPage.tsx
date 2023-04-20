@@ -17,7 +17,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 
@@ -70,26 +69,6 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     }
   };
 
-  const onGoogleAuth = async () => {
-    const googleToken = await getTokenWithGoogle();
-    const token = await AuthApiService.getTokenBySocial(googleToken);
-    if (token) {
-      onRequestLogin(token);
-    } else {
-      console.error('Google authorization error');
-    }
-  };
-
-  const onFacebookAuth = async () => {
-    const fbToken = await getTokenWithFacebook();
-    const token = await AuthApiService.getTokenBySocial(fbToken);
-    if (token) {
-      onRequestLogin(token);
-    } else {
-      console.error('Facebook authorization error');
-    }
-  };
-
   return (
     <Stack
       direction="column"
@@ -136,13 +115,21 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           <Divider>Or</Divider>
           <Stack direction="row" justifyContent="center" spacing={2}>
             {SUPPORTED_SOCIAL_LOGINS.includes('google') && (
-              <IconButton size="large" variant="outlined" onClick={onGoogleAuth}>
+              <IconButton
+                size="large"
+                variant="outlined"
+                onClick={() => navigate({ ...location, pathname: '/authorize/social-auth/google' })}
+              >
                 <GoogleIcon />
               </IconButton>
             )}
 
             {SUPPORTED_SOCIAL_LOGINS.includes('facebook') && (
-              <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
+              <IconButton
+                size="large"
+                variant="outlined"
+                onClick={() => navigate({ ...location, pathname: '/authorize/social-auth/facebook' })}
+              >
                 <FacebookIcon />
               </IconButton>
             )}

@@ -2,6 +2,7 @@
 
 ### vNext
 
+- Social login with redirect
 - Use safe `localStorage` wrapper
 - Fix `Sign Out` from the wallet widget error
 - Send only ETH account address to applications tracking endpoints

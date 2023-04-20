@@ -24,7 +24,14 @@ export const FEATURE_FLAGS = {
 /**
  * TODO: Turn it back when fixed for mobiles
  */
-export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook')[] = [];
+export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook')[] = ['facebook', 'google'];
+
+export const FIREBASE_CONFIG = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
 
 export const COIN_TICKER_ALIAS: Record<string, string> = {
   CERE_ERC20: 'CERE',
