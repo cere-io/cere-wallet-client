@@ -1,5 +1,4 @@
 import { makeAutoObservable, autorun } from 'mobx';
-import { createERC20Contract } from '@cere-wallet/wallet-engine';
 import { getGlobalStorage } from '@cere-wallet/storage';
 
 import { isTransferableAsset, Wallet, Asset, ReadyWallet } from './types';
@@ -20,15 +19,11 @@ export class AssetStore {
   }
 
   async init(wallet: ReadyWallet) {
-    const [{ CereNativeToken }, { NativeToken }, { UsdcToken }, { Erc20Token }, { CereErc20Token }] = await Promise.all(
-      [
-        import(/* webpackChunkName: "CereNativeToken" */ './CereNativeToken'),
-        import(/* webpackChunkName: "NativeToken" */ './NativeToken'),
-        import(/* webpackChunkName: "UsdcToken" */ './UsdcToken'),
-        import(/* webpackChunkName: "Erc20Token" */ './Erc20Token'),
-        import(/* webpackChunkName: "CereErc20Token" */ './CereErc20Token'),
-      ],
-    );
+    const { CereNativeToken } = await import(/* webpackChunkName: "walletAssets" */ './CereNativeToken');
+    const { NativeToken } = await import(/* webpackChunkName: "walletAssets" */ './NativeToken');
+    const { UsdcToken } = await import(/* webpackChunkName: "walletAssets" */ './UsdcToken');
+    const { Erc20Token } = await import(/* webpackChunkName: "walletAssets" */ './Erc20Token');
+    const { CereErc20Token } = await import(/* webpackChunkName: "walletAssets" */ './CereErc20Token');
 
     const managableTokensFromStorage = getGlobalStorage().getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];

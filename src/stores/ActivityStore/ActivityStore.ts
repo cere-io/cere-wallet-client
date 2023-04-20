@@ -47,8 +47,8 @@ export class ActivityStore {
   }
 
   async init(wallet: ReadyWallet) {
-    const { CustomToken } = await import(/* webpackChunkName: "ActivityCustomToken" */ './CustomToken');
-    const { Erc20Token } = await import(/* webpackChunkName: "ActivityErc20Token" */ './Erc20Token');
+    const { CustomToken } = await import(/* webpackChunkName: "walletAssetActivity" */ './CustomToken');
+    const { Erc20Token } = await import(/* webpackChunkName: "walletAssetActivity" */ './Erc20Token');
 
     this.startedTokens = this.assetStore.managableList.map((asset) => {
       const token = new CustomToken(this, asset.address!);

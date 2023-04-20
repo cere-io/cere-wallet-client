@@ -31,12 +31,6 @@ export const createWalletEngine = ({ chainConfig, getPrivateKey }: WalletEngineO
         return getPrivateKey() ? next() : undefined;
       }),
 
-      wallet_updateAccounts: createAsyncMiddleware(async (req, res, next) => {
-        res.result = [];
-
-        return getPrivateKey() ? next() : undefined;
-      }),
-
       wallet_getProviderState: createAsyncMiddleware(async (req, res, next) => {
         res.result = {
           accounts: [],
