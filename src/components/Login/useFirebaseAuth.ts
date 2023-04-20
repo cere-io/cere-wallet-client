@@ -5,7 +5,7 @@ import { getAuth, Auth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedi
 import { FIREBASE_CONFIG, SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { AuthApiService } from '~/api/auth-api.service';
 
-type AuthProviderType = typeof SUPPORTED_SOCIAL_LOGINS[number];
+type AuthProviderType = (typeof SUPPORTED_SOCIAL_LOGINS)[number];
 
 const providerMap = {
   google: GoogleAuthProvider,

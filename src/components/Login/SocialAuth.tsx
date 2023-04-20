@@ -6,7 +6,7 @@ import { createNextUrl } from './createNextUrl';
 import { useFirebaseAuth } from './useFirebaseAuth';
 
 export type SocialAuthProps = {
-  type: typeof SUPPORTED_SOCIAL_LOGINS[number];
+  type: (typeof SUPPORTED_SOCIAL_LOGINS)[number];
 };
 
 export const SocialAuth = ({ type }: SocialAuthProps) => {
