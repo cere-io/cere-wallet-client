@@ -23,6 +23,7 @@ yarn add @cere/embed-wallet
 - [EmbedWallet](#embedwallet)
   - [status](#status)
   - [provider](#provider)
+  - [isReady](#isready)
   - [init()](#init)
   - [connect()](#connect)
   - [disconnect()](#disconnect)
@@ -58,6 +59,16 @@ A read-only property holding current wallet status. It might be one of the follo
 console.log(wallet.status); // `not-ready`
 await wallet.init(...);
 console.log(wallet.status); // `ready`
+```
+
+### isReady
+
+A read-only property holding a promise that resolves when the wallet instance is initialized.
+
+```ts
+await wallet.isReady;
+
+console.log(`Status: ${wallet.status}`); // `ready`, `connected` or `errored`
 ```
 
 ### provider
@@ -172,6 +183,7 @@ This methods returns information about currently connected user. The following u
 - `name` - the user name (only available in case of social login `Google` or `Facebook`)
 - `profileImage` - the user avatar (only available in case of social login `Google` or `Facebook`)
 - `idToken` - the `ID Token` with which the user was authenticated on the verifier
+- `isNewUser` - `true` if the user connects his wallet to the DApp for the first time, otherwise `false`
 
 ```ts
 const userInfo = await wallet.getUserInfo();
@@ -224,17 +236,4 @@ await wallet.setContext({
   },
   banner: {...} // Marketplace specific banner context
 });
-```
-
-## Inject()
-
-This utility function allow developer to inject Cere Wallet as `web3` extension to be later used by tools like https://polkadot.js.org/docs/extension
-
-```ts
-import { EmbedWallet, inject } from '@cere/embed-wallet';
-
-const wallet = new EmbedWallet();
-await wallet.init();
-
-inject(wallet);
 ```
