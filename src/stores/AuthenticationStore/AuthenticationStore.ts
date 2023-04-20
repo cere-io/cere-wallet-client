@@ -149,11 +149,12 @@ export class AuthenticationStore {
       await this.openLoginStore.init();
     }
 
-    if (!this.openLoginStore.privateKey) {
+    await this.syncLoginData();
+
+    if (!this.accountStore.privateKey) {
       throw new Error('Something went wrong during authentication');
     }
 
-    await this.syncLoginData();
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
 
     return this.accountStore.account!.address;
