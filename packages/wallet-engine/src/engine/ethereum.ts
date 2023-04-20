@@ -4,7 +4,7 @@ import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
 import { Engine, EngineEventTarget } from './engine';
-import { Account, ChainConfig, KeyPair } from '../types';
+import { ChainConfig } from '../types';
 import { getKeyPair } from '../accounts';
 
 type BiconomyOptions = {
@@ -13,7 +13,6 @@ type BiconomyOptions = {
 };
 
 export type EthereumEngineOptions = {
-  getAccounts: (pairs: KeyPair[]) => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
   biconomy?: BiconomyOptions;
@@ -52,7 +51,6 @@ class EthereumEngine extends Engine {
 
 export const createEthereumEngine = ({
   getPrivateKey,
-  getAccounts,
   chainConfig,
   biconomy,
   pollingInterval,
@@ -91,17 +89,7 @@ export const createEthereumEngine = ({
 
   const engine = new EthereumEngine();
 
-  const createAccounts = () => {
-    const privateKey = getPrivateKey();
-    const pair = privateKey && getKeyPair({ type: 'ethereum', privateKey });
-
-    return !pair ? [] : getAccounts([pair]);
-  };
-
-  const accountsMiddleware = createAsyncMiddleware(async (req, res) => {
-    res.result = createAccounts().map((account) => account.address);
-  });
-
+  let balanceUnsubscribe: (() => void) | null = null;
   const startBalanceListener = async (address: string) => {
     const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the listener generic for all ERC20
     const provider = await getProvider();
@@ -128,43 +116,17 @@ export const createEthereumEngine = ({
 
     web3.on(receiveFilter, listener);
     web3.on(sendFilter, listener);
+
+    balanceUnsubscribe = () => {
+      web3.off(receiveFilter, listener);
+      web3.off(sendFilter, listener);
+
+      balanceUnsubscribe = null;
+    };
   };
 
   engine.push(
     createScaffoldMiddleware({
-      wallet_accounts: createAsyncMiddleware(async (req, res, next) => {
-        const allAccounts = res.result as Account[];
-
-        res.result = [...createAccounts(), ...allAccounts];
-      }),
-
-      eth_accounts: accountsMiddleware,
-      eth_requestAccounts: accountsMiddleware,
-
-      wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
-        const allAccounts = res.result as Account[];
-        const [account] = createAccounts();
-
-        /**
-         * Standard eip-1193 event
-         */
-        engine.emit('accountsChanged', [account.address]);
-
-        /**
-         * Custom wallet message
-         */
-        engine.emit('message', {
-          type: 'eth_accountChanged',
-          data: account,
-        });
-
-        if (account) {
-          startBalanceListener(account.address);
-        }
-
-        res.result = [account, ...allAccounts];
-      }),
-
       eth_transfer: createAsyncMiddleware(async (req, res) => {
         const [from, to, value] = req.params as [string, string, string];
 
@@ -175,6 +137,18 @@ export const createEthereumEngine = ({
         const { hash } = await erc20.transfer(to, value, { from });
 
         res.result = hash;
+      }),
+
+      eth_subscribeBalance: createAsyncMiddleware(async (req, res) => {
+        const [address] = req.params as [string];
+
+        balanceUnsubscribe?.();
+
+        if (address) {
+          await startBalanceListener(address);
+        }
+
+        res.result = true;
       }),
     }),
   );

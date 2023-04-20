@@ -14,7 +14,7 @@ export class InMemoryStorage implements Storage {
   }
 
   key(index: number) {
-    return [...this.data.keys()][index] ?? null;
+    return Array.from(this.data.keys()).at(index) ?? null;
   }
 
   setItem(key: string, value: string): void {
