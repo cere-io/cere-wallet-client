@@ -9,14 +9,14 @@ const AuthorizeClose = () => {
   const store = useOutletContext<AuthorizePopupStore>();
 
   const params = new URLSearchParams(window.location.hash.slice(1));
-  const result = params.get('result');
+  const state = params.get('result');
   const sessionId = params.get('sessionId');
 
   useEffect(() => {
-    if (result && sessionId) {
-      store.acceptResult({ result, sessionId });
+    if (state && sessionId) {
+      store.acceptResult({ state, sessionId });
     }
-  }, [result, sessionId, store]);
+  }, [state, sessionId, store]);
 
   return (
     <Loading fullScreen>
