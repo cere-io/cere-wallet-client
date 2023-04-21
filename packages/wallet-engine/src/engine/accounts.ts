@@ -53,7 +53,7 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
         /**
          * Standard eip-1193 event
          */
-        engine.emit('accountsChanged', [eth.address]);
+        engine.emit('accountsChanged', eth ? [eth.address] : []);
 
         res.result = accounts;
       }),
