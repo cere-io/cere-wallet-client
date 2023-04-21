@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.23.0
+
 - Use safe `localStorage` wrapper
 - Fix `Sign Out` from the wallet widget error
 - Send only ETH account address to applications tracking endpoints
