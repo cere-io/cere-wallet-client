@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.8.1
+
+- Fix issue with first connect in mobile browsers
+
 ### v0.8.0
 
 - Add CERE ERC20 balance and transfer support

@@ -85,7 +85,7 @@ export class AuthenticationStore {
       throw new Error('User has closed the login popup');
     }
 
-    return this.syncAccountWithState(authPopup.state);
+    return this.syncAccountWithState(authPopup.state.result!);
   }
 
   async loginInModal(modalId: string, params: LoginParams = {}) {
@@ -110,7 +110,7 @@ export class AuthenticationStore {
       this.popupManagerStore.hideModal(modalId);
     }
 
-    return this.syncAccountWithState(authPopup.state);
+    return this.syncAccountWithState(authPopup.state.result!);
   }
 
   async logout() {
@@ -122,31 +122,46 @@ export class AuthenticationStore {
   }
 
   private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: LoginParams) {
-    const preopenInstanceId = params.preopenInstanceId || 'redirect';
+    const { preopenInstanceId = 'redirect' } = params;
+    const { sessionNamespace } = this.openLoginStore;
+
     const startUrl = new URL('/authorize', window.origin);
-    let callbackUrl = mode === 'redirect' ? '/authorize/redirect' : '/authorize/close';
+    const callbackParams = new URLSearchParams();
+    const callbackPath = mode === 'redirect' ? '/authorize/redirect' : '/authorize/close';
 
     if (params.redirectUrl) {
-      callbackUrl += `?redirectUrl=${params.redirectUrl}`;
+      callbackParams.append('redirectUrl', params.redirectUrl);
     }
+
+    if (sessionNamespace) {
+      callbackParams.append('sessionNamespace', sessionNamespace);
+      startUrl.searchParams.append('sessionNamespace', sessionNamespace);
+    }
+
+    const callbackQuery = callbackParams.toString();
+    const callbackUrl = callbackQuery ? `${callbackPath}?${callbackQuery}` : callbackPath;
 
     startUrl.searchParams.append('callbackUrl', callbackUrl);
     startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
-
-    if (this.openLoginStore.sessionNamespace) {
-      startUrl.searchParams.append('sessionNamespace', this.openLoginStore.sessionNamespace);
-    }
 
     return !params.idToken
       ? startUrl.toString()
       : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
   }
 
-  private async syncAccountWithState(state: AuthorizePopupState) {
-    if (state.result) {
-      this.openLoginStore.syncWithEncodedState(state.result, state.sessionId);
+  private async syncAccountWithState({ state, sessionId }: Required<AuthorizePopupState>['result']) {
+    if (!state) {
+      throw new Error('Authentication state is empty');
+    }
 
-      await this.openLoginStore.init();
+    if (!sessionId) {
+      console.warn('Ausentication sessionId is empty - will not be possible to restore the session after reload');
+    }
+
+    this.openLoginStore.syncWithEncodedState(state, sessionId);
+
+    if (sessionId) {
+      await this.openLoginStore.init({ sessionId });
     }
 
     await this.syncLoginData();
