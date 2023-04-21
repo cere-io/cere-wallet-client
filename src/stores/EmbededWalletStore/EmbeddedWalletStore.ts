@@ -219,7 +219,8 @@ export class EmbeddedWalletStore implements Wallet {
       polkadotRpc: CERE_NETWORK_RPC,
       biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
       getPrivateKey: () => this.accountStore.privateKey,
-      getAccounts: () => this.accountStore.accounts,
+      getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
+      onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
@@ -238,11 +239,8 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     reaction(
-      () => this.accountStore.accounts,
-      (accounts) => engine.updateAccounts(accounts),
-      {
-        fireImmediately: false, // Fire update accounts only when changed since we never have accounts on intiaial init here
-      },
+      () => this.accountStore.privateKey,
+      () => engine.updateAccounts(),
     );
   }
 }

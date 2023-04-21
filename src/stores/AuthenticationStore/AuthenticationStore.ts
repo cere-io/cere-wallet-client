@@ -27,7 +27,9 @@ export class AuthenticationStore {
   }
 
   get isRehydrating() {
-    return this._isRehydrating;
+    const { user, accounts } = this.accountStore;
+
+    return this._isRehydrating || (user && !accounts.length);
   }
 
   private set isRehydrating(value) {
@@ -41,7 +43,7 @@ export class AuthenticationStore {
       await this.openLoginStore.init({ sessionId });
     }
 
-    await this.syncAccount();
+    await this.syncLoginData();
 
     this.isRehydrating = false;
 
@@ -83,10 +85,10 @@ export class AuthenticationStore {
       throw new Error('User has closed the login popup');
     }
 
-    return this.syncAccountWithState(authPopup.state);
+    return this.syncAccountWithState(authPopup.state.result!);
   }
 
-  async loginInModal(modalId: string, params: LoginParams = {}): Promise<string> {
+  async loginInModal(modalId: string, params: LoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -108,60 +110,79 @@ export class AuthenticationStore {
       this.popupManagerStore.hideModal(modalId);
     }
 
-    return this.syncAccountWithState(authPopup.state);
+    return this.syncAccountWithState(authPopup.state.result!);
   }
 
   async logout() {
     await this.openLoginStore.logout();
     await this.contextStore.disconnect();
-    await this.syncAccount();
+    await this.syncLoginData();
 
     return true;
   }
 
   private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: LoginParams) {
-    const preopenInstanceId = params.preopenInstanceId || 'redirect';
+    const { preopenInstanceId = 'redirect' } = params;
+    const { sessionNamespace } = this.openLoginStore;
+
     const startUrl = new URL('/authorize', window.origin);
-    let callbackUrl = mode === 'redirect' ? '/authorize/redirect' : '/authorize/close';
+    const callbackParams = new URLSearchParams();
+    const callbackPath = mode === 'redirect' ? '/authorize/redirect' : '/authorize/close';
 
     if (params.redirectUrl) {
-      callbackUrl += `?redirectUrl=${params.redirectUrl}`;
+      callbackParams.append('redirectUrl', params.redirectUrl);
     }
+
+    if (sessionNamespace) {
+      callbackParams.append('sessionNamespace', sessionNamespace);
+      startUrl.searchParams.append('sessionNamespace', sessionNamespace);
+    }
+
+    const callbackQuery = callbackParams.toString();
+    const callbackUrl = callbackQuery ? `${callbackPath}?${callbackQuery}` : callbackPath;
 
     startUrl.searchParams.append('callbackUrl', callbackUrl);
     startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
-
-    if (this.openLoginStore.sessionNamespace) {
-      startUrl.searchParams.append('sessionNamespace', this.openLoginStore.sessionNamespace);
-    }
 
     return !params.idToken
       ? startUrl.toString()
       : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
   }
 
-  private async syncAccountWithState(state: AuthorizePopupState) {
-    if (state.result) {
-      this.openLoginStore.syncWithEncodedState(state.result, state.sessionId);
+  private async syncAccountWithState({ state, sessionId }: Required<AuthorizePopupState>['result']) {
+    if (!state) {
+      throw new Error('Authentication state is empty');
     }
 
-    const account = await this.syncAccount();
+    if (!sessionId) {
+      console.warn('Ausentication sessionId is empty - will not be possible to restore the session after reload');
+    }
 
-    if (!account) {
+    this.openLoginStore.syncWithEncodedState(state, sessionId);
+
+    if (sessionId) {
+      await this.openLoginStore.init({ sessionId });
+    }
+
+    await this.syncLoginData();
+
+    if (!this.accountStore.privateKey) {
       throw new Error('Something went wrong during authentication');
     }
 
-    return account.address;
+    await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
+
+    return this.accountStore.account!.address;
   }
 
-  private async syncAccount() {
-    this.accountStore.loginData = this.openLoginStore.privateKey
+  private async syncLoginData() {
+    const { privateKey } = this.openLoginStore;
+
+    this.accountStore.loginData = privateKey
       ? {
-          privateKey: this.openLoginStore.privateKey,
+          privateKey,
           userInfo: await this.openLoginStore.getUserInfo(),
         }
       : null;
-
-    return this.accountStore.account;
   }
 }

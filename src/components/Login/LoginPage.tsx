@@ -11,6 +11,7 @@ import {
   FacebookIcon,
   Divider,
 } from '@cere-wallet/ui';
+import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,7 +38,8 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
-    localStorage.setItem('showProductTour', isSignUp.toString());
+
+    getGlobalStorage().setItem('showProductTour', isSignUp.toString());
   }, [location.pathname]);
 
   const {

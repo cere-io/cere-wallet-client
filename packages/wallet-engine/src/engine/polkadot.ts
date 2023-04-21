@@ -3,7 +3,6 @@ import { u8aToHex } from '@polkadot/util';
 import { Keyring } from '@polkadot/keyring';
 
 import { Engine } from './engine';
-import { Account } from '../types';
 import { getKeyPair } from '../accounts';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -11,7 +10,6 @@ import { AccountInfo } from '@polkadot/types/interfaces';
 
 export type PolkadotEngineOptions = {
   polkadotRpc: string;
-  getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
 };
 
@@ -34,21 +32,21 @@ const createApi = (rpcUrl: string) => {
   return new ApiPromise({ provider });
 };
 
-export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }: PolkadotEngineOptions) => {
+export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEngineOptions) => {
   const engine = new Engine();
   const api = createApi(polkadotRpc);
 
-  const getEd25519Accounts = () => getAccounts().filter((account) => account.type === 'ed25519');
   const getPair = (address: string) => {
     const privateKey = getPrivateKey();
 
     return createPair(address, privateKey);
   };
 
+  let balanceUnsubscribe: (() => void) | null = null;
   const startBalanceListener = async (address: string) => {
     await api.isReady;
 
-    return api.query.system.account(address, ({ data }: AccountInfo) => {
+    const unsubscribe: any = await api.query.system.account(address, ({ data }: AccountInfo) => {
       const balance = data.free.toString();
 
       engine.emit('message', {
@@ -56,29 +54,15 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
         data: { balance },
       });
     });
+
+    balanceUnsubscribe = () => {
+      unsubscribe();
+      balanceUnsubscribe = null;
+    };
   };
 
   engine.push(
     createScaffoldMiddleware({
-      wallet_updateAccounts: createAsyncMiddleware(async (req, res, next) => {
-        const [account] = getEd25519Accounts();
-
-        engine.emit('message', {
-          type: 'ed25519_accountChanged',
-          data: account,
-        });
-
-        if (account) {
-          startBalanceListener(account.address);
-        }
-
-        next();
-      }),
-
-      ed25519_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = getEd25519Accounts();
-      }),
-
       ed25519_sign: createAsyncMiddleware(async (req, res) => {
         await api.isReady;
 
@@ -120,6 +104,18 @@ export const createPolkadotEngine = ({ getPrivateKey, getAccounts, polkadotRpc }
         const hash = await api.tx.balances.transfer(to, value).signAndSend(pair);
 
         res.result = hash.toHex();
+      }),
+
+      ed25519_subscribeBalance: createAsyncMiddleware(async (req, res) => {
+        const [address] = req.params as [string];
+
+        balanceUnsubscribe?.();
+
+        if (address) {
+          await startBalanceListener(address);
+        }
+
+        res.result = true;
       }),
     }),
   );

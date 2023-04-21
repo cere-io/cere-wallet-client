@@ -1,5 +1,6 @@
 import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import axios from 'axios';
+import { Account } from '@cere-wallet/wallet-engine';
 
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
@@ -21,8 +22,8 @@ export class ApplicationsStore {
     makeAutoObservable(this);
 
     reaction(
-      () => !!accountStore.userInfo,
-      (isReady) => (isReady ? this.onReady() : this.cleanUp()),
+      () => accountStore.account,
+      (account) => (account ? this.onReady(account) : this.cleanUp()),
     );
   }
 
@@ -34,9 +35,9 @@ export class ApplicationsStore {
     return this.contextStore.app?.appId || DEFAULT_APP_ID;
   }
 
-  private async onReady() {
-    await this.loadApps();
-    await this.trackActivity();
+  private async onReady(account: Account) {
+    await this.loadApps(account);
+    await this.trackActivity(account);
   }
 
   private cleanUp() {
@@ -53,13 +54,12 @@ export class ApplicationsStore {
         };
   }
 
-  private async loadApps() {
-    const [ethAccount] = this.accountStore.accounts;
+  private async loadApps({ address }: Account) {
     const { data } = await api.post<Application[]>(
       '/applications/find',
       {
+        address,
         appId: this.appId,
-        address: ethAccount.address,
       },
       { headers: this.headers },
     );
@@ -70,13 +70,14 @@ export class ApplicationsStore {
     });
   }
 
-  async trackActivity() {
-    const [, cereAccount] = this.accountStore.accounts;
-    const application: Application = {
-      appId: this.appId,
-      address: cereAccount.address,
-    };
-
-    await api.post('/applications', application, { headers: this.headers });
+  async trackActivity({ address }: Account) {
+    await api.post(
+      '/applications',
+      {
+        address,
+        appId: this.appId,
+      },
+      { headers: this.headers },
+    );
   }
 }

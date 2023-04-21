@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { randomBytes } from 'crypto';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions } from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions, OpenLoginState } from '@toruslabs/openlogin';
 import { getIFrameOrigin } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
@@ -40,6 +40,7 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
 
 export class OpenLoginStore {
   private openLogin: OpenLogin;
+  private initialState: OpenLoginState;
 
   constructor({ storageKey, sessionNamespace, uxMode }: OpenLoginStoreOptions = {}) {
     makeAutoObservable(this);
@@ -82,7 +83,13 @@ export class OpenLoginStore {
       },
     });
 
+    this.initialState = { ...this.openLogin.state };
     this.configureApp();
+  }
+
+  private resetState() {
+    this.openLogin.state.store.resetStore();
+    this.openLogin.state = { ...this.initialState };
   }
 
   private get appUrl() {
@@ -110,7 +117,11 @@ export class OpenLoginStore {
   }
 
   get privateKey() {
-    return this.openLogin.privKey;
+    return this.openLogin.privKey || null;
+  }
+
+  get accountUrl() {
+    return new URL('/wallet/account', this.openLogin.state.iframeUrl).toString();
   }
 
   configureApp(app?: App) {
@@ -169,7 +180,7 @@ export class OpenLoginStore {
       await this.openLogin.logout();
     }
 
-    this.openLogin.state.store.resetStore();
+    this.resetState();
   }
 
   async getUserInfo() {
@@ -190,11 +201,5 @@ export class OpenLoginStore {
     }
 
     this.openLogin._syncState(state);
-  }
-
-  async getAccountUrl(loginParams: LoginParams = {}) {
-    const accountUrl = new URL('/wallet/account', this.openLogin.state.iframeUrl);
-
-    return this.getLoginUrl({ ...loginParams, redirectUrl: accountUrl.toString() });
   }
 }

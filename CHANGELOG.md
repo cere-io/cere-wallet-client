@@ -4,6 +4,13 @@
 
 -
 
+### v1.23.0
+
+- Use safe `localStorage` wrapper
+- Fix `Sign Out` from the wallet widget error
+- Send only ETH account address to applications tracking endpoints
+- Fix issue with first connect in mobile browsers
+
 ### v1.22.0
 
 - Disable Biconomy for CERE ERC20 transfer

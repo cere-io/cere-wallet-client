@@ -2,14 +2,16 @@ import { PendingJsonRpcResponse, getUniqueId } from 'json-rpc-engine';
 import { EventEmitter } from 'events';
 
 import { Engine } from './engine';
-import { Provider, Account, ProviderRequestArguments } from '../types';
+import { Provider, ProviderRequestArguments } from '../types';
 
-import type { ApproveEngineOptions } from './approve';
-import type { WalletEngineOptions } from './wallet';
+import { createWalletEngine, WalletEngineOptions } from './wallet';
+import { createApproveEngine, ApproveEngineOptions } from './approve';
 import type { EthereumEngineOptions } from './ethereum';
 import type { PolkadotEngineOptions } from './polkadot';
+import type { AccountsEngineOptions } from './accounts';
 
 export type ProviderEngineOptions = WalletEngineOptions &
+  AccountsEngineOptions &
   ApproveEngineOptions &
   EthereumEngineOptions &
   PolkadotEngineOptions;
@@ -35,22 +37,19 @@ export class ProviderEngine extends Engine {
   constructor(private options: ProviderEngineOptions) {
     super();
 
-    this.pushEngine(async () => {
-      const { createWalletEngine } = await import(/* webpackChunkName: "createWalletEngine" */ './wallet');
+    this.pushEngine(createWalletEngine(options));
+    this.pushEngine(createApproveEngine(options));
 
-      return createWalletEngine(this.options);
+    this.pushEngine(async () => {
+      const { createAccountsEngine } = await import(/* webpackChunkName: "accountsEngine" */ './accounts');
+
+      return createAccountsEngine(options);
     });
 
     this.pushEngine(async () => {
-      const { createApproveEngine } = await import(/* webpackChunkName: "createApproveEngine" */ './approve');
+      const { createPolkadotEngine } = await import(/* webpackChunkName: "polkadotEngine" */ './polkadot');
 
-      return createApproveEngine(this.options);
-    });
-
-    this.pushEngine(async () => {
-      const { createPolkadotEngine } = await import(/* webpackChunkName: "createPolkadotEngine" */ './polkadot');
-
-      return createPolkadotEngine(this.options);
+      return createPolkadotEngine(options);
     });
 
     /**
@@ -58,18 +57,26 @@ export class ProviderEngine extends Engine {
      * TODO: Replace with fetch middleware in future
      */
     this.pushEngine(async () => {
-      const { createEthereumEngine } = await import(/* webpackChunkName: "createEthereumEngine" */ './ethereum');
+      const { createEthereumEngine } = await import(/* webpackChunkName: "ethereumEngine" */ './ethereum');
 
-      return createEthereumEngine(this.options);
+      return createEthereumEngine(options);
     });
   }
 
-  async updateAccounts(accounts: Account[]) {
-    await this.provider.request({ method: 'wallet_updateAccounts', params: [accounts] });
+  async updateAccounts() {
+    const [eth, ed25519] = await this.provider.request({ method: 'wallet_updateAccounts' });
 
-    this.emit('message', {
-      type: 'wallet_accountsChanged',
-      data: accounts,
+    /**
+     * TODO: Move balance subscriptions to the Wallet SDK to make them lazy started
+     */
+    this.provider.request({
+      method: 'eth_subscribeBalance',
+      params: eth ? [eth.address] : [],
+    });
+
+    this.provider.request({
+      method: 'ed25519_subscribeBalance',
+      params: ed25519 ? [ed25519.address] : [],
     });
   }
 }
