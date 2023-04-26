@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { randomBytes } from 'crypto';
 import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions, OpenLoginState } from '@toruslabs/openlogin';
-import { getIFrameOrigin } from '@cere-wallet/communication';
+import { getIFrameOrigin, AppContext } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 
@@ -17,11 +17,6 @@ export type InitParams = {
 
 export type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey' | 'uxMode'> & {
   sessionNamespace?: string;
-};
-
-type App = {
-  name?: string;
-  url: string;
 };
 
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
@@ -53,7 +48,7 @@ export class OpenLoginStore {
       no3PC: true,
       uxMode: uxMode || 'redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: sessionNamespace ?? this.sessionNamespace,
+      _sessionNamespace: sessionNamespace || this.appUrl?.hostname,
 
       whiteLabel: {
         dark: false,
@@ -105,10 +100,13 @@ export class OpenLoginStore {
   }
 
   get sessionNamespace() {
-    return this.appUrl?.hostname;
+    return this.openLogin.state.sessionNamespace;
   }
 
   get sessionId() {
+    // @ts-ignore
+    console.log('Store key', this.openLogin.state.store._storeKey);
+    console.log('Store', this.openLogin.state.store.getStore());
     try {
       return this.openLogin.state.store.get('sessionId');
     } catch {
@@ -124,7 +122,7 @@ export class OpenLoginStore {
     return new URL('/wallet/account', this.openLogin.state.iframeUrl).toString();
   }
 
-  configureApp(app?: App) {
+  configureApp(app?: AppContext['app']) {
     const url = new URL(app?.url || this.appUrl || window.origin);
     const name = app ? app.name || url.hostname : 'Cere Wallet';
 

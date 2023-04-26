@@ -53,6 +53,7 @@ const createBalance = (
 
 export class EmbedWallet {
   private options: WalletOptions = {};
+  private sessionNamespace = '';
 
   private torus: Torus;
   private eventEmitter: EventEmitter;
@@ -146,12 +147,14 @@ export class EmbedWallet {
     popupMode = 'modal',
     connectOptions = {},
     appId = this.options.appId,
+    sessionNamespace = this.options.sessionNamespace,
     env = this.options.env || 'prod',
     clientVersion = this.options.clientVersion,
   }: WalletInitOptions = {}) {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
     this.defaultContext.app.appId ||= appId;
+    this.sessionNamespace = sessionNamespace || new URL(this.defaultContext.app.url).hostname;
 
     const { sessionId } = getAuthRedirectResult();
 
@@ -160,6 +163,7 @@ export class EmbedWallet {
         network,
         sessionId,
         popupMode,
+        sessionNamespace: this.sessionNamespace,
         context: this.defaultContext,
         buildEnv: buildEnvMap[env],
         enableLogging: env !== 'prod',
@@ -232,10 +236,14 @@ export class EmbedWallet {
   }
 
   async showWallet(screen: WalletScreen = 'home', { params, target, onClose }: WalletShowOptions = {}) {
-    this.torus.showWallet(screen, params, {
-      target,
-      onClose,
-    });
+    this.torus.showWallet(
+      screen,
+      {
+        ...params,
+        sessionNamespace: this.sessionNamespace,
+      },
+      { target, onClose },
+    );
   }
 
   async setContext(context: PartialContext | null, { key = 'default' }: WalletSetContextOptions = {}) {

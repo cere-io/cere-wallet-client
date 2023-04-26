@@ -14,7 +14,8 @@ export type WalletProps = Pick<WalletLayoutProps, 'menu'>;
 const Wallet = ({ menu }: WalletProps) => {
   const [params] = useSearchParams();
   const instanceId = params.get('instanceId') || undefined;
-  const store = useMemo(() => new WalletStore(instanceId), [instanceId]);
+  const sessionNamespace = params.get('sessionNamespace') || undefined;
+  const store = useMemo(() => new WalletStore(instanceId, sessionNamespace), [instanceId, sessionNamespace]);
   const modal = store.popupManagerStore.currentModal;
 
   useEffect(() => {

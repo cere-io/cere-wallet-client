@@ -39,14 +39,13 @@ export class WalletStore implements Wallet {
   private initialized = false;
   private isRootInstance = false;
 
-  constructor(instanceId?: string) {
+  constructor(instanceId?: string, sessionNamespace?: string) {
     makeAutoObservable(this);
 
-    this.isRootInstance = !instanceId;
     this.instanceId = instanceId || randomBytes(16).toString('hex');
 
     this.networkStore = new NetworkStore(this);
-    this.openLoginStore = new OpenLoginStore();
+    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
@@ -57,11 +56,14 @@ export class WalletStore implements Wallet {
 
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore);
+    this.authenticationStore = new AuthenticationStore(
+      this.accountStore,
+      this.appContextStore,
+      this.openLoginStore,
+      this.popupManagerStore,
+    );
 
-    if (this.isRoot()) {
-      this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
-    }
+    this.setup(!instanceId);
   }
 
   isRoot() {
@@ -104,8 +106,22 @@ export class WalletStore implements Wallet {
     return this.accountStore.accounts;
   }
 
+  private async setup(isRoot: boolean) {
+    this.isRootInstance = isRoot;
+
+    if (isRoot) {
+      this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
+    }
+  }
+
   async init() {
-    await when(() => !!this.network);
+    try {
+      await when(() => !!this.network, { timeout: 1000 });
+    } catch {
+      console.warn('Connection to origin application has been lost. Configuring the wallet as root instance.');
+
+      await this.setup(true);
+    }
 
     if (this.isRoot()) {
       await this.authenticationStore.rehydrate();

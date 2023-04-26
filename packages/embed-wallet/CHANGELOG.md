@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### vNext
+
+- Add `sessionNamespace` option to the Wallet SDK configuration
+
 ### v0.8.1
 
 - Fix issue with first connect in mobile browsers
