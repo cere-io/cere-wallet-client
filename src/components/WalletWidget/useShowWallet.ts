@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useEmbeddedWalletStore } from '~/hooks';
+import { useEmbeddedWalletStore, useOpenLoginStore } from '~/hooks';
 
 /**
  * Copied from Tor.us library.
@@ -15,16 +15,17 @@ const windowFeatures = 'directories=0,titlebar=0,toolbar=0,status=0,location=0,m
  * TODO: Remove this manual window creation
  */
 export const useShowWallet = () => {
+  const { sessionNamespace } = useOpenLoginStore();
   const { instanceId } = useEmbeddedWalletStore();
 
   return useCallback(
     (directory?: 'path' | 'home' | 'topup') => {
       window.open(
-        `/wallet/home${directory ? `/${directory}` : ''}?instanceId=${instanceId}`,
+        `/wallet/home${directory ? `/${directory}` : ''}?instanceId=${instanceId}&sessionNamespace=${sessionNamespace}`,
         instanceId,
         windowFeatures,
       );
     },
-    [instanceId],
+    [instanceId, sessionNamespace],
   );
 };
