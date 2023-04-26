@@ -104,11 +104,8 @@ export class OpenLoginStore {
   }
 
   get sessionId() {
-    // @ts-ignore
-    console.log('Store key', this.openLogin.state.store._storeKey);
-    console.log('Store', this.openLogin.state.store.getStore());
     try {
-      return this.openLogin.state.store.get('sessionId');
+      return this.openLogin.state.store.get('sessionId') as string;
     } catch {
       return undefined;
     }

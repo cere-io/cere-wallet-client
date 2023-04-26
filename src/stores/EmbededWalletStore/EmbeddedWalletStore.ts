@@ -170,7 +170,11 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
+        const { sessionNamespace, sessionId } = this.openLoginStore;
+
         return {
+          sessionId,
+          sessionNamespace,
           instanceId: this.instanceId,
           target: this.instanceId,
         };

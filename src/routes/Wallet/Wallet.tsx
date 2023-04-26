@@ -15,7 +15,11 @@ const Wallet = ({ menu }: WalletProps) => {
   const [params] = useSearchParams();
   const instanceId = params.get('instanceId') || undefined;
   const sessionNamespace = params.get('sessionNamespace') || undefined;
-  const store = useMemo(() => new WalletStore(instanceId, sessionNamespace), [instanceId, sessionNamespace]);
+  const sessionId = params.get('sessionId') || undefined;
+  const store = useMemo(
+    () => new WalletStore(instanceId, sessionNamespace, sessionId),
+    [instanceId, sessionNamespace, sessionId],
+  );
   const modal = store.popupManagerStore.currentModal;
 
   useEffect(() => {

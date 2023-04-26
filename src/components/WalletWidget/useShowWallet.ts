@@ -15,17 +15,19 @@ const windowFeatures = 'directories=0,titlebar=0,toolbar=0,status=0,location=0,m
  * TODO: Remove this manual window creation
  */
 export const useShowWallet = () => {
-  const { sessionNamespace } = useOpenLoginStore();
+  const { sessionNamespace, sessionId } = useOpenLoginStore();
   const { instanceId } = useEmbeddedWalletStore();
 
   return useCallback(
     (directory?: 'path' | 'home' | 'topup') => {
-      window.open(
-        `/wallet/home${directory ? `/${directory}` : ''}?instanceId=${instanceId}&sessionNamespace=${sessionNamespace}`,
-        instanceId,
-        windowFeatures,
-      );
+      const params = new URLSearchParams({ instanceId, sessionNamespace });
+
+      if (sessionId) {
+        params.append('sessionId', sessionId);
+      }
+
+      window.open(`/wallet/home${directory ? `/${directory}` : ''}?${params}`, instanceId, windowFeatures);
     },
-    [instanceId, sessionNamespace],
+    [instanceId, sessionId, sessionNamespace],
   );
 };
