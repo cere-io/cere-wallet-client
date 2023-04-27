@@ -146,6 +146,7 @@ export class EmbedWallet {
     popupMode = 'modal',
     connectOptions = {},
     appId = this.options.appId,
+    sessionNamespace = this.options.sessionNamespace,
     env = this.options.env || 'prod',
     clientVersion = this.options.clientVersion,
   }: WalletInitOptions = {}) {
@@ -160,6 +161,7 @@ export class EmbedWallet {
         network,
         sessionId,
         popupMode,
+        sessionNamespace,
         context: this.defaultContext,
         buildEnv: buildEnvMap[env],
         enableLogging: env !== 'prod',
@@ -232,10 +234,7 @@ export class EmbedWallet {
   }
 
   async showWallet(screen: WalletScreen = 'home', { params, target, onClose }: WalletShowOptions = {}) {
-    this.torus.showWallet(screen, params, {
-      target,
-      onClose,
-    });
+    this.torus.showWallet(screen, params, { target, onClose });
   }
 
   async setContext(context: PartialContext | null, { key = 'default' }: WalletSetContextOptions = {}) {

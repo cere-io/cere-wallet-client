@@ -1,8 +1,10 @@
 import { BroadcastChannel } from 'broadcast-channel';
 import { ConsoleLike } from '@toruslabs/openlogin-jrpc';
+import { detectConnectionType } from './detectConnectionType';
 
 export const createBradcastChannel = <T = unknown>(channel: string, logger?: ConsoleLike) => {
   const connection = new BroadcastChannel(channel, {
+    type: detectConnectionType(),
     webWorkerSupport: false,
   });
 
