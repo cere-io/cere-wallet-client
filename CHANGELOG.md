@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.24.0
+
 - [[Feature](https://www.notion.so/cere/User-can-t-open-Cere-wallet-page-from-the-widget-delete-button-if-possible-bf15658f37a24e91a6bf951aaa935cae)] Add `sessionNamespace` option to the Wallet SDK configuration
 - [[Bug](https://www.notion.so/cere/User-can-t-open-Cere-wallet-page-from-the-widget-delete-button-if-possible-bf15658f37a24e91a6bf951aaa935cae)] Fix `Open Wallet` function in mobile WebView browsers
 - [[Bug](https://www.notion.so/cere/After-interacting-with-Wallet-button-the-control-arrows-become-inactive-b4f58387f306481ead213af8cc7af364?pvs=4)] Restore focus on host window when closing the wallet widget
