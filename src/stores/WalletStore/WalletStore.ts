@@ -39,7 +39,7 @@ export class WalletStore implements Wallet {
   private initialized = false;
   private isRootInstance = false;
 
-  constructor(instanceId?: string, sessionNamespace?: string, private sessionId?: string) {
+  constructor(instanceId?: string, sessionNamespace?: string) {
     makeAutoObservable(this);
 
     this.instanceId = instanceId || randomBytes(16).toString('hex');
@@ -114,7 +114,7 @@ export class WalletStore implements Wallet {
     }
   }
 
-  async init() {
+  async init(sessionId?: string) {
     try {
       await when(() => !!this.network, { timeout: 1000 });
     } catch {
@@ -124,7 +124,7 @@ export class WalletStore implements Wallet {
     }
 
     if (this.isRoot()) {
-      await this.authenticationStore.rehydrate({ sessionId: this.sessionId });
+      await this.authenticationStore.rehydrate({ sessionId });
     } else {
       await when(() => !!this.accountStore.privateKey);
     }

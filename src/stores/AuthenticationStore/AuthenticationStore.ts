@@ -43,8 +43,6 @@ export class AuthenticationStore {
   async rehydrate({ sessionId }: InitParams = {}) {
     this.isRehydrating = true;
 
-    console.log('rehydrate', this.openLoginStore.sessionNamespace, this.openLoginStore.sessionId);
-
     if (this.openLoginStore.sessionId || sessionId) {
       await this.openLoginStore.init({ sessionId });
     }

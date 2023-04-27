@@ -16,14 +16,11 @@ const Wallet = ({ menu }: WalletProps) => {
   const instanceId = params.get('instanceId') || undefined;
   const sessionNamespace = params.get('sessionNamespace') || undefined;
   const sessionId = params.get('sessionId') || undefined;
-  const store = useMemo(
-    () => new WalletStore(instanceId, sessionNamespace, sessionId),
-    [instanceId, sessionNamespace, sessionId],
-  );
+  const store = useMemo(() => new WalletStore(instanceId, sessionNamespace), [instanceId, sessionNamespace]);
   const modal = store.popupManagerStore.currentModal;
 
   useEffect(() => {
-    store.init();
+    store.init(sessionId);
 
     return reaction(
       () => store.status,
@@ -35,7 +32,7 @@ const Wallet = ({ menu }: WalletProps) => {
         }
       },
     );
-  }, [store]);
+  }, [store, sessionId]);
 
   return (
     <CereTourProvider steps={[]}>
