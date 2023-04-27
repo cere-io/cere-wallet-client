@@ -41,7 +41,7 @@ export class EmbeddedWalletStore implements Wallet {
   private _isWidgetOpened = false;
   private _isFullScreen = false;
 
-  constructor() {
+  constructor(sessionNamespace?: string) {
     makeAutoObservable(this);
 
     this.popupManagerStore = new PopupManagerStore({
@@ -49,7 +49,7 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.openLoginStore = new OpenLoginStore();
+    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
@@ -59,7 +59,12 @@ export class EmbeddedWalletStore implements Wallet {
 
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
-    this.authenticationStore = new AuthenticationStore(this.accountStore, this.appContextStore, this.popupManagerStore);
+    this.authenticationStore = new AuthenticationStore(
+      this.accountStore,
+      this.appContextStore,
+      this.openLoginStore,
+      this.popupManagerStore,
+    );
   }
 
   isRoot() {
@@ -165,7 +170,11 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
+        const { sessionNamespace, sessionId } = this.openLoginStore;
+
         return {
+          sessionId,
+          sessionNamespace,
           instanceId: this.instanceId,
           target: this.instanceId,
         };

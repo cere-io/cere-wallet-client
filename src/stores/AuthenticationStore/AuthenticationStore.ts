@@ -7,14 +7,18 @@ import { AuthorizePopupState } from '../AuthorizePopupStore';
 import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 
+export type AuthenticationStoreOptions = {
+  sessionNamespace?: string;
+};
+
 export class AuthenticationStore {
-  private openLoginStore = new OpenLoginStore();
   private _isRehydrating?: boolean;
 
   constructor(
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
-    private popupManagerStore?: PopupManagerStore,
+    private openLoginStore: OpenLoginStore,
+    private popupManagerStore: PopupManagerStore,
   ) {
     makeAutoObservable(this);
 

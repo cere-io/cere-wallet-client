@@ -70,6 +70,7 @@ export type WalletOptions = {
    * Alias for `context.app.appId`
    */
   appId?: string;
+  sessionNamespace?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
 };

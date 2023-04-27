@@ -126,6 +126,8 @@ export type WalletChannelOut = {
   data: {
     instanceId: string;
     target?: string;
+    sessionId?: string;
+    sessionNamespace?: string;
   };
 };
 
