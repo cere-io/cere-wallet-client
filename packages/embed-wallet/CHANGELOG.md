@@ -3,6 +3,7 @@
 ### vNext
 
 - Add `sessionNamespace` option to the Wallet SDK configuration
+- Restore focus on host window when closing the wallet widget
 
 ### v0.8.1
 
