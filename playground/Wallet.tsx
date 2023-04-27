@@ -60,6 +60,14 @@ export const Wallet = () => {
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
     });
+
+    window.addEventListener('focus', () => {
+      console.log('Host window received focus');
+    });
+
+    window.addEventListener('blur', () => {
+      console.log('Host window lost focus');
+    });
   }, [wallet]);
 
   const handleConnect = useCallback(async () => {
