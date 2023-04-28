@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [[Fix](https://www.notion.so/cere/Missed-version-in-Cere-Wallet-IFRAME-URL-on-Stage-c647d3be181846aeb8f6d7fd908ab385?pvs=4)] Add version to the wallet IFRAME URL on Stage environment
 
 ### v1.24.0
 
