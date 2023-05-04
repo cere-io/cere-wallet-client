@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [[Feature](https://www.notion.so/cere/Whitehat-Wallet-Open-redirect-bypass-89bba775a9fc4db58ecbaec5a9935268)] Validate that login redirect URL is whitelisted to prevent fishing attacks
 
 ### v1.24.0
 
