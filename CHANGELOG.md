@@ -2,6 +2,7 @@
 
 ### vNext
 
+- [[Fix](https://www.notion.so/cere/Missed-version-in-Cere-Wallet-IFRAME-URL-on-Stage-c647d3be181846aeb8f6d7fd908ab385?pvs=4)] Add version to the wallet IFRAME URL on Stage environment
 - [[Feature](https://www.notion.so/cere/Whitehat-Wallet-Open-redirect-bypass-89bba775a9fc4db58ecbaec5a9935268)] Validate that login redirect URL is whitelisted to prevent fishing attacks
 
 ### v1.24.0
