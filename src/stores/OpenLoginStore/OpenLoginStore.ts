@@ -182,6 +182,20 @@ export class OpenLoginStore {
     return this.openLogin.getUserInfo();
   }
 
+  async isAllowedRedirectUrl(url: string) {
+    try {
+      const origin = new URL(url).origin;
+      const whiteList = await this.openLogin.getWhitelist();
+      const isAllowed = Object.keys(whiteList).some((url) => new URL(url).origin === origin);
+
+      return isAllowed;
+    } catch (error) {
+      console.error(error);
+
+      return false;
+    }
+  }
+
   async syncWithEncodedState(encodedState: string, sessionId?: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
     const state = jsonResult && JSON.parse(jsonResult);

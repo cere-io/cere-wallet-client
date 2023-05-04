@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { Loading, Logo } from '@cere-wallet/ui';
-import { useMemo } from 'react';
+import { Loading, Logo, Alert } from '@cere-wallet/ui';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { OpenLoginStore } from '~/stores/OpenLoginStore';
 
@@ -15,6 +15,7 @@ const createRedirectUrl = (url: string, sessionId: string) => {
 };
 
 const AuthorizeRedirect = () => {
+  const [error, setError] = useState<string>();
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
   const queryParams = new URLSearchParams(window.location.search);
   const sessionId = hashParams.get('sessionId');
@@ -24,15 +25,32 @@ const AuthorizeRedirect = () => {
 
   const store = useMemo(() => new OpenLoginStore({ sessionNamespace }), [sessionNamespace]);
 
-  if (result && sessionId) {
+  const handleAuthResult = useCallback(async () => {
+    if (!result || !sessionId || !redirectUrl) {
+      return;
+    }
+
+    const isRedirectAllowed = await store.isAllowedRedirectUrl(redirectUrl);
+
+    if (!isRedirectAllowed) {
+      throw new Error('The redirect url is not allowed');
+    }
+
     store.syncWithEncodedState(result, sessionId);
-  }
-
-  if (redirectUrl && sessionId) {
     window.location.replace(createRedirectUrl(redirectUrl, sessionId));
-  }
+  }, [store, redirectUrl, result, sessionId]);
 
-  return (
+  useEffect(() => {
+    handleAuthResult().catch((error: Error) => setError(error.message));
+  }, [handleAuthResult]);
+
+  return error ? (
+    <Alert sx={{ margin: 5 }} variant="filled" severity="warning">
+      {error}
+      <br />
+      {redirectUrl}
+    </Alert>
+  ) : (
     <Loading fullScreen>
       <Logo />
     </Loading>
