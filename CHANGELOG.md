@@ -2,6 +2,7 @@
 
 ### vNext
 
+- [[Feature](https://www.notion.so/cere/Switch-DEV-frontends-to-new-infra-563be1f2c5ee4b92aa87808f3480fe22?pvs=4)] Switch URL to new infra
 - [[Fix](https://www.notion.so/cere/Missed-version-in-Cere-Wallet-IFRAME-URL-on-Stage-c647d3be181846aeb8f6d7fd908ab385?pvs=4)] Add version to the wallet IFRAME URL on Stage environment
 - [[Feature](https://www.notion.so/cere/Whitehat-Wallet-Open-redirect-bypass-89bba775a9fc4db58ecbaec5a9935268)] Validate that login redirect URL is whitelisted to prevent fishing attacks
 
