@@ -58,8 +58,8 @@ export class EmbeddedWalletStore implements Wallet {
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
-    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.sessionStore = new SessionStore({ sessionNamespace });
+    this.openLoginStore = new OpenLoginStore(this.sessionStore);
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(
@@ -174,7 +174,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
-        const { sessionNamespace, sessionId } = this.openLoginStore;
+        const { sessionNamespace, sessionId } = this.sessionStore;
 
         return {
           sessionId,

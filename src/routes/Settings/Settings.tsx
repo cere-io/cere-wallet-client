@@ -22,7 +22,7 @@ export const Settings = () => {
   const [accountLink, setAccountLink] = useState<string>();
 
   useEffect(() => {
-    authenticationStore.getRedirectUrl({ redirectUrl: accountUrl }).then(setAccountLink);
+    authenticationStore.getRedirectUrl({ redirectUrl: accountUrl, forceMfa: true }).then(setAccountLink);
   }, [authenticationStore, accountUrl]);
 
   return (

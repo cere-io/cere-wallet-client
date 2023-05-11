@@ -3,7 +3,7 @@ import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
 import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
 
-type Session = {
+export type Session = {
   privateKey: string;
   userInfo: UserInfo;
 };
@@ -30,15 +30,22 @@ const getDefaultSessionNamespace = () => {
 };
 
 export class SessionStore {
-  private storage = BrowserStorage.getInstance('cw-session', 'local');
-  private sessionManager = new OpenloginSessionManager<Session>({
-    sessionNamespace: this.options.sessionNamespace || getDefaultSessionNamespace(),
-  });
+  private storage: BrowserStorage;
+  private sessionManager: OpenloginSessionManager<Session>;
 
   private currentSession: Session | null = null;
 
   constructor(private options: SessionStoreOptions = {}) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      sessionId: false,
+      sessionNamespace: false,
+    });
+
+    const sessionNamespace = this.options.sessionNamespace || getDefaultSessionNamespace();
+    const storageKey = sessionNamespace ? `cw-session-${sessionNamespace}` : 'cw-session';
+
+    this.sessionManager = new OpenloginSessionManager({ sessionNamespace });
+    this.storage = BrowserStorage.getInstance(storageKey, 'local');
   }
 
   get session(): Session | null {
@@ -68,18 +75,20 @@ export class SessionStore {
 
     try {
       this.session = await this.sessionManager.authorizeSession();
-    } catch {
+    } catch (error) {
+      console.error(error);
+
       this.sessionManager.sessionKey = '';
     }
 
     if (store) {
-      this.storage.set('sessionId', this.sessionId);
+      await this.storeSession();
     }
 
     return this.session;
   }
 
-  async createSession(session: Session, { namespace, store }: SessionCreateOptions = {}) {
+  async createSession(session: Session, { namespace, store = false }: SessionCreateOptions = {}) {
     this.session = session;
     this.sessionManager.sessionKey = OpenloginSessionManager.generateRandomSessionKey();
 
@@ -90,10 +99,18 @@ export class SessionStore {
     await this.sessionManager.createSession(session);
 
     if (store) {
-      this.storage.set('sessionId', this.sessionId);
+      await this.storeSession();
     }
 
     return this.sessionId;
+  }
+
+  async storeSession() {
+    try {
+      this.storage.set('sessionId', this.sessionId);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async invalidateSession() {

@@ -10,8 +10,14 @@ export type Web3AuthStoreLoginParams = {
   idToken: string;
 };
 
+type VerifierDetails = {
+  verifier: string;
+  verifierId: string;
+};
+
 export class Web3AuthStore {
   private auth = new CustomAuth({
+    enableLogging: true,
     enableOneKey: true,
     baseUrl: window.location.origin,
     network: OPEN_LOGIN_NETWORK as CustomAuthArgs['network'],
@@ -22,8 +28,24 @@ export class Web3AuthStore {
     makeAutoObservable(this);
   }
 
+  private async isMfaEnabled(details: VerifierDetails) {
+    const { torusNodeEndpoints, torusNodePub } = await this.auth.nodeDetailManager.getNodeDetails(details);
+    const pubDetails = await this.auth.torus.getUserTypeAndAddress(torusNodeEndpoints, torusNodePub, details, true);
+
+    return pubDetails.upgraded;
+  }
+
   async login({ idToken }: Web3AuthStoreLoginParams) {
     const userInfo = getUserInfo(idToken);
+    const isMfa = await this.isMfaEnabled({
+      verifier: userInfo.verifier,
+      verifierId: userInfo.verifierId,
+    });
+
+    if (isMfa) {
+      throw new Error(`MFA is enabled for the account (${userInfo.email})`);
+    }
+
     const { privateKey } = await this.auth.getTorusKey(
       userInfo.verifier,
       userInfo.verifierId,

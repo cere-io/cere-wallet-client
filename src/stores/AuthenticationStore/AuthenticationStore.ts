@@ -4,12 +4,20 @@ import { LoginOptions } from '@cere-wallet/communication';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
+import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 import { SessionStore } from '../SessionStore';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
+};
+
+type RehydrateParams = {
+  sessionId?: string;
+};
+
+type AuthLoginParams = LoginParams & {
+  forceMfa?: boolean;
 };
 
 export class AuthenticationStore {
@@ -42,7 +50,7 @@ export class AuthenticationStore {
     this._isRehydrating = value;
   }
 
-  async rehydrate({ sessionId }: InitParams = {}) {
+  async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
 
     await this.sessionStore.rehydrate(sessionId);
@@ -53,7 +61,7 @@ export class AuthenticationStore {
     return this.accountStore.userInfo;
   }
 
-  getRedirectUrl(params: LoginParams = {}) {
+  getRedirectUrl(params: AuthLoginParams = {}) {
     return this.getLoginUrl('redirect', params);
   }
 
@@ -72,7 +80,7 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(popupId: string, params: LoginParams = {}) {
+  async loginInPopup(popupId: string, params: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -91,7 +99,7 @@ export class AuthenticationStore {
     return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(modalId: string, params: LoginParams = {}) {
+  async loginInModal(modalId: string, params: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -125,9 +133,9 @@ export class AuthenticationStore {
     return true;
   }
 
-  private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: LoginParams) {
-    const { preopenInstanceId = 'redirect' } = params;
-    const { sessionNamespace } = this.openLoginStore;
+  private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: AuthLoginParams) {
+    const { preopenInstanceId = 'redirect', forceMfa = false } = params;
+    const { sessionNamespace } = this.sessionStore;
 
     const startUrl = new URL('/authorize', window.origin);
     const callbackParams = new URLSearchParams();
@@ -140,6 +148,10 @@ export class AuthenticationStore {
     if (sessionNamespace) {
       callbackParams.append('sessionNamespace', sessionNamespace);
       startUrl.searchParams.append('sessionNamespace', sessionNamespace);
+    }
+
+    if (forceMfa) {
+      startUrl.searchParams.append('mfa', 'force');
     }
 
     const callbackQuery = callbackParams.toString();
