@@ -6,6 +6,7 @@ import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
 import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
+import { SessionStore } from '../SessionStore';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -15,6 +16,7 @@ export class AuthenticationStore {
   private _isRehydrating?: boolean;
 
   constructor(
+    private sessionStore: SessionStore,
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
     private openLoginStore: OpenLoginStore,
@@ -89,7 +91,7 @@ export class AuthenticationStore {
       throw new Error('User has closed the login popup');
     }
 
-    return this.syncAccountWithState(authPopup.state.result!);
+    return this.syncAccount(authPopup.state.result!);
   }
 
   async loginInModal(modalId: string, params: LoginParams = {}) {
@@ -114,13 +116,14 @@ export class AuthenticationStore {
       this.popupManagerStore.hideModal(modalId);
     }
 
-    return this.syncAccountWithState(authPopup.state.result!);
+    return this.syncAccount(authPopup.state.result!);
   }
 
   async logout() {
-    await this.openLoginStore.logout();
+    await this.sessionStore.invalidateSession();
     await this.contextStore.disconnect();
-    await this.syncLoginData();
+
+    this.syncLoginData();
 
     return true;
   }
@@ -153,40 +156,23 @@ export class AuthenticationStore {
       : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
   }
 
-  private async syncAccountWithState({ state, sessionId }: Required<AuthorizePopupState>['result']) {
-    if (!state) {
-      throw new Error('Authentication state is empty');
-    }
+  private async syncAccount({ sessionId }: Required<AuthorizePopupState>['result']) {
+    const session = await this.sessionStore.rehydrate(sessionId, { store: true });
 
-    if (!sessionId) {
-      console.warn('Ausentication sessionId is empty - will not be possible to restore the session after reload');
-    }
-
-    this.openLoginStore.syncWithEncodedState(state, sessionId);
-
-    if (sessionId) {
-      await this.openLoginStore.init({ sessionId });
-    }
-
-    await this.syncLoginData();
-
-    if (!this.accountStore.privateKey) {
+    if (!session) {
       throw new Error('Something went wrong during authentication');
     }
+
+    this.syncLoginData();
 
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
 
     return this.accountStore.account!.address;
   }
 
-  private async syncLoginData() {
-    const { privateKey } = this.openLoginStore;
+  private syncLoginData() {
+    const { session } = this.sessionStore;
 
-    this.accountStore.loginData = privateKey
-      ? {
-          privateKey,
-          userInfo: await this.openLoginStore.getUserInfo(),
-        }
-      : null;
+    this.accountStore.loginData = session;
   }
 }

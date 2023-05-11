@@ -18,9 +18,11 @@ import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
+import { SessionStore } from '../SessionStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
+  readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
   readonly openLoginStore: OpenLoginStore;
   readonly approvalStore: ApprovalStore;
@@ -49,7 +51,6 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
@@ -57,9 +58,12 @@ export class EmbeddedWalletStore implements Wallet {
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
+    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
+    this.sessionStore = new SessionStore({ sessionNamespace });
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(
+      this.sessionStore,
       this.accountStore,
       this.appContextStore,
       this.openLoginStore,

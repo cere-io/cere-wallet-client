@@ -36,8 +36,15 @@ export class ApplicationsStore {
   }
 
   private async onReady(account: Account) {
-    await this.loadApps(account);
-    await this.trackActivity(account);
+    try {
+      await this.loadApps(account);
+    } catch {}
+
+    runInAction(() => {
+      this.accountStore.isNewUser = this.isNewUser ?? false;
+    });
+
+    this.trackActivity(account);
   }
 
   private cleanUp() {
@@ -66,7 +73,6 @@ export class ApplicationsStore {
 
     runInAction(() => {
       this.existingApps = data;
-      this.accountStore.isNewUser = !data.some(({ appId }) => appId === this.appId);
     });
   }
 

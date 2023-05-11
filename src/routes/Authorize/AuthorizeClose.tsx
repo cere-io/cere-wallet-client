@@ -14,7 +14,7 @@ const AuthorizeClose = () => {
 
   useEffect(() => {
     if (state && sessionId) {
-      store.acceptResult({ state, sessionId });
+      store.acceptEncodedState(sessionId, state);
     }
   }, [state, sessionId, store]);
 

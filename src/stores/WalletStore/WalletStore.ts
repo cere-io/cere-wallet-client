@@ -18,9 +18,11 @@ import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
+import { SessionStore } from '../SessionStore';
 
 export class WalletStore implements Wallet {
   readonly instanceId: string;
+  readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
   readonly openLoginStore: OpenLoginStore;
   readonly networkStore: NetworkStore;
@@ -45,7 +47,6 @@ export class WalletStore implements Wallet {
     this.instanceId = instanceId || randomBytes(16).toString('hex');
 
     this.networkStore = new NetworkStore(this);
-    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
@@ -54,9 +55,12 @@ export class WalletStore implements Wallet {
     this.popupManagerStore = new PopupManagerStore();
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
+    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
+    this.sessionStore = new SessionStore({ sessionNamespace });
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(
+      this.sessionStore,
       this.accountStore,
       this.appContextStore,
       this.openLoginStore,

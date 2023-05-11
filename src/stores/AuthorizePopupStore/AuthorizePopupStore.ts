@@ -1,8 +1,10 @@
+import { runInAction } from 'mobx';
 import { OpenLoginStore } from '../OpenLoginStore';
+import { SessionStore } from '../SessionStore';
+import { Web3AuthStore } from '../Web3AuthStore';
 import { createSharedPopupState } from '../sharedState';
 
 type AuthenticationResult = {
-  state: string;
   sessionId: string;
 };
 
@@ -12,10 +14,17 @@ export type AuthorizePopupState = {
 
 export class AuthorizePopupStore {
   private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
+
+  private sessionStore = new SessionStore({
+    sessionNamespace: this.sessionNamespace,
+  });
+
   private openLoginStore = new OpenLoginStore({
     uxMode: 'sessionless_redirect',
     sessionNamespace: this.sessionNamespace,
   });
+
+  private web3AuthStore = new Web3AuthStore(this.sessionStore);
 
   constructor(
     public readonly preopenInstanceId: string,
@@ -24,14 +33,27 @@ export class AuthorizePopupStore {
   ) {}
 
   async login(idToken: string) {
-    return this.openLoginStore.login({
-      idToken,
-      preopenInstanceId: this.preopenInstanceId,
-      redirectUrl: this.redirectUrl,
-    });
+    try {
+      await this.web3AuthStore.login({ idToken });
+    } catch {
+      /**
+       * Fallback to OpenLogin authentication for users with 2fa enabled
+       */
+      await this.openLoginStore.login({
+        idToken,
+        preopenInstanceId: this.preopenInstanceId,
+        redirectUrl: this.redirectUrl,
+      });
+    }
+
+    this.acceptSession(this.sessionStore.sessionId);
   }
 
-  async acceptResult(result: AuthenticationResult) {
-    this.shared.state.result = result;
+  acceptEncodedState(sessionId: string, encodedState: string) {}
+
+  acceptSession(sessionId: string) {
+    runInAction(() => {
+      this.shared.state.result = { sessionId };
+    });
   }
 }
