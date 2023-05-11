@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
+import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
 
 type Session = {
@@ -15,6 +16,11 @@ export type SessionRehydrateOptions = {
   store?: boolean;
 };
 
+export type SessionCreateOptions = {
+  store?: boolean;
+  namespace?: string;
+};
+
 const getDefaultSessionNamespace = () => {
   try {
     return new URL(getIFrameOrigin()).hostname;
@@ -24,6 +30,7 @@ const getDefaultSessionNamespace = () => {
 };
 
 export class SessionStore {
+  private storage = BrowserStorage.getInstance('cw-session', 'local');
   private sessionManager = new OpenloginSessionManager<Session>({
     sessionNamespace: this.options.sessionNamespace || getDefaultSessionNamespace(),
   });
@@ -51,18 +58,28 @@ export class SessionStore {
   }
 
   async rehydrate(sessionId?: string, { store = false }: SessionRehydrateOptions = {}) {
-    if (sessionId) {
-      this.sessionManager.sessionKey = sessionId;
+    const resultSessionId = sessionId || this.storage.get<string | undefined>('sessionId');
+
+    if (!resultSessionId) {
+      return null;
     }
+
+    this.sessionManager.sessionKey = resultSessionId;
 
     try {
       this.session = await this.sessionManager.authorizeSession();
-    } catch {}
+    } catch {
+      this.sessionManager.sessionKey = '';
+    }
+
+    if (store) {
+      this.storage.set('sessionId', this.sessionId);
+    }
 
     return this.session;
   }
 
-  async createSession(session: Session, namespace?: string) {
+  async createSession(session: Session, { namespace, store }: SessionCreateOptions = {}) {
     this.session = session;
     this.sessionManager.sessionKey = OpenloginSessionManager.generateRandomSessionKey();
 
@@ -72,10 +89,21 @@ export class SessionStore {
 
     await this.sessionManager.createSession(session);
 
-    return this.sessionManager.sessionKey;
+    if (store) {
+      this.storage.set('sessionId', this.sessionId);
+    }
+
+    return this.sessionId;
   }
 
   async invalidateSession() {
-    return this.sessionManager.invalidateSession();
+    try {
+      await this.sessionManager.invalidateSession();
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.storage.resetStore();
+    this.session = null;
   }
 }
