@@ -75,14 +75,14 @@ export class SessionStore {
 
     try {
       this.session = await this.sessionManager.authorizeSession();
+
+      if (store) {
+        await this.storeSession();
+      }
     } catch (error) {
       console.error(error);
 
-      this.sessionManager.sessionKey = '';
-    }
-
-    if (store) {
-      await this.storeSession();
+      this.resetSession();
     }
 
     return this.session;
@@ -113,6 +113,11 @@ export class SessionStore {
     }
   }
 
+  private resetSession() {
+    this.session = null;
+    this.storage.resetStore();
+  }
+
   async invalidateSession() {
     try {
       await this.sessionManager.invalidateSession();
@@ -120,7 +125,6 @@ export class SessionStore {
       console.error(error);
     }
 
-    this.storage.resetStore();
-    this.session = null;
+    this.resetSession();
   }
 }
