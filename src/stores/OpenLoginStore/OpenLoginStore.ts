@@ -4,6 +4,7 @@ import { getIFrameOrigin, AppContext } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { SessionStore } from '../SessionStore';
+import { getScopedKey } from '../Web3AuthStore';
 
 export type LoginParams = {
   preopenInstanceId?: string;
@@ -140,10 +141,10 @@ export class OpenLoginStore {
 
   async acceptEncodedState(encodedState: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
-    const { privKey, store } = jsonResult && JSON.parse(jsonResult);
+    const { coreKitKey, store } = jsonResult && JSON.parse(jsonResult);
 
     return this.sessionStore.createSession({
-      privateKey: privKey,
+      privateKey: getScopedKey(coreKitKey),
       userInfo: {
         email: store.email || '',
         name: store.name || '',
