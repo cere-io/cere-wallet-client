@@ -5,6 +5,7 @@ import { Account } from '@cere-wallet/wallet-engine';
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
 import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
+import { AuthenticationStore } from '../AuthenticationStore';
 
 const api = axios.create({
   baseURL: WALLET_API,
@@ -17,8 +18,13 @@ type Application = {
 
 export class ApplicationsStore {
   private existingApps?: Application[];
+  private authToken: string | null = null;
 
-  constructor(private accountStore: AccountStore, private contextStore: AppContextStore) {
+  constructor(
+    private accountStore: AccountStore,
+    private authenticationStore: AuthenticationStore,
+    private contextStore: AppContextStore,
+  ) {
     makeAutoObservable(this);
 
     reaction(
@@ -36,6 +42,8 @@ export class ApplicationsStore {
   }
 
   private async onReady(account: Account) {
+    this.authToken = await this.authenticationStore.createToken();
+
     try {
       await this.loadApps(account);
     } catch {}
@@ -52,12 +60,10 @@ export class ApplicationsStore {
   }
 
   private get headers() {
-    const { idToken } = this.accountStore.userInfo || {};
-
-    return !idToken
+    return !this.authToken
       ? {}
       : {
-          Authorization: `Bearer ${idToken}`,
+          Authorization: `Bearer ${this.authToken}`,
         };
   }
 

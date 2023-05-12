@@ -31,14 +31,13 @@ class EngineProvider extends EventEmitter implements Provider {
   }
 }
 
-export class ProviderEngine extends Engine {
+class UnsafeEngine extends Engine {
   readonly provider: Provider = new EngineProvider(this);
 
-  constructor(private options: ProviderEngineOptions) {
+  constructor(options: ProviderEngineOptions) {
     super();
 
     this.pushEngine(createWalletEngine(options));
-    this.pushEngine(createApproveEngine(options));
 
     this.pushEngine(async () => {
       const { createAccountsEngine } = await import(/* webpackChunkName: "accountsEngine" */ './accounts');
@@ -61,6 +60,23 @@ export class ProviderEngine extends Engine {
 
       return createEthereumEngine(options);
     });
+  }
+}
+
+export class ProviderEngine extends Engine {
+  readonly provider: Provider;
+  readonly unsafeProvider;
+
+  constructor(options: ProviderEngineOptions) {
+    super();
+
+    const unsafeEngine = new UnsafeEngine(options);
+
+    this.provider = new EngineProvider(this);
+    this.unsafeProvider = new EngineProvider(unsafeEngine);
+
+    this.pushEngine(createApproveEngine(options));
+    this.pushEngine(unsafeEngine);
   }
 
   async updateAccounts() {

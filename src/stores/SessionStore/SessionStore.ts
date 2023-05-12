@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
 import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
+import { AUTH_SESSION_TIMEOUT } from '~/constants';
 
 export type Session = {
   privateKey: string;
@@ -44,7 +45,7 @@ export class SessionStore {
     const sessionNamespace = this.options.sessionNamespace || getDefaultSessionNamespace();
     const storageKey = sessionNamespace ? `cw-session-${sessionNamespace}` : 'cw-session';
 
-    this.sessionManager = new OpenloginSessionManager({ sessionNamespace });
+    this.sessionManager = new OpenloginSessionManager({ sessionNamespace, sessionTime: AUTH_SESSION_TIMEOUT });
     this.storage = BrowserStorage.getInstance(storageKey, 'local');
   }
 
@@ -80,7 +81,7 @@ export class SessionStore {
         await this.storeSession();
       }
     } catch (error) {
-      console.error(error);
+      console.warn('The session is invalid or expired', error);
 
       this.resetSession();
     }

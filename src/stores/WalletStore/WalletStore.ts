@@ -37,7 +37,6 @@ export class WalletStore implements Wallet {
   readonly applicationsStore: ApplicationsStore;
 
   private currentEngine?: WalletEngine;
-  private currentProvider?: Provider;
   private initialized = false;
   private isRootInstance = false;
 
@@ -58,14 +57,17 @@ export class WalletStore implements Wallet {
     this.sessionStore = new SessionStore({ sessionNamespace });
     this.openLoginStore = new OpenLoginStore(this.sessionStore);
     this.accountStore = new AccountStore(this);
-    this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
+
     this.authenticationStore = new AuthenticationStore(
+      this,
       this.sessionStore,
       this.accountStore,
       this.appContextStore,
       this.openLoginStore,
       this.popupManagerStore,
     );
+
+    this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
 
     this.setup(!instanceId);
   }
@@ -91,7 +93,11 @@ export class WalletStore implements Wallet {
   }
 
   get provider() {
-    return this.currentProvider;
+    return this.engine && new providers.Web3Provider(this.engine.provider);
+  }
+
+  get unsafeProvider() {
+    return this.engine && new providers.Web3Provider(this.engine.unsafeProvider);
   }
 
   get engine() {
@@ -149,9 +155,9 @@ export class WalletStore implements Wallet {
 
     runInAction(() => {
       this.currentEngine = engine;
-      this.currentProvider = new providers.Web3Provider(engine.provider);
 
-      this.currentProvider.pollingInterval = RPC_POLLING_INTERVAL;
+      this.provider!.pollingInterval = RPC_POLLING_INTERVAL;
+      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
 
       this.initialized = true;
     });

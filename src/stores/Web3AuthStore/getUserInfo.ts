@@ -8,7 +8,6 @@ export const getUserInfo = (idToken: string): UserInfo => {
   const { name, email, picture } = jwtDecode<Auth0UserInfo>(idToken);
 
   return {
-    idToken,
     name,
     email,
     profileImage: picture,

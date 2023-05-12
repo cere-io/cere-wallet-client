@@ -152,7 +152,6 @@ export class OpenLoginStore {
         typeOfLogin: store.typeOfLogin || '',
         verifier: store.verifier || '',
         verifierId: store.verifierId || '',
-        idToken: store.idToken,
       },
     });
   }

@@ -1,12 +1,14 @@
 import { makeAutoObservable, reaction, when } from 'mobx';
 import { LoginOptions } from '@cere-wallet/communication';
 
+import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
 import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 import { SessionStore } from '../SessionStore';
+import { createAuthToken } from './createAuthToken';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -25,6 +27,7 @@ export class AuthenticationStore {
   private _isRehydrating?: boolean;
 
   constructor(
+    private wallet: Wallet,
     private sessionStore: SessionStore,
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
@@ -64,6 +67,14 @@ export class AuthenticationStore {
 
   getRedirectUrl(params: AuthLoginParams = {}) {
     return this.getLoginUrl('redirect', params);
+  }
+
+  async createToken() {
+    if (!this.wallet.isReady()) {
+      return null;
+    }
+
+    return createAuthToken(this.wallet.unsafeProvider.getSigner());
   }
 
   async login({ redirectUrl, ...params }: LoginParams = {}) {
