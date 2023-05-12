@@ -18,6 +18,7 @@ type RehydrateParams = {
 
 type AuthLoginParams = LoginParams & {
   forceMfa?: boolean;
+  emailHint?: string;
 };
 
 export class AuthenticationStore {
@@ -134,7 +135,7 @@ export class AuthenticationStore {
   }
 
   private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: AuthLoginParams) {
-    const { preopenInstanceId = 'redirect', forceMfa = false } = params;
+    const { preopenInstanceId = 'redirect', forceMfa = false, emailHint } = params;
     const { sessionNamespace } = this.sessionStore;
 
     const startUrl = new URL('/authorize', window.origin);
@@ -152,6 +153,10 @@ export class AuthenticationStore {
 
     if (forceMfa) {
       startUrl.searchParams.append('mfa', 'force');
+    }
+
+    if (emailHint) {
+      startUrl.searchParams.append('email', emailHint);
     }
 
     const callbackQuery = callbackParams.toString();

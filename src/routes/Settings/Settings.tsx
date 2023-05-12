@@ -13,17 +13,20 @@ import {
 import { useEffect, useState } from 'react';
 
 import { PageHeader } from '~/components';
-import { useAuthenticationStore, useOpenLoginStore } from '~/hooks';
+import { useAccountStore, useAuthenticationStore, useOpenLoginStore } from '~/hooks';
 
 export const Settings = () => {
   const isMobile = useIsMobile();
+  const { user } = useAccountStore();
   const { accountUrl } = useOpenLoginStore();
   const authenticationStore = useAuthenticationStore();
   const [accountLink, setAccountLink] = useState<string>();
 
   useEffect(() => {
-    authenticationStore.getRedirectUrl({ redirectUrl: accountUrl, forceMfa: true }).then(setAccountLink);
-  }, [authenticationStore, accountUrl]);
+    authenticationStore
+      .getRedirectUrl({ redirectUrl: accountUrl, forceMfa: true, emailHint: user?.email })
+      .then(setAccountLink);
+  }, [authenticationStore, accountUrl, user]);
 
   return (
     <>
