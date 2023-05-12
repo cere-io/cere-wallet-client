@@ -1,17 +1,18 @@
 import { makeAutoObservable } from 'mobx';
 import CustomAuth, { CustomAuthArgs } from '@toruslabs/customauth';
 
-import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK } from '~/constants';
+import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { getUserInfo } from './getUserInfo';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from './getScopedKey';
 
 export type Web3AuthStoreLoginParams = {
   idToken: string;
+  checkMfa?: boolean;
 };
 
 type VerifierDetails = {
-  verifier: string;
+  verifier?: string;
   verifierId: string;
 };
 
@@ -28,19 +29,25 @@ export class Web3AuthStore {
     makeAutoObservable(this);
   }
 
-  private async isMfaEnabled(details: VerifierDetails) {
-    const { torusNodeEndpoints, torusNodePub } = await this.auth.nodeDetailManager.getNodeDetails(details);
-    const pubDetails = await this.auth.torus.getUserTypeAndAddress(torusNodeEndpoints, torusNodePub, details, true);
+  async isMfaEnabled({ verifierId, verifier = OPEN_LOGIN_VERIFIER }: VerifierDetails) {
+    const { torusNodeEndpoints, torusNodePub } = await this.auth.nodeDetailManager.getNodeDetails({
+      verifier,
+      verifierId,
+    });
 
-    return pubDetails.upgraded;
+    const pubDetails = await this.auth.torus.getUserTypeAndAddress(
+      torusNodeEndpoints,
+      torusNodePub,
+      { verifier, verifierId },
+      true,
+    );
+
+    return !!pubDetails.upgraded;
   }
 
-  async login({ idToken }: Web3AuthStoreLoginParams) {
+  async login({ idToken, checkMfa = true }: Web3AuthStoreLoginParams) {
     const userInfo = getUserInfo(idToken);
-    const isMfa = await this.isMfaEnabled({
-      verifier: userInfo.verifier,
-      verifierId: userInfo.verifierId,
-    });
+    const isMfa = checkMfa ? await this.isMfaEnabled(userInfo) : false;
 
     if (isMfa) {
       throw new Error(`MFA is enabled for the account (${userInfo.email})`);

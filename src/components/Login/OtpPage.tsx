@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 interface OtpProps {
-  email: string;
+  email?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -39,7 +39,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
-    const token = await AuthApiService.getTokenByEmail(email, value);
+    const token = await AuthApiService.getTokenByEmail(email!, value);
     if (token) {
       await onRequestLogin(token);
     } else {
@@ -49,7 +49,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
 
   const handleResend = async () => {
     setTimeLeft(60);
-    await AuthApiService.sendOtp(email);
+    await AuthApiService.sendOtp(email!);
   };
 
   useEffect(() => {

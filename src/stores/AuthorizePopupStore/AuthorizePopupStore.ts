@@ -1,4 +1,4 @@
-import { runInAction } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
@@ -22,7 +22,6 @@ export type AuthorizePopupState = {
 
 export class AuthorizePopupStore {
   private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
-
   private sessionStore = new SessionStore({
     sessionNamespace: this.options.sessionNamespace,
   });
@@ -31,29 +30,46 @@ export class AuthorizePopupStore {
   private web3AuthStore = new Web3AuthStore(this.sessionStore);
 
   private redirectUrl: string | null = null;
+  private currentEmail?: string;
+  private mfaCheckPromise?: Promise<boolean>;
 
   constructor(public readonly preopenInstanceId: string, private options: AuthorizePopupStoreOptions) {
-    const callbackUrl = new URL(this.options.callbackUrl, window.origin);
+    makeAutoObservable(this);
 
+    const callbackUrl = new URL(this.options.callbackUrl, window.origin);
     this.redirectUrl = options.redirectUrl || callbackUrl.searchParams.get('redirectUrl');
+
+    reaction(
+      () => this.email,
+      (verifierId) => {
+        this.mfaCheckPromise =
+          verifierId && !this.options.forceMfa ? this.web3AuthStore.isMfaEnabled({ verifierId }) : undefined;
+      },
+    );
+  }
+
+  get email() {
+    return this.currentEmail;
+  }
+
+  set email(email) {
+    this.currentEmail = email;
   }
 
   async login(idToken: string) {
-    try {
-      if (this.options.forceMfa) {
-        throw new Error('MFA is forced'); // Manually trigger catch block
-      }
+    const isMfa = await this.mfaCheckPromise;
 
-      await this.web3AuthStore.login({ idToken });
-    } catch {
+    if (isMfa || this.options.forceMfa) {
       /**
-       * Fallback to OpenLogin authentication for users with 2fa enabled
+       * Fallback to OpenLogin authentication for users with MFA enabled
        */
-      await this.openLoginStore.login({
+      return this.openLoginStore.login({
         idToken,
         preopenInstanceId: this.preopenInstanceId,
         redirectUrl: this.options.callbackUrl,
       });
+    } else {
+      await this.web3AuthStore.login({ idToken, checkMfa: isMfa === undefined });
     }
 
     await this.acceptSession();
@@ -74,11 +90,9 @@ export class AuthorizePopupStore {
   }
 
   private async acceptSession() {
-    runInAction(() => {
-      this.shared.state.result = {
-        sessionId: this.sessionStore.sessionId,
-      };
-    });
+    this.shared.state.result = {
+      sessionId: this.sessionStore.sessionId,
+    };
 
     if (!this.redirectUrl) {
       return;
