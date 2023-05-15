@@ -4,7 +4,7 @@ import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
-import { Provider, Wallet } from '../types';
+import { Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';

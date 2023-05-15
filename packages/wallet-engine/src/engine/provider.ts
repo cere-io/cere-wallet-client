@@ -39,11 +39,11 @@ class UnsafeEngine extends Engine {
 
     this.pushEngine(createWalletEngine(options));
 
-    this.pushEngine(async () => {
-      const { createAccountsEngine } = await import(/* webpackChunkName: "accountsEngine" */ './accounts');
-
-      return createAccountsEngine(options);
-    });
+    this.pushEngine(
+      import(/* webpackChunkName: "accountsEngine" */ './accounts').then(({ createAccountsEngine }) =>
+        createAccountsEngine(options),
+      ),
+    );
 
     this.pushEngine(async () => {
       const { createPolkadotEngine } = await import(/* webpackChunkName: "polkadotEngine" */ './polkadot');

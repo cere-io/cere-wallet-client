@@ -4,7 +4,7 @@ import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 
-import { Provider, Wallet, WalletStatus } from '../types';
+import { Wallet, WalletStatus } from '../types';
 import { AccountStore } from '../AccountStore';
 import { NetworkStore } from '../NetworkStore';
 import { AssetStore } from '../AssetStore';
