@@ -3,6 +3,7 @@
 ### vNext
 
 - [[Feature](https://www.notion.so/cere/Plan-for-TORUS-replacement-1304aeda9f8c468b946b8b223fb86da7?pvs=4)] Update authentication flow to reduce new users onboarding time
+- [[Feature](https://www.notion.so/cere/Implement-E2E-UI-tests-for-Wallet-Client-to-check-Tor-us-fix-b6575b5474684b6cb1566926063a9254?pvs=4)] Add E2E UI tests configuration and simple login spec
 - [[Fix](https://www.notion.so/cere/Missed-version-in-Cere-Wallet-IFRAME-URL-on-Stage-c647d3be181846aeb8f6d7fd908ab385?pvs=4)] Add version to the wallet IFRAME URL on Stage environment
 - [[Feature](https://www.notion.so/cere/Whitehat-Wallet-Open-redirect-bypass-89bba775a9fc4db58ecbaec5a9935268)] Validate that login redirect URL is whitelisted to prevent fishing attacks
 
