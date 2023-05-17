@@ -182,7 +182,6 @@ This methods returns information about currently connected user. The following u
 - `email` - user email address
 - `name` - the user name (only available in case of social login `Google` or `Facebook`)
 - `profileImage` - the user avatar (only available in case of social login `Google` or `Facebook`)
-- `idToken` - the `ID Token` with which the user was authenticated on the verifier
 - `isNewUser` - `true` if the user connects his wallet to the DApp for the first time, otherwise `false`
 
 ```ts
@@ -193,7 +192,7 @@ console.log(userInfo);
   email: '...',
   name: '...',
   profileImage: '...',
-  idToken: '...'
+  isNewUser: true
 }
 ```
 

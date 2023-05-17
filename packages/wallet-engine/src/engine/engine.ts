@@ -1,8 +1,10 @@
 import { JsonRpcEngine, JsonRpcMiddleware } from 'json-rpc-engine';
 
+type AsyncEngine = Engine | Promise<Engine>;
+
 export type EngineEventTarget = Pick<JsonRpcEngine, 'emit'>;
 
-export const createAsyncEngine = (factory: () => Engine | Promise<Engine>) => {
+export const createAsyncEngine = (factory: () => AsyncEngine) => {
   const engine = new Engine();
   let middlewarePromise: Promise<JsonRpcMiddleware<unknown, unknown>>;
 
@@ -33,8 +35,9 @@ export class Engine extends JsonRpcEngine {
     });
   }
 
-  protected pushEngine(engine: Engine | (() => Engine | Promise<Engine>)) {
-    const resultEngine = typeof engine === 'function' ? createAsyncEngine(engine) : engine;
+  protected pushEngine(engine: AsyncEngine | (() => AsyncEngine)) {
+    const factory = typeof engine === 'function' ? engine : () => engine;
+    const resultEngine = createAsyncEngine(factory);
 
     this.push(resultEngine.asMiddleware());
 

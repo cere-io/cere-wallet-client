@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useEmbeddedWalletStore, useOpenLoginStore } from '~/hooks';
+import { useEmbeddedWalletStore, useSessionStore } from '~/hooks';
 
 /**
  * Copied from Tor.us library.
@@ -15,7 +15,7 @@ const windowFeatures = 'directories=0,titlebar=0,toolbar=0,status=0,location=0,m
  * TODO: Remove this manual window creation
  */
 export const useShowWallet = () => {
-  const { sessionNamespace, sessionId } = useOpenLoginStore();
+  const { sessionNamespace, sessionId } = useSessionStore();
   const { instanceId } = useEmbeddedWalletStore();
 
   return useCallback(

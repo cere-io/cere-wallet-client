@@ -55,10 +55,19 @@ export type WalletStatus = 'idle' | 'ready' | 'unauthenticated' | 'errored';
 export interface Wallet {
   readonly instanceId: string;
   readonly network?: ChainConfig;
-  readonly provider?: Provider;
   readonly engine?: WalletEngine;
   readonly account?: Account;
   readonly accounts: Account[];
+
+  /**
+   * Provider instance with blockchain requests protected by confirmation modals
+   */
+  readonly provider?: Provider;
+
+  /**
+   * Provider instance with no blockchain requests confirmation (use with caution)
+   */
+  readonly unsafeProvider?: Provider;
 
   isRoot(): boolean;
   isReady(): this is ReadyWallet;

@@ -1,22 +1,15 @@
 import { makeAutoObservable } from 'mobx';
-import { randomBytes } from 'crypto';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE, OpenLoginOptions, OpenLoginState } from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
 import { getIFrameOrigin, AppContext } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { SessionStore } from '../SessionStore';
+import { getScopedKey } from '../Web3AuthStore';
 
 export type LoginParams = {
   preopenInstanceId?: string;
   idToken?: string;
   redirectUrl?: string;
-};
-
-export type InitParams = {
-  sessionId?: string;
-};
-
-export type OpenLoginStoreOptions = Pick<OpenLoginOptions, 'storageKey' | 'uxMode'> & {
-  sessionNamespace?: string;
 };
 
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
@@ -35,20 +28,18 @@ const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: Lo
 
 export class OpenLoginStore {
   private openLogin: OpenLogin;
-  private initialState: OpenLoginState;
 
-  constructor({ storageKey, sessionNamespace, uxMode }: OpenLoginStoreOptions = {}) {
+  constructor(private sessionStore: SessionStore) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
     this.openLogin = new OpenLogin({
       clientId,
-      storageKey,
       network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
       no3PC: true,
-      uxMode: uxMode || 'redirect',
+      uxMode: 'sessionless_redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: sessionNamespace || this.appUrl?.hostname,
+      _sessionNamespace: this.sessionStore.sessionNamespace,
 
       whiteLabel: {
         dark: false,
@@ -78,13 +69,7 @@ export class OpenLoginStore {
       },
     });
 
-    this.initialState = { ...this.openLogin.state };
     this.configureApp();
-  }
-
-  private resetState() {
-    this.openLogin.state.store.resetStore();
-    this.openLogin.state = { ...this.initialState };
   }
 
   private get appUrl() {
@@ -93,26 +78,6 @@ export class OpenLoginStore {
     } catch {
       return undefined;
     }
-  }
-
-  get initialized() {
-    return this.openLogin.provider.initialized;
-  }
-
-  get sessionNamespace() {
-    return this.openLogin.state.sessionNamespace;
-  }
-
-  get sessionId() {
-    try {
-      return this.openLogin.state.store.get('sessionId') as string;
-    } catch {
-      return undefined;
-    }
-  }
-
-  get privateKey() {
-    return this.openLogin.privKey || null;
   }
 
   get accountUrl() {
@@ -133,9 +98,7 @@ export class OpenLoginStore {
   }
 
   async getLoginUrl(loginParams: LoginParams = {}) {
-    const sessionId = this.sessionId || randomBytes(32).toString('hex');
     const session = {
-      _sessionId: sessionId,
       _sessionNamespace: this.openLogin.state.sessionNamespace,
       _loginConfig: this.openLogin.state.loginConfig,
       _whiteLabelData: this.openLogin.state.whiteLabel,
@@ -147,44 +110,24 @@ export class OpenLoginStore {
     });
   }
 
-  async init({ sessionId }: InitParams = {}) {
-    if (this.initialized) {
-      return; // Do nothing if already initialized
-    }
-
-    if (sessionId) {
-      this.openLogin.state.store.set('sessionId', sessionId);
-    }
-
-    await this.openLogin.init();
-  }
-
   async login(params?: LoginParams) {
-    await this.init();
+    if (!this.openLogin.provider.initialized) {
+      await this.openLogin.init();
+    }
+
     await this.openLogin.login(createLoginParams(params));
 
     await new Promise(() => {}); // Never ending promise waiting for the full page redirect
   }
 
-  async logout() {
-    if (!this.openLogin.privKey) {
-      return; // Do nothing if not logged in
-    }
-
-    if (this.initialized) {
-      await this.openLogin.logout();
-    }
-
-    this.resetState();
-  }
-
-  async getUserInfo() {
-    return this.openLogin.getUserInfo();
-  }
-
   async isAllowedRedirectUrl(url: string) {
     try {
-      const origin = new URL(url).origin;
+      const { origin, hostname } = new URL(url);
+
+      if (hostname === 'localhost') {
+        return true;
+      }
+
       const whiteList = await this.openLogin.getWhitelist();
       const isAllowed = Object.keys(whiteList).some((url) => new URL(url).origin === origin);
 
@@ -196,19 +139,20 @@ export class OpenLoginStore {
     }
   }
 
-  async syncWithEncodedState(encodedState: string, sessionId?: string) {
+  async acceptEncodedState(encodedState: string) {
     const jsonResult = Buffer.from(encodedState, 'base64').toString();
-    const state = jsonResult && JSON.parse(jsonResult);
+    const { coreKitKey, store } = jsonResult && JSON.parse(jsonResult);
 
-    /**
-     * Reset the store in case it was not properly inited
-     */
-    this.openLogin.state.store.resetStore();
-
-    if (sessionId) {
-      this.openLogin.state.store.set('sessionId', sessionId);
-    }
-
-    this.openLogin._syncState(state);
+    return this.sessionStore.createSession({
+      privateKey: getScopedKey(coreKitKey),
+      userInfo: {
+        email: store.email || '',
+        name: store.name || '',
+        profileImage: store.profileImage || '',
+        typeOfLogin: store.typeOfLogin || '',
+        verifier: store.verifier || '',
+        verifierId: store.verifierId || '',
+      },
+    });
   }
 }
