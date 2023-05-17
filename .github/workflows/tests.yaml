@@ -26,6 +26,8 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
         run: cp .env.test .env; npm ci
 
       - name: Build applications
