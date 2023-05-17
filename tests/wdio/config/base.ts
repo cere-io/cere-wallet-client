@@ -13,12 +13,21 @@ if (options.headless) {
   chromeArgs.push('--headless', '--disable-gpu');
 }
 
-export const chromeCapability = {
+export const chromeCapability: WebDriver.DesiredCapabilities = {
   browserName: 'chrome',
   acceptInsecureCerts: true,
 
   'goog:chromeOptions': {
     args: chromeArgs,
+  },
+
+  'selenoid:options': {
+    /**
+     * The hardcoded IP address is the address of GitHub actions host
+     *
+     * TODO: Figure out a better way to dected CI host IP, insted of hardcoding this one
+     */
+    hostsEntries: ['host.docker.internal:172.17.0.1'],
   },
 };
 
