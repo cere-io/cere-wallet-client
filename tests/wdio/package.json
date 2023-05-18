@@ -2,9 +2,9 @@
   "name": "@cere-wallet-tests/wdio",
   "version": "0.0.0",
   "scripts": {
-    "start": "wdio run ./wdio.conf.ts",
+    "start": "wdio run ./wdio.conf.ts --multi-run 5 --spec ./specs/standalone/Login.e2e.ts",
     "test": "wdio run ./wdio.conf.ts --headless",
-    "test:ci": "npm test -- --ci"
+    "test:ci": "wdio run ./wdio.conf.ts --headless --ci"
   },
   "dependencies": {
     "@testing-library/webdriverio": "^3.2.1",

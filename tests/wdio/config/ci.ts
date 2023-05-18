@@ -1,10 +1,10 @@
-import { config as baseConfig } from './base';
+import { options } from './options';
 
-export const config: WebdriverIO.Config = {
+export const createCIConfig = (baseConfig: WebdriverIO.Config): WebdriverIO.Config => ({
   ...baseConfig,
 
-  baseUrl: 'http://host.docker.internal:4567/',
+  baseUrl: options.targetUrl || 'http://host.docker.internal:4567/',
   hostname: 'localhost',
   port: 4444,
   path: '/wd/hub/',
-};
+});
