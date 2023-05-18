@@ -15,10 +15,6 @@ on:
         type: number
         default: '5'
 
-      targetUrl:
-        description: 'Cere Wallet client URL to run the simulation on'
-        required: false
-        type: string
 jobs:
   simulation:
     name: Simulation
@@ -54,6 +50,5 @@ jobs:
         run: >
           npm run test:ci --
             --suite=simulation
-            --targetUrl=${{ github.event.inputs.targetUrl }} 
             --maxInstances=${{ github.event.inputs.instances }}
             --multi-run=${{ github.event.inputs.iterations }}
