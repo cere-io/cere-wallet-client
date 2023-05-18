@@ -30,7 +30,7 @@ jobs:
           NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
         run: cp .env.test .env; npm ci
 
-      - name: Build applications
+      - name: Build application
         run: npm run build
 
       - name: Run tests

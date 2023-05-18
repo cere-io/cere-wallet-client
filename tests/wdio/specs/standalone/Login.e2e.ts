@@ -12,9 +12,7 @@ describe('Standalone login', () => {
   });
 
   step('enter email and proceed', async () => {
-    const minutes = Math.round(new Date().getTime() / (1000 * 60));
-
-    await walletAuth.emailInput.setValue(`automated-tests+${minutes}@cere.io`);
+    await walletAuth.enterRandomEmail();
     await walletAuth.signUpButton.click();
   });
 

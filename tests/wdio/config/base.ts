@@ -31,38 +31,50 @@ export const chromeCapability: WebDriver.DesiredCapabilities = {
   },
 };
 
+let baseUrl = options.targetUrl;
+const services: WebdriverIO.Config['services'] = [];
+
+if (!baseUrl) {
+  baseUrl = 'http://localhost:4567/';
+
+  services.push([
+    'static-server',
+    {
+      folders: [
+        {
+          mount: '/',
+          path: bundleRoot,
+        },
+      ],
+      middleware: [
+        {
+          mount: '/',
+          middleware: historyApiMiddleware('index.html', { root: bundleRoot }),
+        },
+      ],
+    },
+  ]);
+}
+
 export const config: WebdriverIO.Config = {
+  baseUrl,
+  services,
+
   runner: 'local',
-  baseUrl: 'http://localhost:4567/',
+
   specs: ['./specs/**/*.ts'],
+  suites: {
+    simulation: ['./specs/standalone/Login.e2e.ts'],
+  },
+
   capabilities: [chromeCapability],
 
   logLevel: 'warn',
-  maxInstances: 10,
+  maxInstances: options.maxInstances,
 
   waitforTimeout: 10000,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
-
-  services: [
-    [
-      'static-server',
-      {
-        folders: [
-          {
-            mount: '/',
-            path: bundleRoot,
-          },
-        ],
-        middleware: [
-          {
-            mount: '/',
-            middleware: historyApiMiddleware('index.html', { root: bundleRoot }),
-          },
-        ],
-      },
-    ],
-  ],
 
   reporters: ['spec'],
 
@@ -81,7 +93,7 @@ export const config: WebdriverIO.Config = {
     require: [require.resolve('mocha-steps')],
   },
 
-  before: (capabilities, specs) => {
+  before(capabilities, specs) {
     require('./setup');
   },
 };
