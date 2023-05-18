@@ -47,8 +47,8 @@ jobs:
         run: npm run build
 
       - name: Run simulation
-        run: >
-          npm run test:ci --
-            --suite=simulation
-            --maxInstances=${{ github.event.inputs.instances }}
+        run: |
+          npm run test:ci -- \
+            --suite=simulation \
+            --maxInstances=${{ github.event.inputs.instances }} \
             --multi-run=${{ github.event.inputs.iterations }}
