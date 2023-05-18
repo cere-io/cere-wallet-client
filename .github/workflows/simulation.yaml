@@ -51,7 +51,7 @@ jobs:
         run: npm run build
 
       - name: Run simulation
-        run: |
+        run: >
           npm run test:ci --
             --suite=simulation
             --targetUrl=${{ github.event.inputs.targetUrl }} 
