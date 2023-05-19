@@ -36,7 +36,6 @@ jobs:
       - name: Run tests
         id: run-tests
         run: npm run test:ci
-        continue-on-error: true
 
       - name: Get report history
         uses: actions/checkout@v3
@@ -57,7 +56,7 @@ jobs:
           gh_pages: gh-pages
           keep_reports: 10
 
-      - name: Store report
+      - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
