@@ -17,7 +17,7 @@ describe('Standalone login', () => {
   });
 
   step('enter OTP and proceed', async () => {
-    await walletAuth.enterOTP('555556');
+    await walletAuth.enterOTP('555555');
     await walletAuth.verifyButton.click();
   });
 

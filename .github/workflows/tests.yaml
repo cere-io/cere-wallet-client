@@ -74,7 +74,6 @@ jobs:
       contents: read
       pages: write
       id-token: write
-      statuses: write
 
     environment:
       name: github-pages
@@ -99,13 +98,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-
-      - name: Post the link to the report
-        uses: Sibz/github-status-action@v1
-        with:
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: Test report
-          description: Successfully deployed to GitHub Pages
-          state: success
-          sha: ${{github.event.pull_request.head.sha || github.sha}}
-          target_url: ${{ steps.deployment.outputs.page_url }}${{ github.run_number }}
