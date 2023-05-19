@@ -68,6 +68,7 @@ jobs:
     name: Deploy report
     needs: tests
     runs-on: ubuntu-latest
+    if: always()
 
     permissions:
       contents: read
