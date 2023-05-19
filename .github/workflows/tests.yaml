@@ -76,9 +76,7 @@ jobs:
       id-token: write
       statuses: write
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    environment: github-pages
 
     steps:
       - name: Checkout
@@ -105,6 +103,7 @@ jobs:
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: Test report
+          description: Successfully deployed to GitHub Pages
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.deployment.outputs.page_url }}${{ github.run_number }}
