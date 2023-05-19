@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         run: cp .env.test .env; npm ci
 
       - name: Build application
@@ -35,3 +35,30 @@ jobs:
 
       - name: Run tests
         run: npm run test:ci
+
+      - name: Get report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Generate report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: report/allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          gh_pages: gh-pages
+          keep_reports: 10
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
