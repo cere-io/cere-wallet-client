@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [pull_request, workflow_dispatch]
+on: [pull_request_target, workflow_dispatch]
 
 jobs:
   tests:
@@ -27,11 +27,83 @@ jobs:
 
       - name: Install dependencies
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         run: cp .env.test .env; npm ci
 
       - name: Build application
         run: npm run build
 
       - name: Run tests
+        id: run-tests
         run: npm run test:ci
+        continue-on-error: true
+
+      - name: Get report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Generate report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: report/allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          gh_pages: gh-pages
+          keep_reports: 10
+
+      - name: Store report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
+  deploy-report:
+    name: Deploy report
+    needs: tests
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+        with:
+          # Upload entire repository
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+      - name: Post the link to the report
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: Test report
+          state: success
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
+          target_url: ${{ steps.deployment.outputs.page_url }}/${{ github.run_number }}
