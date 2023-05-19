@@ -106,4 +106,4 @@ jobs:
           context: Test report
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
-          target_url: ${{ steps.deployment.outputs.page_url }}/${{ github.run_number }}
+          target_url: ${{ steps.deployment.outputs.page_url }}${{ github.run_number }}
