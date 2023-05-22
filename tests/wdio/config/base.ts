@@ -1,11 +1,9 @@
 import * as path from 'path';
-import * as allure from '@wdio/allure-reporter';
 import historyApiMiddleware from 'express-history-api-fallback';
 import { configure } from '@testing-library/webdriverio';
 
-import { options } from './options';
+import { options, rootDir } from './options';
 
-const rootDir = path.resolve(__dirname, '../../..');
 const bundleRoot = path.resolve(rootDir, 'build');
 
 export const chromeCapability: WebDriver.DesiredCapabilities = {
@@ -82,17 +80,7 @@ export const config: WebdriverIO.Config = {
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
 
-  reporters: [
-    'spec',
-    [
-      'allure',
-      {
-        outputDir: path.resolve(rootDir, './report/allure-results'),
-        disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: false,
-      },
-    ],
-  ],
+  reporters: ['spec'],
 
   autoCompileOpts: {
     autoCompile: true,
@@ -111,16 +99,6 @@ export const config: WebdriverIO.Config = {
 
   async before() {
     require('./setup');
-  },
-
-  async afterTest(test, context, { error }) {
-    const logs = await browser.getLogs('browser');
-
-    allure.addAttachment('Browser logs', JSON.stringify(logs, null, 2), 'text/plain');
-
-    if (error) {
-      await browser.takeScreenshot();
-    }
   },
 };
 

@@ -1,5 +1,8 @@
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs';
+import path from 'path';
+
+export const rootDir = path.resolve(__dirname, '../../..');
 
 export const options = yargs(hideBin(process.argv)).options({
   targetUrl: { type: 'string' },
