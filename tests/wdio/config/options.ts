@@ -5,6 +5,7 @@ import path from 'path';
 export const rootDir = path.resolve(__dirname, '../../..');
 
 export const options = yargs(hideBin(process.argv)).options({
+  env: { choices: ['dev', 'stage', 'prod', 'test', 'simulation'] },
   targetUrl: { type: 'string' },
   ci: { type: 'boolean', default: false },
   headless: { type: 'boolean', default: false },
