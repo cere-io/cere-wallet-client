@@ -1,10 +1,9 @@
 import path from 'path';
 import dotenv from 'dotenv';
-import { options, rootDir } from './config';
+import { rootDir } from './config';
 
-const envSuffix = options.env ? '.' + options.env : '';
-const envFile = path.resolve(rootDir, '.env' + envSuffix);
-
-dotenv.config({ path: envFile });
+dotenv.config({
+  path: path.resolve(rootDir, '.env'),
+});
 
 export * from './config';
