@@ -78,7 +78,7 @@ jobs:
 
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}${{ github.run_number }}
+      url: ${{ steps.deployment.outputs.page_url }}tests/${{ github.run_number }}
 
     steps:
       - name: Checkout
