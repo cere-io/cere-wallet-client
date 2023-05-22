@@ -111,6 +111,8 @@ export const config: WebdriverIO.Config = {
 
   async before() {
     require('./setup');
+
+    allure.addEnvironment('APP_ENV', process.env.REACT_APP_ENV);
   },
 
   async afterTest(test, context, { error }) {
