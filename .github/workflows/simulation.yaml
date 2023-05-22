@@ -20,7 +20,7 @@ jobs:
     name: Simulation
     uses: ./.github/workflows/wdio-tests.yaml
     with:
-      max-instances: ${{ inputs.instances }}
+      max-instances: !!int ${{ inputs.instances }}
       keep-report-history: 20
       report-dir: simulations
       install_packages_command: cp .env.simulation .env; npm ci
