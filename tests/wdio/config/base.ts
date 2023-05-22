@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as allure from '@wdio/allure-reporter';
 import historyApiMiddleware from 'express-history-api-fallback';
 import { configure } from '@testing-library/webdriverio';
 
@@ -7,19 +8,24 @@ import { options } from './options';
 const rootDir = path.resolve(__dirname, '../../..');
 const bundleRoot = path.resolve(rootDir, 'build');
 
-const chromeArgs = ['--window-size=1920,1080', '--disable-dev-shm-usage', '--no-sandbox', '--mute-audio'];
-
-if (options.headless) {
-  chromeArgs.push('--headless', '--disable-gpu');
-}
-
 export const chromeCapability: WebDriver.DesiredCapabilities = {
   browserName: 'chrome',
   acceptInsecureCerts: true,
 
   'goog:chromeOptions': {
-    args: chromeArgs,
+    args: [
+      '--window-size=1920,1080',
+      '--disable-dev-shm-usage',
+      '--no-sandbox',
+      '--mute-audio',
+
+      ...(options.openDevTools ? ['--auto-open-devtools-for-tabs'] : []),
+      ...(options.headless ? ['--headless', '--disable-gpu'] : []),
+    ],
   },
+
+  // @ts-ignore
+  'goog:loggingPrefs': { browser: 'ALL' },
 
   'selenoid:options': {
     /**
@@ -76,7 +82,17 @@ export const config: WebdriverIO.Config = {
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
 
-  reporters: ['spec'],
+  reporters: [
+    'spec',
+    [
+      'allure',
+      {
+        outputDir: path.resolve(rootDir, './report/allure-results'),
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+      },
+    ],
+  ],
 
   autoCompileOpts: {
     autoCompile: true,
@@ -93,8 +109,18 @@ export const config: WebdriverIO.Config = {
     require: [require.resolve('mocha-steps')],
   },
 
-  before(capabilities, specs) {
+  async before() {
     require('./setup');
+  },
+
+  async afterTest(test, context, { error }) {
+    const logs = await browser.getLogs('browser');
+
+    allure.addAttachment('Browser logs', JSON.stringify(logs, null, 2), 'text/plain');
+
+    if (error) {
+      await browser.takeScreenshot();
+    }
   },
 };
 

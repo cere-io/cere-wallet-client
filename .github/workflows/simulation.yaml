@@ -7,48 +7,28 @@ on:
         description: 'Number of iterations'
         required: true
         type: number
-        default: '10'
+        default: 10
 
       instances:
         description: 'Number of browser instances'
         required: true
         type: number
-        default: '5'
+        default: 5
 
 jobs:
-  simulation:
+  tests:
     name: Simulation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start Selenoid server
-        uses: n-ton4/selenoid-github-action@master
-        id: start-selenoid
-        continue-on-error: false
-        with:
-          version: 1.10.1
-          args: -limit ${{ github.event.inputs.instances }}
-          browsers: chrome
-          last-versions: 1
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup node env
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
-        run: cp .env.simulation .env; npm ci
-
-      - name: Build application
-        run: npm run build
-
-      - name: Run simulation
-        run: |
-          npm run test:ci -- \
-            --suite=simulation \
-            --maxInstances=${{ github.event.inputs.instances }} \
-            --multi-run=${{ github.event.inputs.iterations }}
+    uses: ./.github/workflows/wdio-tests.yaml
+    with:
+      max-instances: ${{ github.event.inputs.instances }}
+      keep-report-history: 20
+      report-dir: simulations
+      install_packages_command: cp .env.simulation .env; npm ci
+      build_command: npm run build
+      test_command: |
+        npm run test:ci -- \
+          --suite=simulation \
+          --maxInstances=${{ github.event.inputs.instances }} \
+          --multi-run=${{ github.event.inputs.iterations }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
