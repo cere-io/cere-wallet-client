@@ -20,7 +20,7 @@ jobs:
     name: Simulation
     uses: ./.github/workflows/wdio-tests.yaml
     with:
-      max-instances: ${{ github.event.inputs.instances }}
+      max-instances: ${{ inputs.instances }}
       keep-report-history: 20
       report-dir: simulations
       install_packages_command: cp .env.simulation .env; npm ci
@@ -28,7 +28,7 @@ jobs:
       test_command: |
         npm run test:ci -- \
           --suite=simulation \
-          --maxInstances=${{ github.event.inputs.instances }} \
-          --multi-run=${{ github.event.inputs.iterations }}
+          --maxInstances=${{ inputs.instances }} \
+          --multi-run=${{ inputs.iterations }}
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}

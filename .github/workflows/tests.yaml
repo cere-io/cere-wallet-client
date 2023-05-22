@@ -18,7 +18,7 @@ jobs:
       install_packages_command: cp .env.test .env; npm ci
       build_command: npm run build
       test_command: npm run test:ci
-      max-instances: ${{ github.event.inputs.instances || 10 }}
+      max-instances: ${{ inputs.instances || 10 }}
       keep-report-history: 20
       report-dir: tests
     secrets:
