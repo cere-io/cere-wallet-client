@@ -1,4 +1,4 @@
-name: Run tests
+name: Run simulation
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ on:
 jobs:
   tests:
     name: Simulation
-    uses: ./.github/workflows/reusable/wdio-tests.yaml
+    uses: ./.github/workflows/wdio-tests.yaml
     with:
       max-instances: ${{ github.event.inputs.instances }}
       keep-report-history: 20

@@ -13,7 +13,7 @@ on:
 jobs:
   tests:
     name: Tests
-    uses: ./.github/workflows/reusable/wdio-tests.yaml
+    uses: ./.github/workflows/wdio-tests.yaml
     with:
       install_packages_command: cp .env.test .env; npm ci
       build_command: npm run build
