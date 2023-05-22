@@ -3,6 +3,16 @@ name: Run simulation
 on:
   workflow_dispatch:
     inputs:
+      auth-network:
+        description: Web3Auth network
+        required: true
+        type: choice
+        default: testnet
+        options:
+          - testnet
+          - mainnet
+          - cyan
+
       iterations:
         description: 'Number of iterations'
         required: true
@@ -23,7 +33,7 @@ jobs:
       max-instances: ${{ inputs.instances }}
       keep-report-history: 20
       report-dir: simulations
-      install_packages_command: cp .env.simulation .env; npm ci
+      install_packages_command: cp .env.simulation-${{ inputs.auth-network }} .env; npm ci
       build_command: npm run build
       test_command: |
         npm run test:ci -- \
