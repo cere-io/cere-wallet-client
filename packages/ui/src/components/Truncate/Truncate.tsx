@@ -1,4 +1,6 @@
-export type TruncateProps = {
+import { AriaAttributes } from 'react';
+
+export type TruncateProps = AriaAttributes & {
   text: string;
   maxLength?: number;
   endingLength?: number;
@@ -24,13 +26,20 @@ export const Truncate = ({
   variant = 'text',
   maxLength = text.length,
   endingLength = getDefaultEndingLength({ text, variant, maxLength }),
+  ...props
 }: TruncateProps) => {
-  if (maxLength >= text.length) {
-    return <>{text}</>;
+  let truncatedText = text;
+
+  if (maxLength < text.length) {
+    const ending = text.slice(-endingLength);
+    const truncated = text.slice(0, maxLength - endingLength);
+
+    truncatedText = [truncated, ending].filter(Boolean).join('...');
   }
 
-  const ending = text.slice(-endingLength);
-  const truncated = text.slice(0, maxLength - endingLength);
-
-  return <>{[truncated, ending].filter(Boolean).join('...')}</>;
+  return (
+    <span {...props} data-full={text}>
+      {truncatedText}
+    </span>
+  );
 };

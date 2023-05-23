@@ -1,4 +1,4 @@
-export class CereWalletAuth {
+export class WalletAuth {
   get newWalletButton() {
     return browser.findByRole$('button', { name: 'Create a new wallet' });
   }
@@ -17,8 +17,11 @@ export class CereWalletAuth {
 
   async enterRandomEmail() {
     const emailSuffix = Math.random().toString(32).slice(2);
+    const email = `auto+${emailSuffix}@test.io`;
 
-    await this.emailInput.setValue(`auto+${emailSuffix}@test.io`);
+    await this.emailInput.setValue(email);
+
+    return email;
   }
 
   async enterOTP(otp: string) {

@@ -11,12 +11,14 @@ declare global {
   }
 }
 
-/**
- * Add Testing Library commands
- */
-setupBrowser(browser);
+export const setup = async () => {
+  /**
+   * Add Testing Library commands
+   */
+  setupBrowser(browser);
 
-/**
- * Setup custom commands
- */
-require('./commands');
+  /**
+   * Setup custom commands
+   */
+  require('./commands');
+};

@@ -3,6 +3,7 @@ import historyApiMiddleware from 'express-history-api-fallback';
 import { configure } from '@testing-library/webdriverio';
 
 import { options, rootDir } from './options';
+import { setup } from './setup';
 
 const bundleRoot = path.resolve(rootDir, 'build');
 
@@ -16,6 +17,7 @@ export const chromeCapability: WebDriver.DesiredCapabilities = {
       '--disable-dev-shm-usage',
       '--no-sandbox',
       '--mute-audio',
+      '--disable-notifications',
 
       ...(options.openDevTools ? ['--auto-open-devtools-for-tabs'] : []),
       ...(options.headless ? ['--headless', '--disable-gpu'] : []),
@@ -98,7 +100,7 @@ export const config: WebdriverIO.Config = {
   },
 
   async before() {
-    require('./setup');
+    await setup();
   },
 };
 
