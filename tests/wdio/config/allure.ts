@@ -37,7 +37,7 @@ export const withAllure = (baseConfig: WebdriverIO.Config): WebdriverIO.Config =
   async afterTest(test, context, result) {
     const logs = await browser.getLogs('browser');
 
-    allure.addAttachment('Browser logs', JSON.stringify(logs, null, 2), 'text/plain');
+    allure.addAttachment('Browser logs', JSON.stringify(logs, null, 2), 'application/json');
 
     if (result.error) {
       await browser.takeScreenshot();

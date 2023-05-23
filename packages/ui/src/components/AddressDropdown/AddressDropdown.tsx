@@ -53,6 +53,8 @@ export const AddressDropdown = ({
       renderAnchor={({ ref, onOpen }) => (
         <Address
           ref={ref}
+          aria-label="Switch address"
+          aria-expanded={open}
           onClick={onOpen}
           address={value}
           variant={variant}
@@ -63,10 +65,11 @@ export const AddressDropdown = ({
         />
       )}
     >
-      <MenuList disablePadding dense>
+      <MenuList aria-label="Address dropdown" disablePadding dense>
         {options.map((option) => (
           <ListItemButton
             key={option.address}
+            aria-label={option.label}
             onClick={() => {
               if (option.address !== value) {
                 onChange?.(option);
@@ -76,6 +79,7 @@ export const AddressDropdown = ({
             <Icon>{option.icon}</Icon>
             <ListItemText
               primary={option.label}
+              primaryTypographyProps={{ 'aria-hidden': true }}
               secondary={<Address address={option.address} variant="text" maxLength={22} />}
             />
 

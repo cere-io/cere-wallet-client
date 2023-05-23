@@ -1,16 +1,17 @@
-import { forwardRef, ReactNode, Ref } from 'react';
+import { forwardRef, ReactNode, Ref, AriaAttributes } from 'react';
 import { Stack, styled, Typography, svgIconClasses, Button } from '@mui/material';
 
 import { Truncate, TruncateProps } from '../Truncate';
 
-export type AddressProps = Pick<TruncateProps, 'maxLength'> & {
-  address: string;
-  onClick?: () => void;
-  icon?: ReactNode;
-  size?: 'small' | 'medium';
-  variant?: 'default' | 'text' | 'outlined' | 'filled';
-  endAdornment?: ReactNode;
-};
+export type AddressProps = Pick<TruncateProps, 'maxLength'> &
+  AriaAttributes & {
+    address: string;
+    onClick?: () => void;
+    icon?: ReactNode;
+    size?: 'small' | 'medium';
+    variant?: 'default' | 'text' | 'outlined' | 'filled';
+    endAdornment?: ReactNode;
+  };
 
 const Wrapper = styled(Stack, {
   shouldForwardProp: (prop) => prop === 'direction' || prop === 'spacing' || prop === 'children',
@@ -64,16 +65,19 @@ const Clickable = styled(Button)(({ theme }) => ({
 
 export const Address = forwardRef(
   (
-    { variant = 'default', size = 'medium', icon, address, maxLength, endAdornment, onClick }: AddressProps,
+    { variant = 'default', size = 'medium', icon, address, maxLength, endAdornment, onClick, ...props }: AddressProps,
     ref: Ref<any>,
   ) => {
     const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
+
     const renderedElement =
       variant === 'text' ? (
         addressElement
       ) : (
         <Wrapper
           ref={ref}
+          aria-label="Wallet address"
+          {...props}
           direction="row"
           spacing={size === 'medium' ? 1 : 0.5}
           variant={variant}
@@ -91,7 +95,7 @@ export const Address = forwardRef(
       );
 
     return onClick ? (
-      <Clickable variant="text" onClick={onClick}>
+      <Clickable aria-label="Wallet address" {...props} variant="text" onClick={onClick}>
         {renderedElement}
       </Clickable>
     ) : (

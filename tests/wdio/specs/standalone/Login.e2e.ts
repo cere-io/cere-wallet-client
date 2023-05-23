@@ -1,7 +1,15 @@
-import { CereWalletAuth } from '../../objects';
+import reporter from '@wdio/allure-reporter';
+import { WalletAuth, WalletHome } from '../../objects';
 
 describe('Standalone login', () => {
-  const walletAuth = new CereWalletAuth();
+  const walletAuth = new WalletAuth();
+  const walletHome = new WalletHome();
+
+  const currentUser = {
+    email: '',
+    ethAddress: '',
+    cereAddress: '',
+  };
 
   before(async () => {
     await browser.url('/');
@@ -12,18 +20,28 @@ describe('Standalone login', () => {
   });
 
   step('enter email and proceed', async () => {
-    await walletAuth.enterRandomEmail();
+    currentUser.email = await walletAuth.enterRandomEmail();
+
     await walletAuth.signUpButton.click();
   });
 
   step('enter OTP and proceed', async () => {
     await walletAuth.enterOTP('555555');
     await walletAuth.verifyButton.click();
-  });
 
-  it('should redirect to the home page', async () => {
-    await expect(browser).toHaveUrlContaining('/wallet/home', {
+    await expect(browser).toHaveUrlContaining(walletHome.pageUrl, {
       wait: 30000,
     });
+  });
+
+  it('should connect the wallet', async () => {
+    currentUser.ethAddress = await walletHome.copyAddressAndReturn();
+    await walletHome.switchAddress('Cere Network');
+    currentUser.cereAddress = await walletHome.copyAddressAndReturn();
+
+    expect(currentUser.cereAddress).toBeTruthy();
+    expect(currentUser.ethAddress).toBeTruthy();
+
+    reporter.addAttachment('Wallet details', JSON.stringify(currentUser, null, 2), 'application/json');
   });
 });

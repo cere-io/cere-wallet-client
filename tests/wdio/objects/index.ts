@@ -1,1 +1,2 @@
-export * from './CereWalletAuth';
+export * from './WalletAuth';
+export * from './WalletHome';
