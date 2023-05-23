@@ -35,14 +35,18 @@ export class Web3AuthStore {
       verifierId,
     });
 
-    const pubDetails = await this.auth.torus.getUserTypeAndAddress(
-      torusNodeEndpoints,
-      torusNodePub,
-      { verifier, verifierId },
-      true,
-    );
+    try {
+      const pubDetails = await this.auth.torus.getUserTypeAndAddress(torusNodeEndpoints, torusNodePub, {
+        verifier,
+        verifierId,
+      });
 
-    return !!pubDetails.upgraded;
+      return !!pubDetails.upgraded;
+    } catch (error) {
+      console.warn(error);
+
+      return false;
+    }
   }
 
   async login({ idToken, checkMfa = true }: Web3AuthStoreLoginParams) {

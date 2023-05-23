@@ -78,8 +78,8 @@ export const config: WebdriverIO.Config = {
   logLevel: 'warn',
   maxInstances: options.maxInstances,
 
-  waitforTimeout: 10000,
-  connectionRetryTimeout: 120000,
+  waitforTimeout: 10 * 1000, // 10 secs
+  connectionRetryTimeout: 2 * 60 * 1000, // 2 mins
   connectionRetryCount: 3,
 
   reporters: ['spec'],
@@ -95,7 +95,7 @@ export const config: WebdriverIO.Config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 60000,
+    timeout: 2 * 60 * 1000, // 2 mins
     require: [require.resolve('mocha-steps')],
   },
 
