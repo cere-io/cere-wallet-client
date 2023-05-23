@@ -1,10 +1,6 @@
 export class WalletHome {
   readonly pageUrl = '/wallet/home';
 
-  get copyAddressButton() {
-    return browser.findByRole$('button', { name: 'Copy to clipboard' });
-  }
-
   get switchAddressButton() {
     return browser.findByRole$('button', { name: 'Switch address' });
   }
@@ -13,19 +9,9 @@ export class WalletHome {
     return browser.findByRole$('menu', { name: 'Address dropdown' });
   }
 
-  async copyAddressAndReturn() {
-    await this.copyAddressButton.click();
+  async readAddress(chain: 'Cere Network' | 'Polygon') {
+    const addressElement = await this.addressDropdown.findByLabelText$(chain).findByLabelText$('Wallet address');
 
-    return browser.readClipboard();
-  }
-
-  async switchAddress(to: 'Cere Network' | 'Polygon') {
-    await this.switchAddressButton.click();
-    await this.addressDropdown.findByLabelText$(to).click();
-
-    /**
-     * Hide overlay
-     */
-    await browser.findByRole$('presentation', { name: 'Overlay' }).click();
+    return addressElement.getAttribute('data-full');
   }
 }

@@ -6,13 +6,7 @@ declare global {
   const xstep: typeof xstepFunction;
 
   namespace WebdriverIO {
-    interface Browser extends WebdriverIOQueries, WebdriverIOQueriesChainable<Browser> {
-      /**
-       * Custom commands
-       */
-      readClipboard: () => Promise<string>;
-    }
-
+    interface Browser extends WebdriverIOQueries, WebdriverIOQueriesChainable<Browser> {}
     interface Element extends WebdriverIOQueries, WebdriverIOQueriesChainable<Element> {}
   }
 }

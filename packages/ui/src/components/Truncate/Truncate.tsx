@@ -38,7 +38,7 @@ export const Truncate = ({
   }
 
   return (
-    <span {...props} data-full-text={text}>
+    <span {...props} data-full={text}>
       {truncatedText}
     </span>
   );

@@ -35,9 +35,10 @@ describe('Standalone login', () => {
   });
 
   it('should connect the wallet', async () => {
-    currentUser.ethAddress = await walletHome.copyAddressAndReturn();
-    await walletHome.switchAddress('Cere Network');
-    currentUser.cereAddress = await walletHome.copyAddressAndReturn();
+    await walletHome.switchAddressButton.click();
+
+    currentUser.ethAddress = await walletHome.readAddress('Polygon');
+    currentUser.cereAddress = await walletHome.readAddress('Cere Network');
 
     expect(currentUser.cereAddress).toBeTruthy();
     expect(currentUser.ethAddress).toBeTruthy();

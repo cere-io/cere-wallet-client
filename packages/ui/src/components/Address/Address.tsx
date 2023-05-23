@@ -68,7 +68,7 @@ export const Address = forwardRef(
     { variant = 'default', size = 'medium', icon, address, maxLength, endAdornment, onClick, ...props }: AddressProps,
     ref: Ref<any>,
   ) => {
-    const addressElement = <Truncate text={address} variant="hex" maxLength={maxLength} />;
+    const addressElement = <Truncate aria-label="Wallet address" text={address} variant="hex" maxLength={maxLength} />;
 
     const renderedElement =
       variant === 'text' ? (
@@ -76,7 +76,7 @@ export const Address = forwardRef(
       ) : (
         <Wrapper
           ref={ref}
-          aria-label="Wallet address"
+          data-address={address}
           {...props}
           direction="row"
           spacing={size === 'medium' ? 1 : 0.5}
@@ -95,7 +95,7 @@ export const Address = forwardRef(
       );
 
     return onClick ? (
-      <Clickable aria-label="Wallet address" {...props} variant="text" onClick={onClick}>
+      <Clickable {...props} variant="text" onClick={onClick}>
         {renderedElement}
       </Clickable>
     ) : (
