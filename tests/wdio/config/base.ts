@@ -38,7 +38,7 @@ export const chromeCapability: WebDriver.DesiredCapabilities = {
 };
 
 let baseUrl = options.targetUrl;
-const services: WebdriverIO.Config['services'] = [];
+const services: WebdriverIO.Config['services'] = ['intercept'];
 
 if (!baseUrl) {
   baseUrl = 'http://localhost:4567/';

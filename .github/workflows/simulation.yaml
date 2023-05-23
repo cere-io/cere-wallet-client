@@ -31,7 +31,7 @@ jobs:
     uses: ./.github/workflows/wdio-tests.yaml
     with:
       max-instances: ${{ inputs.instances }}
-      keep-report-history: 100
+      keep-report-history: 20
       report-dir: simulations
       install_packages_command: cp .env.simulation-${{ inputs.auth-network }} .env; npm ci
       build_command: npm run build
