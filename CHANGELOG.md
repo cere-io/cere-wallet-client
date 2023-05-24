@@ -4,6 +4,10 @@
 
 -
 
+### v1.25.1
+
+- Fix authentication retry when it shows previous error without actual retrying
+
 ### v1.25.0
 
 - [[Feature](https://www.notion.so/cere/Cere-Wallet-simulation-config-46f78c7d573e44f198eac83c1805e482?pvs=4)] Add simulation workflow to run critical user path
