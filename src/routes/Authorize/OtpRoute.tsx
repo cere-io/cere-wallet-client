@@ -11,14 +11,14 @@ export const OtpRoute = () => {
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
 
-  const email = location.state?.email;
+  store.email = location.state?.email;
 
   if (isMobile) {
     return (
       <Stack direction="column" justifyContent="flex-start" alignItems="stretch" padding={2} height="100vh" spacing={9}>
         <ArrowBackIosIcon onClick={() => navigate(-1)} />
         <Stack direction="column" textAlign="justify">
-          <OtpPage email={email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
       </Stack>
     );
@@ -29,7 +29,7 @@ export const OtpRoute = () => {
       <ArrowBackIosIcon onClick={() => navigate(-1)} />
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage email={email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
       </Stack>
     </Stack>

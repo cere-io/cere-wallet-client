@@ -222,10 +222,9 @@ export class EmbedWallet {
 
   async getUserInfo(): Promise<UserInfo> {
     const torusUserInfo: unknown = await this.torus.getUserInfo('');
-    const { email, name, idToken, profileImage, isNewUser } = torusUserInfo as UserInfo;
+    const { email, name, profileImage, isNewUser } = torusUserInfo as UserInfo;
 
     return {
-      idToken,
       email,
       name,
       profileImage,

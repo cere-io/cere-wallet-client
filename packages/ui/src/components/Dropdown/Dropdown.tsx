@@ -41,6 +41,7 @@ export const Dropdown = ({
     <>
       {renderAnchor({ ref: anchorRef, onOpen, open })}
       <Popover
+        aria-label="Overlay"
         open={open}
         onClose={() => onToggle?.(false)}
         anchorEl={anchorRef.current}

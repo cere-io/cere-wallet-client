@@ -19,10 +19,10 @@ jobs:
       - name: Install packages
         run: npm ci
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN_READ}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
       - name: Run Build
         run: npm run sdk:build
       - name: Publish packages
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN_PUBLISH}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_PUBLISH }}
         run: npm run sdk:publish

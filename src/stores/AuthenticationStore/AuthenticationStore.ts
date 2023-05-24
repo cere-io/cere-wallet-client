@@ -1,20 +1,34 @@
 import { makeAutoObservable, reaction, when } from 'mobx';
 import { LoginOptions } from '@cere-wallet/communication';
 
+import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
 import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore, LoginParams, InitParams } from '../OpenLoginStore';
+import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
+import { SessionStore } from '../SessionStore';
+import { createAuthToken } from './createAuthToken';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
+};
+
+type RehydrateParams = {
+  sessionId?: string;
+};
+
+type AuthLoginParams = LoginParams & {
+  forceMfa?: boolean;
+  emailHint?: string;
 };
 
 export class AuthenticationStore {
   private _isRehydrating?: boolean;
 
   constructor(
+    private wallet: Wallet,
+    private sessionStore: SessionStore,
     private accountStore: AccountStore,
     private contextStore: AppContextStore,
     private openLoginStore: OpenLoginStore,
@@ -40,22 +54,27 @@ export class AuthenticationStore {
     this._isRehydrating = value;
   }
 
-  async rehydrate({ sessionId }: InitParams = {}) {
+  async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
 
-    if (this.openLoginStore.sessionId || sessionId) {
-      await this.openLoginStore.init({ sessionId });
-    }
+    await this.sessionStore.rehydrate(sessionId);
 
-    await this.syncLoginData();
-
+    this.syncLoginData();
     this.isRehydrating = false;
 
     return this.accountStore.userInfo;
   }
 
-  getRedirectUrl(params: LoginParams = {}) {
+  getRedirectUrl(params: AuthLoginParams = {}) {
     return this.getLoginUrl('redirect', params);
+  }
+
+  async createToken() {
+    if (!this.wallet.isReady()) {
+      return null;
+    }
+
+    return createAuthToken(this.wallet.unsafeProvider.getSigner());
   }
 
   async login({ redirectUrl, ...params }: LoginParams = {}) {
@@ -73,7 +92,7 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(popupId: string, params: LoginParams = {}) {
+  async loginInPopup(popupId: string, params: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -89,10 +108,10 @@ export class AuthenticationStore {
       throw new Error('User has closed the login popup');
     }
 
-    return this.syncAccountWithState(authPopup.state.result!);
+    return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(modalId: string, params: LoginParams = {}) {
+  async loginInModal(modalId: string, params: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
@@ -114,20 +133,21 @@ export class AuthenticationStore {
       this.popupManagerStore.hideModal(modalId);
     }
 
-    return this.syncAccountWithState(authPopup.state.result!);
+    return this.syncAccount(authPopup.state.result!);
   }
 
   async logout() {
-    await this.openLoginStore.logout();
+    await this.sessionStore.invalidateSession();
     await this.contextStore.disconnect();
-    await this.syncLoginData();
+
+    this.syncLoginData();
 
     return true;
   }
 
-  private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: LoginParams) {
-    const { preopenInstanceId = 'redirect' } = params;
-    const { sessionNamespace } = this.openLoginStore;
+  private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: AuthLoginParams) {
+    const { preopenInstanceId = 'redirect', forceMfa = false, emailHint } = params;
+    const { sessionNamespace } = this.sessionStore;
 
     const startUrl = new URL('/authorize', window.origin);
     const callbackParams = new URLSearchParams();
@@ -142,6 +162,14 @@ export class AuthenticationStore {
       startUrl.searchParams.append('sessionNamespace', sessionNamespace);
     }
 
+    if (forceMfa) {
+      startUrl.searchParams.append('mfa', 'force');
+    }
+
+    if (emailHint) {
+      startUrl.searchParams.append('email', emailHint);
+    }
+
     const callbackQuery = callbackParams.toString();
     const callbackUrl = callbackQuery ? `${callbackPath}?${callbackQuery}` : callbackPath;
 
@@ -153,40 +181,23 @@ export class AuthenticationStore {
       : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
   }
 
-  private async syncAccountWithState({ state, sessionId }: Required<AuthorizePopupState>['result']) {
-    if (!state) {
-      throw new Error('Authentication state is empty');
-    }
+  private async syncAccount({ sessionId }: Required<AuthorizePopupState>['result']) {
+    const session = await this.sessionStore.rehydrate(sessionId, { store: true });
 
-    if (!sessionId) {
-      console.warn('Ausentication sessionId is empty - will not be possible to restore the session after reload');
-    }
-
-    this.openLoginStore.syncWithEncodedState(state, sessionId);
-
-    if (sessionId) {
-      await this.openLoginStore.init({ sessionId });
-    }
-
-    await this.syncLoginData();
-
-    if (!this.accountStore.privateKey) {
+    if (!session) {
       throw new Error('Something went wrong during authentication');
     }
+
+    this.syncLoginData();
 
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
 
     return this.accountStore.account!.address;
   }
 
-  private async syncLoginData() {
-    const { privateKey } = this.openLoginStore;
+  private syncLoginData() {
+    const { session } = this.sessionStore;
 
-    this.accountStore.loginData = privateKey
-      ? {
-          privateKey,
-          userInfo: await this.openLoginStore.getUserInfo(),
-        }
-      : null;
+    this.accountStore.loginData = session;
   }
 }

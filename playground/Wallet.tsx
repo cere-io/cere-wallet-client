@@ -179,6 +179,13 @@ export const Wallet = () => {
     console.log('TX', txHash);
   }, [wallet]);
 
+  const handleDangerousRedirectLogin = useCallback(() => {
+    wallet.connect({
+      mode: 'redirect',
+      redirectUrl: 'https://evil.com/auth',
+    });
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
       {status === 'connected' && (
@@ -297,14 +304,25 @@ export const Wallet = () => {
           </Button>
         </>
       ) : (
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={status === 'not-ready' || status === 'connecting'}
-          onClick={handleConnect}
-        >
-          Connect wallet
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'not-ready' || status === 'connecting'}
+            onClick={handleConnect}
+          >
+            Connect wallet
+          </Button>
+
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={status === 'not-ready' || status === 'connecting'}
+            onClick={handleDangerousRedirectLogin}
+          >
+            Danger Connect
+          </Button>
+        </>
       )}
     </Stack>
   );
