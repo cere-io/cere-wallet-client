@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
+import { makeAutoObservable, reaction, toJS, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
@@ -107,6 +107,18 @@ export class EmbeddedWalletStore implements Wallet {
 
   get engine() {
     return this.currentEngine;
+  }
+
+  private set engine(engine: WalletEngine | undefined) {
+    this.currentEngine = engine;
+
+    if (this.provider) {
+      this.provider.pollingInterval = RPC_POLLING_INTERVAL;
+    }
+
+    if (this.unsafeProvider) {
+      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
+    }
   }
 
   get network() {
@@ -232,7 +244,7 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.networkStore.network);
 
-    const engine = createWalletEngine({
+    this.engine = createWalletEngine({
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
@@ -246,20 +258,13 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     createRpcConnection({
-      engine,
+      engine: this.engine,
       logger: console,
-    });
-
-    runInAction(() => {
-      this.currentEngine = engine;
-
-      this.provider!.pollingInterval = RPC_POLLING_INTERVAL;
-      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
     });
 
     reaction(
       () => this.accountStore.privateKey,
-      () => engine.updateAccounts(),
+      () => this.engine?.updateAccounts(),
     );
   }
 }

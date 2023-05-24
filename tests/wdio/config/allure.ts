@@ -34,14 +34,24 @@ export const withAllure = (baseConfig: WebdriverIO.Config): WebdriverIO.Config =
     ],
   ],
 
+  async beforeTest() {
+    browser.setupInterceptor();
+  },
+
   async afterTest(test, context, result) {
     const logs = await browser.getLogs('browser');
+    const networkLog = await browser.getRequests({
+      orderBy: 'START',
+    });
 
-    allure.addAttachment('Browser logs', JSON.stringify(logs, null, 2), 'application/json');
+    allure.addAttachment('Browser log', JSON.stringify(logs, null, 2), 'application/json');
+    allure.addAttachment('Network log', JSON.stringify(networkLog, null, 2), 'application/json');
 
     if (result.error) {
       await browser.takeScreenshot();
     }
+
+    browser.disableInterceptor();
   },
 
   onComplete() {

@@ -29,16 +29,20 @@ export class Web3AuthStore {
     makeAutoObservable(this);
   }
 
+  private async getNodeDetails({ verifierId, verifier = OPEN_LOGIN_VERIFIER }: VerifierDetails) {
+    return this.auth.nodeDetailManager.getNodeDetails({ verifier, verifierId });
+  }
+
   async isMfaEnabled({ verifierId, verifier = OPEN_LOGIN_VERIFIER }: VerifierDetails) {
-    const { torusNodeEndpoints, torusNodePub } = await this.auth.nodeDetailManager.getNodeDetails({
-      verifier,
-      verifierId,
-    });
+    const { torusNodeEndpoints, torusNodePub } = await this.getNodeDetails({ verifier, verifierId });
 
     const pubDetails = await this.auth.torus.getUserTypeAndAddress(
       torusNodeEndpoints,
       torusNodePub,
-      { verifier, verifierId },
+      {
+        verifier,
+        verifierId,
+      },
       true,
     );
 
@@ -53,9 +57,11 @@ export class Web3AuthStore {
       throw new Error(`MFA is enabled for the account (${userInfo.email})`);
     }
 
-    const { privateKey } = await this.auth.getTorusKey(
+    const { torusNodeEndpoints, torusIndexes } = await this.getNodeDetails(userInfo);
+    const { privKey } = await this.auth.torus.retrieveShares(
+      torusNodeEndpoints,
+      torusIndexes,
       userInfo.verifier,
-      userInfo.verifierId,
       {
         verifier_id: userInfo.verifierId,
       },
@@ -64,7 +70,7 @@ export class Web3AuthStore {
 
     await this.sessionStore.createSession({
       userInfo,
-      privateKey: getScopedKey(privateKey),
+      privateKey: getScopedKey(privKey),
     });
 
     return userInfo;

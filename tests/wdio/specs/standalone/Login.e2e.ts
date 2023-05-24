@@ -30,7 +30,7 @@ describe('Standalone login', () => {
     await walletAuth.verifyButton.click();
 
     await expect(browser).toHaveUrlContaining(walletHome.pageUrl, {
-      wait: 30000,
+      wait: 2 * 60 * 1000, // Wait for up to 2 mins to get proper network errors (eg: 504)
     });
   });
 
