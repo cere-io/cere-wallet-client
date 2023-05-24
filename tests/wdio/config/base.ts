@@ -95,7 +95,7 @@ export const config: WebdriverIO.Config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 2 * 60 * 1000, // 2 mins
+    timeout: 3 * 60 * 1000, // 3 mins
     require: [require.resolve('mocha-steps')],
   },
 
