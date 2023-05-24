@@ -57,7 +57,7 @@ export class AuthorizePopupStore {
   }
 
   async login(idToken: string) {
-    const isMfa = await this.mfaCheckPromise;
+    const isMfa = await this.mfaCheckPromise?.catch(() => undefined);
 
     if (isMfa || this.options.forceMfa) {
       /**
