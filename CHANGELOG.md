@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.25.0
+
 - [[Feature](https://www.notion.so/cere/Cere-Wallet-simulation-config-46f78c7d573e44f198eac83c1805e482?pvs=4)] Add simulation workflow to run critical user path
 - [[Feature](https://www.notion.so/cere/Plan-for-TORUS-replacement-1304aeda9f8c468b946b8b223fb86da7?pvs=4)] Update authentication flow to reduce new users onboarding time
 - [[Feature](https://www.notion.so/cere/Implement-E2E-UI-tests-for-Wallet-Client-to-check-Tor-us-fix-b6575b5474684b6cb1566926063a9254?pvs=4)] Add E2E UI tests configuration and simple login spec
