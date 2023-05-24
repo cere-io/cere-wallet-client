@@ -1,0 +1,3090 @@
+[
+  {
+    "url": "https://fnd.tor.us/node-details?network=testnet&verifier=cere-wallet-dev&verifierId=auto+1lbfpg4r7po@test.io",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "nodeDetails": {
+          "currentEpoch": "15",
+          "torusNodeEndpoints": [
+            "https://teal-15-1.torusnode.com/jrpc",
+            "https://teal-15-3.torusnode.com/jrpc",
+            "https://teal-15-4.torusnode.com/jrpc",
+            "https://teal-15-5.torusnode.com/jrpc",
+            "https://teal-15-2.torusnode.com/jrpc"
+          ],
+          "torusNodePub": [
+            {
+              "X": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+              "Y": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+            },
+            {
+              "X": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+              "Y": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+            },
+            {
+              "X": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+              "Y": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+            },
+            {
+              "X": "25a98d9ae006aed1d77e81d58be8f67193d13d01a9888e2923841894f4b0bf9c",
+              "Y": "f63d40df480dacf68922004ed36dbab9e2969181b047730a5ce0797fb6958249"
+            },
+            {
+              "X": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+              "Y": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+            }
+          ],
+          "torusIndexes": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://fnd.tor.us/node-details?network=testnet&verifier=cere-wallet-dev&verifierId=auto+1lbfpg4r7po@test.io",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "nodeDetails": {
+          "currentEpoch": "15",
+          "torusNodeEndpoints": [
+            "https://teal-15-1.torusnode.com/jrpc",
+            "https://teal-15-3.torusnode.com/jrpc",
+            "https://teal-15-4.torusnode.com/jrpc",
+            "https://teal-15-5.torusnode.com/jrpc",
+            "https://teal-15-2.torusnode.com/jrpc"
+          ],
+          "torusNodePub": [
+            {
+              "X": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+              "Y": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+            },
+            {
+              "X": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+              "Y": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+            },
+            {
+              "X": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+              "Y": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+            },
+            {
+              "X": "25a98d9ae006aed1d77e81d58be8f67193d13d01a9888e2923841894f4b0bf9c",
+              "Y": "f63d40df480dacf68922004ed36dbab9e2969181b047730a5ce0797fb6958249"
+            },
+            {
+              "X": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+              "Y": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+            }
+          ],
+          "torusIndexes": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "255",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input Error",
+          "data": "Verifier + VerifierID has not yet been assigned could not retrieveVerifierToKeyIndex error: retrieveVerifierToKeyIndex keyIndexes do not exist for verifier, and verifierID"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.wallet.dev.cere.io/auth/token-by-email",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json"
+    },
+    "body": {
+      "email": "auto+1lbfpg4r7po@test.io",
+      "code": "555555"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "code": "SUCCESS",
+        "data": {
+          "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/sign",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "pubkeyx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+      "pubkeyy": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "222",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "torus-timestamp": "1684918976",
+        "torus-nonce": "92bdec91c7f303a87075fb62843c85ae52be76ce4a98dd48873df1b210f230f4",
+        "torus-signature": "3TR5nJbit64yZDMpSW+P8CgvM+R6WJ7PyA9BXM77pdx8Wu8ooB9BIpgrW+f2PPtOqimpKy7GcXh+OH/QZpyNfhs="
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      },
+      "torus-timestamp": "1684918976",
+      "torus-nonce": "92bdec91c7f303a87075fb62843c85ae52be76ce4a98dd48873df1b210f230f4",
+      "torus-signature": "3TR5nJbit64yZDMpSW+P8CgvM+R6WJ7PyA9BXM77pdx8Wu8ooB9BIpgrW+f2PPtOqimpKy7GcXh+OH/QZpyNfhs="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+1lbfpg4r7po@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "281",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "6aa27",
+              "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+              "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+              "address": "0x9172c14B11aC431561Ba8Abf8DCc155035677b5f"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+      "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+      "set_data": {
+        "data": "getOrSetNonce"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "249",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "fa0d388bde774ae0e31310704f16af7e31bed83458450788c150051abb3a9ff6",
+          "y": "7a55e7bdc12bcff1bbbc623ea576e6a57b9825433e57df4217f28db83781c5f8"
+        },
+        "ipfs": [
+          "QmP35Ap9Lky3HFosAJa2SaHgmAW7t9yw1aq79nprp7e1sU"
+        ]
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+      "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+      "set_data": {
+        "data": "getOrSetNonce"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "249",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "fa0d388bde774ae0e31310704f16af7e31bed83458450788c150051abb3a9ff6",
+          "y": "7a55e7bdc12bcff1bbbc623ea576e6a57b9825433e57df4217f28db83781c5f8"
+        },
+        "ipfs": [
+          "QmP35Ap9Lky3HFosAJa2SaHgmAW7t9yw1aq79nprp7e1sU"
+        ]
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+1lbfpg4r7po@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+1lbfpg4r7po@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+1lbfpg4r7po@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+          "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+          "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+          "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+          "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+          "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+          "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+          "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+          "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+          "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "0302807a0b8651f8c0342a2d6ade397852722e0f37b736ab4484082b20e42bb24e97484b123ba62d53ca3232d491e33c72536c76f1fdb01edbd2765c089f612f1c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "25a98d9ae006aed1d77e81d58be8f67193d13d01a9888e2923841894f4b0bf9c",
+          "nodepuby": "f63d40df480dacf68922004ed36dbab9e2969181b047730a5ce0797fb6958249"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "0302807a0b8651f8c0342a2d6ade397852722e0f37b736ab4484082b20e42bb24e97484b123ba62d53ca3232d491e33c72536c76f1fdb01edbd2765c089f612f1c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "25a98d9ae006aed1d77e81d58be8f67193d13d01a9888e2923841894f4b0bf9c",
+          "nodepuby": "f63d40df480dacf68922004ed36dbab9e2969181b047730a5ce0797fb6958249"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "0302807a0b8651f8c0342a2d6ade397852722e0f37b736ab4484082b20e42bb24e97484b123ba62d53ca3232d491e33c72536c76f1fdb01edbd2765c089f612f1c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "25a98d9ae006aed1d77e81d58be8f67193d13d01a9888e2923841894f4b0bf9c",
+          "nodepuby": "f63d40df480dacf68922004ed36dbab9e2969181b047730a5ce0797fb6958249"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+          "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+          "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26",
+        "temppubx": "8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157",
+        "temppuby": "846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "600",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+          "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+          "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+          "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjNjY2FiZGNiMjAyOWQ4ZTI1Y2Y2ZDhjZGRiNDJhYjlhOGNkOGFmZGM0NTc1NDM5ZjI3M2JkMDc1NjQ5NTY5YTlhNTBlZjdhNmViNDY2NzAwOTA0OTgwZGJhOGJkOTQx",
+              "Metadata": {
+                "iv": "56ce08a355ff749ef5f7353fe814ab71",
+                "ephemPublicKey": "042eb0a979cca8878d0ffd7bf603506b783246f3c23b7e97e0ad838e1409d02cb4c36f474eff1efbd5862221af63d5f04bd54605c8a0cb2bc475f7d4619a40f42b",
+                "mac": "9bfcebfced93cc1085aacad4fc339a490705d1a899b78f5f6ccca97ce59897c4",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjNjY2FiZGNiMjAyOWQ4ZTI1Y2Y2ZDhjZGRiNDJhYjlhOGNkOGFmZGM0NTc1NDM5ZjI3M2JkMDc1NjQ5NTY5YTlhNTBlZjdhNmViNDY2NzAwOTA0OTgwZGJhOGJkOTQx",
+              "Metadata": {
+                "iv": "56ce08a355ff749ef5f7353fe814ab71",
+                "ephemPublicKey": "042eb0a979cca8878d0ffd7bf603506b783246f3c23b7e97e0ad838e1409d02cb4c36f474eff1efbd5862221af63d5f04bd54605c8a0cb2bc475f7d4619a40f42b",
+                "mac": "9bfcebfced93cc1085aacad4fc339a490705d1a899b78f5f6ccca97ce59897c4",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-1.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjNjY2FiZGNiMjAyOWQ4ZTI1Y2Y2ZDhjZGRiNDJhYjlhOGNkOGFmZGM0NTc1NDM5ZjI3M2JkMDc1NjQ5NTY5YTlhNTBlZjdhNmViNDY2NzAwOTA0OTgwZGJhOGJkOTQx",
+              "Metadata": {
+                "iv": "56ce08a355ff749ef5f7353fe814ab71",
+                "ephemPublicKey": "042eb0a979cca8878d0ffd7bf603506b783246f3c23b7e97e0ad838e1409d02cb4c36f474eff1efbd5862221af63d5f04bd54605c8a0cb2bc475f7d4619a40f42b",
+                "mac": "9bfcebfced93cc1085aacad4fc339a490705d1a899b78f5f6ccca97ce59897c4",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjkzYzgzZjZmMDg4ZGQxNzc0ZjQ3YjRmYzBkNDM5OTBkMWZkZGI4MDExMTU5MTNhYmEwZWUzMzU3MTI2Mjk5MWExZmI2MTFlNWUxMzdhYTY4OTk2NDQyNWY2YzAzNmFj",
+              "Metadata": {
+                "iv": "c3ec5d8afdebb0708ab5919754b4d59f",
+                "ephemPublicKey": "0482c50b60a3ce91a1ea9eee0ad1800128c0ef0288a6042d55d537e6c72033039b70f1b6cfd9a67a459de0e528bb0370558f706d7b142fe8206ac59af0b11f532c",
+                "mac": "23f69d7c46d3b133d7507754ad292d7f1e9398865dc81ef35cd6ba905e560fe3",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjkzYzgzZjZmMDg4ZGQxNzc0ZjQ3YjRmYzBkNDM5OTBkMWZkZGI4MDExMTU5MTNhYmEwZWUzMzU3MTI2Mjk5MWExZmI2MTFlNWUxMzdhYTY4OTk2NDQyNWY2YzAzNmFj",
+              "Metadata": {
+                "iv": "c3ec5d8afdebb0708ab5919754b4d59f",
+                "ephemPublicKey": "0482c50b60a3ce91a1ea9eee0ad1800128c0ef0288a6042d55d537e6c72033039b70f1b6cfd9a67a459de0e528bb0370558f706d7b142fe8206ac59af0b11f532c",
+                "mac": "23f69d7c46d3b133d7507754ad292d7f1e9398865dc81ef35cd6ba905e560fe3",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-3.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "YjkzYzgzZjZmMDg4ZGQxNzc0ZjQ3YjRmYzBkNDM5OTBkMWZkZGI4MDExMTU5MTNhYmEwZWUzMzU3MTI2Mjk5MWExZmI2MTFlNWUxMzdhYTY4OTk2NDQyNWY2YzAzNmFj",
+              "Metadata": {
+                "iv": "c3ec5d8afdebb0708ab5919754b4d59f",
+                "ephemPublicKey": "0482c50b60a3ce91a1ea9eee0ad1800128c0ef0288a6042d55d537e6c72033039b70f1b6cfd9a67a459de0e528bb0370558f706d7b142fe8206ac59af0b11f532c",
+                "mac": "23f69d7c46d3b133d7507754ad292d7f1e9398865dc81ef35cd6ba905e560fe3",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "ODJjZmQzMWUwMzJiODNjYzlmOTRiMDAwMTQ1ZDU4YTM5YjM1NDVmYWY4NzE3NGU0YWFiM2UzMzE1Yjg1ZTU0NDEzZGEwNDIwNDg3ZDI0ZDUyNmNkYWU3NjdmNmI2NTYx",
+              "Metadata": {
+                "iv": "f6c4e5bb484a6b056aaaaee02dc4bf7a",
+                "ephemPublicKey": "04bad9e72bd73b516f2895278b63da828a57104a96a28169fb0a1381c08b8d2117bfa345cd48595fec2372809fda47a45c6eae5b17a9c99e0e00dadb26c82baf5b",
+                "mac": "d07fa24e679d1e2e31271a79476357c9a4538bc397901974ce5cf18963f109e6",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "ODJjZmQzMWUwMzJiODNjYzlmOTRiMDAwMTQ1ZDU4YTM5YjM1NDVmYWY4NzE3NGU0YWFiM2UzMzE1Yjg1ZTU0NDEzZGEwNDIwNDg3ZDI0ZDUyNmNkYWU3NjdmNmI2NTYx",
+              "Metadata": {
+                "iv": "f6c4e5bb484a6b056aaaaee02dc4bf7a",
+                "ephemPublicKey": "04bad9e72bd73b516f2895278b63da828a57104a96a28169fb0a1381c08b8d2117bfa345cd48595fec2372809fda47a45c6eae5b17a9c99e0e00dadb26c82baf5b",
+                "mac": "d07fa24e679d1e2e31271a79476357c9a4538bc397901974ce5cf18963f109e6",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-4.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "ODJjZmQzMWUwMzJiODNjYzlmOTRiMDAwMTQ1ZDU4YTM5YjM1NDVmYWY4NzE3NGU0YWFiM2UzMzE1Yjg1ZTU0NDEzZGEwNDIwNDg3ZDI0ZDUyNmNkYWU3NjdmNmI2NTYx",
+              "Metadata": {
+                "iv": "f6c4e5bb484a6b056aaaaee02dc4bf7a",
+                "ephemPublicKey": "04bad9e72bd73b516f2895278b63da828a57104a96a28169fb0a1381c08b8d2117bfa345cd48595fec2372809fda47a45c6eae5b17a9c99e0e00dadb26c82baf5b",
+                "mac": "d07fa24e679d1e2e31271a79476357c9a4538bc397901974ce5cf18963f109e6",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "NDllNGFiMGJmNjE2ZWYwMWUzZmUwNGJmNjQ3OTAxMDQyMzZmNWQxYmJiMDA0NzJiZjkzNjk0NmM5OTgwZDY2YmJmZTRlNzU4YzBlZGNmOGQ1ZjdjZWYxOGM3Y2JhODZj",
+              "Metadata": {
+                "iv": "478b16a0f7c80058fd4cf744206f1778",
+                "ephemPublicKey": "042947f64fed34cac534bb9beb01ea6ed514f583163bfac213ed82df97338fdadf9216480d932fab558a99dffd7e6f2f528469b8280e1cdd8ed67c0af2b03976a1",
+                "mac": "8d9ca3acd58ea693cc363fc8bba5eeeeb341f09e5260aa105e31ea8f00b5f93d",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "NDllNGFiMGJmNjE2ZWYwMWUzZmUwNGJmNjQ3OTAxMDQyMzZmNWQxYmJiMDA0NzJiZjkzNjk0NmM5OTgwZDY2YmJmZTRlNzU4YzBlZGNmOGQ1ZjdjZWYxOGM3Y2JhODZj",
+              "Metadata": {
+                "iv": "478b16a0f7c80058fd4cf744206f1778",
+                "ephemPublicKey": "042947f64fed34cac534bb9beb01ea6ed514f583163bfac213ed82df97338fdadf9216480d932fab558a99dffd7e6f2f528469b8280e1cdd8ed67c0af2b03976a1",
+                "mac": "8d9ca3acd58ea693cc363fc8bba5eeeeb341f09e5260aa105e31ea8f00b5f93d",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-5.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "NDllNGFiMGJmNjE2ZWYwMWUzZmUwNGJmNjQ3OTAxMDQyMzZmNWQxYmJiMDA0NzJiZjkzNjk0NmM5OTgwZDY2YmJmZTRlNzU4YzBlZGNmOGQ1ZjdjZWYxOGM3Y2JhODZj",
+              "Metadata": {
+                "iv": "478b16a0f7c80058fd4cf744206f1778",
+                "ephemPublicKey": "042947f64fed34cac534bb9beb01ea6ed514f583163bfac213ed82df97338fdadf9216480d932fab558a99dffd7e6f2f528469b8280e1cdd8ed67c0af2b03976a1",
+                "mac": "8d9ca3acd58ea693cc363fc8bba5eeeeb341f09e5260aa105e31ea8f00b5f93d",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "MzcxMDg5MTM5NTczZGQ5NGEzYzhlMDZlNzI5MjZkNGEzYjU5N2JiNTQxMTE3OTU2ZTgyZjY4MmZmMTY3YTRiMDI5ZWIyYTk0MzUxY2I4ZWFlNTk2MDc4OTU1YzkyMTlm",
+              "Metadata": {
+                "iv": "71617043acd688ea3d91d096d2745180",
+                "ephemPublicKey": "040c6d7cfbb012998d5e3b4ee0584e8c259b9d460b321a27ac384e8e2b0f7217f9ee2d91756447b0ec6dde23797360fed5df513b992c6d04ac2ae7c7b2f07908fa",
+                "mac": "3bd33c84ad2f7130f25776c184c2f1fe6bc9973112ba4ad7dedd0416ab45a6e7",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "MzcxMDg5MTM5NTczZGQ5NGEzYzhlMDZlNzI5MjZkNGEzYjU5N2JiNTQxMTE3OTU2ZTgyZjY4MmZmMTY3YTRiMDI5ZWIyYTk0MzUxY2I4ZWFlNTk2MDc4OTU1YzkyMTlm",
+              "Metadata": {
+                "iv": "71617043acd688ea3d91d096d2745180",
+                "ephemPublicKey": "040c6d7cfbb012998d5e3b4ee0584e8c259b9d460b321a27ac384e8e2b0f7217f9ee2d91756447b0ec6dde23797360fed5df513b992c6d04ac2ae7c7b2f07908fa",
+                "mac": "3bd33c84ad2f7130f25776c184c2f1fe6bc9973112ba4ad7dedd0416ab45a6e7",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://teal-15-2.torusnode.com/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+1lbfpg4r7po@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMWxiZnBnNHI3cG9AdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY4NDkxODk3NiwiZXhwIjoxNjg0OTE5Mjc2fQ.hbsmPvj0lXKw0M-0OcQaI26vAPTNeHyaMSb8lckOrW8tKSJlKGhHi1hq5WxLQ4eIlqtF1KL23Sb4kFst__2vg570u50EOVwEYrmSEo7walhqIs-ayG20dy_XwPY2UMl9kOXW6PH3H92n70I3F2tqEA0HZJuWKwriUhnS5fC1GGd8ADFtVKoYHyk_QPBYhfXvVX8kJP0KhwO9jZVfvvT2MBJ6bm12EExqZssGfUWCZD8iWt43nuqFhY6YE9FXNfz373rGGhezHqi9vZSTFh1ZfckRQ5OF9fSHPZHk1yLDN3RkOB-7aUMwS1No6ci0FqhH1DXDzT3ZS9PTKH8pD0_85Q",
+            "nodesignatures": [
+              {
+                "signature": "c75624cae3150d1ee3ff152a3e6bf70a75845948210fa99a61011c2fc6187a95541c1e81827ce2c4b278465e7af75bd449356bb507cd4b7511e12e1c0e167c641c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "1363aad8868cacd7f8946c590325cd463106fb3731f08811ab4302d2deae35c3",
+                "nodepuby": "d77eebe5cdf466b475ec892d5b4cffbe0c1670525debbd97eee6dae2f87a7cbe"
+              },
+              {
+                "signature": "df928ee2c8ced8dea23626ce9a2c174974830d28f56f6a55eb6f484ea3fa0841307fc46d30f9f5574077af250041c6325dd7d05c78d6e905d4bf53a868bcd2fc1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "7c8cc521c48690f016bea593f67f88ad24f447dd6c31bbab541e59e207bf029d",
+                "nodepuby": "b359f0a82608db2e06b953b36d0c9a473a00458117ca32a5b0f4563a7d539636"
+              },
+              {
+                "signature": "e010e33596adf776a58cc34b806223e068509a7eae85649d3168f59674c1ee40453ab95a4c43b865de11c7aa2a3d4afc5fbf4dcb75aee5de3790850f3dec891c1b",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "8a86543ca17df5687719e2549caa024cf17fe0361e119e741eaee668f8dd0a6f",
+                "nodepuby": "9cdb254ff915a76950d6d13d78ef054d5d0dc34e2908c00bb009a6e4da701891"
+              },
+              {
+                "signature": "dac0326242a495a9d43176a0b1f9619a2deec405f7e1a8e630cae72d01044b781ae0d7385b9a1fd8c99ed6428600a2b8e4e50b96fdab84c0598900f104b01de01c",
+                "data": "mug00\u001c198d99acc270f6948e03f98789eab1c3b0e795ffd67fa4c1df2f6e3dc9097f26\u001c8dd9a59ce3197078b45a114af4d887542ec133ae80e488e71eb084375f8d7157\u001c846fa670cc75d41b1a772726cdfdcc1b755ea2cb7583561244f4db50a4f84198\u001ccere-wallet-dev\u001c1684918978",
+                "nodepubx": "d908f41f8e06324a8a7abcf702adb6a273ce3ae63d86a3d22723e1bbf1438c9a",
+                "nodepuby": "f977530b3ec0e525438c72d1e768380cbc5fb3b38a760ee925053b2e169428ce"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "726",
+        "content-type": "application/json"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "6aa27",
+              "PublicKey": {
+                "X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+                "Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886"
+              },
+              "Threshold": 1,
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+1lbfpg4r7po@test.io"
+                ]
+              },
+              "Share": "MzcxMDg5MTM5NTczZGQ5NGEzYzhlMDZlNzI5MjZkNGEzYjU5N2JiNTQxMTE3OTU2ZTgyZjY4MmZmMTY3YTRiMDI5ZWIyYTk0MzUxY2I4ZWFlNTk2MDc4OTU1YzkyMTlm",
+              "Metadata": {
+                "iv": "71617043acd688ea3d91d096d2745180",
+                "ephemPublicKey": "040c6d7cfbb012998d5e3b4ee0584e8c259b9d460b321a27ac384e8e2b0f7217f9ee2d91756447b0ec6dde23797360fed5df513b992c6d04ac2ae7c7b2f07908fa",
+                "mac": "3bd33c84ad2f7130f25776c184c2f1fe6bc9973112ba4ad7dedd0416ab45a6e7",
+                "mode": "AES256"
+              }
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+      "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "646dd2c2"
+      },
+      "signature": "JiRZzfwoz2QAelQLXr0eNO9YSya755ZotxFBROLj+vuMKHZ/8+GsQHzrvGRT0EvZJN8zIdzIQrjzo+aeeHxB8QA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "fa0d388bde774ae0e31310704f16af7e31bed83458450788c150051abb3a9ff6",
+          "y": "7a55e7bdc12bcff1bbbc623ea576e6a57b9825433e57df4217f28db83781c5f8"
+        },
+        "nonce": "09c7b1b526cededcee84d8e9d291244329ffbb8243d01458b83c3eea21e5f508"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+      "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "646dd2c2"
+      },
+      "signature": "JiRZzfwoz2QAelQLXr0eNO9YSya755ZotxFBROLj+vuMKHZ/8+GsQHzrvGRT0EvZJN8zIdzIQrjzo+aeeHxB8QA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "fa0d388bde774ae0e31310704f16af7e31bed83458450788c150051abb3a9ff6",
+          "y": "7a55e7bdc12bcff1bbbc623ea576e6a57b9825433e57df4217f28db83781c5f8"
+        },
+        "nonce": "09c7b1b526cededcee84d8e9d291244329ffbb8243d01458b83c3eea21e5f508"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "683843d72735a9ef7fbb28adcf4afabda20cf2ecd005a48f910fabce5d5c385e",
+      "pub_key_Y": "5fc52e4ccf6e7004aa083249f154fd2cded1c85308cbaf9ff5c38ff05ff04886",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "646dd2c2"
+      },
+      "signature": "JiRZzfwoz2QAelQLXr0eNO9YSya755ZotxFBROLj+vuMKHZ/8+GsQHzrvGRT0EvZJN8zIdzIQrjzo+aeeHxB8QA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "fa0d388bde774ae0e31310704f16af7e31bed83458450788c150051abb3a9ff6",
+          "y": "7a55e7bdc12bcff1bbbc623ea576e6a57b9825433e57df4217f28db83781c5f8"
+        },
+        "nonce": "09c7b1b526cededcee84d8e9d291244329ffbb8243d01458b83c3eea21e5f508"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "049431dde5ad90373537e78f5404e9a69cac7bba3eceac82565b3895f5307678363161dea84d6ae31990079ed0dd8a659c726622589360e64cb032c7fcd2a0580a",
+      "data": "{\"iv\":\"cf234462744a9512215db01f88423bcc\",\"ephemPublicKey\":\"0471fec6eb558a8ba788f96ca4546f02056f53414dd927015f868e2889e7741d4c7dfd546e353dba01fb7c4f33fab9cdd669b79ed39a27dac2cd2c6d29f4731fe2\",\"ciphertext\":\"c9201294e332a74ea56dfa7a1e069436d0c19173277600dbf3d84b9ae16674cc6cc554d5b65d570a350e6c2c61460f3039be9bded56d148028f8b107e3ced53f2f02fba42faeca9bac5eaba801ec810a3ab13524bbfbdb3e3c0a7550ed917341b75e1c063ceeceabb85bd77beff267b9932a4565426fd2d16d5ff6da8e4a3a829ad101679aa950de40dae076e0c4d23a53dc3aaf9bde0cae40e77ce5a8a2805645a9a427761fd9a07d1529588567b4b50d0108a590bcf4cfb341410a032abf075f54fba684e499ffbcb0ba61ea13bca7f5c450319822f2168ae7fab144d8191a49d7f313692b41edc9d6059bc92f584cc6e085a5524562b26c55064e2b0f8486\",\"mac\":\"d190b3abf8cf09be404bed79cc2749d8f30d396646655bdbfc7f46e0e725588b\"}",
+      "signature": "3044022069eb8c8c1b4f6b0892c0c26a3f553b8a430a856191d1383ff749d6648baea02602201fc3ee58070f618b20ab41c93e01ecffb4a9812dfb38dd27335c64eed6ecdb6a",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "049431dde5ad90373537e78f5404e9a69cac7bba3eceac82565b3895f5307678363161dea84d6ae31990079ed0dd8a659c726622589360e64cb032c7fcd2a0580a",
+      "data": "{\"iv\":\"cf234462744a9512215db01f88423bcc\",\"ephemPublicKey\":\"0471fec6eb558a8ba788f96ca4546f02056f53414dd927015f868e2889e7741d4c7dfd546e353dba01fb7c4f33fab9cdd669b79ed39a27dac2cd2c6d29f4731fe2\",\"ciphertext\":\"c9201294e332a74ea56dfa7a1e069436d0c19173277600dbf3d84b9ae16674cc6cc554d5b65d570a350e6c2c61460f3039be9bded56d148028f8b107e3ced53f2f02fba42faeca9bac5eaba801ec810a3ab13524bbfbdb3e3c0a7550ed917341b75e1c063ceeceabb85bd77beff267b9932a4565426fd2d16d5ff6da8e4a3a829ad101679aa950de40dae076e0c4d23a53dc3aaf9bde0cae40e77ce5a8a2805645a9a427761fd9a07d1529588567b4b50d0108a590bcf4cfb341410a032abf075f54fba684e499ffbcb0ba61ea13bca7f5c450319822f2168ae7fab144d8191a49d7f313692b41edc9d6059bc92f584cc6e085a5524562b26c55064e2b0f8486\",\"mac\":\"d190b3abf8cf09be404bed79cc2749d8f30d396646655bdbfc7f46e0e725588b\"}",
+      "signature": "3044022069eb8c8c1b4f6b0892c0c26a3f553b8a430a856191d1383ff749d6648baea02602201fc3ee58070f618b20ab41c93e01ecffb4a9812dfb38dd27335c64eed6ecdb6a",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "049431dde5ad90373537e78f5404e9a69cac7bba3eceac82565b3895f5307678363161dea84d6ae31990079ed0dd8a659c726622589360e64cb032c7fcd2a0580a",
+      "data": "{\"iv\":\"cf234462744a9512215db01f88423bcc\",\"ephemPublicKey\":\"0471fec6eb558a8ba788f96ca4546f02056f53414dd927015f868e2889e7741d4c7dfd546e353dba01fb7c4f33fab9cdd669b79ed39a27dac2cd2c6d29f4731fe2\",\"ciphertext\":\"c9201294e332a74ea56dfa7a1e069436d0c19173277600dbf3d84b9ae16674cc6cc554d5b65d570a350e6c2c61460f3039be9bded56d148028f8b107e3ced53f2f02fba42faeca9bac5eaba801ec810a3ab13524bbfbdb3e3c0a7550ed917341b75e1c063ceeceabb85bd77beff267b9932a4565426fd2d16d5ff6da8e4a3a829ad101679aa950de40dae076e0c4d23a53dc3aaf9bde0cae40e77ce5a8a2805645a9a427761fd9a07d1529588567b4b50d0108a590bcf4cfb341410a032abf075f54fba684e499ffbcb0ba61ea13bca7f5c450319822f2168ae7fab144d8191a49d7f313692b41edc9d6059bc92f584cc6e085a5524562b26c55064e2b0f8486\",\"mac\":\"d190b3abf8cf09be404bed79cc2749d8f30d396646655bdbfc7f46e0e725588b\"}",
+      "signature": "3044022069eb8c8c1b4f6b0892c0c26a3f553b8a430a856191d1383ff749d6648baea02602201fc3ee58070f618b20ab41c93e01ecffb4a9812dfb38dd27335c64eed6ecdb6a",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  }
+]
