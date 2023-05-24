@@ -104,6 +104,18 @@ export class WalletStore implements Wallet {
     return this.currentEngine;
   }
 
+  private set engine(engine: WalletEngine | undefined) {
+    this.currentEngine = engine;
+
+    if (this.provider) {
+      this.provider.pollingInterval = RPC_POLLING_INTERVAL;
+    }
+
+    if (this.unsafeProvider) {
+      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
+    }
+  }
+
   get network() {
     return this.networkStore.network;
   }
@@ -139,7 +151,7 @@ export class WalletStore implements Wallet {
       await when(() => !!this.accountStore.privateKey);
     }
 
-    const engine = createWalletEngine({
+    this.engine = createWalletEngine({
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.network!,
       polkadotRpc: CERE_NETWORK_RPC,
@@ -151,20 +163,15 @@ export class WalletStore implements Wallet {
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
 
-    await engine.updateAccounts();
+    await this.engine.updateAccounts();
 
     runInAction(() => {
-      this.currentEngine = engine;
-
-      this.provider!.pollingInterval = RPC_POLLING_INTERVAL;
-      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
-
       this.initialized = true;
     });
 
     reaction(
       () => this.accountStore.privateKey,
-      () => engine.updateAccounts(),
+      () => this.engine?.updateAccounts(),
     );
   }
 }
