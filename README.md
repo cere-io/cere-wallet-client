@@ -44,6 +44,12 @@ nvm exec npm test # headless
 nvm exec npm start --workspace @cere-wallet-tests/wdio # in browser
 ```
 
+3. Generate and open report
+
+```bash
+npm run test:report
+```
+
 ## Simulation
 
 1. Build the application bundle
@@ -57,4 +63,10 @@ nvm exec npm run build
 ```bash
 nvm exec npm test -- --suite=simulation --maxInstances=5 --multi-run=10 # headless
 nvm exec npm start --workspace @cere-wallet-tests/wdio -- --suite=simulation --maxInstances=5 --multi-run=10 # in browser
+```
+
+3. Generate and open report
+
+```bash
+npm run test:report
 ```
