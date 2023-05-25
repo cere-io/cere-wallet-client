@@ -1,0 +1,120 @@
+[
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8747219039433250,
+      "jsonrpc": "2.0",
+      "method": "eth_getBalance",
+      "params": [
+        "0xcd0c237e77657df6ed5b253985fbbda2f89b7976",
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8747219039433253,
+      "jsonrpc": "2.0",
+      "method": "eth_getBlockByNumber",
+      "params": [
+        "latest",
+        false
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://authjs.web3auth.io/siww/verify",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "client_id": "BPYpZ0RCWR5PtKSo26zwZHClfBIErX0h18AsN7I0-UeyX1dASt-51jIn7Gj01_OcTsgTNjJZ3PZAmq-0M2Xdtus",
+      "wallet_provider": "cere-wallet",
+      "web3auth_network": "mainnet"
+    },
+    "body": {
+      "signature": {
+        "s": "0x9fd6e215243ff8c80a8a1227a684e76b3c330c4f24968b006914a7cfffb8a4b9120b42f63155c8f89e55819351a0f410ccdd0c220bd5c4debd974e14a5662a151b",
+        "t": "eip191"
+      },
+      "message": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0xcD0C237e77657dF6Ed5B253985FBbda2f89b7976\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80001\nNonce: 23b94bf779dcd429\nIssued At: 2023-05-25T03:26:20.521Z",
+      "issuer": "cere-wallet",
+      "audience": "host.docker.internal",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "449",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2ODQ5ODUxODAsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHhjRDBDMjM3ZTc3NjU3ZEY2RWQ1QjI1Mzk4NUZCYmRhMmY4OWI3OTc2IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2ODUwNzE1ODB9.8CfWSLnFuZRe_0A30PzCPAk5Pw9XX_1yWamWfpBU3MnpWAtdqF_TvmMbl8tMmzdWKdPz73SnCaCVQydbxAnELg",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.wallet.stg.cere.io/applications/find",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2ODQ5ODUxODAsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHhjRDBDMjM3ZTc3NjU3ZEY2RWQ1QjI1Mzk4NUZCYmRhMmY4OWI3OTc2IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2ODUwNzE1ODB9.8CfWSLnFuZRe_0A30PzCPAk5Pw9XX_1yWamWfpBU3MnpWAtdqF_TvmMbl8tMmzdWKdPz73SnCaCVQydbxAnELg",
+      "content-type": "application/json"
+    },
+    "body": {
+      "address": "0xcd0c237e77657df6ed5b253985fbbda2f89b7976",
+      "appId": "cere-wallet"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "2",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": [],
+      "statusCode": 201
+    }
+  }
+]

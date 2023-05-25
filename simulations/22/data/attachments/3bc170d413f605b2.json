@@ -1,0 +1,220 @@
+[
+  {
+    "url": "https://min-api.cryptocompare.com/data/pricemulti?fsyms=CERE,CERE_ERC20,MATIC,USDC,ETH&tsyms=btc,eth,usd",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "cache-control": "public, max-age=10",
+        "content-type": "application/json; charset=UTF-8"
+      },
+      "body": {
+        "CERE": {
+          "BTC": 1.8e-7,
+          "ETH": 0.00000264,
+          "USD": 0.004689
+        },
+        "MATIC": {
+          "BTC": 0.00003307,
+          "ETH": 0.0004863,
+          "USD": 0.8652
+        },
+        "USDC": {
+          "BTC": 0.00003824,
+          "ETH": 0.0005622,
+          "USD": 1
+        },
+        "ETH": {
+          "BTC": 0.068,
+          "ETH": 1,
+          "USD": 1778.64
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8103364908024350,
+      "jsonrpc": "2.0",
+      "method": "eth_gasPrice",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8103364908024353,
+      "jsonrpc": "2.0",
+      "method": "eth_getBalance",
+      "params": [
+        "0x8a99cb45dd1846afc790498e2633fbff14431b29",
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8103364908024354,
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x8a99cb45dd1846afc790498e2633fbff14431b29",
+          "to": "0x93e73e25f290f8a50281a801109f75cb4e8e3233",
+          "data": "0x70a082310000000000000000000000008a99cb45dd1846afc790498e2633fbff14431b29"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/fb100652794946c6b94185d09ab0bb57",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 8103364908024355,
+      "jsonrpc": "2.0",
+      "method": "eth_getBlockByNumber",
+      "params": [
+        "latest",
+        false
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://authjs.web3auth.io/siww/verify",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "client_id": "BPYpZ0RCWR5PtKSo26zwZHClfBIErX0h18AsN7I0-UeyX1dASt-51jIn7Gj01_OcTsgTNjJZ3PZAmq-0M2Xdtus",
+      "wallet_provider": "cere-wallet",
+      "web3auth_network": "mainnet"
+    },
+    "body": {
+      "signature": {
+        "s": "0xb9a8c312d0912b8caef9d0d661c5a5faf8925fa23008f8cffa3acd64c07662a841a4b5f550f1d6bf401ec8e67342a6275e4f530e2674fb69ec74602013db7e061c",
+        "t": "eip191"
+      },
+      "message": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0x8a99Cb45dd1846aFc790498E2633FBff14431b29\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80001\nNonce: e983568c9032fd0f\nIssued At: 2023-05-25T03:15:16.739Z",
+      "issuer": "cere-wallet",
+      "audience": "host.docker.internal",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "449",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2ODQ5ODQ1MTcsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHg4YTk5Q2I0NWRkMTg0NmFGYzc5MDQ5OEUyNjMzRkJmZjE0NDMxYjI5IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2ODUwNzA5MTd9.EEVzTNC1Yr-iIhR2VEcTOT0RLU98RN5zpFhMvWgum2Y_UN9cqX9VI5PyQY_nxacYfgsIAaFPIYSEpkUkjH64tw",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.wallet.stg.cere.io/applications/find",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2ODQ5ODQ1MTcsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHg4YTk5Q2I0NWRkMTg0NmFGYzc5MDQ5OEUyNjMzRkJmZjE0NDMxYjI5IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2ODUwNzA5MTd9.EEVzTNC1Yr-iIhR2VEcTOT0RLU98RN5zpFhMvWgum2Y_UN9cqX9VI5PyQY_nxacYfgsIAaFPIYSEpkUkjH64tw",
+      "content-type": "application/json"
+    },
+    "body": {
+      "address": "0x8a99cb45dd1846afc790498e2633fbff14431b29",
+      "appId": "cere-wallet"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "2",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": [],
+      "statusCode": 201
+    }
+  }
+]
