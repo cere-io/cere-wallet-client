@@ -4,6 +4,7 @@ import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
+import reporting from '~/reporting';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -57,7 +58,11 @@ export class AuthorizePopupStore {
   }
 
   async login(idToken: string) {
-    const isMfa = await this.mfaCheckPromise?.catch(() => undefined);
+    const isMfa = await this.mfaCheckPromise?.catch((error) => {
+      reporting.error(error);
+
+      return undefined; // Mark `isMfa` as undefined to check again later
+    });
 
     if (isMfa || this.options.forceMfa) {
       /**
