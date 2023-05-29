@@ -2,7 +2,9 @@ import { makeAutoObservable } from 'mobx';
 import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
 import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
+
 import { AUTH_SESSION_TIMEOUT } from '~/constants';
+import { reportError } from '~/reporting';
 
 export type Session = {
   privateKey: string;
@@ -110,7 +112,7 @@ export class SessionStore {
     try {
       this.storage.set('sessionId', this.sessionId);
     } catch (error) {
-      console.error(error);
+      reportError(error);
     }
   }
 
@@ -123,7 +125,7 @@ export class SessionStore {
     try {
       await this.sessionManager.invalidateSession();
     } catch (error) {
-      console.error(error);
+      reportError(error);
     }
 
     this.resetSession();

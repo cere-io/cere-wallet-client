@@ -3,6 +3,7 @@ import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
 import { getIFrameOrigin, AppContext } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { reportError } from '~/reporting';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from '../Web3AuthStore';
 
@@ -133,7 +134,7 @@ export class OpenLoginStore {
 
       return isAllowed;
     } catch (error) {
-      console.error(error);
+      reportError(error);
 
       return false;
     }

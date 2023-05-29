@@ -1,10 +1,11 @@
 import { makeAutoObservable, reaction } from 'mobx';
+
+import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
-import reporting from '~/reporting';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -59,7 +60,7 @@ export class AuthorizePopupStore {
 
   async login(idToken: string) {
     const isMfa = await this.mfaCheckPromise?.catch((error) => {
-      reporting.error(error);
+      reportError(error);
 
       return undefined; // Mark `isMfa` as undefined to check again later
     });

@@ -1,5 +1,6 @@
 import { GoogleAuthProvider, FacebookAuthProvider, getAuth, signInWithPopup } from '@firebase/auth';
 import { initializeApp } from 'firebase/app';
+import { reportError } from '~/reporting';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,7 +19,8 @@ export const getTokenWithGoogle = async (): Promise<string> => {
     const res = await signInWithPopup(auth, googleProvider);
     return res.user.getIdToken(true);
   } catch (err) {
-    console.error(err);
+    reportError(err);
+
     throw err;
   }
 };
@@ -33,7 +35,8 @@ export const getTokenWithFacebook = async (): Promise<string> => {
     const res = await signInWithPopup(auth, facebookProvider);
     return res.user.getIdToken(true);
   } catch (err) {
-    console.error(err);
+    reportError(err);
+
     throw err;
   }
 };

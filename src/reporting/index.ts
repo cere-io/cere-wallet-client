@@ -1,7 +1,7 @@
 import { APP_VERSION, APP_ENV, SENTRY_DNS, OPEN_LOGIN_NETWORK, APP_SIMULATION } from '../constants';
 import { Sentry } from './Sentry';
 
-const reporting = new Sentry({
+const Reporting = new Sentry({
   dsn: SENTRY_DNS,
   enabled: !!SENTRY_DNS,
   release: `cere-wallet-client@${APP_VERSION}`,
@@ -14,7 +14,7 @@ const reporting = new Sentry({
   },
 });
 
-export const error = reporting.error;
-export const messsage = reporting.message;
+export const reportError = Reporting.error;
+export const reportMesssage = Reporting.message;
 
-export default reporting;
+export default Reporting;
