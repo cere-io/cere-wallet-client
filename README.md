@@ -1,7 +1,6 @@
-Cere wallet client application
-===
+# Cere wallet client application
 
-- [Release Notes](./CHANGELOG.md)  
+- [Release Notes](./CHANGELOG.md)
 - [Project structure](./STRUCTURE.md)
 
 ## Quick start
@@ -28,4 +27,46 @@ nvm exec npm start
 
 ```bash
 nvm exec npm run build
+```
+
+## Auto tests
+
+1. Build the application bundle
+
+```bash
+nvm exec npm run build
+```
+
+2. Run tests
+
+```bash
+nvm exec npm test # headless
+nvm exec npm start --workspace @cere-wallet-tests/wdio # in browser
+```
+
+3. Generate and open report
+
+```bash
+npm run test:report
+```
+
+## Simulation
+
+1. Build the application bundle
+
+```bash
+nvm exec npm run build
+```
+
+2. Run simulation
+
+```bash
+nvm exec npm test -- --suite=simulation --maxInstances=5 --multi-run=10 # headless
+nvm exec npm start --workspace @cere-wallet-tests/wdio -- --suite=simulation --maxInstances=5 --multi-run=10 # in browser
+```
+
+3. Generate and open report
+
+```bash
+npm run test:report
 ```

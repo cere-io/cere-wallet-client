@@ -1,0 +1,145 @@
+name: Run WDIO tests
+
+on:
+  workflow_call:
+    inputs:
+      max-instances:
+        description: 'Maximum number of browser instances'
+        required: false
+        type: string
+        default: '10'
+
+      install_packages_command:
+        required: true
+        description: Command to install packages
+        type: string
+
+      build_command:
+        required: true
+        description: Build command
+        type: string
+
+      test_command:
+        required: true
+        description: Test command
+        type: string
+
+      report-dir:
+        required: false
+        description: Report directory
+        type: string
+        default: tests
+
+      keep-report-history:
+        required: false
+        description: Number of report history records to keep
+        type: string
+        default: '20'
+
+      test-results-dir:
+        required: false
+        description: Test results directory
+        type: string
+        default: report/allure-results
+
+    secrets:
+      NPM_TOKEN:
+        required: false
+
+jobs:
+  tests:
+    name: Run scenarios
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Selenoid server
+        uses: n-ton4/selenoid-github-action@master
+        id: start-selenoid
+        continue-on-error: false
+        with:
+          version: 1.10.1
+          args: -limit ${{ inputs.max-instances }}
+          browsers: chrome
+          last-versions: 1
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node env
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: ${{ inputs.install_packages_command }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Build application
+        run: ${{ inputs.build_command }}
+
+      - name: Run tests
+        id: run-tests
+        run: ${{ inputs.test_command }}
+
+      - name: Get report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Generate report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: ${{ inputs.test-results-dir }}
+          allure_report: allure-report
+          allure_history: allure-history
+          gh_pages: gh-pages
+          subfolder: ${{ inputs.report-dir }}
+          keep_reports: ${{ inputs.keep-report-history }}
+
+      - name: Store report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
+  deploy-report:
+    name: Deploy report
+    needs: tests
+    runs-on: ubuntu-latest
+    if: always()
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}${{ inputs.report-dir }}/${{ github.run_number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+        with:
+          # Upload entire repository
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

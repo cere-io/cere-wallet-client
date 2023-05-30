@@ -10,13 +10,12 @@ const AuthorizeClose = () => {
 
   const params = new URLSearchParams(window.location.hash.slice(1));
   const state = params.get('result');
-  const sessionId = params.get('sessionId');
 
   useEffect(() => {
-    if (state && sessionId) {
-      store.acceptResult({ state, sessionId });
+    if (state) {
+      store.acceptEncodedState(state);
     }
-  }, [state, sessionId, store]);
+  }, [state, store]);
 
   return (
     <Loading fullScreen>

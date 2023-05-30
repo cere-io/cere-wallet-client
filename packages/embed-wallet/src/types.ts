@@ -37,7 +37,6 @@ export type UserInfo = {
   email: string;
   name: string;
   profileImage: string;
-  idToken: string;
   isNewUser: boolean;
 };
 

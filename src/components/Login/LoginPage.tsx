@@ -16,7 +16,7 @@ import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
@@ -35,6 +35,7 @@ const validationSchema = yup
 export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -51,7 +52,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
-      email: '',
+      email: searchParams.get('email') || '',
     },
   });
 

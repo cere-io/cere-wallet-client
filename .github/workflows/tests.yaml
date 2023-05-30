@@ -1,0 +1,25 @@
+name: Run tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      instances:
+        description: 'Maximum number of browser instances'
+        required: true
+        type: number
+        default: 10
+
+jobs:
+  tests:
+    name: Tests
+    uses: ./.github/workflows/wdio-tests.yaml
+    with:
+      install_packages_command: cp .env.test .env; npm ci
+      build_command: npm run build
+      test_command: npm run test:ci
+      max-instances: ${{ inputs.instances || 10 }}
+      keep-report-history: 20
+      report-dir: tests
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN_READ }}

@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.10.0
+
+- Update the wallet client to the version including improved login flow
+
 ### v0.9.0
 
 - Add `sessionNamespace` option to the Wallet SDK configuration

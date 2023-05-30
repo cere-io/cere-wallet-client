@@ -7,9 +7,19 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 const Authorize = () => {
   const [params] = useSearchParams();
   const sessionNamespace = params.get('sessionNamespace') || undefined;
-  const redirectUrl = params.get('callbackUrl') || '/authorize/redirect';
+  const callbackUrl = params.get('callbackUrl') || '/authorize/redirect';
+  const redirectUrl = params.get('redirectUrl') ?? undefined;
+  const forceMfa = params.get('mfa') === 'force';
 
-  const store = usePopupStore((popupId) => new AuthorizePopupStore(popupId, redirectUrl, sessionNamespace));
+  const store = usePopupStore(
+    (popupId) =>
+      new AuthorizePopupStore(popupId, {
+        forceMfa,
+        callbackUrl,
+        redirectUrl,
+        sessionNamespace,
+      }),
+  );
 
   return <Outlet context={store} />;
 };

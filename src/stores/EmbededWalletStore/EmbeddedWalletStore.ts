@@ -1,10 +1,10 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
+import { makeAutoObservable, reaction, toJS, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
-import { Provider, Wallet } from '../types';
+import { Wallet } from '../types';
 import { AccountStore } from '../AccountStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';
@@ -18,9 +18,11 @@ import { CollectiblesStore } from '../CollectiblesStore';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
+import { SessionStore } from '../SessionStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
+  readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
   readonly openLoginStore: OpenLoginStore;
   readonly approvalStore: ApprovalStore;
@@ -35,7 +37,6 @@ export class EmbeddedWalletStore implements Wallet {
   readonly applicationsStore: ApplicationsStore;
 
   private currentEngine?: WalletEngine;
-  private currentProvider?: Provider;
   private walletConnection?: WalletConnection;
 
   private _isWidgetOpened = false;
@@ -49,7 +50,6 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.openLoginStore = new OpenLoginStore({ sessionNamespace });
     this.assetStore = new AssetStore(this);
     this.collectiblesStore = new CollectiblesStore(this);
     this.balanceStore = new BalanceStore(this, this.assetStore);
@@ -57,14 +57,20 @@ export class EmbeddedWalletStore implements Wallet {
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
+    this.sessionStore = new SessionStore({ sessionNamespace });
+    this.openLoginStore = new OpenLoginStore(this.sessionStore);
     this.accountStore = new AccountStore(this);
-    this.applicationsStore = new ApplicationsStore(this.accountStore, this.appContextStore);
+
     this.authenticationStore = new AuthenticationStore(
+      this,
+      this.sessionStore,
       this.accountStore,
       this.appContextStore,
       this.openLoginStore,
       this.popupManagerStore,
     );
+
+    this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
   }
 
   isRoot() {
@@ -92,11 +98,27 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   get provider() {
-    return this.currentProvider;
+    return this.engine && new providers.Web3Provider(this.engine.provider);
+  }
+
+  get unsafeProvider() {
+    return this.engine && new providers.Web3Provider(this.engine.unsafeProvider);
   }
 
   get engine() {
     return this.currentEngine;
+  }
+
+  private set engine(engine: WalletEngine | undefined) {
+    this.currentEngine = engine;
+
+    if (this.provider) {
+      this.provider.pollingInterval = RPC_POLLING_INTERVAL;
+    }
+
+    if (this.unsafeProvider) {
+      this.unsafeProvider!.pollingInterval = RPC_POLLING_INTERVAL;
+    }
   }
 
   get network() {
@@ -170,7 +192,7 @@ export class EmbeddedWalletStore implements Wallet {
       },
 
       onWalletOpen: async () => {
-        const { sessionNamespace, sessionId } = this.openLoginStore;
+        const { sessionNamespace, sessionId } = this.sessionStore;
 
         return {
           sessionId,
@@ -222,7 +244,7 @@ export class EmbeddedWalletStore implements Wallet {
   private async setupRpcConnection() {
     await when(() => !!this.networkStore.network);
 
-    const engine = createWalletEngine({
+    this.engine = createWalletEngine({
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
@@ -236,20 +258,13 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     createRpcConnection({
-      engine,
+      engine: this.engine,
       logger: console,
-    });
-
-    runInAction(() => {
-      this.currentEngine = engine;
-      this.currentProvider = new providers.Web3Provider(engine.provider);
-
-      this.currentProvider.pollingInterval = RPC_POLLING_INTERVAL;
     });
 
     reaction(
       () => this.accountStore.privateKey,
-      () => engine.updateAccounts(),
+      () => this.engine?.updateAccounts(),
     );
   }
 }

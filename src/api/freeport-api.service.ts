@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+import { reportError } from '~/reporting';
 import { REACT_APP_FREEPORT_API } from '~/constants';
 import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
 import { freeportNftValidator } from '~/api/validators/freeport-nft.validator';
@@ -15,8 +17,9 @@ export class FreeportApiService {
       const { data } = await api.get<FreeportNftInterface[]>(`/wallet/${wallet}/nfts/owned`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportNftValidator(item)) : [];
     } catch (err: any) {
-      console.error(err?.message);
+      reportError(err);
     }
+
     return [];
   }
 
@@ -25,8 +28,9 @@ export class FreeportApiService {
       const { data } = await api.get<string[]>(`/nft/${nftId}/cids`);
       return Array.isArray(data) ? data.filter((item: unknown) => typeof item === 'string') : [];
     } catch (err: any) {
-      console.error(err?.message);
+      reportError(err);
     }
+
     return [];
   }
 
@@ -35,7 +39,7 @@ export class FreeportApiService {
       const { data } = await api.get<FreeportCollectionInterface[]>(`/wallet/${minter}/collections`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportCollectionValidator(item)) : [];
     } catch (err: any) {
-      console.error(err?.message);
+      reportError(err);
     }
     return [];
   }

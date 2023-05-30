@@ -1,13 +1,15 @@
-import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput } from '@cere-wallet/ui';
+import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput, Alert } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
-import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { reportError } from '~/reporting';
+import { AuthApiService } from '~/api/auth-api.service';
+
 interface OtpProps {
-  email: string;
+  email?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -39,17 +41,26 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
-    const token = await AuthApiService.getTokenByEmail(email, value);
-    if (token) {
+    const token = await AuthApiService.getTokenByEmail(email!, value);
+
+    if (!token) {
+      return setError('code', { message: 'The code is wrong, please try again' });
+    }
+
+    try {
       await onRequestLogin(token);
-    } else {
-      setError('code', { message: 'The code is wrong, please try again' });
+    } catch (error) {
+      if (error instanceof Error) {
+        setError('root', { message: error.message });
+      }
+
+      reportError(error);
     }
   };
 
   const handleResend = async () => {
     setTimeLeft(60);
-    await AuthApiService.sendOtp(email);
+    await AuthApiService.sendOtp(email!);
   };
 
   useEffect(() => {
@@ -94,8 +105,15 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         onChange={(val) => setFormValue('code', val)}
         errorMessage={errors?.code?.message}
       />
+
+      {errors.root && (
+        <Alert variant="outlined" severity="warning" sx={{ marginY: 1 }}>
+          {errors.root?.message}
+        </Alert>
+      )}
+
       <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        Verify
+        {errors.root ? 'Retry' : 'Verify'}
       </LoadingButton>
       {timeLeft ? (
         <Typography variant="body1" align="center">

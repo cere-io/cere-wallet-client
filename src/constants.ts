@@ -1,3 +1,8 @@
+import npmPackage from '../package.json';
+
+export const APP_VERSION = npmPackage.version;
+export const APP_SIMULATION = process.env.REACT_APP_SIMULATION;
+export const APP_ENV = process.env.REACT_APP_ENV;
 export const WALLET_HELP_URL = process.env.REACT_APP_HELP_URL || 'https://cere.network/cere-wallet-faq/';
 export const OPEN_LOGIN_CLIENT_ID = process.env.REACT_APP_TORUS_AUTH_ID || '';
 export const OPEN_LOGIN_NETWORK = process.env.REACT_APP_TORUS_AUTH_NETWORK || 'mainnet';
@@ -10,6 +15,7 @@ export const CERE_NETWORK_RPC = process.env.REACT_APP_CERE_NETWORK_RPC || '';
 export const GTM_ID = process.env.REACT_APP_GMT_ID;
 export const DEFAULT_APP_ID = process.env.REACT_DEFAULT_APP_ID || 'cere-wallet';
 export const BICONOMY_API_KEY = process.env.REACT_APP_BICONOMY_API_KEY || undefined;
+export const SENTRY_DNS = process.env.REACT_APP_SENTRY_DNS;
 
 export const ANALYTICS = {
   createWalletBtnClass: 'create-wallet-btn',
@@ -31,3 +37,5 @@ export const COIN_TICKER_ALIAS: Record<string, string> = {
 };
 
 export const RPC_POLLING_INTERVAL = 10000;
+export const AUTH_SESSION_TIMEOUT = 86400;
+export const AUTH_TOKEN_ISSUER = 'cere-wallet';

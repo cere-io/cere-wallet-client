@@ -18,3 +18,4 @@ export * from './usePopularAssets';
 export * from './useSearchAssets';
 export * from './useCollectiblesStore';
 export * from './useDebounce';
+export * from './useSessionStore';
