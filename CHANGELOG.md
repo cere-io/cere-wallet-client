@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [[Feature](https://www.notion.so/cere/Switch-DEV-frontends-to-new-infra-563be1f2c5ee4b92aa87808f3480fe22?pvs=4)] Switch URL to new infra
 
 ### v1.25.1
 
