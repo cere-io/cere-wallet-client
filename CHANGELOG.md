@@ -3,6 +3,7 @@
 ### vNext
 
 - [[Feature](https://www.notion.so/cere/Switch-DEV-frontends-to-new-infra-563be1f2c5ee4b92aa87808f3480fe22?pvs=4)] Switch URL to new infra
+- [[Feature](https://www.notion.so/cere/Cere-Wallet-Achieve-99-new-users-login-success-rate-in-Cere-Wallet-20610fe9e8564934b544a28aee4dacb9?pvs=4)] Switch web3auth network to Cyan
 
 ### v1.25.1
 
