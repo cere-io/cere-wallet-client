@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
+
+import { reportError } from '~/reporting';
 import { WALLET_API } from '~/constants';
 import { ApiResponse } from '~/api/interfaces';
 
@@ -16,8 +18,9 @@ export class AuthApiService {
     try {
       result = await api.post<ApiResponse<null>>('/auth/otp/send', { email });
     } catch (err: any) {
-      console.error(err?.message);
+      reportError(err);
     }
+
     return result?.data?.code === 'SUCCESS';
   }
 
@@ -29,7 +32,7 @@ export class AuthApiService {
         code,
       });
     } catch (err) {
-      console.error(err);
+      reportError(err);
     }
     return result?.data.code === 'SUCCESS' ? result?.data.data.token : null;
   }
@@ -41,7 +44,7 @@ export class AuthApiService {
         token: socialToken,
       });
     } catch (err) {
-      console.error(err);
+      reportError(err);
     }
     return result?.data.code === 'SUCCESS' ? result?.data.data.token : null;
   }
