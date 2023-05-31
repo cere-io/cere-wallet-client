@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.11.0
+
+- Switch web3auth network to `Cyan Mainnet`
+
 ### v0.10.0
 
 - Update the wallet client to the version including improved login flow
