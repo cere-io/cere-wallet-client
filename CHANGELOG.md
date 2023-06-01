@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- [[Feature](https://www.notion.so/cere/Switch-DEV-frontends-to-new-infra-563be1f2c5ee4b92aa87808f3480fe22?pvs=4)] Configure auto-tests to work in VPN protected environment
 
 ### v1.26.0
 

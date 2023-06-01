@@ -49,7 +49,7 @@ on:
 jobs:
   tests:
     name: Run scenarios
-    runs-on: ubuntu-latest
+    runs-on: ['self-hosted', 'cere-io-large']
     steps:
       - name: Start Selenoid server
         uses: n-ton4/selenoid-github-action@master
