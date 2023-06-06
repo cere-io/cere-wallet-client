@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { reportError } from '~/reporting';
 import { WALLET_API } from '~/constants';
@@ -31,9 +31,14 @@ export class AuthApiService {
         email,
         code,
       });
-    } catch (err) {
-      reportError(err);
+    } catch (error) {
+      const isUserError = error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST';
+
+      if (!isUserError) {
+        reportError(error);
+      }
     }
+
     return result?.data.code === 'SUCCESS' ? result?.data.data.token : null;
   }
 
