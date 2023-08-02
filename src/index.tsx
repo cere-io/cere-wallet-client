@@ -5,6 +5,7 @@ import { UIProvider } from '@cere-wallet/ui';
 import Reporting from './reporting';
 import { Router } from './routes';
 import { GTM_ID } from './constants';
+import { ContextWrapper } from '~/context-wrapper';
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
@@ -16,9 +17,5 @@ if (GTM_ID) {
 Reporting.init();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
-root.render(
-  <UIProvider>
-    <Router />
-  </UIProvider>,
-);
+// not sure is it a solution
+root.render(<ContextWrapper />);

@@ -138,6 +138,18 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
+  const handleSetWhiteLabel = useCallback(() => {
+    wallet.setContext({
+      app: {
+        whiteLabel: {
+          backgroundUrl: 'https://wallpapercave.com/wp/wp1879548.jpg',
+          buttonBackground: '#F32758',
+          buttonRadius: '4px',
+        },
+      },
+    });
+  }, [wallet]);
+
   const handleUnsetContext = useCallback(async () => {
     wallet.setContext(null);
   }, [wallet]);
@@ -321,6 +333,14 @@ export const Wallet = () => {
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={status === 'not-ready' || status === 'connecting'}
+            onClick={handleSetWhiteLabel}
+          >
+            White Label
           </Button>
         </>
       )}

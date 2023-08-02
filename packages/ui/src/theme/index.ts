@@ -51,7 +51,7 @@ export type ThemeOptions = {};
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = (options: ThemeOptions = {}): Theme => {
+export const createTheme = (options: ThemeOptions = {}, whiteLabel?: Record<string, string | number>): Theme => {
   const theme = createMuiTheme({
     palette: {
       neutral: {
@@ -504,6 +504,7 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
       MuiDialog: {
         styleOverrides: {
           paper: {
+            background: 'orange',
             borderRadius: 16,
           },
         },

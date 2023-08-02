@@ -6,6 +6,7 @@ import { BannerPlace } from './components';
 
 export type UIProviderProps = PropsWithChildren<{
   transparentBody?: boolean;
+  whiteLabel?: Record<string, string | number>;
 }>;
 
 export const UIProvider = ({ children, transparentBody }: UIProviderProps) => {

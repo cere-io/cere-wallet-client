@@ -22,6 +22,7 @@ export type ContextApp = {
   appId?: string;
   name?: string;
   logoUrl?: string;
+  whiteLabel?: Record<string, string | number>;
 };
 
 export type Context = {
