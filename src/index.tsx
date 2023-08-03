@@ -1,9 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import TagManager from 'react-gtm-module';
-import { UIProvider } from '@cere-wallet/ui';
 
 import Reporting from './reporting';
-import { Router } from './routes';
 import { GTM_ID } from './constants';
 import { ContextWrapper } from '~/context-wrapper';
 
