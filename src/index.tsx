@@ -3,7 +3,7 @@ import TagManager from 'react-gtm-module';
 
 import Reporting from './reporting';
 import { GTM_ID } from './constants';
-import { ContextWrapper } from '~/context-wrapper';
+import { App } from '~/app';
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
@@ -15,5 +15,4 @@ if (GTM_ID) {
 Reporting.init();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-// not sure is it a solution
-root.render(<ContextWrapper />);
+root.render(<App />);

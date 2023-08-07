@@ -22,7 +22,7 @@ export type ContextApp = {
   appId?: string;
   name?: string;
   logoUrl?: string;
-  whiteLabel?: Record<string, string | number>;
+  whiteLabel?: any; // TODO add proper type
 };
 
 export type Context = {

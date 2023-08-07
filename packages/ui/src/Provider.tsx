@@ -1,16 +1,16 @@
 import '@fontsource/lexend';
 import { useMemo, PropsWithChildren } from 'react';
 import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
-import { createTheme } from './theme';
+import { createTheme, ThemeOptions } from './theme';
 import { BannerPlace } from './components';
 
 export type UIProviderProps = PropsWithChildren<{
   transparentBody?: boolean;
-  whiteLabel?: Record<string, string | number>;
+  whiteLabel?: ThemeOptions;
 }>;
 
-export const UIProvider = ({ children, transparentBody }: UIProviderProps) => {
-  const theme = useMemo(() => createTheme({ transparentBody }), [transparentBody]);
+export const UIProvider = ({ children, transparentBody, whiteLabel }: UIProviderProps) => {
+  const theme = useMemo(() => createTheme({ whiteLabel }), [transparentBody]);
 
   return (
     <ThemeProvider theme={theme}>

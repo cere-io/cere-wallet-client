@@ -51,7 +51,7 @@ export class WalletStore implements Wallet {
     this.balanceStore = new BalanceStore(this, this.assetStore);
     this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
-    this.popupManagerStore = new PopupManagerStore();
+    this.popupManagerStore = new PopupManagerStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
     this.sessionStore = new SessionStore({ sessionNamespace });

@@ -19,6 +19,7 @@ import { OpenLoginStore } from '../OpenLoginStore';
 import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
+import { WalletStore } from '~/stores';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId = randomBytes(16).toString('hex');
@@ -35,6 +36,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
   readonly applicationsStore: ApplicationsStore;
+  readonly walletStore: WalletStore;
 
   private currentEngine?: WalletEngine;
   private walletConnection?: WalletConnection;
@@ -45,7 +47,8 @@ export class EmbeddedWalletStore implements Wallet {
   constructor(sessionNamespace?: string) {
     makeAutoObservable(this);
 
-    this.popupManagerStore = new PopupManagerStore({
+    this.walletStore = new WalletStore(this.instanceId);
+    this.popupManagerStore = new PopupManagerStore(this.walletStore, {
       onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
     });
 
