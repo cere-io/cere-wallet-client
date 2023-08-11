@@ -1,29 +1,31 @@
-import { get, toJS, isObservable, values } from 'mobx';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { randomBytes } from 'crypto';
 import { UIProvider } from '@cere-wallet/ui';
-import { Router } from './routes';
 import { AppContext } from '@cere/communication';
+import { Router } from './routes';
 import { createSharedState } from '~/stores/sharedState';
 
 type SharedState = {
   context?: AppContext;
 };
 
-export const App = () => {
+const App = () => {
   const url = new URL(window.location.href);
-  const instanceId = url.searchParams.get('instanceId');
+  const instanceId = url.searchParams.get('instanceId') || randomBytes(16).toString('hex');
 
-  useEffect(() => {
-    if (instanceId) {
-      console.log(instanceId, 'instanceId');
-      const context = createSharedState<SharedState>(`context.${instanceId}`, {}, { readOnly: false });
-      console.log(isObservable(context), context, 'context');
-    }
-  }, [instanceId]);
+  const context = useMemo(
+    () => createSharedState<SharedState>(`context.${instanceId}`, {}, { readOnly: true }),
+    [instanceId],
+  );
+  const contextState = toJS(context.state.context?.app.whiteLabel);
 
   return (
-    <UIProvider>
+    <UIProvider whiteLabel={contextState}>
       <Router />
     </UIProvider>
   );
 };
+
+export default observer(App);

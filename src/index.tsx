@@ -3,7 +3,7 @@ import TagManager from 'react-gtm-module';
 
 import Reporting from './reporting';
 import { GTM_ID } from './constants';
-import { App } from '~/app';
+import App from '~/app';
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });

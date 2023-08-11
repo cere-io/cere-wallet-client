@@ -51,8 +51,8 @@ export type ThemeOptions = {};
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = (options: ThemeOptions = {}, whiteLabel?: Record<string, string | number>): Theme => {
-  const theme = createMuiTheme({
+export const createTheme = ({ whiteLabel }: any = {}): Theme => {
+  const defaultTheme = createMuiTheme({
     palette: {
       neutral: {
         main: colors.grey[400],
@@ -504,7 +504,6 @@ export const createTheme = (options: ThemeOptions = {}, whiteLabel?: Record<stri
       MuiDialog: {
         styleOverrides: {
           paper: {
-            background: 'orange',
             borderRadius: 16,
           },
         },
@@ -696,5 +695,44 @@ export const createTheme = (options: ThemeOptions = {}, whiteLabel?: Record<stri
     },
   });
 
-  return theme;
+  const customTheme = createMuiTheme({
+    ...defaultTheme,
+    components: {
+      ...defaultTheme.components,
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: whiteLabel && whiteLabel.backgroundImage ? 'transparent' : '#FFF',
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          contained: {
+            borderRadius: whiteLabel && whiteLabel.borderRadius,
+            backgroundColor: whiteLabel && whiteLabel.backgroundColor,
+          },
+
+          outlined: {
+            borderRadius: whiteLabel && whiteLabel.borderRadius,
+            border: `1px solid ${whiteLabel?.backgroundColor}`,
+          },
+
+          text: {
+            borderRadius: whiteLabel && whiteLabel.borderRadius,
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          rounded: {
+            backgroundColor: 'blue',
+            borderRadius: 12,
+          },
+        },
+      },
+    },
+  });
+
+  return whiteLabel ? customTheme : defaultTheme;
 };

@@ -10,7 +10,7 @@ export type UIProviderProps = PropsWithChildren<{
 }>;
 
 export const UIProvider = ({ children, transparentBody, whiteLabel }: UIProviderProps) => {
-  const theme = useMemo(() => createTheme({ whiteLabel }), [transparentBody]);
+  const theme = useMemo(() => createTheme({ whiteLabel }), [whiteLabel]);
 
   return (
     <ThemeProvider theme={theme}>

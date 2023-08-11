@@ -142,9 +142,10 @@ export const Wallet = () => {
     wallet.setContext({
       app: {
         whiteLabel: {
-          backgroundUrl: 'https://wallpapercave.com/wp/wp1879548.jpg',
-          buttonBackground: '#F32758',
-          buttonRadius: '4px',
+          backgroundColor: '#F32758',
+          borderRadius: 4,
+          backgroundImage:
+            'https://catherineasquithgallery.com/uploads/posts/2021-02/1612818141_8-p-biryuzovii-gradientnii-fon-dlya-fotoshopa-8.jpg',
         },
       },
     });
