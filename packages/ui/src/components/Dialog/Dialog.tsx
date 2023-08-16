@@ -101,7 +101,7 @@ const ContentWrapper = styled(Box, {
     position: 'relative',
 
     [`& .${dialogContentClasses.root}`]: {
-      paddingTop: theme.spacing(6),
+      paddingTop: theme.whiteLabel.backgroundImage ? theme.spacing(0) : theme.spacing(6),
     },
 
     [`& .${dialogTitleClasses.root}`]: {

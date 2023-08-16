@@ -144,8 +144,7 @@ export const Wallet = () => {
         whiteLabel: {
           backgroundColor: '#F32758',
           borderRadius: 4,
-          backgroundImage:
-            'https://catherineasquithgallery.com/uploads/posts/2021-02/1612818141_8-p-biryuzovii-gradientnii-fon-dlya-fotoshopa-8.jpg',
+          backgroundImage: 'https://w.forfun.com/fetch/a2/a2d0571178a1a205aac1139e100ed1a8.jpeg',
         },
       },
     });

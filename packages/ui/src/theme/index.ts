@@ -43,6 +43,20 @@ declare module '@mui/material/Typography' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface Theme {
+    whiteLabel: {
+      backgroundImage: string;
+    };
+  }
+
+  interface ThemeOptions {
+    whiteLabel: {
+      backgroundImage: string;
+    };
+  }
+}
+
 export type Theme = MuiTheme;
 export type ThemeOptions = {};
 
@@ -52,7 +66,10 @@ export type ThemeOptions = {};
 /** ******************************************************************************* **/
 
 export const createTheme = ({ whiteLabel }: any = {}): Theme => {
-  const defaultTheme = createMuiTheme({
+  const theme = createMuiTheme({
+    whiteLabel: {
+      backgroundImage: whiteLabel?.backgroundImage,
+    },
     palette: {
       neutral: {
         main: colors.grey[400],
@@ -159,6 +176,13 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
     },
 
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
       MuiLink: {
         defaultProps: {
           underline: 'none',
@@ -172,15 +196,19 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
 
         styleOverrides: {
           contained: {
-            borderRadius: 30,
+            backgroundColor: whiteLabel?.backgroundColor && whiteLabel?.backgroundColor,
+            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
           },
 
-          outlined: {
-            borderRadius: 30,
-          },
+          outlined: ({ theme }) => ({
+            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
+            border: whiteLabel?.backgroundColor
+              ? `1px solid ${whiteLabel?.backgroundColor}`
+              : `1px solid ${theme.palette.primary.main}`,
+          }),
 
           text: {
-            borderRadius: 30,
+            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
           },
 
           containedInherit: ({ theme }) => ({
@@ -695,44 +723,5 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
     },
   });
 
-  const customTheme = createMuiTheme({
-    ...defaultTheme,
-    components: {
-      ...defaultTheme.components,
-      MuiCssBaseline: {
-        styleOverrides: {
-          body: {
-            backgroundColor: whiteLabel && whiteLabel.backgroundImage ? 'transparent' : '#FFF',
-          },
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          contained: {
-            borderRadius: whiteLabel && whiteLabel.borderRadius,
-            backgroundColor: whiteLabel && whiteLabel.backgroundColor,
-          },
-
-          outlined: {
-            borderRadius: whiteLabel && whiteLabel.borderRadius,
-            border: `1px solid ${whiteLabel?.backgroundColor}`,
-          },
-
-          text: {
-            borderRadius: whiteLabel && whiteLabel.borderRadius,
-          },
-        },
-      },
-      MuiPaper: {
-        styleOverrides: {
-          rounded: {
-            backgroundColor: 'blue',
-            borderRadius: 12,
-          },
-        },
-      },
-    },
-  });
-
-  return whiteLabel ? customTheme : defaultTheme;
+  return theme;
 };

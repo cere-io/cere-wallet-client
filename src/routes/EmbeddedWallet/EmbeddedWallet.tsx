@@ -16,7 +16,7 @@ const EmbeddedWallet = () => {
   }, [store]);
 
   return (
-    <UIProvider transparentBody>
+    <UIProvider transparentBody whiteLabel={store.appContextStore.app?.whiteLabel}>
       <WalletContext.Provider value={store}>
         <WalletWidget />
         {modal && <EmbeddedModal modal={modal} />}

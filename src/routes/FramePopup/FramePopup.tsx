@@ -9,11 +9,12 @@ const Frame = styled('iframe')({
   height: '100%',
 });
 
-const Container = styled('div')({
+const Container = styled('div')(({ theme }) => ({
   width: '100%',
   height: '100vh',
-  maxHeight: 'calc(100% - 10px)',
-});
+  backgroundSize: 'cover',
+  backgroundImage: theme.whiteLabel.backgroundImage ? `url(${theme.whiteLabel?.backgroundImage})` : 'none',
+}));
 
 export const FramePopup = () => {
   const [url, setUrl] = useState<string>();
