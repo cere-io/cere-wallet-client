@@ -4,7 +4,7 @@ import {
   Typography,
   Link,
   TextField,
-  CereIcon,
+  CereWhiteIcon,
   FormControl,
   IconButton,
   GoogleIcon,
@@ -20,11 +20,16 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
+import { styled } from '@cere/ui';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
+
+export const CereLogo = styled(CereWhiteIcon)(({ theme }) => ({
+  fontSize: theme.typography.pxToRem(48),
+}));
 
 const validationSchema = yup
   .object({
@@ -102,13 +107,13 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1}>
+        <Typography variant="h2" flex={1} color="primary.light">
           CERE wallet
         </Typography>
-        <CereIcon />
+        <CereLogo />
       </Stack>
-      <Typography variant="body2" color="text.secondary">
-        Send and receive any currency or simply top up with your card.
+      <Typography variant="body2" color="primary.light">
+        Continue to your wallet to be in full control over securely stored assets and collectibles
       </Typography>
       <FormControl>
         <TextField
@@ -118,19 +123,36 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           required
           autoFocus
           name="email"
-          label="Email"
+          hiddenLabel
+          placeholder="sample-address@gmail.com"
           autoCorrect="off"
           autoCapitalize="off"
           type="email"
           variant="outlined"
+          sx={{
+            input: { color: 'rgba(255, 255, 255, 1)' },
+            '& fieldset': { border: 'none' },
+          }}
         />
       </FormControl>
-      <Typography variant="caption" color="text.secondary">
-        By using your Cere wallet you automatically agree to our <Link href="#">Terms & Conditions</Link> and{' '}
-        <Link href="#">Privacy Policy</Link>
+      <Typography variant="caption" color="primary.light">
+        By using your Cere wallet you automatically agree to our{' '}
+        <Link color="primary.light" href="#">
+          Terms & Conditions
+        </Link>{' '}
+        and{' '}
+        <Link color="primary.light" href="#">
+          Privacy Policy
+        </Link>
       </Typography>
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        Sign {variant === 'signin' ? 'In' : 'Up'}
+      <LoadingButton
+        sx={{ backgroundColor: 'rgba(243, 39, 88, 1)', borderRadius: '4px' }}
+        loading={isSubmitting}
+        variant="contained"
+        size="large"
+        type="submit"
+      >
+        Continue
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

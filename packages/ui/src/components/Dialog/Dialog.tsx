@@ -15,6 +15,8 @@ import {
 import { CloseIcon } from '../../icons';
 import { IconButton } from '../IconButton';
 import { useIsMobile } from '../../hooks';
+// @ts-ignore
+import background from './background.svg'; // TODO need to change
 
 type DialogOrigin = 'bottom' | 'right' | 'center';
 
@@ -96,7 +98,9 @@ const ContentWrapper = styled(Box, {
   display: 'flex',
   flex: 1,
   overflowY: 'auto',
-
+  backgroundImage: `url(${background})`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
   ...(showClose && {
     position: 'relative',
 

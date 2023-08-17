@@ -34,6 +34,7 @@ export type { IconProps } from '@mui/material';
 
 export * from './CereIcon';
 export * from './CereLightIcon';
+export * from './CereWhiteIcon';
 export * from './MaticIcon';
 export * from './NoActivityIcon';
 export * from './NoCoinsIcon';

@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
+import { CereLogo } from '~/components';
 
 interface OtpProps {
   email?: string;
@@ -88,16 +89,25 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" alignItems="center">
-        <Typography variant="h2" flex={1}>
+        <Typography variant="h2" flex={1} color="primary.light">
           Verify email
         </Typography>
-        <CereIcon />
+        <CereLogo />
       </Stack>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="primary.light">
         Access CERE using code sent to your email
       </Typography>
-      <TextField value={email} variant="outlined" disabled={true} />
-      <Typography variant="body2" color="text.secondary">
+      <TextField
+        value={email}
+        variant="outlined"
+        disabled={true}
+        sx={{
+          '& .MuiInputBase-input.Mui-disabled': {
+            WebkitTextFillColor: 'white',
+          },
+        }}
+      />
+      <Typography variant="body2" color="primary.light" align="center">
         Verification code
       </Typography>
       <OtpInput
@@ -112,7 +122,13 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         </Alert>
       )}
 
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton
+        sx={{ backgroundColor: 'rgba(243, 39, 88, 1)', borderRadius: '4px' }}
+        loading={isSubmitting}
+        variant="contained"
+        size="large"
+        type="submit"
+      >
         {errors.root ? 'Retry' : 'Verify'}
       </LoadingButton>
       {timeLeft ? (
@@ -120,9 +136,9 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" color="primary.light">
           Did not receive a code?{' '}
-          <Button variant="text" onClick={handleResend}>
+          <Button variant="text" onClick={handleResend} sx={{ color: 'rgba(243, 39, 88, 1)' }}>
             Resend code
           </Button>
         </Typography>

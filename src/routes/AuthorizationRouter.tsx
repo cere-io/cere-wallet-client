@@ -5,7 +5,7 @@ import { Authorize, AuthorizeClose, AuthorizeRedirect, IntroRoute, LoginRoute, O
 export const AuthorizationRouter = () => (
   <Routes>
     <Route element={<Authorize />}>
-      <Route index element={<IntroRoute />} />
+      <Route index element={<LoginRoute />} />
       <Route path="close" element={<AuthorizeClose />} />
       <Route path="redirect" element={<AuthorizeRedirect />} />
       <Route path="intro" element={<IntroRoute />} />

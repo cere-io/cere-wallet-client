@@ -4,6 +4,7 @@ import { styled, Button, Logo, Container, Typography, Loading, useIsMobile, Load
 import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
 import { Section } from './Section';
+import { CereLogo } from '~/components';
 
 export type PopupLayoutProps = PropsWithChildren<{
   title?: string;
@@ -39,8 +40,10 @@ export const PopupLayout = ({
   ) : (
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        <Logo size="large" />
-        <Typography variant={isMobile ? 'h4' : 'h3'}>{title}</Typography>
+        <CereLogo />
+        <Typography variant={isMobile ? 'h4' : 'h3'} color="primary.light">
+          {title}
+        </Typography>
         {network && !loading && <NetworkLabel label={network} />}
       </Section>
 
@@ -55,11 +58,30 @@ export const PopupLayout = ({
       {children}
 
       <Section direction="row" alignSelf="stretch" spacing={2}>
-        <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel}>
+        <Button
+          size="large"
+          fullWidth
+          variant="outlined"
+          color="inherit"
+          onClick={onCancel}
+          sx={{
+            border: '1px solid rgba(255, 255, 255, 1)',
+            backgroundColor: 'transparent',
+            borderRadius: '4px',
+            color: 'white',
+          }}
+        >
           Cancel
         </Button>
 
-        <LoadingButton fullWidth loading={confirming} size="large" variant="contained" onClick={onConfirm}>
+        <LoadingButton
+          fullWidth
+          loading={confirming}
+          size="large"
+          variant="contained"
+          onClick={onConfirm}
+          sx={{ backgroundColor: 'rgba(243, 39, 88, 1)', borderRadius: '4px' }}
+        >
           Confirm
         </LoadingButton>
       </Section>
