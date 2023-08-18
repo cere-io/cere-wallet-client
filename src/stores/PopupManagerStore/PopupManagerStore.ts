@@ -1,4 +1,6 @@
 import { makeAutoObservable, observable, runInAction, when } from 'mobx';
+
+import { Wallet } from '../types';
 import { createSharedRedirectState, createSharedPopupState, SharedState, RedirectState } from '../sharedState';
 
 export type PopupManangerOptions = {
@@ -18,7 +20,7 @@ export class PopupManagerStore {
   popups: Record<string, SharedState> = {};
   modals: Record<string, PopupManagerModal> = {};
 
-  constructor(options: PopupManangerOptions = {}) {
+  constructor(private wallet: Wallet, options: PopupManangerOptions = {}) {
     makeAutoObservable(this, {
       redirects: observable.shallow,
       popups: observable.shallow,
@@ -92,6 +94,8 @@ export class PopupManagerStore {
 
   async redirect(instanceId: string, toUrl: string) {
     const url = new URL(toUrl, window.origin);
+
+    url.searchParams.append('instanceId', this.wallet.instanceId);
     url.searchParams.append('preopenInstanceId', instanceId);
 
     await when(() => this.redirects[instanceId] && this.redirects[instanceId].isConnected);
