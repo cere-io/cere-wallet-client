@@ -3,7 +3,7 @@ import TagManager from 'react-gtm-module';
 
 import Reporting from './reporting';
 import { GTM_ID } from './constants';
-import App from '~/app';
+import App from './App';
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
@@ -15,4 +15,5 @@ if (GTM_ID) {
 Reporting.init();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(<App />);

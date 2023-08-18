@@ -1,7 +1,7 @@
-import { useWalletStore } from './useWalletStore';
+import { useWallet } from './useWalletStore';
 
 export const useAppContextStore = () => {
-  const walletStore = useWalletStore();
+  const wallet = useWallet();
 
-  return walletStore.appContextStore;
+  return wallet.appContextStore;
 };

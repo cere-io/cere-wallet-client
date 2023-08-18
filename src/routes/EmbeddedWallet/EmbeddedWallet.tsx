@@ -6,17 +6,22 @@ import { WalletWidget } from '~/components';
 import { WalletContext } from '~/hooks';
 import { EmbeddedWalletStore } from '~/stores';
 import EmbeddedModal from './EmbeddedModal';
+import { useWallet } from '~/hooks';
+import { toJS } from 'mobx';
 
 const EmbeddedWallet = () => {
-  const store = useMemo(() => new EmbeddedWalletStore(), []);
+  const { instanceId } = useWallet();
+
+  const store = useMemo(() => new EmbeddedWalletStore(instanceId), [instanceId]);
   const modal = store.popupManagerStore.currentModal;
+  const whiteLabel = store.appContextStore.whiteLabel;
 
   useEffect(() => {
     store.init();
   }, [store]);
 
   return (
-    <UIProvider transparentBody whiteLabel={store.appContextStore.app?.whiteLabel}>
+    <UIProvider transparentBody whiteLabel={toJS(whiteLabel)}>
       <WalletContext.Provider value={store}>
         <WalletWidget />
         {modal && <EmbeddedModal modal={modal} />}

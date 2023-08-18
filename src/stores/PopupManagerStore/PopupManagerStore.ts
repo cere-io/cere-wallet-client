@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable, runInAction, when } from 'mobx';
+
 import { createSharedRedirectState, createSharedPopupState, SharedState, RedirectState } from '../sharedState';
 import { Wallet } from '~/stores';
 
@@ -93,6 +94,8 @@ export class PopupManagerStore {
 
   async redirect(instanceId: string, toUrl: string) {
     const url = new URL(toUrl, window.origin);
+
+    url.searchParams.append('instanceId', this.wallet.instanceId);
     url.searchParams.append('preopenInstanceId', instanceId);
     url.searchParams.append('instanceId', this.wallet.instanceId);
 

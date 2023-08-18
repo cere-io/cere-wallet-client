@@ -23,6 +23,10 @@ export const Wallet = () => {
       },
 
       context: {
+        whiteLabel: {
+          var1: 'value',
+        },
+
         app: {
           appId: 'cere-wallet-playground',
           name: 'Cere wallet playground',

@@ -58,7 +58,9 @@ declare module '@mui/material/styles' {
 }
 
 export type Theme = MuiTheme;
-export type ThemeOptions = {};
+export type ThemeOptions = {
+  whiteLabel?: any; // TODO: figure out the type later
+};
 
 /** ******************************************************************************* **/
 /** CERE Wallet design system see here                                              **/

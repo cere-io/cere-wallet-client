@@ -25,9 +25,12 @@ export type ContextApp = {
   whiteLabel?: any; // TODO add proper type
 };
 
+export type ContextWhiteLabel = any; // TODO: Figure out the type
+
 export type Context = {
   banner?: ContextBanner;
   app: ContextApp;
+  whiteLabel?: ContextWhiteLabel;
 };
 
 export type PartialContext = Omit<Context, 'app'> & { app?: Partial<ContextApp> };

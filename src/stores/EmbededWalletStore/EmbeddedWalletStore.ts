@@ -21,7 +21,7 @@ import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
 
 export class EmbeddedWalletStore implements Wallet {
-  readonly instanceId = randomBytes(16).toString('hex');
+  readonly instanceId: string;
   readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
   readonly openLoginStore: OpenLoginStore;
@@ -42,8 +42,11 @@ export class EmbeddedWalletStore implements Wallet {
   private _isWidgetOpened = false;
   private _isFullScreen = false;
 
-  constructor(sessionNamespace?: string) {
+  constructor(instanceId?: string, sessionNamespace?: string) {
     makeAutoObservable(this);
+
+    this.instanceId = instanceId || randomBytes(16).toString('hex');
+
     this.popupManagerStore = new PopupManagerStore(this, {
       onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
     });
