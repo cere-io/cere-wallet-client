@@ -1,4 +1,4 @@
-import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput, Alert } from '@cere-wallet/ui';
+import { LoadingButton, Button, Stack, Typography, TextField, OtpInput, Alert } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
