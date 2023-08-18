@@ -60,6 +60,10 @@ export class AppContextStore {
     };
   }
 
+  get whiteLabel() {
+    return this.context?.whiteLabel;
+  }
+
   get app(): App | undefined {
     if (!this.context?.app) {
       return undefined;
