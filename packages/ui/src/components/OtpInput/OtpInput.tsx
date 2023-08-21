@@ -23,6 +23,8 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
     outline: 'none',
     margin: '0 2px',
     padding: '0',
+    backgroundColor: 'transparent',
+    color: theme.palette.primary.light,
 
     '& :first-of-type': {
       marginLeft: '0 auto !important',
@@ -31,7 +33,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
       marginRight: '0 auto !important',
     },
     '&:focus': {
-      border: `2px solid ${theme.palette.primary.main} !important`,
+      border: `2px solid ${theme.palette.primary.light} !important`,
     },
 
     '@media (min-width: 376px)': {

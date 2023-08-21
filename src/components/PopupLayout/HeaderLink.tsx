@@ -9,14 +9,16 @@ export type HeaderLinkProps = {
 
 export const HeaderLink = ({ title, label, url }: HeaderLinkProps) => (
   <Stack spacing={1} direction="row" alignItems="center">
-    <Typography variant="body2" fontWeight="medium">
+    <Typography variant="body2" fontWeight="medium" color="primary.light">
       {title}
     </Typography>
 
     {!url ? (
-      <Typography variant="body2">{label}</Typography>
+      <Typography color="#f32758" variant="body2">
+        {label}
+      </Typography>
     ) : (
-      <Link target="_blank" href={url} variant="body2">
+      <Link color="#f32758" target="_blank" href={url} variant="body2">
         {label}
       </Link>
     )}

@@ -22,6 +22,7 @@ const EmbeddedModal = ({ modal }: EmbeddedModalProps) => {
 
   return (
     <Dialog
+      showClose={false}
       origin="right"
       maxWidth="xs"
       open={modal.open && isFullscreen}

@@ -9,7 +9,7 @@ export type PriceRowProps = {
 export const PriceRow = ({ label, price: { equalsTo, amount, symbol } }: PriceRowProps) => (
   <InfoTableRow
     label={label}
-    value={`${amount} ${symbol}`}
+    value={symbol === 'CERE' ? `${amount}` : `${amount} ${symbol}`}
     caption={equalsTo && `(~${equalsTo.amount} ${equalsTo?.symbol})`}
   />
 );

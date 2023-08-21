@@ -161,6 +161,13 @@ export const createTheme = (options: ThemeOptions = {}): Theme => {
     },
 
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
       MuiLink: {
         defaultProps: {
           underline: 'none',
