@@ -51,6 +51,27 @@ jobs:
     name: Run scenarios
     runs-on: ['self-hosted', 'cere-io-large']
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get Node.js version
+        id: nvm
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: ${{ inputs.install_packages_command }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Build application
+        run: ${{ inputs.build_command }}
+
       - name: Start Selenoid server
         uses: n-ton4/selenoid-github-action@master
         id: start-selenoid
@@ -60,22 +81,6 @@ jobs:
           args: -limit ${{ inputs.max-instances }}
           browsers: chrome
           last-versions: 1
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup node env
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: ${{ inputs.install_packages_command }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Build application
-        run: ${{ inputs.build_command }}
 
       - name: Run tests
         id: run-tests
