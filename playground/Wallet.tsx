@@ -142,18 +142,6 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
-  const handleSetWhiteLabel = useCallback(() => {
-    wallet.setContext({
-      app: {
-        whiteLabel: {
-          backgroundColor: '#F32758',
-          borderRadius: 4,
-          backgroundImage: 'https://w.forfun.com/fetch/a2/a2d0571178a1a205aac1139e100ed1a8.jpeg',
-        },
-      },
-    });
-  }, [wallet]);
-
   const handleUnsetContext = useCallback(async () => {
     wallet.setContext(null);
   }, [wallet]);
@@ -337,14 +325,6 @@ export const Wallet = () => {
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect
-          </Button>
-          <Button
-            variant="contained"
-            color="warning"
-            disabled={status === 'not-ready' || status === 'connecting'}
-            onClick={handleSetWhiteLabel}
-          >
-            White Label
           </Button>
         </>
       )}

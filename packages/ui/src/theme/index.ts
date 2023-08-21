@@ -48,12 +48,14 @@ declare module '@mui/material/styles' {
     whiteLabel: {
       backgroundImage: string;
     };
+    isGame: boolean;
   }
 
   interface ThemeOptions {
     whiteLabel: {
       backgroundImage: string;
     };
+    isGame: boolean;
   }
 }
 
@@ -67,8 +69,10 @@ export type ThemeOptions = {
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = ({ whiteLabel }: any = {}): Theme => {
+export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
+  console.log(isGame, 'isGame');
   const theme = createMuiTheme({
+    isGame: isGame,
     whiteLabel: {
       backgroundImage: whiteLabel?.backgroundImage,
     },
@@ -198,19 +202,16 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
 
         styleOverrides: {
           contained: {
-            backgroundColor: whiteLabel?.backgroundColor && whiteLabel?.backgroundColor,
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
+            backgroundColor: isGame && '#F32758',
+            borderRadius: isGame ? 4 : 30,
           },
 
           outlined: ({ theme }) => ({
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
-            border: whiteLabel?.backgroundColor
-              ? `1px solid ${whiteLabel?.backgroundColor}`
-              : `1px solid ${theme.palette.primary.main}`,
+            borderRadius: isGame ? 4 : 30,
           }),
 
           text: {
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
+            borderRadius: isGame ? 4 : 30,
           },
 
           containedInherit: ({ theme }) => ({
@@ -550,10 +551,10 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
       MuiDialogContent: {
         styleOverrides: {
           root: ({ theme }) => ({
-            padding: theme.spacing(2, 3),
+            padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 3),
 
             [theme.breakpoints.down('sm')]: {
-              padding: theme.spacing(2, 1),
+              padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 1),
             },
           }),
         },
@@ -694,7 +695,7 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
           root: ({ theme }) => ({
             borderWidth: 1,
             borderStyle: 'solid',
-            borderColor: theme.palette.divider,
+            borderColor: isGame ? 'rgba(255, 255, 255, 0.23)' : theme.palette.divider,
             borderRadius: theme.typography.pxToRem(16),
           }),
         },

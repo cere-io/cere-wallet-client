@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
+import { CereWhiteLogo } from '~/components';
 
 interface OtpProps {
   email?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
+  isGame: boolean;
 }
 
 const validationSchema = yup
@@ -19,7 +21,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin, isGame }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -88,22 +90,36 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" alignItems="center">
-        <Typography variant="h2" flex={1}>
+        <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.secondary'}>
           Verify email
         </Typography>
-        <CereIcon />
+        {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
         Access CERE using code sent to your email
       </Typography>
-      <TextField value={email} variant="outlined" disabled={true} />
-      <Typography variant="body2" color="text.secondary">
+      <TextField
+        value={email}
+        variant="outlined"
+        disabled={true}
+        sx={{
+          '& .MuiInputBase-input.Mui-disabled': {
+            WebkitTextFillColor: isGame ? 'rgba(245, 250, 252, 1)' : '',
+          },
+        }}
+      />
+      <Typography
+        variant="body2"
+        color={isGame ? 'primary.light' : 'text.secondary'}
+        align={isGame ? 'center' : 'left'}
+      >
         Verification code
       </Typography>
       <OtpInput
         {...register('code')}
         onChange={(val) => setFormValue('code', val)}
         errorMessage={errors?.code?.message}
+        isGame={isGame}
       />
 
       {errors.root && (
@@ -120,9 +136,15 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
           Did not receive a code?{' '}
-          <Button variant="text" onClick={handleResend}>
+          <Button
+            variant="text"
+            onClick={handleResend}
+            sx={{
+              color: isGame ? 'rgba(243, 39, 88, 1)' : 'primary.main',
+            }}
+          >
             Resend code
           </Button>
         </Typography>

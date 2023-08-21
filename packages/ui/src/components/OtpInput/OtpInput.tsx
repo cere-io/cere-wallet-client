@@ -8,9 +8,10 @@ const DIGITS_NUMBER = 6;
 interface OtpProps {
   errorMessage?: string;
   onChange?: (code: string) => void;
+  isGame: boolean;
 }
 
-const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
+const CodeInput = styled(ReactCodeInput)(({ theme, isGame }: any) => ({
   textAlign: 'center',
   input: {
     height: '56px',
@@ -23,7 +24,8 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
     outline: 'none',
     margin: '0 2px',
     padding: '0',
-
+    backgroundColor: isGame ? 'transparent' : '#fff',
+    color: isGame ? theme.palette.primary.light : theme.palette.text.primary,
     '& :first-of-type': {
       marginLeft: '0 auto !important',
     },
@@ -31,7 +33,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
       marginRight: '0 auto !important',
     },
     '&:focus': {
-      border: `2px solid ${theme.palette.primary.main} !important`,
+      border: `2px solid ${isGame ? theme.palette.primary.light : theme.palette.primary.main} !important`,
     },
 
     '@media (min-width: 376px)': {
@@ -42,7 +44,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
   },
 }));
 
-export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage, isGame }, ref) => {
   const handleCodeChange = (value: string) => {
     if (typeof onChange === 'function') {
       onChange(value.toLowerCase());
@@ -60,6 +62,8 @@ export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, 
         onChange={handleCodeChange}
         inputStyleInvalid={{ border: '1px solid red' }}
         isValid={!errorMessage}
+        // @ts-ignore
+        isGame={isGame}
       />
       <Typography variant="body2" color="error.main">
         {errorMessage}
