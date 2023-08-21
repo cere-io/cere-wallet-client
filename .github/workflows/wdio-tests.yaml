@@ -51,12 +51,22 @@ jobs:
     name: Run scenarios
     runs-on: ['self-hosted', 'cere-io-large']
     steps:
+      - name: Start Selenoid server
+        uses: n-ton4/selenoid-github-action@master
+        id: start-selenoid
+        continue-on-error: false
+        with:
+          version: 1.11.0
+          args: -limit ${{ inputs.max-instances }}
+          browsers: chrome
+          last-versions: 1
+
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Get Node.js version
         id: nvm
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -71,16 +81,6 @@ jobs:
 
       - name: Build application
         run: ${{ inputs.build_command }}
-
-      - name: Start Selenoid server
-        uses: n-ton4/selenoid-github-action@master
-        id: start-selenoid
-        continue-on-error: false
-        with:
-          version: 1.11.0
-          args: -limit ${{ inputs.max-instances }}
-          browsers: chrome
-          last-versions: 1
 
       - name: Run tests
         id: run-tests
