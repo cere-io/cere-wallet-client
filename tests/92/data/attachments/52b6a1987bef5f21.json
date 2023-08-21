@@ -1,0 +1,3962 @@
+[
+  {
+    "url": "https://fnd.tor.us/node-details?network=testnet&verifier=cere-wallet-dev&verifierId=auto+08o1n5c8408@test.io",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "etag": "W/\"7d6-yrstm5bP4lqtoG8t3YbwFI/NCAM\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "nodeDetails": {
+          "currentEpoch": "1",
+          "torusNodeEndpoints": [
+            "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc"
+          ],
+          "torusNodeSSSEndpoints": [
+            "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+            "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc"
+          ],
+          "torusNodeRSSEndpoints": [
+            "https://sapphire-dev-2-1.authnetwork.dev/rss/teal",
+            "https://sapphire-dev-2-2.authnetwork.dev/rss/teal",
+            "https://sapphire-dev-2-3.authnetwork.dev/rss/teal",
+            "https://sapphire-dev-2-4.authnetwork.dev/rss/teal",
+            "https://sapphire-dev-2-5.authnetwork.dev/rss/teal"
+          ],
+          "torusNodeTSSEndpoints": [
+            "https://sapphire-dev-2-1.authnetwork.dev/tss/teal",
+            "https://sapphire-dev-2-2.authnetwork.dev/tss/teal",
+            "https://sapphire-dev-2-3.authnetwork.dev/tss/teal",
+            "https://sapphire-dev-2-4.authnetwork.dev/tss/teal",
+            "https://sapphire-dev-2-5.authnetwork.dev/tss/teal"
+          ],
+          "torusIndexes": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "torusNodePub": [
+            {
+              "X": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+              "Y": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7"
+            },
+            {
+              "X": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+              "Y": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a"
+            },
+            {
+              "X": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+              "Y": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c"
+            },
+            {
+              "X": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+              "Y": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b"
+            },
+            {
+              "X": "bf12a136ef94399ea098f926f04e26a4ec4ac70f69cce274e8893704c4951773",
+              "Y": "bdd44828020f52ce510e026338216ada184a6867eb4e19fb4c2d495d4a7e15e4"
+            }
+          ]
+        },
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "2482ba37-9517-4e85-a372-6ee412ff7fd6"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "2482ba37-9517-4e85-a372-6ee412ff7fd6"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f900e8f6-c451-4b01-bf4e-fae6688a6a28"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f900e8f6-c451-4b01-bf4e-fae6688a6a28"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "70b31317-bb8a-4097-9784-18dbebcf6907"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "3da23cc1-6c3a-4504-980f-fec3e3c4d9d6"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "3da23cc1-6c3a-4504-980f-fec3e3c4d9d6"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "97b9747d-c599-4d30-a0ed-e3bf45e22c9b"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "131",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "97b9747d-c599-4d30-a0ed-e3bf45e22c9b"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32602,
+          "message": "Input error",
+          "data": "Verifier + VerifierID has not yet been assigned"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/sign",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "pubkeyx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+      "pubkeyy": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "222",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "etag": "W/\"de-H0X49WTXZGaBY4lG+Ympv69h95g\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "4",
+        "x-ratelimit-remaining": "3",
+        "x-ratelimit-reset": "1692595680",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "torus-timestamp": "1692595678",
+        "torus-nonce": "fdbb4e0b78fd53dceb83fef935fe8729e44a0d551ed6b565486519c2b184ed42",
+        "torus-signature": "ye4SutlzgsEEbtTj2YB1I6v+Lh6sucCUwTlNbLs9AiZAfy9aOmxldf2R8ap4Ojlxc4Qp+NupS/hYJWI1e1NrRhs="
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/sign",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "pubkeyx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+      "pubkeyy": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "222",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "etag": "W/\"de-H0X49WTXZGaBY4lG+Ympv69h95g\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "4",
+        "x-ratelimit-remaining": "3",
+        "x-ratelimit-reset": "1692595680",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "torus-timestamp": "1692595678",
+        "torus-nonce": "fdbb4e0b78fd53dceb83fef935fe8729e44a0d551ed6b565486519c2b184ed42",
+        "torus-signature": "ye4SutlzgsEEbtTj2YB1I6v+Lh6sucCUwTlNbLs9AiZAfy9aOmxldf2R8ap4Ojlxc4Qp+NupS/hYJWI1e1NrRhs="
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      },
+      "torus-timestamp": "1692595678",
+      "torus-nonce": "fdbb4e0b78fd53dceb83fef935fe8729e44a0d551ed6b565486519c2b184ed42",
+      "torus-signature": "ye4SutlzgsEEbtTj2YB1I6v+Lh6sucCUwTlNbLs9AiZAfy9aOmxldf2R8ap4Ojlxc4Qp+NupS/hYJWI1e1NrRhs="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:59 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "32ea76f3-b1d7-479d-98b0-7a15a7815a7e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "KeyAssign",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      },
+      "torus-timestamp": "1692595678",
+      "torus-nonce": "fdbb4e0b78fd53dceb83fef935fe8729e44a0d551ed6b565486519c2b184ed42",
+      "torus-signature": "ye4SutlzgsEEbtTj2YB1I6v+Lh6sucCUwTlNbLs9AiZAfy9aOmxldf2R8ap4Ojlxc4Qp+NupS/hYJWI1e1NrRhs="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:27:59 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "32ea76f3-b1d7-479d-98b0-7a15a7815a7e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://dev-cere-wallet-api.core-dev.aws.cere.io/auth/token-by-email",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "content-type": "application/json"
+    },
+    "body": {
+      "email": "auto+08o1n5c8408@test.io",
+      "code": "555555"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-origin": "*",
+        "content-length": "580",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 21 Aug 2023 05:27:58 GMT",
+        "etag": "W/\"244-ljsRArOke5F3+YPyNFNXjz5TvyU\"",
+        "x-powered-by": "Express"
+      },
+      "body": {
+        "code": "SUCCESS",
+        "data": {
+          "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d2885423-327e-43d1-8d21-dbcf16af622e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d2885423-327e-43d1-8d21-dbcf16af622e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d2885423-327e-43d1-8d21-dbcf16af622e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f17b659e-cbf1-479b-a9c5-0c369810ba38"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f17b659e-cbf1-479b-a9c5-0c369810ba38"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "79467242-1487-4336-9118-540d86f949e2"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "79467242-1487-4336-9118-540d86f949e2"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "79467242-1487-4336-9118-540d86f949e2"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "4953103f-3c8d-4e7a-ac21-53b2bc671fee"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "4953103f-3c8d-4e7a-ac21-53b2bc671fee"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "47c927d1-5f3b-446d-9e26-a9ece1d561e9"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "47c927d1-5f3b-446d-9e26-a9ece1d561e9"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "VerifierLookupRequest",
+      "id": 10,
+      "params": {
+        "verifier": "cere-wallet-dev",
+        "verifier_id": "auto+08o1n5c8408@test.io"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "280",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "47c927d1-5f3b-446d-9e26-a9ece1d561e9"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "key_index": "5b61",
+              "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+              "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+              "address": "0x28f5d10767dBB46af1DEfff86c4d0ACfB9a876aA"
+            }
+          ]
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+      "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+      "set_data": {
+        "data": "getOrSetNonce"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "249",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "etag": "W/\"f9-qbAkiBzsUF7iXe1UgEz1w5Tj8YY\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "31512e2bcf00d6ab00e99f5b4ff57baa2c27deb30d5c8111440cbae75cdf990d",
+          "y": "320e7f8ce89229513f3f5e7711f6de7b4f3b8964b3c4cd68c64bcc3a78af2e54"
+        },
+        "ipfs": [
+          "QmXz9e1JPDSBE4reCkYZg8bRdpi3FaWTMT7rJgY8SKLBZ8"
+        ]
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+      "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+      "set_data": {
+        "data": "getOrSetNonce"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "249",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:00 GMT",
+        "etag": "W/\"f9-qbAkiBzsUF7iXe1UgEz1w5Tj8YY\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "31512e2bcf00d6ab00e99f5b4ff57baa2c27deb30d5c8111440cbae75cdf990d",
+          "y": "320e7f8ce89229513f3f5e7711f6de7b4f3b8964b3c4cd68c64bcc3a78af2e54"
+        },
+        "ipfs": [
+          "QmXz9e1JPDSBE4reCkYZg8bRdpi3FaWTMT7rJgY8SKLBZ8"
+        ]
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+08o1n5c8408@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "etag": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+08o1n5c8408@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "etag": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://signer.tor.us/api/allow",
+    "method": "GET",
+    "headers": {
+      "clientid": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "network": "testnet",
+      "verifier": "cere-wallet-dev",
+      "verifierid": "auto+08o1n5c8408@test.io",
+      "x-api-key": "torus-default"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "16",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "etag": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d11fcb0e-a657-44d1-b69c-d24c95edf85e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+          "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+          "nodeindex": "1"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d11fcb0e-a657-44d1-b69c-d24c95edf85e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+          "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+          "nodeindex": "1"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "d11fcb0e-a657-44d1-b69c-d24c95edf85e"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+          "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+          "nodeindex": "1"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "21053d66-270e-4468-be02-570c7b46cd4d"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+          "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+          "nodeindex": "2"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "21053d66-270e-4468-be02-570c7b46cd4d"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+          "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+          "nodeindex": "2"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "21053d66-270e-4468-be02-570c7b46cd4d"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+          "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+          "nodeindex": "2"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ab5f37f6-1874-4e19-b6a9-921cad66a3ca"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+          "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+          "nodeindex": "3"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ab5f37f6-1874-4e19-b6a9-921cad66a3ca"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+          "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+          "nodeindex": "3"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ab5f37f6-1874-4e19-b6a9-921cad66a3ca"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+          "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+          "nodeindex": "3"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ad463664-b57e-4811-84b6-e8c78cde3393"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+          "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+          "nodeindex": "4"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ad463664-b57e-4811-84b6-e8c78cde3393"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+          "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+          "nodeindex": "4"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "ad463664-b57e-4811-84b6-e8c78cde3393"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+          "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+          "nodeindex": "4"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "851e7755-ad0e-48ce-8575-a76b3d68c6af"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "211282796d61493909648d3e9f316d9569e27c87637a0ce2c2bc5f50f1504453017f1a1c0c0d86bbd21725ad63819ff09602d20b6eb320471ab074440dafefc61b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bf12a136ef94399ea098f926f04e26a4ec4ac70f69cce274e8893704c4951773",
+          "nodepuby": "bdd44828020f52ce510e026338216ada184a6867eb4e19fb4c2d495d4a7e15e4",
+          "nodeindex": "5"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "851e7755-ad0e-48ce-8575-a76b3d68c6af"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "211282796d61493909648d3e9f316d9569e27c87637a0ce2c2bc5f50f1504453017f1a1c0c0d86bbd21725ad63819ff09602d20b6eb320471ab074440dafefc61b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bf12a136ef94399ea098f926f04e26a4ec4ac70f69cce274e8893704c4951773",
+          "nodepuby": "bdd44828020f52ce510e026338216ada184a6867eb4e19fb4c2d495d4a7e15e4",
+          "nodeindex": "5"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "CommitmentRequest",
+      "id": 10,
+      "params": {
+        "messageprefix": "mug00",
+        "tokencommitment": "a276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc",
+        "temppubx": "f9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000",
+        "temppuby": "9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f",
+        "verifieridentifier": "cere-wallet-dev"
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "616",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:01 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "851e7755-ad0e-48ce-8575-a76b3d68c6af"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "signature": "211282796d61493909648d3e9f316d9569e27c87637a0ce2c2bc5f50f1504453017f1a1c0c0d86bbd21725ad63819ff09602d20b6eb320471ab074440dafefc61b",
+          "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+          "nodepubx": "bf12a136ef94399ea098f926f04e26a4ec4ac70f69cce274e8893704c4951773",
+          "nodepuby": "bdd44828020f52ce510e026338216ada184a6867eb4e19fb4c2d495d4a7e15e4",
+          "nodeindex": "5"
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:02 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "0a6b38e6-ab94-4be2-96a7-50f44d6348b7"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjgzYTFiZWUzMjczYzQzNmQyYTUyNjU2ODU3OTM3ZWU3YTdjNGJmOGZmNTk5ZTc3NzEzYmI1ZDU1YmY4NDNjNTkyNjE2NjU3OTcxNjkzM2MyN2M5YzE5ZmViMDI0MGRk",
+              "Metadata": {
+                "iv": "0e5f9a8ad492a0e69ded9225d2b2d995",
+                "ephemPublicKey": "0466bfeb2353ea85c9887e7e58afcddc118899375075755787f8ac7fabefdde05be99672c5976f44e96b4cacc46cd30f1e92ece2e1ea96547554d1802ad4da7341",
+                "mac": "9abb1708d400c8d99771d77571e02623c1b2c5e4daa74ef2933f2616898a9823",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:02 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "0a6b38e6-ab94-4be2-96a7-50f44d6348b7"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjgzYTFiZWUzMjczYzQzNmQyYTUyNjU2ODU3OTM3ZWU3YTdjNGJmOGZmNTk5ZTc3NzEzYmI1ZDU1YmY4NDNjNTkyNjE2NjU3OTcxNjkzM2MyN2M5YzE5ZmViMDI0MGRk",
+              "Metadata": {
+                "iv": "0e5f9a8ad492a0e69ded9225d2b2d995",
+                "ephemPublicKey": "0466bfeb2353ea85c9887e7e58afcddc118899375075755787f8ac7fabefdde05be99672c5976f44e96b4cacc46cd30f1e92ece2e1ea96547554d1802ad4da7341",
+                "mac": "9abb1708d400c8d99771d77571e02623c1b2c5e4daa74ef2933f2616898a9823",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-1.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:02 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "0a6b38e6-ab94-4be2-96a7-50f44d6348b7"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjgzYTFiZWUzMjczYzQzNmQyYTUyNjU2ODU3OTM3ZWU3YTdjNGJmOGZmNTk5ZTc3NzEzYmI1ZDU1YmY4NDNjNTkyNjE2NjU3OTcxNjkzM2MyN2M5YzE5ZmViMDI0MGRk",
+              "Metadata": {
+                "iv": "0e5f9a8ad492a0e69ded9225d2b2d995",
+                "ephemPublicKey": "0466bfeb2353ea85c9887e7e58afcddc118899375075755787f8ac7fabefdde05be99672c5976f44e96b4cacc46cd30f1e92ece2e1ea96547554d1802ad4da7341",
+                "mac": "9abb1708d400c8d99771d77571e02623c1b2c5e4daa74ef2933f2616898a9823",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "c0ea012c-65ea-4720-901d-479e2ae87143"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZDc5YmZiOTZiYzRmZTEzYmZjYjRiMmVkNGI0ZjI1MGZiMGJiMjRmY2M2NWU1M2EzZjIyZWQ4MDI0ZmFhZDMzZWRhN2ZkMzVlODE3MTU5ODRlNWRkNmFmMWNhODI4NDI5",
+              "Metadata": {
+                "iv": "a7a6a0bd61651dcff983e392dad04b7c",
+                "ephemPublicKey": "0456ed1049d00e4d0e40681649f9efb45e62bf6a4a43be872d4e36029794b864b32937af192e075b69a0446c75908414c5a53e38e0c99f4fac664be8169d86a795",
+                "mac": "70bcc89a845c6a725c8f2339d291e9e33e74193ad3e983774d028b52d53975fe",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "c0ea012c-65ea-4720-901d-479e2ae87143"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZDc5YmZiOTZiYzRmZTEzYmZjYjRiMmVkNGI0ZjI1MGZiMGJiMjRmY2M2NWU1M2EzZjIyZWQ4MDI0ZmFhZDMzZWRhN2ZkMzVlODE3MTU5ODRlNWRkNmFmMWNhODI4NDI5",
+              "Metadata": {
+                "iv": "a7a6a0bd61651dcff983e392dad04b7c",
+                "ephemPublicKey": "0456ed1049d00e4d0e40681649f9efb45e62bf6a4a43be872d4e36029794b864b32937af192e075b69a0446c75908414c5a53e38e0c99f4fac664be8169d86a795",
+                "mac": "70bcc89a845c6a725c8f2339d291e9e33e74193ad3e983774d028b52d53975fe",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-2.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "c0ea012c-65ea-4720-901d-479e2ae87143"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZDc5YmZiOTZiYzRmZTEzYmZjYjRiMmVkNGI0ZjI1MGZiMGJiMjRmY2M2NWU1M2EzZjIyZWQ4MDI0ZmFhZDMzZWRhN2ZkMzVlODE3MTU5ODRlNWRkNmFmMWNhODI4NDI5",
+              "Metadata": {
+                "iv": "a7a6a0bd61651dcff983e392dad04b7c",
+                "ephemPublicKey": "0456ed1049d00e4d0e40681649f9efb45e62bf6a4a43be872d4e36029794b864b32937af192e075b69a0446c75908414c5a53e38e0c99f4fac664be8169d86a795",
+                "mac": "70bcc89a845c6a725c8f2339d291e9e33e74193ad3e983774d028b52d53975fe",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f24abc5b-05dc-487a-ad64-da8cd2b5b205"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZmUwMGIyMzQzYzZkYzRkZjBlYzUwZTA5OWU5N2E5NzY4MjA4MzAyNGRmOWRjY2FmZWFkY2FmOGYxM2E4M2MyMDM4NmRmMDFmMjZhMjdmZDQwZDllYWZjYWM4NDIwYzE4",
+              "Metadata": {
+                "iv": "029389417979f467c593c7d09f19364a",
+                "ephemPublicKey": "0466c6d937aaa05153bc03604fb2b53bccb6aa6a0326b62b29987cbdbb2903e900a74994d4f4b40425085987b11c9371cfe7d450561480f3e96dbe18ce331dd197",
+                "mac": "953de15d70044a20c697197a518f56986a388e62b30322df56cfa1580a2f081a",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f24abc5b-05dc-487a-ad64-da8cd2b5b205"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZmUwMGIyMzQzYzZkYzRkZjBlYzUwZTA5OWU5N2E5NzY4MjA4MzAyNGRmOWRjY2FmZWFkY2FmOGYxM2E4M2MyMDM4NmRmMDFmMjZhMjdmZDQwZDllYWZjYWM4NDIwYzE4",
+              "Metadata": {
+                "iv": "029389417979f467c593c7d09f19364a",
+                "ephemPublicKey": "0466c6d937aaa05153bc03604fb2b53bccb6aa6a0326b62b29987cbdbb2903e900a74994d4f4b40425085987b11c9371cfe7d450561480f3e96dbe18ce331dd197",
+                "mac": "953de15d70044a20c697197a518f56986a388e62b30322df56cfa1580a2f081a",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-3.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "f24abc5b-05dc-487a-ad64-da8cd2b5b205"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "ZmUwMGIyMzQzYzZkYzRkZjBlYzUwZTA5OWU5N2E5NzY4MjA4MzAyNGRmOWRjY2FmZWFkY2FmOGYxM2E4M2MyMDM4NmRmMDFmMjZhMjdmZDQwZDllYWZjYWM4NDIwYzE4",
+              "Metadata": {
+                "iv": "029389417979f467c593c7d09f19364a",
+                "ephemPublicKey": "0466c6d937aaa05153bc03604fb2b53bccb6aa6a0326b62b29987cbdbb2903e900a74994d4f4b40425085987b11c9371cfe7d450561480f3e96dbe18ce331dd197",
+                "mac": "953de15d70044a20c697197a518f56986a388e62b30322df56cfa1580a2f081a",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "b0067d26-9f08-4bb2-89bc-723c78905ad3"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "YTdhZTJjYzE1M2YxZGNiNDliN2UxYzI1NjQ4Y2ZkMTBjYmM2MjQzMTk2ODdiNDg1YmNmMGI4N2M2YWFjYjcxOGQwMDk2ZGQ4Y2FlNWM3MWFlYTgwYjRjMzM3OWFkMTU4",
+              "Metadata": {
+                "iv": "fd038ccb88071d474548cd7366705851",
+                "ephemPublicKey": "04aca11b194490341a86742912c6242dd5117a5609738d357f43452847f326eb06277aab61e4dcc332a122fee36810ed751fb635a8c64d7e456ced9db74d7973e7",
+                "mac": "06b3387017237206ae0aa85ebc3d51cd644d547ea24da91628af953ca7ef4670",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "b0067d26-9f08-4bb2-89bc-723c78905ad3"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "YTdhZTJjYzE1M2YxZGNiNDliN2UxYzI1NjQ4Y2ZkMTBjYmM2MjQzMTk2ODdiNDg1YmNmMGI4N2M2YWFjYjcxOGQwMDk2ZGQ4Y2FlNWM3MWFlYTgwYjRjMzM3OWFkMTU4",
+              "Metadata": {
+                "iv": "fd038ccb88071d474548cd7366705851",
+                "ephemPublicKey": "04aca11b194490341a86742912c6242dd5117a5609738d357f43452847f326eb06277aab61e4dcc332a122fee36810ed751fb635a8c64d7e456ced9db74d7973e7",
+                "mac": "06b3387017237206ae0aa85ebc3d51cd644d547ea24da91628af953ca7ef4670",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-4.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "b0067d26-9f08-4bb2-89bc-723c78905ad3"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "YTdhZTJjYzE1M2YxZGNiNDliN2UxYzI1NjQ4Y2ZkMTBjYmM2MjQzMTk2ODdiNDg1YmNmMGI4N2M2YWFjYjcxOGQwMDk2ZGQ4Y2FlNWM3MWFlYTgwYjRjMzM3OWFkMTU4",
+              "Metadata": {
+                "iv": "fd038ccb88071d474548cd7366705851",
+                "ephemPublicKey": "04aca11b194490341a86742912c6242dd5117a5609738d357f43452847f326eb06277aab61e4dcc332a122fee36810ed751fb635a8c64d7e456ced9db74d7973e7",
+                "mac": "06b3387017237206ae0aa85ebc3d51cd644d547ea24da91628af953ca7ef4670",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "507d0070-7c32-433b-8e98-cabe5cf59574"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjcxOWNiM2EyOGQ2NmMyYzI1ODRkOGNhMmI0NDkwNTdlMTJlOTRmNTA1NjYzODIyZTViMTUwZDU4MTJjMThhYjI1MzRmODNjYjQ2ZTg4MzIwZmIyZWMwYjVjMzE0NWNh",
+              "Metadata": {
+                "iv": "f3f3d8afa39b7e47057b766e0f566da7",
+                "ephemPublicKey": "04cd92f28e6af9d23d99883d06e62bc5a39408d9b3c3dd92a95952465b7ada647f1925ebd6fd57085020cd67fd5e1b4d142df9d1261aad942382d4de5a62ce4986",
+                "mac": "b6d9745ed1863eb62216d96cf8cd360232a25974e2e72af52814e9667346ad3f",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "507d0070-7c32-433b-8e98-cabe5cf59574"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjcxOWNiM2EyOGQ2NmMyYzI1ODRkOGNhMmI0NDkwNTdlMTJlOTRmNTA1NjYzODIyZTViMTUwZDU4MTJjMThhYjI1MzRmODNjYjQ2ZTg4MzIwZmIyZWMwYjVjMzE0NWNh",
+              "Metadata": {
+                "iv": "f3f3d8afa39b7e47057b766e0f566da7",
+                "ephemPublicKey": "04cd92f28e6af9d23d99883d06e62bc5a39408d9b3c3dd92a95952465b7ada647f1925ebd6fd57085020cd67fd5e1b4d142df9d1261aad942382d4de5a62ce4986",
+                "mac": "b6d9745ed1863eb62216d96cf8cd360232a25974e2e72af52814e9667346ad3f",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://sapphire-dev-2-5.authnetwork.dev/sss/teal/jrpc",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "ShareRequest",
+      "id": 10,
+      "params": {
+        "encrypted": "yes",
+        "item": [
+          {
+            "verifier_id": "auto+08o1n5c8408@test.io",
+            "idtoken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF1dG8rMDhvMW41Yzg0MDhAdGVzdC5pbyIsIm5hbWUiOiIiLCJwaWN0dXJlIjoiIiwiYXVkIjoiaHR0cHM6Ly9kZXYuY2VyZS5pbyIsImlhdCI6MTY5MjU5NTY3OCwiZXhwIjoxNjkyNTk1OTc4fQ.Gv1276KMIZK2u2aF4cf41L-E5yR-UXSmig8Vw7aV_JCR2q7PSMAtP17R75mmiqjhm0D9N75kUEfQaYYPIIvSYzokYGBFWWFrUvNDqkHZkt4cYmcxMI0xC199rQMEcFe5Haqv24hui5IYs2tcmdwL2dbjjhpvYhYSqnIzHkwA8GlHtMu7A5N_E9V8hmtmcl1IVna6YrzJ2p6ArhgydfQmvIBrzHVV4SR0Cx69KQ0x4ounXJM59TUr-saJGpdqDlmIpGZGGGN6dDbW2gnwEnB_yJrx4mqna_T-TU0cXkJhaS6DmXYDuuVj9JmEB2IDhp7gcnsVP2Smfs5KAHMekYQZJQ",
+            "nodesignatures": [
+              {
+                "signature": "9981da43a4980557c98e4573a583f54ce3cfd9ad087a27e582fe119e14e0ab1270adb865f43f2a1f5d64302955d27310150c4f23dfbe889e3dca930a818dbde11b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "f74389b0a4c8d10d2a687ae575f69b20f412d41ab7f1fe6b358aa14871327247",
+                "nodepuby": "54e3a73098ed9bced3ef8821736e9794f9264a1420c0c7ad15d2fa617ba35ef7",
+                "nodeindex": "1"
+              },
+              {
+                "signature": "81d06070fab93e2a3b8c161e17e11fde52685492252ee4ff5eb95fa7bc4f1f7405019805b2a80e1b740d89a91eb5e0f6036ab9cfc23e6de2b6d1eddaa5329a341c",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "bc38813a6873e526087918507c78fc3a61624670ee851ecfb4f3bef55d027b5a",
+                "nodepuby": "ac4b21229f662a0aefdfdac21cf17c3261a392c74a8790db218b34e3e4c1d56a",
+                "nodeindex": "2"
+              },
+              {
+                "signature": "e8b4ab35310230085b46cb2938043978c4c59d670fa9a1e995ba9c1c91397540670526c3778c7655296094d70378924abbc5a00e3cfbb8192df4d937a0db684c1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "b56541684ea5fa40c8337b7688d502f0e9e092098962ad344c34e94f06d293fb",
+                "nodepuby": "759a998cef79d389082f9a75061a29190eec0cac99b8c25ddcf6b58569dad55c",
+                "nodeindex": "3"
+              },
+              {
+                "signature": "ea4ade2c55e549ac1e9d102f9e4b9f3b93a6a91fcb17666f42775976e3d1184e4c5fa77688ac58ecce830373b75dc295574477895341f2e1d73eab353b9535bc1b",
+                "data": "mug00\u001ca276c354d22809dd8b375630f394c73a5114a38272b80821bf6ce1564bd9c6bc\u001cf9ed3d65665480628fa39591be293ad6795798c81684ecec72928dff5673a000\u001c9a14e6c5a2698f617a1e89f88834ae292dbc96b278ce99f9609a55f0fb2f632f\u001ccere-wallet-dev\u001c1692595681",
+                "nodepubx": "7bcb058d4c6ffc6ba4bfdfd93d141af35a66338a62c7c27cdad2ae3f8289b767",
+                "nodepuby": "336ab1935e41ed4719e162587f0ab55518db4207a1eb36cc72303f1b86689d2b",
+                "nodeindex": "4"
+              }
+            ],
+            "verifieridentifier": "cere-wallet-dev"
+          }
+        ]
+      }
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "content-length": "869",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "vary": "Origin",
+        "via": "1.1 google",
+        "x-web3-correlation-id": "507d0070-7c32-433b-8e98-cabe5cf59574"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "result": {
+          "keys": [
+            {
+              "Index": "5b61",
+              "PublicKey": {
+                "X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+                "Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74"
+              },
+              "Threshold": "1",
+              "Verifiers": {
+                "cere-wallet-dev": [
+                  "auto+08o1n5c8408@test.io"
+                ]
+              },
+              "Share": "NjcxOWNiM2EyOGQ2NmMyYzI1ODRkOGNhMmI0NDkwNTdlMTJlOTRmNTA1NjYzODIyZTViMTUwZDU4MTJjMThhYjI1MzRmODNjYjQ2ZTg4MzIwZmIyZWMwYjVjMzE0NWNh",
+              "Metadata": {
+                "iv": "f3f3d8afa39b7e47057b766e0f566da7",
+                "ephemPublicKey": "04cd92f28e6af9d23d99883d06e62bc5a39408d9b3c3dd92a95952465b7ada647f1925ebd6fd57085020cd67fd5e1b4d142df9d1261aad942382d4de5a62ce4986",
+                "mac": "b6d9745ed1863eb62216d96cf8cd360232a25974e2e72af52814e9667346ad3f",
+                "mode": "AES256"
+              }
+            }
+          ],
+          "session_tokens": null,
+          "session_token_metadata": null,
+          "session_token_sigs": null,
+          "session_token_sig_metadata": null,
+          "node_pubx": "",
+          "node_puby": ""
+        },
+        "id": 10
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+      "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "64e2f5e3"
+      },
+      "signature": "9idrT0VsdlrDqwOap1mvr+wAZHBsNsXjk2eOvEGb+xt0h3oKxkyHS24rmX0TI3rYi6MKNq6H5xjzqcB+I3bBgwA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"10a-X1ashh026ZthS95iI0amxoVeU1w\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "31512e2bcf00d6ab00e99f5b4ff57baa2c27deb30d5c8111440cbae75cdf990d",
+          "y": "320e7f8ce89229513f3f5e7711f6de7b4f3b8964b3c4cd68c64bcc3a78af2e54"
+        },
+        "nonce": "b7aeddfb55f19a0ab72983b8b34a6f5567d7afaac6340e43e1ea0a6d9d4ce3e5"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+      "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "64e2f5e3"
+      },
+      "signature": "9idrT0VsdlrDqwOap1mvr+wAZHBsNsXjk2eOvEGb+xt0h3oKxkyHS24rmX0TI3rYi6MKNq6H5xjzqcB+I3bBgwA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"10a-X1ashh026ZthS95iI0amxoVeU1w\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "31512e2bcf00d6ab00e99f5b4ff57baa2c27deb30d5c8111440cbae75cdf990d",
+          "y": "320e7f8ce89229513f3f5e7711f6de7b4f3b8964b3c4cd68c64bcc3a78af2e54"
+        },
+        "nonce": "b7aeddfb55f19a0ab72983b8b34a6f5567d7afaac6340e43e1ea0a6d9d4ce3e5"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://metadata.tor.us/get_or_set_nonce",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-api-key": "torus-default"
+    },
+    "body": {
+      "pub_key_X": "9361d8816df7dc7c12e82c229a16cf7ebfd6da94b5c6a12101b118c8b8f6a094",
+      "pub_key_Y": "c37245a14c5f280710e3565a68c4f6020d2365189db9697bb8c929d28ced7f74",
+      "set_data": {
+        "data": "getNonce",
+        "timestamp": "64e2f5e3"
+      },
+      "signature": "9idrT0VsdlrDqwOap1mvr+wAZHBsNsXjk2eOvEGb+xt0h3oKxkyHS24rmX0TI3rYi6MKNq6H5xjzqcB+I3bBgwA="
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "266",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"10a-X1ashh026ZthS95iI0amxoVeU1w\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "typeOfUser": "v2",
+        "upgraded": false,
+        "pubNonce": {
+          "x": "31512e2bcf00d6ab00e99f5b4ff57baa2c27deb30d5c8111440cbae75cdf990d",
+          "y": "320e7f8ce89229513f3f5e7711f6de7b4f3b8964b3c4cd68c64bcc3a78af2e54"
+        },
+        "nonce": "b7aeddfb55f19a0ab72983b8b34a6f5567d7afaac6340e43e1ea0a6d9d4ce3e5"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "04e5df9054cd15ee7e282ab0ab1dbe74f1767e62c40bc9f4c610109d06eb1f1cd2b65abc9e66b5af76c5bdb2d4c2b6b2d2a7e256d61911c619d7f41deb83d7dd8b",
+      "data": "{\"iv\":\"e8b91f6c183d075a9b1e554568805034\",\"ephemPublicKey\":\"04fd3855049c9159ec399aaf92250dda7af66486eab9d7c67fc6372f44f50128d67822b107140f3cfbb7968293d9abcf58d454a29e121c8c3bf07258e34b47c973\",\"ciphertext\":\"2eb11ac74757db49a2d791450092d19e6971ead07006cb6223067f20318099a114e155f1b70a2ffc8a5c23834ed37e2642b3ae887ad1a592cd877efa2bb48d6c7087646156e8d4ab2d3a746daa80a8c66633f37c66ad9305c5b6ebd47c16e384ec84ad62f21ff98076c6895eb3130d35db66dc8ef730abadd32ab4b8ddcb4ac4629899c4d2894b370bea0efcc2d2613020b92fd9bc01880fe59e91f44d69d90507ba200f09c08365ad82be5c73a85214aec5cdc429b51704bf19956d6cc0e0d0d6c3b9598bed9c6d3e7c175b0f887c9401628e8937f2d94b6ef15ffe0337743d0a4eb5db74df4d91da7a1c032591635eb6bda9bbeccb2aa5d50ca7e363a7449f\",\"mac\":\"f6905953adf4b324dc350fb7f0a9cb3f38e348610cb49982fa5b7b6f9c87ce1a\"}",
+      "signature": "3045022100e1f2817a709672a3edb5424677060f58c639f43737b5b2561007a33a4d151eeb02204c871ac5892fa4e7e66c620fdc2c43082e1a9c56e97c25e13c454207471a20e3",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"35-k9Ax8No0KaUsNtv6hhsGgnJ41W0\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "200",
+        "x-ratelimit-remaining": "199",
+        "x-ratelimit-reset": "1692595744",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "04e5df9054cd15ee7e282ab0ab1dbe74f1767e62c40bc9f4c610109d06eb1f1cd2b65abc9e66b5af76c5bdb2d4c2b6b2d2a7e256d61911c619d7f41deb83d7dd8b",
+      "data": "{\"iv\":\"e8b91f6c183d075a9b1e554568805034\",\"ephemPublicKey\":\"04fd3855049c9159ec399aaf92250dda7af66486eab9d7c67fc6372f44f50128d67822b107140f3cfbb7968293d9abcf58d454a29e121c8c3bf07258e34b47c973\",\"ciphertext\":\"2eb11ac74757db49a2d791450092d19e6971ead07006cb6223067f20318099a114e155f1b70a2ffc8a5c23834ed37e2642b3ae887ad1a592cd877efa2bb48d6c7087646156e8d4ab2d3a746daa80a8c66633f37c66ad9305c5b6ebd47c16e384ec84ad62f21ff98076c6895eb3130d35db66dc8ef730abadd32ab4b8ddcb4ac4629899c4d2894b370bea0efcc2d2613020b92fd9bc01880fe59e91f44d69d90507ba200f09c08365ad82be5c73a85214aec5cdc429b51704bf19956d6cc0e0d0d6c3b9598bed9c6d3e7c175b0f887c9401628e8937f2d94b6ef15ffe0337743d0a4eb5db74df4d91da7a1c032591635eb6bda9bbeccb2aa5d50ca7e363a7449f\",\"mac\":\"f6905953adf4b324dc350fb7f0a9cb3f38e348610cb49982fa5b7b6f9c87ce1a\"}",
+      "signature": "3045022100e1f2817a709672a3edb5424677060f58c639f43737b5b2561007a33a4d151eeb02204c871ac5892fa4e7e66c620fdc2c43082e1a9c56e97c25e13c454207471a20e3",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"35-k9Ax8No0KaUsNtv6hhsGgnJ41W0\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "200",
+        "x-ratelimit-remaining": "199",
+        "x-ratelimit-reset": "1692595744",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://broadcast-server.tor.us/store/set",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "key": "04e5df9054cd15ee7e282ab0ab1dbe74f1767e62c40bc9f4c610109d06eb1f1cd2b65abc9e66b5af76c5bdb2d4c2b6b2d2a7e256d61911c619d7f41deb83d7dd8b",
+      "data": "{\"iv\":\"e8b91f6c183d075a9b1e554568805034\",\"ephemPublicKey\":\"04fd3855049c9159ec399aaf92250dda7af66486eab9d7c67fc6372f44f50128d67822b107140f3cfbb7968293d9abcf58d454a29e121c8c3bf07258e34b47c973\",\"ciphertext\":\"2eb11ac74757db49a2d791450092d19e6971ead07006cb6223067f20318099a114e155f1b70a2ffc8a5c23834ed37e2642b3ae887ad1a592cd877efa2bb48d6c7087646156e8d4ab2d3a746daa80a8c66633f37c66ad9305c5b6ebd47c16e384ec84ad62f21ff98076c6895eb3130d35db66dc8ef730abadd32ab4b8ddcb4ac4629899c4d2894b370bea0efcc2d2613020b92fd9bc01880fe59e91f44d69d90507ba200f09c08365ad82be5c73a85214aec5cdc429b51704bf19956d6cc0e0d0d6c3b9598bed9c6d3e7c175b0f887c9401628e8937f2d94b6ef15ffe0337743d0a4eb5db74df4d91da7a1c032591635eb6bda9bbeccb2aa5d50ca7e363a7449f\",\"mac\":\"f6905953adf4b324dc350fb7f0a9cb3f38e348610cb49982fa5b7b6f9c87ce1a\"}",
+      "signature": "3045022100e1f2817a709672a3edb5424677060f58c639f43737b5b2561007a33a4d151eeb02204c871ac5892fa4e7e66c620fdc2c43082e1a9c56e97c25e13c454207471a20e3",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 21 Aug 2023 05:28:03 GMT",
+        "etag": "W/\"35-k9Ax8No0KaUsNtv6hhsGgnJ41W0\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "200",
+        "x-ratelimit-remaining": "199",
+        "x-ratelimit-reset": "1692595744",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "success": true,
+        "message": "data saved successfully."
+      },
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:04 GMT",
+        "vary": "Origin"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:04 GMT",
+        "vary": "Origin"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://api.developer.tor.us/whitelist?project_id=BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k&network=testnet",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "1384",
+        "content-type": "application/json",
+        "date": "Mon, 21 Aug 2023 05:28:04 GMT",
+        "vary": "Origin"
+      },
+      "body": {
+        "urls": [
+          "https://client1.davinci.qa.cere.network",
+          "https://client2.davinci.qa.cere.network",
+          "https://client.davinci.dev.cere.network",
+          "https://client.liveone.dev.cere.network",
+          "https://beta.openlogin.com",
+          "https://app.openlogin.com",
+          "https://wallet.dev.cere.io",
+          "http://host.docker.internal:4567"
+        ],
+        "signed_urls": {
+          "http://host.docker.internal:4567": "MEUCIQCatEtFx3nsqoHukKRCSJsz2h1Wzrez8IvoTrshYVXz3AIgedmRMQEYazp9nHe20kTvWxhuq0jAKsZFdKbmIPblkPo",
+          "https://app.openlogin.com": "MEQCIGhmdy0FkdZai55MBVHloYMI3Va-jK8TprOIIJPCzdEiAiB4NAsU6BM9fGEzqFrPGZXanS1UvtT0C03r0XZvWGuG3g",
+          "https://beta.openlogin.com": "MEUCIQCpVXhzQ8was8p13YsfFRkTaePWe3IbqEX7KJHa1uV79AIgQTOfi5axLKGLXmRxhHT7MxtiNFNGwDsFIpQZHbu8Q8o",
+          "https://client.davinci.dev.cere.network": "MEUCIQDIVd1_GUGScsDWvGeVTniIU7Tke_0jJRgAMkr_mdbfrQIgRBkzmlITsrxtxfVF2npqgTBov6guZ2-YEHQnFO270jI",
+          "https://client.liveone.dev.cere.network": "MEQCIEt3LyUEVGXDwefb0c07IjL566AsE9BuFXFLPvtze8BQAiAvsStKqotPdYuymwUCKFFeW1WmXT6ZDm2BGH3dDjHFDA",
+          "https://client1.davinci.qa.cere.network": "MEQCIEQkGjW_C9h1f2pWxa_nZ43B479XCigq08Gq3_LXKMt-AiAND0PYJyz2dRpGoVXlyZzH-Zc2zksH_7H2oz2A-8E7kA",
+          "https://client2.davinci.qa.cere.network": "MEQCIB31DH7U7pYRlgrzt3m8sE5jeGyb4cwjsS_t_R1X26tFAiAgVaixvX0w6beoXWXtYP_2CxEOxK-IhFpVNpQlLf9Yvg",
+          "https://wallet.dev.cere.io": "MEUCIQD6Tf9oaNBLPO1WUe9NoF1PMrBddGNlcTaa_AXMNMrkcgIge0AQ1PWMinJUvadxqpfDHL6mqI7OkBWAPx_zmye6xQ4"
+        }
+      },
+      "statusCode": 200
+    }
+  }
+]
