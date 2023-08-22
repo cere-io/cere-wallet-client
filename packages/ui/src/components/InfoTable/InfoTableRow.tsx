@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { styled, Stack, Typography, useTheme } from '@mui/material';
+import { styled, Stack, Typography } from '@mui/material';
 
 export type InfoTableRowProps = {
   label: ReactNode;
@@ -23,15 +23,12 @@ const Caption = styled(Text)(({ theme }) => ({
   color: theme.palette.text.caption,
 }));
 
-export const InfoTableRow = ({ label, value, caption }: InfoTableRowProps) => {
-  const { isGame } = useTheme();
-  return (
-    <Stack direction="row">
-      <Label>{label}</Label>
-      <Stack spacing={1} direction="row" marginLeft="auto">
-        <Text>{value}</Text>
-        {caption && <Caption>{caption}</Caption>}
-      </Stack>
+export const InfoTableRow = ({ label, value, caption }: InfoTableRowProps) => (
+  <Stack direction="row">
+    <Label>{label}</Label>
+    <Stack spacing={1} direction="row" marginLeft="auto">
+      <Text>{value}</Text>
+      {caption && <Caption>{caption}</Caption>}
     </Stack>
-  );
-};
+  </Stack>
+);

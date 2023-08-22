@@ -8,7 +8,7 @@ import { EmbeddedWalletStore } from '~/stores';
 import EmbeddedModal from './EmbeddedModal';
 import { toJS } from 'mobx';
 
-const availableGames: string[] = ['metaverse-dash-run', 'candy-jam'];
+const availableGames: string[] = ['metaverse-dash-run', 'candy-jam']; // TODO remove after promo
 
 const EmbeddedWallet = () => {
   const { instanceId } = useWallet();
@@ -16,7 +16,7 @@ const EmbeddedWallet = () => {
   const store = useMemo(() => new EmbeddedWalletStore(instanceId), [instanceId]);
   const modal = store.popupManagerStore.currentModal;
   const whiteLabel = store.appContextStore.whiteLabel;
-  const isGame = availableGames.includes(store.appContextStore.app?.appId as string); // TODO remove after promo
+  const isGame = availableGames.includes(store.appContextStore.app?.appId as string);
 
   useEffect(() => {
     store.init();

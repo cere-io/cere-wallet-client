@@ -26,8 +26,8 @@ export type PopupLayoutProps = PropsWithChildren<{
   onCancel: () => void;
 }>;
 
-const Layout = styled(Container)<{ isGame: boolean }>(({ theme, isGame }) => ({
-  padding: isGame ? theme.spacing(0, 4, 3, 4) : theme.spacing(0, 0, 3, 0),
+const Layout = styled(Container)(({ theme }) => ({
+  padding: theme.isGame ? theme.spacing(0, 4, 3, 4) : theme.spacing(0, 0, 3, 0),
 }));
 
 export const PopupLayout = ({
@@ -49,7 +49,7 @@ export const PopupLayout = ({
       <Logo />
     </Loading>
   ) : (
-    <Layout disableGutters maxWidth="sm" isGame={isGame}>
+    <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
         {isGame ? <CereWhiteIcon /> : <Logo size="large" />}
         <Typography variant={isMobile ? 'h4' : 'h3'} color={isGame ? 'primary.light' : 'text.primary'}>
@@ -61,7 +61,7 @@ export const PopupLayout = ({
       {links && (
         <Section>
           {links.map((linkProps) => (
-            <HeaderLink isGame={isGame} key={linkProps.title} {...linkProps} />
+            <HeaderLink key={linkProps.title} {...linkProps} />
           ))}
         </Section>
       )}

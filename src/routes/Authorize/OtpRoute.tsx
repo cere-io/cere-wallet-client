@@ -1,19 +1,16 @@
-import { Stack, useIsMobile } from '@cere-wallet/ui';
+import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { OtpPage } from '~/components';
 
 import { AuthorizePopupStore } from '~/stores';
 
-interface OtpRouteProps {
-  isGame: boolean;
-}
-
-export const OtpRoute = ({ isGame }: OtpRouteProps) => {
+export const OtpRoute = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
+  const { isGame } = useTheme();
 
   store.email = location.state?.email;
 

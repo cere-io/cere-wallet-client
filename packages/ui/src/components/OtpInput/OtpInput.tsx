@@ -8,10 +8,9 @@ const DIGITS_NUMBER = 6;
 interface OtpProps {
   errorMessage?: string;
   onChange?: (code: string) => void;
-  isGame: boolean;
 }
 
-const CodeInput = styled(ReactCodeInput)<{ isGame: boolean }>(({ theme, isGame }) => ({
+const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
   textAlign: 'center',
   input: {
     height: '56px',
@@ -24,8 +23,8 @@ const CodeInput = styled(ReactCodeInput)<{ isGame: boolean }>(({ theme, isGame }
     outline: 'none',
     margin: '0 2px',
     padding: '0',
-    backgroundColor: isGame ? 'transparent' : '#fff',
-    color: isGame ? theme.palette.primary.light : theme.palette.text.primary,
+    backgroundColor: theme.isGame ? 'transparent' : '#fff',
+    color: theme.isGame ? theme.palette.primary.light : theme.palette.text.primary,
     '& :first-of-type': {
       marginLeft: '0 auto !important',
     },
@@ -33,7 +32,7 @@ const CodeInput = styled(ReactCodeInput)<{ isGame: boolean }>(({ theme, isGame }
       marginRight: '0 auto !important',
     },
     '&:focus': {
-      border: `2px solid ${isGame ? theme.palette.primary.light : theme.palette.primary.main} !important`,
+      border: `2px solid ${theme.isGame ? theme.palette.primary.light : theme.palette.primary.main} !important`,
     },
 
     '@media (min-width: 376px)': {
@@ -44,7 +43,7 @@ const CodeInput = styled(ReactCodeInput)<{ isGame: boolean }>(({ theme, isGame }
   },
 }));
 
-export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage, isGame }, ref) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
   const handleCodeChange = (value: string) => {
     if (typeof onChange === 'function') {
       onChange(value.toLowerCase());
@@ -62,7 +61,6 @@ export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage, is
         onChange={handleCodeChange}
         inputStyleInvalid={{ border: '1px solid red' }}
         isValid={!errorMessage}
-        isGame={isGame}
       />
       <Typography variant="body2" color="error.main">
         {errorMessage}

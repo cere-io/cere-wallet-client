@@ -12,6 +12,7 @@ import {
   FacebookIcon,
   Divider,
   styled,
+  useTheme,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
@@ -26,7 +27,6 @@ import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 interface LogInProps {
   variant?: 'signin' | 'signup';
   onRequestLogin: (idToken: string) => void | Promise<void>;
-  isGame?: boolean;
 }
 
 const validationSchema = yup
@@ -39,11 +39,12 @@ export const CereWhiteLogo = styled(CereWhiteIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
 }));
 
-export const LoginPage = ({ variant = 'signin', onRequestLogin, isGame }: LogInProps) => {
+export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
+  const { isGame } = useTheme();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');

@@ -129,7 +129,6 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         {...register('code')}
         onChange={(val) => setFormValue('code', val)}
         errorMessage={errors?.code?.message}
-        isGame={isGame}
       />
 
       {errors.root && (

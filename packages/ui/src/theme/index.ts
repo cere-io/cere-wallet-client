@@ -70,7 +70,6 @@ export type ThemeOptions = {
 /** ******************************************************************************* **/
 
 export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
-  console.log(isGame, 'isGame');
   const theme = createMuiTheme({
     isGame: isGame,
     whiteLabel: {
