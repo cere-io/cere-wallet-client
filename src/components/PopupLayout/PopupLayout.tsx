@@ -27,7 +27,7 @@ export type PopupLayoutProps = PropsWithChildren<{
 }>;
 
 const Layout = styled(Container)<{ isGame: boolean }>(({ theme, isGame }) => ({
-  padding: isGame ? theme.spacing(0, 4, 3, 4) : theme.spacing(0),
+  padding: isGame ? theme.spacing(0, 4, 3, 4) : theme.spacing(0, 0, 3, 0),
 }));
 
 export const PopupLayout = ({

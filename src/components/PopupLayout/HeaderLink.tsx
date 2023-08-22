@@ -15,7 +15,7 @@ export const HeaderLink = ({ title, label, url, isGame }: HeaderLinkProps) => (
     </Typography>
 
     {!url ? (
-      <Typography color={isGame ? 'rgba(243, 39, 88, 1)' : 'text.secondary'} variant="body2">
+      <Typography color={isGame ? 'rgba(243, 39, 88, 1)' : 'text.primary'} variant="body2">
         {label}
       </Typography>
     ) : (
