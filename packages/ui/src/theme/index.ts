@@ -206,9 +206,9 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
             borderRadius: isGame ? 4 : 30,
           },
 
-          outlined: ({ theme }) => ({
+          outlined: {
             borderRadius: isGame ? 4 : 30,
-          }),
+          },
 
           text: {
             borderRadius: isGame ? 4 : 30,

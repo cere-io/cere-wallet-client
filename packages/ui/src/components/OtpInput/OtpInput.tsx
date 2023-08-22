@@ -11,7 +11,7 @@ interface OtpProps {
   isGame: boolean;
 }
 
-const CodeInput = styled(ReactCodeInput)(({ theme, isGame }: any) => ({
+const CodeInput = styled(ReactCodeInput)<{ isGame: boolean }>(({ theme, isGame }) => ({
   textAlign: 'center',
   input: {
     height: '56px',
@@ -62,7 +62,6 @@ export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage, is
         onChange={handleCodeChange}
         inputStyleInvalid={{ border: '1px solid red' }}
         isValid={!errorMessage}
-        // @ts-ignore
         isGame={isGame}
       />
       <Typography variant="body2" color="error.main">
