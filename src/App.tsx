@@ -6,11 +6,13 @@ import { Router } from './routes';
 import { WalletContext, useAppContextStore } from './hooks';
 import { DummyWalletStore } from './stores';
 
+const availableGames: string[] = ['metaverse-dash-run', 'candy-jam'];
+
 const App = observer(() => {
   const store = useAppContextStore();
 
   return (
-    <UIProvider whiteLabel={toJS(store.whiteLabel)}>
+    <UIProvider whiteLabel={toJS(store.whiteLabel)} isGame={availableGames.includes(store.app?.appId as string)}>
       <Router />
     </UIProvider>
   );
