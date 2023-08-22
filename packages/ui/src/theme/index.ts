@@ -552,7 +552,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 3),
-
+            margin: isGame ? 'auto' : 'inherit',
             [theme.breakpoints.down('sm')]: {
               padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 1),
             },

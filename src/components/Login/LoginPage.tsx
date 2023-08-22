@@ -11,8 +11,8 @@ import {
   GoogleIcon,
   FacebookIcon,
   Divider,
+  styled,
 } from '@cere-wallet/ui';
-import { styled } from '@cere/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';

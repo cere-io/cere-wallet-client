@@ -29,7 +29,7 @@ export const OtpRoute = ({ isGame }: OtpRouteProps) => {
       >
         {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
-          <OtpPage isGame={isGame} email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
       </Stack>
     );
@@ -46,7 +46,7 @@ export const OtpRoute = ({ isGame }: OtpRouteProps) => {
       {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage isGame={isGame} email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
       </Stack>
     </Stack>

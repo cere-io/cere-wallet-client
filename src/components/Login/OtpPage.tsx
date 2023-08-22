@@ -1,4 +1,14 @@
-import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput, Alert } from '@cere-wallet/ui';
+import {
+  LoadingButton,
+  Button,
+  Stack,
+  Typography,
+  TextField,
+  CereIcon,
+  OtpInput,
+  Alert,
+  useTheme,
+} from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -12,7 +22,6 @@ import { CereWhiteLogo } from '~/components';
 interface OtpProps {
   email?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
-  isGame: boolean;
 }
 
 const validationSchema = yup
@@ -21,10 +30,11 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin, isGame }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const { isGame } = useTheme();
 
   const {
     register,

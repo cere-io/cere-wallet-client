@@ -7,19 +7,19 @@ export type InfoTableRowProps = {
   caption?: ReactNode;
 };
 
-const Text = styled(Typography)<{ isGame: boolean }>(({ theme, isGame }) => ({
+const Text = styled(Typography)(({ theme }) => ({
   fontSize: 'inherit',
   fontWeight: theme.typography.fontWeightBold,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  color: isGame ? theme.palette.primary.light : theme.palette.text.secondary,
+  color: theme.isGame ? theme.palette.primary.light : theme.palette.text.secondary,
 }));
 
-const Label = styled(Text)<{ isGame: boolean }>(({ theme, isGame }) => ({
-  color: isGame ? theme.palette.primary.light : theme.palette.text.secondary,
+const Label = styled(Text)(({ theme }) => ({
+  color: theme.isGame ? theme.palette.primary.light : theme.palette.text.secondary,
 }));
 
-const Caption = styled(Text)<{ isGame?: boolean }>(({ theme }) => ({
+const Caption = styled(Text)(({ theme }) => ({
   color: theme.palette.text.caption,
 }));
 
@@ -27,10 +27,10 @@ export const InfoTableRow = ({ label, value, caption }: InfoTableRowProps) => {
   const { isGame } = useTheme();
   return (
     <Stack direction="row">
-      <Label isGame={isGame}>{label}</Label>
+      <Label>{label}</Label>
       <Stack spacing={1} direction="row" marginLeft="auto">
-        <Text isGame={isGame}>{value}</Text>
-        {caption && <Caption isGame>{caption}</Caption>}
+        <Text>{value}</Text>
+        {caption && <Caption>{caption}</Caption>}
       </Stack>
     </Stack>
   );

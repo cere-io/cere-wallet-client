@@ -16,7 +16,7 @@ const EmbeddedWallet = () => {
   const store = useMemo(() => new EmbeddedWalletStore(instanceId), [instanceId]);
   const modal = store.popupManagerStore.currentModal;
   const whiteLabel = store.appContextStore.whiteLabel;
-  const isGame = availableGames.includes(store.appContextStore.app?.appId as string);
+  const isGame = availableGames.includes(store.appContextStore.app?.appId as string); // TODO remove after promo
 
   useEffect(() => {
     store.init();
