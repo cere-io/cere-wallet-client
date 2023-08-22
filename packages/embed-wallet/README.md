@@ -233,6 +233,7 @@ await wallet.setContext({
     url: '...',
     logoUrl: '...',
   },
-  banner: {...} // Marketplace specific banner context
+  banner: {...}, // Marketplace specific banner context
+  whiteLabel: {...} // White label configuration
 });
 ```
