@@ -23,7 +23,8 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
     outline: 'none',
     margin: '0 2px',
     padding: '0',
-
+    backgroundColor: theme.isGame ? 'transparent' : '#fff',
+    color: theme.isGame ? theme.palette.primary.light : theme.palette.text.primary,
     '& :first-of-type': {
       marginLeft: '0 auto !important',
     },
@@ -31,7 +32,7 @@ const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
       marginRight: '0 auto !important',
     },
     '&:focus': {
-      border: `2px solid ${theme.palette.primary.main} !important`,
+      border: `2px solid ${theme.isGame ? theme.palette.primary.light : theme.palette.primary.main} !important`,
     },
 
     '@media (min-width: 376px)': {

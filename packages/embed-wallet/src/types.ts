@@ -22,6 +22,7 @@ export type ContextApp = {
   appId?: string;
   name?: string;
   logoUrl?: string;
+  whiteLabel?: any; // TODO add proper type
 };
 
 export type ContextWhiteLabel = any; // TODO: Figure out the type

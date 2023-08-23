@@ -3,17 +3,24 @@ import { useCallback, useEffect, useState } from 'react';
 import { usePopupStore } from '~/hooks';
 import { RedirectPopupStore } from '~/stores';
 
+// @ts-ignore
+import background from './background.svg';
+
 const Frame = styled('iframe')({
   border: 'none',
   width: '100%',
   height: '100%',
 });
 
-const Container = styled('div')({
+const Container = styled('div')(({ theme }) => ({
   width: '100%',
   height: '100vh',
-  maxHeight: 'calc(100% - 10px)',
-});
+  backgroundSize: 'cover',
+  backgroundImage: theme.isGame ? `url(${background})` : 'none',
+  backgroundRepeat: 'no-repeat',
+  overflow: 'hidden',
+  padding: theme.isGame ? '0 20px' : '0',
+}));
 
 export const FramePopup = () => {
   const [url, setUrl] = useState<string>();
