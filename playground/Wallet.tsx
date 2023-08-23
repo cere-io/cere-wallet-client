@@ -28,7 +28,7 @@ export const Wallet = () => {
         },
 
         app: {
-          appId: 'candy-jam',
+          appId: 'cere-wallet-playground',
           name: 'Cere wallet playground',
           logoUrl,
         },

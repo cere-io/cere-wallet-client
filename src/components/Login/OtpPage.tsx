@@ -147,6 +147,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
             variant="text"
             onClick={handleResend}
             sx={{
+              fontSize: isGame ? '16px' : '14px',
               color: isGame ? 'rgba(243, 39, 88, 1)' : 'primary.main',
             }}
           >
