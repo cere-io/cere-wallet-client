@@ -12,7 +12,7 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => {
   const { isGame } = useTheme();
   return (
     <PopupLayout
-      title="Confirm transaction"
+      title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
       loading={!store.isReady}
       confirming={store.status === 'approved'}
       network={store.network?.displayName}

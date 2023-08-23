@@ -106,7 +106,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        Access CERE using code sent to your email
+        {isGame ? 'Access your wallet using the code sent to your email' : 'Access CERE using code sent to your email'}
       </Typography>
       <TextField
         value={email}
@@ -118,11 +118,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           },
         }}
       />
-      <Typography
-        variant="body2"
-        color={isGame ? 'primary.light' : 'text.secondary'}
-        align={isGame ? 'center' : 'left'}
-      >
+      <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
         Verification code
       </Typography>
       <OtpInput
@@ -141,7 +137,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         {errors.root ? 'Retry' : 'Verify'}
       </LoadingButton>
       {timeLeft ? (
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (

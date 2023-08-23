@@ -102,6 +102,7 @@ const ContentWrapper = styled(Box, {
   flex: 1,
   overflowY: 'auto',
   backgroundImage: theme.isGame && pathname === '/popup' ? `url(${background})` : 'none',
+  overflow: 'hidden',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   ...(showClose && {

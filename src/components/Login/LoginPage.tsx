@@ -103,7 +103,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   return (
     <Stack
       direction="column"
-      spacing={2}
+      spacing={3}
       alignItems="stretch"
       component="form"
       noValidate
@@ -111,7 +111,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.primary'}>
+        <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
           CERE wallet
         </Typography>
         {isGame ? <CereWhiteLogo /> : <CereIcon />}

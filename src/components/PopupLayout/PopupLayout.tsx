@@ -82,6 +82,9 @@ export const PopupLayout = ({
                   backgroundColor: 'transparent',
                   borderRadius: '4px',
                   color: 'white',
+                  ':hover': {
+                    backgroundColor: 'transparent',
+                  },
                 }
               : null
           }
