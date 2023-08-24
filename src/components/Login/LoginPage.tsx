@@ -112,13 +112,13 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     >
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
-          CERE wallet
+          {isGame ? 'Sign up' : 'CERE wallet'}
         </Typography>
         {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
         {isGame
-          ? ' Continue to your wallet to be in full control over securely stored assets and collectibles'
+          ? 'Continue to claim your free tokens'
           : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
       <FormControl>
@@ -143,7 +143,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         />
       </FormControl>
       <Typography variant="caption" color={isGame ? 'primary.light' : 'text.secondary'}>
-        By using your Cere wallet you automatically agree to our{' '}
+        By using your {isGame ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
         <Link color={isGame ? 'primary.light' : 'primary.main'} href="#">
           Terms & Conditions
         </Link>{' '}
