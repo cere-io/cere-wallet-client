@@ -1,6 +1,7 @@
 import '@mui/lab/themeAugmentation';
 import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import { BorderStyle, Color } from './types';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -45,21 +46,52 @@ declare module '@mui/material/Typography' {
 
 declare module '@mui/material/styles' {
   interface Theme {
-    whiteLabel: {
-      backgroundImage: string;
-    };
+    whiteLabel: WhiteLabelOptions;
   }
 
   interface ThemeOptions {
-    whiteLabel: {
-      backgroundImage: string;
-    };
+    whiteLabel: WhiteLabelOptions;
   }
+}
+
+interface WhiteLabelOptions {
+  backgroundImage?: string; // default background image
+  backgroundColor?: Color; // if there is no backgroundImage (errors) -> (can be hex, rgb or rgba)
+  palette?: {
+    primary: {
+      main: Color;
+      light: Color;
+    };
+    secondary: {
+      main: Color;
+      light: Color;
+    };
+    text?: {
+      primary: Color;
+      secondary: Color;
+      caption: Color;
+    };
+    divider: Color;
+  };
+  buttons?: {
+    contained: {
+      backgroundColor: Color;
+      borderRadius: number;
+    };
+    outlined: {
+      backgroundColor: Color | 'transparent';
+      borderRadius: number;
+      border: `${number}px ${BorderStyle} ${Color}`; // maybe need to add types for em's and rem's
+    };
+    text: {
+      color: Color;
+    };
+  };
 }
 
 export type Theme = MuiTheme;
 export type ThemeOptions = {
-  whiteLabel?: any; // TODO: figure out the type later
+  whiteLabel?: WhiteLabelOptions; // TODO: figure out the type later
 };
 
 /** ******************************************************************************* **/
@@ -69,9 +101,7 @@ export type ThemeOptions = {
 
 export const createTheme = ({ whiteLabel }: any = {}): Theme => {
   const theme = createMuiTheme({
-    whiteLabel: {
-      backgroundImage: whiteLabel?.backgroundImage,
-    },
+    whiteLabel: {},
     palette: {
       neutral: {
         main: colors.grey[400],
