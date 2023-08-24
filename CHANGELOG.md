@@ -4,6 +4,12 @@
 
 -
 
+### v1.27.0
+- Add `White Label` configuration support
+- Upgrade NodeJS version to v18.17.1
+- [[Fix]](https://www.notion.so/cere/Wrong-OTP-code-entry-error-logged-incorrectly-2139b9953e354db4829953a6161b68ba?pvs=4)] Fix incorrect sentry reporting in case user entered wrong OTP
+- Double theme
+
 ### v1.26.0
 
 - [[Feature](https://www.notion.so/cere/Switch-DEV-frontends-to-new-infra-563be1f2c5ee4b92aa87808f3480fe22?pvs=4)] Switch URL to new infra
