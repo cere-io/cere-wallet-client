@@ -2,7 +2,10 @@
 
 ### vNext
 
--
+
+### v1.27.1
+
+- Changed some texts
 
 ### v1.27.0
 - Add `White Label` configuration support
