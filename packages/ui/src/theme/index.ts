@@ -1,7 +1,7 @@
 import '@mui/lab/themeAugmentation';
 import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
-import { BorderStyle, Color } from './types';
+import { ContextWhiteLabel } from './types';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -46,52 +46,17 @@ declare module '@mui/material/Typography' {
 
 declare module '@mui/material/styles' {
   interface Theme {
-    whiteLabel: WhiteLabelOptions;
+    whiteLabel: ContextWhiteLabel;
   }
 
   interface ThemeOptions {
-    whiteLabel: WhiteLabelOptions;
+    whiteLabel: ContextWhiteLabel;
   }
-}
-
-interface WhiteLabelOptions {
-  backgroundImage?: string; // default background image
-  backgroundColor?: Color; // if there is no backgroundImage (errors) -> (can be hex, rgb or rgba)
-  palette?: {
-    primary: {
-      main: Color;
-      light: Color;
-    };
-    secondary: {
-      main: Color;
-      light: Color;
-    };
-    text?: {
-      primary: Color;
-      secondary: Color;
-      caption: Color;
-    };
-    divider: Color;
-  };
-  buttons?: {
-    contained: {
-      backgroundColor: Color;
-      borderRadius: number;
-    };
-    outlined: {
-      backgroundColor: Color | 'transparent';
-      borderRadius: number;
-      border: `${number}px ${BorderStyle} ${Color}`; // maybe need to add types for em's and rem's
-    };
-    text: {
-      color: Color;
-    };
-  };
 }
 
 export type Theme = MuiTheme;
 export type ThemeOptions = {
-  whiteLabel?: WhiteLabelOptions; // TODO: figure out the type later
+  whiteLabel?: ContextWhiteLabel;
 };
 
 /** ******************************************************************************* **/
@@ -99,9 +64,9 @@ export type ThemeOptions = {
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = ({ whiteLabel }: any = {}): Theme => {
+export const createTheme = ({ whiteLabel }: ThemeOptions = {}): Theme => {
   const theme = createMuiTheme({
-    whiteLabel: {},
+    whiteLabel: { ...whiteLabel },
     palette: {
       neutral: {
         main: colors.grey[400],
@@ -228,19 +193,15 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
 
         styleOverrides: {
           contained: {
-            backgroundColor: whiteLabel?.backgroundColor && whiteLabel?.backgroundColor,
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
+            borderRadius: 30,
           },
 
-          outlined: ({ theme }) => ({
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
-            border: whiteLabel?.backgroundColor
-              ? `1px solid ${whiteLabel?.backgroundColor}`
-              : `1px solid ${theme.palette.primary.main}`,
-          }),
+          outlined: {
+            borderRadius: 30,
+          },
 
           text: {
-            borderRadius: whiteLabel?.borderRadius ? whiteLabel?.borderRadius : 30,
+            borderRadius: 30,
           },
 
           containedInherit: ({ theme }) => ({
@@ -580,10 +541,10 @@ export const createTheme = ({ whiteLabel }: any = {}): Theme => {
       MuiDialogContent: {
         styleOverrides: {
           root: ({ theme }) => ({
-            padding: theme.spacing(2, 3),
+            padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 3),
 
             [theme.breakpoints.down('sm')]: {
-              padding: theme.spacing(2, 1),
+              padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 1),
             },
           }),
         },

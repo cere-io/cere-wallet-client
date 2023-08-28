@@ -146,9 +146,7 @@ export const Wallet = () => {
     wallet.setContext({
       app: {
         whiteLabel: {
-          backgroundColor: '#F32758',
-          borderRadius: 4,
-          backgroundImage: 'https://w.forfun.com/fetch/a2/a2d0571178a1a205aac1139e100ed1a8.jpeg',
+          backgroundImage: 'https://svastour.ru/upload/medialibrary/bd2/bd20caf5d4eec1b3c7af80fef0fe7820.jpg',
         },
       },
     });
