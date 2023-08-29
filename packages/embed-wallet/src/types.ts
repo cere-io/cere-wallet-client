@@ -67,15 +67,28 @@ export type ContextWhiteLabel = {
   button?: {
     contained?: {
       backgroundColor: Color;
-      borderRadius: number;
+      borderRadius: number | `${string}px`;
     };
     outlined?: {
       backgroundColor: Color | 'transparent';
-      borderRadius: number;
+      borderRadius: number | `${string}px`;
       border: `${number}px ${BorderStyle} ${Color}`;
     };
     text?: {
       color: Color;
+    };
+  };
+  textField?: {
+    enabled: {
+      input: Color;
+      '& fieldset': {
+        border: string;
+      };
+    };
+    disabled: {
+      '& .MuiInputBase-input.Mui-disabled': {
+        WebkitTextFillColor: Color;
+      };
     };
   };
 };

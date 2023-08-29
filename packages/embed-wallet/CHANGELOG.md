@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.12.0
+
+- Add support for `White Label` configuration
+
 ### v0.11.0
 
 - Switch web3auth network to `Cyan Mainnet`

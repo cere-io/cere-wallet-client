@@ -11,6 +11,7 @@ import {
   dialogTitleClasses,
   SlideProps,
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import { CloseIcon } from '../../icons';
 import { IconButton } from '../IconButton';
@@ -22,6 +23,7 @@ export type DialogProps = Omit<MuiDialogProps, 'onClose'> & {
   showClose?: boolean;
   origin?: DialogOrigin;
   onClose?: (event: SyntheticEvent, reason: 'backdropClick' | 'escapeKeyDown' | 'closeClick') => void;
+  pathname?: string;
 };
 
 const StyledDialog = styled(MuiDialog)<DialogProps>(({ theme, fullWidth, fullScreen, origin }) => ({
@@ -92,16 +94,20 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 
 const ContentWrapper = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'showClose',
-})<Pick<DialogProps, 'showClose'>>(({ theme, showClose }) => ({
+})<Pick<DialogProps, 'showClose' | 'pathname'>>(({ theme, showClose, pathname }) => ({
   display: 'flex',
   flex: 1,
   overflowY: 'auto',
-
+  backgroundImage:
+    theme.whiteLabel?.backgroundImage && pathname === '/popup' ? `url(${theme.whiteLabel.backgroundImage})` : 'none',
+  overflow: 'hidden',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
   ...(showClose && {
     position: 'relative',
 
     [`& .${dialogContentClasses.root}`]: {
-      paddingTop: theme.whiteLabel.backgroundImage ? theme.spacing(0) : theme.spacing(6),
+      paddingTop: theme.whiteLabel?.backgroundImage ? theme.spacing(0) : theme.spacing(6),
     },
 
     [`& .${dialogTitleClasses.root}`]: {
@@ -130,6 +136,7 @@ export const Dialog = ({
   const mobileOrigin = rawOrigin !== 'center' ? 'bottom' : 'center';
   const origin = isMobile ? mobileOrigin : rawOrigin || 'center';
   const isFullWidth = (isMobile && origin === 'bottom') || fullWidth;
+  const { pathname } = useLocation();
 
   const transition = origin === 'center' ? Fade : Slide;
   const transitionProps = origin === 'center' ? {} : { direction: originToSlideDirection[origin] };
@@ -147,7 +154,7 @@ export const Dialog = ({
         ...transitionProps,
       }}
     >
-      <ContentWrapper showClose={showClose} sx={{ overflowY }}>
+      <ContentWrapper showClose={showClose} sx={{ overflowY }} pathname={pathname}>
         {children}
         {showClose && (
           <CloseButton variant="filled" size="small" onClick={(event) => onClose?.(event, 'closeClick')}>

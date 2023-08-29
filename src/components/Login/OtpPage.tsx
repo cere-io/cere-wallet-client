@@ -1,4 +1,15 @@
-import { LoadingButton, Button, Stack, Typography, TextField, CereIcon, OtpInput, Alert } from '@cere-wallet/ui';
+import {
+  LoadingButton,
+  Button,
+  Stack,
+  Typography,
+  TextField,
+  CereIcon,
+  OtpInput,
+  Alert,
+  useTheme,
+  useWhiteLabel,
+} from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -7,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
+import { CereWhiteLogo } from '~/components';
 
 interface OtpProps {
   email?: string;
@@ -23,6 +35,12 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const { whiteLabel } = useTheme();
+  const {
+    text: { secondary },
+    buttons: { contained, text },
+    textField: { disabled },
+  } = useWhiteLabel();
 
   const {
     register,
@@ -88,16 +106,18 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" alignItems="center">
-        <Typography variant="h2" flex={1}>
+        <Typography variant="h2" flex={1} color={secondary}>
           Verify email
         </Typography>
-        <CereIcon />
+        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color="text.secondary">
-        Access CERE using code sent to your email
+      <Typography variant="body2" color={secondary}>
+        {whiteLabel
+          ? 'Access your account using the code sent to your email'
+          : 'Access CERE using code sent to your email'}
       </Typography>
-      <TextField value={email} variant="outlined" disabled={true} />
-      <Typography variant="body2" color="text.secondary">
+      <TextField value={email} variant="outlined" disabled={true} sx={disabled} />
+      <Typography variant="body2" color={secondary} align={whiteLabel ? 'center' : 'left'}>
         Verification code
       </Typography>
       <OtpInput
@@ -112,17 +132,17 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         </Alert>
       )}
 
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton loading={isSubmitting} sx={contained} variant="contained" size="large" type="submit">
         {errors.root ? 'Retry' : 'Verify'}
       </LoadingButton>
       {timeLeft ? (
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" color={secondary}>
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (
-        <Typography variant="body1" align="center">
+        <Typography variant="body1" align="center" color={secondary}>
           Did not receive a code?{' '}
-          <Button variant="text" onClick={handleResend}>
+          <Button variant="text" onClick={handleResend} sx={text}>
             Resend code
           </Button>
         </Typography>

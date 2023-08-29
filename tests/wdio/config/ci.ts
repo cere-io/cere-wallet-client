@@ -1,3 +1,4 @@
+import dns from 'dns';
 import { options } from './options';
 
 export const createCIConfig = (baseConfig: WebdriverIO.Config): WebdriverIO.Config => ({
@@ -7,4 +8,12 @@ export const createCIConfig = (baseConfig: WebdriverIO.Config): WebdriverIO.Conf
   hostname: 'localhost',
   port: 4444,
   path: '/wd/hub/',
+
+  /**
+   * Fix for braking DNS lookup changes in NodeJS 18+
+   * https://github.com/webdriverio/webdriverio/issues/8279
+   */
+  beforeSession: () => {
+    dns.setDefaultResultOrder('ipv4first');
+  },
 });

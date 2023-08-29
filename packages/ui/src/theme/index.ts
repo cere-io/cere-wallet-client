@@ -46,17 +46,17 @@ declare module '@mui/material/Typography' {
 
 declare module '@mui/material/styles' {
   interface Theme {
-    whiteLabel: ContextWhiteLabel;
+    whiteLabel: ContextWhiteLabel | undefined;
   }
 
   interface ThemeOptions {
-    whiteLabel: ContextWhiteLabel;
+    whiteLabel: ContextWhiteLabel | undefined;
   }
 }
 
 export type Theme = MuiTheme;
 export type ThemeOptions = {
-  whiteLabel?: ContextWhiteLabel;
+  whiteLabel: ContextWhiteLabel | undefined;
 };
 
 /** ******************************************************************************* **/
@@ -64,9 +64,9 @@ export type ThemeOptions = {
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = ({ whiteLabel }: ThemeOptions = {}): Theme => {
+export const createTheme = ({ whiteLabel }: ThemeOptions): Theme => {
   const theme = createMuiTheme({
-    whiteLabel: { ...whiteLabel },
+    whiteLabel: whiteLabel,
     palette: {
       neutral: {
         main: colors.grey[400],
@@ -542,7 +542,7 @@ export const createTheme = ({ whiteLabel }: ThemeOptions = {}): Theme => {
         styleOverrides: {
           root: ({ theme }) => ({
             padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 3),
-
+            margin: whiteLabel?.backgroundImage ? 'auto' : 'inherit',
             [theme.breakpoints.down('sm')]: {
               padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 1),
             },
@@ -685,7 +685,7 @@ export const createTheme = ({ whiteLabel }: ThemeOptions = {}): Theme => {
           root: ({ theme }) => ({
             borderWidth: 1,
             borderStyle: 'solid',
-            borderColor: theme.palette.divider,
+            borderColor: whiteLabel?.backgroundImage ? 'rgba(255, 255, 255, 0.23)' : theme.palette.divider,
             borderRadius: theme.typography.pxToRem(16),
           }),
         },

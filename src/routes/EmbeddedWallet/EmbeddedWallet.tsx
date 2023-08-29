@@ -3,10 +3,9 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 
 import { WalletWidget } from '~/components';
-import { WalletContext } from '~/hooks';
+import { WalletContext, useWallet } from '~/hooks';
 import { EmbeddedWalletStore } from '~/stores';
 import EmbeddedModal from './EmbeddedModal';
-import { useWallet } from '~/hooks';
 import { toJS } from 'mobx';
 
 const EmbeddedWallet = () => {
@@ -24,7 +23,7 @@ const EmbeddedWallet = () => {
     <UIProvider transparentBody whiteLabel={toJS(whiteLabel)}>
       <WalletContext.Provider value={store}>
         <WalletWidget />
-        {modal && <EmbeddedModal modal={modal} />}
+        {modal && <EmbeddedModal showClose={!whiteLabel} modal={modal} />}
       </WalletContext.Provider>
     </UIProvider>
   );

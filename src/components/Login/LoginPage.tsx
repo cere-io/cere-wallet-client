@@ -5,11 +5,15 @@ import {
   Link,
   TextField,
   CereIcon,
+  CereWhiteIcon,
   FormControl,
   IconButton,
   GoogleIcon,
   FacebookIcon,
   Divider,
+  styled,
+  useTheme,
+  useWhiteLabel,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
@@ -32,10 +36,22 @@ const validationSchema = yup
   })
   .required();
 
+export const CereWhiteLogo = styled(CereWhiteIcon)(({ theme }) => ({
+  fontSize: theme.typography.pxToRem(48),
+}));
+
 export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
+  const { whiteLabel } = useTheme();
+  const {
+    text,
+    primary,
+    buttons: { contained },
+    textField: { enabled },
+  } = useWhiteLabel();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -94,7 +110,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   return (
     <Stack
       direction="column"
-      spacing={2}
+      spacing={3}
       alignItems="stretch"
       component="form"
       noValidate
@@ -102,13 +118,15 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1}>
-          CERE wallet
+        <Typography variant="h2" flex={1} color={text.primary}>
+          {whiteLabel ? 'Sign up' : 'CERE wallet'}
         </Typography>
-        <CereIcon />
+        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color="text.secondary">
-        Send and receive any currency or simply top up with your card.
+      <Typography variant="body2" color={text.secondary}>
+        {whiteLabel
+          ? 'Continue to claim your free tokens'
+          : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
       <FormControl>
         <TextField
@@ -118,19 +136,31 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           required
           autoFocus
           name="email"
-          label="Email"
+          label={whiteLabel ? '' : 'Email'}
           autoCorrect="off"
+          hiddenLabel={!!whiteLabel}
+          placeholder={whiteLabel ? 'sample-address@gmail.com' : ''}
           autoCapitalize="off"
           type="email"
           variant="outlined"
+          sx={{
+            input: whiteLabel ? { color: whiteLabel?.palette?.text?.caption } : '',
+            '& fieldset': whiteLabel ? { border: 'none' } : '',
+          }}
         />
       </FormControl>
-      <Typography variant="caption" color="text.secondary">
-        By using your Cere wallet you automatically agree to our <Link href="#">Terms & Conditions</Link> and{' '}
-        <Link href="#">Privacy Policy</Link>
+      <Typography variant="caption" color={text.secondary}>
+        By using your {whiteLabel ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
+        <Link color={primary.main} href="#">
+          Terms & Conditions
+        </Link>{' '}
+        and{' '}
+        <Link color={primary.main} href="#">
+          Privacy Policy
+        </Link>
       </Typography>
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        Sign {variant === 'signin' ? 'In' : 'Up'}
+      <LoadingButton sx={contained} loading={isSubmitting} variant="contained" size="large" type="submit">
+        {whiteLabel ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

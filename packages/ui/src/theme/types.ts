@@ -17,10 +17,9 @@ export type BorderStyle =
 export type Color = RGB | RGBA | HEX;
 
 export type ContextWhiteLabel = {
-  backgroundImage?: string; // default background image
-  backgroundColor?: Color; // if there is no backgroundImage (errors) -> (can be hex, rgb or rgba)
+  backgroundImage?: string;
+  backgroundColor?: Color;
   palette?: {
-    // primary, secondary only used in markup
     primary?: {
       main: Color;
       light: Color;
@@ -39,15 +38,28 @@ export type ContextWhiteLabel = {
   button?: {
     contained?: {
       backgroundColor: Color;
-      borderRadius: number;
+      borderRadius: number | `${string}px`;
     };
     outlined?: {
       backgroundColor: Color | 'transparent';
-      borderRadius: number;
-      border: `${number}px ${BorderStyle} ${Color}`; // maybe need to add types for em's and rem's
+      borderRadius: number | `${string}px`;
+      border: `${number}px ${BorderStyle} ${Color}`;
     };
     text?: {
       color: Color;
+    };
+    textField?: {
+      enabled: {
+        input: Color;
+        '& fieldset': {
+          border: string;
+        };
+      };
+      disabled: {
+        '& .MuiInputBase-input.Mui-disabled': {
+          WebkitTextFillColor: Color;
+        };
+      };
     };
   };
 };

@@ -10,7 +10,7 @@ jobs:
     uses: Cere-IO/reusable-workflows/.github/workflows/build-and-upload-static.yaml@master
     with:
       runs-on: '["self-hosted", "cere-io-large-workers"]'
-      build_container: 'node:16-buster'
+      build_container: 'node:18-buster'
       deploy_container: 'ubuntu:20.04'
       install_packages_command: 'cp .env.stage .env; npm ci'
       build_command: 'npm run build'

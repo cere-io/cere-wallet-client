@@ -9,11 +9,14 @@ const Frame = styled('iframe')({
   height: '100%',
 });
 
-const Container = styled('div')(({ theme }) => ({
+const Container = styled('div')(({ theme: { whiteLabel } }) => ({
   width: '100%',
   height: '100vh',
   backgroundSize: 'cover',
-  backgroundImage: theme.whiteLabel.backgroundImage ? `url(${theme.whiteLabel?.backgroundImage})` : 'none',
+  backgroundImage: whiteLabel?.backgroundImage ? `url(${whiteLabel.backgroundImage})` : 'none',
+  backgroundRepeat: 'no-repeat',
+  overflow: 'hidden',
+  padding: whiteLabel?.backgroundImage ? '0 20px' : '0',
 }));
 
 export const FramePopup = () => {

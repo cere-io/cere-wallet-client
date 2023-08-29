@@ -12,10 +12,11 @@ const Text = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
+  color: theme.whiteLabel ? theme?.whiteLabel?.palette?.text?.secondary : theme.palette.text.secondary,
 }));
 
 const Label = styled(Text)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+  color: theme.whiteLabel ? theme?.whiteLabel?.palette?.text?.secondary : theme.palette.text.secondary,
 }));
 
 const Caption = styled(Text)(({ theme }) => ({

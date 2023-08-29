@@ -2,7 +2,16 @@
 
 ### vNext
 
-- [[Fix](https://www.notion.so/cere/Wrong-OTP-code-entry-error-logged-incorrectly-2139b9953e354db4829953a6161b68ba?pvs=4)] Fix incorrect sentry reporting in case user entered wrong OTP
+
+### v1.27.1
+
+- Changed some texts
+
+### v1.27.0
+- Add `White Label` configuration support
+- Upgrade NodeJS version to v18.17.1
+- [[Fix]](https://www.notion.so/cere/Wrong-OTP-code-entry-error-logged-incorrectly-2139b9953e354db4829953a6161b68ba?pvs=4)] Fix incorrect sentry reporting in case user entered wrong OTP
+- Double theme
 
 ### v1.26.0
 
