@@ -97,7 +97,6 @@ export class PopupManagerStore {
 
     url.searchParams.append('instanceId', this.wallet.instanceId);
     url.searchParams.append('preopenInstanceId', instanceId);
-    url.searchParams.append('instanceId', this.wallet.instanceId);
 
     await when(() => this.redirects[instanceId] && this.redirects[instanceId].isConnected);
 
