@@ -1,16 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Authorize, AuthorizeClose, AuthorizeRedirect, IntroRoute, LoginRoute, OtpRoute } from './Authorize';
-import { useAppContextStore } from '~/hooks';
+import { useTheme } from '@mui/material';
 
 export const AuthorizationRouter = () => {
-  const store = useAppContextStore();
+  const { whiteLabel } = useTheme();
 
-  const isGame = ['metaverse-dash-run', 'candy-jam'].includes(store.app?.appId as string); // TODO remove after promo
   return (
     <Routes>
       <Route element={<Authorize />}>
-        <Route index element={isGame ? <LoginRoute /> : <IntroRoute />} />
+        <Route index element={whiteLabel ? <LoginRoute /> : <IntroRoute />} />
         <Route path="close" element={<AuthorizeClose />} />
         <Route path="redirect" element={<AuthorizeRedirect />} />
         <Route path="intro" element={<IntroRoute />} />

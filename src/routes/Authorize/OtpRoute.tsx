@@ -10,7 +10,7 @@ export const OtpRoute = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
 
   store.email = location.state?.email;
 
@@ -18,13 +18,13 @@ export const OtpRoute = () => {
     return (
       <Stack
         direction="column"
-        justifyContent={isGame ? 'center' : 'flex-start'}
+        justifyContent={whiteLabel ? 'center' : 'flex-start'}
         alignItems="stretch"
         padding={2}
         height="100vh"
         spacing={9}
       >
-        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
           <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
@@ -35,12 +35,12 @@ export const OtpRoute = () => {
   return (
     <Stack
       direction="column"
-      justifyContent={isGame ? 'center' : 'flex-start'}
+      justifyContent={whiteLabel ? 'center' : 'flex-start'}
       alignItems="stretch"
       padding={2}
       height="100vh"
     >
-      {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+      {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
           <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />

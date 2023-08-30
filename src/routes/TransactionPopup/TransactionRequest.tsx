@@ -9,10 +9,10 @@ export type TransactionRequestProps = {
 };
 
 const TransactionRequest = ({ store }: TransactionRequestProps) => {
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
   return (
     <PopupLayout
-      title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
+      title={whiteLabel ? 'Confirm Transfer' : 'Confirm transaction'}
       loading={!store.isReady}
       confirming={store.status === 'approved'}
       network={store.network?.displayName}
@@ -33,7 +33,7 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => {
           <InfoTable>
             {store.spending.transfer && <PriceRow label="Amount" price={store.spending.transfer} />}
             {store.spending.price && (
-              <PriceRow label={isGame ? 'Currency' : 'Purchase cost'} price={store.spending.price} />
+              <PriceRow label={whiteLabel ? 'Currency' : 'Purchase cost'} price={store.spending.price} />
             )}
             {store.spending.fee && <PriceRow label="Network fee" price={store.spending.fee} />}
             {store.spending.total && <PriceRow label="Total cost" price={store.spending.total} />}

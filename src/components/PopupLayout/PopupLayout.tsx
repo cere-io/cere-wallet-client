@@ -10,6 +10,7 @@ import {
   LoadingButton,
   CereWhiteIcon,
   useTheme,
+  useWhiteLabel,
 } from '@cere-wallet/ui';
 
 import { NetworkLabel } from '../NetworkLabel';
@@ -27,7 +28,7 @@ export type PopupLayoutProps = PropsWithChildren<{
 }>;
 
 const Layout = styled(Container)(({ theme }) => ({
-  padding: theme.isGame ? theme.spacing(0, 4, 3, 4) : theme.spacing(0, 0, 3, 0),
+  padding: theme.whiteLabel ? theme.spacing(0, 4, 3, 4) : theme.spacing(0, 0, 3, 0), // TODO ask
 }));
 
 export const PopupLayout = ({
@@ -42,7 +43,11 @@ export const PopupLayout = ({
 }: PopupLayoutProps) => {
   const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
+  const {
+    text: { primary },
+    buttons: { contained },
+  } = useWhiteLabel();
 
   return loading ? (
     <Loading fullScreen>
@@ -51,8 +56,8 @@ export const PopupLayout = ({
   ) : (
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        {isGame ? <CereWhiteIcon /> : <Logo size="large" />}
-        <Typography variant={isMobile ? 'h4' : 'h3'} color={isGame ? 'primary.light' : 'text.primary'}>
+        {whiteLabel ? <CereWhiteIcon /> : <Logo size="large" />}
+        <Typography variant={isMobile ? 'h4' : 'h3'} color={primary}>
           {title}
         </Typography>
         {network && !loading && <NetworkLabel label={network} />}
@@ -69,30 +74,18 @@ export const PopupLayout = ({
       {children}
 
       <Section direction="row" alignSelf="stretch" spacing={2}>
-        <Button
-          size="large"
-          fullWidth
-          variant="contained"
-          color="inherit"
-          onClick={onCancel}
-          sx={
-            isGame
-              ? {
-                  border: '1px solid rgba(255, 255, 255, 1)',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  color: 'white',
-                  ':hover': {
-                    backgroundColor: 'transparent',
-                  },
-                }
-              : null
-          }
-        >
+        <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel} sx={contained}>
           Cancel
         </Button>
 
-        <LoadingButton fullWidth loading={confirming} size="large" variant="contained" onClick={onConfirm}>
+        <LoadingButton
+          sx={contained}
+          fullWidth
+          loading={confirming}
+          size="large"
+          variant="contained"
+          onClick={onConfirm}
+        >
           Confirm
         </LoadingButton>
       </Section>

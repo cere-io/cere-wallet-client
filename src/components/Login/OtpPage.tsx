@@ -8,6 +8,7 @@ import {
   OtpInput,
   Alert,
   useTheme,
+  useWhiteLabel,
 } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -34,7 +35,12 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
+  const {
+    text: { secondary },
+    buttons: { contained, text },
+    textField: { disabled },
+  } = useWhiteLabel();
 
   const {
     register,
@@ -100,25 +106,18 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" alignItems="center">
-        <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.secondary'}>
+        <Typography variant="h2" flex={1} color={secondary}>
           Verify email
         </Typography>
-        {isGame ? <CereWhiteLogo /> : <CereIcon />}
+        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        {isGame ? 'Access your account using the code sent to your email' : 'Access CERE using code sent to your email'}
+      <Typography variant="body2" color={secondary}>
+        {whiteLabel
+          ? 'Access your account using the code sent to your email'
+          : 'Access CERE using code sent to your email'}
       </Typography>
-      <TextField
-        value={email}
-        variant="outlined"
-        disabled={true}
-        sx={{
-          '& .MuiInputBase-input.Mui-disabled': {
-            WebkitTextFillColor: isGame ? 'rgba(245, 250, 252, 1)' : '',
-          },
-        }}
-      />
-      <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
+      <TextField value={email} variant="outlined" disabled={true} sx={disabled} />
+      <Typography variant="body2" color={secondary} align={whiteLabel ? 'center' : 'left'}>
         Verification code
       </Typography>
       <OtpInput
@@ -133,24 +132,17 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         </Alert>
       )}
 
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton loading={isSubmitting} sx={contained} variant="contained" size="large" type="submit">
         {errors.root ? 'Retry' : 'Verify'}
       </LoadingButton>
       {timeLeft ? (
-        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+        <Typography variant="body1" align="center" color={secondary}>
           Resend verification code in <strong>{timeLeft}</strong> seconds
         </Typography>
       ) : (
-        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+        <Typography variant="body1" align="center" color={secondary}>
           Did not receive a code?{' '}
-          <Button
-            variant="text"
-            onClick={handleResend}
-            sx={{
-              fontSize: isGame ? '16px' : '14px',
-              color: isGame ? 'rgba(243, 39, 88, 1)' : 'primary.main',
-            }}
-          >
+          <Button variant="text" onClick={handleResend} sx={text}>
             Resend code
           </Button>
         </Typography>

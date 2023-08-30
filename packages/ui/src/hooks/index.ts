@@ -5,3 +5,4 @@
 export { useTheme, useMediaQuery } from '@mui/material';
 
 export * from './useIsMobile';
+export * from './useWhiteLabel';

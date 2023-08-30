@@ -1,6 +1,7 @@
 import '@mui/lab/themeAugmentation';
 import { CSSProperties } from 'react';
 import { createTheme as createMuiTheme, alpha, Theme as MuiTheme, PaletteColor, colors } from '@mui/material';
+import { ContextWhiteLabel } from './types';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -45,23 +46,17 @@ declare module '@mui/material/Typography' {
 
 declare module '@mui/material/styles' {
   interface Theme {
-    whiteLabel: {
-      backgroundImage: string;
-    };
-    isGame: boolean;
+    whiteLabel: ContextWhiteLabel | undefined;
   }
 
   interface ThemeOptions {
-    whiteLabel: {
-      backgroundImage: string;
-    };
-    isGame: boolean;
+    whiteLabel: ContextWhiteLabel | undefined;
   }
 }
 
 export type Theme = MuiTheme;
 export type ThemeOptions = {
-  whiteLabel?: any; // TODO: figure out the type later
+  whiteLabel: ContextWhiteLabel | undefined;
 };
 
 /** ******************************************************************************* **/
@@ -69,12 +64,9 @@ export type ThemeOptions = {
 /** https://www.figma.com/file/R1Jl2hJiiHzl5WNO5PKdQc/Cere-wallet?node-id=13%3A6213 **/
 /** ******************************************************************************* **/
 
-export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
+export const createTheme = ({ whiteLabel }: ThemeOptions): Theme => {
   const theme = createMuiTheme({
-    isGame: isGame,
-    whiteLabel: {
-      backgroundImage: whiteLabel?.backgroundImage,
-    },
+    whiteLabel: whiteLabel,
     palette: {
       neutral: {
         main: colors.grey[400],
@@ -201,16 +193,15 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
 
         styleOverrides: {
           contained: {
-            backgroundColor: isGame && '#F32758',
-            borderRadius: isGame ? 4 : 30,
+            borderRadius: 30,
           },
 
           outlined: {
-            borderRadius: isGame ? 4 : 30,
+            borderRadius: 30,
           },
 
           text: {
-            borderRadius: isGame ? 4 : 30,
+            borderRadius: 30,
           },
 
           containedInherit: ({ theme }) => ({
@@ -550,10 +541,10 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       MuiDialogContent: {
         styleOverrides: {
           root: ({ theme }) => ({
-            padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 3),
-            margin: isGame ? 'auto' : 'inherit',
+            padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 3),
+            margin: whiteLabel?.backgroundImage ? 'auto' : 'inherit',
             [theme.breakpoints.down('sm')]: {
-              padding: isGame ? theme.spacing(0, 0) : theme.spacing(2, 1),
+              padding: whiteLabel?.backgroundImage ? theme.spacing(0, 0) : theme.spacing(2, 1),
             },
           }),
         },
@@ -694,7 +685,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
           root: ({ theme }) => ({
             borderWidth: 1,
             borderStyle: 'solid',
-            borderColor: isGame ? 'rgba(255, 255, 255, 0.23)' : theme.palette.divider,
+            borderColor: whiteLabel?.backgroundImage ? 'rgba(255, 255, 255, 0.23)' : theme.palette.divider,
             borderRadius: theme.typography.pxToRem(16),
           }),
         },

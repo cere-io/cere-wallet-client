@@ -23,9 +23,38 @@ export const Wallet = () => {
       },
 
       context: {
-        whiteLabel: {
-          var1: 'value',
-        },
+        // whiteLabel: {
+        //   backgroundImage: 'https://pbs.twimg.com/media/E9Z-8w5WEAA0nR0?format=jpg&name=medium',
+        //   palette: {
+        //     primary: {
+        //       main: '#CD5C5C',
+        //       light: '#FFA07A',
+        //     },
+        //     secondary: {
+        //       main: '#1F618D',
+        //       light: '#1F618D',
+        //     },
+        //     text: {
+        //       primary: '#17202A',
+        //       secondary: '#9B59B6',
+        //       caption: '#ABB2B9',
+        //     },
+        //   },
+        //   button: {
+        //     contained: {
+        //       borderRadius: '4px',
+        //       backgroundColor: '#DC7633',
+        //     },
+        //     outlined: {
+        //       backgroundColor: 'transparent',
+        //       borderRadius: '4px',
+        //       border: '1px dotted #117A65 ',
+        //     },
+        //     text: {
+        //       color: '#DC7633',
+        //     },
+        //   },
+        // },
 
         app: {
           appId: 'cere-wallet-playground',
@@ -138,6 +167,16 @@ export const Wallet = () => {
             variant: 'secondary',
           },
         ],
+      },
+    });
+  }, [wallet]);
+
+  const handleSetWhiteLabel = useCallback(() => {
+    wallet.setContext({
+      app: {
+        whiteLabel: {
+          backgroundImage: 'https://svastour.ru/upload/medialibrary/bd2/bd20caf5d4eec1b3c7af80fef0fe7820.jpg',
+        },
       },
     });
   }, [wallet]);
@@ -325,6 +364,14 @@ export const Wallet = () => {
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={status === 'not-ready' || status === 'connecting'}
+            onClick={handleSetWhiteLabel}
+          >
+            White Label
           </Button>
         </>
       )}

@@ -13,6 +13,7 @@ import {
   Divider,
   styled,
   useTheme,
+  useWhiteLabel,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
@@ -44,7 +45,13 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
+  const {
+    text,
+    primary,
+    buttons: { contained },
+    textField: { enabled },
+  } = useWhiteLabel();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -111,13 +118,13 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
-          {isGame ? 'Sign up' : 'CERE wallet'}
+        <Typography variant="h2" flex={1} color={text.primary}>
+          {whiteLabel ? 'Sign up' : 'CERE wallet'}
         </Typography>
-        {isGame ? <CereWhiteLogo /> : <CereIcon />}
+        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        {isGame
+      <Typography variant="body2" color={text.secondary}>
+        {whiteLabel
           ? 'Continue to claim your free tokens'
           : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
@@ -129,31 +136,31 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           required
           autoFocus
           name="email"
-          label={isGame ? '' : 'Email'}
+          label={whiteLabel ? '' : 'Email'}
           autoCorrect="off"
-          hiddenLabel={isGame}
-          placeholder={isGame ? 'sample-address@gmail.com' : ''}
+          hiddenLabel={!!whiteLabel}
+          placeholder={whiteLabel ? 'sample-address@gmail.com' : ''}
           autoCapitalize="off"
           type="email"
           variant="outlined"
           sx={{
-            input: isGame ? { color: 'rgba(255, 255, 255, 1)' } : '',
-            '& fieldset': isGame ? { border: 'none' } : '',
+            input: whiteLabel ? { color: whiteLabel?.palette?.text?.caption } : '',
+            '& fieldset': whiteLabel ? { border: 'none' } : '',
           }}
         />
       </FormControl>
-      <Typography variant="caption" color={isGame ? 'primary.light' : 'text.secondary'}>
-        By using your {isGame ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
-        <Link color={isGame ? 'primary.light' : 'primary.main'} href="#">
+      <Typography variant="caption" color={text.secondary}>
+        By using your {whiteLabel ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
+        <Link color={primary.main} href="#">
           Terms & Conditions
         </Link>{' '}
         and{' '}
-        <Link color={isGame ? 'primary.light' : 'primary.main'} href="#">
+        <Link color={primary.main} href="#">
           Privacy Policy
         </Link>
       </Typography>
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        {isGame ? 'Continue' : signText}
+      <LoadingButton sx={contained} loading={isSubmitting} variant="contained" size="large" type="submit">
+        {whiteLabel ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

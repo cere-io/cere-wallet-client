@@ -13,9 +13,6 @@ import {
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-// @ts-ignore // TODO remove in the future
-import background from '~/routes/FramePopup/background.svg';
-
 import { CloseIcon } from '../../icons';
 import { IconButton } from '../IconButton';
 import { useIsMobile } from '../../hooks';
@@ -101,7 +98,8 @@ const ContentWrapper = styled(Box, {
   display: 'flex',
   flex: 1,
   overflowY: 'auto',
-  backgroundImage: theme.isGame && pathname === '/popup' ? `url(${background})` : 'none',
+  backgroundImage:
+    theme.whiteLabel?.backgroundImage && pathname === '/popup' ? `url(${theme.whiteLabel.backgroundImage})` : 'none',
   overflow: 'hidden',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
@@ -109,7 +107,7 @@ const ContentWrapper = styled(Box, {
     position: 'relative',
 
     [`& .${dialogContentClasses.root}`]: {
-      paddingTop: theme.whiteLabel.backgroundImage ? theme.spacing(0) : theme.spacing(6),
+      paddingTop: theme.whiteLabel?.backgroundImage ? theme.spacing(0) : theme.spacing(6),
     },
 
     [`& .${dialogTitleClasses.root}`]: {

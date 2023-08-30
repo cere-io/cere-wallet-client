@@ -8,19 +8,19 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const { isGame } = useTheme();
+  const { whiteLabel } = useTheme();
 
   if (isMobile) {
     return (
       <Stack
         direction="column"
-        justifyContent={isGame ? 'center' : 'flex-start'}
+        justifyContent={whiteLabel ? 'center' : 'flex-start'}
         alignItems="stretch"
         padding={2}
         height="100vh"
         spacing={9}
       >
-        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
           <LoginPage variant={variant} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
@@ -31,12 +31,12 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
   return (
     <Stack
       direction="column"
-      justifyContent={isGame ? 'center' : 'flex-start'}
+      justifyContent={whiteLabel ? 'center' : 'flex-start'}
       alignItems="stretch"
       padding={2}
       height="100vh"
     >
-      {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+      {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
           <LoginPage variant={variant} onRequestLogin={(idToken) => store.login(idToken)} />

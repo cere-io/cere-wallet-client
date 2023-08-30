@@ -8,7 +8,7 @@ import { RouteElement } from '../RouteElement';
 
 type EmbeddedModalProps = {
   modal: Required<PopupManagerModal>;
-  showClose?: boolean;
+  showClose: boolean;
 };
 
 const EmbeddedModal = ({ modal, showClose }: EmbeddedModalProps) => {
@@ -23,9 +23,9 @@ const EmbeddedModal = ({ modal, showClose }: EmbeddedModalProps) => {
 
   return (
     <Dialog
-      showClose={showClose}
       origin="right"
       maxWidth="xs"
+      showClose={showClose}
       open={modal.open && isFullscreen}
       onClose={() => popupStore.hideModal(modal.instanceId)}
       TransitionProps={{
