@@ -47,50 +47,15 @@ export type ContextApp = {
 
 export type ContextWhiteLabel = {
   backgroundImage?: string;
-  backgroundColor?: Color;
-  palette?: {
-    primary?: {
-      main: Color;
-      light: Color;
-    };
-    secondary?: {
-      main: Color;
-      light: Color;
-    };
-    text?: {
-      primary: Color;
-      secondary: Color;
-      caption: Color;
-    };
-    divider?: Color;
-  };
-  button?: {
-    contained?: {
-      backgroundColor: Color;
-      borderRadius: number | `${string}px`;
-    };
-    outlined?: {
-      backgroundColor: Color | 'transparent';
-      borderRadius: number | `${string}px`;
-      border: `${number}px ${BorderStyle} ${Color}`;
-    };
-    text?: {
-      color: Color;
-    };
-  };
-  textField?: {
-    enabled: {
-      input: Color;
-      '& fieldset': {
-        border: string;
-      };
-    };
-    disabled: {
-      '& .MuiInputBase-input.Mui-disabled': {
-        WebkitTextFillColor: Color;
-      };
-    };
-  };
+  brandColor?: Color; // primary.main
+  textColor?: Color; //text.primary
+  textSecondaryColor?: Color; // text.secondary
+  textCaptionColor?: Color;
+  linkColor?: Color;
+  dividerColor?: Color;
+  borderRadius?: `${string}px`;
+  border?: `${number}px ${BorderStyle} ${Color}`;
+  buttonTextColor?: Color;
 };
 
 export type Context = {

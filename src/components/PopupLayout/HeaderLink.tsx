@@ -8,22 +8,19 @@ export type HeaderLinkProps = {
 };
 
 export const HeaderLink = ({ title, label, url }: HeaderLinkProps) => {
-  const {
-    text: { primary },
-    primary: { main },
-  } = useWhiteLabel();
+  const { textColor, brandColor } = useWhiteLabel();
   return (
     <Stack spacing={1} direction="row" alignItems="center">
-      <Typography variant="body2" fontWeight="medium" color={primary}>
+      <Typography variant="body2" fontWeight="medium" color={textColor}>
         {title}
       </Typography>
 
       {!url ? (
-        <Typography color={primary} variant="body2">
+        <Typography color={textColor} variant="body2">
           {label}
         </Typography>
       ) : (
-        <Link color={main} target="_blank" href={url} variant="body2">
+        <Link color={brandColor} target="_blank" href={url} variant="body2">
           {label}
         </Link>
       )}

@@ -25,35 +25,13 @@ export const Wallet = () => {
       context: {
         // whiteLabel: {
         //   backgroundImage: 'https://pbs.twimg.com/media/E9Z-8w5WEAA0nR0?format=jpg&name=medium',
-        //   palette: {
-        //     primary: {
-        //       main: '#CD5C5C',
-        //       light: '#FFA07A',
-        //     },
-        //     secondary: {
-        //       main: '#1F618D',
-        //       light: '#1F618D',
-        //     },
-        //     text: {
-        //       primary: '#17202A',
-        //       secondary: '#9B59B6',
-        //       caption: '#ABB2B9',
-        //     },
-        //   },
-        //   button: {
-        //     contained: {
-        //       borderRadius: '4px',
-        //       backgroundColor: '#DC7633',
-        //     },
-        //     outlined: {
-        //       backgroundColor: 'transparent',
-        //       borderRadius: '4px',
-        //       border: '1px dotted #117A65 ',
-        //     },
-        //     text: {
-        //       color: '#DC7633',
-        //     },
-        //   },
+        //   brandColor: '#F71F6C',
+        //   linkColor: '#F71F6C',
+        //   textColor: '#F71F6C',
+        //   textSecondaryColor: '#F71F6C',
+        //   buttonTextColor: '#65d934',
+        //   borderRadius: '1px',
+        //   textCaptionColor: '#F71F6C',
         // },
 
         app: {

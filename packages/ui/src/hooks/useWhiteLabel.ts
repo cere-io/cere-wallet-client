@@ -1,6 +1,23 @@
 import { useTheme } from '@mui/material';
 
-export const useWhiteLabel = () => {
+type WhiteLabelOptions = {
+  brandColor: string;
+  textColor: string;
+  textSecondaryColor: string;
+  textCaptionColor: string;
+  linkColor: string;
+  borderRadius: string;
+  border: string;
+  buttonTextColor: string;
+  backgroundImage: {
+    backgroundImage: string | 'none';
+    backgroundRepeat: 'no-repeat';
+    overflow: 'hidden';
+    padding: string;
+  };
+};
+
+export const useWhiteLabel = (): WhiteLabelOptions => {
   const { whiteLabel } = useTheme();
 
   return {
@@ -11,50 +28,17 @@ export const useWhiteLabel = () => {
       overflow: 'hidden',
       padding: whiteLabel?.backgroundImage ? '0 20px' : '0',
     },
-    // text
-    text: {
-      primary: whiteLabel?.palette?.text?.primary ?? 'text.primary',
-      secondary: whiteLabel?.palette?.text?.secondary ?? 'text.secondary',
-      caption: whiteLabel?.palette?.text?.caption ?? 'text.caption',
-    },
-    link: whiteLabel?.palette?.primary?.main ?? 'primary.main',
     // primary
-    primary: {
-      main: whiteLabel?.palette?.primary?.main ?? 'primary.main',
-      light: whiteLabel?.palette?.primary?.light ?? 'primary.light',
-    },
-    // secondary
-    secondary: {
-      main: whiteLabel?.palette?.secondary?.main ?? 'secondary.main',
-      light: whiteLabel?.palette?.secondary?.light ?? 'secondary.light',
-    },
+    brandColor: whiteLabel?.brandColor ?? 'primary.main',
+    // text
+    textColor: whiteLabel?.textColor ?? 'text.primary',
+    textSecondaryColor: whiteLabel?.textSecondaryColor ?? 'text.secondary',
+    textCaptionColor: whiteLabel?.textCaptionColor ?? 'text.caption',
+    // link
+    linkColor: (whiteLabel?.linkColor || whiteLabel?.brandColor) ?? 'primary.main',
     // buttons
-    buttons: {
-      contained: {
-        borderRadius: whiteLabel?.button?.contained?.borderRadius ?? '',
-        backgroundColor: whiteLabel?.button?.contained?.backgroundColor ?? '',
-      },
-      outlined: {
-        borderRadius: whiteLabel?.button?.outlined?.borderRadius ?? '',
-        backgroundColor: whiteLabel?.button?.outlined?.backgroundColor ?? '',
-        border: whiteLabel?.button?.outlined?.border ?? '',
-      },
-      text: {
-        color: whiteLabel?.button?.text ?? '',
-      },
-    },
-    textField: {
-      enabled: {
-        input: whiteLabel?.palette?.secondary?.main ?? 'primary.main',
-        '& fieldset': {
-          border: 'none',
-        },
-      },
-      disabled: {
-        '& .MuiInputBase-input.Mui-disabled': {
-          WebkitTextFillColor: whiteLabel?.palette?.primary?.main ?? '',
-        },
-      },
-    },
+    borderRadius: whiteLabel?.borderRadius ?? '',
+    border: whiteLabel?.border ?? '',
+    buttonTextColor: whiteLabel?.buttonTextColor ?? '',
   };
 };

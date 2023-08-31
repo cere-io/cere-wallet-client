@@ -44,10 +44,7 @@ export const PopupLayout = ({
   const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
   const { whiteLabel } = useTheme();
-  const {
-    text: { primary },
-    buttons: { contained },
-  } = useWhiteLabel();
+  const { textColor } = useWhiteLabel();
 
   return loading ? (
     <Loading fullScreen>
@@ -57,7 +54,7 @@ export const PopupLayout = ({
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
         {whiteLabel ? <CereWhiteIcon /> : <Logo size="large" />}
-        <Typography variant={isMobile ? 'h4' : 'h3'} color={primary}>
+        <Typography variant={isMobile ? 'h4' : 'h3'} color={textColor}>
           {title}
         </Typography>
         {network && !loading && <NetworkLabel label={network} />}
@@ -74,12 +71,19 @@ export const PopupLayout = ({
       {children}
 
       <Section direction="row" alignSelf="stretch" spacing={2}>
-        <Button size="large" fullWidth variant="contained" color="inherit" onClick={onCancel} sx={contained}>
+        <Button
+          size="large"
+          fullWidth
+          variant="contained"
+          color="inherit"
+          onClick={onCancel}
+          sx={{ backgroundColor: whiteLabel?.brandColor ?? '', borderRadius: whiteLabel?.borderRadius ?? '' }}
+        >
           Cancel
         </Button>
 
         <LoadingButton
-          sx={contained}
+          sx={{ backgroundColor: whiteLabel?.brandColor ?? '', borderRadius: whiteLabel?.borderRadius ?? '' }}
           fullWidth
           loading={confirming}
           size="large"

@@ -46,12 +46,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
   const { whiteLabel } = useTheme();
-  const {
-    text,
-    primary,
-    buttons: { contained },
-    textField: { enabled },
-  } = useWhiteLabel();
+  const { textColor, textSecondaryColor, textCaptionColor, linkColor } = useWhiteLabel();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -118,12 +113,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1} color={text.primary}>
+        <Typography variant="h2" flex={1} color={textColor}>
           {whiteLabel ? 'Sign up' : 'CERE wallet'}
         </Typography>
         {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color={text.secondary}>
+      <Typography variant="body2" color={textSecondaryColor}>
         {whiteLabel
           ? 'Continue to claim your free tokens'
           : 'Send and receive any currency or simply top up with your card.'}
@@ -144,22 +139,32 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           type="email"
           variant="outlined"
           sx={{
-            input: whiteLabel ? { color: whiteLabel?.palette?.text?.caption } : '',
+            input: whiteLabel ? { color: textCaptionColor } : '',
             '& fieldset': whiteLabel ? { border: 'none' } : '',
           }}
         />
       </FormControl>
-      <Typography variant="caption" color={text.secondary}>
+      <Typography variant="caption" color={textSecondaryColor}>
         By using your {whiteLabel ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
-        <Link color={primary.main} href="#">
+        <Link color={linkColor} href="#">
           Terms & Conditions
         </Link>{' '}
         and{' '}
-        <Link color={primary.main} href="#">
+        <Link color={linkColor} href="#">
           Privacy Policy
         </Link>
       </Typography>
-      <LoadingButton sx={contained} loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton
+        sx={{
+          backgroundColor: whiteLabel?.brandColor ?? '',
+          borderRadius: whiteLabel?.borderRadius ?? '',
+          color: whiteLabel?.buttonTextColor ?? '',
+        }}
+        loading={isSubmitting}
+        variant="contained"
+        size="large"
+        type="submit"
+      >
         {whiteLabel ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
