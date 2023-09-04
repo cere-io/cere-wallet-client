@@ -12,7 +12,6 @@ import {
   FacebookIcon,
   Divider,
   styled,
-  useTheme,
   useWhiteLabel,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
@@ -45,8 +44,16 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
-  const { whiteLabel } = useTheme();
-  const { textColor, textSecondaryColor, textCaptionColor, linkColor } = useWhiteLabel();
+  const {
+    textColor,
+    textSecondaryColor,
+    textCaptionColor,
+    linkColor,
+    isGame,
+    brandColor,
+    buttonTextColor,
+    borderRadius,
+  } = useWhiteLabel();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -114,12 +121,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     >
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h2" flex={1} color={textColor}>
-          {whiteLabel ? 'Sign up' : 'CERE wallet'}
+          {isGame ? 'Sign up' : 'CERE wallet'}
         </Typography>
-        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
+        {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
-        {whiteLabel
+        {isGame
           ? 'Continue to claim your free tokens'
           : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
@@ -131,21 +138,21 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           required
           autoFocus
           name="email"
-          label={whiteLabel ? '' : 'Email'}
+          label={isGame ? '' : 'Email'}
           autoCorrect="off"
-          hiddenLabel={!!whiteLabel}
-          placeholder={whiteLabel ? 'sample-address@gmail.com' : ''}
+          hiddenLabel={!!isGame}
+          placeholder={isGame ? 'sample-address@gmail.com' : ''}
           autoCapitalize="off"
           type="email"
           variant="outlined"
           sx={{
-            input: whiteLabel ? { color: textCaptionColor } : '',
-            '& fieldset': whiteLabel ? { border: 'none' } : '',
+            input: isGame ? { color: textCaptionColor } : '',
+            '& fieldset': isGame ? { border: 'none' } : '',
           }}
         />
       </FormControl>
       <Typography variant="caption" color={textSecondaryColor}>
-        By using your {whiteLabel ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
+        By using your {isGame ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
         <Link color={linkColor} href="#">
           Terms & Conditions
         </Link>{' '}
@@ -156,16 +163,16 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       </Typography>
       <LoadingButton
         sx={{
-          backgroundColor: whiteLabel?.brandColor ?? '',
-          borderRadius: whiteLabel?.borderRadius ?? '',
-          color: whiteLabel?.buttonTextColor ?? '',
+          backgroundColor: brandColor ?? '',
+          borderRadius: borderRadius ?? '',
+          color: buttonTextColor ?? '',
         }}
         loading={isSubmitting}
         variant="contained"
         size="large"
         type="submit"
       >
-        {whiteLabel ? 'Continue' : signText}
+        {isGame ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

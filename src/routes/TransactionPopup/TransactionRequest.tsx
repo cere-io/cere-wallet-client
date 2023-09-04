@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { InfoTable, Stack, Truncate, Typography, useTheme } from '@cere-wallet/ui';
+import { InfoTable, Stack, Truncate, Typography, useWhiteLabel } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
@@ -9,10 +9,10 @@ export type TransactionRequestProps = {
 };
 
 const TransactionRequest = ({ store }: TransactionRequestProps) => {
-  const { whiteLabel } = useTheme();
+  const { isGame } = useWhiteLabel();
   return (
     <PopupLayout
-      title={whiteLabel ? 'Confirm Transfer' : 'Confirm transaction'}
+      title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
       loading={!store.isReady}
       confirming={store.status === 'approved'}
       network={store.network?.displayName}
@@ -33,7 +33,7 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => {
           <InfoTable>
             {store.spending.transfer && <PriceRow label="Amount" price={store.spending.transfer} />}
             {store.spending.price && (
-              <PriceRow label={whiteLabel ? 'Currency' : 'Purchase cost'} price={store.spending.price} />
+              <PriceRow label={isGame ? 'Currency' : 'Purchase cost'} price={store.spending.price} />
             )}
             {store.spending.fee && <PriceRow label="Network fee" price={store.spending.fee} />}
             {store.spending.total && <PriceRow label="Total cost" price={store.spending.total} />}

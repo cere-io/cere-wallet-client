@@ -23,16 +23,17 @@ export const Wallet = () => {
       },
 
       context: {
-        // whiteLabel: {
-        //   backgroundImage: 'https://pbs.twimg.com/media/E9Z-8w5WEAA0nR0?format=jpg&name=medium',
-        //   brandColor: '#F71F6C',
-        //   linkColor: '#F71F6C',
-        //   textColor: '#F71F6C',
-        //   textSecondaryColor: '#F71F6C',
-        //   buttonTextColor: '#65d934',
-        //   borderRadius: '1px',
-        //   textCaptionColor: '#F71F6C',
-        // },
+        whiteLabel: {
+          backgroundImage: 'https://pbs.twimg.com/media/E9Z-8w5WEAA0nR0?format=jpg&name=medium',
+          brandColor: '#F71F6C',
+          linkColor: '#F71F6C',
+          textColor: '#F71F6C',
+          textSecondaryColor: '#F71F6C',
+          buttonTextColor: '#65d934',
+          borderRadius: '1px',
+          textCaptionColor: '#F71F6C',
+          isGame: true,
+        },
 
         app: {
           appId: 'cere-wallet-playground',

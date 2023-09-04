@@ -9,6 +9,7 @@ type WhiteLabelOptions = {
   borderRadius: string;
   border: string;
   buttonTextColor: string;
+  isGame: boolean;
   backgroundImage: {
     backgroundImage: string | 'none';
     backgroundRepeat: 'no-repeat';
@@ -40,5 +41,7 @@ export const useWhiteLabel = (): WhiteLabelOptions => {
     borderRadius: whiteLabel?.borderRadius ?? '',
     border: whiteLabel?.border ?? '',
     buttonTextColor: whiteLabel?.buttonTextColor ?? '',
+    // boolean
+    isGame: whiteLabel?.isGame || false,
   };
 };

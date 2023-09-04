@@ -9,7 +9,6 @@ import {
   useIsMobile,
   LoadingButton,
   CereWhiteIcon,
-  useTheme,
   useWhiteLabel,
 } from '@cere-wallet/ui';
 
@@ -43,8 +42,7 @@ export const PopupLayout = ({
 }: PopupLayoutProps) => {
   const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
-  const { whiteLabel } = useTheme();
-  const { textColor } = useWhiteLabel();
+  const { textColor, isGame, brandColor, borderRadius } = useWhiteLabel();
 
   return loading ? (
     <Loading fullScreen>
@@ -53,7 +51,7 @@ export const PopupLayout = ({
   ) : (
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        {whiteLabel ? <CereWhiteIcon /> : <Logo size="large" />}
+        {isGame ? <CereWhiteIcon /> : <Logo size="large" />}
         <Typography variant={isMobile ? 'h4' : 'h3'} color={textColor}>
           {title}
         </Typography>
@@ -77,13 +75,13 @@ export const PopupLayout = ({
           variant="contained"
           color="inherit"
           onClick={onCancel}
-          sx={{ backgroundColor: whiteLabel?.brandColor ?? '', borderRadius: whiteLabel?.borderRadius ?? '' }}
+          sx={{ backgroundColor: brandColor ?? '', borderRadius: borderRadius ?? '' }}
         >
           Cancel
         </Button>
 
         <LoadingButton
-          sx={{ backgroundColor: whiteLabel?.brandColor ?? '', borderRadius: whiteLabel?.borderRadius ?? '' }}
+          sx={{ backgroundColor: brandColor ?? '', borderRadius: borderRadius ?? '' }}
           fullWidth
           loading={confirming}
           size="large"

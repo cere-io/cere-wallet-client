@@ -1,15 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Authorize, AuthorizeClose, AuthorizeRedirect, IntroRoute, LoginRoute, OtpRoute } from './Authorize';
-import { useTheme } from '@mui/material';
+import { useWhiteLabel } from '@cere-wallet/ui';
 
 export const AuthorizationRouter = () => {
-  const { whiteLabel } = useTheme();
+  const { isGame } = useWhiteLabel();
 
   return (
     <Routes>
       <Route element={<Authorize />}>
-        <Route index element={whiteLabel ? <LoginRoute /> : <IntroRoute />} />
+        <Route index element={isGame ? <LoginRoute /> : <IntroRoute />} />
         <Route path="close" element={<AuthorizeClose />} />
         <Route path="redirect" element={<AuthorizeRedirect />} />
         <Route path="intro" element={<IntroRoute />} />

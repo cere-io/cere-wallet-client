@@ -56,6 +56,7 @@ export type ContextWhiteLabel = {
   borderRadius?: `${string}px`;
   border?: `${number}px ${BorderStyle} ${Color}`;
   buttonTextColor?: Color;
+  isGame?: boolean;
 };
 
 export type Context = {

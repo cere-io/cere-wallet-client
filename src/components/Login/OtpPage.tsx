@@ -7,7 +7,6 @@ import {
   CereIcon,
   OtpInput,
   Alert,
-  useTheme,
   useWhiteLabel,
 } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
@@ -35,8 +34,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const { whiteLabel } = useTheme();
-  const { textSecondaryColor, buttonTextColor } = useWhiteLabel();
+  const { textSecondaryColor, buttonTextColor, isGame, textCaptionColor, brandColor, borderRadius } = useWhiteLabel();
 
   const {
     register,
@@ -105,12 +103,10 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         <Typography variant="h2" flex={1} color={textSecondaryColor}>
           Verify email
         </Typography>
-        {whiteLabel ? <CereWhiteLogo /> : <CereIcon />}
+        {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
-        {whiteLabel
-          ? 'Access your account using the code sent to your email'
-          : 'Access CERE using code sent to your email'}
+        {isGame ? 'Access your account using the code sent to your email' : 'Access CERE using code sent to your email'}
       </Typography>
       <TextField
         value={email}
@@ -118,11 +114,11 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         disabled={true}
         sx={{
           '& .MuiInputBase-input.Mui-disabled': {
-            WebkitTextFillColor: whiteLabel?.textCaptionColor ?? '',
+            WebkitTextFillColor: textCaptionColor ?? '',
           },
         }}
       />
-      <Typography variant="body2" color={textSecondaryColor} align={whiteLabel ? 'center' : 'left'}>
+      <Typography variant="body2" color={textSecondaryColor} align={isGame ? 'center' : 'left'}>
         Verification code
       </Typography>
       <OtpInput
@@ -140,9 +136,9 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       <LoadingButton
         loading={isSubmitting}
         sx={{
-          backgroundColor: whiteLabel?.brandColor ?? '',
-          borderRadius: whiteLabel?.borderRadius ?? '',
-          color: whiteLabel?.buttonTextColor ?? '',
+          backgroundColor: brandColor ?? '',
+          borderRadius: borderRadius ?? '',
+          color: buttonTextColor ?? '',
         }}
         variant="contained"
         size="large"

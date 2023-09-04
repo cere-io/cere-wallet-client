@@ -1,4 +1,4 @@
-import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
+import { Stack, useIsMobile, useWhiteLabel } from '@cere-wallet/ui';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { OtpPage } from '~/components';
@@ -10,7 +10,7 @@ export const OtpRoute = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const { whiteLabel } = useTheme();
+  const { isGame } = useWhiteLabel();
 
   store.email = location.state?.email;
 
@@ -18,13 +18,13 @@ export const OtpRoute = () => {
     return (
       <Stack
         direction="column"
-        justifyContent={whiteLabel ? 'center' : 'flex-start'}
+        justifyContent={isGame ? 'center' : 'flex-start'}
         alignItems="stretch"
         padding={2}
         height="100vh"
         spacing={9}
       >
-        {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
           <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>
@@ -35,12 +35,12 @@ export const OtpRoute = () => {
   return (
     <Stack
       direction="column"
-      justifyContent={whiteLabel ? 'center' : 'flex-start'}
+      justifyContent={isGame ? 'center' : 'flex-start'}
       alignItems="stretch"
       padding={2}
       height="100vh"
     >
-      {whiteLabel ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+      {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
           <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
