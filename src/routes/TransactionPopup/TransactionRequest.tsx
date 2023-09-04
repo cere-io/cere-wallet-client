@@ -9,10 +9,10 @@ export type TransactionRequestProps = {
 };
 
 const TransactionRequest = ({ store }: TransactionRequestProps) => {
-  const { isGame } = useWhiteLabel();
+  const { isGame, confirmTransferPageTitle } = useWhiteLabel();
   return (
     <PopupLayout
-      title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
+      title={confirmTransferPageTitle || 'Confirm transaction'}
       loading={!store.isReady}
       confirming={store.status === 'approved'}
       network={store.network?.displayName}
