@@ -53,6 +53,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     brandColor,
     buttonTextColor,
     borderRadius,
+    loginPageTitle,
+    loginPageDescription,
+    loginPageTextFieldLabel,
+    loginPageTextFieldPlaceholder,
+    loginPageButtonText,
+    loginPageTermsOfUse,
   } = useWhiteLabel();
 
   useEffect(() => {
@@ -121,14 +127,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     >
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h2" flex={1} color={textColor}>
-          {isGame ? 'Sign up' : 'CERE wallet'}
+          {loginPageTitle || 'CERE wallet'}
         </Typography>
         {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
-        {isGame
-          ? 'Continue to claim your free tokens'
-          : 'Send and receive any currency or simply top up with your card.'}
+        {loginPageDescription || 'Send and receive any currency or simply top up with your card.'}
       </Typography>
       <FormControl>
         <TextField
@@ -138,10 +142,10 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           required
           autoFocus
           name="email"
-          label={isGame ? '' : 'Email'}
+          label={isGame ? '' : loginPageTextFieldLabel}
           autoCorrect="off"
           hiddenLabel={!!isGame}
-          placeholder={isGame ? 'sample-address@gmail.com' : ''}
+          placeholder={loginPageTextFieldPlaceholder || ''}
           autoCapitalize="off"
           type="email"
           variant="outlined"
@@ -152,7 +156,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         />
       </FormControl>
       <Typography variant="caption" color={textSecondaryColor}>
-        By using your {isGame ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
+        By using your {loginPageTermsOfUse || 'Cere wallet'} you automatically agree to our{' '}
         <Link color={linkColor} href="#">
           Terms & Conditions
         </Link>{' '}
@@ -172,7 +176,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         size="large"
         type="submit"
       >
-        {isGame ? 'Continue' : signText}
+        {loginPageButtonText || signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

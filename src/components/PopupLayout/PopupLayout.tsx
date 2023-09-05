@@ -42,7 +42,14 @@ export const PopupLayout = ({
 }: PopupLayoutProps) => {
   const isMobile = useIsMobile(); // TODO: It would be better to use auto-adaptive font sizes instead of using this hook
   const links = useMemo(() => rawLinks?.filter(Boolean), [rawLinks]);
-  const { textColor, isGame, brandColor, borderRadius } = useWhiteLabel();
+  const {
+    textColor,
+    isGame,
+    brandColor,
+    borderRadius,
+    confirmTransferPageCancelButton,
+    confirmTransferPageConfirmButton,
+  } = useWhiteLabel();
 
   return loading ? (
     <Loading fullScreen>
@@ -77,7 +84,7 @@ export const PopupLayout = ({
           onClick={onCancel}
           sx={{ backgroundColor: brandColor ?? '', borderRadius: borderRadius ?? '' }}
         >
-          Cancel
+          {confirmTransferPageCancelButton || 'Cancel'}
         </Button>
 
         <LoadingButton
@@ -88,7 +95,7 @@ export const PopupLayout = ({
           variant="contained"
           onClick={onConfirm}
         >
-          Confirm
+          {confirmTransferPageConfirmButton || 'Confirm'}
         </LoadingButton>
       </Section>
     </Layout>

@@ -10,6 +10,19 @@ type WhiteLabelOptions = {
   border: string;
   buttonTextColor: string;
   isGame: boolean;
+  loginPageTitle?: string;
+  loginPageDescription?: string;
+  loginPageButtonText?: string;
+  loginPageTextFieldLabel?: string;
+  loginPageTextFieldPlaceholder?: string;
+  loginPageTextFieldErrorText?: string;
+  loginPageTermsOfUse?: string;
+  otpPageTitle?: string;
+  otpPageDescription?: string;
+  otpPageButtonText?: string;
+  confirmTransferPageTitle?: string;
+  confirmTransferPageCancelButton?: string;
+  confirmTransferPageConfirmButton?: string;
   backgroundImage: {
     backgroundImage: string | 'none';
     backgroundRepeat: 'no-repeat';
@@ -43,5 +56,22 @@ export const useWhiteLabel = (): WhiteLabelOptions => {
     buttonTextColor: whiteLabel?.buttonTextColor ?? '',
     // boolean
     isGame: whiteLabel?.isGame || false,
+    // texts
+    // login page
+    loginPageTitle: whiteLabel?.loginPageTitle,
+    loginPageDescription: whiteLabel?.loginPageDescription,
+    loginPageTextFieldLabel: whiteLabel?.loginPageTextFieldLabel,
+    loginPageTextFieldPlaceholder: whiteLabel?.loginPageTextFieldPlaceholder,
+    loginPageTextFieldErrorText: whiteLabel?.loginPageTextFieldErrorText, // maybe not
+    loginPageTermsOfUse: whiteLabel?.loginPageTermsOfUse,
+    loginPageButtonText: whiteLabel?.loginPageButtonText,
+    // otp page
+    otpPageTitle: whiteLabel?.otpPageTitle, // Verify email
+    otpPageDescription: whiteLabel?.otpPageDescription,
+    otpPageButtonText: whiteLabel?.otpPageButtonText,
+    // confirm page
+    confirmTransferPageTitle: whiteLabel?.confirmTransferPageTitle,
+    confirmTransferPageCancelButton: whiteLabel?.confirmTransferPageCancelButton,
+    confirmTransferPageConfirmButton: whiteLabel?.confirmTransferPageConfirmButton,
   };
 };

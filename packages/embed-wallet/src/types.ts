@@ -50,13 +50,26 @@ export type ContextWhiteLabel = {
   brandColor?: Color; // primary.main
   textColor?: Color; //text.primary
   textSecondaryColor?: Color; // text.secondary
-  textCaptionColor?: Color;
+  textCaptionColor?: Color; // text.caption
   linkColor?: Color;
   dividerColor?: Color;
   borderRadius?: `${string}px`;
   border?: `${number}px ${BorderStyle} ${Color}`;
   buttonTextColor?: Color;
   isGame?: boolean;
+  loginPageTitle?: string;
+  loginPageButtonText?: string;
+  loginPageDescription?: string;
+  loginPageTextFieldLabel?: string;
+  loginPageTextFieldPlaceholder?: string;
+  loginPageTextFieldErrorText?: string;
+  loginPageTermsOfUse?: string;
+  otpPageTitle?: string; // Verify email
+  otpPageDescription?: string;
+  otpPageButtonText?: string;
+  confirmTransferPageTitle?: string;
+  confirmTransferPageCancelButton?: string;
+  confirmTransferPageConfirmButton?: string;
 };
 
 export type Context = {

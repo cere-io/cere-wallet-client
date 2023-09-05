@@ -34,7 +34,17 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const { textSecondaryColor, buttonTextColor, isGame, textCaptionColor, brandColor, borderRadius } = useWhiteLabel();
+  const {
+    textSecondaryColor,
+    buttonTextColor,
+    isGame,
+    textCaptionColor,
+    brandColor,
+    borderRadius,
+    otpPageButtonText,
+    otpPageDescription,
+    otpPageTitle,
+  } = useWhiteLabel();
 
   const {
     register,
@@ -101,12 +111,12 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     >
       <Stack direction="row" alignItems="center">
         <Typography variant="h2" flex={1} color={textSecondaryColor}>
-          Verify email
+          {otpPageTitle || 'Verify email'}
         </Typography>
         {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
-        {isGame ? 'Access your account using the code sent to your email' : 'Access CERE using code sent to your email'}
+        {otpPageDescription || 'Access CERE using code sent to your email'}
       </Typography>
       <TextField
         value={email}
@@ -144,7 +154,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         size="large"
         type="submit"
       >
-        {errors.root ? 'Retry' : 'Verify'}
+        {errors.root ? 'Retry' : otpPageButtonText || 'Verify'}
       </LoadingButton>
       {timeLeft ? (
         <Typography variant="body1" align="center" color={textSecondaryColor}>

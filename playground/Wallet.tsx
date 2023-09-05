@@ -33,6 +33,18 @@ export const Wallet = () => {
           borderRadius: '1px',
           textCaptionColor: '#F71F6C',
           isGame: true,
+          loginPageTitle: 'CERE wallet TEST',
+          loginPageDescription: 'Continue to claim your free tokens TEST',
+          loginPageTextFieldLabel: 'Email',
+          loginPageTextFieldPlaceholder: 'sample-address@gmail.com',
+          loginPageTermsOfUse: 'account',
+          loginPageButtonText: 'Continue',
+          otpPageTitle: 'Verify email',
+          otpPageDescription: 'Access your account using the code sent to your email',
+          otpPageButtonText: 'Verify TEST',
+          confirmTransferPageCancelButton: 'Cancel',
+          confirmTransferPageConfirmButton: 'Confirm',
+          confirmTransferPageTitle: 'Confirm Transfer',
         },
 
         app: {
