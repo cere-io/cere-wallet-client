@@ -8,7 +8,7 @@ import {
   Loading,
   useIsMobile,
   LoadingButton,
-  CereWhiteIcon,
+  CereColorIcon,
   useWhiteLabel,
 } from '@cere-wallet/ui';
 
@@ -51,7 +51,7 @@ export const PopupLayout = ({
   ) : (
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        {isGame ? <CereWhiteIcon /> : <Logo size="large" />}
+        {isGame ? <CereColorIcon color={brandColor} /> : <Logo size="large" />}
         <Typography variant={isMobile ? 'h4' : 'h3'} color={textColor}>
           {title}
         </Typography>

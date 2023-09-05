@@ -5,7 +5,7 @@ import {
   Link,
   TextField,
   CereIcon,
-  CereWhiteIcon,
+  CereColorIcon,
   FormControl,
   IconButton,
   GoogleIcon,
@@ -35,7 +35,7 @@ const validationSchema = yup
   })
   .required();
 
-export const CereWhiteLogo = styled(CereWhiteIcon)(({ theme }) => ({
+export const CereWhiteLogo = styled(CereColorIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
 }));
 
@@ -123,7 +123,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         <Typography variant="h2" flex={1} color={textColor}>
           {isGame ? 'Sign up' : 'CERE wallet'}
         </Typography>
-        {isGame ? <CereWhiteLogo /> : <CereIcon />}
+        {isGame ? <CereWhiteLogo color={brandColor} /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
         {isGame
