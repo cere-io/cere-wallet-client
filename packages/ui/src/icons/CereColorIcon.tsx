@@ -14,7 +14,7 @@ export const CereColorIcon = ({ color = '#FFF' }: CereIconProps) => (
     </g>
     <defs>
       <clipPath id="clip0_5654_465">
-        <rect width="23.5385" height="25.5" fill="white" transform="translate(0 0.5)" />
+        <rect width="23.5385" height="25.5" fill={`${color}`} transform="translate(0 0.5)" />
       </clipPath>
     </defs>
   </svg>
