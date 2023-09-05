@@ -36,7 +36,7 @@ const validationSchema = yup
   .required();
 
 export const CereWhiteLogo = styled(CereColorIcon)(({ theme }) => ({
-  fontSize: theme.typography.pxToRem(48),
+  fontSize: theme.typography.pxToRem(24),
 }));
 
 export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
