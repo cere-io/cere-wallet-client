@@ -1,0 +1,352 @@
+[
+  {
+    "url": "https://authjs.web3auth.io/siww/get",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "payload": {
+        "address": "0xE3E95B070eDCCbF42B900525a63708b5b33274d8",
+        "chainId": 80001,
+        "domain": "http://host.docker.internal:4567",
+        "uri": "http://host.docker.internal:4567",
+        "version": "1",
+        "nonce": "fhvkej4g9gq",
+        "issuedAt": "2023-09-05T10:44:26.675Z"
+      },
+      "header": {
+        "t": "eip191"
+      },
+      "network": "ethereum"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "290",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Tue, 05 Sep 2023 10:44:26 GMT",
+        "etag": "W/\"122-mGLh/BCo7VbdhOkWUb6RzwQwfEU\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "99",
+        "x-ratelimit-reset": "1693910866",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "challenge": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0xE3E95B070eDCCbF42B900525a63708b5b33274d8\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80001\nNonce: bd11dad5f057e3a9\nIssued At: 2023-09-05T10:44:26.675Z",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://min-api.cryptocompare.com/data/pricemulti?fsyms=CERE,CERE_ERC20,MATIC,USDC,ETH&tsyms=btc,eth,usd",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "access-control-allow-headers": "Content-Type, Cookie, Set-Cookie, Authorization",
+        "access-control-allow-methods": "GET, POST, OPTIONS",
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=10",
+        "connection": "keep-alive",
+        "content-encoding": "gzip",
+        "content-security-policy": "frame-ancestors 'none'",
+        "content-type": "application/json; charset=UTF-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "server": "nginx",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-cryptocompare-cache-hit": "false",
+        "x-cryptocompare-server-id": "cc-api-min-28"
+      },
+      "body": {
+        "CERE": {
+          "BTC": 1.2e-7,
+          "ETH": 0.00000191,
+          "USD": 0.003121
+        },
+        "MATIC": {
+          "BTC": 0.00002181,
+          "ETH": 0.000344,
+          "USD": 0.5609
+        },
+        "USDC": {
+          "BTC": 0.00003885,
+          "ETH": 0.0006128,
+          "USD": 1
+        },
+        "ETH": {
+          "BTC": 0.0634,
+          "ETH": 1,
+          "USD": 1632.15
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 668458851057066,
+      "jsonrpc": "2.0",
+      "method": "eth_gasPrice",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 668458851057068,
+      "jsonrpc": "2.0",
+      "method": "eth_getBalance",
+      "params": [
+        "0xe3e95b070edccbf42b900525a63708b5b33274d8",
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 668458851057069,
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0xe3e95b070edccbf42b900525a63708b5b33274d8",
+          "to": "0x4e5a86e128f8fb652169f6652e2cd17aae409e96",
+          "data": "0x70a08231000000000000000000000000e3e95b070edccbf42b900525a63708b5b33274d8"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://polygon-mumbai.infura.io/v3/248b37a1123943a9b5c975eb2c93a2ab",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": 668458851057071,
+      "jsonrpc": "2.0",
+      "method": "eth_getBlockByNumber",
+      "params": [
+        "latest",
+        false
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "90",
+        "content-type": "text/plain; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "error": {
+          "code": -32002,
+          "message": "rejected due to project ID settings"
+        }
+      },
+      "statusCode": 403
+    }
+  },
+  {
+    "url": "https://authjs.web3auth.io/siww/verify",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "client_id": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "wallet_provider": "cere-wallet",
+      "web3auth_network": "testnet"
+    },
+    "body": {
+      "signature": {
+        "s": "0xff1359b663d84a42d8d10b0cc3fbbe7ef38402a571b170bc2e103390bfb198f84a39ed6905d6ffeb2885887f929646584f10fe925b35e1e85cf0d673912f9a101c",
+        "t": "eip191"
+      },
+      "message": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0xE3E95B070eDCCbF42B900525a63708b5b33274d8\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80001\nNonce: bd11dad5f057e3a9\nIssued At: 2023-09-05T10:44:26.675Z",
+      "issuer": "cere-wallet",
+      "audience": "host.docker.internal",
+      "timeout": 86400
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "449",
+        "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "etag": "W/\"1c1-8aqg+SecYfwhjhUDIuKzxMtHYVo\"",
+        "expect-ct": "max-age=0",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "99",
+        "x-ratelimit-reset": "1693910860",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2OTM5MTA2NjcsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHhFM0U5NUIwNzBlRENDYkY0MkI5MDA1MjVhNjM3MDhiNWIzMzI3NGQ4IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2OTM5OTcwNjd9.VBqrF4OKm7VAJKR7jPCIOCViT8tpcrJwDB-eFpBav5ekK9jTz5zOiNZLHZ4QHd_pbsCssiorN-Y-OH17UZHCDg",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://dev-cere-wallet-api.core-dev.aws.cere.io/applications/find",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2OTM5MTA2NjcsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHhFM0U5NUIwNzBlRENDYkY0MkI5MDA1MjVhNjM3MDhiNWIzMzI3NGQ4IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2OTM5OTcwNjd9.VBqrF4OKm7VAJKR7jPCIOCViT8tpcrJwDB-eFpBav5ekK9jTz5zOiNZLHZ4QHd_pbsCssiorN-Y-OH17UZHCDg",
+      "content-type": "application/json"
+    },
+    "body": {
+      "address": "0xe3e95b070edccbf42b900525a63708b5b33274d8",
+      "appId": "cere-wallet"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-origin": "*",
+        "content-length": "2",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "etag": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"",
+        "x-powered-by": "Express"
+      },
+      "body": [],
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://dev-cere-wallet-api.core-dev.aws.cere.io/applications",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE2OTM5MTA2NjcsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHhFM0U5NUIwNzBlRENDYkY0MkI5MDA1MjVhNjM3MDhiNWIzMzI3NGQ4IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE2OTM5OTcwNjd9.VBqrF4OKm7VAJKR7jPCIOCViT8tpcrJwDB-eFpBav5ekK9jTz5zOiNZLHZ4QHd_pbsCssiorN-Y-OH17UZHCDg",
+      "content-type": "application/json"
+    },
+    "body": {
+      "address": "0xe3e95b070edccbf42b900525a63708b5b33274d8",
+      "appId": "cere-wallet"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-origin": "*",
+        "content-length": "78",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 05 Sep 2023 10:44:27 GMT",
+        "etag": "W/\"4e-hf7QMBZ48IGbuPpE1c+y95jeH2s\"",
+        "x-powered-by": "Express"
+      },
+      "body": {
+        "appId": "cere-wallet",
+        "address": "0xe3e95b070edccbf42b900525a63708b5b33274d8"
+      },
+      "statusCode": 201
+    }
+  }
+]
