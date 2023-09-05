@@ -123,7 +123,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         <Typography variant="h2" flex={1} color={textColor}>
           {isGame ? 'Sign up' : 'CERE wallet'}
         </Typography>
-        {isGame ? <CereWhiteLogo color={brandColor} /> : <CereIcon />}
+        {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
         {isGame

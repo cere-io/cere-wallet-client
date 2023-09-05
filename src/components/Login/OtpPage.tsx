@@ -103,7 +103,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         <Typography variant="h2" flex={1} color={textSecondaryColor}>
           Verify email
         </Typography>
-        {isGame ? <CereWhiteLogo color={brandColor} /> : <CereIcon />}
+        {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
       <Typography variant="body2" color={textSecondaryColor}>
         {isGame ? 'Access your account using the code sent to your email' : 'Access CERE using code sent to your email'}

@@ -51,7 +51,7 @@ export const PopupLayout = ({
   ) : (
     <Layout disableGutters maxWidth="sm">
       <Section spacing={3} alignItems="center">
-        {isGame ? <CereColorIcon color={brandColor} /> : <Logo size="large" />}
+        {isGame ? <CereColorIcon /> : <Logo size="large" />}
         <Typography variant={isMobile ? 'h4' : 'h3'} color={textColor}>
           {title}
         </Typography>
