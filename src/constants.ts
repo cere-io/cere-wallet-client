@@ -37,5 +37,5 @@ export const COIN_TICKER_ALIAS: Record<string, string> = {
 };
 
 export const RPC_POLLING_INTERVAL = 10000;
-export const AUTH_SESSION_TIMEOUT = 86400;
+export const AUTH_SESSION_TIMEOUT = 604800;
 export const AUTH_TOKEN_ISSUER = 'cere-wallet';
