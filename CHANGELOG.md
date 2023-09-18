@@ -2,6 +2,11 @@
 
 ### vNext
 
+-
+
+### v1.27.2
+
+- Changed auth session timeout for one week
 
 ### v1.27.1
 
