@@ -30,15 +30,15 @@ const TopUp = () => {
         color="primary"
         size={isMobile ? 'small' : 'medium'}
         value={getActiveFromLocation()}
-        onChange={(event, value) => {
-          value && navigate({ ...location, pathname: `${value}` });
-        }}
+        // onChange={(event, value) => {
+        //   value && navigate({ ...location, pathname: `${value}` });
+        // }} // TODO uncomment after payment fix (also line 41)
         sx={{
           maxWidth: 430,
           alignSelf: 'center',
         }}
       >
-        <ToggleButton value="buy">Buy asset</ToggleButton>
+        {/*<ToggleButton value="buy">Buy asset</ToggleButton>*/}
         <ToggleButton value={Tabs.RECEIVE}>Receive asset</ToggleButton>
       </ToggleButtonGroup>
 
