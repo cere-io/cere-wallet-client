@@ -24,7 +24,15 @@ export const Wallet = () => {
 
       context: {
         whiteLabel: {
-          var1: 'value',
+          backgroundImage: 'https://pbs.twimg.com/media/E9Z-8w5WEAA0nR0?format=jpg&name=medium',
+          brandColor: '#F71F6C',
+          linkColor: '#F71F6C',
+          textColor: '#F71F6C',
+          textSecondaryColor: '#F71F6C',
+          buttonTextColor: '#65d934',
+          borderRadius: '1px',
+          textCaptionColor: '#F71F6C',
+          isGame: true,
         },
 
         app: {
@@ -138,6 +146,16 @@ export const Wallet = () => {
             variant: 'secondary',
           },
         ],
+      },
+    });
+  }, [wallet]);
+
+  const handleSetWhiteLabel = useCallback(() => {
+    wallet.setContext({
+      app: {
+        whiteLabel: {
+          backgroundImage: 'https://svastour.ru/upload/medialibrary/bd2/bd20caf5d4eec1b3c7af80fef0fe7820.jpg',
+        },
       },
     });
   }, [wallet]);
@@ -325,6 +343,14 @@ export const Wallet = () => {
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={status === 'not-ready' || status === 'connecting'}
+            onClick={handleSetWhiteLabel}
+          >
+            White Label
           </Button>
         </>
       )}

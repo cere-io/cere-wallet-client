@@ -12,7 +12,7 @@ import {
   FacebookIcon,
   Divider,
   styled,
-  useTheme,
+  useWhiteLabel,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
@@ -44,7 +44,16 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
-  const { isGame } = useTheme();
+  const {
+    textColor,
+    textSecondaryColor,
+    textCaptionColor,
+    linkColor,
+    isGame,
+    brandColor,
+    buttonTextColor,
+    borderRadius,
+  } = useWhiteLabel();
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -111,12 +120,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
+        <Typography variant="h2" flex={1} color={textColor}>
           {isGame ? 'Sign up' : 'CERE wallet'}
         </Typography>
         {isGame ? <CereWhiteLogo /> : <CereIcon />}
       </Stack>
-      <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
+      <Typography variant="body2" color={textSecondaryColor}>
         {isGame
           ? 'Continue to claim your free tokens'
           : 'Send and receive any currency or simply top up with your card.'}
@@ -131,28 +140,38 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           name="email"
           label={isGame ? '' : 'Email'}
           autoCorrect="off"
-          hiddenLabel={isGame}
+          hiddenLabel={!!isGame}
           placeholder={isGame ? 'sample-address@gmail.com' : ''}
           autoCapitalize="off"
           type="email"
           variant="outlined"
           sx={{
-            input: isGame ? { color: 'rgba(255, 255, 255, 1)' } : '',
+            input: isGame ? { color: textCaptionColor } : '',
             '& fieldset': isGame ? { border: 'none' } : '',
           }}
         />
       </FormControl>
-      <Typography variant="caption" color={isGame ? 'primary.light' : 'text.secondary'}>
+      <Typography variant="caption" color={textSecondaryColor}>
         By using your {isGame ? 'account' : 'Cere wallet'} you automatically agree to our{' '}
-        <Link color={isGame ? 'primary.light' : 'primary.main'} href="#">
+        <Link color={linkColor} href="#">
           Terms & Conditions
         </Link>{' '}
         and{' '}
-        <Link color={isGame ? 'primary.light' : 'primary.main'} href="#">
+        <Link color={linkColor} href="#">
           Privacy Policy
         </Link>
       </Typography>
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+      <LoadingButton
+        sx={{
+          backgroundColor: brandColor ?? '',
+          borderRadius: borderRadius ?? '',
+          color: buttonTextColor ?? '',
+        }}
+        loading={isSubmitting}
+        variant="contained"
+        size="large"
+        type="submit"
+      >
         {isGame ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (

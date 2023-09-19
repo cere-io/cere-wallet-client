@@ -1,12 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Authorize, AuthorizeClose, AuthorizeRedirect, IntroRoute, LoginRoute, OtpRoute } from './Authorize';
-import { useAppContextStore } from '~/hooks';
+import { useWhiteLabel } from '@cere-wallet/ui';
 
 export const AuthorizationRouter = () => {
-  const store = useAppContextStore();
+  const { isGame } = useWhiteLabel();
 
-  const isGame = ['metaverse-dash-run', 'candy-jam'].includes(store.app?.appId as string); // TODO remove after promo
   return (
     <Routes>
       <Route element={<Authorize />}>

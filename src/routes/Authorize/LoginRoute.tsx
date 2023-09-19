@@ -1,4 +1,4 @@
-import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
+import { Stack, useIsMobile, useWhiteLabel } from '@cere-wallet/ui';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { LoginPage } from '~/components';
@@ -8,7 +8,7 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const { isGame } = useTheme();
+  const { isGame } = useWhiteLabel();
 
   if (isMobile) {
     return (

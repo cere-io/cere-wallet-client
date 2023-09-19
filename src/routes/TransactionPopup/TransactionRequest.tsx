@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { InfoTable, Stack, Truncate, Typography, useTheme } from '@cere-wallet/ui';
+import { InfoTable, Stack, Truncate, Typography, useWhiteLabel } from '@cere-wallet/ui';
 
 import { TransactionPopupStore } from '~/stores';
 import { PopupLayout, TransactionData, PriceRow } from '~/components';
@@ -9,7 +9,7 @@ export type TransactionRequestProps = {
 };
 
 const TransactionRequest = ({ store }: TransactionRequestProps) => {
-  const { isGame } = useTheme();
+  const { isGame } = useWhiteLabel();
   return (
     <PopupLayout
       title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
