@@ -5,7 +5,7 @@ import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Redirect } from './Redirect';
 import { TopUp } from './TopUp';
-import { AssetBuy, AssetReceive, Assets } from './Assets';
+import { AssetReceive, Assets } from './Assets'; // TODO add AssetBuy
 import { Transfer } from './Transfer';
 import TransferAsset from '~/components/Transfer/TransferAsset';
 import TransferCollectibles from './Transfer/TransferCollectibles';
@@ -27,9 +27,10 @@ export const WalletRouter = () => (
       <Route index element={<Redirect to="home" />} />
 
       <Route path="home/topup" element={<TopUp />}>
-        <Route index element={<AssetBuy />} />
-        <Route path="buy" element={<AssetBuy />} />
-        <Route path="receive" element={<AssetReceive />} />
+        {/*<Route index element={<AssetBuy />} />*/}
+        {/*<Route path="buy" element={<AssetBuy />} />*/}
+        {/*TODO uncomment after payment fix (commit history) */}
+        <Route index element={<AssetReceive />} />
       </Route>
 
       <Route path="home/transfer" element={<Transfer />}>
