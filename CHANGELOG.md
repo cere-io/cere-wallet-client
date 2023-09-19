@@ -4,6 +4,10 @@
 
 -
 
+### v1.27.3
+
+- Added cere-game-portal in whitelist label
+
 ### v1.27.2
 
 - Changed auth session timeout for one week
