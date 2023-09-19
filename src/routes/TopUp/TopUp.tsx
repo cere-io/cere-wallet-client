@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom'; // TODO add useNavigate
 import { observer } from 'mobx-react-lite';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
 import { PageHeader } from '~/components';
@@ -12,7 +12,7 @@ enum Tabs {
 const TopUp = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop();
@@ -30,15 +30,15 @@ const TopUp = () => {
         color="primary"
         size={isMobile ? 'small' : 'medium'}
         value={getActiveFromLocation()}
-        onChange={(event, value) => {
-          value && navigate({ ...location, pathname: `${value}` });
-        }}
+        // onChange={(event, value) => {
+        //   value && navigate({ ...location, pathname: `${value}` });
+        // }} // TODO uncomment after payment fix (also line 41)
         sx={{
           maxWidth: 430,
           alignSelf: 'center',
         }}
       >
-        <ToggleButton value="buy">Buy asset</ToggleButton>
+        {/*<ToggleButton value="buy">Buy asset</ToggleButton>*/}
         <ToggleButton value={Tabs.RECEIVE}>Receive asset</ToggleButton>
       </ToggleButtonGroup>
 
