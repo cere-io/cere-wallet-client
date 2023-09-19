@@ -5,7 +5,7 @@ import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Redirect } from './Redirect';
 import { TopUp } from './TopUp';
-import { AssetBuy, AssetReceive, Assets } from './Assets';
+import { AssetReceive, Assets } from './Assets'; // TODO add AssetBuy
 import { Transfer } from './Transfer';
 import TransferAsset from '~/components/Transfer/TransferAsset';
 import TransferCollectibles from './Transfer/TransferCollectibles';

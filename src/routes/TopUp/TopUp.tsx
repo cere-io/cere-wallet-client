@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom'; // TODO add useNavigate
 import { observer } from 'mobx-react-lite';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
 import { PageHeader } from '~/components';
@@ -12,7 +12,7 @@ enum Tabs {
 const TopUp = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop();
