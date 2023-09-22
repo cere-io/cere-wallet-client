@@ -4,6 +4,10 @@
 
 -
 
+### v1.27.4
+
+- Fix text in sign up popup
+
 ### v1.27.3
 
 - Added cere-game-portal in whitelist label
