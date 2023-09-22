@@ -118,7 +118,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       </Stack>
       <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
         {isGame
-          ? 'Continue to claim your free tokens'
+          ? "Creating an account is easy! Fill in your email, confirm & claim your spot on the leaderboard! As a sign-up bonus you'll receive 10 credits to continue playing for free"
           : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
       <FormControl>
