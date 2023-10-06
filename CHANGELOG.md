@@ -4,6 +4,10 @@
 
 -
 
+### v1.27.5
+
+- Added feature flags
+
 ### v1.27.4
 
 - Fix text in sign up popup
