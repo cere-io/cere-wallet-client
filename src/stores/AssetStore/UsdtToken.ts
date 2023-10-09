@@ -14,6 +14,7 @@ export class UsdtToken extends Erc20Token {
       displayName: 'USDT',
       ticker: 'USDT',
       address: usdtContractAddress[wallet.network.chainId],
+      network: wallet.network.displayName,
     });
   }
 }
