@@ -24,6 +24,7 @@ export class AssetStore {
     const { UsdcToken } = await import(/* webpackChunkName: "walletAssets" */ './UsdcToken');
     const { Erc20Token } = await import(/* webpackChunkName: "walletAssets" */ './Erc20Token');
     const { CereErc20Token } = await import(/* webpackChunkName: "walletAssets" */ './CereErc20Token');
+    const { UsdtToken } = await import(/* webpackChunkName: "walletAssets" */ './UsdtToken');
 
     const managableTokensFromStorage = getGlobalStorage().getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
@@ -33,6 +34,7 @@ export class AssetStore {
       new CereErc20Token(wallet),
       new NativeToken(wallet),
       new UsdcToken(wallet),
+      new UsdtToken(wallet),
     ];
     this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
   }
