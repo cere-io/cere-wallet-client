@@ -4,6 +4,22 @@
 
 - Add USDT to default asset list
 
+### v1.27.5
+
+- Added feature flags
+
+### v1.27.4
+
+- Fix text in sign up popup
+
+### v1.27.3
+
+- Added cere-game-portal in whitelist label
+
+### v1.27.2
+
+- Changed auth session timeout for one week
+
 ### v1.27.1
 
 - Changed some texts

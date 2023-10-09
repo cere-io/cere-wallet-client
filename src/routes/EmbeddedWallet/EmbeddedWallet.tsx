@@ -8,7 +8,7 @@ import { EmbeddedWalletStore } from '~/stores';
 import EmbeddedModal from './EmbeddedModal';
 import { toJS } from 'mobx';
 
-const availableGames: string[] = ['metaverse-dash-run', 'candy-jam']; // TODO remove after promo
+const availableGames: string[] = ['metaverse-dash-run', 'candy-jam', 'cere-game-portal']; // TODO remove after promo
 
 const EmbeddedWallet = () => {
   const { instanceId } = useWallet();

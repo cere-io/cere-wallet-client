@@ -6,7 +6,7 @@ import { Router } from './routes';
 import { WalletContext, useAppContextStore } from './hooks';
 import { DummyWalletStore } from './stores';
 
-const availableGames: string[] = ['metaverse-dash-run', 'candy-jam'];
+const availableGames: string[] = ['metaverse-dash-run', 'candy-jam', 'cere-game-portal'];
 
 const App = observer(() => {
   const store = useAppContextStore();

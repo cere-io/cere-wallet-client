@@ -6,7 +6,7 @@ import { useAppContextStore } from '~/hooks';
 export const AuthorizationRouter = () => {
   const store = useAppContextStore();
 
-  const isGame = ['metaverse-dash-run', 'candy-jam'].includes(store.app?.appId as string); // TODO remove after promo
+  const isGame = ['metaverse-dash-run', 'candy-jam', 'cere-game-portal'].includes(store.app?.appId as string); // TODO remove after promo
   return (
     <Routes>
       <Route element={<Authorize />}>
