@@ -1,11 +1,11 @@
-import { makeAutoObservable } from 'mobx';
+import { makeObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
+import { BigNumber, utils } from 'ethers';
 import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
-import { BigNumber } from 'ethers';
 
-const createBalanceResource = (
+export const createBalanceResource = (
   { provider, account }: ReadyWallet,
   { decimals }: TokenConfig,
   tokenContractAddress: string,
@@ -42,8 +42,8 @@ const createBalanceResource = (
 };
 
 export class Erc20Token implements Asset {
-  private tokenConfig: TokenConfig;
-  private balanceResource;
+  readonly tokenConfig: TokenConfig;
+  readonly balanceResource;
   public id: string;
   public network?: string | undefined;
   public thumb?: string | undefined;
@@ -51,7 +51,9 @@ export class Erc20Token implements Asset {
   public decimals: number;
 
   constructor(private wallet: ReadyWallet, asset: Asset) {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      balance: true,
+    });
 
     this.tokenConfig = {
       symbol: asset.ticker,
@@ -76,5 +78,16 @@ export class Erc20Token implements Asset {
 
   get balance() {
     return this.balanceResource.current();
+  }
+
+  async transfer(to: string, amount: string) {
+    const signer = this.wallet.provider.getUncheckedSigner();
+    const contract = createERC20Contract(signer, this.address);
+
+    const transaction = await contract.transfer(to, utils.parseUnits(amount, this.decimals), {
+      gasLimit: 500000, // TODO: Use proper gasLimit value
+    });
+
+    return transaction.wait();
   }
 }
