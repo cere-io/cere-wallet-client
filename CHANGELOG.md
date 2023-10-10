@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.28.0
+
 - Add USDT to default asset list
 
 ### v1.27.5
