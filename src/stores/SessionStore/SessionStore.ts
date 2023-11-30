@@ -15,10 +15,6 @@ export type SessionStoreOptions = {
   sessionNamespace?: string;
 };
 
-export type SessionRehydrateOptions = {
-  store?: boolean;
-};
-
 export type SessionCreateOptions = {
   store?: boolean;
   namespace?: string;
@@ -67,19 +63,20 @@ export class SessionStore {
     return this.sessionManager.sessionNamespace;
   }
 
-  async rehydrate(sessionId?: string, { store = false }: SessionRehydrateOptions = {}) {
-    const resultSessionId = sessionId || this.storage.get<string | undefined>('sessionId');
+  async rehydrate(sessionId?: string) {
+    const storedSessionId = this.storage.get<string | undefined>('sessionId');
+    const currentSessionId = sessionId || storedSessionId;
 
-    if (!resultSessionId) {
+    if (!currentSessionId) {
       return null;
     }
 
-    this.sessionManager.sessionKey = resultSessionId;
+    this.sessionManager.sessionKey = currentSessionId;
 
     try {
       this.session = await this.sessionManager.authorizeSession();
 
-      if (store) {
+      if (storedSessionId !== currentSessionId) {
         await this.storeSession();
       }
     } catch (error) {
