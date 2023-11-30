@@ -4,6 +4,10 @@
 
 -
 
+### v1.29.0
+
+- Fixed the session storage flow
+
 ### v1.28.0
 
 - Add USDT to default asset list
