@@ -182,7 +182,7 @@ export class AuthenticationStore {
   }
 
   private async syncAccount({ sessionId }: Required<AuthorizePopupState>['result']) {
-    const session = await this.sessionStore.rehydrate(sessionId, { store: true });
+    const session = await this.sessionStore.rehydrate(sessionId);
 
     if (!session) {
       throw new Error('Something went wrong during authentication');
