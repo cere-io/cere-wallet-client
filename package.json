@@ -64,8 +64,8 @@
     "test": "npm test --workspaces --if-present -- $*",
     "test:ci": "npm run test:ci --workspaces --if-present -- $*",
     "test:report": "npm run test:report --workspaces --if-present -- $*",
-    "sdk:build": "npm run build --workspace=@cere/embed-wallet --if-present",
-    "sdk:publish": "npm publish --workspace=@cere/embed-wallet --access public"
+    "sdk:build": "npm run build --workspace=@cere/embed-wallet --workspace=@cere/embed-wallet-inject --if-present",
+    "sdk:publish": "npm publish --workspace=@cere/embed-wallet--workspace=@cere/embed-wallet-inject --access public"
   },
   "workspaces": [
     "packages/*",
