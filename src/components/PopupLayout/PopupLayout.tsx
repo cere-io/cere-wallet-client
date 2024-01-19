@@ -16,12 +16,19 @@ import { NetworkLabel } from '../NetworkLabel';
 import { HeaderLink, HeaderLinkProps } from './HeaderLink';
 import { Section } from './Section';
 
+type Network = {
+  displayName: string;
+  icon?: string;
+};
+
 export type PopupLayoutProps = PropsWithChildren<{
   title?: string;
-  network?: string;
+  network?: Network;
   links?: HeaderLinkProps[];
   loading?: boolean;
   confirming?: boolean;
+  confirmLabel?: string;
+  cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }>;
@@ -32,6 +39,8 @@ const Layout = styled(Container)(({ theme }) => ({
 
 export const PopupLayout = ({
   title = 'Confirm transaction',
+  confirmLabel = 'Confirm',
+  cancelLabel = 'Cancel',
   loading = false,
   confirming = false,
   network,
@@ -55,7 +64,7 @@ export const PopupLayout = ({
         <Typography variant={isMobile ? 'h4' : 'h3'} color={isGame ? 'primary.light' : 'text.primary'}>
           {title}
         </Typography>
-        {network && !loading && <NetworkLabel label={network} />}
+        {network && !loading && <NetworkLabel label={network.displayName} icon={network.icon} />}
       </Section>
 
       {links && (
@@ -89,11 +98,11 @@ export const PopupLayout = ({
               : null
           }
         >
-          Cancel
+          {cancelLabel}
         </Button>
 
         <LoadingButton fullWidth loading={confirming} size="large" variant="contained" onClick={onConfirm}>
-          Confirm
+          {confirmLabel}
         </LoadingButton>
       </Section>
     </Layout>

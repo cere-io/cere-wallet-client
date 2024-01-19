@@ -146,6 +146,16 @@ export const Wallet = () => {
     wallet.setContext(null);
   }, [wallet]);
 
+  const handleEd25519Sign = useCallback(async () => {
+    const [, cereAccount] = await wallet.getAccounts();
+    const signed = await wallet.provider.request({
+      method: 'ed25519_sign',
+      params: [cereAccount.address, 'Hello!!!'],
+    });
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
   const handlePersonalSign = useCallback(async () => {
     const provider = new providers.Web3Provider(wallet.provider);
     const signer = provider.getSigner();
@@ -270,7 +280,11 @@ export const Wallet = () => {
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handlePersonalSign}>
-            Sign message
+            Sign message (eth)
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleEd25519Sign}>
+            Sign message (ed25519)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

@@ -7,6 +7,7 @@ import {
 } from 'json-rpc-engine';
 
 import { Engine } from './engine';
+import { KeyType } from '../types';
 
 type WithPreopenedInstanceId = {
   preopenInstanceId?: string;
@@ -17,7 +18,7 @@ type ProviderRequest<T = unknown, U = unknown> = WithPreopenedInstanceId & {
   proceed: () => Promise<Pick<PendingJsonRpcResponse<U>, 'error' | 'result'>>;
 };
 
-export type PersonalSignRequest = ProviderRequest<[string], string>;
+export type PersonalSignRequest = ProviderRequest<[string, string, KeyType], string>;
 
 export type IncomingTransaction = {
   from: string;
@@ -80,10 +81,20 @@ export const createApproveEngine = ({
 
   engine.push(
     createScaffoldMiddleware({
-      personal_sign: createRequestMiddleware<[string]>(async (req, proceed) => {
+      personal_sign: createRequestMiddleware<[string, string]>(async (req, proceed) => {
         await onPersonalSign({
           preopenInstanceId: req.preopenInstanceId,
-          params: req.params!,
+          params: [...req.params!, 'ethereum' as KeyType],
+          proceed,
+        });
+      }),
+
+      ed25519_sign: createRequestMiddleware<[string, string]>(async (req, proceed) => {
+        const [account, message] = req.params!;
+
+        await onPersonalSign({
+          preopenInstanceId: req.preopenInstanceId,
+          params: [message, account, 'ed25519' as KeyType],
           proceed,
         });
       }),
