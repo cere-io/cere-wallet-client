@@ -16,3 +16,4 @@ export * from './OnboardingDialog';
 export * from './Collectibles';
 export * from './Transfer';
 export * from './ProductTours';
+export * from './CoinIcon';

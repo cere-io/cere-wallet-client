@@ -1,7 +1,11 @@
 import { action, makeAutoObservable } from 'mobx';
-import { ChainConfig } from '@cere-wallet/communication';
 import { createSharedPopupState } from '../sharedState';
 import { PriceData } from '../types';
+
+type Network = {
+  displayName: string;
+  icon?: string;
+};
 
 export type ConfirmPopupState = {
   app?: {
@@ -9,7 +13,7 @@ export type ConfirmPopupState = {
     name: string;
   };
 
-  network?: ChainConfig;
+  network?: Network;
   content?: string;
   status?: 'pending' | 'approved' | 'declined';
   fee?: PriceData;

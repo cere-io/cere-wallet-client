@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import { PersonalSignRequest, getTokenConfig } from '@cere-wallet/wallet-engine';
+import { PersonalSignRequest } from '@cere-wallet/wallet-engine';
 
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
@@ -13,15 +13,16 @@ export class PersonalSignHandler {
     private contextStore: AppContextStore,
   ) {}
 
-  async handle({ preopenInstanceId, params: [content] }: PersonalSignRequest) {
-    const tokenConfig = getTokenConfig();
+  async handle({ preopenInstanceId, params: [content, address, keyType] }: PersonalSignRequest) {
     const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
+    const network: ConfirmPopupState['network'] =
+      keyType === 'ed25519' ? { displayName: 'Cere Network', icon: 'cere' } : this.networkStore.network;
+
     const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(instanceId, '/confirm', {
-      network: this.networkStore.network,
+      network,
+      content,
       app: this.contextStore.app,
       status: 'pending',
-      content,
-      fee: { amount: 0, symbol: tokenConfig.symbol }, // TODO: Detect gas fee
     });
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);

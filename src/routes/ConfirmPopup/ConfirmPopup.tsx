@@ -10,9 +10,11 @@ const ConfirmPopup = () => {
 
   return (
     <PopupLayout
-      title="Confirm transaction"
+      title="Signature Request"
+      confirmLabel="Sign"
+      cancelLabel="Reject"
       loading={!store.isReady}
-      network={store.network?.displayName}
+      network={store.network}
       onCancel={store.decline}
       onConfirm={store.approve}
     >
