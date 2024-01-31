@@ -3,6 +3,7 @@
 ### vNext
 
 - Fixed fractional Matic balance transfer issue
+- Updated Freeport URLs
 
 ### v1.29.0
 

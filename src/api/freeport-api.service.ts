@@ -14,7 +14,7 @@ const api = axios.create({
 export class FreeportApiService {
   public static async getWalletNftList(wallet: string): Promise<FreeportNftInterface[]> {
     try {
-      const { data } = await api.get<FreeportNftInterface[]>(`/wallet/${wallet}/nfts/owned`);
+      const { data } = await api.get<FreeportNftInterface[]>(`/api/wallet/${wallet}/owned`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportNftValidator(item)) : [];
     } catch (err: any) {
       reportError(err);
