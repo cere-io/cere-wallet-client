@@ -36,7 +36,7 @@ export class FreeportApiService {
 
   public static async getMinterCollections(minter: string): Promise<FreeportCollectionInterface[]> {
     try {
-      const { data } = await api.get<FreeportCollectionInterface[]>(`/wallet/${minter}/collections`);
+      const { data } = await api.get<FreeportCollectionInterface[]>(`/api/wallet/${minter}/collections`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportCollectionValidator(item)) : [];
     } catch (err: any) {
       reportError(err);
