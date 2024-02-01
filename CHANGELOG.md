@@ -2,6 +2,10 @@
 
 ### vNext
 
+- 
+
+### v1.29.1
+
 - Fixed fractional Matic balance transfer issue
 
 ### v1.29.0
