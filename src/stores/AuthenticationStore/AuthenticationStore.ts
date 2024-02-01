@@ -164,6 +164,8 @@ export class AuthenticationStore {
 
     if (forceMfa) {
       startUrl.searchParams.append('mfa', 'force');
+    } else {
+      startUrl.searchParams.append('mfa', 'none'); // Disable mfa by default
     }
 
     if (emailHint) {

@@ -15,7 +15,7 @@ const TransactionRequest = ({ store }: TransactionRequestProps) => {
       title={isGame ? 'Confirm Transfer' : 'Confirm transaction'}
       loading={!store.isReady}
       confirming={store.status === 'approved'}
-      network={store.network?.displayName}
+      network={store.network}
       onCancel={store.decline}
       onConfirm={store.approve}
       links={[

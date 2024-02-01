@@ -2,7 +2,12 @@
 
 ### vNext
 
--
+- 
+
+### v1.29.1
+
+- Fixed fractional Matic balance transfer issue
+- Disable MFA for redirect flow by default
 
 ### v1.29.0
 

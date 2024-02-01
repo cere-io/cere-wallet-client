@@ -1,12 +1,16 @@
 {
   "name": "@cere/embed-wallet-inject",
-  "version": "0.0.1",
+  "version": "0.12.2",
   "sideEffects": false,
-  "types": "./src",
-  "main": "./dist/cjs",
+  "type": "module",
+  "types": "./dist/types/index.d.ts",
+  "source": "src/index.ts",
+  "main": "./dist/foo.cjs",
+  "module": "./dist/foo.modern.js",
   "exports": {
-    "import": "./dist/esm",
-    "require": "./dist/cjs"
+    "types": "./dist/types/index.d.ts",
+    "require": "./dist/foo.cjs",
+    "default": "./dist/foo.modern.js"
   },
   "dependencies": {
     "@polkadot/extension-inject": "^0.45.4"
@@ -16,8 +20,6 @@
     "@cere/embed-wallet": "*"
   },
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc --project ./tsconfig.json",
-    "build:cjs": "tsc --project ./tsconfig.cjs.json"
+    "build": "microbundle --tsconfig tsconfig.build.json --format modern,cjs"
   }
 }

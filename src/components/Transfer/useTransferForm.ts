@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { isValidAddress } from '@cere-wallet/wallet-engine';
 
 import { Asset } from '~/stores';
-import { BigNumber } from 'ethers';
+import { utils } from 'ethers';
 import { useEffect } from 'react';
 
 export type UseTransferFormOptions = {
@@ -35,8 +35,8 @@ const validationSchema = yup.object({
         return true;
       }
 
-      const amount = BigNumber.from(value);
-      const balance = BigNumber.from(selectedAsset.balance);
+      const balance = utils.parseUnits(String(selectedAsset.balance || 0), selectedAsset.decimals);
+      const amount = utils.parseUnits(value, selectedAsset.decimals);
 
       return balance.gte(amount)
         ? true
