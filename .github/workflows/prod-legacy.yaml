@@ -10,7 +10,7 @@ jobs:
   build-and-deploy:
     uses: Cere-IO/reusable-workflows/.github/workflows/build-and-upload-static.yaml@master
     with:
-      runs-on: '["self-hosted", "cere-io-large-workers"]'
+      runs-on: '["self-hosted", "cere-io-large"]'
       build_container: 'node:18-buster'
       deploy_container: 'ubuntu:20.04'
       install_packages_command: 'cp .env.prod-legacy .env; npm ci'
