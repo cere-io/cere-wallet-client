@@ -4,14 +4,19 @@ import { fromResource } from 'mobx-utils';
 
 import { ReadyWallet, TransferableAsset } from './types';
 
+const BALANCE_CHECK_BLOCK_INTERVAL = 5;
+
 const createBalanceResource = ({ provider }: ReadyWallet) => {
-  let currentListener: () => {};
+  let currentListener: (blockNumber?: number) => {};
 
   return fromResource<number>(
     (sink) => {
-      currentListener = async () => {
-        const balance = await provider.getSigner().getBalance();
+      currentListener = async (blockNumber?: number) => {
+        if (blockNumber && blockNumber % BALANCE_CHECK_BLOCK_INTERVAL !== 0) {
+          return;
+        }
 
+        const balance = await provider.getSigner().getBalance();
         sink(+utils.formatEther(balance));
       };
 
