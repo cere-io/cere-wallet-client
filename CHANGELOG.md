@@ -2,8 +2,16 @@
 
 ### vNext
 
-- Fixed fractional Matic balance transfer issue
 - Fixed deprecated API usage
+
+### v1.29.3
+
+- Fixed Matic transfer UI showing error event after successful transaction on Mainnet
+
+### v1.29.1
+
+- Fixed fractional Matic balance transfer issue
+- Disable MFA for redirect flow by default
 
 ### v1.29.0
 
