@@ -2,6 +2,7 @@ import { BigNumber } from 'ethers';
 import { runInAction, when } from 'mobx';
 import { ContractName, SendTransactionRequest, getTokenConfig, parseTransactionData } from '@cere-wallet/wallet-engine';
 
+import { reportError } from '~/reporting';
 import { Wallet } from '../types';
 import { convertPrice } from './convertPrice';
 import { PopupManagerStore } from '../PopupManagerStore';
@@ -121,11 +122,11 @@ export class TransactionHandler {
       });
 
       const pendingTx = await this.wallet.provider!.getTransaction(transactionId!);
-      const txReceipt = await pendingTx.wait();
-
-      isRejected = !txReceipt.status;
-    } catch {
+      await pendingTx.wait();
+    } catch (error) {
       isRejected = true;
+
+      reportError(error);
     }
 
     runInAction(() => {
