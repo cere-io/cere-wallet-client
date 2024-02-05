@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Fixed deprecated API usage
 
 ### v1.29.3
 

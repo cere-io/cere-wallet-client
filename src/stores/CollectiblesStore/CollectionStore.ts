@@ -56,7 +56,7 @@ export class CollectiblesStore {
 
     const freeportNfts = await FreeportApiService.getWalletNftList(wallet);
     const nftIds: string[] = freeportNfts.map((nft) => nft.nftId);
-    const minters: string[] = freeportNfts.map((nft) => nft.minter);
+    const minters: string[] = freeportNfts.map((nft) => '').filter(Boolean);
     const cids = await Promise.all(nftIds.map(FreeportApiService.getNftCids));
     const assets = await Promise.all(cids.map((cid, i) => DdcApiService.getAssetInfo(minters[i], cid[0])));
     const collections = await Promise.all(Array.from(new Set(minters)).map(FreeportApiService.getMinterCollections));
@@ -66,15 +66,15 @@ export class CollectiblesStore {
 
     const result = freeportNfts.map((nft, i) => ({
       nftId: nft.nftId,
-      minter: nft.minter,
+      minter: '', // TODO: Add to the API
       title: assets[i]?.contentMetadata?.title || nft.nftId,
       description: assets[i]?.contentMetadata?.description,
       previewUrl:
         cids[i]?.length > 0 ? `${REACT_APP_DDC_API}/assets/v2/${minters[i]}/${cids[i][0]}/preview` : undefined,
       network: 'CERE',
-      collectionAddress: nft.collectionAddress ? nft.collectionAddress : undefined,
-      collectionName: nft.collectionAddress ? collectionKeyMap[nft.collectionAddress] : undefined,
-      quantity: nft.quantity,
+      collectionAddress: nft.collection ? nft.collection.address : undefined,
+      collectionName: nft.collection ? collectionKeyMap[nft.collection.address] : undefined,
+      quantity: 0, // TODO: Add to the API
     }));
 
     runInAction(() => {
