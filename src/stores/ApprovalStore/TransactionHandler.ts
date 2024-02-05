@@ -121,8 +121,7 @@ export class TransactionHandler {
         };
       });
 
-      const pendingTx = await this.wallet.provider!.getTransaction(transactionId!);
-      await pendingTx.wait();
+      await this.wallet.provider!.waitForTransaction(transactionId!);
     } catch (error) {
       isRejected = true;
 
