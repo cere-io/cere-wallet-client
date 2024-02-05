@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.29.2
+
 - Fixed Matic transfer UI showing error event after successful transaction on Mainnet
 
 ### v1.29.1
