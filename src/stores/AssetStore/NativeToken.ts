@@ -28,7 +28,6 @@ const createBalanceResource = ({ provider }: ReadyWallet) => {
           staticProvider = new providers.StaticJsonRpcProvider(DEFAULT_NETWORK.host);
         }
 
-        staticProvider = new providers.StaticJsonRpcProvider(DEFAULT_NETWORK.host);
         const balance = await staticProvider.getBalance(address);
         sink(+utils.formatEther(balance));
       };
