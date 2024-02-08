@@ -1,12 +1,15 @@
-import { utils } from 'ethers';
+import { providers, utils } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
 
 import { ReadyWallet, TransferableAsset } from './types';
+import { DEFAULT_NETWORK } from '@cere-wallet/communication';
 
 const BALANCE_CHECK_BLOCK_INTERVAL = 5;
 
 const createBalanceResource = ({ provider }: ReadyWallet) => {
+  let staticProvider: providers.StaticJsonRpcProvider | undefined;
+  let address: string | undefined;
   let currentListener: (blockNumber?: number) => {};
 
   return fromResource<number>(
@@ -15,8 +18,18 @@ const createBalanceResource = ({ provider }: ReadyWallet) => {
         if (blockNumber && blockNumber % BALANCE_CHECK_BLOCK_INTERVAL !== 0) {
           return;
         }
+        // Cache address and provider to prevent refetching the signer each time
+        if (!address) {
+          const signer = provider.getSigner();
+          address = await signer.getAddress();
+        }
 
-        const balance = await provider.getSigner().getBalance();
+        if (!staticProvider) {
+          staticProvider = new providers.StaticJsonRpcProvider(DEFAULT_NETWORK.host);
+        }
+
+        staticProvider = new providers.StaticJsonRpcProvider(DEFAULT_NETWORK.host);
+        const balance = await staticProvider.getBalance(address);
         sink(+utils.formatEther(balance));
       };
 
