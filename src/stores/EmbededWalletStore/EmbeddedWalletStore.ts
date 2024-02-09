@@ -19,6 +19,7 @@ import { OpenLoginStore } from '../OpenLoginStore';
 import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
+import { PermissionsStore } from '../PermissionsStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId: string;
@@ -35,6 +36,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
   readonly applicationsStore: ApplicationsStore;
+  readonly permissionsStore: PermissionsStore;
 
   private currentEngine?: WalletEngine;
   private walletConnection?: WalletConnection;
@@ -73,6 +75,7 @@ export class EmbeddedWalletStore implements Wallet {
     );
 
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
+    this.permissionsStore = new PermissionsStore();
   }
 
   isRoot() {
@@ -257,6 +260,11 @@ export class EmbeddedWalletStore implements Wallet {
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
+
+      // Permissions
+      getPermissions: () => this.permissionsStore.permissions,
+      onRequestPermissions: (request) => this.permissionsStore.approvePermissions(request),
+      onRevokePermissions: (request) => this.permissionsStore.revokePermissions(request),
     });
 
     createRpcConnection({
