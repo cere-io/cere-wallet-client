@@ -4,6 +4,7 @@ import { fromResource } from 'mobx-utils';
 import { createUSDCContract, getTokenConfig, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { TransferableAsset, ReadyWallet } from './types';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 const createBalanceResource = ({ provider, network, account }: ReadyWallet, { decimals }: TokenConfig) => {
   let currentListener: () => {};
@@ -69,7 +70,7 @@ export class UsdcToken implements TransferableAsset {
 
   async transfer(to: string, amount: string) {
     const chainId = this.wallet.network.chainId;
-    const signer = this.wallet.provider.getUncheckedSigner();
+    const signer = getStaticProvider(this.wallet.provider).getUncheckedSigner();
     const contract = createUSDCContract(signer, chainId);
 
     const transaction = await contract.transfer(to, utils.parseUnits(amount, this.decimals), {

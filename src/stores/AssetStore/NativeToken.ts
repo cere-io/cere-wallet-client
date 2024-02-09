@@ -76,7 +76,7 @@ export class NativeToken implements TransferableAsset {
   }
 
   async transfer(to: string, amount: string) {
-    const signer = this.wallet.provider.getSigner();
+    const signer = getStaticProvider(this.wallet.provider).getSigner();
     const transaction = await signer.sendTransaction({
       to,
       value: utils.parseUnits(amount, this.decimals),

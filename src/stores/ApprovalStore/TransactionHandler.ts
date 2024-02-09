@@ -8,6 +8,7 @@ import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { AppContextStore } from '../AppContextStore';
 import { TransactionPopupState } from '../TransactionPopupStore';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 export type ApproveTransactionOptions = {
   showDetails?: boolean;
@@ -120,7 +121,7 @@ export class TransactionHandler {
         };
       });
 
-      const pendingTx = await this.wallet.provider!.getTransaction(transactionId!);
+      const pendingTx = await getStaticProvider(this.wallet.provider)!.getTransaction(transactionId!);
       const txReceipt = await pendingTx.wait();
 
       isRejected = !txReceipt.status;

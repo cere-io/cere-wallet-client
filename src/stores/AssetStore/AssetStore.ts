@@ -3,6 +3,7 @@ import { getGlobalStorage } from '@cere-wallet/storage';
 
 import { isTransferableAsset, Wallet, Asset, ReadyWallet } from './types';
 import { serializeAssets, deserializeAssets } from './helper';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 export class AssetStore {
   private assets: undefined | Asset[];
@@ -104,6 +105,6 @@ export class AssetStore {
   async getERC20Contract(address: string) {
     const { createERC20Contract } = await import('@cere-wallet/wallet-engine');
 
-    return createERC20Contract(this.wallet.provider!.getSigner(), address);
+    return createERC20Contract(getStaticProvider(this.wallet.provider).getSigner(), address);
   }
 }

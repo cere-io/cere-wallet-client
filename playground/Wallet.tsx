@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 export const Wallet = () => {
   const [ethAddress, setEthAddress] = useState<string>();
@@ -93,7 +94,7 @@ export const Wallet = () => {
   }, [wallet]);
 
   const handleGetAddress = useCallback(async () => {
-    const provider = new providers.Web3Provider(wallet.provider);
+    const provider = getStaticProvider(wallet.provider);
     const signer = provider.getSigner();
 
     const address = await signer.getAddress();
@@ -157,7 +158,7 @@ export const Wallet = () => {
   }, [wallet]);
 
   const handlePersonalSign = useCallback(async () => {
-    const provider = new providers.Web3Provider(wallet.provider);
+    const provider = getStaticProvider(wallet.provider);
     const signer = provider.getSigner();
 
     const signed = await signer.signMessage('Hello!!!');
