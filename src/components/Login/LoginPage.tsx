@@ -26,6 +26,7 @@ import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
+  permissions?: any; // TODO: fix type
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -39,7 +40,7 @@ export const CereWhiteLogo = styled(CereWhiteIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
 }));
 
-export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
+export const LoginPage = ({ variant = 'signin', permissions, onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

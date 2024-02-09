@@ -1,4 +1,5 @@
 import { makeAutoObservable, reaction } from 'mobx';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
@@ -19,6 +20,7 @@ export type AuthorizePopupStoreOptions = {
 };
 
 export type AuthorizePopupState = {
+  permissions?: PermissionRequest;
   result?: AuthenticationResult;
 };
 
@@ -56,6 +58,10 @@ export class AuthorizePopupStore {
 
   set email(email) {
     this.currentEmail = email;
+  }
+
+  get requestedPermissions() {
+    return this.shared.state.permissions;
   }
 
   async login(idToken: string) {

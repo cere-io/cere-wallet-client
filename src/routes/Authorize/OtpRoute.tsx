@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
@@ -5,7 +6,7 @@ import { OtpPage } from '~/components';
 
 import { AuthorizePopupStore } from '~/stores';
 
-export const OtpRoute = () => {
+const OtpRoute = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,3 +50,5 @@ export const OtpRoute = () => {
     </Stack>
   );
 };
+
+export default observer(OtpRoute);

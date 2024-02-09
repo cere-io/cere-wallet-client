@@ -1,21 +1,16 @@
-import { makeAutoObservable } from 'mobx';
 import { getIFrameOrigin } from '@cere-wallet/communication';
 import { Permission, PermissionRequest, PermissionRevokeRequest } from '@cere-wallet/wallet-engine';
-
-export type PermissionsStoreOptions = {};
+import { SessionStore } from '../SessionStore';
 
 export class PermissionsStore {
-  private requestedPermissions: PermissionRequest = {};
-
-  constructor(private options: PermissionsStoreOptions = {}) {
-    makeAutoObservable(this);
-  }
+  constructor(private sessionStore: SessionStore) {}
 
   get permissions(): Permission[] {
-    const capabilities = Object.keys(this.requestedPermissions);
+    const permissions = this.sessionStore.getState<PermissionRequest>('permissions') || {};
+    const capabilities = Object.keys(permissions);
 
     return capabilities.map((parentCapability) => {
-      const caveats = Object.entries(this.requestedPermissions[parentCapability]).map(([type, value]) => ({
+      const caveats = Object.entries(permissions[parentCapability]).map(([type, value]) => ({
         type,
         value,
       }));
@@ -29,14 +24,21 @@ export class PermissionsStore {
   }
 
   async requestPermissions(request: PermissionRequest) {
-    this.requestedPermissions = { ...this.requestedPermissions, ...request };
+    this.sessionStore.saveState<PermissionRequest>('permissions', {
+      ...this.sessionStore.getState('permissions'),
+      ...request,
+    });
 
     return true;
   }
 
   async revokePermissions(request: PermissionRevokeRequest) {
+    const permissions = this.sessionStore.getState<PermissionRequest>('permissions') || {};
+
     for (const method in request) {
-      delete this.requestedPermissions[method];
+      delete permissions[method];
     }
+
+    this.sessionStore.saveState('permissions', permissions);
   }
 }

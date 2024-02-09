@@ -31,7 +31,6 @@ const getDefaultSessionNamespace = () => {
 export class SessionStore {
   private storage: BrowserStorage;
   private sessionManager: OpenloginSessionManager<Session>;
-
   private currentSession: Session | null = null;
 
   constructor(private options: SessionStoreOptions = {}) {
@@ -126,5 +125,17 @@ export class SessionStore {
     }
 
     this.resetSession();
+  }
+
+  saveState<T = any>(name: string, state: T) {
+    if (!this.sessionId) {
+      return;
+    }
+
+    this.storage.set(name, state);
+  }
+
+  getState<T = any>(name: string) {
+    return this.sessionId ? this.storage.get<T>(name) : undefined;
   }
 }

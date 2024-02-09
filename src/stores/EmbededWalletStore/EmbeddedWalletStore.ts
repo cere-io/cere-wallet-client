@@ -75,7 +75,7 @@ export class EmbeddedWalletStore implements Wallet {
     );
 
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
-    this.permissionsStore = new PermissionsStore();
+    this.permissionsStore = new PermissionsStore(this.sessionStore);
   }
 
   isRoot() {
@@ -153,19 +153,19 @@ export class EmbeddedWalletStore implements Wallet {
         return true;
       },
 
-      onLogin: async (data) => {
-        if (data.loginOptions.uxMode === 'redirect' || !data.preopenInstanceId) {
-          this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(data.loginOptions));
+      onLogin: async ({ preopenInstanceId, loginOptions }) => {
+        if (loginOptions.uxMode === 'redirect' || !preopenInstanceId) {
+          this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(loginOptions));
 
           // Return never resolving promise to keep `connecting` state till redirection
           return new Promise(() => {});
         }
 
-        if (data.loginOptions.uxMode === 'modal') {
-          return this.authenticationStore.loginInModal(data.preopenInstanceId, data);
+        if (loginOptions.uxMode === 'modal') {
+          return this.authenticationStore.loginInModal(preopenInstanceId, loginOptions);
         }
 
-        return this.authenticationStore.loginInPopup(data.preopenInstanceId, data);
+        return this.authenticationStore.loginInPopup(preopenInstanceId, loginOptions);
       },
 
       onLoginWithPrivateKey: async (data) => {

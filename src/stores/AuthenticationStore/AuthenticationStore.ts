@@ -92,17 +92,17 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(popupId: string, params: AuthLoginParams = {}) {
+  async loginInPopup(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
-    const loginUrl = await this.getLoginUrl('popup', params);
-    const redirect = await this.popupManagerStore.redirect(popupId, loginUrl);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(popupId, {});
+    const loginUrl = await this.getLoginUrl('popup', { ...params, preopenInstanceId });
+    const redirect = await this.popupManagerStore.redirect(preopenInstanceId, loginUrl);
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
 
     await when(() => !redirect.isConnected || !!authPopup.state.result);
-    this.popupManagerStore.closePopup(popupId);
+    this.popupManagerStore.closePopup(preopenInstanceId);
 
     if (!redirect.isConnected) {
       throw new Error('User has closed the login popup');
@@ -111,26 +111,26 @@ export class AuthenticationStore {
     return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(modalId: string, params: AuthLoginParams = {}) {
+  async loginInModal(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(modalId, {});
-    const modal = this.popupManagerStore.registerModal(modalId);
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
+    const modal = this.popupManagerStore.registerModal(preopenInstanceId);
 
-    this.popupManagerStore.registerRedirect(modalId, true);
-    this.popupManagerStore.showModal(modalId, '/frame');
+    this.popupManagerStore.registerRedirect(preopenInstanceId, true);
+    this.popupManagerStore.showModal(preopenInstanceId, '/frame');
 
-    const loginUrl = await this.getLoginUrl('modal', params);
-    this.popupManagerStore.redirect(modalId, loginUrl);
+    const loginUrl = await this.getLoginUrl('modal', { ...params, preopenInstanceId });
+    await this.popupManagerStore.redirect(preopenInstanceId, loginUrl);
 
     await when(() => !!authPopup.state.result || !modal.open);
 
     if (!modal.open) {
       throw new Error('User has closed the login modal');
     } else {
-      this.popupManagerStore.hideModal(modalId);
+      this.popupManagerStore.hideModal(preopenInstanceId);
     }
 
     return this.syncAccount(authPopup.state.result!);
