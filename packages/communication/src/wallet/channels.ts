@@ -18,6 +18,7 @@ export type LoginOptions = {
   uxMode?: 'redirect' | 'popup' | 'modal';
   idToken?: string;
   redirectUrl?: string;
+  permissions?: string[];
 };
 
 export type LoginData = {
