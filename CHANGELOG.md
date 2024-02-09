@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.29.3
+
 - Fixed deprecated API usage
 - Added `skipLoginIntro` prop to whitelabel
 
