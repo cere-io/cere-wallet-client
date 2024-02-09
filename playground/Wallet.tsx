@@ -200,6 +200,30 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
+  const handleGetPermissions = useCallback(async () => {
+    const permissions = await wallet.getPermissions();
+
+    console.log('Wallet permissions', permissions);
+  }, [wallet]);
+
+  const handleRequestPermissions = useCallback(async () => {
+    const permissions = await wallet.requestPermissions({
+      personal_sign: {},
+      ed25519_sign: {},
+    });
+
+    console.log('Approved permissions', permissions);
+  }, [wallet]);
+
+  const handleRevokePermissions = useCallback(async () => {
+    await wallet.revokePermissions({
+      personal_sign: {},
+      ed25519_sign: {},
+    });
+
+    console.log('Permissions revoked');
+  }, [wallet]);
+
   return (
     <Stack alignItems="center" spacing={2} paddingY={5}>
       {status === 'connected' && (
@@ -311,6 +335,33 @@ export const Wallet = () => {
             onClick={handleCereErc20Transfer}
           >
             Transfer 1 $CERE (ERC20)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleGetPermissions}
+          >
+            Get permissions
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleRequestPermissions}
+          >
+            Request permissions
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleRevokePermissions}
+          >
+            Revoke permissions
           </Button>
 
           <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>

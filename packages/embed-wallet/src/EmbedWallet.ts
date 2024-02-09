@@ -24,6 +24,10 @@ import {
   WalletBalance,
   PartialContext,
   WalletOptions,
+  PermissionRequest,
+  PermissionRevokeRequest,
+  RequestedPermission,
+  Permission,
 } from './types';
 
 const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
@@ -277,5 +281,58 @@ export class EmbedWallet {
       method: type === 'native' ? 'ed25519_transfer' : 'eth_transfer',
       params: [fromAddress, to, balance.toString(), token],
     });
+  }
+
+  /**
+   * Get the permissions granted by the user
+   *
+   * @returns A promise that resolves with the permissions granted by the user
+   *
+   * @example
+   *
+   * ```typescript
+   * const permissions = await wallet.getPermissions();
+   *
+   * console.log(permissions);
+   * ```
+   */
+  async getPermissions() {
+    return this.provider.request<Permission[]>({ method: 'wallet_getPermissions' });
+  }
+
+  /**
+   * Request permissions from the user
+   *
+   * @returns A promise that resolves with the permissions granted by the user
+   *
+   * @example
+   *
+   * ```typescript
+   * const permissions = await wallet.requestPermissions({
+   *   'personal_sign': {}, // Request the personal sign permission
+   * });
+   *
+   * console.log(permissions);
+   * ```
+   */
+  async requestPermissions(request: PermissionRequest) {
+    return this.provider.request<RequestedPermission>({ method: 'wallet_requestPermissions', params: [request] });
+  }
+
+  /**
+   * Sends a request to the wallet to revoke permissions.
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * await wallet.revokePermissions({
+   *   'personal_sign': {}, // Revoke the personal sign permission
+   * });
+   * ```
+   */
+  async revokePermissions(request: PermissionRevokeRequest) {
+    return this.provider.request<void>({ method: 'wallet_requestPermissions', params: [request] });
   }
 }

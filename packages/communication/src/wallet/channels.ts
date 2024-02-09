@@ -1,4 +1,6 @@
 import type { Context, NetworkConfig } from '@cere/embed-wallet';
+import type { Permission, PermissionCaveat } from '@cere-wallet/wallet-engine';
+
 import { createChannel, CreateChannelOptions } from './createChannel';
 
 export type UserInfo = {
@@ -14,11 +16,15 @@ export type UserInfo = {
 export type AppContext = Context;
 export type NetworkInterface = NetworkConfig;
 
+export type LoginPermission = Omit<Permission, 'invoker' | 'caveats'> & {
+  caveats?: PermissionCaveat[];
+};
+
 export type LoginOptions = {
   uxMode?: 'redirect' | 'popup' | 'modal';
   idToken?: string;
   redirectUrl?: string;
-  permissions?: string[];
+  permissions?: LoginPermission[];
 };
 
 export type LoginData = {

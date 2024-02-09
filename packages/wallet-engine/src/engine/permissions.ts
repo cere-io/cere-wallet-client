@@ -73,7 +73,7 @@ export const createPermissionsEngine = (
 
         await onRevokePermissions?.(request);
 
-        res.result = getPermissions?.() || [];
+        res.result = null;
       }),
 
       wallet_requestPermissions: createAsyncMiddleware(async (req, res) => {

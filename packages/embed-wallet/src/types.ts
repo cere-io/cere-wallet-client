@@ -64,6 +64,7 @@ export type WalletConnectOptions = {
   idToken?: string;
   mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
+  permissions?: Permission[];
 };
 
 export type TokenType = 'erc20' | 'native';
@@ -114,4 +115,29 @@ export type WalletBalance = {
   balance: BN;
   amount: BN;
   decimals: BN;
+};
+
+// Wallet Permissions System
+
+export type PermissionCaveat = {
+  type: string;
+  value: any;
+};
+
+export type Permission = {
+  parentCapability: string;
+  caveats: PermissionCaveat[];
+};
+
+export type PermissionRequest = {
+  [methodName: Permission['parentCapability']]: {
+    [caveatName: PermissionCaveat['type']]: PermissionCaveat['value'];
+  };
+};
+
+export type PermissionRevokeRequest = PermissionRequest;
+
+export type RequestedPermission = {
+  parentCapability: string;
+  date?: number;
 };
