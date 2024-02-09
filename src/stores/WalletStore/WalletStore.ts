@@ -163,6 +163,11 @@ export class WalletStore implements Wallet {
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
     });
 
+    // TODO: remove this later. It would be good to leave this here for now to see debug logs in the marketplace
+    this.provider?.on('debug', (info) => {
+      console.log(`RPC Provider (${info.action}) - ${info.request.method}`, info);
+    });
+
     await this.engine.updateAccounts();
 
     runInAction(() => {
