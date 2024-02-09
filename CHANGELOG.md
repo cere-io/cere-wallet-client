@@ -3,7 +3,7 @@
 ### vNext
 
 - Fixed deprecated API usage
-- Added `skipOnboardingHelloPage` prop
+- Added `skipLoginIntro` prop to whitelabel
 
 ### v1.29.3
 

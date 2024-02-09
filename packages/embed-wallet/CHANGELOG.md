@@ -1,8 +1,6 @@
 ## Release Notes:
 
-### v0.12.3
-
-- Added `skipOnboardingHelloPage` prop 
+- Added `skipLoginIntro` prop
 
 ### v0.12.0
 

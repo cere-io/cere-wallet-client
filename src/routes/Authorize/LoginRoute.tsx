@@ -8,7 +8,10 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const { isGame } = useTheme();
+  const {
+    isGame,
+    whiteLabel: { skipLoginIntro },
+  } = useTheme();
 
   if (isMobile) {
     return (
@@ -20,7 +23,7 @@ export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signu
         height="100vh"
         spacing={9}
       >
-        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {isGame || Boolean(skipLoginIntro) ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
           <LoginPage variant={variant} onRequestLogin={(idToken) => store.login(idToken)} />
         </Stack>

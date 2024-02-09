@@ -47,6 +47,8 @@ declare module '@mui/material/styles' {
   interface Theme {
     whiteLabel: {
       backgroundImage: string;
+      mainColor?: string;
+      skipLoginIntro?: boolean;
     };
     isGame: boolean;
   }
@@ -54,6 +56,8 @@ declare module '@mui/material/styles' {
   interface ThemeOptions {
     whiteLabel: {
       backgroundImage: string;
+      mainColor?: string;
+      skipLoginIntro?: boolean;
     };
     isGame: boolean;
   }
@@ -74,6 +78,8 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
     isGame: isGame,
     whiteLabel: {
       backgroundImage: whiteLabel?.backgroundImage,
+      mainColor: whiteLabel?.mainColor,
+      skipLoginIntro: whiteLabel?.skipLoginIntro,
     },
     palette: {
       neutral: {
@@ -84,7 +90,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       },
 
       primary: {
-        main: '#733BF5',
+        main: whiteLabel?.mainColor ? whiteLabel.mainColor : '#733BF5',
         light: '#F5F1FE',
       },
 

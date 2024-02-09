@@ -23,7 +23,6 @@ export type ContextApp = {
   name?: string;
   logoUrl?: string;
   whiteLabel?: any; // TODO add proper type
-  skipOnboardingHelloPage?: boolean;
 };
 
 export type ContextWhiteLabel = any; // TODO: Figure out the type
@@ -84,7 +83,6 @@ export type WalletInitOptions = WalletOptions & {
   context?: PartialContext;
   popupMode?: 'popup' | 'modal';
   connectOptions?: Partial<WalletConnectOptions>;
-  skipOnboardingHelloPage?: boolean;
 };
 
 export type WalletTransferOptions = {
