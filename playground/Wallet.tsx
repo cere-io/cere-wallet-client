@@ -25,6 +25,8 @@ export const Wallet = () => {
       context: {
         whiteLabel: {
           var1: 'value',
+          skipLoginIntro: true,
+          mainColor: '#000000',
         },
 
         app: {
@@ -111,6 +113,9 @@ export const Wallet = () => {
 
   const handleSetContext = useCallback(async () => {
     wallet.setContext({
+      whiteLabel: {
+        skipLoginIntro: true,
+      },
       banner: {
         thumbnailUrl: nftImageUrl,
         badgeUrl: logoUrl,

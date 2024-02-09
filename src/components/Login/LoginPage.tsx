@@ -23,6 +23,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
+import { useAppContextStore } from '~/hooks';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -45,6 +46,9 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
   const { isGame } = useTheme();
+  const store = useAppContextStore();
+
+  const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -153,7 +157,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
         </Link>
       </Typography>
       <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        {isGame ? 'Continue' : signText}
+        {isGame || skipLoginIntro ? 'Continue' : signText}
       </LoadingButton>
       {!!SUPPORTED_SOCIAL_LOGINS.length && (
         <>

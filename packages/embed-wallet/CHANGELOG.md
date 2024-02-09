@@ -1,5 +1,7 @@
 ## Release Notes:
 
+- Added `skipLoginIntro` prop
+
 ### v0.12.0
 
 - Add support for `White Label` configuration
