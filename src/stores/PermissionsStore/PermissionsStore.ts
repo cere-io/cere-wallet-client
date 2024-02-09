@@ -5,22 +5,38 @@ import { Permission, PermissionRequest, PermissionRevokeRequest } from '@cere-wa
 export type PermissionsStoreOptions = {};
 
 export class PermissionsStore {
-  private currentPermissions: Omit<Permission, 'invoker'>[] = [];
+  private requestedPermissions: PermissionRequest = {};
 
   constructor(private options: PermissionsStoreOptions = {}) {
     makeAutoObservable(this);
   }
 
   get permissions(): Permission[] {
-    return this.currentPermissions.map((permission) => ({
-      ...permission,
-      invoker: getIFrameOrigin(),
-    }));
+    const capabilities = Object.keys(this.requestedPermissions);
+
+    return capabilities.map((parentCapability) => {
+      const caveats = Object.entries(this.requestedPermissions[parentCapability]).map(([type, value]) => ({
+        type,
+        value,
+      }));
+
+      return {
+        parentCapability,
+        caveats,
+        invoker: getIFrameOrigin(),
+      };
+    });
   }
 
-  async approvePermissions(request: PermissionRequest) {
+  async requestPermissions(request: PermissionRequest) {
+    this.requestedPermissions = { ...this.requestedPermissions, ...request };
+
     return true;
   }
 
-  async revokePermissions(request: PermissionRevokeRequest) {}
+  async revokePermissions(request: PermissionRevokeRequest) {
+    for (const method in request) {
+      delete this.requestedPermissions[method];
+    }
+  }
 }

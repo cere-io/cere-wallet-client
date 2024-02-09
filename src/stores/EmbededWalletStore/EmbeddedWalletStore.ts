@@ -263,7 +263,7 @@ export class EmbeddedWalletStore implements Wallet {
 
       // Permissions
       getPermissions: () => this.permissionsStore.permissions,
-      onRequestPermissions: (request) => this.permissionsStore.approvePermissions(request),
+      onRequestPermissions: (request) => this.permissionsStore.requestPermissions(request),
       onRevokePermissions: (request) => this.permissionsStore.revokePermissions(request),
     });
 

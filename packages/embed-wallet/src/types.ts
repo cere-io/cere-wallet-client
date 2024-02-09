@@ -64,7 +64,7 @@ export type WalletConnectOptions = {
   idToken?: string;
   mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
-  permissions?: Permission[];
+  permissions?: PermissionRequest;
 };
 
 export type TokenType = 'erc20' | 'native';

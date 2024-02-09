@@ -20,6 +20,10 @@ export const Wallet = () => {
     wallet.init({
       connectOptions: {
         mode: 'modal',
+        permissions: {
+          personal_sign: {},
+          ed25519_sign: {},
+        },
       },
 
       context: {

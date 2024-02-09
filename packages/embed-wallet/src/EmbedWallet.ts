@@ -333,6 +333,6 @@ export class EmbedWallet {
    * ```
    */
   async revokePermissions(request: PermissionRevokeRequest) {
-    return this.provider.request<void>({ method: 'wallet_requestPermissions', params: [request] });
+    return this.provider.request<void>({ method: 'wallet_revokePermissions', params: [request] });
   }
 }
