@@ -3,15 +3,16 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { LoginPage } from '~/components';
 import { AuthorizePopupStore } from '~/stores';
+import { useAppContextStore } from '~/hooks';
 
 export const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
-  const {
-    isGame,
-    whiteLabel: { skipLoginIntro },
-  } = useTheme();
+  const { isGame } = useTheme();
+  const appStore = useAppContextStore();
+
+  const skipLoginIntro = Boolean(appStore.whiteLabel?.skipLoginIntro);
 
   if (isMobile) {
     return (

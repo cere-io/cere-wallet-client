@@ -48,7 +48,6 @@ declare module '@mui/material/styles' {
     whiteLabel: {
       backgroundImage: string;
       mainColor?: string;
-      skipLoginIntro?: boolean;
     };
     isGame: boolean;
   }
@@ -57,7 +56,6 @@ declare module '@mui/material/styles' {
     whiteLabel: {
       backgroundImage: string;
       mainColor?: string;
-      skipLoginIntro?: boolean;
     };
     isGame: boolean;
   }
@@ -79,7 +77,6 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
     whiteLabel: {
       backgroundImage: whiteLabel?.backgroundImage,
       mainColor: whiteLabel?.mainColor,
-      skipLoginIntro: whiteLabel?.skipLoginIntro,
     },
     palette: {
       neutral: {
@@ -90,7 +87,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       },
 
       primary: {
-        main: whiteLabel?.mainColor ? whiteLabel.mainColor : '#733BF5',
+        main: '#733BF5',
         light: '#F5F1FE',
       },
 
@@ -209,6 +206,15 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
           contained: {
             backgroundColor: isGame && '#F32758',
             borderRadius: isGame ? 4 : 30,
+            ...(whiteLabel?.mainColor && {
+              backgroundColor: whiteLabel.mainColor,
+            }),
+            '&:hover': {
+              ...(whiteLabel?.mainColor && {
+                backgroundColor: whiteLabel?.mainColor ? whiteLabel.mainColor : 'inherit',
+                opacity: 0.3,
+              }),
+            },
           },
 
           outlined: {
