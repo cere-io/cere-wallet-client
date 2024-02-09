@@ -31,7 +31,6 @@ export const getStaticProvider = (provider?: SupportedProvider): providers.Stati
   }
 
   if (!rpcUrl) {
-    console.log('Failed to extract RPC URL from Web3Provider, using default network');
     rpcUrl = DEFAULT_NETWORK.host;
   }
 

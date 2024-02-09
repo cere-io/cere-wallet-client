@@ -14,7 +14,6 @@ const createBalanceResource = ({ provider }: ReadyWallet) => {
   return fromResource<number>(
     (sink) => {
       currentListener = async (blockNumber?: number) => {
-        console.log('currentListener', blockNumber);
         if (blockNumber && blockNumber % BALANCE_CHECK_BLOCK_INTERVAL !== 0) {
           return;
         }
