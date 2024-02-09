@@ -14,7 +14,7 @@ const api = axios.create({
 export class FreeportApiService {
   public static async getWalletNftList(wallet: string): Promise<FreeportNftInterface[]> {
     try {
-      const { data } = await api.get<FreeportNftInterface[]>(`/wallet/${wallet}/nfts/owned`);
+      const { data } = await api.get<FreeportNftInterface[]>(`/api/wallet/${wallet}/owned`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportNftValidator(item)) : [];
     } catch (err: any) {
       reportError(err);
@@ -36,7 +36,7 @@ export class FreeportApiService {
 
   public static async getMinterCollections(minter: string): Promise<FreeportCollectionInterface[]> {
     try {
-      const { data } = await api.get<FreeportCollectionInterface[]>(`/wallet/${minter}/collections`);
+      const { data } = await api.get<FreeportCollectionInterface[]>(`/api/wallet/${minter}/collections`);
       return Array.isArray(data) ? data.filter((item: unknown) => freeportCollectionValidator(item)) : [];
     } catch (err: any) {
       reportError(err);
