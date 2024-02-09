@@ -3,6 +3,7 @@
 ### vNext
 
 - Fixed deprecated API usage
+- Added `skipOnboardingHelloPage` prop
 
 ### v1.29.3
 

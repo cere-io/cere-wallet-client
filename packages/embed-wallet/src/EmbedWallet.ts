@@ -144,6 +144,7 @@ export class EmbedWallet {
     network,
     context,
     popupMode = 'modal',
+    skipOnboardingHelloPage,
     connectOptions = {},
     appId = this.options.appId,
     sessionNamespace = this.options.sessionNamespace,
@@ -153,6 +154,7 @@ export class EmbedWallet {
     this.connectOptions = connectOptions;
     this.defaultContext = createContext(context);
     this.defaultContext.app.appId ||= appId;
+    this.defaultContext.app.skipOnboardingHelloPage = skipOnboardingHelloPage;
 
     const { sessionId } = getAuthRedirectResult();
 

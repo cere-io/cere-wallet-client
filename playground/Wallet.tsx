@@ -21,6 +21,7 @@ export const Wallet = () => {
       connectOptions: {
         mode: 'modal',
       },
+      skipOnboardingHelloPage: true,
 
       context: {
         whiteLabel: {

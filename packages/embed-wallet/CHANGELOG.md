@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.12.3
+
+- Added `skipOnboardingHelloPage` prop 
+
 ### v0.12.0
 
 - Add support for `White Label` configuration
