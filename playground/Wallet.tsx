@@ -29,7 +29,6 @@ export const Wallet = () => {
         whiteLabel: {
           var1: 'value',
           skipLoginIntro: true,
-          mainColor: '#000000',
         },
 
         app: {
