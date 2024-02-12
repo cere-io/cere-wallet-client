@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 
 import { LoginPage } from '~/components';
 import { AuthorizePopupStore } from '~/stores';
+import { useAppContextStore } from '~/hooks';
 
 const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) => {
   const isMobile = useIsMobile();
@@ -12,6 +13,9 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
   const { isGame } = useTheme();
+  const appStore = useAppContextStore();
+
+  const skipLoginIntro = Boolean(appStore.whiteLabel?.skipLoginIntro);
 
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
@@ -36,7 +40,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
         height="100vh"
         spacing={9}
       >
-        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {isGame || Boolean(skipLoginIntro) ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
           <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
