@@ -83,11 +83,13 @@ export class ApplicationsStore {
   }
 
   async trackActivity({ address }: Account) {
+    const { email } = this.accountStore.user || {};
     await api.post(
       '/applications',
       {
         address,
         appId: this.appId,
+        email,
       },
       { headers: this.headers },
     );
