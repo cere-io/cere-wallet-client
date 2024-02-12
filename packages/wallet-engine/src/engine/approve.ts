@@ -89,7 +89,22 @@ export const createApproveEngine = ({
         });
       }),
 
+      /**
+       * @deprecated Use `ed25519_signRaw` instead. This method is unsafe and should not be used.
+       *
+       * TODO: Remove this method after migrating `@cere/embed-wallet-inject` to use `ed25519_signRaw` and `ed25519_signPayload`.
+       */
       ed25519_sign: createRequestMiddleware<[string, string]>(async (req, proceed) => {
+        const [account, message] = req.params!;
+
+        await onPersonalSign({
+          preopenInstanceId: req.preopenInstanceId,
+          params: [message, account, 'ed25519' as KeyType],
+          proceed,
+        });
+      }),
+
+      ed25519_signRaw: createRequestMiddleware<[string, string]>(async (req, proceed) => {
         const [account, message] = req.params!;
 
         await onPersonalSign({

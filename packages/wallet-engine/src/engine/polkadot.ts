@@ -1,5 +1,5 @@
 import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
-import { u8aToHex } from '@polkadot/util';
+import { u8aToHex, u8aWrapBytes } from '@polkadot/util';
 import { Keyring } from '@polkadot/keyring';
 
 import { Engine } from './engine';
@@ -83,7 +83,8 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
 
         const [address, message] = req.params as string[];
         const pair = getPair(address);
-        const signature = pair.sign(message);
+        const wrappedMessage = u8aWrapBytes(message);
+        const signature = pair.sign(wrappedMessage);
 
         res.result = u8aToHex(signature);
       }),

@@ -35,7 +35,7 @@ export type PermissionsEngineOptions = {
 /**
  * Check if the request has the necessary permissions.
  *
- * TODO: This is a very simple implementation and can be extended to support caveats in future.
+ * This is a very simple implementation and can be extended to support caveats in future.
  */
 const checkPermissions = ({ method }: JsonRpcRequest<unknown>, permissions: Permission[]) => {
   const permission = permissions.find((permission) => permission.parentCapability === method);
