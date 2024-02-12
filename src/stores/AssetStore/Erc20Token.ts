@@ -4,6 +4,7 @@ import { BigNumber, utils } from 'ethers';
 import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 export const createBalanceResource = (
   { provider, account }: ReadyWallet,
@@ -11,7 +12,6 @@ export const createBalanceResource = (
   tokenContractAddress: string,
 ) => {
   let currentListener: () => {};
-
   const erc20 = createERC20Contract(provider.getSigner(), tokenContractAddress);
   const receiveFilter = erc20.filters.Transfer(null, account.address);
   const sendFilter = erc20.filters.Transfer(account.address);
@@ -81,7 +81,7 @@ export class Erc20Token implements Asset {
   }
 
   async transfer(to: string, amount: string) {
-    const signer = this.wallet.provider.getUncheckedSigner();
+    const signer = getStaticProvider(this.wallet.provider).getUncheckedSigner();
     const contract = createERC20Contract(signer, this.address);
 
     const transaction = await contract.transfer(to, utils.parseUnits(amount, this.decimals), {

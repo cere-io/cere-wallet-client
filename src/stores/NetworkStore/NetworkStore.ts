@@ -1,4 +1,4 @@
-import { ChainConfig } from '@cere-wallet/communication';
+import { ChainConfig, getStaticProvider } from '@cere-wallet/communication';
 import { autorun, makeAutoObservable } from 'mobx';
 
 import { Wallet } from '../types';
@@ -24,7 +24,7 @@ export class NetworkStore {
 
     autorun(async () => {
       if (wallet.isReady()) {
-        this.gasPrice = await this.wallet.provider?.getGasPrice()!;
+        this.gasPrice = await getStaticProvider(this.wallet.provider)?.getGasPrice()!;
       } else {
         this.gasPrice = undefined;
       }

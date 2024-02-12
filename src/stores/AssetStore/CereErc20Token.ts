@@ -4,6 +4,7 @@ import { BigNumber, BigNumberish, utils } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '@cere-wallet/wallet-engine';
 
 import { TransferableAsset, ReadyWallet } from './types';
+import { getStaticProvider } from '@cere-wallet/communication';
 
 export const convertBalance = (balance: BigNumberish, decimals: BigNumberish) => {
   const divider = BigNumber.from(10).pow(decimals);
@@ -60,7 +61,7 @@ export class CereErc20Token implements TransferableAsset {
 
   async transfer(to: string, amount: string) {
     const chainId = this.wallet.network.chainId;
-    const signer = this.wallet.provider.getUncheckedSigner();
+    const signer = getStaticProvider(this.wallet.provider).getUncheckedSigner();
     const contract = createERC20Contract(signer, getContractAddress(ContractName.CereToken, chainId));
 
     const transaction = await contract.transfer(to, utils.parseUnits(amount, this.decimals), {

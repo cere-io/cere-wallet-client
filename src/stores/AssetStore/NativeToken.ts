@@ -3,15 +3,27 @@ import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
 
 import { ReadyWallet, TransferableAsset } from './types';
+import { getStaticProvider } from '@cere-wallet/communication';
+
+const BALANCE_CHECK_BLOCK_INTERVAL = 5;
 
 const createBalanceResource = ({ provider }: ReadyWallet) => {
-  let currentListener: () => {};
+  let address: string | undefined;
+  let currentListener: (blockNumber?: number) => {};
 
   return fromResource<number>(
     (sink) => {
-      currentListener = async () => {
-        const balance = await provider.getSigner().getBalance();
+      currentListener = async (blockNumber?: number) => {
+        if (blockNumber && blockNumber % BALANCE_CHECK_BLOCK_INTERVAL !== 0) {
+          return;
+        }
+        // Cache address and provider to prevent refetching the signer each time
+        if (!address) {
+          const signer = provider.getSigner();
+          address = await signer.getAddress();
+        }
 
+        const balance = await getStaticProvider(provider).getBalance(address);
         sink(+utils.formatEther(balance));
       };
 
@@ -63,7 +75,7 @@ export class NativeToken implements TransferableAsset {
   }
 
   async transfer(to: string, amount: string) {
-    const signer = this.wallet.provider.getSigner();
+    const signer = getStaticProvider(this.wallet.provider).getSigner();
     const transaction = await signer.sendTransaction({
       to,
       value: utils.parseUnits(amount, this.decimals),
