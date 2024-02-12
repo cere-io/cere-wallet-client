@@ -44,6 +44,7 @@ export {
   Select,
   InputLabel,
   Fade,
+  Checkbox,
 } from '@mui/material';
 
 export type {
@@ -89,6 +90,7 @@ export type {
   SelectChangeEvent,
   InputLabelProps,
   FadeProps,
+  CheckboxProps,
 } from '@mui/material';
 
 export { LoadingButton, type LoadingButtonProps } from '@mui/lab';

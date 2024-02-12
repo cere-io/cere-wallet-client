@@ -63,12 +63,27 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
 
   engine.push(
     createScaffoldMiddleware({
+      /**
+       * @deprecated Use `ed25519_signRaw` instead. This method is unsafe and should not be used.
+       *
+       * TODO: Remove this method after migrating `@cere/embed-wallet-inject` to use `ed25519_signRaw` and `ed25519_signPayload`.
+       */
       ed25519_sign: createAsyncMiddleware(async (req, res) => {
         await api.isReady;
 
         const [address, message] = req.params as string[];
         const pair = getPair(address);
         const signature = pair.sign(message, { withType: true });
+
+        res.result = u8aToHex(signature);
+      }),
+
+      ed25519_signRaw: createAsyncMiddleware(async (req, res) => {
+        await api.isReady;
+
+        const [address, message] = req.params as string[];
+        const pair = getPair(address);
+        const signature = pair.sign(message);
 
         res.result = u8aToHex(signature);
       }),

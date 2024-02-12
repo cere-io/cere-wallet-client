@@ -32,4 +32,19 @@ export const List = styled(MuiList)<ListProps>(({ theme, dense, variant }) => ({
     : {
         minWidth: 50,
       },
+
+  [`& .${listItemClasses.root}`]: {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+
+  [`& .${listItemClasses.padding}`]: dense
+    ? {
+        paddingTop: 0,
+        paddingBottom: 0,
+      }
+    : {
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+      },
 }));

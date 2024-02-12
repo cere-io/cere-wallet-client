@@ -28,7 +28,7 @@ export type RequestedPermission = {
 
 export type PermissionsEngineOptions = {
   getPermissions?: () => Permission[];
-  onRequestPermissions?: (request: PermissionRequest) => Promise<boolean>;
+  onRequestPermissions?: (request: PermissionRequest) => Promise<PermissionRequest>;
   onRevokePermissions?: (request: PermissionRequest) => Promise<void>;
 };
 
@@ -41,6 +41,16 @@ const checkPermissions = ({ method }: JsonRpcRequest<unknown>, permissions: Perm
   const permission = permissions.find((permission) => permission.parentCapability === method);
 
   return !!permission;
+};
+
+const getMissingPermissions = (all: Permission[], requested: PermissionRequest) => {
+  const missingPermissions: PermissionRequest = { ...requested };
+
+  for (const { parentCapability } of all) {
+    delete missingPermissions[parentCapability];
+  }
+
+  return missingPermissions;
 };
 
 /**
@@ -59,7 +69,7 @@ export const createPermissionsEngine = (
   engine.push(
     createScaffoldMiddleware({
       wallet_getPermissions: createAsyncMiddleware(async (req, res) => {
-        res.result = await getPermissions?.();
+        res.result = getPermissions?.();
       }),
 
       /**
@@ -78,9 +88,13 @@ export const createPermissionsEngine = (
 
       wallet_requestPermissions: createAsyncMiddleware(async (req, res) => {
         const [request] = req.params as [PermissionRequest];
-        const isApproved = await onRequestPermissions?.(request);
+        const approvedPermissions = getPermissions?.() || [];
+        const missingPermissions = getMissingPermissions(approvedPermissions, request);
+        const allApproved = Object.keys(missingPermissions).length === 0;
+        const approvedPermission = allApproved ? request : await onRequestPermissions?.(missingPermissions);
+        const capabilities = Object.keys(approvedPermission ?? {});
 
-        if (!isApproved) {
+        if (!capabilities.length) {
           res.error = {
             code: 4001,
             message: 'User denied the request.',
@@ -89,9 +103,7 @@ export const createPermissionsEngine = (
           return;
         }
 
-        const permmisions = getPermissions?.() || [];
-
-        res.result = permmisions.map<RequestedPermission>(({ parentCapability }) => ({
+        res.result = capabilities.map<RequestedPermission>((parentCapability) => ({
           parentCapability,
           date: Date.now(),
         }));

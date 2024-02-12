@@ -22,7 +22,7 @@ export const Wallet = () => {
         mode: 'modal',
         permissions: {
           personal_sign: {},
-          ed25519_sign: {},
+          ed25519_signRaw: {},
         },
       },
 
@@ -153,7 +153,7 @@ export const Wallet = () => {
   const handleEd25519Sign = useCallback(async () => {
     const [, cereAccount] = await wallet.getAccounts();
     const signed = await wallet.provider.request({
-      method: 'ed25519_sign',
+      method: 'ed25519_signRaw',
       params: [cereAccount.address, 'Hello!!!'],
     });
 
@@ -213,7 +213,7 @@ export const Wallet = () => {
   const handleRequestPermissions = useCallback(async () => {
     const permissions = await wallet.requestPermissions({
       personal_sign: {},
-      ed25519_sign: {},
+      ed25519_signRaw: {},
     });
 
     console.log('Approved permissions', permissions);
@@ -222,7 +222,7 @@ export const Wallet = () => {
   const handleRevokePermissions = useCallback(async () => {
     await wallet.revokePermissions({
       personal_sign: {},
-      ed25519_sign: {},
+      ed25519_signRaw: {},
     });
 
     console.log('Permissions revoked');
