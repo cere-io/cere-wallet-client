@@ -196,7 +196,7 @@ export class EmbedWallet {
         verifier: this.torus.currentVerifier || 'unknown',
         loginOptions: {
           ...options,
-          uxMode: mode,
+          uxMode: mode || 'modal',
           redirectUrl: mode === 'redirect' ? redirectUrl || window.location.href : undefined,
         },
       });
