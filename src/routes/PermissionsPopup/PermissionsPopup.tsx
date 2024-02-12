@@ -30,9 +30,9 @@ const PermissionsPopup = () => {
         <PopupLayout.Section title="Permissions" spacing={1}>
           <Typography variant="h4">Permissions</Typography>
           <Permissions
-            selected={store.selectedPermissions}
+            value={store.selectedPermissions}
             permissions={store.permissions}
-            onSelect={(permissions) => {
+            onChange={(permissions) => {
               store.selectedPermissions = permissions;
             }}
           />

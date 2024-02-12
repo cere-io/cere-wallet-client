@@ -28,6 +28,7 @@ export {
   LanguageOutlined as LanguageIcon,
   ArrowDropDown as ArrowDropDownIcon,
   ArrowDropUp as ArrowDropUpIcon,
+  ArrowBackIos as ArrowBackIosIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

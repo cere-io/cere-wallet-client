@@ -183,7 +183,7 @@ export class AuthenticationStore {
       : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
   }
 
-  private async syncAccount({ sessionId }: Required<AuthorizePopupState>['result']) {
+  private async syncAccount({ sessionId, permissions }: Required<AuthorizePopupState>['result']) {
     const session = await this.sessionStore.rehydrate(sessionId);
 
     if (!session) {
@@ -191,6 +191,7 @@ export class AuthenticationStore {
     }
 
     this.syncLoginData();
+    this.sessionStore.permissions = permissions || {};
 
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
 

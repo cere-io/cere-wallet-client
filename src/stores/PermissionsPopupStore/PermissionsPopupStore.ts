@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import type { Permission } from '@cere-wallet/wallet-engine';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { createSharedPopupState } from '../sharedState';
 
@@ -10,8 +10,8 @@ export type PermissionsPopupState = {
   };
 
   status?: 'pending' | 'approved' | 'declined';
-  permissions?: Permission[];
-  selectedPermissions?: Permission['parentCapability'][];
+  permissions?: PermissionRequest;
+  selectedPermissions?: PermissionRequest;
 };
 
 export class PermissionsPopupStore {
@@ -37,12 +37,10 @@ export class PermissionsPopupStore {
   }
 
   get selectedPermissions() {
-    return (
-      this.shared.state.selectedPermissions || this.permissions?.map((permission) => permission.parentCapability) || []
-    );
+    return this.shared.state.selectedPermissions || {};
   }
 
-  set selectedPermissions(selectedPermissions: Permission['parentCapability'][]) {
+  set selectedPermissions(selectedPermissions: PermissionRequest) {
     this.shared.state.selectedPermissions = selectedPermissions;
   }
 

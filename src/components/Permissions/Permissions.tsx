@@ -1,33 +1,34 @@
 import { List, ListItem, ListItemText, Checkbox, ListItemIcon } from '@cere-wallet/ui';
-import type { Permission } from '@cere-wallet/wallet-engine';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
+
 import { AllowedPermission, defaultDescription, knownPermissions } from './knownPermissions';
 
 export type PermissionsProps = {
-  permissions: Permission[];
-  selected: Permission['parentCapability'][];
-  onSelect?: (permissions: Permission['parentCapability'][]) => void;
+  permissions: PermissionRequest;
+  value: PermissionRequest;
+  onChange?: (permissions: PermissionRequest) => void;
 };
 
-export const Permissions = ({ selected, permissions, onSelect }: PermissionsProps) => {
+export const Permissions = ({ value, permissions, onChange }: PermissionsProps) => {
   const updateSelection = (capability: string, add: boolean) => {
-    const nextSelected = add ? [capability, ...selected] : selected.filter((item) => item !== capability);
+    const { [capability]: deleted, ...next } = value;
 
-    onSelect?.(nextSelected);
+    onChange?.(add ? { ...next, [capability]: permissions[capability] } : next);
   };
 
   return (
     <List dense disablePadding>
-      {permissions.map(({ parentCapability }) => (
-        <ListItem key={parentCapability} disableGutters disablePadding>
+      {Object.keys(permissions).map((capability) => (
+        <ListItem key={capability} disableGutters disablePadding>
           <ListItemIcon>
             <Checkbox
-              checked={selected.includes(parentCapability)}
-              onChange={(event) => updateSelection(parentCapability, event.target.checked)}
+              checked={!!value[capability]}
+              onChange={(event) => updateSelection(capability, event.target.checked)}
             />
           </ListItemIcon>
           <ListItemText
-            primary={knownPermissions[parentCapability as AllowedPermission]?.title || parentCapability}
-            secondary={knownPermissions[parentCapability as AllowedPermission]?.description || defaultDescription}
+            primary={knownPermissions[capability as AllowedPermission]?.title || capability}
+            secondary={knownPermissions[capability as AllowedPermission]?.description || defaultDescription}
           />
         </ListItem>
       ))}

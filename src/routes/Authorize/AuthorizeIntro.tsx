@@ -3,7 +3,7 @@ import { Stack, useIsMobile } from '@cere-wallet/ui';
 
 import { IntroPage } from '~/components/Login/IntroPage';
 
-const IntroRoute = () => {
+const AuthorizeIntro = () => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -23,4 +23,4 @@ const IntroRoute = () => {
   );
 };
 
-export default observer(IntroRoute);
+export default observer(AuthorizeIntro);

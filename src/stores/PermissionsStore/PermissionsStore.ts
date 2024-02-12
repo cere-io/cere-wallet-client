@@ -44,29 +44,25 @@ export class PermissionsStore {
     const popup = await this.popupManagerStore.proceedTo<PermissionsPopupState>(popupId, '/permissions', {
       status: 'pending',
       app: this.contextStore.app,
-      permissions: requestToPermissions(permissionsRequest),
+      permissions: permissionsRequest,
+      selectedPermissions: permissionsRequest,
     });
 
     await Promise.race([when(() => !popup.isConnected), when(() => popup.state.status !== 'pending')]);
     this.popupManagerStore.closePopup(popupId);
 
-    const { status, selectedPermissions } = popup.state;
+    const { status, selectedPermissions = {} } = popup.state;
 
-    if (status !== 'approved' || !selectedPermissions?.length) {
+    if (status !== 'approved' || !Object.keys(selectedPermissions).length) {
       return {};
     }
 
-    const nextPermissions: PermissionRequest = {};
-    for (const permission of selectedPermissions) {
-      nextPermissions[permission] = permissionsRequest[permission];
-    }
+    this.sessionStore.permissions = {
+      ...this.sessionStore.permissions,
+      ...selectedPermissions,
+    };
 
-    this.sessionStore.saveState<PermissionRequest>('permissions', {
-      ...this.sessionStore.getState('permissions'),
-      ...nextPermissions,
-    });
-
-    return nextPermissions;
+    return selectedPermissions;
   }
 
   async revokePermissions(request: PermissionRevokeRequest) {
@@ -76,6 +72,6 @@ export class PermissionsStore {
       delete permissions[method];
     }
 
-    this.sessionStore.saveState('permissions', permissions);
+    this.sessionStore.permissions = permissions;
   }
 }

@@ -1,15 +1,33 @@
 import { observer } from 'mobx-react-lite';
-import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { LoginPage } from '~/components';
+import { useCallback } from 'react';
+import { Stack, useIsMobile, useTheme, ArrowBackIosIcon } from '@cere-wallet/ui';
+
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
+import { OtpPage } from '~/components';
+
 import { AuthorizePopupStore } from '~/stores';
 
-const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) => {
+const AuthorizeOtp = () => {
   const isMobile = useIsMobile();
+  const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
   const { isGame } = useTheme();
+
+  store.email = location.state?.email;
+
+  const handleLoginRequest = useCallback(
+    async (idToken: string) => {
+      await store.login(idToken);
+
+      if (store.permissions) {
+        return navigate({ ...location, pathname: '/authorize/permissions' });
+      } else {
+        await store.acceptSession();
+      }
+    },
+    [location, navigate, store],
+  );
 
   if (isMobile) {
     return (
@@ -23,11 +41,7 @@ const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) =
       >
         {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
-          <LoginPage
-            variant={variant}
-            permissions={store.requestedPermissions}
-            onRequestLogin={(idToken) => store.login(idToken)}
-          />
+          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -44,15 +58,11 @@ const LoginRoute = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) =
       {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <LoginPage
-            variant={variant}
-            permissions={store.requestedPermissions}
-            onRequestLogin={(idToken) => store.login(idToken)}
-          />
+          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-export default observer(LoginRoute);
+export default observer(AuthorizeOtp);

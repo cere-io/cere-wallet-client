@@ -1,19 +1,30 @@
+import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Stack, useIsMobile, useTheme, ArrowBackIosIcon } from '@cere-wallet/ui';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
-import { OtpPage } from '~/components';
 
+import { LoginPage } from '~/components';
 import { AuthorizePopupStore } from '~/stores';
 
-const OtpRoute = () => {
+const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' }) => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
   const { isGame } = useTheme();
 
-  store.email = location.state?.email;
+  const handleLoginRequest = useCallback(
+    async (idToken: string) => {
+      await store.login(idToken);
+
+      if (store.permissions) {
+        return navigate({ ...location, pathname: '/authorize/permissions' });
+      } else {
+        await store.acceptSession();
+      }
+    },
+    [location, navigate, store],
+  );
 
   if (isMobile) {
     return (
@@ -27,7 +38,7 @@ const OtpRoute = () => {
       >
         {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
-          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -44,11 +55,11 @@ const OtpRoute = () => {
       {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-export default observer(OtpRoute);
+export default observer(AuthorizeLogin);
