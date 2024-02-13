@@ -17,3 +17,4 @@ export * from './Collectibles';
 export * from './Transfer';
 export * from './ProductTours';
 export * from './CoinIcon';
+export * from './Permissions';

@@ -5,6 +5,7 @@ import { RedirectPopup } from './RedirectPopup';
 import { ConfirmPopup } from './ConfirmPopup';
 import { TransactionPopup } from './TransactionPopup';
 import { FramePopup } from './FramePopup';
+import { PermissionsPopup } from './PermissionsPopup';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
       {
         path: 'frame',
         Component: FramePopup,
+      },
+
+      {
+        path: 'permissions',
+        Component: PermissionsPopup,
       },
 
       {

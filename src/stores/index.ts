@@ -10,3 +10,4 @@ export * from './ExchangeRatesStore';
 export * from './Web3AuthStore';
 export * from './DummyWalletStore';
 export * from './AppContextStore';
+export * from './PermissionsPopupStore';

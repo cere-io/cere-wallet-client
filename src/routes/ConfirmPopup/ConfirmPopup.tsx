@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { InfoTable, Typography, Link } from '@cere-wallet/ui';
+import { InfoTable, Typography, Link, Stack } from '@cere-wallet/ui';
 
 import { ConfirmPopupStore } from '~/stores';
 import { PopupLayout, PriceRow, TransactionData } from '~/components';
@@ -27,12 +27,14 @@ const ConfirmPopup = () => {
         </PopupLayout.Section>
       )}
 
-      <PopupLayout.Section spacing={1}>
-        <Typography variant="body1" fontWeight="medium">
-          Data:
-        </Typography>
-        <TransactionData hex={store.content} />
-      </PopupLayout.Section>
+      {store.data && (
+        <PopupLayout.Section>
+          <Stack spacing={2}>
+            <Typography variant="body1">Data:</Typography>
+            <TransactionData {...store.data} />
+          </Stack>
+        </PopupLayout.Section>
+      )}
 
       {store.fee && (
         <PopupLayout.Section spacing={1}>

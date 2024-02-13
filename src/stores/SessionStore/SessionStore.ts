@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
 import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { AUTH_SESSION_TIMEOUT } from '~/constants';
 import { reportError } from '~/reporting';
@@ -31,7 +32,6 @@ const getDefaultSessionNamespace = () => {
 export class SessionStore {
   private storage: BrowserStorage;
   private sessionManager: OpenloginSessionManager<Session>;
-
   private currentSession: Session | null = null;
 
   constructor(private options: SessionStoreOptions = {}) {
@@ -126,5 +126,25 @@ export class SessionStore {
     }
 
     this.resetSession();
+  }
+
+  saveState<T = any>(name: string, state: T) {
+    if (!this.sessionId) {
+      return;
+    }
+
+    this.storage.set(name, state);
+  }
+
+  getState<T = any>(name: string) {
+    return this.sessionId ? this.storage.get<T>(name) : undefined;
+  }
+
+  get permissions() {
+    return this.getState<PermissionRequest>('permissions') || {};
+  }
+
+  set permissions(permissions: PermissionRequest) {
+    this.saveState('permissions', permissions);
   }
 }

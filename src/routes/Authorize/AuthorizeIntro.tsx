@@ -1,7 +1,9 @@
+import { observer } from 'mobx-react-lite';
 import { Stack, useIsMobile } from '@cere-wallet/ui';
+
 import { IntroPage } from '~/components/Login/IntroPage';
 
-export const IntroRoute = () => {
+const AuthorizeIntro = () => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -20,3 +22,5 @@ export const IntroRoute = () => {
     </Stack>
   );
 };
+
+export default observer(AuthorizeIntro);
