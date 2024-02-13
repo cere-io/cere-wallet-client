@@ -1,1 +1,1 @@
-export const WALLET_CLIENT_VERSION = '1.29.3';
+export const WALLET_CLIENT_VERSION = '1.30.0';

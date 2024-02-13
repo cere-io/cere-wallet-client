@@ -2,6 +2,10 @@
 
 ### vNext
 
+- 
+
+### v1.30.0
+
 - Add Wallet Permission System ([EIP-2255](https://eips.ethereum.org/EIPS/eip-2255)) support
 - Added `initializing` wallet instance status
 - Add `ed25519_signPayload` and `ed25519_signRaw` RPC methods
