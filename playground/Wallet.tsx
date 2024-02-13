@@ -413,7 +413,7 @@ export const Wallet = () => {
           <Button
             variant="contained"
             color="primary"
-            disabled={status === 'not-ready' || status === 'connecting'}
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
             onClick={handleConnect}
           >
             Connect wallet
@@ -422,7 +422,7 @@ export const Wallet = () => {
           <Button
             variant="contained"
             color="warning"
-            disabled={status === 'not-ready' || status === 'connecting'}
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect

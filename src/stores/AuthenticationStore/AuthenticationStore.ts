@@ -138,7 +138,6 @@ export class AuthenticationStore {
 
   async logout() {
     await this.sessionStore.invalidateSession();
-    await this.contextStore.disconnect();
 
     this.syncLoginData();
 
