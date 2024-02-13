@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { ArrowBackIosIcon, Box, LoadingButton, CereIcon, Stack, Typography } from '@cere-wallet/ui';
+import { ArrowBackIosIcon, Box, LoadingButton, CereIcon, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
 
 import { AuthorizePopupStore } from '~/stores';
 import { Permissions } from '~/components';
@@ -10,6 +10,7 @@ import { reportError } from '~/reporting';
 const AuthorizePermissions = () => {
   const store = useOutletContext<AuthorizePopupStore>();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [isLoading, setLoading] = useState(false);
   const handleContinue = useCallback(async () => {
     try {
@@ -22,10 +23,10 @@ const AuthorizePermissions = () => {
   }, [store]);
 
   return (
-    <Stack padding={2}>
+    <Stack height="100vh" padding={2}>
       <ArrowBackIosIcon onClick={() => navigate(-1)} />
 
-      <Stack paddingTop={9} spacing={3}>
+      <Stack margin={isMobile ? 0 : 'auto'} paddingTop={isMobile ? 9 : 0} spacing={3}>
         <Stack direction="row" alignItems="center">
           <Typography variant="h2" flex={1}>
             Permissions

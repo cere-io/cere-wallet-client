@@ -18,7 +18,9 @@ export const Wallet = () => {
 
   useEffect(() => {
     wallet.init({
+      popupMode: 'popup',
       connectOptions: {
+        mode: 'modal',
         permissions: {
           personal_sign: {},
           ed25519_signRaw: {},
@@ -27,7 +29,6 @@ export const Wallet = () => {
 
       context: {
         whiteLabel: {
-          var1: 'value',
           skipLoginIntro: true,
         },
 

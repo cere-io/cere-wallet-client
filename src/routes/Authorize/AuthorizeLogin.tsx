@@ -15,8 +15,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
   const { isGame } = useTheme();
   const appStore = useAppContextStore();
 
-  const skipLoginIntro = Boolean(appStore.whiteLabel?.skipLoginIntro);
-
+  const hideBack = isGame || !!appStore.whiteLabel?.skipLoginIntro;
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
       await store.login(idToken);
@@ -40,7 +39,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
         height="100vh"
         spacing={9}
       >
-        {isGame || Boolean(skipLoginIntro) ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        <ArrowBackIosIcon sx={{ visibility: hideBack ? 'hidden' : 'visible' }} onClick={() => navigate(-1)} />
         <Stack direction="column" textAlign="justify">
           <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
@@ -56,7 +55,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
       padding={2}
       height="100vh"
     >
-      {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+      <ArrowBackIosIcon sx={{ visibility: hideBack ? 'hidden' : 'visible' }} onClick={() => navigate(-1)} />
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
           <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
