@@ -161,6 +161,8 @@ export class EmbedWallet {
     const { sessionId } = getAuthRedirectResult();
 
     try {
+      this.setStatus('initializing');
+
       await this.torus.init({
         network,
         sessionId,

@@ -4,6 +4,11 @@
 
 - 
 
+### v0.13.0
+
+- Add Wallet Permission System ([EIP-2255](https://eips.ethereum.org/EIPS/eip-2255)) support
+- Added `initializing` wallet instance status
+
 ### v0.12.3
 
 - Added `skipLoginIntro` prop

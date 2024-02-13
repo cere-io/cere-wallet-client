@@ -17,27 +17,6 @@ export const Wallet = () => {
   const status = useWalletStatus();
 
   useEffect(() => {
-    wallet.init({
-      connectOptions: {
-        permissions: {
-          personal_sign: {},
-          ed25519_signRaw: {},
-        },
-      },
-
-      context: {
-        whiteLabel: {
-          skipLoginIntro: true,
-        },
-
-        app: {
-          appId: 'cere-wallet-playground',
-          name: 'Cere wallet playground',
-          logoUrl,
-        },
-      },
-    });
-
     wallet.isReady.then((readyWallet) => {
       console.log('Ready wallet (isReady)', readyWallet);
     });
@@ -74,6 +53,27 @@ export const Wallet = () => {
 
     window.addEventListener('blur', () => {
       console.log('Host window lost focus');
+    });
+
+    wallet.init({
+      connectOptions: {
+        permissions: {
+          personal_sign: {},
+          ed25519_signRaw: {},
+        },
+      },
+
+      context: {
+        whiteLabel: {
+          skipLoginIntro: true,
+        },
+
+        app: {
+          appId: 'cere-wallet-playground',
+          name: 'Cere wallet playground',
+          logoUrl,
+        },
+      },
     });
   }, [wallet]);
 

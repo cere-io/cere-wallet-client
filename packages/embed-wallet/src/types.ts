@@ -52,9 +52,16 @@ export type WalletAccount = {
 
 // Wallet options
 export type WalletEvent = 'status-update' | 'accounts-update' | 'balance-update';
-export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
 export type WalletScreen = 'home' | 'topup' | 'settings';
 export type WalletEnvironment = 'local' | 'dev' | 'stage' | 'prod';
+export type WalletStatus =
+  | 'not-ready'
+  | 'initializing'
+  | 'ready'
+  | 'connected'
+  | 'connecting'
+  | 'disconnecting'
+  | 'errored';
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'mumbai' | string;
