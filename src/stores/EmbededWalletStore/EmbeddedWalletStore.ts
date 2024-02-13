@@ -258,6 +258,7 @@ export class EmbeddedWalletStore implements Wallet {
       getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
       onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
+      onPayloadSign: (request) => this.approvalStore.approvePayloadSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
 

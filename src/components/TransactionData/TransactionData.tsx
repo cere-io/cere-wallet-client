@@ -20,11 +20,13 @@ const DenseData = styled(Typography)(({ theme }) => ({
   wordBreak: 'break-all',
   maxHeight: 260,
   overflow: 'auto',
+  padding: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.grey.A100,
 }));
 
 const Data = styled(DenseData)(({ theme }) => ({
   margin: theme.spacing(2, 0),
-  padding: theme.spacing(2, 1),
 }));
 
 export const TransactionData = ({ hex, data }: TransactionDataProps) => {
@@ -36,16 +38,20 @@ export const TransactionData = ({ hex, data }: TransactionDataProps) => {
     [],
   );
 
-  if (!json && hex) {
-    return <DenseData>{hex}</DenseData>;
+  if (!json || !hex) {
+    return (
+      <DenseData whiteSpace={currentType === 'json' ? 'pre' : 'normal'}>
+        {currentType === 'json' ? json : hex}
+      </DenseData>
+    );
   }
 
   return (
     <Box>
       {json && hex && (
         <ToggleButtonGroup exclusive fullWidth size="small" value={currentType} onChange={handleChange}>
-          <ToggleButton value="json">Json</ToggleButton>
-          <ToggleButton value="hex">Hex Data</ToggleButton>
+          <ToggleButton value="json">JSON</ToggleButton>
+          <ToggleButton value="hex">Bytes</ToggleButton>
         </ToggleButtonGroup>
       )}
 

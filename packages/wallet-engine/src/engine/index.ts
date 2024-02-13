@@ -1,4 +1,11 @@
-export type { PersonalSignRequest, SendTransactionRequest, IncomingTransaction, TransferRequest } from './approve';
+export type {
+  PersonalSignRequest,
+  PayloadSignRequest,
+  PayloadSignData,
+  SendTransactionRequest,
+  IncomingTransaction,
+  TransferRequest,
+} from './approve';
 export type {
   Permission,
   PermissionCaveat,

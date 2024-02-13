@@ -1,5 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import type { PersonalSignRequest, SendTransactionRequest, TransferRequest } from '@cere-wallet/wallet-engine';
+import type {
+  PayloadSignRequest,
+  PersonalSignRequest,
+  SendTransactionRequest,
+  TransferRequest,
+} from '@cere-wallet/wallet-engine';
 
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
@@ -22,6 +27,14 @@ export class ApprovalStore {
     const { PersonalSignHandler } = await import(/* webpackChunkName: "PersonalSignHandler" */ './PersonalSignHandler');
 
     const handler = new PersonalSignHandler(this.popupManagerStore, this.networkStore, this.contextStore);
+
+    return handler.handle(params);
+  }
+
+  async approvePayloadSign(params: PayloadSignRequest) {
+    const { PayloadSignHandler } = await import(/* webpackChunkName: "PersonalSignHandler" */ './PayloadSignHandler');
+
+    const handler = new PayloadSignHandler(this.popupManagerStore, this.networkStore, this.contextStore);
 
     return handler.handle(params);
   }

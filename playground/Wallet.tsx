@@ -18,9 +18,7 @@ export const Wallet = () => {
 
   useEffect(() => {
     wallet.init({
-      popupMode: 'popup',
       connectOptions: {
-        mode: 'modal',
         permissions: {
           personal_sign: {},
           ed25519_signRaw: {},
@@ -159,6 +157,27 @@ export const Wallet = () => {
     const signed = await wallet.provider.request({
       method: 'ed25519_signRaw',
       params: [cereAccount.address, 'Hello!!!'],
+    });
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
+  const handleEd25519PayloadSign = useCallback(async () => {
+    const [, cereAccount] = await wallet.getAccounts();
+    const signed = await wallet.provider.request({
+      method: 'ed25519_signPayload',
+      params: [
+        {
+          address: cereAccount.address,
+          to: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqR7qYrFacT',
+          amount: 10000000000,
+          tip: 0,
+          nonce: 0,
+          specVersion: 1019,
+          genesisHash: '0x3a636d80e7e4e6f6c3bea1a8b681a5a5647e90a84a9bd6a8c90a2e3a2cd9dff7',
+          blockHash: '0x5e2eb68aeb6352f3dc26f56e4b7a56838a6ce9e14a47e8d7a5151571a9b8e743',
+        },
+      ],
     });
 
     console.log(`Signed message: ${signed}`);
@@ -317,6 +336,15 @@ export const Wallet = () => {
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleEd25519Sign}>
             Sign message (ed25519)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519PayloadSign}
+          >
+            Sign payload (ed25519)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>
