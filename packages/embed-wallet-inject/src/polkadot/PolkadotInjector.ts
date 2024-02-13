@@ -1,7 +1,7 @@
 import { EmbedWallet } from '@cere/embed-wallet';
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
-import type { SignerPayloadRaw, SignerResult, Signer } from '@polkadot/types/types';
+import type { SignerPayloadRaw, SignerResult, Signer, SignerPayloadJSON } from '@polkadot/types/types';
 
 export type PolkadotInjectorOptions = {
   name?: string;
@@ -61,8 +61,17 @@ export class PolkadotInjector {
 
   private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
-      method: 'ed25519_sign',
+      method: 'ed25519_signRaw',
       params: [raw.address, raw.data],
+    });
+
+    return { id: 0, signature };
+  };
+
+  private signPayload = async (payload: SignerPayloadJSON): Promise<SignerResult> => {
+    const signature = await this.wallet.provider.request({
+      method: 'ed25519_signPayload',
+      params: [payload],
     });
 
     return { id: 0, signature };
@@ -84,6 +93,7 @@ export class PolkadotInjector {
 
     const signer: Signer = {
       signRaw: this.signRaw,
+      signPayload: this.signPayload,
     };
 
     return { accounts, signer };

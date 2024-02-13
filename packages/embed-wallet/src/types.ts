@@ -22,10 +22,9 @@ export type ContextApp = {
   appId?: string;
   name?: string;
   logoUrl?: string;
-  whiteLabel?: any; // TODO add proper type
 };
 
-export type ContextWhiteLabel = any; // TODO: Figure out the type
+export type ContextWhiteLabel = Record<string, any>; // TODO: Use proper white label types
 
 export type Context = {
   banner?: ContextBanner;
@@ -52,9 +51,16 @@ export type WalletAccount = {
 
 // Wallet options
 export type WalletEvent = 'status-update' | 'accounts-update' | 'balance-update';
-export type WalletStatus = 'not-ready' | 'ready' | 'connected' | 'connecting' | 'disconnecting' | 'errored';
 export type WalletScreen = 'home' | 'topup' | 'settings';
 export type WalletEnvironment = 'local' | 'dev' | 'stage' | 'prod';
+export type WalletStatus =
+  | 'not-ready'
+  | 'initializing'
+  | 'ready'
+  | 'connected'
+  | 'connecting'
+  | 'disconnecting'
+  | 'errored';
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'mumbai' | string;
@@ -64,6 +70,7 @@ export type WalletConnectOptions = {
   idToken?: string;
   mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
+  permissions?: PermissionRequest;
 };
 
 export type TokenType = 'erc20' | 'native';
@@ -114,4 +121,29 @@ export type WalletBalance = {
   balance: BN;
   amount: BN;
   decimals: BN;
+};
+
+// Wallet Permissions System
+
+export type PermissionCaveat = {
+  type: string;
+  value: any;
+};
+
+export type Permission = {
+  parentCapability: string;
+  caveats: PermissionCaveat[];
+};
+
+export type PermissionRequest = {
+  [methodName: Permission['parentCapability']]: {
+    [caveatName: PermissionCaveat['type']]: PermissionCaveat['value'];
+  };
+};
+
+export type PermissionRevokeRequest = PermissionRequest;
+
+export type RequestedPermission = {
+  parentCapability: string;
+  date?: number;
 };

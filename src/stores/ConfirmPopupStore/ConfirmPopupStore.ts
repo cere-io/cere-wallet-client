@@ -1,4 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
+import type { PayloadSignData } from '@cere-wallet/wallet-engine';
+
 import { createSharedPopupState } from '../sharedState';
 import { PriceData } from '../types';
 
@@ -15,6 +17,7 @@ export type ConfirmPopupState = {
 
   network?: Network;
   content?: string;
+  payload?: PayloadSignData;
   status?: 'pending' | 'approved' | 'declined';
   fee?: PriceData;
 };
@@ -43,6 +46,18 @@ export class ConfirmPopupStore {
 
   get content() {
     return this.shared.state.content;
+  }
+
+  get payload() {
+    return this.shared.state.payload;
+  }
+
+  get data() {
+    if (!this.content && !this.payload) {
+      return undefined;
+    }
+
+    return { hex: this.content, data: this.payload };
   }
 
   get network() {

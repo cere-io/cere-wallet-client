@@ -1,4 +1,6 @@
 import type { Context, NetworkConfig } from '@cere/embed-wallet';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
+
 import { createChannel, CreateChannelOptions } from './createChannel';
 
 export type UserInfo = {
@@ -18,6 +20,7 @@ export type LoginOptions = {
   uxMode?: 'redirect' | 'popup' | 'modal';
   idToken?: string;
   redirectUrl?: string;
+  permissions?: PermissionRequest;
 };
 
 export type LoginData = {

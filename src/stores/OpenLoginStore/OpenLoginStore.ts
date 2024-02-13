@@ -1,16 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
-import { getIFrameOrigin, AppContext } from '@cere-wallet/communication';
+import { getIFrameOrigin, AppContext, LoginOptions } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { reportError } from '~/reporting';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from '../Web3AuthStore';
 
-export type LoginParams = {
+export type LoginParams = LoginOptions & {
   preopenInstanceId?: string;
-  idToken?: string;
-  redirectUrl?: string;
 };
 
 const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {

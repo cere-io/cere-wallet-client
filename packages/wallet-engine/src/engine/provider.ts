@@ -6,6 +6,7 @@ import { Provider, ProviderRequestArguments } from '../types';
 
 import { createWalletEngine, WalletEngineOptions } from './wallet';
 import { createApproveEngine, ApproveEngineOptions } from './approve';
+import { createPermissionsEngine, PermissionsEngineOptions } from './permissions';
 import type { EthereumEngineOptions } from './ethereum';
 import type { PolkadotEngineOptions } from './polkadot';
 import type { AccountsEngineOptions } from './accounts';
@@ -14,7 +15,8 @@ export type ProviderEngineOptions = WalletEngineOptions &
   AccountsEngineOptions &
   ApproveEngineOptions &
   EthereumEngineOptions &
-  PolkadotEngineOptions;
+  PolkadotEngineOptions &
+  PermissionsEngineOptions;
 
 class EngineProvider extends EventEmitter implements Provider {
   constructor(private engine: Engine) {
@@ -75,7 +77,7 @@ export class ProviderEngine extends Engine {
     this.provider = new EngineProvider(this);
     this.unsafeProvider = new EngineProvider(unsafeEngine);
 
-    this.pushEngine(createApproveEngine(options));
+    this.pushEngine(createPermissionsEngine(options, createApproveEngine(options)));
     this.pushEngine(unsafeEngine);
   }
 

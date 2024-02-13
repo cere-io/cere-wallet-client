@@ -17,26 +17,6 @@ export const Wallet = () => {
   const status = useWalletStatus();
 
   useEffect(() => {
-    wallet.init({
-      connectOptions: {
-        mode: 'modal',
-      },
-
-      context: {
-        whiteLabel: {
-          var1: 'value',
-          skipLoginIntro: true,
-          mainColor: '#000000',
-        },
-
-        app: {
-          appId: 'cere-wallet-playground',
-          name: 'Cere wallet playground',
-          logoUrl,
-        },
-      },
-    });
-
     wallet.isReady.then((readyWallet) => {
       console.log('Ready wallet (isReady)', readyWallet);
     });
@@ -73,6 +53,27 @@ export const Wallet = () => {
 
     window.addEventListener('blur', () => {
       console.log('Host window lost focus');
+    });
+
+    wallet.init({
+      connectOptions: {
+        permissions: {
+          personal_sign: {},
+          ed25519_signRaw: {},
+        },
+      },
+
+      context: {
+        whiteLabel: {
+          skipLoginIntro: true,
+        },
+
+        app: {
+          appId: 'cere-wallet-playground',
+          name: 'Cere wallet playground',
+          logoUrl,
+        },
+      },
     });
   }, [wallet]);
 
@@ -154,8 +155,29 @@ export const Wallet = () => {
   const handleEd25519Sign = useCallback(async () => {
     const [, cereAccount] = await wallet.getAccounts();
     const signed = await wallet.provider.request({
-      method: 'ed25519_sign',
+      method: 'ed25519_signRaw',
       params: [cereAccount.address, 'Hello!!!'],
+    });
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
+  const handleEd25519PayloadSign = useCallback(async () => {
+    const [, cereAccount] = await wallet.getAccounts();
+    const signed = await wallet.provider.request({
+      method: 'ed25519_signPayload',
+      params: [
+        {
+          address: cereAccount.address,
+          to: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqR7qYrFacT',
+          amount: 10000000000,
+          tip: 0,
+          nonce: 0,
+          specVersion: 1019,
+          genesisHash: '0x3a636d80e7e4e6f6c3bea1a8b681a5a5647e90a84a9bd6a8c90a2e3a2cd9dff7',
+          blockHash: '0x5e2eb68aeb6352f3dc26f56e4b7a56838a6ce9e14a47e8d7a5151571a9b8e743',
+        },
+      ],
     });
 
     console.log(`Signed message: ${signed}`);
@@ -203,6 +225,30 @@ export const Wallet = () => {
       mode: 'redirect',
       redirectUrl: 'https://evil.com/auth',
     });
+  }, [wallet]);
+
+  const handleGetPermissions = useCallback(async () => {
+    const permissions = await wallet.getPermissions();
+
+    console.log('Wallet permissions', permissions);
+  }, [wallet]);
+
+  const handleRequestPermissions = useCallback(async () => {
+    const permissions = await wallet.requestPermissions({
+      personal_sign: {},
+      ed25519_signRaw: {},
+    });
+
+    console.log('Approved permissions', permissions);
+  }, [wallet]);
+
+  const handleRevokePermissions = useCallback(async () => {
+    await wallet.revokePermissions({
+      personal_sign: {},
+      ed25519_signRaw: {},
+    });
+
+    console.log('Permissions revoked');
   }, [wallet]);
 
   return (
@@ -292,6 +338,15 @@ export const Wallet = () => {
             Sign message (ed25519)
           </Button>
 
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519PayloadSign}
+          >
+            Sign payload (ed25519)
+          </Button>
+
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>
             Show wallet
           </Button>
@@ -318,6 +373,33 @@ export const Wallet = () => {
             Transfer 1 $CERE (ERC20)
           </Button>
 
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleGetPermissions}
+          >
+            Get permissions
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleRequestPermissions}
+          >
+            Request permissions
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleRevokePermissions}
+          >
+            Revoke permissions
+          </Button>
+
           <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleDisconnect}>
             Disconnect wallet
           </Button>
@@ -331,7 +413,7 @@ export const Wallet = () => {
           <Button
             variant="contained"
             color="primary"
-            disabled={status === 'not-ready' || status === 'connecting'}
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
             onClick={handleConnect}
           >
             Connect wallet
@@ -340,7 +422,7 @@ export const Wallet = () => {
           <Button
             variant="contained"
             color="warning"
-            disabled={status === 'not-ready' || status === 'connecting'}
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
             onClick={handleDangerousRedirectLogin}
           >
             Danger Connect

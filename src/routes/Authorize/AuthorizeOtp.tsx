@@ -1,11 +1,13 @@
-import { Stack, useIsMobile, useTheme } from '@cere-wallet/ui';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { observer } from 'mobx-react-lite';
+import { useCallback } from 'react';
+import { Stack, useIsMobile, useTheme, ArrowBackIosIcon } from '@cere-wallet/ui';
+
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { OtpPage } from '~/components';
 
 import { AuthorizePopupStore } from '~/stores';
 
-export const OtpRoute = () => {
+const AuthorizeOtp = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,6 +15,19 @@ export const OtpRoute = () => {
   const { isGame } = useTheme();
 
   store.email = location.state?.email;
+
+  const handleLoginRequest = useCallback(
+    async (idToken: string) => {
+      await store.login(idToken);
+
+      if (store.permissions) {
+        return navigate({ ...location, pathname: '/authorize/permissions' });
+      } else {
+        await store.acceptSession();
+      }
+    },
+    [location, navigate, store],
+  );
 
   if (isMobile) {
     return (
@@ -26,7 +41,7 @@ export const OtpRoute = () => {
       >
         {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
         <Stack direction="column" textAlign="justify">
-          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -43,9 +58,11 @@ export const OtpRoute = () => {
       {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage email={store.email} onRequestLogin={(idToken) => store.login(idToken)} />
+          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>
   );
 };
+
+export default observer(AuthorizeOtp);

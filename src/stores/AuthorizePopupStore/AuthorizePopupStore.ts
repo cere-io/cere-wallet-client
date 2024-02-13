@@ -1,4 +1,5 @@
 import { makeAutoObservable, reaction } from 'mobx';
+import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
@@ -9,6 +10,7 @@ import { createRedirectUrl } from './createRedirectUrl';
 
 type AuthenticationResult = {
   sessionId: string;
+  permissions?: PermissionRequest;
 };
 
 export type AuthorizePopupStoreOptions = {
@@ -20,6 +22,7 @@ export type AuthorizePopupStoreOptions = {
 
 export type AuthorizePopupState = {
   result?: AuthenticationResult;
+  permissions?: PermissionRequest;
 };
 
 export class AuthorizePopupStore {
@@ -34,6 +37,7 @@ export class AuthorizePopupStore {
   private redirectUrl: string | null = null;
   private currentEmail?: string;
   private mfaCheckPromise?: Promise<boolean>;
+  private selectedPermissions: PermissionRequest = {};
 
   constructor(public readonly preopenInstanceId: string, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
@@ -48,6 +52,16 @@ export class AuthorizePopupStore {
           verifierId && !this.options.forceMfa ? this.web3AuthStore.isMfaEnabled({ verifierId }) : undefined;
       },
     );
+
+    reaction(
+      () => this.permissions,
+      (permissions) => {
+        /**
+         * Select all permissions by default
+         */
+        this.acceptedPermissions = permissions || {};
+      },
+    );
   }
 
   get email() {
@@ -56,6 +70,20 @@ export class AuthorizePopupStore {
 
   set email(email) {
     this.currentEmail = email;
+  }
+
+  get permissions() {
+    const { permissions = {} } = this.shared.state;
+
+    return Object.keys(permissions).length ? permissions : undefined;
+  }
+
+  get acceptedPermissions() {
+    return this.selectedPermissions || {};
+  }
+
+  set acceptedPermissions(permissions: PermissionRequest) {
+    this.selectedPermissions = permissions;
   }
 
   async login(idToken: string) {
@@ -78,7 +106,7 @@ export class AuthorizePopupStore {
       await this.web3AuthStore.login({ idToken, checkMfa: isMfa === undefined });
     }
 
-    await this.acceptSession();
+    return this.sessionStore.sessionId;
   }
 
   private async validateRedirectUrl(url: string) {
@@ -89,14 +117,15 @@ export class AuthorizePopupStore {
     }
   }
 
-  async acceptEncodedState(encodedState: string) {
+  async acceptEncodedState(encodedState: string, permissions?: PermissionRequest) {
     await this.openLoginStore.acceptEncodedState(encodedState);
 
-    await this.acceptSession();
+    await this.acceptSession(permissions);
   }
 
-  private async acceptSession() {
+  async acceptSession(permissions: PermissionRequest = this.acceptedPermissions) {
     this.shared.state.result = {
+      permissions,
       sessionId: this.sessionStore.sessionId,
     };
 
@@ -106,6 +135,8 @@ export class AuthorizePopupStore {
 
     await this.validateRedirectUrl(this.redirectUrl);
     await this.sessionStore.storeSession();
+
+    this.sessionStore.permissions = permissions;
 
     window.location.replace(createRedirectUrl(this.redirectUrl, this.sessionStore.sessionId));
 

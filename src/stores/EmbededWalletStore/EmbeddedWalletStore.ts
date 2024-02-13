@@ -19,6 +19,7 @@ import { OpenLoginStore } from '../OpenLoginStore';
 import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
+import { PermissionsStore } from '../PermissionsStore';
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId: string;
@@ -35,6 +36,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
   readonly applicationsStore: ApplicationsStore;
+  readonly permissionsStore: PermissionsStore;
 
   private currentEngine?: WalletEngine;
   private walletConnection?: WalletConnection;
@@ -73,6 +75,7 @@ export class EmbeddedWalletStore implements Wallet {
     );
 
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
+    this.permissionsStore = new PermissionsStore(this.sessionStore, this.popupManagerStore, this.appContextStore);
   }
 
   isRoot() {
@@ -150,19 +153,19 @@ export class EmbeddedWalletStore implements Wallet {
         return true;
       },
 
-      onLogin: async (data) => {
-        if (data.loginOptions.uxMode === 'redirect' || !data.preopenInstanceId) {
-          this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(data.loginOptions));
+      onLogin: async ({ preopenInstanceId, loginOptions }) => {
+        if (loginOptions.uxMode === 'redirect' || !preopenInstanceId) {
+          this.walletConnection?.redirect(await this.authenticationStore.getRedirectUrl(loginOptions));
 
           // Return never resolving promise to keep `connecting` state till redirection
           return new Promise(() => {});
         }
 
-        if (data.loginOptions.uxMode === 'modal') {
-          return this.authenticationStore.loginInModal(data.preopenInstanceId, data);
+        if (loginOptions.uxMode === 'modal') {
+          return this.authenticationStore.loginInModal(preopenInstanceId, loginOptions);
         }
 
-        return this.authenticationStore.loginInPopup(data.preopenInstanceId, data);
+        return this.authenticationStore.loginInPopup(preopenInstanceId, loginOptions);
       },
 
       onLoginWithPrivateKey: async (data) => {
@@ -255,8 +258,14 @@ export class EmbeddedWalletStore implements Wallet {
       getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
       onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
+      onPayloadSign: (request) => this.approvalStore.approvePayloadSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request),
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
+
+      // Permissions
+      getPermissions: () => this.permissionsStore.permissions,
+      onRequestPermissions: (request) => this.permissionsStore.requestPermissions(request),
+      onRevokePermissions: (request) => this.permissionsStore.revokePermissions(request),
     });
 
     createRpcConnection({
