@@ -22,7 +22,7 @@ export class TransferHandler {
         transfer: {
           symbol: transaction.token,
           amount: convertPrice(BigNumber.from(transaction.balance), {
-            decimals: 10, // TODO: Do not hardcode decimals
+            decimals: 10, // CERE token decimals
             symbol: transaction.token,
           }),
         },
