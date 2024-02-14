@@ -89,12 +89,14 @@ export const createERC20Contract = (signer: Signer, address: string) =>
     contractAddress: address,
   });
 
-/**
- * TODO: Remove when decimals are fetched from the contract everywhere
- *
- * @deprecated `decimals` should be fetched from the contract
- */
-export const getERC20TokenConfig = (): TokenConfig => ({
-  symbol: 'USDC',
-  decimals: process.env.REACT_APP_ENV === 'dev' ? 18 : 6,
-});
+export const getERC20TokenConfig = async (signer: Signer): Promise<TokenConfig> => {
+  const chainId = await signer.getChainId();
+  const address = getContractAddress(ContractName.ERC20Token, chainId.toString(16));
+  const contract = createERC20Contract(signer, address);
+  const decimals = await contract.decimals();
+
+  return {
+    symbol: 'USDC', // Keep it hardcoded for better UX
+    decimals,
+  };
+};
