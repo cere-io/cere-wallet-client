@@ -50,14 +50,7 @@ export class ActivityStore {
 
     this.startedTokens = this.assetStore.commonList
       .filter((asset) => asset.address)
-      .map((asset) => {
-        const token = new Erc20Token(this, asset);
-        console.log('start activity', asset);
-
-        token.start(wallet);
-
-        return token;
-      });
+      .map((asset) => new Erc20Token(this, asset).start(wallet));
   }
 
   async cleanUp() {

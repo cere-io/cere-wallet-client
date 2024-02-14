@@ -1,5 +1,5 @@
 import { makeObservable } from 'mobx';
-import { fromResource } from 'mobx-utils';
+import { ILazyObservable, fromResource, lazyObservable } from 'mobx-utils';
 import { utils, BigNumber } from 'ethers';
 import { createERC20Contract, ERC20Contract } from '@cere-wallet/wallet-engine';
 
@@ -35,11 +35,16 @@ export const createBalanceResource = ({ account, provider }: ReadyWallet, erc20:
   );
 };
 
+type Erc20Asset = Omit<Asset, 'decimals'> & {
+  decimals?: number;
+};
+
 export class Erc20Token implements Asset {
   protected balanceResource;
   protected contract: ERC20Contract;
+  protected decimalsObservable: ILazyObservable<number | undefined>;
 
-  constructor(private wallet: ReadyWallet, private asset: Asset) {
+  constructor(private wallet: ReadyWallet, private asset: Erc20Asset) {
     makeObservable(this, {
       balance: true,
       decimals: true,
@@ -49,6 +54,9 @@ export class Erc20Token implements Asset {
 
     this.contract = createERC20Contract(signer, this.address);
     this.balanceResource = createBalanceResource(this.wallet, this.contract);
+    this.decimalsObservable = lazyObservable((sink) =>
+      asset.decimals ? sink(asset.decimals) : this.contract.decimals().then(sink),
+    );
   }
 
   get id() {
@@ -64,7 +72,7 @@ export class Erc20Token implements Asset {
   }
 
   get decimals() {
-    return this.asset.decimals;
+    return this.decimalsObservable.current() || 0;
   }
 
   get address() {
@@ -86,7 +94,7 @@ export class Erc20Token implements Asset {
   get balance() {
     const balance = this.balanceResource.current();
 
-    return balance && this.decimals && +utils.formatUnits(balance, this.decimals);
+    return balance && this.decimals ? +utils.formatUnits(balance, this.decimals) : undefined;
   }
 
   async transfer(to: string, amount: string) {

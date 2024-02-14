@@ -44,6 +44,8 @@ export class Erc20Token {
       provider.off(receiveFilter, this.onReceive);
       provider.off(sendFilter, this.onSend);
     };
+
+    return this;
   }
 
   stop() {
@@ -51,6 +53,8 @@ export class Erc20Token {
 
     this.interface = undefined;
     this.dispose = undefined;
+
+    return this;
   }
 
   private createActivity(type: Activity['type'], log: Log): Activity {

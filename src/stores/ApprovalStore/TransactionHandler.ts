@@ -31,7 +31,7 @@ export class TransactionHandler {
     { preopenInstanceId, proceed, params: [transaction] }: SendTransactionRequest,
     { showDetails = false }: ApproveTransactionOptions = {},
   ) {
-    const tokenConfig = getERC20TokenConfig();
+    const tokenConfig = getERC20TokenConfig(); // TODO: refactor to not use tokenConfig from wallet-engine
     const network = this.networkStore.network!;
     const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
     const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
