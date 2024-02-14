@@ -1,7 +1,7 @@
-import { createUSDCContract, getTokenConfig } from '@cere-wallet/wallet-engine';
-import { BigNumber, utils } from 'ethers';
+import { createERC20Contract } from '@cere-wallet/wallet-engine';
+import { BigNumberish, utils } from 'ethers';
 
-import { ReadyWallet } from '../types';
+import { Asset, ReadyWallet } from '../types';
 import { Activity, ActivityStore } from './ActivityStore';
 
 type Log = {
@@ -14,18 +14,24 @@ type Log = {
 type Args = utils.Result & {
   from: string;
   to: string;
-  value: BigNumber;
+  value: BigNumberish;
 };
 
 export class Erc20Token {
-  private tokenConfig = getTokenConfig();
   private interface?: utils.Interface;
   private dispose?: () => void;
 
-  constructor(private activityStore: ActivityStore) {}
+  constructor(
+    private activityStore: ActivityStore,
+    private asset: Pick<Asset, 'address' | 'displayName' | 'decimals'>,
+  ) {}
 
-  start({ provider, network, account }: ReadyWallet) {
-    const erc20 = createUSDCContract(provider.getSigner(), network.chainId);
+  start({ provider, account }: ReadyWallet) {
+    if (!this.asset.address) {
+      throw new Error('Asset address is not defined');
+    }
+
+    const erc20 = createERC20Contract(provider.getSigner(), this.asset.address);
     const receiveFilter = erc20.filters.Transfer(null, account.address);
     const sendFilter = erc20.filters.Transfer(account.address);
 
@@ -48,19 +54,19 @@ export class Erc20Token {
   }
 
   private createActivity(type: Activity['type'], log: Log): Activity {
-    const { symbol, decimals } = this.tokenConfig;
+    const { displayName, decimals } = this.asset;
     const { transactionHash } = log;
     const { from, to, value } = this.interface!.parseLog(log).args as Args;
-    const amount = value.div(10 ** decimals).toNumber();
+    const amount = +utils.formatUnits(value, decimals);
 
     return {
       type,
       to,
       from,
-      asset: symbol,
+      asset: displayName,
       flow: {
         amount,
-        symbol,
+        symbol: displayName,
         equalsTo: {
           amount,
           symbol: 'USD',

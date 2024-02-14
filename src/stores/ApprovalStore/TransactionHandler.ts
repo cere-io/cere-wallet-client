@@ -1,6 +1,11 @@
 import { BigNumber } from 'ethers';
 import { runInAction, when } from 'mobx';
-import { ContractName, SendTransactionRequest, getTokenConfig, parseTransactionData } from '@cere-wallet/wallet-engine';
+import {
+  ContractName,
+  SendTransactionRequest,
+  getERC20TokenConfig,
+  parseTransactionData,
+} from '@cere-wallet/wallet-engine';
 
 import { reportError } from '~/reporting';
 import { Wallet } from '../types';
@@ -26,7 +31,7 @@ export class TransactionHandler {
     { preopenInstanceId, proceed, params: [transaction] }: SendTransactionRequest,
     { showDetails = false }: ApproveTransactionOptions = {},
   ) {
-    const tokenConfig = getTokenConfig();
+    const tokenConfig = getERC20TokenConfig();
     const network = this.networkStore.network!;
     const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
     const instanceId = preopenInstanceId || this.popupManagerStore.createModal();

@@ -83,19 +83,16 @@ export const getContractNameByAddress = (address: string, networkId: string) => 
   return contractNames.find((name) => getAllContractAddresses(name, networkId).includes(loweredAddress));
 };
 
-export const createUSDCContract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
-  createERC20MockToken({
-    signer,
-    contractAddress: getContractAddress(ContractName.ERC20Token, networkId, application),
-  });
-
 export const createERC20Contract = (signer: Signer, address: string) =>
   createERC20MockToken({
     signer,
     contractAddress: address,
   });
 
-export const getTokenConfig = (): TokenConfig => ({
+export const getERC20TokenConfig = (): TokenConfig => ({
   symbol: 'USDC',
-  decimals: 18,
+  /**
+   * TODO: Change the logic to fetch decimals from the contract
+   */
+  decimals: process.env.REACT_APP_ENV === 'dev' ? 18 : 6,
 });
