@@ -1,22 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { BN } from '@polkadot/util';
+import { utils } from 'ethers';
 
 import { TransferableAsset, ReadyWallet } from './types';
 
-export const convertBalance = (balance: string, decimals: BN) => {
-  const divider = new BN(10).pow(decimals);
-  const bnBalance = new BN(balance);
-
-  return bnBalance.div(divider).toNumber();
-};
-
-const createBalanceResource = ({ engine }: ReadyWallet, address: string, decimals: BN) => {
+const createBalanceResource = ({ engine }: ReadyWallet, address: string, decimals: number) => {
   let updateBalance: (...args: any) => void;
 
   return fromResource<number>(
     async (sink) => {
-      updateBalance = ({ balance }) => sink(convertBalance(balance, decimals));
+      updateBalance = ({ balance }) => sink(+utils.formatUnits(balance, decimals));
 
       engine.provider.on('ed25519_balanceChanged', updateBalance);
     },
@@ -27,7 +20,7 @@ const createBalanceResource = ({ engine }: ReadyWallet, address: string, decimal
 };
 
 export class CereNativeToken implements TransferableAsset {
-  private balanceResource = createBalanceResource(this.wallet, this.accountAddress, new BN(this.decimals));
+  private balanceResource = createBalanceResource(this.wallet, this.accountAddress, this.decimals);
 
   constructor(private wallet: ReadyWallet) {
     makeAutoObservable(this);
@@ -62,9 +55,7 @@ export class CereNativeToken implements TransferableAsset {
   }
 
   async transfer(to: string, value: string) {
-    const decimals = new BN(this.decimals);
-    const multiple = new BN(10).pow(decimals);
-    const amount = new BN(value).mul(multiple);
+    const amount = utils.parseUnits(value, this.decimals);
 
     return this.wallet.provider.send('ed25519_transfer', [this.accountAddress, to, amount.toString()]);
   }

@@ -1,6 +1,6 @@
 import { makeObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
@@ -20,7 +20,8 @@ export const createBalanceResource = (
     (sink) => {
       currentListener = async () => {
         const balance = await erc20.balanceOf(account.address);
-        sink(balance.div(BigNumber.from(10).pow(decimals)).toNumber());
+
+        sink(+utils.formatUnits(balance, decimals));
       };
 
       /**

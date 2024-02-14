@@ -1,40 +1,44 @@
 import type { Signer } from 'ethers';
 import {
   ApplicationEnum,
+  Deployment,
+  ChainId,
   getContractAddress as getSCAddress,
-  createERC20,
-  getTokenConfig as fpGetTokenConfig,
+  createERC20MockToken,
   Freeport__factory,
-  TestERC20__factory,
-  SimpleAuction__factory,
-  Auction__factory,
-  CollectionFactory__factory,
+  ERC20MockToken__factory,
   Marketplace__factory,
-} from '@cere/freeport-sdk';
+  FreeportCollection__factory,
+  FiatGateway__factory,
+  FToken__factory,
+} from '@cere/freeport-sc-sdk';
 
 import { CERE_TOKEN_ADDRESS } from './constants';
 
-export type { TokenConfig } from '@cere/freeport-sdk';
+export type TokenConfig = {
+  symbol: string;
+  decimals: number;
+};
 
 export enum ContractName {
   Freeport = 'Freeport',
-  ERC20 = 'ERC20',
-  SimpleAuction = 'SimpleAuction',
-  Auction = 'Auction',
+  FToken = 'FToken',
   Marketplace = 'Marketplace',
-  CollectionFactory = 'CollectionFactory',
+  FreeportCollection = 'FreeportCollection',
+  FiatGateway = 'FiatGateway',
+  ERC20 = 'ERC20MockToken',
   CereToken = 'CereToken',
 }
 
 const applications = [ApplicationEnum.DAVINCI, ApplicationEnum.LIVEONE];
 const contractInterfaceFactoryMap = {
   [ContractName.Freeport]: () => Freeport__factory.createInterface(),
-  [ContractName.ERC20]: () => TestERC20__factory.createInterface(),
-  [ContractName.SimpleAuction]: () => SimpleAuction__factory.createInterface(),
-  [ContractName.Auction]: () => Auction__factory.createInterface(),
+  [ContractName.ERC20]: () => ERC20MockToken__factory.createInterface(),
   [ContractName.Marketplace]: () => Marketplace__factory.createInterface(),
-  [ContractName.CollectionFactory]: () => CollectionFactory__factory.createInterface(),
-  [ContractName.CereToken]: () => TestERC20__factory.createInterface(),
+  [ContractName.FreeportCollection]: () => FreeportCollection__factory.createInterface(),
+  [ContractName.CereToken]: () => ERC20MockToken__factory.createInterface(),
+  [ContractName.FiatGateway]: () => FiatGateway__factory.createInterface(),
+  [ContractName.FToken]: () => FToken__factory.createInterface(),
 };
 
 export const getContractInterface = (contractName: ContractName) => {
@@ -53,8 +57,8 @@ export const getContractAddress = (
   return getSCAddress({
     application,
     contractName,
-    chainId: parseInt(networkId, 16),
-    deployment: process.env.REACT_APP_ENV,
+    chainId: parseInt(networkId, 16) as ChainId,
+    deployment: process.env.REACT_APP_ENV as Deployment,
   });
 };
 
@@ -78,15 +82,18 @@ export const getContractNameByAddress = (address: string, networkId: string) => 
 };
 
 export const createUSDCContract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
-  createERC20({
+  createERC20MockToken({
     signer,
     contractAddress: getContractAddress(ContractName.ERC20, networkId, application),
   });
 
 export const createERC20Contract = (signer: Signer, address: string) =>
-  createERC20({
+  createERC20MockToken({
     signer,
     contractAddress: address,
   });
 
-export const getTokenConfig = () => fpGetTokenConfig(process.env.REACT_APP_ENV);
+export const getTokenConfig = (): TokenConfig => ({
+  symbol: 'USDC',
+  decimals: 18,
+});

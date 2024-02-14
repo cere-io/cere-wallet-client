@@ -1,23 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { BigNumber, BigNumberish, utils } from 'ethers';
+import { BigNumberish, utils } from 'ethers';
 import { ContractName, createERC20Contract, getContractAddress } from '@cere-wallet/wallet-engine';
 
 import { TransferableAsset, ReadyWallet } from './types';
-
-export const convertBalance = (balance: BigNumberish, decimals: BigNumberish) => {
-  const divider = BigNumber.from(10).pow(decimals);
-  const bnBalance = BigNumber.from(balance);
-
-  return bnBalance.div(divider).toNumber();
-};
 
 const createBalanceResource = ({ engine }: ReadyWallet, decimals: BigNumberish) => {
   let updateBalance: (...args: any) => void;
 
   return fromResource<number>(
     async (sink) => {
-      updateBalance = ({ balance }) => sink(convertBalance(balance, decimals));
+      updateBalance = ({ balance }) => sink(+utils.formatUnits(balance, decimals));
 
       engine.provider.on('eth_balanceChanged', updateBalance);
     },

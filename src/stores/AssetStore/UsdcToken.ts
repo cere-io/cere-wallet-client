@@ -17,7 +17,7 @@ const createBalanceResource = ({ provider, network, account }: ReadyWallet, { de
       currentListener = async () => {
         const balance = await erc20.balanceOf(account.address);
 
-        sink(balance.div(10 ** decimals).toNumber());
+        sink(+utils.formatUnits(balance, decimals));
       };
 
       /**
