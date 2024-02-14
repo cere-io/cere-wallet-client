@@ -11,6 +11,7 @@ import {
   FreeportCollection__factory,
   FiatGateway__factory,
   FToken__factory,
+  ERC20MockToken,
 } from '@cere/freeport-sc-sdk';
 
 import { CERE_TOKEN_ADDRESS } from './constants';
@@ -20,20 +21,21 @@ export type TokenConfig = {
   decimals: number;
 };
 
+export type ERC20Contract = ERC20MockToken;
 export enum ContractName {
   Freeport = 'Freeport',
   FToken = 'FToken',
   Marketplace = 'Marketplace',
   FreeportCollection = 'FreeportCollection',
   FiatGateway = 'FiatGateway',
-  ERC20 = 'ERC20MockToken',
+  ERC20Token = 'ERC20MockToken',
   CereToken = 'CereToken',
 }
 
 const applications = [ApplicationEnum.DAVINCI, ApplicationEnum.LIVEONE];
 const contractInterfaceFactoryMap = {
   [ContractName.Freeport]: () => Freeport__factory.createInterface(),
-  [ContractName.ERC20]: () => ERC20MockToken__factory.createInterface(),
+  [ContractName.ERC20Token]: () => ERC20MockToken__factory.createInterface(),
   [ContractName.Marketplace]: () => Marketplace__factory.createInterface(),
   [ContractName.FreeportCollection]: () => FreeportCollection__factory.createInterface(),
   [ContractName.CereToken]: () => ERC20MockToken__factory.createInterface(),
@@ -84,7 +86,7 @@ export const getContractNameByAddress = (address: string, networkId: string) => 
 export const createUSDCContract = (signer: Signer, networkId: string, application?: ApplicationEnum) =>
   createERC20MockToken({
     signer,
-    contractAddress: getContractAddress(ContractName.ERC20, networkId, application),
+    contractAddress: getContractAddress(ContractName.ERC20Token, networkId, application),
   });
 
 export const createERC20Contract = (signer: Signer, address: string) =>

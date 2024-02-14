@@ -75,7 +75,7 @@ export class TransactionHandler {
         }
       }
 
-      if (contractName === ContractName.ERC20) {
+      if (contractName === ContractName.ERC20Token) {
         const { name, args } = parsedData;
 
         if (name === 'approve') {

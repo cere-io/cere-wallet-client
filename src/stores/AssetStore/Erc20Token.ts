@@ -1,27 +1,20 @@
 import { makeObservable } from 'mobx';
 import { fromResource } from 'mobx-utils';
-import { utils } from 'ethers';
-import { createERC20Contract, TokenConfig } from '@cere-wallet/wallet-engine';
+import { utils, BigNumber } from 'ethers';
+import { createERC20Contract, ERC20Contract } from '@cere-wallet/wallet-engine';
 
 import { Asset, ReadyWallet } from '../types';
 
-export const createBalanceResource = (
-  { provider, account }: ReadyWallet,
-  { decimals }: TokenConfig,
-  tokenContractAddress: string,
-) => {
+export const createBalanceResource = ({ account, provider }: ReadyWallet, erc20: ERC20Contract) => {
   let currentListener: () => {};
 
-  const erc20 = createERC20Contract(provider.getSigner(), tokenContractAddress);
   const receiveFilter = erc20.filters.Transfer(null, account.address);
   const sendFilter = erc20.filters.Transfer(account.address);
 
-  return fromResource<number>(
+  return fromResource<BigNumber>(
     (sink) => {
       currentListener = async () => {
-        const balance = await erc20.balanceOf(account.address);
-
-        sink(+utils.formatUnits(balance, decimals));
+        sink(await erc20.balanceOf(account.address));
       };
 
       /**
@@ -43,42 +36,57 @@ export const createBalanceResource = (
 };
 
 export class Erc20Token implements Asset {
-  readonly tokenConfig: TokenConfig;
-  readonly balanceResource;
-  public id: string;
-  public network?: string | undefined;
-  public thumb?: string | undefined;
-  public address: string;
-  public decimals: number;
+  protected balanceResource;
+  protected contract: ERC20Contract;
 
-  constructor(private wallet: ReadyWallet, asset: Asset) {
+  constructor(private wallet: ReadyWallet, private asset: Asset) {
     makeObservable(this, {
       balance: true,
+      decimals: true,
     });
 
-    this.tokenConfig = {
-      symbol: asset.ticker,
-      decimals: asset.decimals,
-    };
+    const signer = this.wallet.provider.getUncheckedSigner();
 
-    this.id = asset.id;
-    this.address = asset.address!;
-    this.thumb = asset.thumb;
-    this.network = asset.network;
-    this.decimals = asset.decimals;
-    this.balanceResource = createBalanceResource(this.wallet, this.tokenConfig, this.address);
+    this.contract = createERC20Contract(signer, this.address);
+    this.balanceResource = createBalanceResource(this.wallet, this.contract);
   }
 
-  get displayName() {
-    return this.tokenConfig.symbol.toLocaleUpperCase();
+  get id() {
+    return this.asset.id;
   }
 
   get ticker() {
-    return this.tokenConfig.symbol;
+    return this.asset.ticker;
+  }
+
+  get displayName() {
+    return this.asset.displayName;
+  }
+
+  get decimals() {
+    return this.asset.decimals;
+  }
+
+  get address() {
+    if (!this.asset.address) {
+      throw new Error('ERC20 asset address is required');
+    }
+
+    return this.asset.address!;
+  }
+
+  get thumb() {
+    return this.asset.thumb;
+  }
+
+  get network() {
+    return this.asset.network;
   }
 
   get balance() {
-    return this.balanceResource.current();
+    const balance = this.balanceResource.current();
+
+    return balance && this.decimals && +utils.formatUnits(balance, this.decimals);
   }
 
   async transfer(to: string, amount: string) {
