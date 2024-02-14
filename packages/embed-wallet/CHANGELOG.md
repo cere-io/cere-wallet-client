@@ -1,8 +1,8 @@
 ## Release Notes:
 
-### vNext
+### v0.14.0
 
-- 
+- Switch Cere Wallet Client to new domain
 
 ### v0.13.0
 
