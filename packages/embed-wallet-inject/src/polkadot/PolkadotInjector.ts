@@ -1,4 +1,4 @@
-import { EmbedWallet } from '@cere/embed-wallet';
+import { EmbedWallet, PermissionRequest } from '@cere/embed-wallet';
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
 import type { SignerPayloadRaw, SignerResult, Signer, SignerPayloadJSON } from '@polkadot/types/types';
@@ -8,6 +8,7 @@ export type PolkadotInjectorOptions = {
   version?: string;
   autoConnect?: boolean;
   waitReady?: boolean;
+  permissions?: PermissionRequest;
 };
 
 export class PolkadotInjector {
@@ -16,15 +17,17 @@ export class PolkadotInjector {
   private injected: boolean = false;
   private shouldConnect: boolean;
   private shouldWait: boolean;
+  private permissions?: PermissionRequest;
 
   constructor(
     readonly wallet: EmbedWallet,
-    { name, version, autoConnect = false, waitReady = true }: PolkadotInjectorOptions = {},
+    { name, version, autoConnect = false, waitReady = true, permissions }: PolkadotInjectorOptions = {},
   ) {
-    this.name = name || 'CereWallet';
+    this.name = name || 'Cere Wallet';
     this.version = version || '0.0.0';
     this.shouldConnect = autoConnect;
     this.shouldWait = waitReady;
+    this.permissions = permissions;
   }
 
   get isInjected() {
@@ -83,7 +86,11 @@ export class PolkadotInjector {
     }
 
     if (this.shouldConnect && this.wallet.status === 'ready') {
-      await this.wallet.connect();
+      await this.wallet.connect({
+        permissions: this.permissions,
+      });
+    } else if (this.wallet.status === 'connected' && this.permissions) {
+      await this.wallet.requestPermissions(this.permissions).catch(console.warn);
     }
 
     const accounts: InjectedAccounts = {
