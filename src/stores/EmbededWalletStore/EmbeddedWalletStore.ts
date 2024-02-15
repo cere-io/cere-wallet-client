@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
 import { makeAutoObservable, reaction, toJS, when } from 'mobx';
-import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
+import { createWalletEngine, WalletEngine, BiconomyOptions } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
 import { Wallet } from '../types';
@@ -20,6 +20,10 @@ import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/cons
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
 import { PermissionsStore } from '../PermissionsStore';
+
+type InitOptions = {
+  biconomy?: BiconomyOptions;
+};
 
 export class EmbeddedWalletStore implements Wallet {
   readonly instanceId: string;
@@ -43,6 +47,8 @@ export class EmbeddedWalletStore implements Wallet {
 
   private _isWidgetOpened = false;
   private _isFullScreen = false;
+
+  private options: InitOptions;
 
   constructor(instanceId?: string, sessionNamespace?: string) {
     makeAutoObservable(this);
@@ -76,6 +82,13 @@ export class EmbeddedWalletStore implements Wallet {
 
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
     this.permissionsStore = new PermissionsStore(this.sessionStore, this.popupManagerStore, this.appContextStore);
+
+    /**
+     * Default configuration
+     */
+    this.options = {
+      biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
+    };
   }
 
   isRoot() {
@@ -139,16 +152,26 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   async init() {
-    await Promise.all([this.setupWalletConnection(), this.setupRpcConnection()]);
+    await this.setupWalletConnection();
+    await this.setupRpcConnection();
   }
 
   private async setupWalletConnection() {
     this.walletConnection = createWalletConnection({
       logger: console,
 
-      onInit: async (data) => {
-        this.networkStore.network = data.chainConfig;
-        this.appContextStore.context = data.context;
+      onInit: async ({ chainConfig, context, biconomy }) => {
+        this.networkStore.network = chainConfig;
+        this.appContextStore.context = context;
+
+        console.log('on Init', { chainConfig, context, biconomy });
+
+        /**
+         * Configure the wallet with the init optionss
+         */
+        if (biconomy) {
+          this.options.biconomy = biconomy;
+        }
 
         return true;
       },
@@ -253,7 +276,7 @@ export class EmbeddedWalletStore implements Wallet {
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
-      biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
+      biconomy: this.options.biconomy,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
       onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),

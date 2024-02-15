@@ -152,6 +152,7 @@ export class EmbedWallet {
   async init({
     network,
     context,
+    biconomy,
     popupMode = 'modal',
     connectOptions = {},
     appId = this.options.appId,
@@ -172,6 +173,7 @@ export class EmbedWallet {
         network,
         sessionId,
         popupMode,
+        biconomy,
         sessionNamespace,
         context: this.defaultContext,
         buildEnv: buildEnvMap[env],
