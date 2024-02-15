@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.16.0
+
+- Add `biconomy` init option to allow configure Cere Wallet + Biconomy
+
 ### v0.14.0
 
 - Switch Cere Wallet Client to new domain

@@ -6,6 +6,7 @@ export type {
   IncomingTransaction,
   TransferRequest,
 } from './approve';
+
 export type {
   Permission,
   PermissionCaveat,
@@ -13,5 +14,7 @@ export type {
   RequestedPermission,
   PermissionRevokeRequest,
 } from './permissions';
+
+export type { BiconomyOptions } from './ethereum';
 
 export * from './provider';

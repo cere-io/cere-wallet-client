@@ -85,10 +85,17 @@ export type WalletOptions = {
   env?: WalletEnvironment;
 };
 
+export type BiconomyOptions = {
+  apiKey: string;
+  enable?: boolean;
+  debug?: boolean;
+};
+
 export type WalletInitOptions = WalletOptions & {
   network?: NetworkConfig;
   context?: PartialContext;
   popupMode?: 'popup' | 'modal';
+  biconomy?: BiconomyOptions;
   connectOptions?: Partial<WalletConnectOptions>;
 };
 
