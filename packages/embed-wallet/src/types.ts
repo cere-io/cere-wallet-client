@@ -95,8 +95,8 @@ export type WalletInitOptions = WalletOptions & {
   network?: NetworkConfig;
   context?: PartialContext;
   popupMode?: 'popup' | 'modal';
-  biconomy?: BiconomyOptions;
   connectOptions?: Partial<WalletConnectOptions>;
+  biconomy?: BiconomyOptions;
 };
 
 export type WalletTransferOptions = {

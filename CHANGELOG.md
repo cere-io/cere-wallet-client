@@ -2,6 +2,10 @@
 
 ### vNext
 
+- 
+
+### v1.31.0
+
 - Switch to new Freeport Smart Contract SDK
 - Refactor Assets and activity stores to reduce copy & past
 - Remove usages of static token config everywhere, and fetch the data from contracts
