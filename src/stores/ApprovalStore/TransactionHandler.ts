@@ -1,9 +1,15 @@
 import { BigNumber } from 'ethers';
 import { runInAction, when } from 'mobx';
-import { ContractName, SendTransactionRequest, getTokenConfig, parseTransactionData } from '@cere-wallet/wallet-engine';
+import {
+  ContractName,
+  SendTransactionRequest,
+  TokenConfig,
+  getERC20TokenConfig,
+  parseTransactionData,
+} from '@cere-wallet/wallet-engine';
 
 import { reportError } from '~/reporting';
-import { Wallet } from '../types';
+import { ReadyWallet } from '../types';
 import { convertPrice } from './convertPrice';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
@@ -15,8 +21,10 @@ export type ApproveTransactionOptions = {
 };
 
 export class TransactionHandler {
+  private erc2oTokenConfig!: TokenConfig;
+
   constructor(
-    private wallet: Wallet,
+    private wallet: ReadyWallet,
     private popupManagerStore: PopupManagerStore,
     private networkStore: NetworkStore,
     private contextStore: AppContextStore,
@@ -26,7 +34,8 @@ export class TransactionHandler {
     { preopenInstanceId, proceed, params: [transaction] }: SendTransactionRequest,
     { showDetails = false }: ApproveTransactionOptions = {},
   ) {
-    const tokenConfig = getTokenConfig();
+    this.erc2oTokenConfig ||= await getERC20TokenConfig(this.wallet.provider.getSigner());
+
     const network = this.networkStore.network!;
     const { contractName, description: parsedData } = parseTransactionData(transaction, network.chainId);
     const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
@@ -47,15 +56,15 @@ export class TransactionHandler {
         const { name, args } = parsedData;
 
         if (name === 'takeOffer') {
-          const price = convertPrice(args.expectedPriceOrZero, tokenConfig);
+          const price = convertPrice(args.expectedPriceOrZero, this.erc2oTokenConfig);
           const amount = (args.amount as BigNumber).toNumber();
           const sum = amount * price;
 
           popup.state.spending = {
-            fee: { symbol: tokenConfig.symbol, amount: 0 }, // TODO: Detect gas fee
+            fee: { symbol: this.erc2oTokenConfig.symbol, amount: 0 }, // TODO: Detect gas fee
 
             price: {
-              symbol: tokenConfig.symbol,
+              symbol: this.erc2oTokenConfig.symbol,
               amount: sum,
               equalsTo: {
                 amount: sum,
@@ -64,7 +73,7 @@ export class TransactionHandler {
             },
 
             total: {
-              symbol: tokenConfig.symbol,
+              symbol: this.erc2oTokenConfig.symbol,
               amount: sum,
               equalsTo: {
                 amount: sum,
@@ -75,13 +84,13 @@ export class TransactionHandler {
         }
       }
 
-      if (contractName === ContractName.ERC20) {
+      if (contractName === ContractName.ERC20Token) {
         const { name, args } = parsedData;
 
         if (name === 'approve') {
           popup.state.toConfirm = {
-            symbol: tokenConfig.symbol,
-            amount: convertPrice(args.amount, tokenConfig),
+            symbol: this.erc2oTokenConfig.symbol,
+            amount: convertPrice(args.amount, this.erc2oTokenConfig),
           };
         }
       }

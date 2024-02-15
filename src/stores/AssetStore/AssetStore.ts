@@ -36,7 +36,8 @@ export class AssetStore {
       new UsdcToken(wallet),
       new UsdtToken(wallet),
     ];
-    this.managableAssets = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
+
+    this.managableList = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
   }
 
   get managableList() {

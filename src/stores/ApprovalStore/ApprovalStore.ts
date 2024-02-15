@@ -6,7 +6,7 @@ import type {
   TransferRequest,
 } from '@cere-wallet/wallet-engine';
 
-import { Wallet } from '../types';
+import { Wallet, ReadyWallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
 import { AppContextStore } from '../AppContextStore';
@@ -42,7 +42,12 @@ export class ApprovalStore {
   async approveSendTransaction(params: SendTransactionRequest, options: ApproveTransactionOptions = {}) {
     const { TransactionHandler } = await import(/* webpackChunkName: "TransactionHandler" */ './TransactionHandler');
 
-    const handler = new TransactionHandler(this.wallet, this.popupManagerStore, this.networkStore, this.contextStore);
+    const handler = new TransactionHandler(
+      this.wallet as ReadyWallet,
+      this.popupManagerStore,
+      this.networkStore,
+      this.contextStore,
+    );
 
     return handler.handle(params, options);
   }

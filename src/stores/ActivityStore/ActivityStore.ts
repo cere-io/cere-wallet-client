@@ -5,7 +5,6 @@ import { createSharedState } from '../sharedState';
 import { AssetStore } from '../AssetStore';
 
 import type { Erc20Token } from './Erc20Token';
-import type { CustomToken } from './CustomToken';
 
 export type Activity = {
   type: 'in' | 'out';
@@ -22,7 +21,7 @@ type SharedState = {
 };
 
 export class ActivityStore {
-  private startedTokens: (CustomToken | Erc20Token)[] = [];
+  private startedTokens: Erc20Token[] = [];
   private shared = createSharedState<SharedState>(
     `activity.${this.wallet.instanceId}`,
     {
@@ -35,7 +34,7 @@ export class ActivityStore {
     makeAutoObservable(this);
 
     reaction(
-      () => wallet.isReady(),
+      () => wallet.isReady() && assetStore.commonList.length > 0,
       (isReady) => {
         if (isReady) {
           this.init(wallet as ReadyWallet);
@@ -47,21 +46,11 @@ export class ActivityStore {
   }
 
   async init(wallet: ReadyWallet) {
-    const { CustomToken } = await import(/* webpackChunkName: "walletAssetActivity" */ './CustomToken');
     const { Erc20Token } = await import(/* webpackChunkName: "walletAssetActivity" */ './Erc20Token');
 
-    this.startedTokens = this.assetStore.managableList.map((asset) => {
-      const token = new CustomToken(this, asset.address!);
-
-      token.start(wallet);
-
-      return token;
-    });
-
-    const erc20token = new Erc20Token(this);
-    erc20token.start(wallet);
-
-    this.startedTokens.push(erc20token);
+    this.startedTokens = this.assetStore.commonList
+      .filter((asset) => asset.address)
+      .map((asset) => new Erc20Token(this, asset).start(wallet));
   }
 
   async cleanUp() {
