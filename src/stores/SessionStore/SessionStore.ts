@@ -56,7 +56,7 @@ export class SessionStore {
   }
 
   get sessionId() {
-    return this.sessionManager.sessionKey;
+    return this.sessionManager.sessionId;
   }
 
   get sessionNamespace() {
@@ -71,7 +71,7 @@ export class SessionStore {
       return null;
     }
 
-    this.sessionManager.sessionKey = currentSessionId;
+    this.sessionManager.sessionId = currentSessionId;
 
     try {
       this.session = await this.sessionManager.authorizeSession();
@@ -90,7 +90,7 @@ export class SessionStore {
 
   async createSession(session: Session, { namespace, store = false }: SessionCreateOptions = {}) {
     this.session = session;
-    this.sessionManager.sessionKey = OpenloginSessionManager.generateRandomSessionKey();
+    this.sessionManager.sessionId = OpenloginSessionManager.generateRandomSessionKey();
 
     if (namespace) {
       this.sessionManager.sessionNamespace = namespace;

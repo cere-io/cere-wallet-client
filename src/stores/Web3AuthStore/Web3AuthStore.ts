@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import Torus, { TorusCtorOptions } from '@toruslabs/torus.js';
+import Torus from '@toruslabs/torus.js';
 import { NodeDetailManager } from '@toruslabs/fetch-node-details';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
@@ -17,16 +17,14 @@ type VerifierDetails = {
   verifierId: string;
 };
 
-const authNetwork = OPEN_LOGIN_NETWORK as TorusCtorOptions['network'];
-
 export class Web3AuthStore {
   private nodeDetailManager = new NodeDetailManager({
-    network: authNetwork,
+    network: OPEN_LOGIN_NETWORK,
   });
 
   private auth = new Torus({
     enableOneKey: true,
-    network: authNetwork,
+    network: OPEN_LOGIN_NETWORK,
     clientId: OPEN_LOGIN_CLIENT_ID,
   });
 
