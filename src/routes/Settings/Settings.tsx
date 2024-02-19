@@ -24,7 +24,7 @@ export const Settings = () => {
 
   useEffect(() => {
     authenticationStore
-      .getRedirectUrl({ redirectUrl: accountUrl, forceMfa: true, emailHint: user?.email })
+      .getRedirectUrl({ callbackUrl: accountUrl, forceMfa: true, emailHint: user?.email, skipIntro: true })
       .then(setAccountLink);
   }, [authenticationStore, accountUrl, user]);
 
