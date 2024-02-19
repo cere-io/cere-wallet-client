@@ -2,7 +2,7 @@
 
 ### vNext
 
-- 
+- Upgrade Web3Auth libraries to support latest updates in Web3Auth infrastructure
 
 ### v1.31.0
 

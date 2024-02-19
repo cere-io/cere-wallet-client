@@ -21,6 +21,8 @@ type RehydrateParams = {
 type AuthLoginParams = LoginParams & {
   forceMfa?: boolean;
   emailHint?: string;
+  skipIntro?: boolean;
+  callbackUrl?: string;
 };
 
 export class AuthenticationStore {
@@ -163,23 +165,29 @@ export class AuthenticationStore {
 
     if (forceMfa) {
       startUrl.searchParams.append('mfa', 'force');
-    } else {
-      startUrl.searchParams.append('mfa', 'none'); // Disable mfa by default
     }
 
     if (emailHint) {
       startUrl.searchParams.append('email', emailHint);
     }
 
+    if (params.skipIntro) {
+      startUrl.searchParams.append('skipIntro', 'yes');
+    }
+
     const callbackQuery = callbackParams.toString();
     const callbackUrl = callbackQuery ? `${callbackPath}?${callbackQuery}` : callbackPath;
 
-    startUrl.searchParams.append('callbackUrl', callbackUrl);
+    startUrl.searchParams.append('callbackUrl', params.callbackUrl || callbackUrl);
     startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
 
     return !params.idToken
       ? startUrl.toString()
-      : await this.openLoginStore.getLoginUrl({ ...params, preopenInstanceId, redirectUrl: callbackUrl });
+      : await this.openLoginStore.getLoginUrl({
+          ...params,
+          preopenInstanceId,
+          redirectUrl: params.callbackUrl || callbackUrl,
+        });
   }
 
   private async syncAccount({ sessionId, permissions }: Required<AuthorizePopupState>['result']) {

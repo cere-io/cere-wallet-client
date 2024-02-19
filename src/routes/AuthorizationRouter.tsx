@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useSearchParams } from 'react-router-dom';
 
 import { useAppContextStore } from '~/hooks';
 import {
@@ -12,8 +12,9 @@ import {
 } from './Authorize';
 
 export const AuthorizationRouter = () => {
+  const [params] = useSearchParams();
   const store = useAppContextStore();
-  const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
+  const skipLoginIntro = params.get('skipIntro') || store.whiteLabel?.skipLoginIntro;
 
   const isGame = ['metaverse-dash-run', 'candy-jam', 'cere-game-portal'].includes(store.app?.appId as string); // TODO remove after promo
   return (
