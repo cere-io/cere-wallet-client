@@ -5,7 +5,7 @@ import { BannerPlaceProps, bannerPlacementIdMap } from './BannerPlace';
 
 export type BannerProps = BoxProps & {
   height?: number;
-  placement?: BannerPlaceProps['placement'];
+  placement?: BannerPlaceProps['placement'] | 'content';
 };
 
 const BannerContent = styled(Box)(({ theme }) => ({
@@ -16,8 +16,13 @@ const BannerContent = styled(Box)(({ theme }) => ({
 }));
 
 export const Banner = ({ placement = 'top', height, ...props }: BannerProps) => {
-  const container = document.getElementById(bannerPlacementIdMap[placement]);
   const [detectedHeight, setDetectedHeight] = useState(0);
+
+  if (placement === 'content') {
+    return <Box {...props} />;
+  }
+
+  const container = document.getElementById(bannerPlacementIdMap[placement]);
   const resultHeight = height || detectedHeight;
 
   const updateHeight = (element: HTMLDivElement | null) => {
