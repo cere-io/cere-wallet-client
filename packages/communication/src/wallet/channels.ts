@@ -1,5 +1,5 @@
 import type { Context, NetworkConfig } from '@cere/embed-wallet';
-import type { PermissionRequest } from '@cere-wallet/wallet-engine';
+import type { PermissionRequest, BiconomyOptions } from '@cere-wallet/wallet-engine';
 
 import { createChannel, CreateChannelOptions } from './createChannel';
 
@@ -38,6 +38,7 @@ export type InitChannelIn = {
     context: Context;
     torusWidgetVisibility: boolean;
     network: NetworkInterface;
+    biconomy?: BiconomyOptions;
   };
 };
 

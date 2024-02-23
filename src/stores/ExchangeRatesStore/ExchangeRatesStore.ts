@@ -11,7 +11,7 @@ const API_URL = 'https://min-api.cryptocompare.com/data/pricemulti';
 type ExchangeRates = Record<string, Record<string, number>>;
 
 export class ExchangeRatesStore {
-  private _handle: NodeJS.Timer | null = null;
+  private _handle: NodeJS.Timeout | null = null;
   private _exchangeRates: ExchangeRates = {};
 
   constructor(private wallet: Wallet, private assetStore: AssetStore) {

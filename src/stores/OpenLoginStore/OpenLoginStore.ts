@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK_TYPE, LoginParams as OpenloginLoginParams } from '@toruslabs/openlogin';
 import { getIFrameOrigin, AppContext, LoginOptions } from '@cere-wallet/communication';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
@@ -11,7 +11,11 @@ export type LoginParams = LoginOptions & {
   preopenInstanceId?: string;
 };
 
-const createLoginParams = ({ redirectUrl = '/', idToken, preopenInstanceId }: LoginParams = {}) => {
+const createLoginParams = ({
+  redirectUrl = '/',
+  idToken,
+  preopenInstanceId,
+}: LoginParams = {}): OpenloginLoginParams => {
   const url = new URL(redirectUrl, window.origin);
 
   if (preopenInstanceId) {

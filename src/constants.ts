@@ -1,3 +1,5 @@
+import type { TORUS_NETWORK_TYPE } from '@toruslabs/constants';
+
 import npmPackage from '../package.json';
 
 export const APP_VERSION = npmPackage.version;
@@ -5,7 +7,7 @@ export const APP_SIMULATION = process.env.REACT_APP_SIMULATION;
 export const APP_ENV = process.env.REACT_APP_ENV;
 export const WALLET_HELP_URL = process.env.REACT_APP_HELP_URL || 'https://cere.network/cere-wallet-faq/';
 export const OPEN_LOGIN_CLIENT_ID = process.env.REACT_APP_TORUS_AUTH_ID || '';
-export const OPEN_LOGIN_NETWORK = process.env.REACT_APP_TORUS_AUTH_NETWORK || 'mainnet';
+export const OPEN_LOGIN_NETWORK = (process.env.REACT_APP_TORUS_AUTH_NETWORK || 'mainnet') as TORUS_NETWORK_TYPE;
 export const OPEN_LOGIN_VERIFIER = process.env.REACT_APP_TORUS_AUTH_VERIFIER || 'cere-wallet';
 export const WALLET_API = process.env.REACT_APP_WALLET_API;
 export const REACT_APP_FREEPORT_API = process.env.REACT_APP_FREEPORT_API;

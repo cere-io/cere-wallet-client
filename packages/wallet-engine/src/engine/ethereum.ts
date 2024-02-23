@@ -7,7 +7,7 @@ import { Engine, EngineEventTarget } from './engine';
 import { ChainConfig } from '../types';
 import { getKeyPair } from '../accounts';
 
-type BiconomyOptions = {
+export type BiconomyOptions = {
   apiKey: string;
   debug?: boolean;
 };
@@ -19,6 +19,7 @@ export type EthereumEngineOptions = {
   pollingInterval?: number;
 };
 
+const transactionMethods = ['eth_sendTransaction', 'eth_sendRawTransaction'];
 const createBiconomyProvider = async (provider: providers.ExternalProvider, options: BiconomyOptions) => {
   const { Biconomy } = await import('@biconomy/mexa');
 
@@ -27,6 +28,7 @@ const createBiconomyProvider = async (provider: providers.ExternalProvider, opti
     contractAddresses: [],
   });
 
+  console.log('Biconomy', options);
   await biconomyInstance.init();
 
   return biconomyInstance.provider;
@@ -73,18 +75,20 @@ export const createEthereumEngine = ({
       throw new Error('Ethereum provider is not ready!');
     }
 
-    if (!biconomyProviderPromise && biconomy) {
-      biconomyProviderPromise = createBiconomyProvider(providerFactory.provider, biconomy);
-    }
-
     return providerFactory.provider;
   };
 
-  const getGaslessProvider = async () => {
+  const getTxProvider = async () => {
     const provider = await getProvider();
-    const biconomyProvider = await biconomyProviderPromise;
 
-    return new providers.Web3Provider(biconomyProvider || provider);
+    if (!biconomyProviderPromise && biconomy) {
+      biconomyProviderPromise = createBiconomyProvider(provider, biconomy);
+    }
+
+    const biconomyProvider = await biconomyProviderPromise?.catch(() => undefined);
+    const finalProvider = biconomy && biconomyProvider ? biconomyProvider : providerFactory.provider;
+
+    return finalProvider as NonNullable<typeof providerFactory.provider>;
   };
 
   const engine = new EthereumEngine();
@@ -130,7 +134,8 @@ export const createEthereumEngine = ({
       eth_transfer: createAsyncMiddleware(async (req, res) => {
         const [from, to, value] = req.params as [string, string, string];
 
-        const web3 = await getGaslessProvider();
+        const provider = await getTxProvider();
+        const web3 = new providers.Web3Provider(provider);
         const tokenAddress = getContractAddress(ContractName.CereToken, chainConfig.chainId); // TODO: make the handler generic for all ERC20
         const erc20 = createERC20Contract(web3.getSigner(), tokenAddress);
 
@@ -155,7 +160,7 @@ export const createEthereumEngine = ({
 
   engine.push(
     createAsyncMiddleware(async (req, res) => {
-      const provider = await getProvider();
+      const provider = transactionMethods.includes(req.method) ? await getTxProvider() : await getProvider();
 
       try {
         res.result = await provider.request(req);

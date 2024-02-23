@@ -2,7 +2,12 @@
 
 ### vNext
 
-- 
+-
+
+### v1.32.0
+
+- Upgrade Web3Auth libraries to support latest updates in Web3Auth infrastructure
+- Add context banner support to login UI
 
 ### v1.31.0
 
