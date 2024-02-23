@@ -1,6 +1,7 @@
 import {
   styled,
   Banner,
+  BannerProps,
   Avatar,
   ListItem,
   ListItemAvatar,
@@ -17,7 +18,10 @@ import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useAppContextStore } from '~/hooks';
 
-export type AppContextBannerProps = {};
+export type AppContextBannerProps = BannerProps & {
+  variant?: 'app' | 'banner';
+  hideBackButton?: boolean;
+};
 
 type Row = {
   variant: 'primary' | 'secondary';
@@ -57,29 +61,28 @@ const getTypographyProps = ({ variant, color }: Row) => ({
   color: color || typographyPropsMap[variant].color,
 });
 
-const AppContextBanner = (props: AppContextBannerProps) => {
+const AppContextBanner = ({ variant, hideBackButton = false, ...props }: AppContextBannerProps) => {
   const { banner } = useAppContextStore();
 
   const handleBackClick = useCallback(() => {
     window.close();
   }, []);
 
-  if (!banner) {
+  if (!banner || (variant && variant !== banner.variant)) {
     return null;
   }
 
-  const variant = banner.variant || 'banner';
-  const hasBackButton = banner.hasBackButton ?? true;
+  const hasBackButton = !hideBackButton && (banner.hasBackButton ?? true);
   const [contentTitle, contentText] = banner.content;
   const [rightTitle, rightText] = banner.right || [];
-  const FallbackIcon = variant === 'app' ? WindowIcon : PhotoOutlinedIcon;
+  const FallbackIcon = banner.variant === 'app' ? WindowIcon : PhotoOutlinedIcon;
 
-  const appBadgeElement = variant === 'app' && !banner.thumbnailUrl && (
+  const appBadgeElement = banner.variant === 'app' && !banner.thumbnailUrl && (
     <LanguageIcon color="primary" fontSize="small" />
   );
 
   return (
-    <Banner paddingLeft={hasBackButton ? 1.5 : 2} paddingRight={2} paddingY={0.5}>
+    <Banner paddingLeft={hasBackButton ? 1.5 : 2} paddingRight={2} paddingY={0.5} {...props}>
       <ListItem disablePadding>
         {hasBackButton && (
           <IconButton sx={{ marginRight: 1 }} onClick={handleBackClick}>

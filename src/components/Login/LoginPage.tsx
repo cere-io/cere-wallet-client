@@ -24,6 +24,7 @@ import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { useEffect } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { useAppContextStore } from '~/hooks';
+import { AppContextBanner } from '../AppContextBanner';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -38,6 +39,11 @@ const validationSchema = yup
 
 export const CereWhiteLogo = styled(CereWhiteIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
+}));
+
+const Banner = styled(AppContextBanner)(({ theme }) => ({
+  backgroundColor: theme.palette.grey[100],
+  borderRadius: theme.shape.borderRadius * 2,
 }));
 
 export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
@@ -125,6 +131,9 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           ? "Creating an account is easy! Fill in your email, confirm & claim your spot on the leaderboard! As a sign-up bonus you'll receive 10 credits to continue playing for free"
           : 'Send and receive any currency or simply top up with your card.'}
       </Typography>
+
+      <Banner hideBackButton variant="banner" placement="content" />
+
       <FormControl>
         <TextField
           {...register('email')}
