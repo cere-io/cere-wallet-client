@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Fix wait 60 seconds before first otp resend request
 
 ### v1.32.0
 

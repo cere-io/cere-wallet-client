@@ -19,6 +19,8 @@ import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
 import { CereWhiteLogo } from '~/components';
 
+const TIME_LEFT = 60; // seconds before next otp request
+
 interface OtpProps {
   email?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
@@ -33,7 +35,7 @@ const validationSchema = yup
 export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
   const { isGame } = useTheme();
 
   const {
@@ -71,7 +73,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   };
 
   const handleResend = async () => {
-    setTimeLeft(60);
+    setTimeLeft(TIME_LEFT);
     await AuthApiService.sendOtp(email!);
   };
 
