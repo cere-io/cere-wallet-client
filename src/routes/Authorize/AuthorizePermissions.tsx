@@ -18,11 +18,11 @@ const AuthorizePermissions = () => {
   const permissionsScreenSettings = appStore.whiteLabel?.permissionsScreenSettings;
 
   const cereWalletIcon = useMemo(() => {
-    if (permissionsScreenSettings.hideIconInHeader) {
+    if (permissionsScreenSettings?.hideIconInHeader) {
       return;
     }
     return <CereIcon />;
-  }, [permissionsScreenSettings.hideIconInHeader]);
+  }, [permissionsScreenSettings?.hideIconInHeader]);
 
   const poweredBySection = useMemo(() => {
     if (!permissionsScreenSettings?.poweredBySection) {

@@ -95,28 +95,26 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     }
   }, [email, location, navigate]);
 
-  console.log('verifyScreenSettings', verifyScreenSettings);
-
   const verifyScreenMainTitle = useMemo(() => {
-    return verifyScreenSettings.verifyScreenMainTitle || 'Verify email';
-  }, [verifyScreenSettings.verifyScreenMainTitle]);
+    return verifyScreenSettings?.verifyScreenMainTitle || 'Verify email';
+  }, [verifyScreenSettings?.verifyScreenMainTitle]);
 
   const cereWalletIcon = useMemo(() => {
     if (isGame) {
       return <CereWhiteLogo />;
     }
-    if (verifyScreenSettings.hideIconInHeader) {
+    if (verifyScreenSettings?.hideIconInHeader) {
       return;
     }
     return <CereIcon />;
-  }, [isGame, verifyScreenSettings.hideIconInHeader]);
+  }, [isGame, verifyScreenSettings?.hideIconInHeader]);
 
   const verifyScreenMainText = useMemo(() => {
     if (isGame) {
       return 'Access your account using the code sent to your email';
     }
-    return verifyScreenSettings.verifyScreenMainText || 'Access CERE using code sent to your email';
-  }, [isGame, verifyScreenSettings.verifyScreenMainText]);
+    return verifyScreenSettings?.verifyScreenMainText || 'Access CERE using code sent to your email';
+  }, [isGame, verifyScreenSettings?.verifyScreenMainText]);
 
   const poweredBySection = useMemo(() => {
     if (!verifyScreenSettings?.poweredBySection) {
