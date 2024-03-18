@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ArrowBackIosIcon, Box, LoadingButton, CereIcon, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
@@ -6,12 +6,37 @@ import { ArrowBackIosIcon, Box, LoadingButton, CereIcon, Stack, Typography, useI
 import { AuthorizePopupStore } from '~/stores';
 import { Permissions } from '~/components';
 import { reportError } from '~/reporting';
+import { useAppContextStore } from '~/hooks';
 
 const AuthorizePermissions = () => {
   const store = useOutletContext<AuthorizePopupStore>();
+  const appStore = useAppContextStore();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isLoading, setLoading] = useState(false);
+
+  const permissionsScreenSettings = appStore.whiteLabel?.permissionsScreenSettings;
+
+  const cereWalletIcon = useMemo(() => {
+    if (permissionsScreenSettings.hideIconInHeader) {
+      return;
+    }
+    return <CereIcon />;
+  }, [permissionsScreenSettings.hideIconInHeader]);
+
+  const poweredBySection = useMemo(() => {
+    if (!permissionsScreenSettings?.poweredBySection) {
+      return;
+    }
+    return (
+      <Stack spacing={2} marginTop={8} direction="row" alignItems="center" justifyContent="center">
+        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
+          Powered by Cere Wallet
+        </Typography>
+        <CereIcon />
+      </Stack>
+    );
+  }, [permissionsScreenSettings?.poweredBySection]);
   const handleContinue = useCallback(async () => {
     try {
       setLoading(true);
@@ -31,7 +56,7 @@ const AuthorizePermissions = () => {
           <Typography variant="h2" flex={1}>
             Permissions
           </Typography>
-          <CereIcon />
+          {cereWalletIcon}
         </Stack>
 
         <Typography variant="body2" color={'text.secondary'}>
@@ -54,6 +79,7 @@ const AuthorizePermissions = () => {
           Continue
         </LoadingButton>
       </Stack>
+      {poweredBySection}
     </Stack>
   );
 };
