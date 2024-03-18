@@ -121,7 +121,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
       return;
     }
     return (
-      <Stack direction="row" alignItems="center" justifyContent="center">
+      <Stack direction="row" alignItems="center" justifyContent="center" marginTop={4}>
         <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
           Powered by Cere Wallet
         </Typography>
