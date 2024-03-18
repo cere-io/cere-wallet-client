@@ -9,7 +9,7 @@ import {
   Alert,
   useTheme,
 } from '@cere-wallet/ui';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
 import { CereWhiteLogo } from '~/components';
+import { useAppContextStore } from '~/hooks';
 
 const TIME_LEFT = 60; // seconds before next otp request
 
@@ -37,6 +38,9 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
   const { isGame } = useTheme();
+  const store = useAppContextStore();
+
+  const verifyScreenSettings = store?.whiteLabel?.verifyScreenSettings;
 
   const {
     register,
@@ -91,6 +95,41 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     }
   }, [email, location, navigate]);
 
+  const verifyScreenMainTitle = useMemo(() => {
+    return verifyScreenSettings?.verifyScreenMainTitle || 'Verify email';
+  }, [verifyScreenSettings?.verifyScreenMainTitle]);
+
+  const cereWalletIcon = useMemo(() => {
+    if (isGame) {
+      return <CereWhiteLogo />;
+    }
+    if (verifyScreenSettings?.hideIconInHeader) {
+      return;
+    }
+    return <CereIcon />;
+  }, [isGame, verifyScreenSettings?.hideIconInHeader]);
+
+  const verifyScreenMainText = useMemo(() => {
+    if (isGame) {
+      return 'Access your account using the code sent to your email';
+    }
+    return verifyScreenSettings?.verifyScreenMainText || 'Access CERE using code sent to your email';
+  }, [isGame, verifyScreenSettings?.verifyScreenMainText]);
+
+  const poweredBySection = useMemo(() => {
+    if (!verifyScreenSettings?.poweredBySection) {
+      return;
+    }
+    return (
+      <Stack direction="row" alignItems="center" justifyContent="center">
+        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
+          Powered by Cere Wallet
+        </Typography>
+        <CereIcon />
+      </Stack>
+    );
+  }, [verifyScreenSettings?.poweredBySection]);
+
   return (
     <Stack
       direction="column"
@@ -103,12 +142,12 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     >
       <Stack direction="row" alignItems="center">
         <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.secondary'}>
-          Verify email
+          {verifyScreenMainTitle}
         </Typography>
-        {isGame ? <CereWhiteLogo /> : <CereIcon />}
+        {cereWalletIcon}
       </Stack>
       <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        {isGame ? 'Access your account using the code sent to your email' : 'Access CERE using code sent to your email'}
+        {verifyScreenMainText}
       </Typography>
       <TextField
         value={email}
@@ -157,6 +196,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           </Button>
         </Typography>
       )}
+      {poweredBySection}
     </Stack>
   );
 };
