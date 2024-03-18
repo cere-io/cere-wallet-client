@@ -131,71 +131,73 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   }, [verifyScreenSettings?.poweredBySection]);
 
   return (
-    <Stack
-      direction="column"
-      spacing={2}
-      alignItems="stretch"
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Stack direction="row" alignItems="center">
-        <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.secondary'}>
-          {verifyScreenMainTitle}
+    <Stack>
+      <Stack
+        direction="column"
+        spacing={2}
+        alignItems="stretch"
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Stack direction="row" alignItems="center">
+          <Typography variant="h2" flex={1} color={isGame ? 'primary.light' : 'text.secondary'}>
+            {verifyScreenMainTitle}
+          </Typography>
+          {cereWalletIcon}
+        </Stack>
+        <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
+          {verifyScreenMainText}
         </Typography>
-        {cereWalletIcon}
+        <TextField
+          value={email}
+          variant="outlined"
+          disabled={true}
+          sx={{
+            '& .MuiInputBase-input.Mui-disabled': {
+              WebkitTextFillColor: isGame ? 'rgba(245, 250, 252, 1)' : '',
+            },
+          }}
+        />
+        <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
+          Verification code
+        </Typography>
+        <OtpInput
+          {...register('code')}
+          onChange={(val) => setFormValue('code', val)}
+          errorMessage={errors?.code?.message}
+        />
+
+        {errors.root && (
+          <Alert variant="outlined" severity="warning" sx={{ marginY: 1 }}>
+            {errors.root?.message}
+          </Alert>
+        )}
+
+        <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+          {errors.root ? 'Retry' : 'Verify'}
+        </LoadingButton>
+        {timeLeft ? (
+          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+            Resend verification code in <strong>{timeLeft}</strong> seconds
+          </Typography>
+        ) : (
+          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+            Did not receive a code?{' '}
+            <Button
+              variant="text"
+              onClick={handleResend}
+              sx={{
+                fontSize: isGame ? '16px' : '14px',
+                color: isGame ? 'rgba(243, 39, 88, 1)' : 'primary.main',
+              }}
+            >
+              Resend code
+            </Button>
+          </Typography>
+        )}
       </Stack>
-      <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        {verifyScreenMainText}
-      </Typography>
-      <TextField
-        value={email}
-        variant="outlined"
-        disabled={true}
-        sx={{
-          '& .MuiInputBase-input.Mui-disabled': {
-            WebkitTextFillColor: isGame ? 'rgba(245, 250, 252, 1)' : '',
-          },
-        }}
-      />
-      <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
-        Verification code
-      </Typography>
-      <OtpInput
-        {...register('code')}
-        onChange={(val) => setFormValue('code', val)}
-        errorMessage={errors?.code?.message}
-      />
-
-      {errors.root && (
-        <Alert variant="outlined" severity="warning" sx={{ marginY: 1 }}>
-          {errors.root?.message}
-        </Alert>
-      )}
-
-      <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
-        {errors.root ? 'Retry' : 'Verify'}
-      </LoadingButton>
-      {timeLeft ? (
-        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
-          Resend verification code in <strong>{timeLeft}</strong> seconds
-        </Typography>
-      ) : (
-        <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
-          Did not receive a code?{' '}
-          <Button
-            variant="text"
-            onClick={handleResend}
-            sx={{
-              fontSize: isGame ? '16px' : '14px',
-              color: isGame ? 'rgba(243, 39, 88, 1)' : 'primary.main',
-            }}
-          >
-            Resend code
-          </Button>
-        </Typography>
-      )}
       {poweredBySection}
     </Stack>
   );
