@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Connect Screen Settings
 
 ### v1.32.0
 
