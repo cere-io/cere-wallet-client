@@ -22,7 +22,7 @@ export const useRamp = ({ address, email }: RampProps) => {
       config.defaultAsset = 'ETH_USDC';
     } else {
       config.defaultAsset = 'MATIC_USDC';
-      config.url = 'https://ri-widget-staging.firebaseapp.com/';
+      config.url = 'https://app.demo.ramp.network/';
     }
     new RampInstantSDK(config).show();
   }, [address, email]);
