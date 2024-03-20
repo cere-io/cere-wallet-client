@@ -116,6 +116,23 @@ export const Wallet = () => {
     wallet.setContext({
       whiteLabel: {
         skipLoginIntro: true,
+        connectScreenSettings: {
+          connectScreenMainTitle: 'Davinci Wallet',
+          hideIconInHeader: true,
+          connectScreenMainText:
+            'Sign-up to invest/sell and trade artist collectibles. Net proceeds will go directly to the artists.',
+          poweredBySection: true,
+        },
+        verifyScreenSettings: {
+          verifyScreenMainTitle: 'Verify your Email',
+          hideIconInHeader: true,
+          verifyScreenMainText: 'Access Davinci using the code sent to your email',
+          poweredBySection: true,
+        },
+        permissionsScreenSettings: {
+          hideIconInHeader: true,
+          poweredBySection: true,
+        },
       },
       banner: {
         thumbnailUrl: nftImageUrl,

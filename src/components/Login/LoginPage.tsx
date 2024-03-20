@@ -21,7 +21,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthApiService } from '~/api/auth-api.service';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { useAppContextStore } from '~/hooks';
 import { AppContextBanner } from '../AppContextBanner';
@@ -55,6 +55,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const store = useAppContextStore();
 
   const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
+  const connectScreenSettings = store?.whiteLabel?.connectScreenSettings;
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -74,6 +75,46 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
       email: searchParams.get('email') || '',
     },
   });
+
+  const connectScreenMainTitle = useMemo(() => {
+    if (isGame) {
+      return 'Sign up';
+    }
+    return connectScreenSettings?.connectScreenMainTitle || 'Cere wallet';
+  }, [isGame, connectScreenSettings?.connectScreenMainTitle]);
+
+  const cereWalletIcon = useMemo(() => {
+    if (isGame) {
+      return <CereWhiteLogo />;
+    }
+    if (connectScreenSettings?.hideIconInHeader) {
+      return;
+    }
+    return <CereIcon />;
+  }, [isGame, connectScreenSettings?.hideIconInHeader]);
+
+  const connectScreenMainText = useMemo(() => {
+    if (isGame) {
+      return "Creating an account is easy! Fill in your email, confirm & claim your spot on the leaderboard! As a sign-up bonus you'll receive 10 credits to continue playing for free";
+    }
+    return (
+      connectScreenSettings?.connectScreenMainText || 'Send and receive any currency or simply top up with your card.'
+    );
+  }, [isGame, connectScreenSettings?.connectScreenMainText]);
+
+  const poweredBySection = useMemo(() => {
+    if (!connectScreenSettings?.poweredBySection) {
+      return;
+    }
+    return (
+      <Stack spacing={2} marginTop={8} direction="row" alignItems="center" justifyContent="center">
+        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
+          Powered by Cere Wallet
+        </Typography>
+        <CereIcon />
+      </Stack>
+    );
+  }, [connectScreenSettings?.poweredBySection]);
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('email');
@@ -122,14 +163,12 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     >
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
-          {isGame ? 'Sign up' : 'CERE wallet'}
+          {connectScreenMainTitle}
         </Typography>
-        {isGame ? <CereWhiteLogo /> : <CereIcon />}
+        {cereWalletIcon}
       </Stack>
       <Typography variant="body2" color={isGame ? 'primary.light' : 'text.secondary'}>
-        {isGame
-          ? "Creating an account is easy! Fill in your email, confirm & claim your spot on the leaderboard! As a sign-up bonus you'll receive 10 credits to continue playing for free"
-          : 'Send and receive any currency or simply top up with your card.'}
+        {connectScreenMainText}
       </Typography>
 
       <Banner hideBackButton variant="banner" placement="content" />
@@ -186,6 +225,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
           </Stack>
         </>
       )}
+      {poweredBySection}
     </Stack>
   );
 };

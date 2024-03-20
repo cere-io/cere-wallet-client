@@ -4,6 +4,10 @@
 
 -
 
+### v1.33.0
+
+- Connect Screen Settings
+
 ### v1.32.0
 
 - Upgrade Web3Auth libraries to support latest updates in Web3Auth infrastructure
