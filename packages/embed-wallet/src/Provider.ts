@@ -31,15 +31,17 @@ export class ProxyProvider extends EventEmitter implements ProviderInterface {
   }
 
   setTarget(provider: TorusInpageProvider) {
+    const eventNames = [...this.eventNames()];
+    eventNames.map((name) => this.provider?.removeAllListeners(name));
     this.provider = provider;
 
-    this.eventNames().forEach((event) =>
+    eventNames.forEach((event) =>
       this.listeners(event).forEach((listener) => {
         provider.addListener(event as string, listener as () => void);
       }),
     );
 
-    this.on('newListener', provider.on.bind(provider));
-    this.on('removeListener', provider.off.bind(provider));
+    // this.on('newListener', provider.on.bind(provider));
+    // this.on('removeListener', provider.off.bind(provider));
   }
 }

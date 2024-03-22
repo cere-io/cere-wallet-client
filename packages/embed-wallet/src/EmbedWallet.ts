@@ -70,6 +70,7 @@ export class EmbedWallet {
   private proxyProvider: ProxyProvider;
   private connectOptions: WalletConnectOptions = {};
   private onAfterInit?: (error?: any) => void;
+  private lastTorusInitParams = {};
 
   /**
    * @description Promise that resolves when the wallet instance is initialized and ready
@@ -168,8 +169,7 @@ export class EmbedWallet {
 
     try {
       this.setStatus('initializing');
-
-      await this.torus.init({
+      const lastTorusInitParams = {
         network,
         sessionId,
         popupMode,
@@ -182,8 +182,9 @@ export class EmbedWallet {
           check: false,
           version: clientVersion,
         },
-      });
-
+      };
+      await this.torus.init(this.lastTorusInitParams);
+      this.lastTorusInitParams = lastTorusInitParams;
       this.proxyProvider.setTarget(this.torus.provider);
       this.setStatus(this.torus.isLoggedIn ? 'connected' : 'ready');
 
@@ -196,7 +197,16 @@ export class EmbedWallet {
     }
   }
 
+  async reinit() {
+    if (this.lastTorusInitParams) {
+      this.torus.clearInit();
+      await this.torus.init(this.lastTorusInitParams);
+      this.proxyProvider.setTarget(this.torus.provider);
+    }
+  }
+
   async connect(overrideOptions: WalletConnectOptions = {}) {
+    await this.reinit();
     const { redirectUrl, mode, ...options } = { ...this.connectOptions, ...overrideOptions };
     const rollback = this.setStatus('connecting');
 
@@ -211,7 +221,6 @@ export class EmbedWallet {
       });
 
       this.setStatus('connected');
-
       return address;
     } catch (error) {
       rollback();
