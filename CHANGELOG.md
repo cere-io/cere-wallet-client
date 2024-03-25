@@ -4,6 +4,10 @@
 
 -
 
+### v1.33.1
+
+- Properly update wallet engine private key on account change
+
 ### v1.33.0
 
 - Connect Screen Settings
