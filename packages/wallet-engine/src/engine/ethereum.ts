@@ -5,7 +5,6 @@ import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 
 import { Engine, EngineEventTarget } from './engine';
 import { ChainConfig } from '../types';
-import { getKeyPair } from '../accounts';
 
 export type BiconomyOptions = {
   apiKey: string;
@@ -28,7 +27,6 @@ const createBiconomyProvider = async (provider: providers.ExternalProvider, opti
     contractAddresses: [],
   });
 
-  console.log('Biconomy', options);
   await biconomyInstance.init();
 
   return biconomyInstance.provider;
@@ -65,10 +63,14 @@ export const createEthereumEngine = ({
   const getProvider = async () => {
     const privateKey = getPrivateKey();
 
-    if (!providerFactory.provider && privateKey) {
-      const { secretKey } = getKeyPair({ type: 'ethereum', privateKey });
+    if (!privateKey) {
+      throw new Error('Ethereum provider is not ready. Empty private key!');
+    }
 
-      await providerFactory.setupProvider(secretKey.toString('hex'));
+    if (providerFactory.provider) {
+      await providerFactory.updateAccount({ privateKey });
+    } else {
+      await providerFactory.setupProvider(privateKey);
     }
 
     if (!providerFactory.provider) {
