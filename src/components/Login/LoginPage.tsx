@@ -56,6 +56,9 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
 
   const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
   const connectScreenSettings = store?.whiteLabel?.connectScreenSettings;
+  const email: string | undefined = searchParams.get('email') || store?.whiteLabel?.email;
+
+  console.log('EM', email);
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -72,7 +75,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
     defaultValues: {
-      email: searchParams.get('email') || '',
+      email: email || '',
     },
   });
 

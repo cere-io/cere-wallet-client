@@ -133,6 +133,7 @@ export const Wallet = () => {
           hideIconInHeader: true,
           poweredBySection: true,
         },
+        email: 'testEmail@cere.io',
       },
       banner: {
         thumbnailUrl: nftImageUrl,
