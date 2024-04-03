@@ -58,8 +58,6 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const connectScreenSettings = store?.whiteLabel?.connectScreenSettings;
   const email: string | undefined = searchParams.get('email') || store?.whiteLabel?.email;
 
-  console.log('EM', email);
-
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
 
