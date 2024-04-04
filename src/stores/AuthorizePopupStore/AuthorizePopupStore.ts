@@ -25,6 +25,7 @@ export type AuthorizePopupStoreOptions = {
 
 export type AuthorizePopupState = {
   result?: AuthenticationResult;
+  loginHint?: string;
   permissions?: PermissionRequest;
 };
 
@@ -73,6 +74,10 @@ export class AuthorizePopupStore {
 
   set email(email) {
     this.currentEmail = email;
+  }
+
+  get loginHint() {
+    return this.shared.state.loginHint;
   }
 
   get permissions() {

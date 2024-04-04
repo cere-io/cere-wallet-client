@@ -2,7 +2,8 @@
 
 ### vNext
 
--
+- Use Core Kit private keys for new users
+- Add `loginHint` option to the wallet connect configuration
 
 ### v1.33.1
 

@@ -94,14 +94,17 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
+  async loginInPopup(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
     const loginUrl = await this.getLoginUrl('popup', { ...params, preopenInstanceId });
     const redirect = await this.popupManagerStore.redirect(preopenInstanceId, loginUrl);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
+      permissions,
+      loginHint,
+    });
 
     await when(() => !redirect.isConnected || !!authPopup.state.result);
     this.popupManagerStore.closePopup(preopenInstanceId);
@@ -113,13 +116,16 @@ export class AuthenticationStore {
     return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
+  async loginInModal(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
     const modal = this.popupManagerStore.registerModal(preopenInstanceId);
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
+      permissions,
+      loginHint,
+    });
 
     this.popupManagerStore.registerRedirect(preopenInstanceId, true);
     this.popupManagerStore.showModal(preopenInstanceId, '/frame');

@@ -28,6 +28,7 @@ import { AppContextBanner } from '../AppContextBanner';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
+  loginHint?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -46,7 +47,7 @@ const Banner = styled(AppContextBanner)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 2,
 }));
 
-export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) => {
+export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: LogInProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -54,6 +55,7 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const { isGame } = useTheme();
   const store = useAppContextStore();
 
+  const emailHint = loginHint || searchParams.get('email') || '';
   const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
   const connectScreenSettings = store?.whiteLabel?.connectScreenSettings;
 
@@ -66,15 +68,18 @@ export const LoginPage = ({ variant = 'signin', onRequestLogin }: LogInProps) =>
   const {
     register,
     handleSubmit,
+    resetField,
     getValues: getFormValues,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onSubmit',
-    defaultValues: {
-      email: searchParams.get('email') || '',
-    },
+    defaultValues: { email: emailHint },
   });
+
+  useEffect(() => {
+    resetField('email', { defaultValue: emailHint });
+  }, [resetField, emailHint]);
 
   const connectScreenMainTitle = useMemo(() => {
     if (isGame) {

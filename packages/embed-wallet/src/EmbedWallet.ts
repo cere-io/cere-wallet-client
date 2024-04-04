@@ -203,6 +203,7 @@ export class EmbedWallet {
     try {
       const [address] = await this.torus.login({
         verifier: this.torus.currentVerifier || 'unknown',
+        login_hint: options.loginHint,
         loginOptions: {
           ...options,
           uxMode: mode || 'modal',
