@@ -1,15 +1,20 @@
+import { Wallet as PrivateKeySigner } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 import Torus from '@toruslabs/torus.js';
 import { NodeDetailManager } from '@toruslabs/fetch-node-details';
 
-import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { DEFAULT_APP_ID, OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { Wallet } from '../types';
 import { getUserInfo } from './getUserInfo';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from './getScopedKey';
+import { createAuthToken } from '../AuthenticationStore';
+import { getUserApplications } from '../ApplicationsStore';
 
 export type Web3AuthStoreLoginParams = {
   idToken: string;
   checkMfa?: boolean;
+  appId?: string;
 };
 
 type VerifierDetails = {
@@ -28,7 +33,7 @@ export class Web3AuthStore {
     clientId: OPEN_LOGIN_CLIENT_ID,
   });
 
-  constructor(private sessionStore: SessionStore) {
+  constructor(private wallet: Wallet, private sessionStore: SessionStore) {
     makeAutoObservable(this);
   }
 
@@ -47,7 +52,16 @@ export class Web3AuthStore {
     return !!metadata.upgraded;
   }
 
-  async login({ idToken, checkMfa = true }: Web3AuthStoreLoginParams) {
+  async isExistingUser(appId: string, privateKey: string) {
+    const signer = new PrivateKeySigner(privateKey);
+
+    const authToken = await createAuthToken(signer, { chainId: this.wallet.network?.chainId });
+    const apps = await getUserApplications(appId, signer.address, authToken);
+
+    return !!apps.length;
+  }
+
+  async login({ idToken, appId = DEFAULT_APP_ID, checkMfa = true }: Web3AuthStoreLoginParams) {
     const userInfo = getUserInfo(idToken);
     const isMfa = checkMfa ? await this.isMfaEnabled(userInfo) : false;
 
@@ -76,9 +90,12 @@ export class Web3AuthStore {
       throw new Error(`Unable to get private key for the account (${userInfo.email})`);
     }
 
+    const pnpPrivKey = getScopedKey(privKey);
+    const isPnPUser = await this.isExistingUser(appId, pnpPrivKey);
+
     await this.sessionStore.createSession({
       userInfo,
-      privateKey: getScopedKey(privKey),
+      privateKey: isPnPUser ? pnpPrivKey : privKey,
     });
 
     return userInfo;

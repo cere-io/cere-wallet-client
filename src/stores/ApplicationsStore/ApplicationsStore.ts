@@ -11,9 +11,23 @@ const api = axios.create({
   baseURL: WALLET_API,
 });
 
-type Application = {
+export type Application = {
   appId: string;
   address: string;
+};
+
+const createHeaders = (authToken?: string) => ({
+  Authorization: `Bearer ${authToken}`,
+});
+
+export const getUserApplications = async (appId: string, address: string, authToken?: string | null) => {
+  const { data } = await api.post<Application[]>(
+    '/applications/find',
+    { address, appId },
+    { headers: authToken ? createHeaders(authToken) : undefined },
+  );
+
+  return data;
 };
 
 export class ApplicationsStore {
@@ -60,25 +74,14 @@ export class ApplicationsStore {
   }
 
   private get headers() {
-    return !this.authToken
-      ? {}
-      : {
-          Authorization: `Bearer ${this.authToken}`,
-        };
+    return !this.authToken ? {} : createHeaders(this.authToken);
   }
 
   private async loadApps({ address }: Account) {
-    const { data } = await api.post<Application[]>(
-      '/applications/find',
-      {
-        address,
-        appId: this.appId,
-      },
-      { headers: this.headers },
-    );
+    const apps = await getUserApplications(this.appId, address, this.authToken);
 
     runInAction(() => {
-      this.existingApps = data;
+      this.existingApps = apps;
     });
   }
 
