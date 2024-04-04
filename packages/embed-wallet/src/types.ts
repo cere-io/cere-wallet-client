@@ -71,6 +71,7 @@ export type WalletConnectOptions = {
   mode?: 'redirect' | 'popup' | 'modal';
   redirectUrl?: string;
   permissions?: PermissionRequest;
+  loginHint?: string;
 };
 
 export type TokenType = 'erc20' | 'native';

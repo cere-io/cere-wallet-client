@@ -41,7 +41,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
       >
         <ArrowBackIosIcon sx={{ visibility: hideBack ? 'hidden' : 'visible' }} onClick={() => navigate(-1)} />
         <Stack direction="column" textAlign="justify">
-          <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
+          <LoginPage loginHint={store.loginHint} variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -58,7 +58,7 @@ const AuthorizeLogin = ({ variant = 'signin' }: { variant?: 'signin' | 'signup' 
       <ArrowBackIosIcon sx={{ visibility: hideBack ? 'hidden' : 'visible' }} onClick={() => navigate(-1)} />
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <LoginPage variant={variant} onRequestLogin={handleLoginRequest} />
+          <LoginPage loginHint={store.loginHint} variant={variant} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>

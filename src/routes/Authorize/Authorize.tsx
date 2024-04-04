@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
-
-import { usePopupStore } from '~/hooks';
-import { AuthorizePopupStore } from '~/stores';
 import { Outlet, useSearchParams } from 'react-router-dom';
+
+import { usePopupStore, useWallet } from '~/hooks';
+import { AuthorizePopupStore } from '~/stores';
 
 const Authorize = () => {
   const [params] = useSearchParams();
@@ -11,14 +11,18 @@ const Authorize = () => {
   const redirectUrl = params.get('redirectUrl') ?? undefined;
   const forceMfa = params.get('mfa') === 'force';
 
+  const wallet = useWallet();
   const store = usePopupStore(
     (popupId) =>
-      new AuthorizePopupStore(popupId, {
+      new AuthorizePopupStore(wallet, {
+        popupId,
         forceMfa,
         callbackUrl,
         redirectUrl,
         sessionNamespace,
+        appId: wallet.appContextStore.app?.appId,
       }),
+    [wallet],
   );
 
   return <Outlet context={store} />;

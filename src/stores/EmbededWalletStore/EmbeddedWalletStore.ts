@@ -164,8 +164,6 @@ export class EmbeddedWalletStore implements Wallet {
         this.networkStore.network = chainConfig;
         this.appContextStore.context = context;
 
-        console.log('on Init', { chainConfig, context, biconomy });
-
         /**
          * Configure the wallet with the init optionss
          */

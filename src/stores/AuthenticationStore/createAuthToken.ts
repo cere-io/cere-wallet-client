@@ -5,20 +5,21 @@ import { AUTH_SESSION_TIMEOUT, AUTH_TOKEN_ISSUER, OPEN_LOGIN_CLIENT_ID, OPEN_LOG
 export type AuthTokenOptions = {
   origin?: string;
   uri?: string;
+  chainId?: string;
+  address?: string;
 };
 
 export const createAuthToken = async (
   signer: Signer,
-  { origin = window.location.origin, uri }: AuthTokenOptions = {},
+  { origin = window.location.origin, uri, chainId, address }: AuthTokenOptions = {},
 ) => {
   const chainNamespace = 'eip155';
-
-  const address = await signer.getAddress();
-  const chainId = await signer.getChainId();
+  const finalAddress = address || signer.getAddress();
+  const finalChainId = chainId || signer.getChainId();
 
   const payload = {
-    address,
-    chainId,
+    address: await finalAddress,
+    chainId: await finalChainId,
     domain: origin,
     uri: uri || origin,
     version: '1',

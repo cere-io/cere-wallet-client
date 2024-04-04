@@ -4,9 +4,11 @@
 
 -
 
-### v1.33.1
+### v1.34.0
 
 - Properly update wallet engine private key on account change
+- Use Core Kit private keys for new users
+- Add `loginHint` option to the wallet connect configuration
 
 ### v1.33.0
 
@@ -34,7 +36,7 @@
 ### v1.29.4
 
 - Fixed deprecated API usage
-- Added `skipLoginIntro` prop to whitelabel
+- Added `skipLoginIntro` prop to white label configuration
 
 ### v1.29.3
 
