@@ -1,5 +1,9 @@
 ## Release Notes:
 
+### v0.17.0
+
+- Add `loginHint` option to the wallet connect configuration
+
 ### v0.16.0
 
 - Add `biconomy` init option to allow configure Cere Wallet + Biconomy

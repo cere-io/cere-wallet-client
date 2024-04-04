@@ -78,7 +78,10 @@ export const Wallet = () => {
   }, [wallet]);
 
   const handleConnect = useCallback(async () => {
-    await wallet.connect();
+    await wallet.connect({
+      loginHint: 'wallet-playground@cere.io',
+    });
+
     const userInfo = await wallet.getUserInfo();
 
     console.log('userInfo', userInfo);
