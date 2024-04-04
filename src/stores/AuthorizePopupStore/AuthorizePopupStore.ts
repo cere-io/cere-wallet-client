@@ -7,6 +7,7 @@ import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
+import { Wallet } from '../types';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -14,10 +15,12 @@ type AuthenticationResult = {
 };
 
 export type AuthorizePopupStoreOptions = {
+  popupId: string;
   callbackUrl: string;
   redirectUrl?: string;
   forceMfa?: boolean;
   sessionNamespace?: string;
+  appId?: string;
 };
 
 export type AuthorizePopupState = {
@@ -26,20 +29,20 @@ export type AuthorizePopupState = {
 };
 
 export class AuthorizePopupStore {
-  private shared = createSharedPopupState<AuthorizePopupState>(this.preopenInstanceId, {});
+  private shared = createSharedPopupState<AuthorizePopupState>(this.options.popupId, {});
   private sessionStore = new SessionStore({
     sessionNamespace: this.options.sessionNamespace,
   });
 
   private openLoginStore = new OpenLoginStore(this.sessionStore);
-  private web3AuthStore = new Web3AuthStore(this.sessionStore);
+  private web3AuthStore = new Web3AuthStore(this.wallet, this.sessionStore);
 
   private redirectUrl: string | null = null;
   private currentEmail?: string;
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
 
-  constructor(public readonly preopenInstanceId: string, private options: AuthorizePopupStoreOptions) {
+  constructor(private wallet: Wallet, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
 
     const callbackUrl = new URL(this.options.callbackUrl, window.origin);
@@ -99,11 +102,15 @@ export class AuthorizePopupStore {
        */
       return this.openLoginStore.login({
         idToken,
-        preopenInstanceId: this.preopenInstanceId,
+        preopenInstanceId: this.options.popupId,
         redirectUrl: this.options.callbackUrl,
       });
     } else {
-      await this.web3AuthStore.login({ idToken, checkMfa: isMfa === undefined });
+      await this.web3AuthStore.login({
+        idToken,
+        appId: this.options.appId,
+        checkMfa: isMfa === undefined,
+      });
     }
 
     return this.sessionStore.sessionId;
