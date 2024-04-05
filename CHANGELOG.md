@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Properly detect PnP users by removing `appId` from the filter
 
 ### v1.34.0
 
