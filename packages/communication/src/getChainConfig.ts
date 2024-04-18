@@ -11,11 +11,11 @@ const presets = {
     tickerName: 'Matic',
   },
 
-  mumbai: {
-    chainId: '0x13881',
-    rpcTarget: 'https://rpc.ankr.com/polygon_mumbai',
-    displayName: 'Polygon Mumbai Testnet',
-    blockExplorer: 'https://mumbai.polygonscan.com/',
+  amoy: {
+    chainId: '0x13882',
+    rpcTarget: 'https://rpc-amoy.polygon.technology',
+    displayName: 'Polygon Amoy Testnet',
+    blockExplorer: 'https://www.oklink.com/amoy',
     ticker: 'MATIC',
     tickerName: 'Matic',
   },
@@ -46,8 +46,8 @@ export const getChainConfig = (network: NetworkConfig): ChainConfig => {
     chainConfig = createChainConfig(network, 'matic');
   }
 
-  if (network.chainId === 80001 || network.host === 'mumbai') {
-    chainConfig = createChainConfig(network, 'mumbai');
+  if (network.chainId === 80002 || network.host === 'amoy') {
+    chainConfig = createChainConfig(network, 'amoy');
   }
 
   if (!isConfigReady(chainConfig)) {
