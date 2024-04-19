@@ -11,7 +11,7 @@ export const USDC_ID = 'usd-coin';
 export const CERE = 'cere';
 export const CERE_ID = 'cere-network';
 
-export const MUMBAI_CHAIN_ID = '0x13881';
+export const AMOY_CHAIN_ID = '0x13882';
 export const MATIC_CHAIN_ID = '0x89';
 
 export enum MATIC_PLATFORMS {
@@ -25,7 +25,7 @@ export const TOKENS = [
 ];
 
 export const COINGECKO_PLATFORMS_CHAIN_CODE_MAP: Record<string, { platform: string; currency: string }> = {
-  [MUMBAI_CHAIN_ID]: {
+  [AMOY_CHAIN_ID]: {
     platform: MATIC_PLATFORMS.POLIGON,
     currency: MATIC,
   },
