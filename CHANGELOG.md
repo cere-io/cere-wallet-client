@@ -4,6 +4,11 @@
 
 -
 
+### v1.35.0
+
+- Properly detect PnP users by removing `appId` from the filter
+- Migrated to amoy
+
 ### v1.34.0
 
 - Properly update wallet engine private key on account change

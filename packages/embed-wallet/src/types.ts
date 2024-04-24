@@ -63,7 +63,7 @@ export type WalletStatus =
   | 'errored';
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
-  host: 'matic' | 'mumbai' | string;
+  host: 'matic' | 'amoy' | string;
 };
 
 export type WalletConnectOptions = {

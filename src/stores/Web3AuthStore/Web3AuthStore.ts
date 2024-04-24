@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import Torus from '@toruslabs/torus.js';
 import { NodeDetailManager } from '@toruslabs/fetch-node-details';
 
-import { DEFAULT_APP_ID, OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
+import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { Wallet } from '../types';
 import { getUserInfo } from './getUserInfo';
 import { SessionStore } from '../SessionStore';
@@ -52,16 +52,16 @@ export class Web3AuthStore {
     return !!metadata.upgraded;
   }
 
-  async isExistingUser(appId: string, privateKey: string) {
+  async isExistingUser(privateKey: string) {
     const signer = new PrivateKeySigner(privateKey);
 
     const authToken = await createAuthToken(signer, { chainId: this.wallet.network?.chainId });
-    const apps = await getUserApplications(appId, signer.address, authToken);
+    const apps = await getUserApplications({ address: signer.address }, authToken);
 
     return !!apps.length;
   }
 
-  async login({ idToken, appId = DEFAULT_APP_ID, checkMfa = true }: Web3AuthStoreLoginParams) {
+  async login({ idToken, checkMfa = true }: Web3AuthStoreLoginParams) {
     const userInfo = getUserInfo(idToken);
     const isMfa = checkMfa ? await this.isMfaEnabled(userInfo) : false;
 
@@ -91,7 +91,7 @@ export class Web3AuthStore {
     }
 
     const pnpPrivKey = getScopedKey(privKey);
-    const isPnPUser = await this.isExistingUser(appId, pnpPrivKey);
+    const isPnPUser = await this.isExistingUser(pnpPrivKey);
 
     await this.sessionStore.createSession({
       userInfo,
