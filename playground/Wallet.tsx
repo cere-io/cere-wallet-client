@@ -119,6 +119,13 @@ export const Wallet = () => {
     wallet.setContext({
       whiteLabel: {
         skipLoginIntro: true,
+        showLoginComplete: 'new-wallet',
+        loginCompleteSettings: {
+          title: 'Congratulations 🎉',
+          poweredBySection: true,
+          content:
+            'You are now eligible to receive a reward of 50 CERE tokens. Once the transfer is complete, you will be able to see them in your wallet.',
+        },
         connectScreenSettings: {
           connectScreenMainTitle: 'Davinci Wallet',
           hideIconInHeader: true,

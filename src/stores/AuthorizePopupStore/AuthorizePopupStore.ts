@@ -1,5 +1,6 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import type { PermissionRequest } from '@cere-wallet/wallet-engine';
+import type { UserInfo } from '@cere-wallet/communication';
 
 import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
@@ -94,7 +95,7 @@ export class AuthorizePopupStore {
     this.selectedPermissions = permissions;
   }
 
-  async login(idToken: string) {
+  async login(idToken: string): Promise<UserInfo & { sessionId: string }> {
     const isMfa = await this.mfaCheckPromise?.catch((error) => {
       reportError(error);
 
@@ -109,16 +110,19 @@ export class AuthorizePopupStore {
         idToken,
         preopenInstanceId: this.options.popupId,
         redirectUrl: this.options.callbackUrl,
-      });
-    } else {
-      await this.web3AuthStore.login({
-        idToken,
-        appId: this.options.appId,
-        checkMfa: isMfa === undefined,
-      });
+      }) as Promise<any>; // Use any to avoid type mismatch. The return type is not important here due to redirect.
     }
 
-    return this.sessionStore.sessionId;
+    const userInfo = await this.web3AuthStore.login({
+      idToken,
+      appId: this.options.appId,
+      checkMfa: isMfa === undefined,
+    });
+
+    return {
+      sessionId: this.sessionStore.sessionId,
+      ...userInfo,
+    };
   }
 
   private async validateRedirectUrl(url: string) {
