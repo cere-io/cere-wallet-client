@@ -9,6 +9,7 @@ interface Auth0UserInfo {
   name: string;
   sub: string;
   nickname: string;
+  isNewUser?: boolean;
 }
 
 export const getUserInfo = (idToken: string): UserInfo => {

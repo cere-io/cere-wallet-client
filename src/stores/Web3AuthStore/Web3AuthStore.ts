@@ -91,7 +91,12 @@ export class Web3AuthStore {
     }
 
     const pnpPrivKey = getScopedKey(privKey);
-    const isPnPUser = await this.isExistingUser(pnpPrivKey);
+    const [isPnPUser, isCoreKitUser] = await Promise.all([
+      this.isExistingUser(pnpPrivKey),
+      this.isExistingUser(privKey),
+    ]);
+
+    userInfo.isNewUser = !isPnPUser && !isCoreKitUser;
 
     await this.sessionStore.createSession({
       userInfo,

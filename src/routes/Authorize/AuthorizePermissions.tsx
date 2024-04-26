@@ -4,7 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ArrowBackIosIcon, Box, LoadingButton, CereIcon, Stack, Typography, useIsMobile } from '@cere-wallet/ui';
 
 import { AuthorizePopupStore } from '~/stores';
-import { Permissions } from '~/components';
+import { Permissions, PoweredBy } from '~/components';
 import { reportError } from '~/reporting';
 import { useAppContextStore } from '~/hooks';
 
@@ -23,20 +23,6 @@ const AuthorizePermissions = () => {
     }
     return <CereIcon />;
   }, [permissionsScreenSettings?.hideIconInHeader]);
-
-  const poweredBySection = useMemo(() => {
-    if (!permissionsScreenSettings?.poweredBySection) {
-      return;
-    }
-    return (
-      <Stack spacing={2} marginTop={8} direction="row" alignItems="center" justifyContent="center">
-        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
-          Powered by Cere Wallet
-        </Typography>
-        <CereIcon />
-      </Stack>
-    );
-  }, [permissionsScreenSettings?.poweredBySection]);
 
   const handleContinue = useCallback(async () => {
     try {
@@ -80,7 +66,8 @@ const AuthorizePermissions = () => {
           Continue
         </LoadingButton>
       </Stack>
-      {poweredBySection}
+
+      {permissionsScreenSettings?.poweredBySection && <PoweredBy />}
     </Stack>
   );
 };

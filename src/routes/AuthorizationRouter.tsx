@@ -9,6 +9,7 @@ import {
   AuthorizeLogin,
   AuthorizeOtp,
   AuthorizePermissions,
+  AuthorizeComplete,
 } from './Authorize';
 
 export const AuthorizationRouter = () => {
@@ -28,6 +29,7 @@ export const AuthorizationRouter = () => {
         <Route path="signup" element={<AuthorizeLogin variant="signup" />} />
         <Route path="otp" element={<AuthorizeOtp />} />
         <Route path="permissions" element={<AuthorizePermissions />} />
+        <Route path="complete" element={<AuthorizeComplete />} />
       </Route>
     </Routes>
   );
