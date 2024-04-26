@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+-  Send native cere address to application activity endpoint to later use it in the web-hooks
 
 ### v1.35.0
 
