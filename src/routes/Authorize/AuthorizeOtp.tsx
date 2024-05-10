@@ -6,27 +6,37 @@ import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { OtpPage } from '~/components';
 
 import { AuthorizePopupStore } from '~/stores';
+import { useAppContextStore } from '~/hooks';
 
 const AuthorizeOtp = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
+  const { whiteLabel } = useAppContextStore();
   const { isGame } = useTheme();
 
   store.email = location.state?.email;
 
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
-      await store.login(idToken);
+      const { isNewUser } = await store.login(idToken);
+
+      if (
+        whiteLabel?.showLoginComplete === true ||
+        whiteLabel?.showLoginComplete === 'always' ||
+        (isNewUser && whiteLabel?.showLoginComplete === 'new-wallet')
+      ) {
+        return navigate({ ...location, pathname: '/authorize/complete' });
+      }
 
       if (store.permissions) {
         return navigate({ ...location, pathname: '/authorize/permissions' });
-      } else {
-        await store.acceptSession();
       }
+
+      await store.acceptSession();
     },
-    [location, navigate, store],
+    [location, navigate, store, whiteLabel],
   );
 
   if (isMobile) {

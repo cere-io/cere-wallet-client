@@ -1,5 +1,5 @@
-import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import axios from 'axios';
+import { makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { Account } from '@cere-wallet/wallet-engine';
 
 import { AccountStore } from '../AccountStore';
@@ -58,8 +58,8 @@ export class ApplicationsStore {
     makeAutoObservable(this);
 
     reaction(
-      () => accountStore.account,
-      (account) => (account ? this.onReady(account) : this.cleanUp()),
+      () => accountStore.accounts,
+      (accounts) => (accounts.length >= 2 ? this.onReady(accounts) : this.cleanUp()),
     );
   }
 
@@ -71,18 +71,20 @@ export class ApplicationsStore {
     return this.contextStore.app?.appId || DEFAULT_APP_ID;
   }
 
-  private async onReady(account: Account) {
+  private async onReady(accounts: Account[]) {
+    const [ethAccount] = accounts;
+
     this.authToken = await this.authenticationStore.createToken();
 
     try {
-      await this.loadApps(account);
+      await this.loadApps(ethAccount);
     } catch {}
 
     runInAction(() => {
       this.accountStore.isNewUser = this.isNewUser ?? false;
     });
 
-    this.trackActivity(account);
+    this.trackActivity(accounts);
   }
 
   private cleanUp() {
@@ -101,14 +103,17 @@ export class ApplicationsStore {
     });
   }
 
-  async trackActivity({ address }: Account) {
+  private async trackActivity(accounts: Account[]) {
     const { email } = this.accountStore.user || {};
+    const [evmAccount] = accounts;
+
     await api.post(
       '/applications',
       {
-        address,
-        appId: this.appId,
         email,
+        accounts: toJS(accounts),
+        appId: this.appId,
+        address: evmAccount.address,
       },
       { headers: this.headers },
     );

@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
 import { AuthApiService } from '~/api/auth-api.service';
-import { CereWhiteLogo } from '~/components';
+import { CereWhiteLogo, PoweredBy } from '~/components';
 import { useAppContextStore } from '~/hooks';
 
 const TIME_LEFT = 60; // seconds before next otp request
@@ -116,20 +116,6 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     return verifyScreenSettings?.verifyScreenMainText || 'Access CERE using code sent to your email';
   }, [isGame, verifyScreenSettings?.verifyScreenMainText]);
 
-  const poweredBySection = useMemo(() => {
-    if (!verifyScreenSettings?.poweredBySection) {
-      return;
-    }
-    return (
-      <Stack direction="row" alignItems="center" justifyContent="center" marginTop={4}>
-        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
-          Powered by Cere Wallet
-        </Typography>
-        <CereIcon />
-      </Stack>
-    );
-  }, [verifyScreenSettings?.poweredBySection]);
-
   return (
     <Stack>
       <Stack
@@ -198,7 +184,8 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           </Typography>
         )}
       </Stack>
-      {poweredBySection}
+
+      {verifyScreenSettings?.poweredBySection && <PoweredBy />}
     </Stack>
   );
 };

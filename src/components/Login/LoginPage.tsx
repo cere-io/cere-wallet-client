@@ -25,6 +25,7 @@ import { useEffect, useMemo } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { useAppContextStore } from '~/hooks';
 import { AppContextBanner } from '../AppContextBanner';
+import { PoweredBy } from './PoweredBy';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -106,20 +107,6 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
       connectScreenSettings?.connectScreenMainText || 'Send and receive any currency or simply top up with your card.'
     );
   }, [isGame, connectScreenSettings?.connectScreenMainText]);
-
-  const poweredBySection = useMemo(() => {
-    if (!connectScreenSettings?.poweredBySection) {
-      return;
-    }
-    return (
-      <Stack spacing={2} marginTop={8} direction="row" alignItems="center" justifyContent="center">
-        <Typography sx={{ marginRight: '8px' }} variant="body2" color="text.secondary">
-          Powered by Cere Wallet
-        </Typography>
-        <CereIcon />
-      </Stack>
-    );
-  }, [connectScreenSettings?.poweredBySection]);
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('email');
@@ -230,7 +217,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
           </Stack>
         </>
       )}
-      {poweredBySection}
+      {connectScreenSettings?.poweredBySection && <PoweredBy />}
     </Stack>
   );
 };
