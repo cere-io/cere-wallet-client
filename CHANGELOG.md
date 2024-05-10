@@ -2,6 +2,10 @@
 
 ### vNext
 
+- 
+
+### v1.36.0
+
 -  Update GTM ID from GTM-MJG54ZJ to GTM-WQ33L7GG
 -  Add login complete screen to allow configuring congratulation messages from dApps
 -  Send native cere address to application activity endpoint to later use it in the web-hooks
