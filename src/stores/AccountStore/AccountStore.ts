@@ -64,12 +64,15 @@ export class AccountStore {
     }));
   }
 
-  exportAccount(type: KeyType) {
+  exportAccount(type: KeyType, passphrase?: string) {
     if (!this.privateKey) {
       throw new Error('No private key found!');
     }
 
-    const keyData = exportAccountToJson({ privateKey: this.privateKey, type });
+    /**
+     * TODO: Implement passphrase UI to not hardcode it here to be empty string ('')
+     */
+    const keyData = exportAccountToJson({ privateKey: this.privateKey, type, passphrase: passphrase || '' });
     const accountBlob = new Blob([JSON.stringify(keyData)], {
       type: 'application/json',
     });
