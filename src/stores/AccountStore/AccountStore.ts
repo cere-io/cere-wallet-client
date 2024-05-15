@@ -1,6 +1,6 @@
 import { makeAutoObservable, when } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
-import { Account, KeyPair } from '@cere-wallet/wallet-engine';
+import { Account, KeyPair, KeyType, exportAccountToJson } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
@@ -62,6 +62,23 @@ export class AccountStore {
       type,
       name: this.user?.name || `Account #${index}`,
     }));
+  }
+
+  exportAccount(type: KeyType) {
+    if (!this.privateKey) {
+      throw new Error('No private key found!');
+    }
+
+    const keyData = exportAccountToJson({ privateKey: this.privateKey, type });
+    const accountBlob = new Blob([JSON.stringify(keyData)], {
+      type: 'application/json',
+    });
+
+    return URL.createObjectURL(accountBlob);
+  }
+
+  getAccount(type: KeyType) {
+    return this.accounts.find((account) => account.type === type);
   }
 
   /**

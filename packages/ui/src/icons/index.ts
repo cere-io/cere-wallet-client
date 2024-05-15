@@ -29,6 +29,7 @@ export {
   ArrowDropDown as ArrowDropDownIcon,
   ArrowDropUp as ArrowDropUpIcon,
   ArrowBackIos as ArrowBackIosIcon,
+  Download as DownloadIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';
