@@ -2,6 +2,7 @@ import Wallet from 'ethereumjs-wallet';
 import { getED25519Key } from '@toruslabs/openlogin-ed25519';
 import { decodeAddress, encodeAddress, isEthereumAddress } from '@polkadot/util-crypto';
 import { hexToU8a, isHex } from '@polkadot/util';
+import { Keyring } from '@polkadot/keyring';
 
 import { KeyPair, KeyType, Account } from './types';
 import { CERE_SS58_PREFIX } from './constants';
@@ -41,6 +42,13 @@ export type AccountOptions = KeyPairOptions & {
 
 export const getKeyPair = ({ privateKey, type }: KeyPairOptions): KeyPair => {
   return pairFactoryMap[type](privateKey);
+};
+
+export const exportAccountToJson = ({ privateKey, type, passphrase }: KeyPairOptions & { passphrase?: string }) => {
+  const { publicKey, secretKey } = getKeyPair({ type, privateKey });
+  const keyring = new Keyring({ type });
+
+  return keyring.addFromPair({ publicKey, secretKey }).toJson(passphrase);
 };
 
 export const getAccount = ({ privateKey, type, name }: AccountOptions): Account => ({

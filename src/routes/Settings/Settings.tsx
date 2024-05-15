@@ -1,13 +1,14 @@
 import {
-  Box,
   Button,
   Card,
   CardContent,
-  Grid,
+  CardHeader,
   IconButton,
   SecurityIcon,
+  DownloadIcon,
   Stack,
   Typography,
+  styled,
   useIsMobile,
 } from '@cere-wallet/ui';
 import { useEffect, useState } from 'react';
@@ -15,56 +16,91 @@ import { useEffect, useState } from 'react';
 import { PageHeader } from '~/components';
 import { useAccountStore, useAuthenticationStore, useOpenLoginStore } from '~/hooks';
 
+const SectionHeader = styled(CardHeader)({
+  borderBottom: 'none',
+  backgroundColor: 'transparent',
+  paddingBottom: 0,
+});
+
+const SectionButton = styled(Button)({
+  minWidth: 250,
+  height: 44,
+}) as typeof Button;
+
 export const Settings = () => {
   const isMobile = useIsMobile();
-  const { user } = useAccountStore();
-  const { accountUrl } = useOpenLoginStore();
+  const accountStore = useAccountStore();
   const authenticationStore = useAuthenticationStore();
+  const { accountUrl } = useOpenLoginStore();
   const [accountLink, setAccountLink] = useState<string>();
+  const walletDownloadUrl = accountStore.exportAccount('ed25519');
+  const cereAddress = accountStore.getAccount('ed25519')?.address;
 
   useEffect(() => {
     authenticationStore
-      .getRedirectUrl({ callbackUrl: accountUrl, forceMfa: true, emailHint: user?.email, skipIntro: true })
+      .getRedirectUrl({ callbackUrl: accountUrl, forceMfa: true, emailHint: accountStore.user?.email, skipIntro: true })
       .then(setAccountLink);
-  }, [authenticationStore, accountUrl, user]);
+  }, [authenticationStore, accountUrl, accountStore.user]);
 
   return (
     <>
       <PageHeader title="Settings" />
 
-      <Box maxWidth="md">
+      <Stack maxWidth="md" spacing={2}>
         <Card>
+          <SectionHeader
+            title="Authentication & Security"
+            avatar={
+              <IconButton variant="filled" size="medium">
+                <SecurityIcon />
+              </IconButton>
+            }
+          />
           <CardContent>
-            <Grid spacing={1} direction="row" alignItems="center" container>
-              <Grid item>
-                <Box maxWidth="sm">
-                  <Stack direction="row" gap={2} alignItems="center">
-                    <IconButton variant="filled" size="medium">
-                      <SecurityIcon />
-                    </IconButton>
-                    <Typography variant="body1" fontWeight="semibold">
-                      Authentication & Security
-                    </Typography>
-                  </Stack>
-                  <Box marginTop="16px">
-                    <Typography variant="body2" color="text.secondary">
-                      Click the button bellow to manage your Authentication & Security settings and you will be
-                      redirecting to the OpenLogin settings
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid flexGrow={1} marginTop={isMobile ? 3 : 0} item>
-                {accountLink && (
-                  <Button target="_blank" fullWidth href={accountLink} variant="outlined">
-                    Go to OpenLogin settings
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
+            <Stack direction={isMobile ? 'column' : 'row'} spacing={3}>
+              <Typography flex={1} variant="body2" color="text.secondary">
+                Click the button bellow to manage your Authentication & Security settings and you will be redirecting to
+                the OpenLogin settings.
+              </Typography>
+
+              {accountLink && (
+                <SectionButton target="_blank" fullWidth={isMobile} href={accountLink} variant="outlined">
+                  Go to OpenLogin settings
+                </SectionButton>
+              )}
+            </Stack>
           </CardContent>
         </Card>
-      </Box>
+
+        <Card>
+          <SectionHeader
+            title="Account export"
+            avatar={
+              <IconButton variant="filled" size="medium">
+                <DownloadIcon />
+              </IconButton>
+            }
+          />
+          <CardContent>
+            <Stack direction={isMobile ? 'column' : 'row'} spacing={3}>
+              <Typography flex={1} variant="body2" color="text.secondary">
+                JSON backup file lets you restore your account or use it with Cere Tools, even if a direct connection to
+                Cere Wallet isn't available. Please keep it confidential and don't share it with third parties.
+              </Typography>
+
+              <SectionButton
+                disabled={!cereAddress}
+                download={`${cereAddress}.json`}
+                fullWidth={isMobile}
+                href={walletDownloadUrl}
+                variant="outlined"
+              >
+                Download
+              </SectionButton>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Stack>
     </>
   );
 };
