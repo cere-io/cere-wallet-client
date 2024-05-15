@@ -24,7 +24,7 @@ const SectionHeader = styled(CardHeader)({
 
 const SectionButton = styled(Button)({
   minWidth: 250,
-  flexShrink: 0,
+  height: 44,
 }) as typeof Button;
 
 export const Settings = () => {
@@ -60,7 +60,7 @@ export const Settings = () => {
             <Stack direction={isMobile ? 'column' : 'row'} spacing={3}>
               <Typography flex={1} variant="body2" color="text.secondary">
                 Click the button bellow to manage your Authentication & Security settings and you will be redirecting to
-                the OpenLogin settings
+                the OpenLogin settings.
               </Typography>
 
               {accountLink && (
@@ -84,7 +84,8 @@ export const Settings = () => {
           <CardContent>
             <Stack direction={isMobile ? 'column' : 'row'} spacing={3}>
               <Typography flex={1} variant="body2" color="text.secondary">
-                Export your wallet account to a JSON file
+                JSON backup file lets you restore your account or use it with Cere Tools, even if a direct connection to
+                Cere Wallet isn't available. Please keep it confidential and don't share it with third parties.
               </Typography>
 
               <SectionButton
