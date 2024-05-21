@@ -2,6 +2,10 @@
 
 ### vNext
 
+- 
+
+### v1.37.0
+
 - Add support of wallet export as a JSON backup file
 
 ### v1.36.0
