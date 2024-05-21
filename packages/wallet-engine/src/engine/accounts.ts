@@ -22,7 +22,7 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
   engine.push(
     createScaffoldMiddleware({
       wallet_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['ethereum', 'ed25519']);
+        res.result = createAccounts(['ethereum', 'ed25519', 'solana']);
       }),
 
       ed25519_accounts: createAsyncMiddleware(async (req, res) => {
@@ -33,13 +33,17 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
         res.result = createAccounts(['ethereum']).map((account) => account.address);
       }),
 
+      solana_accounts: createAsyncMiddleware(async (req, res) => {
+        res.result = createAccounts(['solana']).map((account) => account.address);
+      }),
+
       eth_requestAccounts: createAsyncMiddleware(async (req, res) => {
         res.result = createAccounts(['ethereum']).map((account) => account.address);
       }),
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
-        const accounts = createAccounts(['ethereum', 'ed25519']);
-        const [eth, ed255519] = accounts;
+        const accounts = createAccounts(['ethereum', 'ed25519', 'solana']);
+        const [eth, ed255519, solana] = accounts;
 
         onUpdateAccounts(accounts);
 
@@ -49,6 +53,7 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
         engine.emit('message', { type: 'wallet_accountsChanged', data: accounts });
         engine.emit('message', { type: 'eth_accountChanged', data: eth });
         engine.emit('message', { type: 'ed25519_accountChanged', data: ed255519 });
+        engine.emit('message', { type: 'solana_accountChanged', data: solana });
 
         /**
          * Standard eip-1193 event

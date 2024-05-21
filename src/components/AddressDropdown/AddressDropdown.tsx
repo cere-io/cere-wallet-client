@@ -7,6 +7,18 @@ import { CoinIcon } from '../CoinIcon';
 
 export type AddressDropdownProps = Pick<UIAddressDropdownProps, 'variant' | 'size' | 'maxLength'>;
 
+const labelByType = {
+  ethereum: 'Polygon',
+  ed25519: 'Cere Network',
+  solana: 'Solana',
+};
+
+const iconByType = {
+  ethereum: 'matic',
+  ed25519: 'cere',
+  solana: 'solana',
+};
+
 const AddressDropdown = (props: AddressDropdownProps) => {
   const store = useAccountStore();
   const { selectedAccount, accounts } = store;
@@ -19,8 +31,8 @@ const AddressDropdown = (props: AddressDropdownProps) => {
     () =>
       accounts.map((account) => ({
         address: account.address,
-        label: account.type === 'ethereum' ? 'Polygon' : 'Cere Network',
-        icon: account.type === 'ethereum' ? <CoinIcon coin="matic" /> : <CoinIcon coin="cere" />,
+        label: labelByType[account.type],
+        icon: <CoinIcon coin={iconByType[account.type]} />,
       })),
     [accounts],
   );

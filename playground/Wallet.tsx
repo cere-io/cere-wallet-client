@@ -11,6 +11,7 @@ export const Wallet = () => {
   const [ethBalance, setEthBalance] = useState<string>();
   const [cereAddress, setCereAddress] = useState<string>();
   const [cereBalance, setCereBalance] = useState<string>();
+  const [solanaAddress, setSolanaAddress] = useState<string>();
   const [isNewUser, setIsNewUser] = useState(false);
 
   const wallet = useWallet();
@@ -41,10 +42,11 @@ export const Wallet = () => {
         accounts.map((account) => account.address),
       );
 
-      const [ethAccount, cereAccount] = accounts;
+      const [ethAccount, cereAccount, solanaAccount] = accounts;
 
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
+      setSolanaAddress(solanaAccount?.address);
     });
 
     window.addEventListener('focus', () => {
@@ -304,6 +306,17 @@ export const Wallet = () => {
               </Typography>
               <Typography variant="body2" align="center">
                 {cereAddress}
+              </Typography>
+            </Stack>
+          )}
+
+          {solanaAddress && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Solana Address
+              </Typography>
+              <Typography variant="body2" align="center">
+                {solanaAddress}
               </Typography>
             </Stack>
           )}
