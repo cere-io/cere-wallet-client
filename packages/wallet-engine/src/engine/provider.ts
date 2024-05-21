@@ -10,12 +10,14 @@ import { createPermissionsEngine, PermissionsEngineOptions } from './permissions
 import type { EthereumEngineOptions } from './ethereum';
 import type { PolkadotEngineOptions } from './polkadot';
 import type { AccountsEngineOptions } from './accounts';
+import type { SolanaEngineOptions } from './solana';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   AccountsEngineOptions &
   ApproveEngineOptions &
   EthereumEngineOptions &
   PolkadotEngineOptions &
+  SolanaEngineOptions &
   PermissionsEngineOptions;
 
 class EngineProvider extends EventEmitter implements Provider {
@@ -52,6 +54,12 @@ class UnsafeEngine extends Engine {
 
       return createPolkadotEngine(options);
     });
+
+    this.pushEngine(
+      import(/* webpackChunkName: "accountsEngine" */ './solana').then(({ createSolanaEngine }) =>
+        createSolanaEngine(options),
+      ),
+    );
 
     /**
      * Should always be the last one since it is currently handles real RPC requests

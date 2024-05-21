@@ -221,6 +221,16 @@ export const Wallet = () => {
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
 
+  const handleSolanaSign = useCallback(async () => {
+    const [, , solanaAccount] = await wallet.getAccounts();
+    const signed = await wallet.provider.request({
+      method: 'solana_signMessage',
+      params: [solanaAccount.address, 'Hello!!!'],
+    });
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
   const handleGetAccounts = useCallback(async () => {
     const accounts = await wallet.getAccounts();
 
@@ -385,6 +395,10 @@ export const Wallet = () => {
             onClick={handleEd25519PayloadSign}
           >
             Sign payload (ed25519)
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleSolanaSign}>
+            Sign message (solana)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

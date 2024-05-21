@@ -3,7 +3,6 @@ import { SvgIcon, SvgIconProps } from '@mui/material';
 
 export const SolIcon = memo((props: SvgIconProps) => (
   <SvgIcon {...props} viewBox="100 100 300 300">
-    {/* <path d="M250 0c138 0 250 111.9 250 250S388 500 250 500 0 388 0 250 111.9 0 250 0z" /> */}
     <linearGradient
       id="a"
       x1={242.52}
