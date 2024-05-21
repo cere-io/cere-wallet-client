@@ -32,7 +32,6 @@ yarn add @cere/embed-wallet
   - [getAccounts()](#getaccounts)
   - [showWallet()](#showwallet)
   - [setContext()](#setcontext)
-- [inject()](#inject)
 
 ## EmbedWallet
 

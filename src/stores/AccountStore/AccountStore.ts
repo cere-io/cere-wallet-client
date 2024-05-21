@@ -1,6 +1,6 @@
 import { makeAutoObservable, when } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
-import { Account, KeyPair } from '@cere-wallet/wallet-engine';
+import { Account, KeyPair, KeyType, exportAccountToJson } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
@@ -62,6 +62,26 @@ export class AccountStore {
       type,
       name: this.user?.name || `Account #${index}`,
     }));
+  }
+
+  exportAccount(type: KeyType, passphrase?: string) {
+    if (!this.privateKey) {
+      throw new Error('No private key found!');
+    }
+
+    /**
+     * TODO: Implement passphrase UI to not hardcode it here to be empty string ('')
+     */
+    const keyData = exportAccountToJson({ privateKey: this.privateKey, type, passphrase: passphrase || '' });
+    const accountBlob = new Blob([JSON.stringify(keyData)], {
+      type: 'application/json',
+    });
+
+    return URL.createObjectURL(accountBlob);
+  }
+
+  getAccount(type: KeyType) {
+    return this.accounts.find((account) => account.type === type);
   }
 
   /**
