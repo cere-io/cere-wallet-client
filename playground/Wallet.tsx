@@ -62,6 +62,7 @@ export const Wallet = () => {
         permissions: {
           personal_sign: {},
           ed25519_signRaw: {},
+          solana_signMessage: {},
         },
       },
 
@@ -276,6 +277,7 @@ export const Wallet = () => {
     const permissions = await wallet.requestPermissions({
       personal_sign: {},
       ed25519_signRaw: {},
+      solana_signMessage: {},
     });
 
     console.log('Approved permissions', permissions);
