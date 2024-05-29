@@ -95,8 +95,9 @@ export class AccountStore {
 
   get selectedAccount() {
     const selectedAddress = this.shared.state.selectedAddress;
+    const defaultAccount = this.accounts.at(0);
 
-    return this.accounts.find((account) => account.address === selectedAddress) || this.accounts.at(0);
+    return this.accounts.find((account) => account.address === selectedAddress) || defaultAccount;
   }
 
   selectAccount(address: string) {

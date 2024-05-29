@@ -11,6 +11,7 @@ export const Wallet = () => {
   const [ethBalance, setEthBalance] = useState<string>();
   const [cereAddress, setCereAddress] = useState<string>();
   const [cereBalance, setCereBalance] = useState<string>();
+  const [solanaAddress, setSolanaAddress] = useState<string>();
   const [isNewUser, setIsNewUser] = useState(false);
 
   const wallet = useWallet();
@@ -41,10 +42,11 @@ export const Wallet = () => {
         accounts.map((account) => account.address),
       );
 
-      const [ethAccount, cereAccount] = accounts;
+      const [ethAccount, cereAccount, solanaAccount] = accounts;
 
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
+      setSolanaAddress(solanaAccount?.address);
     });
 
     window.addEventListener('focus', () => {
@@ -60,6 +62,7 @@ export const Wallet = () => {
         permissions: {
           personal_sign: {},
           ed25519_signRaw: {},
+          solana_signMessage: {},
         },
       },
 
@@ -219,6 +222,16 @@ export const Wallet = () => {
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
 
+  const handleSolanaSign = useCallback(async () => {
+    const [, , solanaAccount] = await wallet.getAccounts();
+    const signed = await wallet.provider.request({
+      method: 'solana_signMessage',
+      params: [solanaAccount.address, 'Hello!!!'],
+    });
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
   const handleGetAccounts = useCallback(async () => {
     const accounts = await wallet.getAccounts();
 
@@ -264,6 +277,7 @@ export const Wallet = () => {
     const permissions = await wallet.requestPermissions({
       personal_sign: {},
       ed25519_signRaw: {},
+      solana_signMessage: {},
     });
 
     console.log('Approved permissions', permissions);
@@ -304,6 +318,17 @@ export const Wallet = () => {
               </Typography>
               <Typography variant="body2" align="center">
                 {cereAddress}
+              </Typography>
+            </Stack>
+          )}
+
+          {solanaAddress && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Solana Address
+              </Typography>
+              <Typography variant="body2" align="center">
+                {solanaAddress}
               </Typography>
             </Stack>
           )}
@@ -372,6 +397,10 @@ export const Wallet = () => {
             onClick={handleEd25519PayloadSign}
           >
             Sign payload (ed25519)
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleSolanaSign}>
+            Sign message (solana)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

@@ -127,6 +127,16 @@ export const createApproveEngine = ({
         });
       }),
 
+      solana_signMessage: createRequestMiddleware<[string, string]>(async (req, proceed) => {
+        const [account, message] = req.params!;
+
+        await onPersonalSign({
+          preopenInstanceId: req.preopenInstanceId,
+          params: [message, account, 'solana' as KeyType],
+          proceed,
+        });
+      }),
+
       eth_sendTransaction: createRequestMiddleware<[IncomingTransaction]>(async (req, proceed) => {
         await onSendTransaction({
           preopenInstanceId: req.preopenInstanceId,

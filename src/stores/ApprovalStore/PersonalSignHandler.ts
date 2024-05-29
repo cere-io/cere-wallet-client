@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import { PersonalSignRequest } from '@cere-wallet/wallet-engine';
+import { KeyType, PersonalSignRequest } from '@cere-wallet/wallet-engine';
 
 import { PopupManagerStore } from '../PopupManagerStore';
 import { NetworkStore } from '../NetworkStore';
@@ -15,12 +15,15 @@ export class PersonalSignHandler {
 
   async handle({ preopenInstanceId, params: [content, address, keyType] }: PersonalSignRequest) {
     const instanceId = preopenInstanceId || this.popupManagerStore.createModal();
-    const network: ConfirmPopupState['network'] =
-      keyType === 'ed25519' ? { displayName: 'Cere Network', icon: 'cere' } : this.networkStore.network;
+    const staticNetworks: Record<KeyType, ConfirmPopupState['network']> = {
+      ed25519: { displayName: 'Cere Network', icon: 'cere' },
+      solana: { displayName: 'Solana', icon: 'solana' },
+      ethereum: this.networkStore.network,
+    };
 
     const popup = await this.popupManagerStore.proceedTo<ConfirmPopupState>(instanceId, '/confirm', {
-      network,
       content,
+      network: staticNetworks[keyType],
       app: this.contextStore.app,
       status: 'pending',
     });
