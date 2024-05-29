@@ -95,14 +95,7 @@ export class AccountStore {
 
   get selectedAccount() {
     const selectedAddress = this.shared.state.selectedAddress;
-    // const defaultAccount = this.accounts.at(0);
-
-    /**
-     * Temporary use Solana account as default
-     *
-     * TODO: Remove hardcode
-     */
-    const defaultAccount = this.accounts.at(2);
+    const defaultAccount = this.accounts.at(0);
 
     return this.accounts.find((account) => account.address === selectedAddress) || defaultAccount;
   }

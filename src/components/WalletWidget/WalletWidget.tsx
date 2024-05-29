@@ -125,8 +125,7 @@ const WalletWidget = () => {
           <Typography variant="caption" color="text.secondary">
             <Stack direction="row" alignItems="baseline" spacing={0.5}>
               <WifiIcon fontSize="inherit" />
-              {/* <Typography variant="caption">{network.displayName}</Typography> */}
-              <Typography variant="caption">Solana</Typography>
+              <Typography variant="caption">{network.displayName}</Typography>
             </Stack>
           </Typography>
           <TopUpButton onClick={() => showWallet('topup')}>
