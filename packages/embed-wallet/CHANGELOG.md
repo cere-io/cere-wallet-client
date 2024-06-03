@@ -1,5 +1,10 @@
 ## Release Notes:
 
+### v0.18.0
+
+- Add new RPC method to sign messages by any Cere Wallet managed account (`wallet_signMessage`)
+- Added new method to the SDK to create a multi-chain signer instance (`getSigner()`)
+
 ### v0.17.0
 
 - Add `loginHint` option to the wallet connect configuration

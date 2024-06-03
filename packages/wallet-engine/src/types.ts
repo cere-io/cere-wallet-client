@@ -25,6 +25,7 @@ export type KeyPair = {
 
 export type Account = Omit<KeyPair, 'secretKey' | 'publicKey'> & {
   name: string;
+  publicKey: string;
 };
 
 export type ProviderRequestArguments = {

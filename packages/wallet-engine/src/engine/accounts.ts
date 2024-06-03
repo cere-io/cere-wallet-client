@@ -1,48 +1,48 @@
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 
 import { Engine } from './engine';
-import { getKeyPair } from '../accounts';
+import { getKeyPairs } from '../accounts';
 import { Account, KeyPair, KeyType } from '../types';
 
 export type AccountsEngineOptions = {
-  getAccounts: (pairs: KeyPair[]) => Account[];
+  getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
-  onUpdateAccounts: (accounts: Account[]) => void;
+  onUpdateAccounts: (accounts: KeyPair[]) => void;
 };
 
 export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccounts }: AccountsEngineOptions) => {
   const engine = new Engine();
 
-  const createAccounts = (types: KeyType[]) => {
-    const privateKey = getPrivateKey();
-
-    return !privateKey ? [] : getAccounts(types.map((type) => getKeyPair({ type, privateKey })));
-  };
+  const getAddresses = (type: KeyType) =>
+    getAccounts()
+      .filter((account) => account.type === type)
+      .map((account) => account.address);
 
   engine.push(
     createScaffoldMiddleware({
       wallet_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['ethereum', 'ed25519', 'solana']);
+        res.result = getAccounts();
       }),
 
       ed25519_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['ed25519']);
+        res.result = getAddresses('ed25519');
       }),
 
       eth_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['ethereum']).map((account) => account.address);
+        res.result = getAddresses('ethereum');
       }),
 
       solana_accounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['solana']).map((account) => account.address);
+        res.result = getAddresses('solana');
       }),
 
       eth_requestAccounts: createAsyncMiddleware(async (req, res) => {
-        res.result = createAccounts(['ethereum']).map((account) => account.address);
+        res.result = getAddresses('ethereum');
       }),
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
-        const accounts = createAccounts(['ethereum', 'ed25519', 'solana']);
+        const privateKey = getPrivateKey();
+        const accounts = privateKey ? getKeyPairs(privateKey, ['ethereum', 'ed25519', 'solana']) : [];
         const [eth, ed255519, solana] = accounts;
 
         onUpdateAccounts(accounts);
@@ -66,7 +66,7 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
       wallet_getProviderState: createAsyncMiddleware(async (req, res, next) => {
         res.result = {
           ...(res.result as {}),
-          accounts: createAccounts(['ethereum']).map((account) => account.address),
+          accounts: getAddresses('ethereum'),
         };
       }),
     }),

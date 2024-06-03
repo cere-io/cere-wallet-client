@@ -57,6 +57,10 @@ export const getKeyPair = ({ privateKey, type }: KeyPairOptions): KeyPair => {
   return pairFactoryMap[type](privateKey);
 };
 
+export const getKeyPairs = (privateKey: string, types = Object.keys(pairFactoryMap) as KeyType[]) => {
+  return types.map((type) => getKeyPair({ privateKey, type }));
+};
+
 export const exportAccountToJson = ({ privateKey, type, passphrase }: KeyPairOptions & { passphrase?: string }) => {
   if (type === 'solana') {
     throw new Error('Not implemented');
@@ -68,10 +72,17 @@ export const exportAccountToJson = ({ privateKey, type, passphrase }: KeyPairOpt
   return keyring.addFromPair({ publicKey, secretKey }).toJson(passphrase);
 };
 
-export const getAccount = ({ privateKey, type, name }: AccountOptions): Account => ({
+export const getAccount = ({ privateKey, type, name }: AccountOptions): Account => {
+  const pair = getKeyPair({ privateKey, type });
+
+  return createAccountFromPair(pair, name);
+};
+
+export const createAccountFromPair = ({ type, address, publicKey }: KeyPair, name: string): Account => ({
   type,
   name,
-  address: getKeyPair({ privateKey, type }).address,
+  address,
+  publicKey: publicKey.toString('hex'),
 });
 
 const isValidPolkadotAddress = (address: string) => {

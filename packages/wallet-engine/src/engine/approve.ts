@@ -7,7 +7,7 @@ import {
 } from 'json-rpc-engine';
 
 import { Engine } from './engine';
-import { KeyType } from '../types';
+import type { KeyType } from '../types';
 
 type WithPreopenedInstanceId = {
   preopenInstanceId?: string;

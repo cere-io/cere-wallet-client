@@ -2,7 +2,7 @@
 
 ### vNext
 
-- 
+- Added multi-chain signature API to the wallet client and SDK
 
 ### v1.37.0
 

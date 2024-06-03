@@ -4,7 +4,8 @@ import BN from 'bn.js';
 
 import { createContext } from './createContext';
 import { getAuthRedirectResult } from './getAuthRedirectResult';
-import { ProxyProvider, ProviderInterface } from './Provider';
+import { ProxyProvider, ProviderInterface, SignerInterface } from './Provider';
+import { Signer, SignerOptions } from './Signer';
 import { WALLET_CLIENT_VERSION } from './constants';
 
 import {
@@ -262,6 +263,27 @@ export class EmbedWallet {
 
   async getAccounts(): Promise<WalletAccount[]> {
     return this.provider.request({ method: 'wallet_accounts' });
+  }
+
+  /**
+   * Returns universal signer for the requested wallet account
+   *
+   * @param addressOrOptions - Account address or options to get the signer for
+   * @returns `Signer` instance
+   *
+   * @example
+   *
+   * ```typescript
+   * const signer = wallet.getSigner({ type: 'solana' });
+   * const signature = await signer.signMessage('Hello, world!');
+   *
+   * console.log(signature);
+   * ```
+   */
+  getSigner(addressOrOptions?: SignerOptions | string): SignerInterface {
+    const options = typeof addressOrOptions !== 'string' ? addressOrOptions : { address: addressOrOptions };
+
+    return new Signer(this.provider, options);
   }
 
   /**

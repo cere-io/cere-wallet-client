@@ -1,9 +1,17 @@
 import { EventEmitter } from 'events';
 import { TorusInpageProvider } from '@cere/torus-embed';
+import { Signer, SignerOptions } from './Signer';
+import { WalletAccount } from './types';
 
 interface RequestArguments {
   readonly method: string;
   readonly params?: unknown[] | Record<string, unknown>;
+}
+
+export interface SignerInterface {
+  getAccount(): Promise<WalletAccount>;
+  getAddress(): Promise<string>;
+  signMessage(message: string): Promise<string>;
 }
 
 /**
@@ -13,6 +21,15 @@ export interface ProviderInterface extends EventEmitter {
   readonly isConnected: boolean;
 
   request<T = any>({ method, params }: RequestArguments): Promise<T>;
+
+  /**
+   * Get a signer for a specific account
+   *
+   * @param addressOrIndex - Account address or index
+   *
+   * @returns Signer instance
+   */
+  getSigner(addressOrIndex: string | number): SignerInterface;
 }
 
 export class ProxyProvider extends EventEmitter implements ProviderInterface {
@@ -41,5 +58,21 @@ export class ProxyProvider extends EventEmitter implements ProviderInterface {
 
     this.on('newListener', provider.on.bind(provider));
     this.on('removeListener', provider.off.bind(provider));
+  }
+
+  getSigner(addressOrIndex?: string | number): SignerInterface {
+    const options: SignerOptions = {
+      accountIndex: 0,
+    };
+
+    if (typeof addressOrIndex === 'string') {
+      options.address = addressOrIndex;
+    }
+
+    if (typeof addressOrIndex === 'number') {
+      options.accountIndex = addressOrIndex;
+    }
+
+    return new Signer(this, options);
   }
 }
