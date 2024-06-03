@@ -1,14 +1,15 @@
 import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine';
 
 import { Engine } from './engine';
-import { ChainConfig } from '../types';
+import { Account, ChainConfig } from '../types';
 
 export type WalletEngineOptions = {
+  getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
 };
 
-export const createWalletEngine = ({ chainConfig, getPrivateKey }: WalletEngineOptions) => {
+export const createWalletEngine = ({ chainConfig, getAccounts, getPrivateKey }: WalletEngineOptions) => {
   const engine = new Engine();
 
   engine.push(
@@ -46,6 +47,33 @@ export const createWalletEngine = ({ chainConfig, getPrivateKey }: WalletEngineO
         res.result = [];
 
         return getPrivateKey() ? next() : undefined;
+      }),
+
+      /**
+       * Routes the universal sign message method to the correct provider
+       */
+      wallet_signMessage: createAsyncMiddleware(async (req, res, next) => {
+        const [address, message] = req.params as [string, string];
+        const account = getAccounts().find((account) => account.address.toUpperCase() === address.toUpperCase());
+
+        if (!account) {
+          throw new Error(`Account with address ${address} not found!`);
+        }
+
+        if (account.type === 'ethereum') {
+          req.method = 'personal_sign';
+          req.params = [message, address];
+        }
+
+        if (account.type === 'ed25519') {
+          req.method = 'ed25519_signRaw';
+        }
+
+        if (account.type === 'solana') {
+          req.method = 'solana_signMessage';
+        }
+
+        next();
       }),
     }),
   );

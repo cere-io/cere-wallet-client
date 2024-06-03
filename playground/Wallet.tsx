@@ -184,10 +184,8 @@ export const Wallet = () => {
 
   const handleEd25519Sign = useCallback(async () => {
     const [, cereAccount] = await wallet.getAccounts();
-    const signed = await wallet.provider.request({
-      method: 'ed25519_signRaw',
-      params: [cereAccount.address, 'Hello!!!'],
-    });
+    const signer = wallet.getSigner({ address: cereAccount.address });
+    const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
@@ -214,20 +212,21 @@ export const Wallet = () => {
   }, [wallet]);
 
   const handlePersonalSign = useCallback(async () => {
-    const provider = new providers.Web3Provider(wallet.provider);
-    const signer = provider.getSigner();
+    /**
+     * Alternative way of creating signer instance using Ethers.js
+     */
+    // const provider = new providers.Web3Provider(wallet.provider);
+    // const signer = provider.getSigner();
 
+    const signer = wallet.getSigner();
     const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
 
   const handleSolanaSign = useCallback(async () => {
-    const [, , solanaAccount] = await wallet.getAccounts();
-    const signed = await wallet.provider.request({
-      method: 'solana_signMessage',
-      params: [solanaAccount.address, 'Hello!!!'],
-    });
+    const signer = wallet.getSigner({ type: 'solana' });
+    const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
   }, [wallet]);

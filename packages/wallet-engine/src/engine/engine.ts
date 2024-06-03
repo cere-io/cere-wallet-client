@@ -35,7 +35,7 @@ export class Engine extends JsonRpcEngine {
     });
   }
 
-  protected pushEngine(engine: AsyncEngine | (() => AsyncEngine)) {
+  pushEngine(engine: AsyncEngine | (() => AsyncEngine)) {
     const factory = typeof engine === 'function' ? engine : () => engine;
     const resultEngine = createAsyncEngine(factory);
 

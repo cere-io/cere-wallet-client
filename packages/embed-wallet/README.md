@@ -28,6 +28,7 @@ yarn add @cere/embed-wallet
   - [connect()](#connect)
   - [disconnect()](#disconnect)
   - [subscribe()](#subscribe)
+  - [getSigner()](#getsigner)
   - [getUserInfo()](#getuserinfo)
   - [getAccounts()](#getaccounts)
   - [showWallet()](#showwallet)
@@ -172,6 +173,24 @@ const unsubscribe = wallet.subscribe('status-update', () => {
 });
 //...
 unsubscribe(); // Stop listening for events
+```
+
+### getSigner()
+
+This methods returns a universal signer instance for the given wallet account
+
+#### Parameters
+
+- `address` - Optional account address (Optional)
+- `type` - Optional type of an account (eg, `ethereum`, `solana`)
+- `accountIndex` - Optional account index (Default: `0`)
+
+
+```ts
+const signer = await wallet.getSigner({ type: 'solana' });
+const signature = await signer.signMessage('Hello, world!');
+   
+console.log(signature);
 ```
 
 ### getUserInfo()

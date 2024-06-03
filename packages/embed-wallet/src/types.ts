@@ -43,9 +43,10 @@ export type UserInfo = {
   isNewUser: boolean;
 };
 
+export type WalletAccountType = 'ethereum' | 'ed25519' | 'solana';
 export type WalletAccount = {
   address: string;
-  type: 'ethereum' | 'ed25519' | 'solana';
+  type: WalletAccountType;
   name: string;
 };
 
