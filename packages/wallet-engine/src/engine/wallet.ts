@@ -54,6 +54,13 @@ export const createWalletEngine = ({ chainConfig, getAccounts, getPrivateKey }: 
        */
       wallet_signMessage: createAsyncMiddleware(async (req, res, next) => {
         const [address, message] = req.params as [string, string];
+
+        /**
+         * TODO: Think about a better approach to compare addresses.
+         * Addresses for some chains are case-sensitive, so we need think about a beeter way of comparing it.
+         * For now, we just convert both to uppercase to make it work. But this is not a perfect solution.
+         * We can keep it for now since there is a very low probability of two addresses that are the same but with different cases.
+         */
         const account = getAccounts().find((account) => account.address.toUpperCase() === address.toUpperCase());
 
         if (!account) {
