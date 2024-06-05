@@ -42,23 +42,30 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
 
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
         const privateKey = getPrivateKey();
-        const accounts = privateKey ? getKeyPairs(privateKey, ['ethereum', 'ed25519', 'solana']) : [];
-        const [eth, ed255519, solana] = accounts;
+        const keyPairs = privateKey ? getKeyPairs(privateKey, ['ethereum', 'ed25519', 'solana']) : [];
 
-        onUpdateAccounts(accounts);
+        onUpdateAccounts(keyPairs);
+
+        const accounts = getAccounts();
+        const ethAccounts = accounts.filter((account) => account.type === 'ethereum');
+        const ed25519Accounts = accounts.filter((account) => account.type === 'ed25519');
+        const solanaAccounts = accounts.filter((account) => account.type === 'solana');
 
         /**
          * Custom wallet messages
          */
         engine.emit('message', { type: 'wallet_accountsChanged', data: accounts });
-        engine.emit('message', { type: 'eth_accountChanged', data: eth });
-        engine.emit('message', { type: 'ed25519_accountChanged', data: ed255519 });
-        engine.emit('message', { type: 'solana_accountChanged', data: solana });
+        engine.emit('message', { type: 'eth_accountsChanged', data: ethAccounts });
+        engine.emit('message', { type: 'ed25519_accountsChanged', data: ed25519Accounts });
+        engine.emit('message', { type: 'solana_accountsChanged', data: solanaAccounts });
 
         /**
          * Standard eip-1193 event
          */
-        engine.emit('accountsChanged', eth ? [eth.address] : []);
+        engine.emit(
+          'accountsChanged',
+          ethAccounts.map((account) => account.address),
+        );
 
         res.result = accounts;
       }),
