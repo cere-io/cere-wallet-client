@@ -66,11 +66,11 @@ export const getChainConfig = (network: NetworkConfig): ChainConfig => {
     chainConfig = createChainConfig(network, 'amoy');
   }
 
-  if (network.chainId === 84532 || network.host === 'sepolia') {
+  if (network.chainId === 8453 || network.host === 'sepolia') {
     chainConfig = createChainConfig(network, 'sepolia');
   }
 
-  if (network.chainId === 8453 || network.host === 'baseSepolia') {
+  if (network.chainId === 84532 || network.host === 'baseSepolia') {
     chainConfig = createChainConfig(network, 'baseSepolia');
   }
 
