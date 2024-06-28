@@ -19,6 +19,22 @@ const presets = {
     ticker: 'MATIC',
     tickerName: 'Matic',
   },
+  sepolia: {
+    chainId: '84532',
+    rpcTarget: 'https://sepolia.base.org',
+    displayName: 'Base Sepolia Testnet',
+    blockExplorer: 'https://sepolia-explorer.base.org',
+    ticker: 'ETH',
+    tickerName: 'ETH',
+  },
+  base: {
+    chainId: '8453',
+    rpcTarget: 'https://mainnet.base.org',
+    displayName: 'Base Mainnet',
+    blockExplorer: 'https://base.blockscout.com/',
+    ticker: 'ETH',
+    tickerName: 'ETH',
+  },
 };
 
 const isConfigReady = (config: Partial<ChainConfig>): config is ChainConfig =>
@@ -48,6 +64,14 @@ export const getChainConfig = (network: NetworkConfig): ChainConfig => {
 
   if (network.chainId === 80002 || network.host === 'amoy') {
     chainConfig = createChainConfig(network, 'amoy');
+  }
+
+  if (network.chainId === 84532 || network.host === 'sepolia') {
+    chainConfig = createChainConfig(network, 'sepolia');
+  }
+
+  if (network.chainId === 8453 || network.host === 'base') {
+    chainConfig = createChainConfig(network, 'base');
   }
 
   if (!isConfigReady(chainConfig)) {
