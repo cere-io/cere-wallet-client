@@ -19,7 +19,7 @@ const presets = {
     ticker: 'MATIC',
     tickerName: 'Matic',
   },
-  sepolia: {
+  baseSepolia: {
     chainId: '84532',
     rpcTarget: 'https://sepolia.base.org',
     displayName: 'Base Sepolia Testnet',
@@ -27,7 +27,7 @@ const presets = {
     ticker: 'ETH',
     tickerName: 'ETH',
   },
-  baseSepolia: {
+  base: {
     chainId: '8453',
     rpcTarget: 'https://mainnet.base.org',
     displayName: 'Base Mainnet',
@@ -66,8 +66,8 @@ export const getChainConfig = (network: NetworkConfig): ChainConfig => {
     chainConfig = createChainConfig(network, 'amoy');
   }
 
-  if (network.chainId === 8453 || network.host === 'sepolia') {
-    chainConfig = createChainConfig(network, 'sepolia');
+  if (network.chainId === 8453 || network.host === 'base') {
+    chainConfig = createChainConfig(network, 'base');
   }
 
   if (network.chainId === 84532 || network.host === 'baseSepolia') {
