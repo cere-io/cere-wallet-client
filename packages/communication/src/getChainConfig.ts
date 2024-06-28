@@ -27,7 +27,7 @@ const presets = {
     ticker: 'ETH',
     tickerName: 'ETH',
   },
-  base: {
+  baseSepolia: {
     chainId: '8453',
     rpcTarget: 'https://mainnet.base.org',
     displayName: 'Base Mainnet',
@@ -70,8 +70,8 @@ export const getChainConfig = (network: NetworkConfig): ChainConfig => {
     chainConfig = createChainConfig(network, 'sepolia');
   }
 
-  if (network.chainId === 8453 || network.host === 'base') {
-    chainConfig = createChainConfig(network, 'base');
+  if (network.chainId === 8453 || network.host === 'baseSepolia') {
+    chainConfig = createChainConfig(network, 'baseSepolia');
   }
 
   if (!isConfigReady(chainConfig)) {
