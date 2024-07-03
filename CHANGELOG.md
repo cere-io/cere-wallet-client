@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.38.0
+
 - Added multi-chain signature API to the wallet client and SDK
 - Let users enter an encryption password during account export
 
