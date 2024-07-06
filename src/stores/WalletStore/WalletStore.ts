@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
+import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
 import { createWalletEngine, WalletEngine } from '@cere-wallet/wallet-engine';
 import { DEFAULT_NETWORK, getChainConfig } from '@cere-wallet/communication';
 
@@ -155,8 +155,8 @@ export class WalletStore implements Wallet {
       pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.network!,
       polkadotRpc: CERE_NETWORK_RPC,
-      getAccounts: (pairs) => this.accountStore.mapAccounts(pairs),
-      onUpdateAccounts: (accounts) => this.accountStore.updateAccounts(accounts),
+      getAccounts: () => toJS(this.accountStore.accounts),
+      onUpdateAccounts: (keyPairs) => this.accountStore.updateAccounts(keyPairs),
       getPrivateKey: () => this.accountStore.privateKey,
       onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
       onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),

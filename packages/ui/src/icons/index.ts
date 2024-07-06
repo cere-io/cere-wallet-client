@@ -44,6 +44,7 @@ export * from './ComingSoonIcon';
 export * from './EthIcon';
 export * from './UsdcIcon';
 export * from './UsdtIcon';
+export * from './SolanaIcon';
 export * from './TransactionInIcon';
 export * from './TransactionOutIcon';
 export * from './TopUpIcon';

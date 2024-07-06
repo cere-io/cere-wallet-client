@@ -11,6 +11,7 @@ export const Wallet = () => {
   const [ethBalance, setEthBalance] = useState<string>();
   const [cereAddress, setCereAddress] = useState<string>();
   const [cereBalance, setCereBalance] = useState<string>();
+  const [solanaAddress, setSolanaAddress] = useState<string>();
   const [isNewUser, setIsNewUser] = useState(false);
 
   const wallet = useWallet();
@@ -41,10 +42,11 @@ export const Wallet = () => {
         accounts.map((account) => account.address),
       );
 
-      const [ethAccount, cereAccount] = accounts;
+      const [ethAccount, cereAccount, solanaAccount] = accounts;
 
       setCereAddress(cereAccount?.address);
       setEthAddress(ethAccount?.address);
+      setSolanaAddress(solanaAccount?.address);
     });
 
     window.addEventListener('focus', () => {
@@ -60,6 +62,7 @@ export const Wallet = () => {
         permissions: {
           personal_sign: {},
           ed25519_signRaw: {},
+          solana_signMessage: {},
         },
       },
 
@@ -181,10 +184,8 @@ export const Wallet = () => {
 
   const handleEd25519Sign = useCallback(async () => {
     const [, cereAccount] = await wallet.getAccounts();
-    const signed = await wallet.provider.request({
-      method: 'ed25519_signRaw',
-      params: [cereAccount.address, 'Hello!!!'],
-    });
+    const signer = wallet.getSigner({ address: cereAccount.address });
+    const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
   }, [wallet]);
@@ -211,9 +212,20 @@ export const Wallet = () => {
   }, [wallet]);
 
   const handlePersonalSign = useCallback(async () => {
-    const provider = new providers.Web3Provider(wallet.provider);
-    const signer = provider.getSigner();
+    /**
+     * Alternative way of creating signer instance using Ethers.js
+     */
+    // const provider = new providers.Web3Provider(wallet.provider);
+    // const signer = provider.getSigner();
 
+    const signer = wallet.getSigner();
+    const signed = await signer.signMessage('Hello!!!');
+
+    console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
+  const handleSolanaSign = useCallback(async () => {
+    const signer = wallet.getSigner({ type: 'solana' });
     const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
@@ -264,6 +276,7 @@ export const Wallet = () => {
     const permissions = await wallet.requestPermissions({
       personal_sign: {},
       ed25519_signRaw: {},
+      solana_signMessage: {},
     });
 
     console.log('Approved permissions', permissions);
@@ -304,6 +317,17 @@ export const Wallet = () => {
               </Typography>
               <Typography variant="body2" align="center">
                 {cereAddress}
+              </Typography>
+            </Stack>
+          )}
+
+          {solanaAddress && (
+            <Stack spacing={1} alignItems="center">
+              <Typography width={150} fontWeight="bold" align="center">
+                Solana Address
+              </Typography>
+              <Typography variant="body2" align="center">
+                {solanaAddress}
               </Typography>
             </Stack>
           )}
@@ -372,6 +396,10 @@ export const Wallet = () => {
             onClick={handleEd25519PayloadSign}
           >
             Sign payload (ed25519)
+          </Button>
+
+          <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleSolanaSign}>
+            Sign message (solana)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

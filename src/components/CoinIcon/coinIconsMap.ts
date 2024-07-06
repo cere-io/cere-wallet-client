@@ -1,4 +1,4 @@
-import { CereIcon, MaticIcon, UsdcIcon, EthIcon, UsdtIcon } from '@cere-wallet/ui';
+import { CereIcon, MaticIcon, UsdcIcon, EthIcon, UsdtIcon, SolanaIcon } from '@cere-wallet/ui';
 import { ComponentType } from 'react';
 
 export const coinIconsMap: Record<string, ComponentType> = {
@@ -7,4 +7,5 @@ export const coinIconsMap: Record<string, ComponentType> = {
   matic: MaticIcon,
   usdc: UsdcIcon,
   usdt: UsdtIcon,
+  solana: SolanaIcon,
 };

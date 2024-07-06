@@ -1,6 +1,6 @@
 import { makeAutoObservable, when } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
-import { Account, KeyPair, KeyType, exportAccountToJson } from '@cere-wallet/wallet-engine';
+import { Account, KeyPair, KeyType, exportAccountToJson, createAccountFromPair } from '@cere-wallet/wallet-engine';
 
 import { User, Wallet } from '../types';
 import { createSharedState } from '../sharedState';
@@ -52,16 +52,10 @@ export class AccountStore {
     return this.currentAccounts;
   }
 
-  updateAccounts(accounts: Account[]) {
-    this.currentAccounts = accounts;
-  }
-
-  mapAccounts(pairs: KeyPair[]) {
-    return pairs.map<Account>(({ address, type }, index) => ({
-      address,
-      type,
-      name: this.user?.name || `Account #${index}`,
-    }));
+  updateAccounts(keyPairs: KeyPair[]) {
+    this.currentAccounts = keyPairs.map((pair, index) =>
+      createAccountFromPair(pair, this.user?.name || `Account #${index}`),
+    );
   }
 
   exportAccount(type: KeyType, passphrase?: string) {
@@ -69,9 +63,6 @@ export class AccountStore {
       throw new Error('No private key found!');
     }
 
-    /**
-     * TODO: Implement passphrase UI to not hardcode it here to be empty string ('')
-     */
     const keyData = exportAccountToJson({ privateKey: this.privateKey, type, passphrase: passphrase || '' });
     const accountBlob = new Blob([JSON.stringify(keyData)], {
       type: 'application/json',
@@ -95,8 +86,9 @@ export class AccountStore {
 
   get selectedAccount() {
     const selectedAddress = this.shared.state.selectedAddress;
+    const defaultAccount = this.accounts.at(0);
 
-    return this.accounts.find((account) => account.address === selectedAddress) || this.accounts.at(0);
+    return this.accounts.find((account) => account.address === selectedAddress) || defaultAccount;
   }
 
   selectAccount(address: string) {

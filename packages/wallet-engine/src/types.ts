@@ -9,7 +9,13 @@ export declare type ChainConfig = {
   tickerName: string;
 };
 
-export type KeyType = 'ethereum' | 'ed25519';
+/**
+ * TODO: Solana key type was added as a temparary solution.
+ * Solana uses `ed25519` so it would be better to add another key property eg. `chainNamespace` instead of  extending`type`.
+ *
+ * For simplification, we can use `type` for now.
+ */
+export type KeyType = 'ethereum' | 'ed25519' | 'solana';
 export type KeyPair = {
   type: KeyType;
   address: string;
@@ -19,6 +25,7 @@ export type KeyPair = {
 
 export type Account = Omit<KeyPair, 'secretKey' | 'publicKey'> & {
   name: string;
+  publicKey: string;
 };
 
 export type ProviderRequestArguments = {

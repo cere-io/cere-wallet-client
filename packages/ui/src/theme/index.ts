@@ -203,6 +203,22 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
         },
 
         styleOverrides: {
+          root: ({ theme, ownerState: props }) => {
+            const color = props.color === 'inherit' ? undefined : theme.palette[props.color || 'primary'];
+            const disabledColor = color && alpha(color.main, theme.palette.action.disabledOpacity);
+            const textColor = color && color.contrastText;
+
+            return (
+              color && {
+                '&.Mui-disabled': {
+                  borderColor: disabledColor,
+                  backgroundColor: props.variant === 'contained' ? disabledColor : undefined,
+                  color: props.variant === 'contained' ? textColor : color?.main,
+                },
+              }
+            );
+          },
+
           contained: {
             backgroundColor: isGame && '#F32758',
             borderRadius: isGame ? 4 : 30,

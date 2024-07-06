@@ -1,4 +1,4 @@
-import { EmbedWallet, PermissionRequest } from '@cere/embed-wallet';
+import { EmbedWallet, PermissionRequest, WalletAccount } from '@cere/embed-wallet';
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
 import type { SignerPayloadRaw, SignerResult, Signer, SignerPayloadJSON } from '@polkadot/types/types';
@@ -48,18 +48,24 @@ export class PolkadotInjector {
       });
     });
 
+  private filterAccounts = (accounts: WalletAccount[]) => {
+    return accounts.filter((account: WalletAccount) => account.type === 'ed25519') as InjectedAccount[];
+  };
+
   private getAccounts = async () => {
-    return await this.wallet.provider.request({
-      method: 'ed25519_accounts',
+    const allAccounts = await this.wallet.provider.request({
+      method: 'wallet_accounts',
     });
+
+    return this.filterAccounts(allAccounts);
   };
 
   private subscribeAccounts = (onReceive: (accounts: InjectedAccount[]) => void) => {
-    const listener = (accounts: InjectedAccount[]) => onReceive(accounts);
+    const listener = (accounts: WalletAccount[]) => onReceive(this.filterAccounts(accounts));
 
-    this.wallet.provider.on('ed25519_accountsChanged', listener);
+    this.wallet.provider.on('wallet_accountsChanged', listener);
 
-    return () => this.wallet.provider.off('ed25519_accountsChanged', listener);
+    return () => this.wallet.provider.off('wallet_accountsChanged', listener);
   };
 
   private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {

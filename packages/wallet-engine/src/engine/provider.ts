@@ -10,12 +10,14 @@ import { createPermissionsEngine, PermissionsEngineOptions } from './permissions
 import type { EthereumEngineOptions } from './ethereum';
 import type { PolkadotEngineOptions } from './polkadot';
 import type { AccountsEngineOptions } from './accounts';
+import type { SolanaEngineOptions } from './solana';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   AccountsEngineOptions &
   ApproveEngineOptions &
   EthereumEngineOptions &
   PolkadotEngineOptions &
+  SolanaEngineOptions &
   PermissionsEngineOptions;
 
 class EngineProvider extends EventEmitter implements Provider {
@@ -33,13 +35,11 @@ class EngineProvider extends EventEmitter implements Provider {
   }
 }
 
-class UnsafeEngine extends Engine {
+class ChainEngine extends Engine {
   readonly provider: Provider = new EngineProvider(this);
 
   constructor(options: ProviderEngineOptions) {
     super();
-
-    this.pushEngine(createWalletEngine(options));
 
     this.pushEngine(
       import(/* webpackChunkName: "accountsEngine" */ './accounts').then(({ createAccountsEngine }) =>
@@ -52,6 +52,12 @@ class UnsafeEngine extends Engine {
 
       return createPolkadotEngine(options);
     });
+
+    this.pushEngine(
+      import(/* webpackChunkName: "accountsEngine" */ './solana').then(({ createSolanaEngine }) =>
+        createSolanaEngine(options),
+      ),
+    );
 
     /**
      * Should always be the last one since it is currently handles real RPC requests
@@ -72,13 +78,26 @@ export class ProviderEngine extends Engine {
   constructor(options: ProviderEngineOptions) {
     super();
 
-    const unsafeEngine = new UnsafeEngine(options);
+    const unsafeEngine = new Engine();
+    const walletEngine = createWalletEngine(options);
+    const chainEngine = new ChainEngine(options);
 
-    this.provider = new EngineProvider(this);
+    /**
+     * Setup unsafe provider
+     */
+    unsafeEngine.pushEngine(walletEngine);
+    unsafeEngine.pushEngine(chainEngine);
+
     this.unsafeProvider = new EngineProvider(unsafeEngine);
 
+    /**
+     * Setup safe provider
+     */
+    this.pushEngine(walletEngine);
     this.pushEngine(createPermissionsEngine(options, createApproveEngine(options)));
-    this.pushEngine(unsafeEngine);
+    this.pushEngine(chainEngine);
+
+    this.provider = new EngineProvider(this);
   }
 
   async updateAccounts() {

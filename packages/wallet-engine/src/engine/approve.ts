@@ -7,7 +7,7 @@ import {
 } from 'json-rpc-engine';
 
 import { Engine } from './engine';
-import { KeyType } from '../types';
+import type { KeyType } from '../types';
 
 type WithPreopenedInstanceId = {
   preopenInstanceId?: string;
@@ -123,6 +123,16 @@ export const createApproveEngine = ({
         await onPayloadSign({
           preopenInstanceId: req.preopenInstanceId,
           params: [payload, 'ed25519' as KeyType],
+          proceed,
+        });
+      }),
+
+      solana_signMessage: createRequestMiddleware<[string, string]>(async (req, proceed) => {
+        const [account, message] = req.params!;
+
+        await onPersonalSign({
+          preopenInstanceId: req.preopenInstanceId,
+          params: [message, account, 'solana' as KeyType],
           proceed,
         });
       }),
