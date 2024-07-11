@@ -81,7 +81,12 @@ export class EmbeddedWalletStore implements Wallet {
     );
 
     this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
-    this.permissionsStore = new PermissionsStore(this.sessionStore, this.popupManagerStore, this.appContextStore);
+    this.permissionsStore = new PermissionsStore(
+      this.sessionStore,
+      this.popupManagerStore,
+      this.appContextStore,
+      this.applicationsStore,
+    );
 
     /**
      * Default configuration

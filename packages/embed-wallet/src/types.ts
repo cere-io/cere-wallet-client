@@ -41,6 +41,7 @@ export type UserInfo = {
   name: string;
   profileImage: string;
   isNewUser: boolean;
+  isNewWallet: boolean;
 };
 
 export type WalletAccountType = 'ethereum' | 'ed25519' | 'solana';

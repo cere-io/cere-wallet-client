@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { Account } from '@cere-wallet/wallet-engine';
+import { Account, PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
@@ -17,10 +17,15 @@ type ApiApplication = {
   data: string | null;
 };
 
+type ApplicationData = Record<string, any> & {
+  permissions?: PermissionRequest;
+};
+
 export type Application = Omit<ApiApplication, 'data'> & {
   appId: string;
   address: string;
-  data?: Record<string, any>;
+  permissions?: PermissionRequest;
+  data?: Omit<ApplicationData, 'permissions'>;
 };
 
 export type ApplicationsFilter = {
@@ -36,14 +41,15 @@ export const getUserApplications = async (
   filter: ApplicationsFilter,
   authToken?: string | null,
 ): Promise<Application[]> => {
-  const { data } = await api.post<ApiApplication[]>('/applications/find', filter, {
+  const { data: response } = await api.post<ApiApplication[]>('/applications/find', filter, {
     headers: authToken ? createHeaders(authToken) : undefined,
   });
 
-  return data.map(({ data, ...app }) => ({
-    ...app,
-    data: data ? JSON.parse(data) : undefined,
-  }));
+  return response.map(({ data: rawData, ...app }) => {
+    const data: ApplicationData | undefined = rawData ? JSON.parse(rawData) : undefined;
+
+    return { ...app, permissions: data?.permissions, data };
+  });
 };
 
 export class ApplicationsStore {

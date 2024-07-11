@@ -7,6 +7,7 @@ import type { PermissionsPopupState } from '../PermissionsPopupStore';
 import { AppContextStore } from '../AppContextStore';
 import { when } from 'mobx';
 import { ALLOWED_WALLET_PERMISSIONS } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 const requestToPermissions = (request: PermissionRequest): Permission[] => {
   return Object.keys(request).map((parentCapability) => {
@@ -29,6 +30,7 @@ export class PermissionsStore {
     private sessionStore: SessionStore,
     private popupManagerStore: PopupManagerStore,
     private contextStore: AppContextStore,
+    private applicationsStore: ApplicationsStore,
   ) {}
 
   get permissions(): Permission[] {
