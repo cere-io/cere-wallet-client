@@ -22,5 +22,3 @@ export const knownPermissions: Record<AllowedPermission, PermissionMeta> = {
     description: 'Allow the app to sign data on your behalf in background.',
   },
 };
-
-export const defaultDescription = 'No description available';
