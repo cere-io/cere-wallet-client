@@ -9,6 +9,7 @@ import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 import { SessionStore } from '../SessionStore';
 import { createAuthToken } from './createAuthToken';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -32,6 +33,7 @@ export class AuthenticationStore {
     private wallet: Wallet,
     private sessionStore: SessionStore,
     private accountStore: AccountStore,
+    private applicationsStore: ApplicationsStore,
     private contextStore: AppContextStore,
     private openLoginStore: OpenLoginStore,
     private popupManagerStore: PopupManagerStore,
@@ -42,6 +44,13 @@ export class AuthenticationStore {
       () => this.contextStore.app,
       (app) => {
         this.openLoginStore.configureApp(app);
+      },
+    );
+
+    reaction(
+      () => this.sessionStore.session,
+      () => {
+        this.syncLoginData();
       },
     );
   }
@@ -58,10 +67,7 @@ export class AuthenticationStore {
 
   async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
-
     await this.sessionStore.rehydrate(sessionId);
-
-    this.syncLoginData();
     this.isRehydrating = false;
 
     return this.accountStore.userInfo;
@@ -147,8 +153,6 @@ export class AuthenticationStore {
   async logout() {
     await this.sessionStore.invalidateSession();
 
-    this.syncLoginData();
-
     return true;
   }
 
@@ -203,10 +207,8 @@ export class AuthenticationStore {
       throw new Error('Something went wrong during authentication');
     }
 
-    this.syncLoginData();
-    this.sessionStore.permissions = permissions || {};
-
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
+    await this.applicationsStore.saveApplication({ permissions });
 
     return this.accountStore.account!.address;
   }

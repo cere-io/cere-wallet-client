@@ -104,10 +104,6 @@ export class Web3AuthStore {
       privateKey: isPnPUser ? pnpPrivKey : privKey,
     });
 
-    if (currentApp?.permissions) {
-      this.sessionStore.permissions = currentApp.permissions;
-    }
-
     return userInfo;
   }
 }

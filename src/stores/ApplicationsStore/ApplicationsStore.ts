@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { Account, PermissionRequest } from '@cere-wallet/wallet-engine';
+import { makeAutoObservable, reaction, runInAction, toJS, when } from 'mobx';
+import { PermissionRequest } from '@cere-wallet/wallet-engine';
 
+import { ReadyWallet, Wallet } from '../types';
+import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
-import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
-import { AuthenticationStore } from '../AuthenticationStore';
+import { createAuthToken } from '../AuthenticationStore';
 
 const api = axios.create({
   baseURL: WALLET_API,
@@ -56,61 +57,51 @@ export class ApplicationsStore {
   private existingApps?: Application[];
   private authToken: string | null = null;
 
-  constructor(
-    private accountStore: AccountStore,
-    private authenticationStore: AuthenticationStore,
-    private contextStore: AppContextStore,
-  ) {
+  constructor(private wallet: Wallet, private accountStore: AccountStore, private contextStore: AppContextStore) {
     makeAutoObservable(this);
 
     reaction(
-      () => accountStore.accounts,
-      (accounts) => (accounts.length >= 2 ? this.onReady(accounts) : this.cleanUp()),
+      () => wallet.isReady(),
+      () => this.onReady(wallet as ReadyWallet),
     );
-  }
-
-  get isNewUser() {
-    return this.existingApps && !this.existingApps.some(({ appId }) => appId === this.appId);
   }
 
   get appId() {
     return this.contextStore.app?.appId || DEFAULT_APP_ID;
   }
 
-  private async onReady(accounts: Account[]) {
-    const [ethAccount] = accounts;
-
-    this.authToken = await this.authenticationStore.createToken();
-
-    try {
-      await this.loadApps(ethAccount);
-    } catch {}
-
-    runInAction(() => {
-      this.accountStore.isNewUser = this.isNewUser ?? false;
-    });
-
-    this.trackActivity(accounts);
+  get currentApp() {
+    return this.existingApps?.find((app) => app.appId === this.appId);
   }
 
-  private cleanUp() {
-    this.existingApps = undefined;
+  private async onReady(wallet: ReadyWallet) {
+    const [authToken] = await Promise.all([createAuthToken(wallet.unsafeProvider.getSigner()), this.loadApps()]);
+
+    runInAction(() => {
+      this.authToken = authToken;
+    });
   }
 
   private get headers() {
     return !this.authToken ? {} : createHeaders(this.authToken);
   }
 
-  private async loadApps({ address }: Account) {
-    const apps = await getUserApplications({ address, appId: this.appId }, this.authToken);
+  private async loadApps() {
+    const [evmAccount] = this.accountStore.accounts;
+    const apps = await getUserApplications({ address: evmAccount.address, appId: this.appId }, this.authToken);
 
     runInAction(() => {
       this.existingApps = apps;
     });
+
+    return apps;
   }
 
-  private async trackActivity(accounts: Account[]) {
+  async saveApplication(data?: ApplicationData) {
+    await when(() => !!this.authToken);
+
     const { email } = this.accountStore.user || {};
+    const accounts = this.accountStore.accounts;
     const [evmAccount] = accounts;
 
     await api.post(
@@ -120,8 +111,13 @@ export class ApplicationsStore {
         accounts: toJS(accounts),
         appId: this.appId,
         address: evmAccount.address,
+        data: JSON.stringify(toJS({ ...this.currentApp?.data, ...data })),
       },
       { headers: this.headers },
     );
+
+    await this.loadApps();
+
+    return this.currentApp!;
   }
 }

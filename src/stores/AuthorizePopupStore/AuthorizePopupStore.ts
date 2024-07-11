@@ -152,8 +152,6 @@ export class AuthorizePopupStore {
     await this.validateRedirectUrl(this.redirectUrl);
     await this.sessionStore.storeSession();
 
-    this.sessionStore.permissions = permissions;
-
     window.location.replace(createRedirectUrl(this.redirectUrl, this.sessionStore.sessionId));
 
     return new Promise<void>(() => {});
