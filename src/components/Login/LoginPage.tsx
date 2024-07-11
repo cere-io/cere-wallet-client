@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import {
   LoadingButton,
   Stack,
@@ -18,12 +19,14 @@ import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useLocation, useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
+
 import { AuthApiService } from '~/api/auth-api.service';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
-import { useEffect, useMemo } from 'react';
 import { SUPPORTED_SOCIAL_LOGINS } from '~/constants';
 import { useAppContextStore } from '~/hooks';
+import { AuthorizePopupStore } from '~/stores';
+
+import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { AppContextBanner } from '../AppContextBanner';
 import { PoweredBy } from './PoweredBy';
 
@@ -54,11 +57,12 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   const [searchParams] = useSearchParams();
   const signText = `Sign ${variant === 'signin' ? 'In' : 'Up'}`;
   const { isGame } = useTheme();
-  const store = useAppContextStore();
+  const contextStore = useAppContextStore();
+  const store = useOutletContext<AuthorizePopupStore>();
 
-  const emailHint = loginHint || searchParams.get('email') || '';
-  const skipLoginIntro = Boolean(store.whiteLabel?.skipLoginIntro);
-  const connectScreenSettings = store?.whiteLabel?.connectScreenSettings;
+  const emailHint = loginHint || searchParams.get('emailHint') || '';
+  const skipLoginIntro = Boolean(contextStore.whiteLabel?.skipLoginIntro);
+  const connectScreenSettings = contextStore?.whiteLabel?.connectScreenSettings;
 
   useEffect(() => {
     const isSignUp = location.pathname.endsWith('signup');
@@ -111,7 +115,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('email');
 
-    if (await AuthApiService.sendOtp(value)) {
+    if (await store.sendOtp(value)) {
       navigate(
         { ...location, pathname: '/authorize/otp' },
         {
