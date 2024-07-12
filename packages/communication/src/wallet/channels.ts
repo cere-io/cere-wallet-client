@@ -11,6 +11,7 @@ export type UserInfo = {
   verifier: string;
   verifierId: string;
   isNewUser?: boolean;
+  isNewWallet?: boolean;
 };
 
 export type AppContext = Context;

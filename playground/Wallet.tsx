@@ -275,8 +275,15 @@ export const Wallet = () => {
 
   const handleRequestPermissions = useCallback(async () => {
     const permissions = await wallet.requestPermissions({
-      personal_sign: {},
-      ed25519_signRaw: {},
+      personal_sign: {
+        title: 'Custom permission title (personal_sign)',
+        description: 'Custom permission description (personal_sign)',
+      },
+
+      ed25519_signRaw: {
+        description: null,
+      },
+
       solana_signMessage: {},
     });
 
@@ -285,8 +292,12 @@ export const Wallet = () => {
 
   const handleRevokePermissions = useCallback(async () => {
     await wallet.revokePermissions({
-      personal_sign: {},
+      personal_sign: {
+        title: 'Sign message',
+        description: 'Sign a message with your Ethereum account',
+      },
       ed25519_signRaw: {},
+      solana_signMessage: {},
     });
 
     console.log('Permissions revoked');

@@ -9,6 +9,7 @@ import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 import { SessionStore } from '../SessionStore';
 import { createAuthToken } from './createAuthToken';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -33,6 +34,7 @@ export class AuthenticationStore {
     private wallet: Wallet,
     private sessionStore: SessionStore,
     private accountStore: AccountStore,
+    private applicationsStore: ApplicationsStore,
     private contextStore: AppContextStore,
     private openLoginStore: OpenLoginStore,
     private popupManagerStore: PopupManagerStore,
@@ -59,8 +61,11 @@ export class AuthenticationStore {
 
   async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
+    const session = await this.sessionStore.rehydrate(sessionId);
 
-    await this.sessionStore.rehydrate(sessionId);
+    if (session) {
+      await this.applicationsStore.loadConnectedApp(session);
+    }
 
     this.syncLoginData();
     this.isRehydrating = false;
@@ -141,7 +146,6 @@ export class AuthenticationStore {
 
   async logout() {
     await this.sessionStore.invalidateSession();
-
     this.syncLoginData();
 
     return true;
@@ -204,9 +208,8 @@ export class AuthenticationStore {
     }
 
     this.syncLoginData();
-    this.sessionStore.permissions = permissions || {};
-
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
+    await this.applicationsStore.saveApplication({ permissions });
 
     return this.accountStore.account!.address;
   }

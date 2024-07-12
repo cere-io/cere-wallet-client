@@ -41,6 +41,7 @@ export type UserInfo = {
   name: string;
   profileImage: string;
   isNewUser: boolean;
+  isNewWallet: boolean;
 };
 
 export type WalletAccountType = 'ethereum' | 'ed25519' | 'solana';
@@ -140,13 +141,18 @@ export type PermissionCaveat = {
   value: any;
 };
 
+type KnownPermissionCaveats = {
+  title?: string;
+  description?: string | null;
+};
+
 export type Permission = {
   parentCapability: string;
   caveats: PermissionCaveat[];
 };
 
 export type PermissionRequest = {
-  [methodName: Permission['parentCapability']]: {
+  [methodName: Permission['parentCapability']]: KnownPermissionCaveats & {
     [caveatName: PermissionCaveat['type']]: PermissionCaveat['value'];
   };
 };
