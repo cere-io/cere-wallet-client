@@ -1,4 +1,4 @@
-import { WalletAccount, WalletBalance } from '@cere/embed-wallet';
+import { WalletAccount, WalletBalance, WalletConnectOptions } from '@cere/embed-wallet';
 import { Button, Divider, Stack, Typography } from '@cere-wallet/ui';
 import { providers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
@@ -80,16 +80,17 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
-  const handleConnect = useCallback(async () => {
-    await wallet.connect({
-      loginHint: 'wallet-playground@cere.io',
-    });
+  const handleConnect = useCallback(
+    async (options: WalletConnectOptions = {}) => {
+      await wallet.connect(options);
 
-    const userInfo = await wallet.getUserInfo();
+      const userInfo = await wallet.getUserInfo();
 
-    console.log('userInfo', userInfo);
-    setIsNewUser(userInfo.isNewUser);
-  }, [wallet]);
+      console.log('userInfo', userInfo);
+      setIsNewUser(userInfo.isNewUser);
+    },
+    [wallet],
+  );
 
   const handleDisconnect = useCallback(() => {
     wallet.disconnect();
@@ -470,7 +471,12 @@ export const Wallet = () => {
             Disconnect wallet
           </Button>
 
-          <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleConnect}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={() => handleConnect()}
+          >
             Connect wallet
           </Button>
         </>
@@ -480,9 +486,27 @@ export const Wallet = () => {
             variant="contained"
             color="primary"
             disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
-            onClick={handleConnect}
+            onClick={() => handleConnect()}
           >
             Connect wallet
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
+            onClick={() => handleConnect({ loginHint: 'wallet-playground@cere.io' })}
+          >
+            Connect wallet (loginHint)
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
+            onClick={() => handleConnect({ email: 'sergey.kambalin@cere.io' })}
+          >
+            Connect wallet (email)
           </Button>
 
           <Button

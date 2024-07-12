@@ -23,6 +23,7 @@ export type LoginOptions = {
   redirectUrl?: string;
   loginHint?: string;
   permissions?: PermissionRequest;
+  email?: string;
 };
 
 export type LoginData = {

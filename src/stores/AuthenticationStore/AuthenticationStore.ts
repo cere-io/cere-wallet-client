@@ -21,6 +21,7 @@ type RehydrateParams = {
 
 type AuthLoginParams = LoginParams & {
   forceMfa?: boolean;
+  email?: string;
   emailHint?: string;
   skipIntro?: boolean;
   callbackUrl?: string;
@@ -99,17 +100,14 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
+  async loginInPopup(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
     const loginUrl = await this.getLoginUrl('popup', { ...params, preopenInstanceId });
     const redirect = await this.popupManagerStore.redirect(preopenInstanceId, loginUrl);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
-      permissions,
-      loginHint,
-    });
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
 
     await when(() => !redirect.isConnected || !!authPopup.state.result);
     this.popupManagerStore.closePopup(preopenInstanceId);
@@ -121,16 +119,13 @@ export class AuthenticationStore {
     return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
+  async loginInModal(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
     const modal = this.popupManagerStore.registerModal(preopenInstanceId);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
-      permissions,
-      loginHint,
-    });
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
 
     this.popupManagerStore.registerRedirect(preopenInstanceId, true);
     this.popupManagerStore.showModal(preopenInstanceId, '/frame');
@@ -157,8 +152,9 @@ export class AuthenticationStore {
   }
 
   private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: AuthLoginParams) {
-    const { preopenInstanceId = 'redirect', forceMfa = false, emailHint } = params;
+    const { preopenInstanceId = 'redirect', forceMfa = false } = params;
     const { sessionNamespace } = this.sessionStore;
+    const loginHint = params.emailHint || params.loginHint;
 
     const startUrl = new URL('/authorize', window.origin);
     const callbackParams = new URLSearchParams();
@@ -177,8 +173,12 @@ export class AuthenticationStore {
       startUrl.searchParams.append('mfa', 'force');
     }
 
-    if (emailHint) {
-      startUrl.searchParams.append('email', emailHint);
+    if (loginHint) {
+      startUrl.searchParams.append('loginHint', loginHint);
+    }
+
+    if (params.email) {
+      startUrl.searchParams.append('email', params.email);
     }
 
     if (params.skipIntro) {

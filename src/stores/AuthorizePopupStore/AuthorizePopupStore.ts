@@ -9,6 +9,7 @@ import { Web3AuthStore } from '../Web3AuthStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
+import { AuthApiService } from '~/api/auth-api.service';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -22,11 +23,12 @@ export type AuthorizePopupStoreOptions = {
   forceMfa?: boolean;
   sessionNamespace?: string;
   appId?: string;
+  loginHint?: string;
+  email?: string;
 };
 
 export type AuthorizePopupState = {
   result?: AuthenticationResult;
-  loginHint?: string;
   permissions?: PermissionRequest;
 };
 
@@ -41,6 +43,7 @@ export class AuthorizePopupStore {
 
   private redirectUrl: string | null = null;
   private currentEmail?: string;
+  private currentLoginHint?: string;
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
   private appPermissions: PermissionRequest = {};
@@ -50,6 +53,8 @@ export class AuthorizePopupStore {
 
     const callbackUrl = new URL(this.options.callbackUrl, window.origin);
     this.redirectUrl = options.redirectUrl || callbackUrl.searchParams.get('redirectUrl');
+    this.email = options.email;
+    this.currentLoginHint = options.loginHint;
 
     reaction(
       () => this.email,
@@ -79,7 +84,7 @@ export class AuthorizePopupStore {
   }
 
   get loginHint() {
-    return this.shared.state.loginHint;
+    return this.currentLoginHint;
   }
 
   get permissions() {
@@ -165,5 +170,21 @@ export class AuthorizePopupStore {
     window.location.replace(createRedirectUrl(this.redirectUrl, this.sessionStore.sessionId));
 
     return new Promise<void>(() => {});
+  }
+
+  async sendOtp(email?: string) {
+    const toEmail = email || this.email;
+
+    if (!toEmail) {
+      throw new Error('Email is required to send OTP');
+    }
+
+    const isSent = await AuthApiService.sendOtp(toEmail);
+
+    if (isSent) {
+      this.email = toEmail;
+    }
+
+    return isSent;
   }
 }

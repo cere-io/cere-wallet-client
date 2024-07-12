@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Stack, useIsMobile, useTheme, ArrowBackIosIcon } from '@cere-wallet/ui';
 
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
@@ -8,15 +8,28 @@ import { OtpPage } from '~/components';
 import { AuthorizePopupStore } from '~/stores';
 import { useAppContextStore } from '~/hooks';
 
-const AuthorizeOtp = () => {
+type AuthorizeOtpProps = {
+  sendOtp?: boolean;
+};
+
+const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useOutletContext<AuthorizePopupStore>();
   const { whiteLabel } = useAppContextStore();
   const { isGame } = useTheme();
+  const hasBackButton = !isGame && !!location.state?.email;
 
-  store.email = location.state?.email;
+  if (location.state?.email) {
+    store.email = location.state?.email;
+  }
+
+  useEffect(() => {
+    if (sendOtp) {
+      store.sendOtp();
+    }
+  }, [sendOtp, store]);
 
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
@@ -49,7 +62,8 @@ const AuthorizeOtp = () => {
         height="100vh"
         spacing={9}
       >
-        {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+        {hasBackButton && <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+
         <Stack direction="column" textAlign="justify">
           <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
@@ -65,7 +79,8 @@ const AuthorizeOtp = () => {
       padding={2}
       height="100vh"
     >
-      {isGame ? null : <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+      {hasBackButton && <ArrowBackIosIcon onClick={() => navigate(-1)} />}
+
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
           <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
