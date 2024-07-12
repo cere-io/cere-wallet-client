@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from 'mobx';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 import type { UserInfo } from '@cere-wallet/communication';
 
@@ -43,6 +43,7 @@ export class AuthorizePopupStore {
   private currentEmail?: string;
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
+  private appPermissions: PermissionRequest = {};
 
   constructor(private wallet: Wallet, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
@@ -83,8 +84,13 @@ export class AuthorizePopupStore {
 
   get permissions() {
     const { permissions = {} } = this.shared.state;
+    const finalPermissions = { ...permissions };
 
-    return Object.keys(permissions).length ? permissions : undefined;
+    for (const capability in this.appPermissions) {
+      delete finalPermissions[capability];
+    }
+
+    return Object.keys(finalPermissions).length ? finalPermissions : undefined;
   }
 
   get acceptedPermissions() {
@@ -113,10 +119,14 @@ export class AuthorizePopupStore {
       }) as Promise<any>; // Use any to avoid type mismatch. The return type is not important here due to redirect.
     }
 
-    const userInfo = await this.web3AuthStore.login({
+    const { userInfo, permissions } = await this.web3AuthStore.login({
       idToken,
       appId: this.options.appId,
       checkMfa: isMfa === undefined,
+    });
+
+    runInAction(() => {
+      this.appPermissions = permissions;
     });
 
     return {
@@ -141,7 +151,7 @@ export class AuthorizePopupStore {
 
   async acceptSession(permissions: PermissionRequest = this.acceptedPermissions) {
     this.shared.state.result = {
-      permissions,
+      permissions: { ...permissions, ...this.appPermissions },
       sessionId: this.sessionStore.sessionId,
     };
 
