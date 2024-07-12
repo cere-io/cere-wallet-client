@@ -15,6 +15,10 @@ export class WalletAuth {
     return browser.findByRole$('button', { name: 'Verify' });
   }
 
+  get otpInput() {
+    return browser.findByRole$('textbox', { name: 'OTP input' });
+  }
+
   async enterRandomEmail() {
     const emailSuffix = Math.random().toString(32).slice(2);
     const email = `auto+${emailSuffix}@test.io`;
@@ -25,10 +29,6 @@ export class WalletAuth {
   }
 
   async enterOTP(otp: string) {
-    await $('.react-code-input').waitForDisplayed();
-
-    const inputs = await browser.$$('.react-code-input input');
-
-    return Promise.all(inputs.map((input, index) => input.setValue(otp[index])));
+    await this.otpInput.setValue(otp);
   }
 }
