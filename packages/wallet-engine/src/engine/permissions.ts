@@ -27,7 +27,7 @@ export type RequestedPermission = {
 };
 
 export type PermissionsEngineOptions = {
-  getPermissions?: () => Promise<Permission[]>;
+  getPermissions?: () => Permission[];
   onRequestPermissions?: (request: PermissionRequest) => Promise<PermissionRequest>;
   onRevokePermissions?: (request: PermissionRequest) => Promise<void>;
 };
@@ -69,7 +69,7 @@ export const createPermissionsEngine = (
   engine.push(
     createScaffoldMiddleware({
       wallet_getPermissions: createAsyncMiddleware(async (req, res) => {
-        res.result = await getPermissions?.();
+        res.result = getPermissions?.();
       }),
 
       /**
@@ -88,8 +88,8 @@ export const createPermissionsEngine = (
 
       wallet_requestPermissions: createAsyncMiddleware(async (req, res) => {
         const [request] = req.params as [PermissionRequest];
-        const approvedPermissions = await getPermissions?.();
-        const missingPermissions = getMissingPermissions(approvedPermissions || [], request);
+        const approvedPermissions = getPermissions?.() || [];
+        const missingPermissions = getMissingPermissions(approvedPermissions, request);
         const allApproved = Object.keys(missingPermissions).length === 0;
         const approvedPermission = allApproved ? request : await onRequestPermissions?.(missingPermissions);
         const capabilities = Object.keys(approvedPermission ?? {});
@@ -112,9 +112,9 @@ export const createPermissionsEngine = (
   );
 
   engine.push(async (req, res, next, end) => {
-    const permissions = await getPermissions?.();
+    const permissions = getPermissions?.() || [];
 
-    if (checkPermissions(req, permissions || [])) {
+    if (checkPermissions(req, permissions)) {
       return next();
     }
 

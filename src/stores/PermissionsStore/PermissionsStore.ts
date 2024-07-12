@@ -33,12 +33,12 @@ export class PermissionsStore {
     makeAutoObservable(this);
   }
 
-  private async getAppPermissions() {
-    return this.applicationsStore.currentApp?.permissions || {};
+  private get appPermissions() {
+    return this.applicationsStore.connectedApp.permissions;
   }
 
-  async getPermissions() {
-    return requestToPermissions(await this.getAppPermissions());
+  get permissions() {
+    return requestToPermissions(this.appPermissions);
   }
 
   async requestPermissions(permissionsRequest: PermissionRequest) {
@@ -61,17 +61,15 @@ export class PermissionsStore {
       return {};
     }
 
-    const appPermissions = await this.getAppPermissions();
     await this.applicationsStore.saveApplication({
-      permissions: { ...appPermissions, ...selectedPermissions },
+      permissions: { ...this.appPermissions, ...selectedPermissions },
     });
 
     return selectedPermissions;
   }
 
   async revokePermissions(request: PermissionRevokeRequest) {
-    const appPermissions = await this.getAppPermissions();
-    const permissions = { ...appPermissions };
+    const permissions = { ...this.appPermissions };
 
     for (const method in request) {
       delete permissions[method];

@@ -96,6 +96,8 @@ export class EmbedWallet {
   }
 
   private handleEvenets = ({ type, data }: ProviderEvent) => {
+    console.log('Wallet Events', { type, data });
+
     if (type === 'wallet_accountsChanged') {
       this.eventEmitter.emit('accounts-update', data);
 

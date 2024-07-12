@@ -46,13 +46,6 @@ export class AuthenticationStore {
         this.openLoginStore.configureApp(app);
       },
     );
-
-    reaction(
-      () => this.sessionStore.session,
-      () => {
-        this.syncLoginData();
-      },
-    );
   }
 
   get isRehydrating() {
@@ -67,7 +60,13 @@ export class AuthenticationStore {
 
   async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
-    await this.sessionStore.rehydrate(sessionId);
+    const session = await this.sessionStore.rehydrate(sessionId);
+
+    if (session) {
+      await this.applicationsStore.loadConnectedApp(session);
+    }
+
+    this.syncLoginData();
     this.isRehydrating = false;
 
     return this.accountStore.userInfo;
@@ -152,6 +151,7 @@ export class AuthenticationStore {
 
   async logout() {
     await this.sessionStore.invalidateSession();
+    this.syncLoginData();
 
     return true;
   }
@@ -207,6 +207,7 @@ export class AuthenticationStore {
       throw new Error('Something went wrong during authentication');
     }
 
+    this.syncLoginData();
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
     await this.applicationsStore.saveApplication({ permissions });
 
