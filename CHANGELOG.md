@@ -3,6 +3,8 @@
 ### vNext
 
 - Add support for externally provided email to login with
+- Make it possible to change permission title and description
+- Store wallet permission to connected application and don't ask on each login
 
 ### v1.38.0
 
