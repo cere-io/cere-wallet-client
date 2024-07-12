@@ -50,6 +50,7 @@ export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, 
         autoFocus
         maxLength={6}
         onChange={onChange}
+        aria-label="OTP input"
         render={({ slots }) => (
           <Stack direction="row" spacing={3}>
             <Stack direction="row" spacing={1}>
