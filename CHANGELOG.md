@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Add support for externally provided email to login with
 
 ### v1.38.0
 
