@@ -53,4 +53,16 @@ export class AuthApiService {
     }
     return result?.data.code === 'SUCCESS' ? result?.data.data.token : null;
   }
+
+  public static async validateLink(email: string, authLinkCode: string, otp: string): Promise<boolean> {
+    let result: AxiosResponse<ApiResponse<null>> | null = null;
+
+    try {
+      result = await api.post<ApiResponse<null>>('/auth/otp/validate', { email, otp, authLinkCode });
+    } catch (err: any) {
+      reportError(err);
+    }
+
+    return result?.data?.code === 'SUCCESS';
+  }
 }
