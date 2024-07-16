@@ -24,6 +24,7 @@ const TIME_LEFT = 60; // seconds before next otp request
 
 interface OtpProps {
   email?: string;
+  busy?: boolean;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -33,7 +34,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin, busy = false }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
@@ -161,7 +162,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           </Alert>
         )}
 
-        <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+        <LoadingButton loading={isSubmitting || busy} variant="contained" size="large" type="submit">
           {errors.root ? 'Retry' : 'Verify'}
         </LoadingButton>
         {timeLeft ? (

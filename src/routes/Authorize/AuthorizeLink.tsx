@@ -20,7 +20,7 @@ const AuthorizeLink = () => {
   const [query] = useSearchParams();
   const encodedState = query.get('state');
   const state = useMemo(() => parseState(encodedState), [encodedState]);
-  const [email, linkCode, otp, appName] = state || [];
+  const [email, otp, linkCode, appName] = state || [];
   const error = !state || validationError;
 
   useEffect(() => {
@@ -48,12 +48,14 @@ const AuthorizeLink = () => {
     : 'The login link is invalid or expired. Please try again.';
 
   return (
-    <Stack component={Typography} height="100vh" spacing={2} justifyContent="center" alignItems="center">
+    <Stack component={Typography} height="100vh" spacing={2} justifyContent="center" alignItems="center" paddingX={2}>
       <Icon color={error ? 'error' : 'success'} sx={{ fontSize: 60 }} />
       <Typography color="text.primary" variant="h3" noWrap>
         {title}
       </Typography>
-      <Typography color="text.secondary">{message}</Typography>
+      <Typography textAlign="center" color="text.secondary">
+        {message}
+      </Typography>
     </Stack>
   );
 };
