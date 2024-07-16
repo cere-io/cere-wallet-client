@@ -10,6 +10,7 @@ import {
   AuthorizeOtp,
   AuthorizePermissions,
   AuthorizeComplete,
+  AuthorizeLink,
 } from './Authorize';
 
 export const AuthorizationRouter = () => {
@@ -39,6 +40,7 @@ export const AuthorizationRouter = () => {
         <Route path="complete" element={<AuthorizeComplete />} />
         <Route path="close" element={<AuthorizeClose />} />
         <Route path="redirect" element={<AuthorizeRedirect />} />
+        <Route path="magic-link" element={<AuthorizeLink />} />
       </Route>
     </Routes>
   );
