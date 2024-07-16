@@ -13,15 +13,16 @@ const api = axios.create({
 });
 
 export class AuthApiService {
-  public static async sendOtp(email: string): Promise<boolean> {
-    let result: AxiosResponse<ApiResponse<null>> | null = null;
+  public static async sendOtp(email: string): Promise<string | null> {
+    let result: AxiosResponse<ApiResponse<{ authLinkCode: string }>> | null = null;
+
     try {
-      result = await api.post<ApiResponse<null>>('/auth/otp/send', { email });
+      result = await api.post('/auth/otp/send', { email });
     } catch (err: any) {
       reportError(err);
     }
 
-    return result?.data?.code === 'SUCCESS';
+    return result?.data?.data?.authLinkCode || null;
   }
 
   public static async getTokenByEmail(email: string, code: string): Promise<string | null> {
@@ -64,5 +65,17 @@ export class AuthApiService {
     }
 
     return result?.data?.code === 'SUCCESS';
+  }
+
+  public static async getTokenByLink(email: string, authLinkCode: string): Promise<string | null> {
+    let result: AxiosResponse<ApiResponse<{ token: string | null }>> | null = null;
+
+    try {
+      result = await api.post('/auth/token-by-link', { email, authLinkCode });
+    } catch (err: any) {
+      reportError(err);
+    }
+
+    return result?.data?.data?.token || null;
   }
 }

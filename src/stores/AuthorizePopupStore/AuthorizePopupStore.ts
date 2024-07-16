@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
 import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 import type { UserInfo } from '@cere-wallet/communication';
 
@@ -10,6 +10,7 @@ import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
 import { AuthApiService } from '~/api/auth-api.service';
+import { createAuthLinkResource, AuthLinkResource } from './createAuthLinkResource';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -47,6 +48,7 @@ export class AuthorizePopupStore {
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
   private appPermissions: PermissionRequest = {};
+  private authLinkResource?: AuthLinkResource;
 
   constructor(private wallet: Wallet, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
@@ -107,6 +109,8 @@ export class AuthorizePopupStore {
   }
 
   async login(idToken: string): Promise<UserInfo & { sessionId: string }> {
+    this.authLinkResource?.dispose();
+
     const isMfa = await this.mfaCheckPromise?.catch((error) => {
       reportError(error);
 
@@ -172,6 +176,11 @@ export class AuthorizePopupStore {
     return new Promise<void>(() => {});
   }
 
+  async waitForAuthLinkToken(callback: (idToken: string) => Promise<void>) {
+    await when(() => !!this.authLinkResource?.current());
+    await callback(this.authLinkResource!.current()!);
+  }
+
   async sendOtp(email?: string) {
     const toEmail = email || this.email;
 
@@ -179,12 +188,15 @@ export class AuthorizePopupStore {
       throw new Error('Email is required to send OTP');
     }
 
-    const isSent = await AuthApiService.sendOtp(toEmail);
+    const authLinkCode = await AuthApiService.sendOtp(toEmail);
 
-    if (isSent) {
-      this.email = toEmail;
+    if (authLinkCode) {
+      runInAction(() => {
+        this.email = toEmail;
+        this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
+      });
     }
 
-    return isSent;
+    return !!authLinkCode;
   }
 }

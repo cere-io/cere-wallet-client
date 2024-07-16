@@ -25,12 +25,6 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
     store.email = location.state?.email;
   }
 
-  useEffect(() => {
-    if (sendOtp) {
-      store.sendOtp();
-    }
-  }, [sendOtp, store]);
-
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
       const { isNewUser } = await store.login(idToken);
@@ -51,6 +45,14 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
     },
     [location, navigate, store, whiteLabel],
   );
+
+  useEffect(() => {
+    if (sendOtp) {
+      store.sendOtp();
+    }
+
+    store.waitForAuthLinkToken(handleLoginRequest);
+  }, [handleLoginRequest, sendOtp, store]);
 
   if (isMobile) {
     return (
