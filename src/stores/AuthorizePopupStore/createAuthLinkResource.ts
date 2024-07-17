@@ -1,7 +1,8 @@
 import { fromResource, IResource } from 'mobx-utils';
-import { AuthApiService } from '~/api/auth-api.service';
+import { AuthApiService, TokenByLinkData } from '~/api/auth-api.service';
 
-export type AuthLinkResource = IResource<string | undefined>;
+export type AuthLinkResourcePayload = TokenByLinkData;
+export type AuthLinkResource = IResource<AuthLinkResourcePayload | undefined>;
 
 export const createAuthLinkResource = (email: string, linkCode: string): AuthLinkResource => {
   let timeout: NodeJS.Timeout;
@@ -14,16 +15,16 @@ export const createAuthLinkResource = (email: string, linkCode: string): AuthLin
     timeout = setTimeout(() => start(run), 1000);
   };
 
-  return fromResource<string>(
+  return fromResource<TokenByLinkData>(
     (sink) =>
       start(async () => {
-        const idToken = await AuthApiService.getTokenByLink(email, linkCode);
+        const data = await AuthApiService.getTokenByLink(email, linkCode);
 
-        if (idToken) {
-          sink(idToken);
+        if (data) {
+          sink(data);
         }
 
-        return !!idToken;
+        return !!data;
       }),
     () => clearTimeout(timeout),
   );

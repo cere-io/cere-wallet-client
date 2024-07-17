@@ -17,6 +17,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isBusy, setBusy] = useState(false);
+  const [autoOtp, setAutoOtp] = useState<string>();
   const store = useOutletContext<AuthorizePopupStore>();
   const { whiteLabel } = useAppContextStore();
   const { isGame } = useTheme();
@@ -54,7 +55,11 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
       store.sendOtp();
     }
 
-    store.waitForAuthLinkToken(handleLoginRequest);
+    store.waitForAuthLinkToken(async ({ token, code }) => {
+      setAutoOtp(code);
+
+      await handleLoginRequest(token);
+    });
   }, [handleLoginRequest, sendOtp, store]);
 
   if (isMobile) {
@@ -70,7 +75,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
         {hasBackButton && <ArrowBackIosIcon onClick={() => navigate(-1)} />}
 
         <Stack direction="column" textAlign="justify">
-          <OtpPage busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -88,7 +93,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
 
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>

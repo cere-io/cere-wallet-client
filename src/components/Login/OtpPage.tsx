@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
@@ -25,6 +25,7 @@ const TIME_LEFT = 60; // seconds before next otp request
 interface OtpProps {
   email?: string;
   busy?: boolean;
+  code?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -34,7 +35,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin, busy = false }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
@@ -44,7 +45,7 @@ export const OtpPage = ({ email, onRequestLogin, busy = false }: OtpProps) => {
   const verifyScreenSettings = store?.whiteLabel?.verifyScreenSettings;
 
   const {
-    register,
+    control,
     handleSubmit,
     setError,
     getValues: getFormValues,
@@ -57,6 +58,12 @@ export const OtpPage = ({ email, onRequestLogin, busy = false }: OtpProps) => {
       code: '',
     },
   });
+
+  useEffect(() => {
+    if (code) {
+      setFormValue('code', code);
+    }
+  }, [setFormValue, code]);
 
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
@@ -150,10 +157,10 @@ export const OtpPage = ({ email, onRequestLogin, busy = false }: OtpProps) => {
         <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
           Verification code
         </Typography>
-        <OtpInput
-          {...register('code')}
-          onChange={(val) => setFormValue('code', val)}
-          errorMessage={errors?.code?.message}
+        <Controller
+          name="code"
+          control={control}
+          render={({ field }) => <OtpInput {...field} errorMessage={errors?.code?.message} />}
         />
 
         {errors.root && (

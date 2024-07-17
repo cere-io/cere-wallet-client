@@ -4,9 +4,13 @@ import { reportError } from '~/reporting';
 import { WALLET_API } from '~/constants';
 import { ApiResponse } from '~/api/interfaces';
 
-interface TokenData {
+export type TokenData = {
   token: string;
-}
+};
+
+export type TokenByLinkData = TokenData & {
+  code: string;
+};
 
 const api = axios.create({
   baseURL: WALLET_API,
@@ -67,8 +71,8 @@ export class AuthApiService {
     return result?.data?.code === 'SUCCESS';
   }
 
-  public static async getTokenByLink(email: string, authLinkCode: string): Promise<string | null> {
-    let result: AxiosResponse<ApiResponse<{ token: string | null }>> | null = null;
+  public static async getTokenByLink(email: string, authLinkCode: string): Promise<TokenByLinkData | null> {
+    let result: AxiosResponse<ApiResponse<TokenByLinkData | null>> | null = null;
 
     try {
       result = await api.post('/auth/token-by-link', { email, authLinkCode });
@@ -76,6 +80,6 @@ export class AuthApiService {
       reportError(err);
     }
 
-    return result?.data?.data?.token || null;
+    return result?.data?.data || null;
   }
 }

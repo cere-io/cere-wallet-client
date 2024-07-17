@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction, runInAction, when } from 'mobx';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 import type { UserInfo } from '@cere-wallet/communication';
 
@@ -10,7 +10,7 @@ import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
 import { AuthApiService } from '~/api/auth-api.service';
-import { createAuthLinkResource, AuthLinkResource } from './createAuthLinkResource';
+import { createAuthLinkResource, AuthLinkResource, AuthLinkResourcePayload } from './createAuthLinkResource';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -176,9 +176,11 @@ export class AuthorizePopupStore {
     return new Promise<void>(() => {});
   }
 
-  async waitForAuthLinkToken(callback: (idToken: string) => Promise<void>) {
-    await when(() => !!this.authLinkResource?.current());
-    await callback(this.authLinkResource!.current()!);
+  waitForAuthLinkToken(callback: (payload: AuthLinkResourcePayload) => Promise<void>) {
+    return reaction(
+      () => this.authLinkResource?.current(),
+      (payload) => payload && callback(payload),
+    );
   }
 
   async sendOtp(email?: string) {
@@ -191,6 +193,8 @@ export class AuthorizePopupStore {
     const authLinkCode = await AuthApiService.sendOtp(toEmail);
 
     if (authLinkCode) {
+      this.authLinkResource?.dispose();
+
       runInAction(() => {
         this.email = toEmail;
         this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
