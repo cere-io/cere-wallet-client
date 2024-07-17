@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Stack, useIsMobile, useTheme, ArrowBackIosIcon } from '@cere-wallet/ui';
 
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
@@ -16,6 +16,8 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isBusy, setBusy] = useState(false);
+  const [autoOtp, setAutoOtp] = useState<string>();
   const store = useOutletContext<AuthorizePopupStore>();
   const { whiteLabel } = useAppContextStore();
   const { isGame } = useTheme();
@@ -25,14 +27,9 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
     store.email = location.state?.email;
   }
 
-  useEffect(() => {
-    if (sendOtp) {
-      store.sendOtp();
-    }
-  }, [sendOtp, store]);
-
   const handleLoginRequest = useCallback(
     async (idToken: string) => {
+      setBusy(true);
       const { isNewUser } = await store.login(idToken);
 
       if (
@@ -48,9 +45,22 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
       }
 
       await store.acceptSession();
+      setBusy(false);
     },
     [location, navigate, store, whiteLabel],
   );
+
+  useEffect(() => {
+    if (sendOtp) {
+      store.sendOtp();
+    }
+
+    store.waitForAuthLinkToken(async ({ token, code }) => {
+      setAutoOtp(code);
+
+      await handleLoginRequest(token);
+    });
+  }, [handleLoginRequest, sendOtp, store]);
 
   if (isMobile) {
     return (
@@ -65,7 +75,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
         {hasBackButton && <ArrowBackIosIcon onClick={() => navigate(-1)} />}
 
         <Stack direction="column" textAlign="justify">
-          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     );
@@ -83,7 +93,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
 
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
         </Stack>
       </Stack>
     </Stack>

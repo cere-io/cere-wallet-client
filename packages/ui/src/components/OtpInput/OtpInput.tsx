@@ -1,8 +1,9 @@
-import { OTPInput, SlotProps } from 'input-otp';
+import { OTPInput as OTPField, SlotProps } from 'input-otp';
 import { styled, Typography, Stack, Box } from '@cere-wallet/ui';
 import { forwardRef } from 'react';
 
 interface OtpProps {
+  value?: string;
   errorMessage?: string;
   onChange?: (code: string) => void;
 }
@@ -40,13 +41,14 @@ const Slot = ({ char, isActive, error }: SlotProps & SlotInputProps) => (
   </SlotInput>
 );
 
-export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
   const hasError = !!errorMessage;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
-      <OTPInput
+      <OTPField
         ref={ref}
+        value={value}
         autoFocus
         maxLength={6}
         onChange={onChange}

@@ -6,3 +6,4 @@ export { default as AuthorizeIntro } from './AuthorizeIntro';
 export { default as AuthorizeLogin } from './AuthorizeLogin';
 export { default as AuthorizeOtp } from './AuthorizeOtp';
 export { default as AuthorizeComplete } from './AuthorizeComplete';
+export { default as AuthorizeLink } from './AuthorizeLink';

@@ -10,6 +10,7 @@ import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
 import { AuthApiService } from '~/api/auth-api.service';
+import { createAuthLinkResource, AuthLinkResource, AuthLinkResourcePayload } from './createAuthLinkResource';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -47,6 +48,7 @@ export class AuthorizePopupStore {
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
   private appPermissions: PermissionRequest = {};
+  private authLinkResource?: AuthLinkResource;
 
   constructor(private wallet: Wallet, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
@@ -107,6 +109,8 @@ export class AuthorizePopupStore {
   }
 
   async login(idToken: string): Promise<UserInfo & { sessionId: string }> {
+    this.authLinkResource?.dispose();
+
     const isMfa = await this.mfaCheckPromise?.catch((error) => {
       reportError(error);
 
@@ -172,6 +176,13 @@ export class AuthorizePopupStore {
     return new Promise<void>(() => {});
   }
 
+  waitForAuthLinkToken(callback: (payload: AuthLinkResourcePayload) => Promise<void>) {
+    return reaction(
+      () => this.authLinkResource?.current(),
+      (payload) => payload && callback(payload),
+    );
+  }
+
   async sendOtp(email?: string) {
     const toEmail = email || this.email;
 
@@ -179,12 +190,17 @@ export class AuthorizePopupStore {
       throw new Error('Email is required to send OTP');
     }
 
-    const isSent = await AuthApiService.sendOtp(toEmail);
+    const authLinkCode = await AuthApiService.sendOtp(toEmail);
 
-    if (isSent) {
-      this.email = toEmail;
+    if (authLinkCode) {
+      this.authLinkResource?.dispose();
+
+      runInAction(() => {
+        this.email = toEmail;
+        this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
+      });
     }
 
-    return isSent;
+    return !!authLinkCode;
   }
 }
