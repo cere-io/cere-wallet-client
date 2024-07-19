@@ -17,6 +17,11 @@ export const knownPermissions: Record<AllowedPermission, PermissionMeta> = {
     description: 'Allow the app to sign data on your behalf in background.',
   },
 
+  ed25519_signPayload: {
+    title: 'Sign transactions (Cere Network)',
+    description: 'Allow the app to sign transactions on your behalf in background.',
+  },
+
   solana_signMessage: {
     title: 'Sign message (Solana)',
     description: 'Allow the app to sign data on your behalf in background.',

@@ -63,6 +63,7 @@ export const Wallet = () => {
           personal_sign: {},
           ed25519_signRaw: {},
           solana_signMessage: {},
+          ed25519_signPayload: {},
         },
       },
 
@@ -285,6 +286,7 @@ export const Wallet = () => {
       },
 
       solana_signMessage: {},
+      ed25519_signPayload: {},
     });
 
     console.log('Approved permissions', permissions);

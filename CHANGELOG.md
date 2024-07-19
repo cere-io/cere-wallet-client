@@ -6,6 +6,8 @@
 - Make it possible to change permission title and description
 - Store wallet permission to connected application and don't ask on each login
 - Add `Magic Link` authentication support
+- Postpone GTM initialization to increase init speed
+- Add transaction signing permission
 
 ### v1.38.0
 
