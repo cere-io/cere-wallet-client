@@ -9,6 +9,7 @@ import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
 import { AppContextStore } from '../AppContextStore';
 import { SessionStore } from '../SessionStore';
 import { createAuthToken } from './createAuthToken';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -20,6 +21,7 @@ type RehydrateParams = {
 
 type AuthLoginParams = LoginParams & {
   forceMfa?: boolean;
+  email?: string;
   emailHint?: string;
   skipIntro?: boolean;
   callbackUrl?: string;
@@ -32,6 +34,7 @@ export class AuthenticationStore {
     private wallet: Wallet,
     private sessionStore: SessionStore,
     private accountStore: AccountStore,
+    private applicationsStore: ApplicationsStore,
     private contextStore: AppContextStore,
     private openLoginStore: OpenLoginStore,
     private popupManagerStore: PopupManagerStore,
@@ -58,8 +61,11 @@ export class AuthenticationStore {
 
   async rehydrate({ sessionId }: RehydrateParams = {}) {
     this.isRehydrating = true;
+    const session = await this.sessionStore.rehydrate(sessionId);
 
-    await this.sessionStore.rehydrate(sessionId);
+    if (session) {
+      await this.applicationsStore.loadConnectedApp(session);
+    }
 
     this.syncLoginData();
     this.isRehydrating = false;
@@ -94,17 +100,14 @@ export class AuthenticationStore {
     return true;
   }
 
-  async loginInPopup(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
+  async loginInPopup(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
     const loginUrl = await this.getLoginUrl('popup', { ...params, preopenInstanceId });
     const redirect = await this.popupManagerStore.redirect(preopenInstanceId, loginUrl);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
-      permissions,
-      loginHint,
-    });
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
 
     await when(() => !redirect.isConnected || !!authPopup.state.result);
     this.popupManagerStore.closePopup(preopenInstanceId);
@@ -116,16 +119,13 @@ export class AuthenticationStore {
     return this.syncAccount(authPopup.state.result!);
   }
 
-  async loginInModal(preopenInstanceId: string, { permissions, loginHint, ...params }: AuthLoginParams = {}) {
+  async loginInModal(preopenInstanceId: string, { permissions, ...params }: AuthLoginParams = {}) {
     if (!this.popupManagerStore) {
       throw new Error('PopupManagerStore dependency was not provided');
     }
 
     const modal = this.popupManagerStore.registerModal(preopenInstanceId);
-    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, {
-      permissions,
-      loginHint,
-    });
+    const authPopup = this.popupManagerStore.registerPopup<AuthorizePopupState>(preopenInstanceId, { permissions });
 
     this.popupManagerStore.registerRedirect(preopenInstanceId, true);
     this.popupManagerStore.showModal(preopenInstanceId, '/frame');
@@ -146,15 +146,15 @@ export class AuthenticationStore {
 
   async logout() {
     await this.sessionStore.invalidateSession();
-
     this.syncLoginData();
 
     return true;
   }
 
   private async getLoginUrl(mode: Required<LoginOptions>['uxMode'], params: AuthLoginParams) {
-    const { preopenInstanceId = 'redirect', forceMfa = false, emailHint } = params;
+    const { preopenInstanceId = 'redirect', forceMfa = false } = params;
     const { sessionNamespace } = this.sessionStore;
+    const loginHint = params.emailHint || params.loginHint;
 
     const startUrl = new URL('/authorize', window.origin);
     const callbackParams = new URLSearchParams();
@@ -173,8 +173,12 @@ export class AuthenticationStore {
       startUrl.searchParams.append('mfa', 'force');
     }
 
-    if (emailHint) {
-      startUrl.searchParams.append('email', emailHint);
+    if (loginHint) {
+      startUrl.searchParams.append('loginHint', loginHint);
+    }
+
+    if (params.email) {
+      startUrl.searchParams.append('email', params.email);
     }
 
     if (params.skipIntro) {
@@ -204,9 +208,8 @@ export class AuthenticationStore {
     }
 
     this.syncLoginData();
-    this.sessionStore.permissions = permissions || {};
-
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
+    await this.applicationsStore.saveApplication({ permissions });
 
     return this.accountStore.account!.address;
   }

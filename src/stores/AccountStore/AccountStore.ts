@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { UserInfo } from '@cere-wallet/communication';
 import { Account, KeyPair, KeyType, exportAccountToJson, createAccountFromPair } from '@cere-wallet/wallet-engine';
 
@@ -34,14 +34,6 @@ export class AccountStore {
 
   get loginData() {
     return this.shared.state.loginData;
-  }
-
-  set isNewUser(isNewUser: boolean | undefined) {
-    if (!this.loginData) {
-      return;
-    }
-
-    this.loginData.userInfo.isNewUser = isNewUser;
   }
 
   get isNewUser() {
@@ -118,8 +110,6 @@ export class AccountStore {
   }
 
   async getUserInfo() {
-    await when(() => this.isNewUser !== undefined);
-
     return this.userInfo;
   }
 }

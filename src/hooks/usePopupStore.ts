@@ -8,11 +8,13 @@ export const usePopupStore = <T>(storeFactory: (popupId: string, local: boolean)
   const context = useRouteElementContext();
 
   const { search, state } = useLocation();
-  const popupId = useMemo(
-    () =>
-      context?.preopenInstanceId || state?.preopenInstanceId || new URLSearchParams(search).get('preopenInstanceId'),
-    [search, state, context],
-  );
+  const popupId = useMemo(() => {
+    const params = new URLSearchParams(search);
+
+    return (
+      context?.preopenInstanceId || state?.preopenInstanceId || params.get('preopenInstanceId') || params.get('popupId')
+    );
+  }, [search, state, context]);
 
   if (!popupId) {
     throw Error('No `preopenInstanceId` found in query');

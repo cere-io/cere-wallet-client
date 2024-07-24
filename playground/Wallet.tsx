@@ -1,4 +1,4 @@
-import { WalletAccount, WalletBalance } from '@cere/embed-wallet';
+import { WalletAccount, WalletBalance, WalletConnectOptions } from '@cere/embed-wallet';
 import { Button, Divider, Stack, Typography } from '@cere-wallet/ui';
 import { providers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
@@ -63,6 +63,7 @@ export const Wallet = () => {
           personal_sign: {},
           ed25519_signRaw: {},
           solana_signMessage: {},
+          ed25519_signPayload: {},
         },
       },
 
@@ -80,16 +81,17 @@ export const Wallet = () => {
     });
   }, [wallet]);
 
-  const handleConnect = useCallback(async () => {
-    await wallet.connect({
-      loginHint: 'wallet-playground@cere.io',
-    });
+  const handleConnect = useCallback(
+    async (options: WalletConnectOptions = {}) => {
+      await wallet.connect(options);
 
-    const userInfo = await wallet.getUserInfo();
+      const userInfo = await wallet.getUserInfo();
 
-    console.log('userInfo', userInfo);
-    setIsNewUser(userInfo.isNewUser);
-  }, [wallet]);
+      console.log('userInfo', userInfo);
+      setIsNewUser(userInfo.isNewUser);
+    },
+    [wallet],
+  );
 
   const handleDisconnect = useCallback(() => {
     wallet.disconnect();
@@ -274,9 +276,17 @@ export const Wallet = () => {
 
   const handleRequestPermissions = useCallback(async () => {
     const permissions = await wallet.requestPermissions({
-      personal_sign: {},
-      ed25519_signRaw: {},
+      personal_sign: {
+        title: 'Custom permission title (personal_sign)',
+        description: 'Custom permission description (personal_sign)',
+      },
+
+      ed25519_signRaw: {
+        description: null,
+      },
+
       solana_signMessage: {},
+      ed25519_signPayload: {},
     });
 
     console.log('Approved permissions', permissions);
@@ -284,8 +294,12 @@ export const Wallet = () => {
 
   const handleRevokePermissions = useCallback(async () => {
     await wallet.revokePermissions({
-      personal_sign: {},
+      personal_sign: {
+        title: 'Sign message',
+        description: 'Sign a message with your Ethereum account',
+      },
       ed25519_signRaw: {},
+      solana_signMessage: {},
     });
 
     console.log('Permissions revoked');
@@ -459,7 +473,12 @@ export const Wallet = () => {
             Disconnect wallet
           </Button>
 
-          <Button variant="contained" color="primary" disabled={status === 'disconnecting'} onClick={handleConnect}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={() => handleConnect()}
+          >
             Connect wallet
           </Button>
         </>
@@ -469,9 +488,27 @@ export const Wallet = () => {
             variant="contained"
             color="primary"
             disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
-            onClick={handleConnect}
+            onClick={() => handleConnect()}
           >
             Connect wallet
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
+            onClick={() => handleConnect({ loginHint: 'wallet-playground@cere.io' })}
+          >
+            Connect wallet (loginHint)
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
+            onClick={() => handleConnect({ email: 'sergey.kambalin@cere.io' })}
+          >
+            Connect wallet (email)
           </Button>
 
           <Button

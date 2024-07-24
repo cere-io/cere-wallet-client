@@ -10,6 +10,8 @@ const Authorize = () => {
   const callbackUrl = params.get('callbackUrl') || '/authorize/redirect';
   const redirectUrl = params.get('redirectUrl') ?? undefined;
   const forceMfa = params.get('mfa') === 'force';
+  const loginHint = params.get('loginHint') ?? undefined;
+  const email = params.get('email') ?? undefined;
 
   const wallet = useWallet();
   const store = usePopupStore(
@@ -20,6 +22,8 @@ const Authorize = () => {
         callbackUrl,
         redirectUrl,
         sessionNamespace,
+        loginHint,
+        email,
         appId: wallet.appContextStore.app?.appId,
       }),
     [wallet],

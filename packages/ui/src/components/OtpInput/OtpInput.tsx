@@ -1,70 +1,80 @@
-import ReactCodeInput from '@cere/react-code-input';
-import { styled } from '@cere-wallet/ui';
-import { Typography, Stack } from '@mui/material';
+import { OTPInput as OTPField, SlotProps } from 'input-otp';
+import { styled, Typography, Stack, Box } from '@cere-wallet/ui';
 import { forwardRef } from 'react';
 
-const DIGITS_NUMBER = 6;
-
 interface OtpProps {
+  value?: string;
   errorMessage?: string;
   onChange?: (code: string) => void;
 }
 
-const CodeInput = styled(ReactCodeInput)(({ theme }) => ({
-  textAlign: 'center',
-  input: {
-    height: '56px',
-    width: '44px',
-    borderRadius: '16px',
-    border: `1px solid #E7E8EB`,
-    fontSize: '16px',
-    // @ts-ignore
-    textAlign: '-webkit-center',
-    outline: 'none',
-    margin: '0 2px',
-    padding: '0',
-    backgroundColor: theme.isGame ? 'transparent' : '#fff',
-    color: theme.isGame ? theme.palette.primary.light : theme.palette.text.primary,
-    '& :first-of-type': {
-      marginLeft: '0 auto !important',
-    },
-    '& :last-of-type': {
-      marginRight: '0 auto !important',
-    },
-    '&:focus': {
-      border: `2px solid ${theme.isGame ? theme.palette.primary.light : theme.palette.primary.main} !important`,
-    },
+type SlotInputProps = {
+  active?: boolean;
+  error?: boolean;
+};
 
-    '@media (min-width: 376px)': {
-      '&:nth-of-type(3)': {
-        marginRight: '26px !important',
-      },
-    },
-  },
+const SlotInput = styled(Typography, {
+  shouldForwardProp: (prop) => !['active', 'error'].includes(prop as string),
+})<SlotInputProps>(({ theme, active, error }) => ({
+  width: 44,
+  height: 54,
+  lineHeight: '52px',
+  borderRadius: 16,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  textAlign: 'center',
+  padding: '1px',
+  borderColor: error ? theme.palette.error.main : theme.palette.divider,
+  backgroundColor: theme.isGame ? 'transparent' : theme.palette.background.default,
+  color: theme.isGame ? theme.palette.primary.light : theme.palette.text.primary,
+
+  ...(active && {
+    padding: 0,
+    borderWidth: 2,
+    borderColor: theme.isGame ? theme.palette.primary.light : theme.palette.primary.main,
+  }),
 }));
 
-export const OtpInput = forwardRef<null, OtpProps>(({ onChange, errorMessage }, ref) => {
-  const handleCodeChange = (value: string) => {
-    if (typeof onChange === 'function') {
-      onChange(value.toLowerCase());
-    }
-  };
+const Slot = ({ char, isActive, error }: SlotProps & SlotInputProps) => (
+  <SlotInput as="div" active={isActive} error={error}>
+    {char}
+  </SlotInput>
+);
+
+export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
+  const hasError = !!errorMessage;
 
   return (
-    <Stack direction="column" textAlign="center" spacing={1}>
-      <CodeInput
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <OTPField
         ref={ref}
-        name="OTP"
-        type={'text'}
-        inputMode="url"
-        fields={DIGITS_NUMBER}
-        onChange={handleCodeChange}
-        inputStyleInvalid={{ border: '1px solid red' }}
-        isValid={!errorMessage}
+        value={value}
+        autoFocus
+        maxLength={6}
+        onChange={onChange}
+        aria-label="OTP input"
+        render={({ slots }) => (
+          <Stack direction="row" spacing={3}>
+            <Stack direction="row" spacing={1}>
+              {slots.slice(0, 3).map((slot, index) => (
+                <Slot key={index} error={hasError} {...slot} />
+              ))}
+            </Stack>
+
+            <Stack direction="row" spacing={1}>
+              {slots.slice(3).map((slot, index) => (
+                <Slot key={index} error={hasError} {...slot} />
+              ))}
+            </Stack>
+          </Stack>
+        )}
       />
-      <Typography variant="body2" color="error.main">
-        {errorMessage}
-      </Typography>
-    </Stack>
+
+      {hasError && (
+        <Typography marginTop={1} variant="body2" color="error.main">
+          {errorMessage}
+        </Typography>
+      )}
+    </Box>
   );
 });

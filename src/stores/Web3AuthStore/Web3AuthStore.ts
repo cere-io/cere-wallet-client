@@ -52,16 +52,15 @@ export class Web3AuthStore {
     return !!metadata.upgraded;
   }
 
-  async isExistingUser(privateKey: string) {
+  async getUserApps(privateKey: string) {
     const signer = new PrivateKeySigner(privateKey);
 
     const authToken = await createAuthToken(signer, { chainId: this.wallet.network?.chainId });
-    const apps = await getUserApplications({ address: signer.address }, authToken);
 
-    return !!apps.length;
+    return getUserApplications({ address: signer.address }, authToken);
   }
 
-  async login({ idToken, checkMfa = true }: Web3AuthStoreLoginParams) {
+  async login({ idToken, appId, checkMfa = true }: Web3AuthStoreLoginParams) {
     const userInfo = getUserInfo(idToken);
     const isMfa = checkMfa ? await this.isMfaEnabled(userInfo) : false;
 
@@ -91,18 +90,20 @@ export class Web3AuthStore {
     }
 
     const pnpPrivKey = getScopedKey(privKey);
-    const [isPnPUser, isCoreKitUser] = await Promise.all([
-      this.isExistingUser(pnpPrivKey),
-      this.isExistingUser(privKey),
-    ]);
+    const [pnpUserApps, coreKitUserApps] = await Promise.all([this.getUserApps(pnpPrivKey), this.getUserApps(privKey)]);
+    const isPnPUser = pnpUserApps.length > 0;
+    const currentApp = isPnPUser
+      ? pnpUserApps.find((app) => app.appId === appId)
+      : coreKitUserApps.find((app) => app.appId === appId);
 
-    userInfo.isNewUser = !isPnPUser && !isCoreKitUser;
+    userInfo.isNewWallet = !isPnPUser && !coreKitUserApps.length;
+    userInfo.isNewUser = !currentApp;
 
     await this.sessionStore.createSession({
       userInfo,
       privateKey: isPnPUser ? pnpPrivKey : privKey,
     });
 
-    return userInfo;
+    return { userInfo, permissions: currentApp?.permissions || {} };
   }
 }

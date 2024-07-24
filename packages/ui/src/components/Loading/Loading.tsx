@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { styled, Box, CircularProgress, CircularProgressProps } from '@mui/material';
 
 export type LoadingProps = PropsWithChildren<CircularProgressProps> & {
+  hideSpinner?: boolean;
   fullScreen?: boolean;
 };
 
@@ -27,11 +28,18 @@ const Fullscreen = styled('div')({
   alignItems: 'center',
 });
 
-export const Loading = ({ sx, fullScreen = false, size = 60, children, ...props }: LoadingProps) => {
+export const Loading = ({
+  sx,
+  hideSpinner = false,
+  fullScreen = false,
+  size = 60,
+  children,
+  ...props
+}: LoadingProps) => {
   const spinner = (
     <Box sx={sx} position="relative" display="inline-block" width={size} height={size}>
       {children && <Content>{children}</Content>}
-      <CircularProgress {...props} size={size} />
+      {!hideSpinner && <CircularProgress {...props} size={size} />}
     </Box>
   );
 
