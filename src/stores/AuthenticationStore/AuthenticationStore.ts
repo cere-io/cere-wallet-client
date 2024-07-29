@@ -1,6 +1,7 @@
 import { makeAutoObservable, reaction, when } from 'mobx';
 import { LoginOptions } from '@cere-wallet/communication';
 
+import { reportError } from '~/reporting';
 import { Wallet } from '../types';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { AccountStore, AccountLoginData } from '../AccountStore';
@@ -209,7 +210,11 @@ export class AuthenticationStore {
 
     this.syncLoginData();
     await when(() => !!this.accountStore.account); // Wait for accounts to be created from the privateKey
-    await this.applicationsStore.saveApplication({ permissions });
+
+    /**
+     * Save application permissions in background to avoid blocking the UI
+     */
+    this.applicationsStore.saveApplication({ permissions }).catch(reportError);
 
     return this.accountStore.account!.address;
   }
