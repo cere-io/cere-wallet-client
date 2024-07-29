@@ -48,11 +48,9 @@ export class PolkadotInjector {
   };
 
   readonly subscribeAccounts = (onReceive: (accounts: InjectedAccount[]) => void) => {
-    const listener = (accounts: WalletAccount[]) => onReceive(this.filterAccounts(accounts));
-
-    this.wallet.provider.on('wallet_accountsChanged', listener);
-
-    return () => this.wallet.provider.off('wallet_accountsChanged', listener);
+    return this.wallet.subscribe('accounts-update', (accounts: WalletAccount[]) =>
+      onReceive(this.filterAccounts(accounts)),
+    );
   };
 
   readonly signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
