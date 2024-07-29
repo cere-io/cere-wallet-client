@@ -1,4 +1,4 @@
-import { EmbedWallet, PermissionRequest, WalletAccount } from '@cere/embed-wallet';
+import { EmbedWallet, WalletConnectOptions, WalletAccount } from '@cere/embed-wallet';
 import { injectExtension } from '@polkadot/extension-inject';
 import type { Injected, InjectedAccount, InjectedAccounts } from '@polkadot/extension-inject/types';
 import type { SignerPayloadRaw, SignerResult, Signer, SignerPayloadJSON } from '@polkadot/types/types';
@@ -8,7 +8,7 @@ export type PolkadotInjectorOptions = {
   version?: string;
   autoConnect?: boolean;
   waitReady?: boolean;
-  permissions?: PermissionRequest;
+  connectOptions?: WalletConnectOptions;
 };
 
 export class PolkadotInjector {
@@ -17,42 +17,29 @@ export class PolkadotInjector {
   private injected: boolean = false;
   private shouldConnect: boolean;
   private shouldWait: boolean;
-  private permissions?: PermissionRequest;
+  private connectOptions?: WalletConnectOptions;
 
   constructor(
     readonly wallet: EmbedWallet,
-    { name, version, autoConnect = false, waitReady = true, permissions }: PolkadotInjectorOptions = {},
+    { name, version, autoConnect = false, waitReady = true, connectOptions }: PolkadotInjectorOptions = {},
   ) {
     this.name = name || 'Cere Wallet';
     this.version = version || '0.0.0';
     this.shouldConnect = autoConnect;
     this.shouldWait = waitReady;
-    this.permissions = permissions;
+    this.connectOptions = connectOptions;
   }
 
   get isInjected() {
     return this.injected;
   }
 
-  private waitReady = () =>
-    new Promise((resolve) => {
-      if (this.wallet.status !== 'not-ready') {
-        return resolve(true);
-      }
-
-      const unsubscribe = this.wallet.subscribe('status-update', () => {
-        if (this.wallet.status !== 'not-ready') {
-          resolve(true);
-          unsubscribe();
-        }
-      });
-    });
-
+  private waitReady = () => this.wallet.isReady.then(() => true);
   private filterAccounts = (accounts: WalletAccount[]) => {
     return accounts.filter((account: WalletAccount) => account.type === 'ed25519') as InjectedAccount[];
   };
 
-  private getAccounts = async () => {
+  readonly getAccounts = async () => {
     const allAccounts = await this.wallet.provider.request({
       method: 'wallet_accounts',
     });
@@ -60,7 +47,7 @@ export class PolkadotInjector {
     return this.filterAccounts(allAccounts);
   };
 
-  private subscribeAccounts = (onReceive: (accounts: InjectedAccount[]) => void) => {
+  readonly subscribeAccounts = (onReceive: (accounts: InjectedAccount[]) => void) => {
     const listener = (accounts: WalletAccount[]) => onReceive(this.filterAccounts(accounts));
 
     this.wallet.provider.on('wallet_accountsChanged', listener);
@@ -68,7 +55,7 @@ export class PolkadotInjector {
     return () => this.wallet.provider.off('wallet_accountsChanged', listener);
   };
 
-  private signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
+  readonly signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
       method: 'ed25519_signRaw',
       params: [raw.address, raw.data],
@@ -77,7 +64,7 @@ export class PolkadotInjector {
     return { id: 0, signature };
   };
 
-  private signPayload = async (payload: SignerPayloadJSON): Promise<SignerResult> => {
+  readonly signPayload = async (payload: SignerPayloadJSON): Promise<SignerResult> => {
     const signature = await this.wallet.provider.request({
       method: 'ed25519_signPayload',
       params: [payload],
@@ -86,17 +73,17 @@ export class PolkadotInjector {
     return { id: 0, signature };
   };
 
-  private enable = async (): Promise<Injected> => {
+  readonly enable = async (): Promise<Injected> => {
     if (this.shouldWait) {
       await this.waitReady();
     }
 
+    const { permissions } = this.connectOptions || {};
+
     if (this.shouldConnect && this.wallet.status === 'ready') {
-      await this.wallet.connect({
-        permissions: this.permissions,
-      });
-    } else if (this.wallet.status === 'connected' && this.permissions) {
-      await this.wallet.requestPermissions(this.permissions).catch(console.warn);
+      await this.wallet.connect(this.connectOptions);
+    } else if (this.wallet.status === 'connected' && permissions) {
+      await this.wallet.requestPermissions(permissions).catch(console.warn);
     }
 
     const accounts: InjectedAccounts = {
