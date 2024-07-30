@@ -8,6 +8,7 @@ import {
   OtpInput,
   Alert,
   useTheme,
+  Fade,
 } from '@cere-wallet/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ import { CereWhiteLogo, PoweredBy } from '~/components';
 import { useAppContextStore } from '~/hooks';
 
 const TIME_LEFT = 60; // seconds before next otp request
+const SPAM_NOTICE_TIME = 30; // seconds before spam notice
 
 interface OtpProps {
   email?: string;
@@ -38,6 +40,7 @@ const validationSchema = yup
 export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [spamNotice, setSpamNotice] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
   const { isGame } = useTheme();
   const store = useAppContextStore();
@@ -92,6 +95,13 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
   useEffect(() => {
     let timer = timeLeft ? setTimeout(() => setTimeLeft(timeLeft - 1), 1000) : undefined;
 
+    /**
+     * Show spam notice if time left is less than SPAM_NOTICE_TIME and keep it visible after resend
+     */
+    if (timeLeft < SPAM_NOTICE_TIME) {
+      setSpamNotice(true);
+    }
+
     return () => {
       clearTimeout(timer);
     };
@@ -125,7 +135,7 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
   }, [isGame, verifyScreenSettings?.verifyScreenMainText]);
 
   return (
-    <Stack>
+    <Stack minHeight={520}>
       <Stack
         direction="column"
         spacing={2}
@@ -173,14 +183,15 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
           {errors.root ? 'Retry' : 'Verify'}
         </LoadingButton>
         {timeLeft ? (
-          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+          <Typography lineHeight={2} align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
             Resend verification code in <strong>{timeLeft}</strong> seconds
           </Typography>
         ) : (
-          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+          <Typography lineHeight={2} align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
             Did not receive a code?{' '}
             <Button
               variant="text"
+              size="small"
               onClick={handleResend}
               sx={{
                 fontSize: isGame ? '16px' : '14px',
@@ -190,6 +201,14 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
               Resend code
             </Button>
           </Typography>
+        )}
+
+        {spamNotice && (
+          <Fade in>
+            <Alert variant="standard" severity="info">
+              If you didn’t get the verification email please check your Spam folder.
+            </Alert>
+          </Fade>
         )}
       </Stack>
 
