@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.40.0
+
 - Improve login speed by saving permissions to BE in background
 - Add Spam notice to OTP screen if not entered for 30 sec
 
