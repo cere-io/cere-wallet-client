@@ -4,6 +4,11 @@
 
 -
 
+### v1.40.0
+
+- Improve login speed by saving permissions to BE in background
+- Add Spam notice to OTP screen if not entered for 30 sec
+
 ### v1.39.0
 
 - Add support for externally provided email to login with

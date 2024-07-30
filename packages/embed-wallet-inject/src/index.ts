@@ -1,14 +1,29 @@
-import { EmbedWallet, PermissionRequest } from '@cere/embed-wallet';
+import { EmbedWallet, WalletConnectOptions } from '@cere/embed-wallet';
 
 import { PolkadotInjector } from './polkadot';
 
 type InjectTarget = 'polkadot';
 
-export type InjectOptions = {
+export type EnableOptions = {
   name?: string;
-  targets?: InjectTarget[];
+  target?: InjectTarget;
   autoConnect?: boolean;
-  permissions?: PermissionRequest;
+  connectOptions?: WalletConnectOptions;
+};
+
+export type InjectOptions = Omit<EnableOptions, 'target'> & {
+  targets?: InjectTarget[];
+};
+
+/**
+ * Enables the injected wallet and returns the injected application
+ */
+export const enable = async (wallet: EmbedWallet, { target = 'polkadot', ...options }: EnableOptions = {}) => {
+  if (target !== 'polkadot') {
+    throw new Error(`Unsupported target: ${target}`);
+  }
+
+  return new PolkadotInjector(wallet, options).enable();
 };
 
 /**

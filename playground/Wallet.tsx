@@ -506,7 +506,7 @@ export const Wallet = () => {
             variant="contained"
             color="primary"
             disabled={status === 'not-ready' || status === 'connecting' || status === 'initializing'}
-            onClick={() => handleConnect({ email: 'sergey.kambalin@cere.io' })}
+            onClick={() => handleConnect({ email: 'wallet-playground@cere.io' })}
           >
             Connect wallet (email)
           </Button>
