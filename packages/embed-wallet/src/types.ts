@@ -22,6 +22,7 @@ export type ContextApp = {
   appId?: string;
   name?: string;
   logoUrl?: string;
+  supportEmail?: string;
 };
 
 export type ContextWhiteLabel = Record<string, any>; // TODO: Use proper white label types
