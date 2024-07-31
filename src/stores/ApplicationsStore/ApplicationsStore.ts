@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { Account } from '@cere-wallet/wallet-engine';
+import { Wallet as PrivateKeySigner } from 'ethers';
+import { makeAutoObservable, runInAction, toJS } from 'mobx';
+import { PermissionRequest } from '@cere-wallet/wallet-engine';
 
+import { Wallet } from '../types';
+import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
+import { Session } from '../SessionStore';
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
-import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
-import { AuthenticationStore } from '../AuthenticationStore';
+import { createAuthToken } from '../AuthenticationStore';
 
 const api = axios.create({
   baseURL: WALLET_API,
@@ -17,10 +20,13 @@ type ApiApplication = {
   data: string | null;
 };
 
-export type Application = Omit<ApiApplication, 'data'> & {
+type ApplicationData = {
+  permissions?: PermissionRequest;
+};
+
+export type Application = {
   appId: string;
-  address: string;
-  data?: Record<string, any>;
+  permissions: PermissionRequest;
 };
 
 export type ApplicationsFilter = {
@@ -32,90 +38,88 @@ const createHeaders = (authToken?: string) => ({
   Authorization: `Bearer ${authToken}`,
 });
 
+const mapApplication = ({ data: rawData, appId }: ApiApplication): Application => {
+  const data: ApplicationData | undefined = rawData ? JSON.parse(rawData) : undefined;
+
+  return { appId, permissions: data?.permissions || {} };
+};
+
 export const getUserApplications = async (
   filter: ApplicationsFilter,
   authToken?: string | null,
 ): Promise<Application[]> => {
-  const { data } = await api.post<ApiApplication[]>('/applications/find', filter, {
+  const { data: response } = await api.post<ApiApplication[]>('/applications/find', filter, {
     headers: authToken ? createHeaders(authToken) : undefined,
   });
 
-  return data.map(({ data, ...app }) => ({
-    ...app,
-    data: data ? JSON.parse(data) : undefined,
-  }));
+  return response.map(mapApplication);
 };
 
 export class ApplicationsStore {
-  private existingApps?: Application[];
-  private authToken: string | null = null;
+  private currentApp?: Application;
 
-  constructor(
-    private accountStore: AccountStore,
-    private authenticationStore: AuthenticationStore,
-    private contextStore: AppContextStore,
-  ) {
+  constructor(private wallet: Wallet, private accountStore: AccountStore, private contextStore: AppContextStore) {
     makeAutoObservable(this);
-
-    reaction(
-      () => accountStore.accounts,
-      (accounts) => (accounts.length >= 2 ? this.onReady(accounts) : this.cleanUp()),
-    );
   }
 
-  get isNewUser() {
-    return this.existingApps && !this.existingApps.some(({ appId }) => appId === this.appId);
+  private async createAccsess(session?: Session) {
+    const privateKey = session?.privateKey || this.accountStore.privateKey;
+
+    if (!privateKey || !this.wallet.network) {
+      throw new Error('Wallet is not ready to load applications');
+    }
+
+    const signer = new PrivateKeySigner(privateKey);
+    const authToken = await createAuthToken(signer, { chainId: this.wallet.network.chainId });
+
+    return {
+      authToken,
+      address: await signer.getAddress(),
+      headers: createHeaders(authToken),
+    };
   }
 
   get appId() {
     return this.contextStore.app?.appId || DEFAULT_APP_ID;
   }
 
-  private async onReady(accounts: Account[]) {
-    const [ethAccount] = accounts;
+  get connectedApp() {
+    return this.currentApp || { appId: this.appId, permissions: {} };
+  }
 
-    this.authToken = await this.authenticationStore.createToken();
-
-    try {
-      await this.loadApps(ethAccount);
-    } catch {}
+  async loadConnectedApp(session?: Session) {
+    const { authToken, address } = await this.createAccsess(session);
+    const apps = await getUserApplications({ address, appId: this.appId }, authToken);
 
     runInAction(() => {
-      this.accountStore.isNewUser = this.isNewUser ?? false;
+      this.currentApp = apps.find((app) => app.appId === this.appId);
     });
 
-    this.trackActivity(accounts);
+    return this.connectedApp;
   }
 
-  private cleanUp() {
-    this.existingApps = undefined;
-  }
+  async saveApplication({ permissions = {} }: ApplicationData) {
+    this.currentApp = { appId: this.appId, permissions };
 
-  private get headers() {
-    return !this.authToken ? {} : createHeaders(this.authToken);
-  }
-
-  private async loadApps({ address }: Account) {
-    const apps = await getUserApplications({ address, appId: this.appId }, this.authToken);
-
-    runInAction(() => {
-      this.existingApps = apps;
-    });
-  }
-
-  private async trackActivity(accounts: Account[]) {
+    const { headers, address } = await this.createAccsess();
     const { email } = this.accountStore.user || {};
-    const [evmAccount] = accounts;
 
-    await api.post(
+    const { data } = await api.post<ApiApplication>(
       '/applications',
       {
         email,
-        accounts: toJS(accounts),
+        address,
+        accounts: toJS(this.accountStore.accounts),
         appId: this.appId,
-        address: evmAccount.address,
+        data: JSON.stringify(toJS({ permissions })),
       },
-      { headers: this.headers },
+      { headers },
     );
+
+    runInAction(() => {
+      this.currentApp = mapApplication(data);
+    });
+
+    return this.currentApp!;
   }
 }

@@ -43,7 +43,6 @@ export const createAccountsEngine = ({ getPrivateKey, getAccounts, onUpdateAccou
       wallet_updateAccounts: createAsyncMiddleware(async (req, res) => {
         const privateKey = getPrivateKey();
         const keyPairs = privateKey ? getKeyPairs(privateKey, ['ethereum', 'ed25519', 'solana']) : [];
-
         onUpdateAccounts(keyPairs);
 
         const accounts = getAccounts();

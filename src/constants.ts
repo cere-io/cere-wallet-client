@@ -27,6 +27,7 @@ export const ANALYTICS = {
 export const FEATURE_FLAGS = {
   transferAssets: process.env.REACT_APP_TRANSFER_ASSETS_FEATURE === 'true',
   assetsManagement: process.env.REACT_APP_ASSETS_MANAGEMENT_FEATURE === 'true',
+  otpLink: process.env.REACT_APP_ENABLE_OTP_LINK === 'true',
 };
 
 /**
@@ -42,4 +43,9 @@ export const RPC_POLLING_INTERVAL = 10000;
 export const AUTH_SESSION_TIMEOUT = 604800;
 export const AUTH_TOKEN_ISSUER = 'cere-wallet';
 
-export const ALLOWED_WALLET_PERMISSIONS = ['personal_sign', 'ed25519_signRaw', 'solana_signMessage'] as const;
+export const ALLOWED_WALLET_PERMISSIONS = [
+  'personal_sign',
+  'ed25519_signRaw',
+  'solana_signMessage',
+  'ed25519_signPayload', // TODO: Dangerous permission, try to narrow its scope in future
+] as const;

@@ -71,17 +71,17 @@ export class EmbeddedWalletStore implements Wallet {
     this.openLoginStore = new OpenLoginStore(this.sessionStore);
     this.accountStore = new AccountStore(this);
 
+    this.applicationsStore = new ApplicationsStore(this, this.accountStore, this.appContextStore);
+    this.permissionsStore = new PermissionsStore(this.applicationsStore, this.popupManagerStore, this.appContextStore);
     this.authenticationStore = new AuthenticationStore(
       this,
       this.sessionStore,
       this.accountStore,
+      this.applicationsStore,
       this.appContextStore,
       this.openLoginStore,
       this.popupManagerStore,
     );
-
-    this.applicationsStore = new ApplicationsStore(this.accountStore, this.authenticationStore, this.appContextStore);
-    this.permissionsStore = new PermissionsStore(this.sessionStore, this.popupManagerStore, this.appContextStore);
 
     /**
      * Default configuration
@@ -284,7 +284,7 @@ export class EmbeddedWalletStore implements Wallet {
       onTransfer: (request) => this.approvalStore.approveTransfer(request),
 
       // Permissions
-      getPermissions: () => this.permissionsStore.permissions,
+      getPermissions: () => toJS(this.permissionsStore.permissions),
       onRequestPermissions: (request) => this.permissionsStore.requestPermissions(request),
       onRevokePermissions: (request) => this.permissionsStore.revokePermissions(request),
     });

@@ -2,7 +2,6 @@ import { makeAutoObservable } from 'mobx';
 import { OpenloginSessionManager } from '@toruslabs/openlogin-session-manager';
 import { BrowserStorage } from '@toruslabs/openlogin-utils';
 import { UserInfo, getIFrameOrigin } from '@cere-wallet/communication';
-import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { AUTH_SESSION_TIMEOUT } from '~/constants';
 import { reportError } from '~/reporting';
@@ -138,13 +137,5 @@ export class SessionStore {
 
   getState<T = any>(name: string) {
     return this.sessionId ? this.storage.get<T>(name) : undefined;
-  }
-
-  get permissions() {
-    return this.getState<PermissionRequest>('permissions') || {};
-  }
-
-  set permissions(permissions: PermissionRequest) {
-    this.saveState('permissions', permissions);
   }
 }

@@ -1,12 +1,12 @@
 import { getIFrameOrigin } from '@cere-wallet/communication';
 import { Permission, PermissionRequest, PermissionRevokeRequest } from '@cere-wallet/wallet-engine';
 
-import { SessionStore } from '../SessionStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 import type { PermissionsPopupState } from '../PermissionsPopupStore';
 import { AppContextStore } from '../AppContextStore';
-import { when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { ALLOWED_WALLET_PERMISSIONS } from '~/constants';
+import { ApplicationsStore } from '../ApplicationsStore';
 
 const requestToPermissions = (request: PermissionRequest): Permission[] => {
   return Object.keys(request).map((parentCapability) => {
@@ -26,15 +26,19 @@ const validatePermissionRequest = (request: PermissionRequest) => {
 
 export class PermissionsStore {
   constructor(
-    private sessionStore: SessionStore,
+    private applicationsStore: ApplicationsStore,
     private popupManagerStore: PopupManagerStore,
     private contextStore: AppContextStore,
-  ) {}
+  ) {
+    makeAutoObservable(this);
+  }
 
-  get permissions(): Permission[] {
-    const permissions = this.sessionStore.getState<PermissionRequest>('permissions') || {};
+  private get appPermissions() {
+    return this.applicationsStore.connectedApp.permissions;
+  }
 
-    return requestToPermissions(permissions);
+  get permissions() {
+    return requestToPermissions(this.appPermissions);
   }
 
   async requestPermissions(permissionsRequest: PermissionRequest) {
@@ -57,21 +61,20 @@ export class PermissionsStore {
       return {};
     }
 
-    this.sessionStore.permissions = {
-      ...this.sessionStore.permissions,
-      ...selectedPermissions,
-    };
+    await this.applicationsStore.saveApplication({
+      permissions: { ...this.appPermissions, ...selectedPermissions },
+    });
 
     return selectedPermissions;
   }
 
   async revokePermissions(request: PermissionRevokeRequest) {
-    const permissions = this.sessionStore.getState<PermissionRequest>('permissions') || {};
+    const permissions = { ...this.appPermissions };
 
     for (const method in request) {
       delete permissions[method];
     }
 
-    this.sessionStore.permissions = permissions;
+    await this.applicationsStore.saveApplication({ permissions });
   }
 }

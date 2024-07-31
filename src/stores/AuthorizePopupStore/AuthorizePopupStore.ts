@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from 'mobx';
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
 import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 import type { UserInfo } from '@cere-wallet/communication';
 
@@ -6,9 +6,12 @@ import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
+import { type App } from '../AppContextStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
+import { AuthApiService } from '~/api/auth-api.service';
+import { createAuthLinkResource, AuthLinkResource, AuthLinkResourcePayload } from './createAuthLinkResource';
 
 type AuthenticationResult = {
   sessionId: string;
@@ -21,12 +24,13 @@ export type AuthorizePopupStoreOptions = {
   redirectUrl?: string;
   forceMfa?: boolean;
   sessionNamespace?: string;
-  appId?: string;
+  app?: App;
+  loginHint?: string;
+  email?: string;
 };
 
 export type AuthorizePopupState = {
   result?: AuthenticationResult;
-  loginHint?: string;
   permissions?: PermissionRequest;
 };
 
@@ -41,14 +45,19 @@ export class AuthorizePopupStore {
 
   private redirectUrl: string | null = null;
   private currentEmail?: string;
+  private currentLoginHint?: string;
   private mfaCheckPromise?: Promise<boolean>;
   private selectedPermissions: PermissionRequest = {};
+  private appPermissions: PermissionRequest = {};
+  private authLinkResource?: AuthLinkResource;
 
   constructor(private wallet: Wallet, private options: AuthorizePopupStoreOptions) {
     makeAutoObservable(this);
 
     const callbackUrl = new URL(this.options.callbackUrl, window.origin);
     this.redirectUrl = options.redirectUrl || callbackUrl.searchParams.get('redirectUrl');
+    this.email = options.email;
+    this.currentLoginHint = options.loginHint;
 
     reaction(
       () => this.email,
@@ -78,13 +87,18 @@ export class AuthorizePopupStore {
   }
 
   get loginHint() {
-    return this.shared.state.loginHint;
+    return this.currentLoginHint;
   }
 
   get permissions() {
     const { permissions = {} } = this.shared.state;
+    const finalPermissions = { ...permissions };
 
-    return Object.keys(permissions).length ? permissions : undefined;
+    for (const capability in this.appPermissions) {
+      delete finalPermissions[capability];
+    }
+
+    return Object.keys(finalPermissions).length ? finalPermissions : undefined;
   }
 
   get acceptedPermissions() {
@@ -96,6 +110,8 @@ export class AuthorizePopupStore {
   }
 
   async login(idToken: string): Promise<UserInfo & { sessionId: string }> {
+    this.authLinkResource?.dispose();
+
     const isMfa = await this.mfaCheckPromise?.catch((error) => {
       reportError(error);
 
@@ -113,10 +129,14 @@ export class AuthorizePopupStore {
       }) as Promise<any>; // Use any to avoid type mismatch. The return type is not important here due to redirect.
     }
 
-    const userInfo = await this.web3AuthStore.login({
+    const { userInfo, permissions } = await this.web3AuthStore.login({
       idToken,
-      appId: this.options.appId,
+      appId: this.options.app?.appId,
       checkMfa: isMfa === undefined,
+    });
+
+    runInAction(() => {
+      this.appPermissions = permissions;
     });
 
     return {
@@ -141,7 +161,7 @@ export class AuthorizePopupStore {
 
   async acceptSession(permissions: PermissionRequest = this.acceptedPermissions) {
     this.shared.state.result = {
-      permissions,
+      permissions: { ...permissions, ...this.appPermissions },
       sessionId: this.sessionStore.sessionId,
     };
 
@@ -152,10 +172,39 @@ export class AuthorizePopupStore {
     await this.validateRedirectUrl(this.redirectUrl);
     await this.sessionStore.storeSession();
 
-    this.sessionStore.permissions = permissions;
-
     window.location.replace(createRedirectUrl(this.redirectUrl, this.sessionStore.sessionId));
 
     return new Promise<void>(() => {});
+  }
+
+  waitForAuthLinkToken(callback: (payload: AuthLinkResourcePayload) => Promise<void>) {
+    return reaction(
+      () => this.authLinkResource?.current(),
+      (payload) => payload && callback(payload),
+    );
+  }
+
+  async sendOtp(email?: string) {
+    const toEmail = email || this.email;
+
+    if (!toEmail) {
+      throw new Error('Email is required to send OTP');
+    }
+
+    const authLinkCode = await AuthApiService.sendOtp(toEmail, {
+      appTitle: this.options.app?.name,
+      supportEmail: this.options.app?.supportEmail,
+    });
+
+    if (authLinkCode) {
+      this.authLinkResource?.dispose();
+
+      runInAction(() => {
+        this.email = toEmail;
+        this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
+      });
+    }
+
+    return !!authLinkCode;
   }
 }

@@ -1,11 +1,15 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import TagManager from 'react-gtm-module';
 
+import { GTM_ID } from '~/constants';
 import { Redirect } from './Redirect';
 import { RedirectPopup } from './RedirectPopup';
 import { ConfirmPopup } from './ConfirmPopup';
 import { TransactionPopup } from './TransactionPopup';
 import { FramePopup } from './FramePopup';
 import { PermissionsPopup } from './PermissionsPopup';
+
+const initGtm = () => GTM_ID && TagManager.initialize({ gtmId: GTM_ID });
 
 const router = createBrowserRouter([
   {
@@ -57,6 +61,8 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { WalletRouter } = await import(/* webpackChunkName: "WalletRouter" */ './WalletRouter');
 
+          initGtm(); // Init GTM asynchronously on wallet load
+
           return {
             Component: WalletRouter,
           };
@@ -69,6 +75,8 @@ const router = createBrowserRouter([
           const { AuthorizationRouter } = await import(
             /* webpackChunkName: "AuthorizationRouter" */ './AuthorizationRouter'
           );
+
+          initGtm(); // Init GTM asynchronously on authorize UI
 
           return {
             Component: AuthorizationRouter,

@@ -8,11 +8,12 @@ import {
   OtpInput,
   Alert,
   useTheme,
+  Fade,
 } from '@cere-wallet/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { reportError } from '~/reporting';
@@ -21,9 +22,12 @@ import { CereWhiteLogo, PoweredBy } from '~/components';
 import { useAppContextStore } from '~/hooks';
 
 const TIME_LEFT = 60; // seconds before next otp request
+const SPAM_NOTICE_TIME = 30; // seconds before spam notice
 
 interface OtpProps {
   email?: string;
+  busy?: boolean;
+  code?: string;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -33,17 +37,19 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [spamNotice, setSpamNotice] = useState(false);
+  const [otpAccepted, setOtpAccepted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
   const { isGame } = useTheme();
-  const store = useAppContextStore();
+  const appStore = useAppContextStore();
 
-  const verifyScreenSettings = store?.whiteLabel?.verifyScreenSettings;
+  const verifyScreenSettings = appStore?.whiteLabel?.verifyScreenSettings;
 
   const {
-    register,
+    control,
     handleSubmit,
     setError,
     getValues: getFormValues,
@@ -57,6 +63,12 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     },
   });
 
+  useEffect(() => {
+    if (code) {
+      setFormValue('code', code);
+    }
+  }, [setFormValue, code]);
+
   const onSubmit: SubmitHandler<any> = async () => {
     const value = getFormValues('code');
     const token = await AuthApiService.getTokenByEmail(email!, value);
@@ -64,6 +76,8 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
     if (!token) {
       return setError('code', { message: 'The code is wrong, please try again' });
     }
+
+    setOtpAccepted(true);
 
     try {
       await onRequestLogin(token);
@@ -78,11 +92,25 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
 
   const handleResend = async () => {
     setTimeLeft(TIME_LEFT);
-    await AuthApiService.sendOtp(email!);
+
+    /**
+     * TODO: Use AuthorizePopupStore method to send OTP
+     */
+    await AuthApiService.sendOtp(email!, {
+      appTitle: appStore.app?.name,
+      supportEmail: appStore.app?.supportEmail,
+    });
   };
 
   useEffect(() => {
     let timer = timeLeft ? setTimeout(() => setTimeLeft(timeLeft - 1), 1000) : undefined;
+
+    /**
+     * Show spam notice if time left is less than SPAM_NOTICE_TIME and keep it visible after resend
+     */
+    if (timeLeft < SPAM_NOTICE_TIME) {
+      setSpamNotice(true);
+    }
 
     return () => {
       clearTimeout(timer);
@@ -117,7 +145,7 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
   }, [isGame, verifyScreenSettings?.verifyScreenMainText]);
 
   return (
-    <Stack>
+    <Stack minHeight={520}>
       <Stack
         direction="column"
         spacing={2}
@@ -149,10 +177,10 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
         <Typography variant="body2" color={isGame ? '#FFF' : 'text.secondary'} align={isGame ? 'center' : 'left'}>
           Verification code
         </Typography>
-        <OtpInput
-          {...register('code')}
-          onChange={(val) => setFormValue('code', val)}
-          errorMessage={errors?.code?.message}
+        <Controller
+          name="code"
+          control={control}
+          render={({ field }) => <OtpInput {...field} errorMessage={errors?.code?.message} />}
         />
 
         {errors.root && (
@@ -161,18 +189,19 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
           </Alert>
         )}
 
-        <LoadingButton loading={isSubmitting} variant="contained" size="large" type="submit">
+        <LoadingButton loading={isSubmitting || busy} variant="contained" size="large" type="submit">
           {errors.root ? 'Retry' : 'Verify'}
         </LoadingButton>
         {timeLeft ? (
-          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+          <Typography lineHeight={2} align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
             Resend verification code in <strong>{timeLeft}</strong> seconds
           </Typography>
         ) : (
-          <Typography variant="body1" align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
+          <Typography lineHeight={2} align="center" color={isGame ? 'primary.light' : 'text.secondary'}>
             Did not receive a code?{' '}
             <Button
               variant="text"
+              size="small"
               onClick={handleResend}
               sx={{
                 fontSize: isGame ? '16px' : '14px',
@@ -182,6 +211,14 @@ export const OtpPage = ({ email, onRequestLogin }: OtpProps) => {
               Resend code
             </Button>
           </Typography>
+        )}
+
+        {spamNotice && !otpAccepted && (
+          <Fade in>
+            <Alert variant="standard" severity="info">
+              If you didn’t get the verification email please check your Spam folder.
+            </Alert>
+          </Fade>
         )}
       </Stack>
 

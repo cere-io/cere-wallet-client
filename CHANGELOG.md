@@ -2,6 +2,32 @@
 
 ### vNext
 
+-
+
+### v1.41.1
+
+- Switched off otpLink on prod
+
+### v1.41.0
+
+- Send OTP email with context specific values
+
+### v1.40.0
+
+- Improve login speed by saving permissions to BE in background
+- Add Spam notice to OTP screen if not entered for 30 sec
+
+### v1.39.0
+
+- Add support for externally provided email to login with
+- Make it possible to change permission title and description
+- Store wallet permission to connected application and don't ask on each login
+- Add `Magic Link` authentication support
+- Postpone GTM initialization to increase init speed
+- Add transaction signing permission
+
+### v1.38.0
+
 - Added multi-chain signature API to the wallet client and SDK
 - Let users enter an encryption password during account export
 
@@ -22,12 +48,9 @@
 
 ### v1.34.0
 
+- Properly update wallet engine private key on account change
 - Use Core Kit private keys for new users
 - Add `loginHint` option to the wallet connect configuration
-
-### v1.33.1
-
-- Properly update wallet engine private key on account change
 
 ### v1.33.0
 

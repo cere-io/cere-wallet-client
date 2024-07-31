@@ -11,6 +11,7 @@ export type UserInfo = {
   verifier: string;
   verifierId: string;
   isNewUser?: boolean;
+  isNewWallet?: boolean;
 };
 
 export type AppContext = Context;
@@ -22,6 +23,7 @@ export type LoginOptions = {
   redirectUrl?: string;
   loginHint?: string;
   permissions?: PermissionRequest;
+  email?: string;
 };
 
 export type LoginData = {
