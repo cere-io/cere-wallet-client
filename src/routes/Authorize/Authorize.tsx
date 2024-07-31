@@ -24,7 +24,7 @@ const Authorize = () => {
         sessionNamespace,
         loginHint,
         email,
-        appId: wallet.appContextStore.app?.appId,
+        app: wallet.appContextStore.app,
       }),
     [wallet],
   );

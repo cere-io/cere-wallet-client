@@ -6,6 +6,7 @@ import { reportError } from '~/reporting';
 import { OpenLoginStore } from '../OpenLoginStore';
 import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
+import { type App } from '../AppContextStore';
 import { createSharedPopupState } from '../sharedState';
 import { createRedirectUrl } from './createRedirectUrl';
 import { Wallet } from '../types';
@@ -23,7 +24,7 @@ export type AuthorizePopupStoreOptions = {
   redirectUrl?: string;
   forceMfa?: boolean;
   sessionNamespace?: string;
-  appId?: string;
+  app?: App;
   loginHint?: string;
   email?: string;
 };
@@ -130,7 +131,7 @@ export class AuthorizePopupStore {
 
     const { userInfo, permissions } = await this.web3AuthStore.login({
       idToken,
-      appId: this.options.appId,
+      appId: this.options.app?.appId,
       checkMfa: isMfa === undefined,
     });
 
@@ -190,7 +191,10 @@ export class AuthorizePopupStore {
       throw new Error('Email is required to send OTP');
     }
 
-    const authLinkCode = await AuthApiService.sendOtp(toEmail);
+    const authLinkCode = await AuthApiService.sendOtp(toEmail, {
+      appTitle: this.options.app?.name,
+      supportEmail: this.options.app?.supportEmail,
+    });
 
     if (authLinkCode) {
       this.authLinkResource?.dispose();
