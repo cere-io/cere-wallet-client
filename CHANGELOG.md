@@ -2,6 +2,10 @@
 
 ### vNext
 
+-
+
+### v1.41.0
+
 - Send OTP email with context specific values
 
 ### v1.40.0
