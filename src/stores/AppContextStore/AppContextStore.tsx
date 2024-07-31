@@ -71,7 +71,16 @@ export class AppContextStore {
 
     const name = this.context.app.name || new URL(this.context.app.url).hostname;
 
-    return { ...this.context.app, name };
+    let supportEmail = this.context.app.supportEmail;
+
+    /**
+     * TODO: Remove this condition after Developer Console provide email via SDK
+     */
+    if (!supportEmail && this.context.app.appId === 'developer-console') {
+      supportEmail = 'team@cere.network';
+    }
+
+    return { ...this.context.app, name, supportEmail };
   }
 
   async disconnect() {

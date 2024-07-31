@@ -41,11 +41,12 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
   const location = useLocation();
   const navigate = useNavigate();
   const [spamNotice, setSpamNotice] = useState(false);
+  const [otpAccepted, setOtpAccepted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(TIME_LEFT);
   const { isGame } = useTheme();
-  const store = useAppContextStore();
+  const appStore = useAppContextStore();
 
-  const verifyScreenSettings = store?.whiteLabel?.verifyScreenSettings;
+  const verifyScreenSettings = appStore?.whiteLabel?.verifyScreenSettings;
 
   const {
     control,
@@ -76,6 +77,8 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
       return setError('code', { message: 'The code is wrong, please try again' });
     }
 
+    setOtpAccepted(true);
+
     try {
       await onRequestLogin(token);
     } catch (error) {
@@ -89,7 +92,14 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
 
   const handleResend = async () => {
     setTimeLeft(TIME_LEFT);
-    await AuthApiService.sendOtp(email!);
+
+    /**
+     * TODO: Use AuthorizePopupStore method to send OTP
+     */
+    await AuthApiService.sendOtp(email!, {
+      appTitle: appStore.app?.name,
+      supportEmail: appStore.app?.supportEmail,
+    });
   };
 
   useEffect(() => {
@@ -203,7 +213,7 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
           </Typography>
         )}
 
-        {spamNotice && (
+        {spamNotice && !otpAccepted && (
           <Fade in>
             <Alert variant="standard" severity="info">
               If you didn’t get the verification email please check your Spam folder.

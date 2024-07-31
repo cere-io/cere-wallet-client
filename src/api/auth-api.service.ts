@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { reportError } from '~/reporting';
-import { WALLET_API } from '~/constants';
+import { FEATURE_FLAGS, WALLET_API } from '~/constants';
 import { ApiResponse } from '~/api/interfaces';
 
 export type TokenData = {
@@ -12,16 +12,27 @@ export type TokenByLinkData = TokenData & {
   code: string;
 };
 
+export type SendOtpOptions = {
+  appTitle?: string;
+  supportEmail?: string;
+  authLink?: boolean;
+  popupId?: string;
+};
+
 const api = axios.create({
   baseURL: WALLET_API,
 });
 
 export class AuthApiService {
-  public static async sendOtp(email: string): Promise<string | null> {
+  public static async sendOtp(email: string, options: SendOtpOptions = {}): Promise<string | null> {
     let result: AxiosResponse<ApiResponse<{ authLinkCode: string }>> | null = null;
 
     try {
-      result = await api.post('/auth/otp/send', { email });
+      result = await api.post('/auth/otp/send', {
+        ...options,
+        email,
+        authLink: options.authLink ?? FEATURE_FLAGS.otpLink,
+      });
     } catch (err: any) {
       reportError(err);
     }
