@@ -4,6 +4,10 @@
 
 -
 
+### v1.41.1
+
+- Switched off otpLink on prod
+
 ### v1.41.0
 
 - Send OTP email with context specific values
