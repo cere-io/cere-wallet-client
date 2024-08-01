@@ -3,6 +3,8 @@ import type { PermissionRequest } from '@cere-wallet/wallet-engine';
 import type { UserInfo } from '@cere-wallet/communication';
 
 import { reportError } from '~/reporting';
+import { FEATURE_FLAGS } from '~/constants';
+
 import { OpenLoginStore } from '../OpenLoginStore';
 import { SessionStore } from '../SessionStore';
 import { Web3AuthStore } from '../Web3AuthStore';
@@ -193,15 +195,18 @@ export class AuthorizePopupStore {
 
     const authLinkCode = await AuthApiService.sendOtp(toEmail, {
       appTitle: this.options.app?.name,
-      supportEmail: this.options.app?.supportEmail,
+      supportEmail: this.options.app?.email,
+      authLink: FEATURE_FLAGS.otpLink,
     });
 
     if (authLinkCode) {
-      this.authLinkResource?.dispose();
-
       runInAction(() => {
         this.email = toEmail;
-        this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
+
+        if (FEATURE_FLAGS.otpLink) {
+          this.authLinkResource?.dispose();
+          this.authLinkResource = createAuthLinkResource(toEmail, authLinkCode);
+        }
       });
     }
 

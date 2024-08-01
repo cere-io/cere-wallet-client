@@ -2,7 +2,7 @@
 
 ### vNext
 
--
+- Added SDK option to provide app contact email
 
 ### v1.41.1
 
