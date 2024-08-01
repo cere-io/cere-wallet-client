@@ -1,5 +1,9 @@
-export class WalletHome {
-  readonly pageUrl = '/wallet/home';
+import { Page } from './Page';
+
+export class WalletHome extends Page {
+  constructor() {
+    super('/wallet/home');
+  }
 
   get switchAddressButton() {
     return browser.findByRole$('button', { name: 'Switch address' });

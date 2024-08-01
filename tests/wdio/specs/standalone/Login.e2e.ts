@@ -12,7 +12,7 @@ describe('Standalone login', () => {
   };
 
   before(async () => {
-    await browser.url('/');
+    await walletAuth.open();
   });
 
   step('start new wallet creation', async () => {
@@ -29,7 +29,7 @@ describe('Standalone login', () => {
     await walletAuth.enterOTP('555555');
     await walletAuth.verifyButton.click();
 
-    await expect(browser).toHaveUrlContaining(walletHome.pageUrl, {
+    await expect(browser).toHaveUrlContaining(walletHome.url, {
       wait: 2 * 60 * 1000, // Wait for up to 2 mins to get proper network errors (eg: 504)
     });
   });
