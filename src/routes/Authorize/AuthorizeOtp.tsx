@@ -55,7 +55,7 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
       store.sendOtp();
     }
 
-    store.waitForAuthLinkToken(async ({ token, code }) => {
+    return store.waitForAuthLinkToken(async ({ token, code }) => {
       setAutoOtp(code);
 
       await handleLoginRequest(token);
@@ -75,7 +75,13 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
         {hasBackButton && <ArrowBackIosIcon onClick={() => navigate(-1)} />}
 
         <Stack direction="column" textAlign="justify">
-          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage
+            code={autoOtp}
+            busy={isBusy}
+            email={store.email}
+            onRequestLogin={handleLoginRequest}
+            onRequestResend={() => store.sendOtp()}
+          />
         </Stack>
       </Stack>
     );
@@ -93,7 +99,13 @@ const AuthorizeOtp = ({ sendOtp }: AuthorizeOtpProps) => {
 
       <Stack direction="row" justifyContent="center" alignItems="center" padding={2} height="100vh">
         <Stack width={375}>
-          <OtpPage code={autoOtp} busy={isBusy} email={store.email} onRequestLogin={handleLoginRequest} />
+          <OtpPage
+            code={autoOtp}
+            busy={isBusy}
+            email={store.email}
+            onRequestLogin={handleLoginRequest}
+            onRequestResend={() => store.sendOtp()}
+          />
         </Stack>
       </Stack>
     </Stack>

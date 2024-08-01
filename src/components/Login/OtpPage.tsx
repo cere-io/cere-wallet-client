@@ -28,6 +28,7 @@ interface OtpProps {
   email?: string;
   busy?: boolean;
   code?: string;
+  onRequestResend: () => unknown | Promise<unknown>;
   onRequestLogin: (idToken: string) => void | Promise<void>;
 }
 
@@ -37,7 +38,7 @@ const validationSchema = yup
   })
   .required();
 
-export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps) => {
+export const OtpPage = ({ email, onRequestLogin, onRequestResend, busy = false, code }: OtpProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [spamNotice, setSpamNotice] = useState(false);
@@ -92,14 +93,7 @@ export const OtpPage = ({ email, onRequestLogin, busy = false, code }: OtpProps)
 
   const handleResend = async () => {
     setTimeLeft(TIME_LEFT);
-
-    /**
-     * TODO: Use AuthorizePopupStore method to send OTP
-     */
-    await AuthApiService.sendOtp(email!, {
-      appTitle: appStore.app?.name,
-      supportEmail: appStore.app?.supportEmail,
-    });
+    await onRequestResend();
   };
 
   useEffect(() => {

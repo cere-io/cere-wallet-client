@@ -1,4 +1,10 @@
-export class WalletAuth {
+import { Page } from './Page';
+
+export class WalletAuth extends Page {
+  constructor() {
+    super('/');
+  }
+
   get newWalletButton() {
     return browser.findByRole$('button', { name: 'Create a new wallet' });
   }
@@ -21,7 +27,7 @@ export class WalletAuth {
 
   async enterRandomEmail() {
     const emailSuffix = Math.random().toString(32).slice(2);
-    const email = `auto+${emailSuffix}@test.io`;
+    const email = `autotests+${emailSuffix}@cere.io`;
 
     await this.emailInput.setValue(email);
 
