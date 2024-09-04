@@ -67,6 +67,12 @@ export class AuthorizePopupStore {
         this.mfaCheckPromise =
           verifierId && !this.options.forceMfa ? this.web3AuthStore.isMfaEnabled({ verifierId }) : undefined;
       },
+      {
+        /**
+         * React immediately to check MFA status for email provided in options
+         */
+        fireImmediately: true,
+      },
     );
 
     reaction(
