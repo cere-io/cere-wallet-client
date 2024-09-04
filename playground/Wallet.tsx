@@ -75,6 +75,7 @@ export const Wallet = () => {
         app: {
           appId: 'cere-wallet-playground',
           name: 'Cere wallet playground',
+          email: 'playground@cere.io',
           logoUrl,
         },
       },
