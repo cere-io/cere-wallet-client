@@ -2,6 +2,7 @@
 
 ### vNext
 
+- Login of MFA users with in advance provided email
 - Added SDK option to provide app contact email
 
 ### v1.41.1
