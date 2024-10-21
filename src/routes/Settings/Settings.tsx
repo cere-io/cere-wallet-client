@@ -57,10 +57,6 @@ export const Settings = () => {
     setExportPassword('');
   };
 
-  const handleExportPrivateKey = () => {
-    downloadFile(accountStore.exportPrivateKey(), `${cereAddress}-privateKey.json`);
-  };
-
   useEffect(() => {
     authenticationStore
       .getRedirectUrl({ callbackUrl: accountUrl, forceMfa: true, emailHint: accountStore.user?.email, skipIntro: true })
@@ -136,35 +132,6 @@ export const Settings = () => {
                   onClick={handleExportAccount}
                 >
                   Export Account
-                </SectionButton>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Card>
-          <SectionHeader
-            title="Export Your Private key"
-            avatar={
-              <IconButton variant="filled" size="medium">
-                <DownloadIcon />
-              </IconButton>
-            }
-          />
-
-          <CardContent>
-            <Stack spacing={1}>
-              <Stack direction={isMobile ? 'column' : 'row'} spacing={2} paddingTop={2}>
-                <Typography flex={1} variant="body2" color="text.secondary">
-                  This downloadable file contains your private key, which allows you to gain full access to your
-                  account.
-                </Typography>
-                <SectionButton
-                  disabled={!cereAddress}
-                  fullWidth={isMobile}
-                  variant="contained"
-                  onClick={handleExportPrivateKey}
-                >
-                  Export private key
                 </SectionButton>
               </Stack>
             </Stack>
