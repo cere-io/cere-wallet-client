@@ -117,7 +117,7 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
         const [from, to, value] = req.params as [string, string, string];
         const pair = getPair(from);
 
-        const hash = await api.tx.balances.transfer(to, value).signAndSend(pair);
+        const hash = await api.tx.balances.transferKeepAlive(to, value).signAndSend(pair);
 
         res.result = hash.toHex();
       }),
