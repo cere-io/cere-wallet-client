@@ -109,7 +109,7 @@ const WalletWidget = () => {
     <Widget>
       <Card>
         <Header
-          title={<Truncate variant="email" text={user.email} maxLength={maxLength} />}
+          title={<Truncate variant="text" text={user.email} maxLength={maxLength} />}
           subheader={<Address variant="text" address={selectedAccount.address} maxLength={maxLength} />}
           avatar={<Avatar src={user.avatar} />}
           action={<CopyButton value={selectedAccount.address} successMessage="Address copied" />}

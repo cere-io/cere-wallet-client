@@ -11,6 +11,7 @@ import {
   AuthorizePermissions,
   AuthorizeComplete,
   AuthorizeLink,
+  AuthorizeTelegramMiniApp,
 } from './Authorize';
 
 export const AuthorizationRouter = () => {
@@ -26,6 +27,8 @@ export const AuthorizationRouter = () => {
       <Route element={<Authorize />}>
         {email ? (
           <Route index element={<AuthorizeOtp sendOtp />} />
+        ) : store.isTelegramMiniApp ? (
+          <Route index element={<AuthorizeTelegramMiniApp />} />
         ) : (
           <>
             <Route index element={isGame || skipLoginIntro ? <AuthorizeLogin /> : <AuthorizeIntro />} />

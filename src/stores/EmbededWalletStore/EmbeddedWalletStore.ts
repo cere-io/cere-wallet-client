@@ -160,12 +160,15 @@ export class EmbeddedWalletStore implements Wallet {
     this.walletConnection = createWalletConnection({
       logger: console,
 
-      onInit: async ({ chainConfig, context, biconomy }) => {
+      onInit: async ({ chainConfig, context, biconomy, authMethod }) => {
         this.networkStore.network = chainConfig;
         this.appContextStore.context = context;
+        if (authMethod) {
+          this.appContextStore.authMethod = authMethod;
+        }
 
         /**
-         * Configure the wallet with the init optionss
+         * Configure the wallet with the init options
          */
         if (biconomy) {
           this.options.biconomy = biconomy;
@@ -185,7 +188,6 @@ export class EmbeddedWalletStore implements Wallet {
         if (loginOptions.uxMode === 'modal') {
           return this.authenticationStore.loginInModal(preopenInstanceId, loginOptions);
         }
-
         return this.authenticationStore.loginInPopup(preopenInstanceId, loginOptions);
       },
 
