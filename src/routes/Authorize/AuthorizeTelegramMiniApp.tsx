@@ -22,7 +22,7 @@ const AuthorizeTelegramMiniApp = () => {
         authStore.acceptSession();
       });
     });
-  }, [authStore]);
+  }, [authStore, appContext]);
 
   return <div></div>;
 };
