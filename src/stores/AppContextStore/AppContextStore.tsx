@@ -85,7 +85,7 @@ export class AppContextStore {
   }
 
   get isTelegramMiniApp(): boolean {
-    return (this.app?.appId as string) == 'telegram-mini-app';
+    return (this.app?.appId as string) === 'telegram-mini-app';
   }
 
   async disconnect() {
