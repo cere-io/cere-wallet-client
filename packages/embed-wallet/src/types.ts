@@ -1,4 +1,4 @@
-import type { NetworkInterface } from '@cere/torus-embed';
+import type {AuthMethod, NetworkInterface} from '@cere/torus-embed';
 import BN from 'bn.js';
 
 // App context
@@ -102,6 +102,7 @@ export type WalletInitOptions = WalletOptions & {
   popupMode?: 'popup' | 'modal';
   connectOptions?: Partial<WalletConnectOptions>;
   biconomy?: BiconomyOptions;
+  authMethod?: AuthMethod;
 };
 
 export type WalletTransferOptions = {

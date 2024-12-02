@@ -25,7 +25,7 @@ const EmbeddedWallet = () => {
   return (
     <UIProvider transparentBody isGame={isGame} whiteLabel={toJS(whiteLabel)}>
       <WalletContext.Provider value={store}>
-        <WalletWidget />
+        {store.appContextStore.isTelegramMiniApp ? <></> : <WalletWidget />}
         {modal && <EmbeddedModal showClose={!isGame} modal={modal} />}
       </WalletContext.Provider>
     </UIProvider>

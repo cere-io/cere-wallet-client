@@ -1,6 +1,6 @@
 import { styled, Loading, Logo } from '@cere-wallet/ui';
 import { useCallback, useEffect, useState } from 'react';
-import { usePopupStore } from '~/hooks';
+import { useAppContextStore, usePopupStore } from '~/hooks';
 import { RedirectPopupStore } from '~/stores';
 
 // @ts-ignore
@@ -26,7 +26,7 @@ export const FramePopup = () => {
   const [url, setUrl] = useState<string>();
   const [loaded, setLoaded] = useState(false);
   const hideLoader = useCallback(() => setLoaded(true), []);
-
+  const appContextStore = useAppContextStore();
   const store = usePopupStore((popupId) => new RedirectPopupStore(popupId, true));
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const FramePopup = () => {
 
   return (
     <>
-      {!loaded && (
+      {!loaded && !appContextStore.isTelegramMiniApp && (
         <Loading sx={{ position: 'absolute' }} fullScreen>
           <Logo />
         </Loading>

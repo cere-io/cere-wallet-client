@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
+import { AuthMethod } from '@cere/torus-embed';
 
 export type App = Omit<NonNullable<AppContext['app']>, 'name'> & {
   name: string;
@@ -14,6 +15,7 @@ export type ContextBanner = AppContext['banner'] & {
 
 type SharedState = {
   context?: AppContext;
+  authMethod?: AuthMethod;
 };
 
 export class AppContextStore {
@@ -33,6 +35,14 @@ export class AppContextStore {
 
   set context(context: AppContext | undefined) {
     this.shared.state.context = context;
+  }
+
+  set authMethod(authMethod: AuthMethod | undefined) {
+    this.shared.state.authMethod = authMethod;
+  }
+
+  get authMethod(): AuthMethod | undefined {
+    return this.shared.state.authMethod;
   }
 
   get banner(): ContextBanner | undefined {
@@ -72,6 +82,10 @@ export class AppContextStore {
     const name = this.context.app.name || new URL(this.context.app.url).hostname;
 
     return { ...this.context.app, name };
+  }
+
+  get isTelegramMiniApp(): boolean {
+    return (this.app?.appId as string) === 'telegram-mini-app';
   }
 
   async disconnect() {

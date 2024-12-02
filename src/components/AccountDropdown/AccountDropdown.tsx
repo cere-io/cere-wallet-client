@@ -34,7 +34,7 @@ const AccountDropdown = (props: AccountDropdownProps) => {
     <Dropdown
       open={open}
       onToggle={setOpen}
-      label={<Truncate text={user.email} variant="email" maxLength={20} />}
+      label={<Truncate text={user.email} variant="text" maxLength={20} />}
       leftElement={<Avatar src={user.avatar} />}
     >
       <Stack width={350} spacing={2}>

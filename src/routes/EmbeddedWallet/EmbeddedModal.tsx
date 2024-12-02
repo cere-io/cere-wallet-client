@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Dialog, DialogContent } from '@cere-wallet/ui';
 import { observer } from 'mobx-react-lite';
 
-import { useFullScreen, usePopupManagerStore } from '~/hooks';
+import { useAppContextStore, useFullScreen, usePopupManagerStore } from '~/hooks';
 import { PopupManagerModal } from '~/stores';
 import { RouteElement } from '../RouteElement';
 
@@ -14,6 +14,7 @@ type EmbeddedModalProps = {
 const EmbeddedModal = ({ modal, showClose }: EmbeddedModalProps) => {
   const popupStore = usePopupManagerStore();
   const [isFullscreen, setFullscreen] = useFullScreen();
+  const appContextStore = useAppContextStore();
 
   useEffect(() => {
     setFullscreen(true);
@@ -21,7 +22,9 @@ const EmbeddedModal = ({ modal, showClose }: EmbeddedModalProps) => {
     return () => setFullscreen(false);
   }, [modal, setFullscreen]);
 
-  return (
+  return appContextStore.isTelegramMiniApp ? (
+    <RouteElement path={modal.path} context={{ preopenInstanceId: modal.instanceId }} />
+  ) : (
     <Dialog
       showClose={showClose}
       origin="right"
