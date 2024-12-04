@@ -17,7 +17,7 @@ const AuthorizeTelegramMiniApp = () => {
     }
 
     const [botId, initData] = appContext.authMethod.token.split(':');
-    AuthApiService.getTokenByTelegramMiniAppInitDataLink(botId, initData).then((idToken) => {
+    AuthApiService.getTokenByTelegramMiniAppInitData(botId, initData).then((idToken) => {
       authStore.login(idToken!!).then(() => {
         authStore.acceptSession();
       });

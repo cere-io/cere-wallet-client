@@ -94,7 +94,7 @@ export class AuthApiService {
     return result?.data?.data || null;
   }
 
-  public static async getTokenByTelegramMiniAppInitDataLink(botId: string, initData: string): Promise<string | null> {
+  public static async getTokenByTelegramMiniAppInitData(botId: string, initData: string): Promise<string | null> {
     let result: AxiosResponse<ApiResponse<TokenData>> | null = null;
     try {
       result = await api.post<{ code: 'SUCCESS' | 'ERROR'; data: { token: string } }>(
@@ -103,6 +103,24 @@ export class AuthApiService {
           botId,
           initData,
         },
+      );
+    } catch (error) {
+      const isUserError = error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST';
+
+      if (!isUserError) {
+        reportError(error);
+      }
+    }
+
+    return result?.data.code === 'SUCCESS' ? result?.data.data.token : null;
+  }
+
+  public static async getTokenByTelegramLoginWidget(authData: any): Promise<string | null> {
+    let result: AxiosResponse<ApiResponse<TokenData>> | null = null;
+    try {
+      result = await api.post<{ code: 'SUCCESS' | 'ERROR'; data: { token: string } }>(
+          '/auth/token-by-telegram-login-widget',
+          authData,
       );
     } catch (error) {
       const isUserError = error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST';

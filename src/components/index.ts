@@ -18,3 +18,4 @@ export * from './Transfer';
 export * from './ProductTours';
 export * from './CoinIcon';
 export * from './Permissions';
+export * from './TelegramLoginButton';
