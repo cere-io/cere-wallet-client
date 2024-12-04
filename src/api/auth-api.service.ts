@@ -119,8 +119,8 @@ export class AuthApiService {
     let result: AxiosResponse<ApiResponse<TokenData>> | null = null;
     try {
       result = await api.post<{ code: 'SUCCESS' | 'ERROR'; data: { token: string } }>(
-          '/auth/token-by-telegram-login-widget',
-          authData,
+        '/auth/token-by-telegram-login-widget',
+        authData,
       );
     } catch (error) {
       const isUserError = error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST';

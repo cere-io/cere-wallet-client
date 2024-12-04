@@ -151,7 +151,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   const onTelegramAuth = async (authData: any) => {
     console.log('Telegram login!');
     console.log(authData);
-    const token = await AuthApiService.getTokenByTelegramLoginWidget(authData)
+    const token = await AuthApiService.getTokenByTelegramLoginWidget(authData);
     console.log('ID token!');
     console.log(token);
     if (token) {
@@ -227,15 +227,15 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
             )}
 
             {SUPPORTED_SOCIAL_LOGINS.includes('facebook') && (
-                <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
-                  <FacebookIcon />
-                </IconButton>
+              <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
+                <FacebookIcon />
+              </IconButton>
             )}
 
-             {SUPPORTED_SOCIAL_LOGINS.includes('telegram') && (
-                <div>
-                  <TelegramLoginButton dataOnauth={onTelegramAuth}/>
-                </div>
+            {SUPPORTED_SOCIAL_LOGINS.includes('telegram') && (
+              <div>
+                <TelegramLoginButton dataOnauth={onTelegramAuth} />
+              </div>
             )}
           </Stack>
         </>

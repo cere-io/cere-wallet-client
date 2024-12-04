@@ -1,4 +1,4 @@
-import type {AuthMethod, NetworkInterface} from '@cere/torus-embed';
+import type { AuthMethod, NetworkInterface } from '@cere/torus-embed';
 import BN from 'bn.js';
 
 // App context
