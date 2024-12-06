@@ -35,7 +35,7 @@ export const FEATURE_FLAGS = {
 /**
  * TODO: Turn it back when fixed for mobiles
  */
-export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook' | 'telegram')[] = ['google', 'telegram'];
+export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook' | 'telegram')[] = ['telegram'];
 
 export const COIN_TICKER_ALIAS: Record<string, string> = {
   CERE_ERC20: 'CERE',
