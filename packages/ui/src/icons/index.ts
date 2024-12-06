@@ -53,6 +53,7 @@ export * from './StoreYourTokensIcon';
 export * from './ManageYourFundsIcon';
 export * from './Facebook';
 export * from './Google';
+export * from './Telegram';
 export * from './WindowIcon';
 export * from './Success';
 export * from './SearchIcon';

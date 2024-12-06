@@ -1,4 +1,4 @@
-import type {AuthMethod, NetworkInterface} from '@cere/torus-embed';
+import type { AuthMethod, NetworkInterface } from '@cere/torus-embed';
 import BN from 'bn.js';
 
 // App context
@@ -48,6 +48,7 @@ export type UserInfo = {
 export type WalletAccountType = 'ethereum' | 'ed25519' | 'solana';
 export type WalletAccount = {
   address: string;
+  publicKey: string;
   type: WalletAccountType;
   name: string;
 };

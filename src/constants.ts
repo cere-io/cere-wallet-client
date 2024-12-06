@@ -18,6 +18,8 @@ export const GTM_ID = process.env.REACT_APP_GMT_ID;
 export const DEFAULT_APP_ID = process.env.REACT_DEFAULT_APP_ID || 'cere-wallet';
 export const BICONOMY_API_KEY = process.env.REACT_APP_BICONOMY_API_KEY || undefined;
 export const SENTRY_DNS = process.env.REACT_APP_SENTRY_DNS;
+export const TELEGRAM_BOT_ID = +(process.env.REACT_APP_TELEGRAM_BOT_ID || '');
+export const TELEGRAM_BOT_USERNAME = process.env.REACT_APP_TELEGRAM_BOT_USERNAME || '';
 
 export const ANALYTICS = {
   createWalletBtnClass: 'create-wallet-btn',
@@ -33,7 +35,7 @@ export const FEATURE_FLAGS = {
 /**
  * TODO: Turn it back when fixed for mobiles
  */
-export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook')[] = [];
+export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook' | 'telegram')[] = ['telegram'];
 
 export const COIN_TICKER_ALIAS: Record<string, string> = {
   CERE_ERC20: 'CERE',
@@ -49,3 +51,5 @@ export const ALLOWED_WALLET_PERMISSIONS = [
   'solana_signMessage',
   'ed25519_signPayload', // TODO: Dangerous permission, try to narrow its scope in future
 ] as const;
+
+export const TELEGRAM_MINI_APP = 'telegram-mini-app';

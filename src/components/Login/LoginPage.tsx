@@ -29,6 +29,7 @@ import { AuthorizePopupStore } from '~/stores';
 import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { AppContextBanner } from '../AppContextBanner';
 import { PoweredBy } from './PoweredBy';
+import { TelegramLoginButton } from '~/components';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -147,6 +148,18 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
     }
   };
 
+  const onTelegramAuth = async (authData: any) => {
+    console.log('Telegram login!');
+    console.log(authData);
+    const token = await AuthApiService.getTokenByTelegramLoginWidget(authData);
+    console.log('ID token!');
+    console.log(token);
+    if (token) {
+      onRequestLogin(token);
+    } else {
+      console.error('Telegram authorization error');
+    }
+  };
   return (
     <Stack
       direction="column"
@@ -217,6 +230,12 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
               <IconButton size="large" variant="outlined" onClick={onFacebookAuth}>
                 <FacebookIcon />
               </IconButton>
+            )}
+
+            {SUPPORTED_SOCIAL_LOGINS.includes('telegram') && (
+              <div>
+                <TelegramLoginButton dataOnauth={onTelegramAuth} />
+              </div>
             )}
           </Stack>
         </>

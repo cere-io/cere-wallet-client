@@ -4,7 +4,7 @@ import { makeAutoObservable, runInAction, toJS } from 'mobx';
 import { PermissionRequest } from '@cere-wallet/wallet-engine';
 
 import { Wallet } from '../types';
-import { DEFAULT_APP_ID, WALLET_API } from '~/constants';
+import { DEFAULT_APP_ID, TELEGRAM_MINI_APP, WALLET_API } from '~/constants';
 import { Session } from '../SessionStore';
 import { AccountStore } from '../AccountStore';
 import { AppContextStore } from '../AppContextStore';
@@ -99,6 +99,13 @@ export class ApplicationsStore {
   }
 
   async saveApplication({ permissions = {} }: ApplicationData) {
+    if (this.appId === TELEGRAM_MINI_APP) {
+      permissions.ed25519_signRaw = {
+        title: 'Activity signing',
+        description: null,
+      };
+    }
+
     this.currentApp = { appId: this.appId, permissions };
 
     const { headers, address } = await this.createAccsess();
