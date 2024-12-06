@@ -35,7 +35,7 @@ export const FEATURE_FLAGS = {
 /**
  * TODO: Turn it back when fixed for mobiles
  */
-export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook' | 'telegram')[] = ['google', 'telegram'];
+export const SUPPORTED_SOCIAL_LOGINS: ('google' | 'facebook' | 'telegram')[] = ['telegram'];
 
 export const COIN_TICKER_ALIAS: Record<string, string> = {
   CERE_ERC20: 'CERE',
@@ -51,3 +51,5 @@ export const ALLOWED_WALLET_PERMISSIONS = [
   'solana_signMessage',
   'ed25519_signPayload', // TODO: Dangerous permission, try to narrow its scope in future
 ] as const;
+
+export const TELEGRAM_MINI_APP = 'telegram-mini-app';

@@ -4,6 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import { Wallet } from '../types';
 import { createSharedState } from '../sharedState';
 import { AuthMethod } from '@cere/torus-embed';
+import { TELEGRAM_MINI_APP } from '~/constants';
 
 export type App = Omit<NonNullable<AppContext['app']>, 'name'> & {
   name: string;
@@ -85,7 +86,7 @@ export class AppContextStore {
   }
 
   get isTelegramMiniApp(): boolean {
-    return (this.app?.appId as string) === 'telegram-mini-app';
+    return (this.app?.appId as string) === TELEGRAM_MINI_APP;
   }
 
   async disconnect() {
