@@ -125,7 +125,10 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
       ed25519_nacl_secretbox: createAsyncMiddleware(async (req, res) => {
         const [message, path] = req.params as string[];
 
-        const secretKey = getSecretKey();
+        let secretKey = getSecretKey();
+        if (path) {
+          secretKey = Buffer.concat([secretKey, Buffer.from(`/${path}`)]);
+        }
         const dek = blake2AsU8a(secretKey);
 
         res.result = u8aToHex(nacl.secretbox(new TextEncoder().encode(message), new Uint8Array(24), dek));
@@ -134,7 +137,10 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
       ed25519_nacl_secretbox_open: createAsyncMiddleware(async (req, res) => {
         const [secretBox, path] = req.params as string[];
 
-        const secretKey = getSecretKey();
+        let secretKey = getSecretKey();
+        if (path) {
+          secretKey = Buffer.concat([secretKey, Buffer.from(`/${path}`)]);
+        }
         const dek = blake2AsU8a(secretKey);
 
         const message = nacl.secretbox.open(hexToU8a(secretBox), new Uint8Array(24), dek);

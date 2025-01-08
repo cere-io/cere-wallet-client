@@ -393,8 +393,8 @@ export class EmbedWallet {
    * console.log(secretBox);
    * ```
    */
-  async naclSecretbox(message: string): Promise<String> {
-    return this.provider.request({ method: 'ed25519_nacl_secretbox', params: [message] });
+  async naclSecretbox(message: string, path?: string): Promise<String> {
+    return this.provider.request({ method: 'ed25519_nacl_secretbox', params: [message, path] });
   }
 
   /**
@@ -411,8 +411,8 @@ export class EmbedWallet {
    * console.log(message);
    * ```
    */
-  async naclSecretboxOpen(message: string): Promise<String> {
-    return this.provider.request({ method: 'ed25519_nacl_secretbox_open', params: [message] });
+  async naclSecretboxOpen(message: string, path?: string): Promise<String> {
+    return this.provider.request({ method: 'ed25519_nacl_secretbox_open', params: [message, path] });
   }
 
   /**
