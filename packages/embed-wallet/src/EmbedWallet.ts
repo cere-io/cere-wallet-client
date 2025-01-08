@@ -71,11 +71,17 @@ export class EmbedWallet {
   private proxyProvider: ProxyProvider;
   private connectOptions: WalletConnectOptions = {};
   private onAfterInit?: (error?: any) => void;
+  private onAfterConnect?: (error?: any) => void;
 
   /**
    * @description Promise that resolves when the wallet instance is initialized and ready
    */
   readonly isReady: Promise<EmbedWallet>;
+
+  /**
+   * @description Promise that resolves when the wallet instance is connected
+   */
+  readonly isConnected: Promise<EmbedWallet>;
 
   constructor({ env, clientVersion = WALLET_CLIENT_VERSION, ...options }: WalletOptions = {}) {
     if (env) {
@@ -91,7 +97,9 @@ export class EmbedWallet {
     this.isReady = new Promise((resolve, reject) => {
       this.onAfterInit = (error) => (error ? reject(error) : resolve(this));
     });
-
+    this.isConnected = new Promise((resolve, reject) => {
+      this.onAfterConnect = (error) => (error ? reject(error) : resolve(this));
+    });
     this.provider.on('message', this.handleEvenets);
   }
 
@@ -215,11 +223,11 @@ export class EmbedWallet {
       });
 
       this.setStatus('connected');
-
+      this.onAfterConnect?.();
       return address;
     } catch (error) {
       rollback();
-
+      this.onAfterConnect?.(error);
       throw error;
     }
   }
