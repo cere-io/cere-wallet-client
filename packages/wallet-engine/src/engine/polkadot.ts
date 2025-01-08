@@ -1,5 +1,6 @@
 import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
-import { u8aToHex, u8aWrapBytes } from '@polkadot/util';
+import { u8aToHex, hexToU8a, u8aWrapBytes } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 import { Keyring } from '@polkadot/keyring';
 
 import { Engine } from './engine';
@@ -7,6 +8,8 @@ import { getKeyPair } from '../accounts';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { AccountInfo } from '@polkadot/types/interfaces';
+import nacl from 'tweetnacl';
+import { convertPublicKey, convertSecretKey } from 'ed2curve';
 
 export type PolkadotEngineOptions = {
   polkadotRpc: string;
@@ -40,6 +43,24 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
     const privateKey = getPrivateKey();
 
     return createPair(address, privateKey);
+  };
+
+  const getSecretKey = () => {
+    const privateKey = getPrivateKey();
+    if (!privateKey) {
+      throw new Error('No private key was provided!');
+    }
+
+    const { secretKey } = getKeyPair({ type: 'ed25519', privateKey });
+    return secretKey;
+  };
+
+  const publicKeyEd25519ToCurve25519 = (ed25519PublicKey: string) => {
+    const publicKeyCurve25519 = convertPublicKey(hexToU8a(ed25519PublicKey));
+    if (!publicKeyCurve25519) {
+      throw new Error(`Can't convert ed25519 public key to curve25519!`);
+    }
+    return publicKeyCurve25519;
   };
 
   let balanceUnsubscribe: (() => void) | null = null;
@@ -99,6 +120,72 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
         const { signature } = extrinsic.sign(pair);
 
         res.result = signature;
+      }),
+
+      ed25519_nacl_secretbox: createAsyncMiddleware(async (req, res) => {
+        const [message, path] = req.params as string[];
+
+        const secretKey = getSecretKey();
+        const dek = blake2AsU8a(secretKey);
+
+        res.result = u8aToHex(nacl.secretbox(new TextEncoder().encode(message), new Uint8Array(24), dek));
+      }),
+
+      ed25519_nacl_secretbox_open: createAsyncMiddleware(async (req, res) => {
+        const [secretBox, path] = req.params as string[];
+
+        const secretKey = getSecretKey();
+        const dek = blake2AsU8a(secretKey);
+
+        const message = nacl.secretbox.open(hexToU8a(secretBox), new Uint8Array(24), dek);
+        if (!message) {
+          throw new Error(`Can't open secretbox!`);
+        }
+
+        res.result = new TextDecoder().decode(message);
+      }),
+
+      ed25519_nacl_box: createAsyncMiddleware(async (req, res) => {
+        const [message, theirPublicKey] = req.params as string[];
+
+        const theirPublicKeyCurve25519 = publicKeyEd25519ToCurve25519(theirPublicKey);
+        const secretKeyCurve25519 = convertSecretKey(getSecretKey());
+
+        res.result = u8aToHex(
+          nacl.box(
+            new TextEncoder().encode(message),
+            new Uint8Array(24),
+            theirPublicKeyCurve25519,
+            secretKeyCurve25519,
+          ),
+        );
+      }),
+
+      ed25519_nacl_box_open: createAsyncMiddleware(async (req, res) => {
+        const [box, theirPublicKey] = req.params as string[];
+
+        const theirPublicKeyCurve25519 = publicKeyEd25519ToCurve25519(theirPublicKey);
+        const secretKeyCurve25519 = convertSecretKey(getSecretKey());
+
+        const message = nacl.box.open(hexToU8a(box), new Uint8Array(24), theirPublicKeyCurve25519, secretKeyCurve25519);
+        if (!message) {
+          throw new Error(`Can't open box!`);
+        }
+
+        res.result = new TextDecoder().decode(message);
+      }),
+
+      ed25519_nacl_box_edek: createAsyncMiddleware(async (req, res) => {
+        const [theirPublicKey] = req.params as string[];
+
+        const theirPublicKeyCurve25519 = publicKeyEd25519ToCurve25519(theirPublicKey);
+
+        const secretKey = getSecretKey();
+        const dek = blake2AsU8a(secretKey);
+
+        const secretKeyCurve25519 = convertSecretKey(secretKey);
+
+        res.result = u8aToHex(nacl.box(dek, new Uint8Array(24), theirPublicKeyCurve25519, secretKeyCurve25519));
       }),
 
       ed25519_getBalance: createAsyncMiddleware(async (req, res) => {
