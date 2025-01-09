@@ -393,7 +393,7 @@ export class EmbedWallet {
    * console.log(secretBox);
    * ```
    */
-  async naclSecretbox(message: string, path?: string): Promise<String> {
+  async naclSecretbox(message: string, path?: string): Promise<string> {
     return this.provider.request({ method: 'ed25519_nacl_secretbox', params: [message, path] });
   }
 
@@ -411,7 +411,7 @@ export class EmbedWallet {
    * console.log(message);
    * ```
    */
-  async naclSecretboxOpen(message: string, path?: string): Promise<String> {
+  async naclSecretboxOpen(message: string, path?: string): Promise<string> {
     return this.provider.request({ method: 'ed25519_nacl_secretbox_open', params: [message, path] });
   }
 
@@ -430,7 +430,7 @@ export class EmbedWallet {
    * console.log(box);
    * ```
    */
-  async naclBox(message: string, theirPublicKey: string): Promise<String> {
+  async naclBox(message: string, theirPublicKey: string): Promise<string> {
     return this.provider.request({ method: 'ed25519_nacl_box', params: [message, theirPublicKey] });
   }
 
@@ -449,7 +449,7 @@ export class EmbedWallet {
    * console.log(message);
    * ```
    */
-  async naclBoxOpen(box: string, theirPublicKey: string): Promise<String> {
+  async naclBoxOpen(box: string, theirPublicKey: string): Promise<string> {
     return this.provider.request({ method: 'ed25519_nacl_box_open', params: [box, theirPublicKey] });
   }
 
@@ -467,7 +467,7 @@ export class EmbedWallet {
    * console.log(edek);
    * ```
    */
-  async naclBoxEdek(theirPublicKey: string): Promise<String> {
+  async naclBoxEdek(theirPublicKey: string): Promise<string> {
     return this.provider.request({ method: 'ed25519_nacl_box_edek', params: [theirPublicKey] });
   }
 }
