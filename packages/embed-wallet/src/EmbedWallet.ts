@@ -35,12 +35,7 @@ const buildEnvMap: Record<WalletEnvironment, TORUS_BUILD_ENV_TYPE> = {
   local: 'development',
   dev: 'cere-dev',
   stage: 'cere-stage',
-  /**
-   * TODO: Change back to 'cere' when the MetaMask block issue is resolved
-   *
-   * @see https://github.com/MetaMask/eth-phishing-detect/issues/19072
-   */
-  prod: 'cere-aws',
+  prod: 'cere',
 };
 
 const createBalance = (
