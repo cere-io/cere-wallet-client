@@ -5,6 +5,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { logoUrl, nftImageUrl } from './assets';
 import { useWallet, useWalletStatus } from './WalletContext';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
+import nacl from 'tweetnacl';
+import { convertPublicKey, convertSecretKey } from 'ed2curve';
 
 export const Wallet = () => {
   const [ethAddress, setEthAddress] = useState<string>();
@@ -191,6 +194,44 @@ export const Wallet = () => {
     const signed = await signer.signMessage('Hello!!!');
 
     console.log(`Signed message: ${signed}`);
+  }, [wallet]);
+
+  const handleEd25519NaclSecretbox = useCallback(async () => {
+    const encrypted = await wallet.naclSecretbox('Hello world!');
+
+    console.log(`Encrypted message (secretbox): ${encrypted}`);
+  }, [wallet]);
+
+  const handleEd25519NaclSecretboxOpen = useCallback(async () => {
+    const encrypted = await wallet.naclSecretboxOpen('0xc698905f81b4556c186d01a5b792cea4a151638aeec0eabb03e83d89');
+
+    console.log(`Encrypted message (secretbox): ${encrypted}`);
+  }, [wallet]);
+
+  const handleEd25519NaclBox = useCallback(async () => {
+    const theirPublicKey = '0x14fff9e41ebcafe96a44c3aed8a34819097b37322d3e708f9125e92bb1faa365';
+    const box = await wallet.naclBox('Hello world!', theirPublicKey);
+    console.log(`Encrypted message (box): ${box}`);
+  }, [wallet]);
+
+  const handleEd25519NaclBoxOpen = useCallback(async () => {
+    const theirPublicKey = '0x14fff9e41ebcafe96a44c3aed8a34819097b37322d3e708f9125e92bb1faa365';
+    const theirPrivateKey = '0x50fb912428e750fd4bf0d0d6dd3ecd74e0bc86d7d1c64109f5c4092687ca759e';
+
+    const theirPrivateKeyCurve25519 = convertSecretKey(hexToU8a(theirPrivateKey));
+    const [, { publicKey: ourPublicKey }] = await wallet.getAccounts();
+
+    const ourPublicKeyCurve25519 = convertPublicKey(hexToU8a(ourPublicKey));
+
+    const box = nacl.box(
+      new TextEncoder().encode('Hello world!'),
+      new Uint8Array(24),
+      ourPublicKeyCurve25519!,
+      theirPrivateKeyCurve25519,
+    );
+    const message = await wallet.naclBoxOpen(u8aToHex(box), theirPublicKey);
+
+    console.log(`Decrypted message (box open): ${message}`);
   }, [wallet]);
 
   const handleEd25519PayloadSign = useCallback(async () => {
@@ -415,6 +456,42 @@ export const Wallet = () => {
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleSolanaSign}>
             Sign message (solana)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519NaclSecretbox}
+          >
+            Encrypt message (ed25519 nacl secretbox)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519NaclSecretboxOpen}
+          >
+            Encrypt message (ed25519 nacl secretbox open)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519NaclBox}
+          >
+            Encrypt message (ed25519 nacl box)
+          </Button>
+
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={status === 'disconnecting'}
+            onClick={handleEd25519NaclBoxOpen}
+          >
+            Decrypt message (ed25519 nacl box open)
           </Button>
 
           <Button variant="outlined" color="primary" disabled={status === 'disconnecting'} onClick={handleShowWallet}>

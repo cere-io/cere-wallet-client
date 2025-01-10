@@ -378,4 +378,96 @@ export class EmbedWallet {
   async revokePermissions(request: PermissionRevokeRequest) {
     return this.provider.request<void>({ method: 'wallet_revokePermissions', params: [request] });
   }
+
+  /**
+   * Encrypt message using wallet's private key (symmetric encryption).
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * const message = 'Hello world!';
+   * const secretBox = await wallet.naclSecretbox(message);
+   *
+   * console.log(secretBox);
+   * ```
+   */
+  async naclSecretbox(message: string, path?: string): Promise<string> {
+    return this.provider.request({ method: 'ed25519_nacl_secretbox', params: [message, path] });
+  }
+
+  /**
+   * Decrypt message using wallet's private key (symmetric encryption).
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * const secretBox = 'Hello world!';
+   * const message = await wallet.naclSecretboxOpen(secretBox);
+   *
+   * console.log(message);
+   * ```
+   */
+  async naclSecretboxOpen(message: string, path?: string): Promise<string> {
+    return this.provider.request({ method: 'ed25519_nacl_secretbox_open', params: [message, path] });
+  }
+
+  /**
+   * Encrypt message using wallet's private key and receiver public key (who receives the encrypted message) (asymmetric encryption).
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * const message = 'Hello world!';
+   * const theirPublicKey = '0x14fff9e41ebcafe96a44c3aed8a34819097b37322d3e708f9125e92bb1faa365';
+   * const box = await wallet.naclBox(message, theirPublicKey);
+   *
+   * console.log(box);
+   * ```
+   */
+  async naclBox(message: string, theirPublicKey: string): Promise<string> {
+    return this.provider.request({ method: 'ed25519_nacl_box', params: [message, theirPublicKey] });
+  }
+
+  /**
+   * Decrypt message using wallet's private key and sender public key (who encrypted the message) (asymmetric encryption).
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * const box = '0xc112cac5ed2aede19cb49b671e4c86902e1fa46d2b3598c784f2b15e62bdc1a12f60c5d205bf3a83ebb03317c989f7062f';
+   * const theirPublicKey = '0x94e97f2fd97f7be15b323062868ad13989d2071450a8f63c957abd4859e8465e';
+   * const message = await wallet.naclBoxOpen(box, theirPublicKey);
+   *
+   * console.log(message);
+   * ```
+   */
+  async naclBoxOpen(box: string, theirPublicKey: string): Promise<string> {
+    return this.provider.request({ method: 'ed25519_nacl_box_open', params: [box, theirPublicKey] });
+  }
+
+  /**
+   * Encrypts data encryption key (DEK) using receiver's public key so that encrypted DEK (EDEK) can be used to decrypt data.
+   *
+   * @returns A promise that resolves when the request is complete.
+   *
+   * @example
+   *
+   * ```typescript
+   * const theirPublicKey = '0x94e97f2fd97f7be15b323062868ad13989d2071450a8f63c957abd4859e8465e';
+   * const edek = await wallet.naclBoxEdek(box, theirPublicKey);
+   *
+   * console.log(edek);
+   * ```
+   */
+  async naclBoxEdek(theirPublicKey: string): Promise<string> {
+    return this.provider.request({ method: 'ed25519_nacl_box_edek', params: [theirPublicKey] });
+  }
 }
