@@ -1,5 +1,5 @@
 import { createAsyncMiddleware, createScaffoldMiddleware } from 'json-rpc-engine';
-import { u8aToHex, hexToU8a, u8aWrapBytes } from '@polkadot/util';
+import { hexToU8a, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 import { Keyring } from '@polkadot/keyring';
 
@@ -126,10 +126,11 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
         const [message, path] = req.params as string[];
 
         let secretKey = getSecretKey();
+        let dek = blake2AsU8a(secretKey);
+
         if (path) {
-          secretKey = Buffer.concat([secretKey, Buffer.from(`/${path}`)]);
+          dek = blake2AsU8a(Buffer.concat([dek, Buffer.from(`/${path}`)]));
         }
-        const dek = blake2AsU8a(secretKey);
 
         res.result = u8aToHex(nacl.secretbox(new TextEncoder().encode(message), new Uint8Array(24), dek));
       }),
@@ -138,10 +139,11 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
         const [secretBox, path] = req.params as string[];
 
         let secretKey = getSecretKey();
+        let dek = blake2AsU8a(secretKey);
+
         if (path) {
-          secretKey = Buffer.concat([secretKey, Buffer.from(`/${path}`)]);
+          dek = blake2AsU8a(Buffer.concat([dek, Buffer.from(`/${path}`)]));
         }
-        const dek = blake2AsU8a(secretKey);
 
         const message = nacl.secretbox.open(hexToU8a(secretBox), new Uint8Array(24), dek);
         if (!message) {
