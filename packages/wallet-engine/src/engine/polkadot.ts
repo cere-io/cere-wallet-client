@@ -190,6 +190,7 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
 
         const secretKey = getSecretKey();
         const dek = blake2AsU8a(secretKey);
+        console.log('DEK: ', dek)
 
         const secretKeyCurve25519 = convertSecretKey(secretKey);
 
