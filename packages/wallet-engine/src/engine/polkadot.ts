@@ -190,11 +190,10 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
 
         const secretKey = getSecretKey();
         const dek = blake2AsU8a(secretKey);
-        console.log('DEK: ', dek)
 
         const secretKeyCurve25519 = convertSecretKey(secretKey);
 
-        res.result = u8aToHex(nacl.box(dek, new Uint8Array(24), theirPublicKeyCurve25519, secretKeyCurve25519));
+        res.result = u8aToHex(nacl.box(new TextEncoder().encode(u8aToHex(dek)), new Uint8Array(24), theirPublicKeyCurve25519, secretKeyCurve25519));
       }),
 
       ed25519_getBalance: createAsyncMiddleware(async (req, res) => {
