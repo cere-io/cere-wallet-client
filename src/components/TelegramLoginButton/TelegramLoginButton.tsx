@@ -108,6 +108,7 @@ export const TelegramLoginButton: React.FC<Props> = ({
               window.Telegram.Login.auth({ bot_id: TELEGRAM_BOT_ID }, dataOnauth);
               setLoading(true);
             }}
+            disabled={loading}
             sx={{
               position: 'relative',
             }}
