@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { IconButton, TelegramIcon } from '@cere/ui';
 import { TELEGRAM_BOT_ID, TELEGRAM_BOT_USERNAME } from '~/constants';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -23,7 +23,6 @@ interface Props {
   dataOnauth?: (x: any) => void;
   buttonSize?: 'large' | 'medium' | 'small';
   wrapperProps?: React.HTMLProps<HTMLDivElement>;
-  loading?: boolean;
 }
 
 export interface Options {
@@ -52,8 +51,8 @@ export const TelegramLoginButton: React.FC<Props> = ({
   dataOnauth,
   cornerRadius,
   requestAccess = true,
-  loading,
 }) => {
+  const [loading, setLoading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -107,6 +106,7 @@ export const TelegramLoginButton: React.FC<Props> = ({
             variant="outlined"
             onClick={() => {
               window.Telegram.Login.auth({ bot_id: TELEGRAM_BOT_ID }, dataOnauth);
+              setLoading(true);
             }}
             sx={{
               position: 'relative',
@@ -148,5 +148,4 @@ TelegramLoginButton.propTypes = {
   dataOnauth: PropTypes.func,
   dataAuthUrl: PropTypes.string,
   buttonSize: PropTypes.oneOf(['large', 'medium', 'small']),
-  loading: PropTypes.bool,
 };

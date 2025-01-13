@@ -60,7 +60,6 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   const { isGame } = useTheme();
   const contextStore = useAppContextStore();
   const store = useOutletContext<AuthorizePopupStore>();
-  const [loadingTelegram, setLoadingTelegram] = useState(false);
 
   const emailHint = loginHint || searchParams.get('emailHint') || '';
   const skipLoginIntro = Boolean(contextStore.whiteLabel?.skipLoginIntro);
@@ -150,20 +149,15 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   };
 
   const onTelegramAuth = async (authData: any) => {
-    setLoadingTelegram(true);
-    try {
-      console.log('Telegram login!', authData);
-      const token = await AuthApiService.getTokenByTelegramLoginWidget(authData);
-      console.log('ID token!', token);
-      if (token) {
-        onRequestLogin(token);
-      } else {
-        console.error('Telegram authorization error');
-      }
-    } catch (error) {
-      console.error('Error during Telegram login', error);
-    } finally {
-      setTimeout(() => setLoadingTelegram(false), 10000);
+    console.log('Telegram login!');
+    console.log(authData);
+    const token = await AuthApiService.getTokenByTelegramLoginWidget(authData);
+    console.log('ID token!');
+    console.log(token);
+    if (token) {
+      onRequestLogin(token);
+    } else {
+      console.error('Telegram authorization error');
     }
   };
 
@@ -241,7 +235,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
 
             {SUPPORTED_SOCIAL_LOGINS.includes('telegram') && (
               <div>
-                <TelegramLoginButton dataOnauth={onTelegramAuth} loading={isSubmitting || loadingTelegram} />
+                <TelegramLoginButton dataOnauth={onTelegramAuth} />
               </div>
             )}
           </Stack>
