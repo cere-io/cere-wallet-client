@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 import { IconButton, TelegramIcon } from '@cere/ui';
 import { TELEGRAM_BOT_ID, TELEGRAM_BOT_USERNAME } from '~/constants';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Box } from '@mui/material';
 
 export interface TelegramUser {
   id: number;
@@ -21,6 +23,7 @@ interface Props {
   dataOnauth?: (x: any) => void;
   buttonSize?: 'large' | 'medium' | 'small';
   wrapperProps?: React.HTMLProps<HTMLDivElement>;
+  loading?: boolean;
 }
 
 export interface Options {
@@ -49,6 +52,7 @@ export const TelegramLoginButton: React.FC<Props> = ({
   dataOnauth,
   cornerRadius,
   requestAccess = true,
+  loading,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -97,15 +101,37 @@ export const TelegramLoginButton: React.FC<Props> = ({
     <div className="mainclass">
       <div className="tg-main">
         <div ref={ref} style={{ display: 'none' }} />
-        <div className="tg-logo1">
+        <div className="tg-logo1" style={{ position: 'relative' }}>
           <IconButton
             size="large"
             variant="outlined"
             onClick={() => {
               window.Telegram.Login.auth({ bot_id: TELEGRAM_BOT_ID }, dataOnauth);
             }}
+            sx={{
+              position: 'relative',
+            }}
+            type="submit"
           >
             <TelegramIcon />
+            {loading && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: '50%',
+                }}
+              >
+                <CircularProgress color="inherit" />
+              </Box>
+            )}
           </IconButton>
         </div>
       </div>
@@ -122,4 +148,5 @@ TelegramLoginButton.propTypes = {
   dataOnauth: PropTypes.func,
   dataAuthUrl: PropTypes.string,
   buttonSize: PropTypes.oneOf(['large', 'medium', 'small']),
+  loading: PropTypes.bool,
 };
