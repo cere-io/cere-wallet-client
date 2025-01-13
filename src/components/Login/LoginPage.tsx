@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   LoadingButton,
   Stack,
@@ -160,7 +160,6 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
       console.error('Telegram authorization error');
     }
   };
-
   return (
     <Stack
       direction="column"
