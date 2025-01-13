@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   LoadingButton,
   Stack,
@@ -14,6 +14,8 @@ import {
   Divider,
   styled,
   useTheme,
+  Loading,
+  Logo,
 } from '@cere-wallet/ui';
 import { getGlobalStorage } from '@cere-wallet/storage';
 import * as yup from 'yup';
@@ -30,6 +32,7 @@ import { getTokenWithFacebook, getTokenWithGoogle } from './auth.service';
 import { AppContextBanner } from '../AppContextBanner';
 import { PoweredBy } from './PoweredBy';
 import { TelegramLoginButton } from '~/components';
+import { Box } from '@mui/material';
 
 interface LogInProps {
   variant?: 'signin' | 'signup';
@@ -60,6 +63,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
   const { isGame } = useTheme();
   const contextStore = useAppContextStore();
   const store = useOutletContext<AuthorizePopupStore>();
+  const [loadingTelegram, setLoadingTelegram] = useState(false);
 
   const emailHint = loginHint || searchParams.get('emailHint') || '';
   const skipLoginIntro = Boolean(contextStore.whiteLabel?.skipLoginIntro);
@@ -160,6 +164,11 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
       console.error('Telegram authorization error');
     }
   };
+
+  const handleOnTelegramLogin = useCallback((val: boolean) => {
+    setLoadingTelegram(val);
+  }, []);
+
   return (
     <Stack
       direction="column"
@@ -170,6 +179,26 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
       autoComplete="off"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {loadingTelegram && (
+        <Box
+          sx={{
+            zIndex: 3,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#FFF',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Loading fullScreen>
+            <Logo />
+          </Loading>
+        </Box>
+      )}
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h2" flex={1} color={isGame ? '#FFF' : 'text.primary'}>
           {connectScreenMainTitle}
@@ -234,7 +263,7 @@ export const LoginPage = ({ variant = 'signin', loginHint, onRequestLogin }: Log
 
             {SUPPORTED_SOCIAL_LOGINS.includes('telegram') && (
               <div>
-                <TelegramLoginButton dataOnauth={onTelegramAuth} />
+                <TelegramLoginButton dataOnauth={onTelegramAuth} onTelegramLogin={handleOnTelegramLogin} />
               </div>
             )}
           </Stack>
