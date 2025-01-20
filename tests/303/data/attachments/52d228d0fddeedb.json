@@ -1,0 +1,991 @@
+[
+  {
+    "url": "https://authjs.web3auth.io/siww/get",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "payload": {
+        "address": "0x90Df7dAc8bE236fA114fB01a7ceCBA686af64558",
+        "chainId": "0x13882",
+        "domain": "http://host.docker.internal:4567",
+        "uri": "http://host.docker.internal:4567",
+        "version": "1",
+        "nonce": "x0mn7bf8vma",
+        "issuedAt": "2025-01-20T16:18:38.178Z"
+      },
+      "header": {
+        "t": "eip191"
+      },
+      "network": "ethereum"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "connection": "keep-alive",
+        "content-length": "290",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 20 Jan 2025 16:18:38 GMT",
+        "etag": "W/\"122-N4uiJ4TwSM8O4VDnIm/3JxKbpmc\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "trace-id": "b5960b9965d00bffc4c4d82941113897",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "97",
+        "x-ratelimit-reset": "1737390217",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "challenge": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0x90Df7dAc8bE236fA114fB01a7ceCBA686af64558\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80002\nNonce: 7cd14762e62994d0\nIssued At: 2025-01-20T16:18:38.178Z",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://authjs.web3auth.io/siww/verify",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "client_id": "BC_ADg9FZiPWIIVeu74NZVOyWtK7oIz3AKI8cfWaxcVzwjIJyEnuRl6TXKYim_mMqsykwLx3WEu3BAUnSD1238k",
+      "wallet_provider": "cere-wallet",
+      "web3auth_network": "testnet"
+    },
+    "body": {
+      "signature": {
+        "s": "0xd2e764b7deb5055f29acf43257184f90863de90432b0d9b4b634ee316284b4d232de69bada243eed15257ec66cbbc6ca017275d7e908deafbdd7283f038282dc1c",
+        "t": "eip191"
+      },
+      "message": "http://host.docker.internal:4567 wants you to sign in with your Ethereum account:\n0x90Df7dAc8bE236fA114fB01a7ceCBA686af64558\n\n\nURI: http://host.docker.internal:4567\nVersion: 1\nChain ID: 80002\nNonce: 7cd14762e62994d0\nIssued At: 2025-01-20T16:18:38.178Z",
+      "issuer": "cere-wallet",
+      "audience": "host.docker.internal",
+      "timeout": 604800
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "connection": "keep-alive",
+        "content-length": "449",
+        "content-security-policy": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+        "content-type": "application/json; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "date": "Mon, 20 Jan 2025 16:18:38 GMT",
+        "etag": "W/\"1c1-q3ZW7eTiYhr5uSYtxxYeokeQ2uY\"",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=15552000; includeSubDomains",
+        "trace-id": "3e5a5a69dc0a7c550d72edde750d2f48",
+        "vary": "Origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "97",
+        "x-ratelimit-reset": "1737390217",
+        "x-xss-protection": "0"
+      },
+      "body": {
+        "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE3MzczODk5MTgsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHg5MERmN2RBYzhiRTIzNmZBMTE0ZkIwMWE3Y2VDQkE2ODZhZjY0NTU4IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE3Mzc5OTQ3MTh9.BLYBJPI3ClKpQiFngNrqnoCRW_Mv3Hrp-78UHkkpfQD8kVpKUJ_kJxLjRsVDjcZGbxE_eBOkIWhCnuWL9D53Rw",
+        "success": true
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://dev-cere-wallet-api.core-dev.aws.cere.io/applications/find",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikc2LWlQN0NfNE5kcHBGd2lFdWNrTkNVX2V0RklWQkJ4eHQ0VUg5Y0I5RzAifQ.eyJpYXQiOjE3MzczODk5MTgsImlzcyI6ImNlcmUtd2FsbGV0IiwiYXVkIjoiaG9zdC5kb2NrZXIuaW50ZXJuYWwiLCJ3YWxsZXRzIjpbeyJhZGRyZXNzIjoiMHg5MERmN2RBYzhiRTIzNmZBMTE0ZkIwMWE3Y2VDQkE2ODZhZjY0NTU4IiwidHlwZSI6ImV0aGVyZXVtIn1dLCJleHAiOjE3Mzc5OTQ3MTh9.BLYBJPI3ClKpQiFngNrqnoCRW_Mv3Hrp-78UHkkpfQD8kVpKUJ_kJxLjRsVDjcZGbxE_eBOkIWhCnuWL9D53Rw",
+      "content-type": "application/json"
+    },
+    "body": {
+      "address": "0x90Df7dAc8bE236fA114fB01a7ceCBA686af64558",
+      "appId": "cere-wallet"
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-origin": "*",
+        "content-length": "2",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 20 Jan 2025 16:18:38 GMT",
+        "etag": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"",
+        "x-powered-by": "Express"
+      },
+      "body": [],
+      "statusCode": 201
+    }
+  },
+  {
+    "url": "https://dev-freeport-api.network-dev.aws.cere.io/api/wallet/0x90df7dac8be236fa114fb01a7cecba686af64558/owned",
+    "method": "GET",
+    "headers": {
+      "accept": "application/json, text/plain, */*"
+    },
+    "body": null,
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "0",
+        "content-type": "text/plain; charset=utf-8",
+        "date": "Mon, 20 Jan 2025 16:18:38 GMT",
+        "server": "awselb/2.0"
+      },
+      "body": "",
+      "statusCode": 404
+    }
+  },
+  {
+    "url": "https://min-api.cryptocompare.com/data/pricemulti?fsyms=CERE,CERE_ERC20,MATIC,USDC,USDT,ETH&tsyms=btc,eth,usd",
+    "method": "GET",
+    "headers": {},
+    "pending": false,
+    "response": {
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "access-control-allow-headers": "Content-Type, Cookie, Set-Cookie, Authorization",
+        "access-control-allow-methods": "GET, POST, OPTIONS",
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=10",
+        "connection": "keep-alive",
+        "content-encoding": "gzip",
+        "content-security-policy": "frame-ancestors 'none'",
+        "content-type": "application/json; charset=UTF-8",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "server": "nginx",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-cryptocompare-cache-hit": "false",
+        "x-cryptocompare-server-id": "cc-api-min-v2-24"
+      },
+      "body": {
+        "CERE": {
+          "BTC": 3e-8,
+          "ETH": 7.9e-7,
+          "USD": 0.002632
+        },
+        "MATIC": {
+          "BTC": 0.0000043,
+          "ETH": 0.0001363,
+          "USD": 0.4497
+        },
+        "USDC": {
+          "BTC": 0.00000953,
+          "ETH": 0.0003015,
+          "USD": 1
+        },
+        "USDT": {
+          "BTC": 0.00000952,
+          "ETH": 0.0003013,
+          "USD": 0.9988
+        },
+        "ETH": {
+          "BTC": 0.0316,
+          "ETH": 1,
+          "USD": 3315.16
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "zrrr22mzuz",
+      "jsonrpc": "2.0",
+      "method": "eth_gasPrice",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "58",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "zrrr22mzuz",
+        "result": "0x98bca5a01"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "5qvfw4lci6v",
+      "jsonrpc": "2.0",
+      "method": "eth_blockNumber",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "57",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "5qvfw4lci6v",
+        "result": "0x104e29f"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "7xazmkyy9xi",
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x90df7dac8be236fa114fb01a7cecba686af64558",
+          "to": "0xd111d479e23a8342a81ad595ea1caf229b3528c3",
+          "data": "0x70a0823100000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "50",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "7xazmkyy9xi",
+        "result": "0x"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "j9l5zaw9lb",
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x90df7dac8be236fa114fb01a7cecba686af64558",
+          "to": "0x1616d425cd540b256475cbfb604586c8598ec0fb",
+          "data": "0x70a0823100000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "113",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "j9l5zaw9lb",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "e8xw5x3p41j",
+      "jsonrpc": "2.0",
+      "method": "eth_getBlockByNumber",
+      "params": [
+        "latest",
+        false
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-encoding": "gzip",
+        "content-length": "844",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "e8xw5x3p41j",
+        "result": {
+          "baseFeePerGas": "0xf",
+          "difficulty": "0x4",
+          "extraData": "0xd78301050483626f7288676f312e32322e33856c696e75780000000000000000f8a4b8a009207a6efee346cb3e4a54ac18523e3715d38b3f00000000000000000000000000000000000000034631753190f2f5a15a7ba172bbac102b7d95fa2200000000000000000000000000000000000000046ab3d36c46ecfb9b9c0bd51cb1c3da5a2c81cea600000000000000000000000000000000000000026dc2dd54f24979ec26212794c71afefed722280c0000000000000000000000000000000000000002c1c082ff5ec8eb911028dd378d993875eb05c08d08b7cd45cc7640df763247824b5358c0b35fdf7a023c7cd5b90407ad1949be817985378b4a30af868a388ebdc5b900",
+          "gasLimit": "0x1c9c380",
+          "gasUsed": "0xc85a",
+          "hash": "0xa16855bf3f6d3b150e9b755d43d9d6a8ed925a4dd0010621337bda99f95a8db7",
+          "logsBloom": "0x2000000000000000000000000000000000400000200000000000000000000000000002000000000000000000000000000000a200000000000000000040000000000000100000000000000000000000800000000000000000000100000000000000000000000000100000000000000000000000000000000080000000000080000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000100000000000000000000000004000000000000000000001000000100000000000000000000000100000000000000000000000000000000000000000000008000000000000c00000000000100000",
+          "miner": "0x0000000000000000000000000000000000000000",
+          "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "nonce": "0x0000000000000000",
+          "number": "0x104e29f",
+          "parentHash": "0xf7e5453ca3bb1c94737ead9bcec1b76444f3b8c41b8f5b7ad78176c023a1a950",
+          "receiptsRoot": "0x99104ab5048b20c95c7aec6526579865aed469ba7ac8de896c2a22d61c437db7",
+          "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
+          "size": "0x42d",
+          "stateRoot": "0xa87c059de04c6570dd4a17ce235f347eb80fb46d2555e2a4630151bbcbceeb8d",
+          "timestamp": "0x678e775f",
+          "totalDifficulty": "0x6ab1397",
+          "transactions": [
+            "0x7d916c275d5aa0f7c88ebd08bf9ae57c117c70111f8ba211c71cc679ef3038cd"
+          ],
+          "transactionsRoot": "0xba6fff5bd802408c227622dd193d75119aeb601abd27ef3e4736e892b3dd55c3",
+          "uncles": []
+        }
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "b9g10hss0z",
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x90df7dac8be236fa114fb01a7cecba686af64558",
+          "to": "0xa8ee662e063bd8f42101ab09bbc57100931e77a2",
+          "data": "0x313ce567"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "113",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "b9g10hss0z",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "x9kzto5ah6a",
+      "jsonrpc": "2.0",
+      "method": "net_version",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "53",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "x9kzto5ah6a",
+        "result": "80002"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "yzjl4bixxi",
+      "jsonrpc": "2.0",
+      "method": "eth_getBalance",
+      "params": [
+        "0x90df7dac8be236fa114fb01a7cecba686af64558",
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "50",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "yzjl4bixxi",
+        "result": "0x0"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "j7wjnr2x98n",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xd111d479e23a8342a81ad595ea1caf229b3528c3",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            null,
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "j7wjnr2x98n",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "wrpbxcb77fc",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xd111d479e23a8342a81ad595ea1caf229b3528c3",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "wrpbxcb77fc",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "p3o1a50ltjr",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xa8ee662e063bd8f42101ab09bbc57100931e77a2",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            null,
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "p3o1a50ltjr",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "0l6ug5w6dl8",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xa8ee662e063bd8f42101ab09bbc57100931e77a2",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "0l6ug5w6dl8",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "hebg2esgsya",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0x1616d425cd540b256475cbfb604586c8598ec0fb",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            null,
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "hebg2esgsya",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "nh1adryv3r",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0x1616d425cd540b256475cbfb604586c8598ec0fb",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "47",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "nh1adryv3r",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "tjrza6i3k97",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xd111d479e23a8342a81ad595ea1caf229b3528c3",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "tjrza6i3k97",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "syjxahqphz",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xa8ee662e063bd8f42101ab09bbc57100931e77a2",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            null,
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "47",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "syjxahqphz",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "80ge9vbk4bf",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0xa8ee662e063bd8f42101ab09bbc57100931e77a2",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "80ge9vbk4bf",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "rr2otaf0djl",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0x1616d425cd540b256475cbfb604586c8598ec0fb",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            null,
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "48",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "rr2otaf0djl",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "nzwngr4elq",
+      "jsonrpc": "2.0",
+      "method": "eth_getLogs",
+      "params": [
+        {
+          "fromBlock": "0x104e29f",
+          "toBlock": "0x104e29f",
+          "address": "0x1616d425cd540b256475cbfb604586c8598ec0fb",
+          "topics": [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+          ]
+        }
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "47",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "nzwngr4elq",
+        "result": []
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "prtaxkq6t7",
+      "jsonrpc": "2.0",
+      "method": "eth_blockNumber",
+      "params": []
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "56",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "prtaxkq6t7",
+        "result": "0x104e29f"
+      },
+      "statusCode": 200
+    }
+  },
+  {
+    "url": "https://polygon-amoy.infura.io/v3/cba6e957aca549d9bf19c938a3d2548a",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "csrvyx6p97e",
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x90df7dac8be236fa114fb01a7cecba686af64558",
+          "to": "0xd111d479e23a8342a81ad595ea1caf229b3528c3",
+          "data": "0x70a0823100000000000000000000000090df7dac8be236fa114fb01a7cecba686af64558"
+        },
+        "latest"
+      ]
+    },
+    "pending": false,
+    "response": {
+      "headers": {
+        "content-length": "50",
+        "content-type": "application/json",
+        "date": "Mon, 20 Jan 2025 16:18:39 GMT",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "body": {
+        "jsonrpc": "2.0",
+        "id": "csrvyx6p97e",
+        "result": "0x"
+      },
+      "statusCode": 200
+    }
+  }
+]
