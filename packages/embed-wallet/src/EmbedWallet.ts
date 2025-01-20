@@ -158,6 +158,7 @@ export class EmbedWallet {
     context,
     biconomy,
     authMethod,
+    mode,
     popupMode = 'modal',
     connectOptions = {},
     appId = this.options.appId,
@@ -188,6 +189,7 @@ export class EmbedWallet {
           check: false,
           version: clientVersion,
         },
+        mode,
       });
 
       this.proxyProvider.setTarget(this.torus.provider);
