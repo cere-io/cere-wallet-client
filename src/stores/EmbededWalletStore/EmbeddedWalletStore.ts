@@ -62,6 +62,10 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
+    this.assetStore = new AssetStore(this);
+    this.collectiblesStore = new CollectiblesStore(this);
+    this.balanceStore = new BalanceStore(this, this.assetStore);
+    this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
@@ -175,9 +179,7 @@ export class EmbeddedWalletStore implements Wallet {
         if (biconomy) {
           this.options.biconomy = biconomy;
         }
-        if (mode) {
-          this.options.mode = mode;
-        }
+        this.options.mode = mode || 'default';
 
         return true;
       },

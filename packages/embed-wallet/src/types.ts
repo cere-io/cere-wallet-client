@@ -65,7 +65,6 @@ export type WalletStatus =
   | 'connecting'
   | 'disconnecting'
   | 'errored';
-export type WalletMode = 'default' | 'light';
 
 export type NetworkConfig = Omit<NetworkInterface, 'host'> & {
   host: 'matic' | 'amoy' | string;
@@ -90,7 +89,6 @@ export type WalletOptions = {
   sessionNamespace?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
-  mode?: WalletMode;
 };
 
 export type BiconomyOptions = {

@@ -19,12 +19,20 @@ export class ExchangeRatesStore {
     this.interval = DEFAULT_INTERVAL;
     when(
       () => this.assetStore.commonList.length > 0,
-      () => this.updateExchangeRates(),
+      () => {
+        if (wallet.mode != 'light') {
+          this.updateExchangeRates()
+        }
+      }
     );
 
     when(
-      () => !!wallet.network?.chainId,
-      () => this.updateExchangeRates(),
+      () => !!wallet.network?.chainId && !!wallet.mode,
+      () => {
+        if (wallet.mode != 'light' ) {
+          this.updateExchangeRates()
+        }
+      },
     );
   }
 
