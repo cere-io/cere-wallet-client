@@ -82,7 +82,12 @@ const WalletWidget = () => {
   const isMobile = useIsMobile();
   const authStore = useAuthenticationStore();
   const { selectedAccount, user } = useAccountStore();
-  const { network } = useNetworkStore();
+  const networkStore = useNetworkStore();
+  if (!networkStore) {
+    return <></>;
+  }
+  const network = networkStore.network;
+
   const showWallet = useShowWallet();
 
   const maxLength = isMobile ? 14 : 20;

@@ -28,6 +28,9 @@ const TableContainer = styled(Box)(({ theme }) => ({
 
 export const CollectibleItemPage = observer(({ nftId }: CollectibleItemProps) => {
   const collectiblesStore = useCollectiblesStore();
+  if (!collectiblesStore) {
+    return <></>;
+  }
   const nft = collectiblesStore.getNftById(nftId);
   const isMobile = useIsMobile();
   const navigate = useNavigate();

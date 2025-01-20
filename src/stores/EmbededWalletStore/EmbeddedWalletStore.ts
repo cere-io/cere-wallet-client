@@ -20,9 +20,11 @@ import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/cons
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
 import { PermissionsStore } from '../PermissionsStore';
+import { WalletMode } from '@cere/torus-embed';
 
 type InitOptions = {
   biconomy?: BiconomyOptions;
+  mode?: WalletMode;
 };
 
 export class EmbeddedWalletStore implements Wallet {
@@ -32,10 +34,10 @@ export class EmbeddedWalletStore implements Wallet {
   readonly openLoginStore: OpenLoginStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
-  readonly assetStore: AssetStore;
-  readonly collectiblesStore: CollectiblesStore;
-  readonly balanceStore: BalanceStore;
-  readonly activityStore: ActivityStore;
+  readonly assetStore?: AssetStore;
+  readonly collectiblesStore?: CollectiblesStore;
+  readonly balanceStore?: BalanceStore;
+  readonly activityStore?: ActivityStore;
   readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
@@ -60,10 +62,6 @@ export class EmbeddedWalletStore implements Wallet {
     });
 
     this.networkStore = new NetworkStore(this);
-    this.assetStore = new AssetStore(this);
-    this.collectiblesStore = new CollectiblesStore(this);
-    this.balanceStore = new BalanceStore(this, this.assetStore);
-    this.activityStore = new ActivityStore(this, this.assetStore);
     this.appContextStore = new AppContextStore(this);
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
@@ -151,6 +149,10 @@ export class EmbeddedWalletStore implements Wallet {
     return this.accountStore.accounts;
   }
 
+  get mode() {
+    return this.options.mode;
+  }
+
   async init() {
     await this.setupWalletConnection();
     await this.setupRpcConnection();
@@ -160,7 +162,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.walletConnection = createWalletConnection({
       logger: console,
 
-      onInit: async ({ chainConfig, context, biconomy, authMethod }) => {
+      onInit: async ({ chainConfig, context, biconomy, authMethod, mode }) => {
         this.networkStore.network = chainConfig;
         this.appContextStore.context = context;
         if (authMethod) {
@@ -172,6 +174,9 @@ export class EmbeddedWalletStore implements Wallet {
          */
         if (biconomy) {
           this.options.biconomy = biconomy;
+        }
+        if (mode) {
+          this.options.mode = mode;
         }
 
         return true;
@@ -273,10 +278,10 @@ export class EmbeddedWalletStore implements Wallet {
     await when(() => !!this.networkStore.network);
 
     this.engine = createWalletEngine({
-      pollingInterval: RPC_POLLING_INTERVAL,
       chainConfig: this.networkStore.network!,
       polkadotRpc: CERE_NETWORK_RPC,
       biconomy: this.options.biconomy,
+      mode: this.options.mode,
       getPrivateKey: () => this.accountStore.privateKey,
       getAccounts: () => toJS(this.accountStore.accounts),
       onUpdateAccounts: (keyPairs) => this.accountStore.updateAccounts(keyPairs),

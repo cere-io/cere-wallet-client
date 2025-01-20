@@ -12,8 +12,11 @@ export type AssetListItemProps = ListItemProps<'div'> & {
 
 export const AssetListItem = ({ asset, disableInset = false, iconSize = 'inherit', ...props }: AssetListItemProps) => {
   const { ticker, displayName, network, balance } = asset;
-  const { getUsdBalance } = useBalanceStore();
 
+  const balanceStore = useBalanceStore();
+  if (!balanceStore) {
+    return <></>;
+  }
   return (
     <ListItem component="div" {...props}>
       <ListItemIcon inset>
@@ -25,7 +28,7 @@ export const AssetListItem = ({ asset, disableInset = false, iconSize = 'inherit
         <ListItemText
           align="right"
           primary={+balance.toFixed(2)}
-          secondary={`$${getUsdBalance(ticker, balance).toFixed(2)} USD`}
+          secondary={`$${balanceStore.getUsdBalance(ticker, balance).toFixed(2)} USD`}
         />
       )}
     </ListItem>

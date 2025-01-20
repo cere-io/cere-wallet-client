@@ -42,6 +42,9 @@ export const CollectibleListPage = observer(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const collectiblesStore = useCollectiblesStore();
+  if (!collectiblesStore) {
+    return <></>;
+  }
 
   const onSearchHandler = (searchText: string) => {
     collectiblesStore.filter = searchText;

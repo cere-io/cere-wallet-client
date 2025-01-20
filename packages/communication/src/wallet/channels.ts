@@ -2,7 +2,7 @@ import type { Context, NetworkConfig } from '@cere/embed-wallet';
 import type { PermissionRequest, BiconomyOptions } from '@cere-wallet/wallet-engine';
 
 import { createChannel, CreateChannelOptions } from './createChannel';
-import { AuthMethod } from '@cere/torus-embed';
+import { AuthMethod, WalletMode } from '@cere/torus-embed';
 
 export type UserInfo = {
   email: string;
@@ -44,6 +44,7 @@ export type InitChannelIn = {
     network: NetworkInterface;
     biconomy?: BiconomyOptions;
     authMethod?: AuthMethod;
+    mode?: WalletMode;
   };
 };
 

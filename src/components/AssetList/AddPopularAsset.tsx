@@ -28,6 +28,9 @@ export const AddPopularAsset: FC<AddPopularAssetProps> = ({ changeStep }) => {
 
   const [network, setNetwork] = useState(ETHEREUM.value);
   const assetStore = useAssetStore();
+  if (!assetStore) {
+    return <></>;
+  }
 
   const { list, managableList } = assetStore;
 

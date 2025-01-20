@@ -47,6 +47,9 @@ const Field = styled(TextField)(() => ({
 
 export const AddCustomAsset: FC<AddCustomAssetProps> = ({ onClose, changeStep }) => {
   const assetStore = useAssetStore();
+  if (!assetStore) {
+    return <></>;
+  }
 
   const {
     register,

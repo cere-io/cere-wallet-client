@@ -11,6 +11,9 @@ import { useTransferForm } from './useTransferForm';
 const TransferAsset = () => {
   const navigate = useNavigate();
   const store = useAssetStore();
+  if (!store) {
+    return <></>;
+  }
   const assets = store.transferable;
 
   const {
