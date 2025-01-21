@@ -40,7 +40,7 @@ const AddButton = styled(Button)(({ theme }) => ({
 
 export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ...props }: CustomListItemProps) => {
   const { ticker, displayName, network, balance, type } = asset;
-  const balanceStore = useBalanceStore();
+  const { getUsdBalance } = useBalanceStore();
 
   const handleClick = useCallback(() => {
     onItemClick?.(asset);
@@ -74,7 +74,7 @@ export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ..
           <ListItemText
             align="right"
             primary={+balance.toFixed(2)}
-            secondary={`$${balanceStore.getUsdBalance(ticker, balance).toFixed(2)} USD`}
+            secondary={`$${getUsdBalance(ticker, balance).toFixed(2)} USD`}
           />
         )
       )}

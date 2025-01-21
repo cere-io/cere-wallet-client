@@ -7,6 +7,7 @@ export type AccountBalanceProps = TypographyProps;
 
 export const AccountBalance = (props: AccountBalanceProps) => {
   const { totalUsdBalance } = useBalanceStore();
+
   return (
     <>
       {/* css class "account-balance" is an anchor for product tour */}
