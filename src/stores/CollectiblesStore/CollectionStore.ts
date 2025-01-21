@@ -16,7 +16,7 @@ export class CollectiblesStore {
     reaction(
       () => wallet.account?.address,
       async (address) => {
-        if (address && wallet.mode != 'light') {
+        if (address && wallet.mode !== 'light') {
           await this.updateNfts(address);
         } else {
           this._nfts = [];

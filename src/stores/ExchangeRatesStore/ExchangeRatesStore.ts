@@ -20,7 +20,7 @@ export class ExchangeRatesStore {
     when(
       () => this.assetStore.commonList.length > 0,
       () => {
-        if (wallet.mode != 'light') {
+        if (wallet.mode !== 'light') {
           this.updateExchangeRates();
         }
       },
@@ -29,7 +29,7 @@ export class ExchangeRatesStore {
     when(
       () => !!wallet.network?.chainId && !!wallet.mode,
       () => {
-        if (wallet.mode != 'light') {
+        if (wallet.mode !== 'light') {
           this.updateExchangeRates();
         }
       },
