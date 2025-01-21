@@ -34,10 +34,10 @@ export class EmbeddedWalletStore implements Wallet {
   readonly openLoginStore: OpenLoginStore;
   readonly approvalStore: ApprovalStore;
   readonly networkStore: NetworkStore;
-  readonly assetStore?: AssetStore;
-  readonly collectiblesStore?: CollectiblesStore;
-  readonly balanceStore?: BalanceStore;
-  readonly activityStore?: ActivityStore;
+  readonly assetStore: AssetStore;
+  readonly collectiblesStore: CollectiblesStore;
+  readonly balanceStore: BalanceStore;
+  readonly activityStore: ActivityStore;
   readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;

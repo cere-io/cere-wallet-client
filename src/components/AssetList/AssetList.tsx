@@ -14,9 +14,7 @@ export type AssetListProps = {
 const AssetList = ({ dense }: AssetListProps) => {
   const [open, setOpen] = useState(false);
   const assetStore = useAssetStore();
-  if (!assetStore) {
-    return <></>;
-  }
+
   const { loading, list, managableList } = assetStore;
 
   const handleShow = useCallback(() => {

@@ -1,4 +1,4 @@
-import type { AuthMethod, NetworkInterface } from '@cere/torus-embed';
+import type { AuthMethod, NetworkInterface, WalletMode } from '@cere/torus-embed';
 import BN from 'bn.js';
 
 // App context
@@ -89,6 +89,7 @@ export type WalletOptions = {
   sessionNamespace?: string;
   clientVersion?: string;
   env?: WalletEnvironment;
+  mode?: WalletMode;
 };
 
 export type BiconomyOptions = {

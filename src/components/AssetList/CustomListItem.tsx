@@ -41,9 +41,6 @@ const AddButton = styled(Button)(({ theme }) => ({
 export const CustomListItem = ({ asset, added = false, onItemClick, hideEdit, ...props }: CustomListItemProps) => {
   const { ticker, displayName, network, balance, type } = asset;
   const balanceStore = useBalanceStore();
-  if (!balanceStore) {
-    return <></>;
-  }
 
   const handleClick = useCallback(() => {
     onItemClick?.(asset);

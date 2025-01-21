@@ -18,11 +18,7 @@ export type ActivityListProps = {
 };
 
 const ActivityList = ({ dense }: ActivityListProps) => {
-  const activityStore = useActivityStore();
-  if (!activityStore) {
-    return <></>;
-  }
-  const list = activityStore.list;
+  const { list } = useActivityStore();
 
   return (
     <List variant="outlined" dense={dense}>
