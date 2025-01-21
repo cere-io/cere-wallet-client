@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
-import { makeAutoObservable, reaction, toJS, when } from 'mobx';
+import { makeAutoObservable, reaction, toJS, when, runInAction } from 'mobx';
 import { createWalletEngine, WalletEngine, BiconomyOptions } from '@cere-wallet/wallet-engine';
 import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
 
@@ -173,13 +173,16 @@ export class EmbeddedWalletStore implements Wallet {
           this.appContextStore.authMethod = authMethod;
         }
 
-        /**
-         * Configure the wallet with the init options
-         */
-        if (biconomy) {
-          this.options.biconomy = biconomy;
-        }
-        this.options.mode = mode || 'default';
+        runInAction(() => {
+          /**
+           * Configure the wallet with the init options
+           */
+          if (biconomy) {
+            this.options.biconomy = biconomy;
+          }
+
+          this.options.mode = mode || 'default';
+        })
 
         return true;
       },
