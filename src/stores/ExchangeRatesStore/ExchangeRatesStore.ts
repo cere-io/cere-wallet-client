@@ -21,16 +21,16 @@ export class ExchangeRatesStore {
       () => this.assetStore.commonList.length > 0,
       () => {
         if (wallet.mode != 'light') {
-          this.updateExchangeRates()
+          this.updateExchangeRates();
         }
-      }
+      },
     );
 
     when(
       () => !!wallet.network?.chainId && !!wallet.mode,
       () => {
-        if (wallet.mode != 'light' ) {
-          this.updateExchangeRates()
+        if (wallet.mode != 'light') {
+          this.updateExchangeRates();
         }
       },
     );
