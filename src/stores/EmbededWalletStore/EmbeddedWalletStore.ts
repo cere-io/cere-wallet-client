@@ -182,7 +182,7 @@ export class EmbeddedWalletStore implements Wallet {
           }
 
           this.options.mode = mode || 'default';
-        })
+        });
 
         return true;
       },
