@@ -11,6 +11,7 @@ import type { EthereumEngineOptions } from './ethereum';
 import type { PolkadotEngineOptions } from './polkadot';
 import type { AccountsEngineOptions } from './accounts';
 import type { SolanaEngineOptions } from './solana';
+import { WalletMode } from '@cere/torus-embed';
 
 export type ProviderEngineOptions = WalletEngineOptions &
   AccountsEngineOptions &
@@ -53,6 +54,10 @@ class ChainEngine extends Engine {
       return createPolkadotEngine(options);
     });
 
+    if (options.mode == 'light') {
+      return;
+    }
+
     this.pushEngine(
       import(/* webpackChunkName: "accountsEngine" */ './solana').then(({ createSolanaEngine }) =>
         createSolanaEngine(options),
@@ -74,9 +79,11 @@ class ChainEngine extends Engine {
 export class ProviderEngine extends Engine {
   readonly provider: Provider;
   readonly unsafeProvider;
+  private readonly mode?: WalletMode;
 
   constructor(options: ProviderEngineOptions) {
     super();
+    this.mode = options.mode;
 
     const unsafeEngine = new Engine();
     const walletEngine = createWalletEngine(options);
@@ -102,6 +109,10 @@ export class ProviderEngine extends Engine {
 
   async updateAccounts() {
     const [eth, ed25519] = await this.provider.request({ method: 'wallet_updateAccounts' });
+
+    if (this.mode == 'light') {
+      return;
+    }
 
     /**
      * TODO: Move balance subscriptions to the Wallet SDK to make them lazy started

@@ -193,7 +193,14 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
 
         const secretKeyCurve25519 = convertSecretKey(secretKey);
 
-        res.result = u8aToHex(nacl.box(new TextEncoder().encode(u8aToHex(dek)), new Uint8Array(24), theirPublicKeyCurve25519, secretKeyCurve25519));
+        res.result = u8aToHex(
+          nacl.box(
+            new TextEncoder().encode(u8aToHex(dek)),
+            new Uint8Array(24),
+            theirPublicKeyCurve25519,
+            secretKeyCurve25519,
+          ),
+        );
       }),
 
       ed25519_getBalance: createAsyncMiddleware(async (req, res) => {
