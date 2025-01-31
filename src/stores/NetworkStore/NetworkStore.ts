@@ -23,7 +23,7 @@ export class NetworkStore {
     makeAutoObservable(this);
 
     autorun(async () => {
-      if (wallet.isReady()) {
+      if (wallet.isReady() && wallet.mode !== 'light') {
         this.gasPrice = await this.wallet.provider?.getGasPrice()!;
       } else {
         this.gasPrice = undefined;

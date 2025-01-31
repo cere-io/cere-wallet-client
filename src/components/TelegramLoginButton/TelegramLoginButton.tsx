@@ -21,6 +21,7 @@ interface Props {
   dataOnauth?: (x: any) => void;
   buttonSize?: 'large' | 'medium' | 'small';
   wrapperProps?: React.HTMLProps<HTMLDivElement>;
+  onTelegramLogin?: (val: boolean) => void;
 }
 
 export interface Options {
@@ -49,6 +50,7 @@ export const TelegramLoginButton: React.FC<Props> = ({
   dataOnauth,
   cornerRadius,
   requestAccess = true,
+  onTelegramLogin,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -103,7 +105,14 @@ export const TelegramLoginButton: React.FC<Props> = ({
             variant="outlined"
             onClick={() => {
               window.Telegram.Login.auth({ bot_id: TELEGRAM_BOT_ID }, dataOnauth);
+              if (onTelegramLogin) {
+                onTelegramLogin(true);
+              }
             }}
+            sx={{
+              position: 'relative',
+            }}
+            type="submit"
           >
             <TelegramIcon />
           </IconButton>

@@ -1,6 +1,7 @@
 import { ChainConfig, Account, WalletEngine } from '@cere-wallet/wallet-engine';
 import { ethers } from 'ethers';
 import { ReactElement } from 'react';
+import { WalletMode } from '@cere/torus-embed';
 
 export type PriceData = {
   amount: number;
@@ -58,6 +59,7 @@ export interface Wallet {
   readonly engine?: WalletEngine;
   readonly account?: Account;
   readonly accounts: Account[];
+  readonly mode?: WalletMode;
 
   /**
    * Provider instance with blockchain requests protected by confirmation modals

@@ -2,11 +2,13 @@ import { createScaffoldMiddleware, createAsyncMiddleware } from 'json-rpc-engine
 
 import { Engine } from './engine';
 import { Account, ChainConfig } from '../types';
+import { WalletMode } from '@cere/torus-embed';
 
 export type WalletEngineOptions = {
   getAccounts: () => Account[];
   getPrivateKey: () => string | undefined;
   chainConfig: ChainConfig;
+  mode?: WalletMode;
 };
 
 export const createWalletEngine = ({ chainConfig, getAccounts, getPrivateKey }: WalletEngineOptions) => {
