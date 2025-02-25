@@ -2,7 +2,6 @@ import { Button, CereIcon, Divider, Stack, styled } from '@cere-wallet/ui';
 import { InfoStepper } from './components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ANALYTICS } from '~/constants';
-import { useEffect, useRef } from 'react';
 
 const CereLogo = styled(CereIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
