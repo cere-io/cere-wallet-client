@@ -22,7 +22,7 @@ export class WalletAuth extends Page {
   }
 
   get otpInput() {
-    return browser.findByRole$('textbox', { name: 'OTP input' });
+    return browser.findByTestId$('otp');
   }
 
   async enterRandomEmail() {

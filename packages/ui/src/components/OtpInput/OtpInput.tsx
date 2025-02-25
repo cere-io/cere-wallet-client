@@ -1,6 +1,6 @@
 import { OTPInput as OTPField, SlotProps } from 'input-otp';
 import { styled, Typography, Stack, Box } from '@cere-wallet/ui';
-import { forwardRef } from 'react';
+import { forwardRef, RefObject, useEffect } from 'react';
 
 interface OtpProps {
   value?: string;
@@ -41,11 +41,11 @@ const Slot = ({ char, isActive, error }: SlotProps & SlotInputProps) => (
   </SlotInput>
 );
 
-export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
+export const OtpInput = forwardRef<HTMLInputElement | null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
   const hasError = !!errorMessage;
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box id="otp" display="flex" flexDirection="column" alignItems="center">
       <OTPField
         id="otp"
         ref={ref}
