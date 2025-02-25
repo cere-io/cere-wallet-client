@@ -41,7 +41,7 @@ const Slot = ({ char, isActive, error }: SlotProps & SlotInputProps) => (
   </SlotInput>
 );
 
-export const OtpInput = forwardRef<HTMLInputElement | null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
+export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMessage }, ref) => {
   const hasError = !!errorMessage;
 
   return (
