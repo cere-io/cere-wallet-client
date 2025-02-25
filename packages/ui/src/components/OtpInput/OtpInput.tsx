@@ -1,6 +1,6 @@
 import { OTPInput as OTPField, SlotProps } from 'input-otp';
 import { styled, Typography, Stack, Box } from '@cere-wallet/ui';
-import { forwardRef, RefObject, useEffect } from 'react';
+import { forwardRef } from 'react';
 
 interface OtpProps {
   value?: string;
