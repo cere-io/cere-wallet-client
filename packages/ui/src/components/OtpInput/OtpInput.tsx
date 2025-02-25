@@ -47,6 +47,7 @@ export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMess
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <OTPField
+        id="otp"
         ref={ref}
         value={value}
         autoFocus

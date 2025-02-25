@@ -2,6 +2,7 @@ import { Button, CereIcon, Divider, Stack, styled } from '@cere-wallet/ui';
 import { InfoStepper } from './components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ANALYTICS } from '~/constants';
+import { useEffect, useRef } from 'react';
 
 const CereLogo = styled(CereIcon)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(48),
@@ -21,6 +22,8 @@ export const IntroPage = () => {
 
       <Stack direction="column" alignItems="stretch" spacing={1} paddingTop={2}>
         <Button
+          id="sign_up"
+          component="button"
           variant="contained"
           size="large"
           className={ANALYTICS.createWalletBtnClass}
@@ -29,6 +32,7 @@ export const IntroPage = () => {
           Create a new wallet
         </Button>
         <Button
+          id="sign_in"
           variant="outlined"
           size="large"
           className={ANALYTICS.existingWalletBtnClass}
