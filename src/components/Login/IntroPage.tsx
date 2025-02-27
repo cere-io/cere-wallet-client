@@ -21,6 +21,7 @@ export const IntroPage = () => {
 
       <Stack direction="column" alignItems="stretch" spacing={1} paddingTop={2}>
         <Button
+          id="sign_up"
           variant="contained"
           size="large"
           className={ANALYTICS.createWalletBtnClass}
@@ -29,6 +30,7 @@ export const IntroPage = () => {
           Create a new wallet
         </Button>
         <Button
+          id="sign_in"
           variant="outlined"
           size="large"
           className={ANALYTICS.existingWalletBtnClass}

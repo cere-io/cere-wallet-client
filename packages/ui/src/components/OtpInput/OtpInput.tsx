@@ -45,7 +45,7 @@ export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMess
   const hasError = !!errorMessage;
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box id="otp_block" display="flex" flexDirection="column" alignItems="center">
       <OTPField
         ref={ref}
         value={value}
