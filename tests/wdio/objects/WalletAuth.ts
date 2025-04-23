@@ -18,7 +18,7 @@ export class WalletAuth extends Page {
   }
 
   get verifyButton() {
-    return browser.findByRole$('button', { name: 'Verify' });
+    return $('.MuiLoadingButton-root');
   }
 
   get otpInput() {

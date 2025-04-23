@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { getIFrameOrigin, AppContext, LoginOptions } from '@cere-wallet/communication';
+import OpenLogin from '@toruslabs/openlogin';
 
+import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { reportError } from '~/reporting';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from '../Web3AuthStore';
@@ -10,8 +12,21 @@ export type LoginParams = LoginOptions & {
 };
 
 export class OpenLoginStore {
+  private openLogin: OpenLogin;
+
   constructor(private sessionStore: SessionStore) {
     makeAutoObservable(this);
+
+    // Инициализируем OpenLogin клиент
+    const clientId = OPEN_LOGIN_CLIENT_ID;
+    this.openLogin = new OpenLogin({
+      clientId,
+      network: OPEN_LOGIN_NETWORK,
+      uxMode: 'redirect',
+      replaceUrlOnRedirect: false,
+    });
+
+    this.configureApp();
   }
 
   private get appUrl() {
@@ -27,18 +42,18 @@ export class OpenLoginStore {
   }
 
   configureApp(app?: AppContext['app']) {
-    // This functionality is now handled by CustomAuth
+    // Настройка приложения теперь обрабатывается Web3Auth/CustomAuth
   }
 
   async getLoginUrl(loginParams: LoginParams = {}) {
-    // In the new implementation, redirect URLs are handled differently
+    // В новой реализации URL для редиректа обрабатывается иначе
     return '';
   }
 
   async login(params?: LoginParams) {
-    // This method redirects to the login page
+    // Этот метод перенаправляет на страницу входа
     window.location.href = `${window.origin}/login`;
-    // Return a dummy promise - this will never actually return since we're redirecting
+    // Возвращаем фиктивный промис - он никогда не вернется, так как происходит редирект
     return Promise.resolve();
   }
 
@@ -50,8 +65,39 @@ export class OpenLoginStore {
         return true;
       }
 
-      // Simple whitelist check
-      return true;
+      // Список разрешенных доменов
+      const whitelistedDomains = [
+        // Cere domains
+        'cere.network',
+        'cere.io',
+        'dev.cere.network',
+        'stage.cere.network',
+        'dev.cere.io',
+        'stage.cere.io',
+        'console.cere.network',
+        'developer.cere.network',
+        'stage.developer.cere.network',
+        'dev.developer.cere.network',
+        'devnet.cere.network',
+        'testnet.cere.network',
+        'freeport.cere.network',
+        'stage.freeport.cere.network',
+        'dev.freeport.cere.network',
+        'cere-game-portal.cere.network',
+        'stage.cere-game-portal.cere.network',
+        'dev.cere-game-portal.cere.network',
+        // Добавьте домены партнеров при необходимости
+      ];
+
+      // Проверяем, принадлежит ли домен к локальному whitelist
+      for (const domain of whitelistedDomains) {
+        if (hostname === domain || hostname.endsWith(`.${domain}`)) {
+          return true;
+        }
+      }
+
+      // Если не нашли совпадений - запрещаем редирект
+      return false;
     } catch (error) {
       reportError(error);
       return false;
