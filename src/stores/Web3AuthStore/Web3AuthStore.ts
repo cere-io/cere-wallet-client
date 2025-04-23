@@ -47,6 +47,7 @@ export class Web3AuthStore {
     try {
       // Simplified approach - always return false to avoid MFA checks that can cause errors
       return false;
+      // eslint-disable-next-line no-unreachable
     } catch (error) {
       console.error('Error checking MFA status:', error);
       return false;
