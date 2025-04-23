@@ -22,7 +22,7 @@ export class WalletAuth extends Page {
   }
 
   get otpInput() {
-    return browser.findByRole$('textbox', { name: 'OTP input' });
+    return $('.MuiStack-root input');
   }
 
   async enterRandomEmail() {
@@ -35,6 +35,25 @@ export class WalletAuth extends Page {
   }
 
   async enterOTP(otp: string) {
-    await this.otpInput.setValue(otp);
+    const inputs = await $$('.MuiStack-root input');
+
+    if (inputs.length === 1) {
+      await inputs[0].setValue(otp);
+    } else if (inputs.length >= otp.length) {
+      for (let i = 0; i < otp.length; i++) {
+        await inputs[i].setValue(otp[i]);
+      }
+    } else {
+      await browser.execute((otpValue) => {
+        const otpInputs = document.querySelectorAll('.MuiStack-root input');
+        otpInputs.forEach((input, index) => {
+          if (index < otpValue.length) {
+            // @ts-ignore
+            input.value = otpValue[index];
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        });
+      }, otp);
+    }
   }
 }

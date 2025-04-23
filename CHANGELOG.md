@@ -7,6 +7,9 @@
 - Fixed email login failures by implementing the latest Web3Auth authentication flow
 - Fixed OTP verification failures by adding proper authConnection parameters to login requests
 - Added fallback authentication mechanism to improve login success rate
+- Improved MFA checking to better handle Web3Auth API changes
+- Fixed E2E tests for OTP verification by updating selectors
+- Suppressed error messages from failed primary authentication attempts when fallback is available
 
 ### v1.42.0
 
