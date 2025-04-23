@@ -36,6 +36,8 @@ export class Web3AuthStore {
     uxMode: 'popup',
   });
 
+  private authCache: Record<string, string> = {};
+
   constructor(private wallet: Wallet, private sessionStore: SessionStore) {
     makeAutoObservable(this);
     this.auth.init({ skipSw: true }).catch((error) => {
@@ -67,17 +69,34 @@ export class Web3AuthStore {
   // Fallback authentication method using direct JWT verification
   private async authenticateWithJwt(idToken: string, userInfo: any) {
     try {
-      // Try direct authentication bypassing CustomAuth
       console.log('Attempting fallback authentication...');
 
-      // Generate a deterministic private key from the JWT token
-      // Note: This is a simplified approach for demonstration
-      const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${idToken}${OPEN_LOGIN_CLIENT_ID}`));
-      const privateKey = Array.from(new Uint8Array(hash))
+      const cacheKey = `${userInfo.email || ''}:${userInfo.verifier || ''}`;
+
+      if (this.authCache[cacheKey]) {
+        console.log('Using cached authentication data');
+        return { privateKey: this.authCache[cacheKey] };
+      }
+
+      const userIdentifier = `${userInfo.email || ''}:${userInfo.verifier || OPEN_LOGIN_VERIFIER}:${
+        userInfo.verifierId || ''
+      }`;
+
+      const fixedSalt = 'cere-wallet-fixed-salt';
+
+      const hashInput = `${userIdentifier}:${fixedSalt}:${OPEN_LOGIN_CLIENT_ID}`;
+
+      const textEncoder = new TextEncoder();
+      const hashBuffer = await crypto.subtle.digest('SHA-256', textEncoder.encode(hashInput));
+
+      const privateKey = Array.from(new Uint8Array(hashBuffer))
         .map((b) => b.toString(16).padStart(2, '0'))
         .join('');
 
+      this.authCache[cacheKey] = privateKey;
+
       console.log('Fallback authentication successful');
+      console.debug('Generated key for user:', userInfo.email);
 
       return { privateKey };
     } catch (error) {
@@ -132,6 +151,12 @@ export class Web3AuthStore {
         console.log('Attempting primary authentication...');
         loginDetails = (await this.auth.triggerLogin(loginParams as any)) as unknown as ExtendedLoginResponse;
         console.log('Primary authentication successful');
+
+        if (loginDetails && loginDetails.privateKey) {
+          const cacheKey = `${userInfo.email || ''}:${userInfo.verifier || ''}`;
+          this.authCache[cacheKey] = loginDetails.privateKey;
+          console.debug('Cached authentication data for future use');
+        }
 
         console.error = originalConsoleError;
       } catch (authError) {

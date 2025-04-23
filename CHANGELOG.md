@@ -10,6 +10,8 @@
 - Improved MFA checking to better handle Web3Auth API changes
 - Fixed E2E tests for OTP verification by updating selectors
 - Suppressed error messages from failed primary authentication attempts when fallback is available
+- Fixed issue with new account creation on each login by implementing deterministic key generation
+- Added authentication results caching to improve login consistency and performance
 
 ### v1.42.0
 
