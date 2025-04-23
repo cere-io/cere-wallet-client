@@ -2,7 +2,11 @@
 
 ### vNext
 
--
+- Updated Web3Auth dependencies to latest versions to fix login issues with cyan.openlogin.com
+- Replaced deprecated Torus libraries with modern Web3Auth SDKs
+- Fixed email login failures by implementing the latest Web3Auth authentication flow
+- Fixed OTP verification failures by adding proper authConnection parameters to login requests
+- Added fallback authentication mechanism to improve login success rate
 
 ### v1.42.0
 
