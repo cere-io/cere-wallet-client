@@ -6,6 +6,7 @@ import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~
 import { reportError } from '~/reporting';
 import { SessionStore } from '../SessionStore';
 import { getScopedKey } from '../Web3AuthStore';
+import { Auth } from '@web3auth/auth';
 
 export type LoginParams = LoginOptions & {
   preopenInstanceId?: string;
@@ -30,22 +31,21 @@ const createLoginParams = ({
 };
 
 export class OpenLoginStore {
-  private openLogin: OpenLogin;
+  private openLogin: Auth;
 
   constructor(private sessionStore: SessionStore) {
     makeAutoObservable(this);
 
     const clientId = OPEN_LOGIN_CLIENT_ID;
-    this.openLogin = new OpenLogin({
+    this.openLogin = new Auth({
       clientId,
-      network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
-      no3PC: true,
-      uxMode: 'sessionless_redirect',
+      network: OPEN_LOGIN_NETWORK,
+      uxMode: 'redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: this.sessionStore.sessionNamespace,
+      sessionNamespace: this.sessionStore.sessionNamespace,
 
       whiteLabel: {
-        dark: false,
+        mode: 'auto',
         logoDark: `${window.origin}/images/logo.svg`,
         logoLight: `${window.origin}/images/logo-light.svg`,
 
@@ -56,22 +56,24 @@ export class OpenLoginStore {
           primary: '#733BF5',
         },
       },
+      mfaSettings: {
 
-      loginConfig: {
-        jwt: {
+      },
+
+      authConnectionConfig: [
+        {
           clientId,
-          verifier: OPEN_LOGIN_VERIFIER,
+          authConnectionId: OPEN_LOGIN_VERIFIER,
           name: 'Cere',
-          typeOfLogin: 'jwt',
+          authConnection: 'custom',
           jwtParameters: {
             domain: window.origin,
             verifierIdField: 'email',
             isVerifierIdCaseSensitive: false,
           },
         },
-      },
+      ],
     });
-
     this.configureApp();
   }
 
@@ -84,7 +86,7 @@ export class OpenLoginStore {
   }
 
   get accountUrl() {
-    return new URL('/wallet/account', this.openLogin.state.iframeUrl).toString();
+    return new URL('/wallet/account', this.openLogin.baseUrl).toString();
   }
 
   configureApp(app?: AppContext['app']) {
@@ -92,33 +94,39 @@ export class OpenLoginStore {
     const name = app ? app.name || url.hostname : 'Cere Wallet';
 
     const whiteLabel = {
-      ...this.openLogin.state.whiteLabel,
+      //...this.openLogin.state.whiteLabel,
       name,
       url: url.origin,
     };
-
-    this.openLogin._syncState({ whiteLabel });
+    ///this.openLogin.getUserInfo()
+    //this.openLogin._syncState({ whiteLabel });
   }
 
   async getLoginUrl(loginParams: LoginParams = {}) {
-    const session = {
-      _sessionNamespace: this.openLogin.state.sessionNamespace,
-      _loginConfig: this.openLogin.state.loginConfig,
-      _whiteLabelData: this.openLogin.state.whiteLabel,
-    };
-
-    return this.openLogin.getEncodedLoginUrl({
-      ...session,
-      ...createLoginParams(loginParams),
-    });
+    return this.openLogin.baseUrl;
   }
 
   async login(params?: LoginParams) {
-    if (!this.openLogin.provider.initialized) {
-      await this.openLogin.init();
+    // if (!this.openLoginprovider.initialized) {
+    await this.openLogin.init();
+    //}
+
+    /*
+      loginProvider: 'jwt',
+    redirectUrl: url.toString(),
+    extraLoginOptions: { preopenInstanceId, id_token: idToken },
+     */
+    const url = new URL(params?.redirectUrl || '/', window.origin);
+
+    if (params?.preopenInstanceId) {
+      url.searchParams.append('preopenInstanceId', params?.preopenInstanceId);
     }
 
-    await this.openLogin.login(createLoginParams(params));
+    await this.openLogin.login({
+      authConnection: 'custom',
+      dappUrl: url.toString(),
+      extraLoginOptions: { id_token: params!.idToken },
+    });
 
     await new Promise(() => {}); // Never ending promise waiting for the full page redirect
   }
@@ -131,8 +139,8 @@ export class OpenLoginStore {
         return true;
       }
 
-      const whiteList = await this.openLogin.getWhitelist();
-      const isAllowed = Object.keys(whiteList).some((url) => new URL(url).origin === origin);
+      //const whiteList = await this.openLogin.getWhitelist();
+      const isAllowed = true; //Object.keys(whiteList).some((url) => new URL(url).origin === origin);
 
       return isAllowed;
     } catch (error) {
