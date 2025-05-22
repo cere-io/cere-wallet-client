@@ -1,5 +1,5 @@
 import type { Signer } from 'ethers';
-import { signChallenge, verifySignedChallenge } from '@web3auth/base';
+//import { signChallenge, verifySignedChallenge } from '@web3auth/base';
 import { AUTH_SESSION_TIMEOUT, AUTH_TOKEN_ISSUER, OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK } from '~/constants';
 
 export type AuthTokenOptions = {
@@ -13,7 +13,7 @@ export const createAuthToken = async (
   signer: Signer,
   { origin = window.location.origin, uri, chainId, address }: AuthTokenOptions = {},
 ) => {
-  const chainNamespace = 'eip155';
+  /*  const chainNamespace = 'eip155';
   const finalAddress = address || signer.getAddress();
   const finalChainId = chainId || signer.getChainId();
 
@@ -38,5 +38,6 @@ export const createAuthToken = async (
     AUTH_SESSION_TIMEOUT,
     OPEN_LOGIN_CLIENT_ID,
     OPEN_LOGIN_NETWORK as any,
-  );
+  );*/
+  return '';
 };

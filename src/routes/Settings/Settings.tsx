@@ -47,13 +47,14 @@ export const Settings = () => {
   const isMobile = useIsMobile();
   const accountStore = useAccountStore();
   const authenticationStore = useAuthenticationStore();
+  const openLoginStore = useOpenLoginStore();
   const { accountUrl } = useOpenLoginStore();
   const [accountLink, setAccountLink] = useState<string>();
   const cereAddress = accountStore.getAccount('ed25519')?.address;
   const [exportPassword, setExportPassword] = useState('');
 
   const handleExportAccount = () => {
-    downloadFile(accountStore.exportAccount('ed25519', exportPassword), `${cereAddress}.json`);
+    downloadFile(accountStore.exportAccount('ethereum', exportPassword), `${cereAddress}.json`);
     setExportPassword('');
   };
 
@@ -63,6 +64,9 @@ export const Settings = () => {
       .then(setAccountLink);
   }, [authenticationStore, accountUrl, accountStore.user]);
 
+  const handle = () => {
+    openLoginStore.getLoginUrl();
+  };
   return (
     <>
       <PageHeader title="Settings" />
@@ -85,7 +89,12 @@ export const Settings = () => {
               </Typography>
 
               {accountLink && (
-                <SectionButton target="_blank" fullWidth={isMobile} href={accountLink} variant="outlined">
+                <SectionButton
+                  //   target="_blank"
+                  fullWidth={isMobile}
+                  variant="outlined"
+                  onClick={() => openLoginStore.manageMfa()}
+                >
                   Go to OpenLogin settings
                 </SectionButton>
               )}

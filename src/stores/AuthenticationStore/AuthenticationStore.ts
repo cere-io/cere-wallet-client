@@ -191,7 +191,7 @@ export class AuthenticationStore {
 
     startUrl.searchParams.append('callbackUrl', params.callbackUrl || callbackUrl);
     startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
-
+    console.log('AUTH STORE GET LOGIN URL');
     return !params.idToken
       ? startUrl.toString()
       : await this.openLoginStore.getLoginUrl({

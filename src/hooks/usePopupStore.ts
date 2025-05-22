@@ -16,9 +16,9 @@ export const usePopupStore = <T>(storeFactory: (popupId: string, local: boolean)
     );
   }, [search, state, context]);
 
-  if (!popupId) {
+  /*  if (!popupId) {
     throw Error('No `preopenInstanceId` found in query');
-  }
+  }*/
 
   factoryRef.current = storeFactory;
 

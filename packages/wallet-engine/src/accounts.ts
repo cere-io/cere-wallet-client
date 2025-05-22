@@ -11,7 +11,7 @@ import { CERE_SS58_PREFIX } from './constants';
 const pairFactoryMap: Record<KeyType, (privateKey: string) => KeyPair> = {
   ethereum: (privateKey) => {
     const wallet = Wallet.fromPrivateKey(Buffer.from(privateKey, 'hex'));
-
+    console.log('PRIVATE KEY ' + wallet.getPrivateKeyString());
     return {
       type: 'ethereum',
       publicKey: wallet.getPublicKey(),
