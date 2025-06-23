@@ -8,6 +8,8 @@ import { ConfirmPopup } from './ConfirmPopup';
 import { TransactionPopup } from './TransactionPopup';
 import { FramePopup } from './FramePopup';
 import { PermissionsPopup } from './PermissionsPopup';
+import { Success } from './Success';
+import { Cancel } from './Cancel';
 
 const initGtm = () => GTM_ID && TagManager.initialize({ gtmId: GTM_ID });
 
@@ -18,6 +20,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Redirect to="wallet/home" />,
+      },
+
+      {
+        path: 'success',
+        Component: Success,
+      },
+
+      {
+        path: 'cancel',
+        Component: Cancel,
       },
 
       {

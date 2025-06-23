@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Outlet, useLocation } from 'react-router-dom'; // TODO add useNavigate
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Stack, ToggleButton, ToggleButtonGroup, useIsMobile } from '@cere-wallet/ui';
 import { PageHeader } from '~/components';
@@ -12,12 +12,20 @@ enum Tabs {
 const TopUp = () => {
   const isMobile = useIsMobile();
   const location = useLocation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop();
-    return tab === 'receive' ? Tabs.RECEIVE : Tabs.BUY;
+    if (tab === 'receive') return Tabs.RECEIVE;
+    if (tab === 'buy') return Tabs.BUY;
+    return Tabs.RECEIVE; // default to receive
   }, [location.pathname]);
+
+  const handleTabChange = (event: React.MouseEvent<HTMLElement>, value: string | null) => {
+    if (value) {
+      navigate(value);
+    }
+  };
 
   return (
     <Stack alignItems="stretch" spacing={2}>
@@ -30,15 +38,13 @@ const TopUp = () => {
         color="primary"
         size={isMobile ? 'small' : 'medium'}
         value={getActiveFromLocation()}
-        // onChange={(event, value) => {
-        //   value && navigate({ ...location, pathname: `${value}` });
-        // }} // TODO uncomment after payment fix (also line 41)
+        onChange={handleTabChange}
         sx={{
           maxWidth: 430,
           alignSelf: 'center',
         }}
       >
-        {/*<ToggleButton value="buy">Buy asset</ToggleButton>*/}
+        <ToggleButton value={Tabs.BUY}>Buy with Card</ToggleButton>
         <ToggleButton value={Tabs.RECEIVE}>Receive asset</ToggleButton>
       </ToggleButtonGroup>
 
