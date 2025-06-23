@@ -18,7 +18,7 @@ const TopUp = () => {
     const tab = location.pathname.split('/')?.pop();
     if (tab === 'receive') return Tabs.RECEIVE;
     if (tab === 'buy') return Tabs.BUY;
-    return Tabs.RECEIVE; // default to receive
+    return Tabs.BUY; // default to buy with card
   }, [location.pathname]);
 
   const handleTabChange = (event: React.MouseEvent<HTMLElement>, value: string | null) => {
