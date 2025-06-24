@@ -7,6 +7,7 @@ import { PageHeader } from '~/components';
 enum Tabs {
   BUY = 'buy',
   RECEIVE = 'receive',
+  AUTO = 'auto',
 }
 
 const TopUp = () => {
@@ -18,6 +19,7 @@ const TopUp = () => {
     const tab = location.pathname.split('/')?.pop();
     if (tab === 'receive') return Tabs.RECEIVE;
     if (tab === 'buy') return Tabs.BUY;
+    if (tab === 'auto') return Tabs.AUTO;
     return Tabs.BUY; // default to buy with card
   }, [location.pathname]);
 
@@ -46,6 +48,7 @@ const TopUp = () => {
       >
         <ToggleButton value={Tabs.BUY}>Buy with Card</ToggleButton>
         <ToggleButton value={Tabs.RECEIVE}>Receive asset</ToggleButton>
+        <ToggleButton value={Tabs.AUTO}>Auto Top-Up</ToggleButton>
       </ToggleButtonGroup>
 
       <Outlet />

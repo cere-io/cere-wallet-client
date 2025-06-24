@@ -5,7 +5,7 @@ import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Redirect } from './Redirect';
 import { TopUp } from './TopUp';
-import { TopUpWithCard } from './TopUp';
+import { TopUpWithCard, AutoTopUp, AutoTopUpSettings } from './TopUp';
 import { AssetReceive, Assets } from './Assets'; // TODO add AssetBuy
 import { Transfer } from './Transfer';
 import TransferAsset from '~/components/Transfer/TransferAsset';
@@ -31,7 +31,10 @@ export const WalletRouter = () => (
         <Route index element={<TopUpWithCard />} />
         <Route path="buy" element={<TopUpWithCard />} />
         <Route path="receive" element={<AssetReceive />} />
+        <Route path="auto" element={<AutoTopUp />} />
       </Route>
+
+      <Route path="home/auto-topup-settings" element={<AutoTopUpSettings />} />
 
       <Route path="home/transfer" element={<Transfer />}>
         <Route index element={<TransferAsset />} />
