@@ -12,7 +12,8 @@ export const AutoTopUpSettings = () => {
     enabled: false,
   });
 
-  const accountId = accountStore.selectedAccount?.address || accountStore.account?.address;
+  const cereAccount = accountStore.accounts.find(account => account.type === 'ed25519');
+  const accountId = cereAccount?.address || accountStore.selectedAccount?.address || accountStore.account?.address;
 
   const fetchSettings = useCallback(async () => {
     try {

@@ -62,6 +62,9 @@ export const TopUpWithCard = () => {
     setIsLoading(true);
 
     try {
+      const cereAccount = accountStore.accounts.find(account => account.type === 'ed25519');
+      const accountId = cereAccount?.address || accountStore.selectedAccount?.address || accountStore.account?.address;
+
       const response = await fetch('http://localhost:3000/top-up', {
         method: 'POST',
         headers: {
@@ -69,7 +72,7 @@ export const TopUpWithCard = () => {
         },
         body: JSON.stringify({
           amount: Math.round(parseFloat(usdAmount) * 100), // Convert to cents
-          account_id: accountStore.selectedAccount?.address || accountStore.account?.address,
+          account_id: accountId,
           origin: window.location.origin, // Send the origin to determine redirect URLs
         }),
       });
