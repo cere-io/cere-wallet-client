@@ -35,7 +35,7 @@ export const AutoTopUp = () => {
     setIsLoading(true);
 
     try {
-      const cereAccount = accountStore.accounts.find(account => account.type === 'ed25519');
+      const cereAccount = accountStore.accounts.find((account) => account.type === 'ed25519');
       const accountId = cereAccount?.address || accountStore.selectedAccount?.address || accountStore.account?.address;
 
       const response = await fetch('http://localhost:3000/enable-pay-as-you-go', {
