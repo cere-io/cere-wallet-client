@@ -105,7 +105,9 @@ export const AutoTopUpSettings = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h4">Auto Top-Up Status</Typography>
           <FormControlLabel
-            control={<Switch checked={settings.enabled} onChange={handleToggleAutoTopUp} disabled={isLoading} />}
+            control={
+              <Switch checked={settings.enabled} onChange={handleToggleAutoTopUp} disabled={isLoading} />
+            }
             label={settings.enabled ? 'Enabled' : 'Disabled'}
           />
         </Box>
@@ -115,7 +117,12 @@ export const AutoTopUpSettings = () => {
             <Divider />
 
             <Stack direction="row" spacing={2}>
-              <Button variant="outlined" color="error" onClick={handleDisableAutoTopUp} disabled={isLoading}>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleDisableAutoTopUp}
+                disabled={isLoading}
+              >
                 Disable Auto Top-Up
               </Button>
             </Stack>
