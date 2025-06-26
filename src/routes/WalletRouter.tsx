@@ -13,6 +13,7 @@ import TransferCollectibles from './Transfer/TransferCollectibles';
 import { CollectibleItem } from './Collectibles/CollectibleItem';
 import { Collectibles } from './Collectibles';
 import { Activity } from './Activity';
+import { TopUpHistoryRoute } from './TopUpHistory';
 import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
@@ -48,6 +49,7 @@ export const WalletRouter = () => (
         <Route path="assets" element={<Assets />} />
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="activity" element={<Activity />} />
+        <Route path="topup-history" element={<TopUpHistoryRoute />} />
       </Route>
 
       <Route path="settings" element={<Settings />} />

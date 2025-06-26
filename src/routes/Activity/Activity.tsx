@@ -1,7 +1,3 @@
 import { ActivityList } from '~/components';
 
-export const Activity = () => (
-  <>
-    <ActivityList />
-  </>
-);
+export const Activity = () => <ActivityList />;

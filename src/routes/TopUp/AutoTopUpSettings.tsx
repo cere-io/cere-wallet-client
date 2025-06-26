@@ -97,7 +97,8 @@ export const AutoTopUpSettings = () => {
 
       <Alert severity="info">
         <Typography variant="body2">
-          Manage your automatic top-up configuration. You can enable/disable the service and adjust the threshold and top-up amounts. Automatic top-ups will be charged from the DDC Account.
+          Manage your automatic top-up configuration. You can enable/disable the service and adjust the threshold and
+          top-up amounts. Automatic top-ups will be charged from the DDC Account.
         </Typography>
       </Alert>
 
@@ -105,9 +106,7 @@ export const AutoTopUpSettings = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h4">Auto Top-Up Status</Typography>
           <FormControlLabel
-            control={
-              <Switch checked={settings.enabled} onChange={handleToggleAutoTopUp} disabled={isLoading} />
-            }
+            control={<Switch checked={settings.enabled} onChange={handleToggleAutoTopUp} disabled={isLoading} />}
             label={settings.enabled ? 'Enabled' : 'Disabled'}
           />
         </Box>
@@ -117,12 +116,7 @@ export const AutoTopUpSettings = () => {
             <Divider />
 
             <Stack direction="row" spacing={2}>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleDisableAutoTopUp}
-                disabled={isLoading}
-              >
+              <Button variant="outlined" color="error" onClick={handleDisableAutoTopUp} disabled={isLoading}>
                 Disable Auto Top-Up
               </Button>
             </Stack>
@@ -132,7 +126,8 @@ export const AutoTopUpSettings = () => {
         {!settings.enabled && (
           <Alert severity="warning">
             <Typography variant="body2">
-              Auto top-up is currently disabled. Enable it to automatically charge from your DDC Account when your balance falls below the threshold.
+              Auto top-up is currently disabled. Enable it to automatically charge from your DDC Account when your
+              balance falls below the threshold.
             </Typography>
           </Alert>
         )}

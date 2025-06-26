@@ -12,6 +12,7 @@ enum Tabs {
   assets = 'assets',
   activity = 'activity',
   collectibles = 'collectibles',
+  topup_history = 'topup-history',
 }
 
 const WalletHome = () => {
@@ -25,7 +26,7 @@ const WalletHome = () => {
 
   const getActiveFromLocation = useCallback(() => {
     const tab = location.pathname.split('/')?.pop() || '';
-    return tab in Tabs ? Tabs[tab as keyof typeof Tabs] : Tabs.assets;
+    return Object.values(Tabs).includes(tab as Tabs) ? tab : Tabs.assets;
   }, [location.pathname]);
 
   const handleCloseSnackbar = useCallback(() => {
@@ -72,6 +73,7 @@ const WalletHome = () => {
           <ToggleButton value={Tabs.assets}>Assets</ToggleButton>
           <ToggleButton value={Tabs.collectibles}>Collectibles</ToggleButton>
           <ToggleButton value={Tabs.activity}>Activity</ToggleButton>
+          <ToggleButton value={Tabs.topup_history}>TopUp History</ToggleButton>
         </ToggleButtonGroup>
 
         <Outlet />
