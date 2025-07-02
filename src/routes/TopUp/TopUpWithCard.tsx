@@ -3,8 +3,7 @@ import { Divider, LoadingButton, Paper, Stack, TextField, Typography, Card, Card
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { useAccountStore } from '~/hooks';
-
-const CERE_API_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=cere-network&vs_currencies=usd';
+import { API_BASE_URL, COINGECKO_API_URL } from '../../constants';
 
 export const TopUpWithCard = () => {
   const accountStore = useAccountStore();
@@ -19,7 +18,7 @@ export const TopUpWithCard = () => {
   useEffect(() => {
     const fetchPrice = async () => {
       try {
-        const response = await fetch(CERE_API_URL);
+        const response = await fetch(COINGECKO_API_URL);
         const data = await response.json();
         setCerePrice(data['cere-network'].usd);
       } catch (error) {
@@ -65,7 +64,7 @@ export const TopUpWithCard = () => {
       const cereAccount = accountStore.accounts.find((account) => account.type === 'ed25519');
       const accountId = cereAccount?.address || accountStore.selectedAccount?.address || accountStore.account?.address;
 
-      const response = await fetch('http://localhost:3000/top-up', {
+      const response = await fetch(`${API_BASE_URL}/top-up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

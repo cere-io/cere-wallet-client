@@ -12,6 +12,7 @@ import {
   Box,
 } from '@mui/material';
 import { Wallet as WalletIcon } from '@mui/icons-material';
+import { API_BASE_URL } from '../constants';
 
 interface TopUpHistoryProps {
   accountId?: string;
@@ -30,7 +31,7 @@ export const TopUpHistory = ({ accountId, title = 'Top-Up History' }: TopUpHisto
     }
     setLoading(true);
     setError('');
-    fetch(`http://localhost:3000/transaction-history/${accountId}`)
+    fetch(`${API_BASE_URL}/transaction-history/${accountId}`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch transaction history');
         return res.json();

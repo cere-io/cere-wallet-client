@@ -15,6 +15,7 @@ import {
 import { FormControlLabel, Checkbox } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useAccountStore } from '~/hooks';
+import { API_BASE_URL } from '../../constants';
 
 export const AutoTopUp = () => {
   const accountStore = useAccountStore();
@@ -38,7 +39,7 @@ export const AutoTopUp = () => {
       const cereAccount = accountStore.accounts.find((account) => account.type === 'ed25519');
       const accountId = cereAccount?.address || accountStore.selectedAccount?.address || accountStore.account?.address;
 
-      const response = await fetch('http://localhost:3000/enable-pay-as-you-go', {
+      const response = await fetch(`${API_BASE_URL}/enable-pay-as-you-go`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

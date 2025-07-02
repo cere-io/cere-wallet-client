@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Divider, Paper, Stack, Typography, Alert, Box, Chip, Button } from '@cere-wallet/ui';
 import { Switch, FormControlLabel } from '@mui/material';
 import { useAccountStore } from '~/hooks';
+import { API_BASE_URL } from '../../constants';
 
 export const AutoTopUpSettings = () => {
   const accountStore = useAccountStore();
@@ -17,7 +18,7 @@ export const AutoTopUpSettings = () => {
 
   const fetchSettings = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3000/auto-topup-settings/${accountId}`);
+      const response = await fetch(`${API_BASE_URL}/auto-topup-settings/${accountId}`);
       if (response.ok) {
         const data = await response.json();
         setSettings({
@@ -41,7 +42,7 @@ export const AutoTopUpSettings = () => {
     setSuccess('');
 
     try {
-      const response = await fetch(`http://localhost:3000/auto-topup-settings/${accountId}`, {
+      const response = await fetch(`${API_BASE_URL}/auto-topup-settings/${accountId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ export const AutoTopUpSettings = () => {
     setSuccess('');
 
     try {
-      const response = await fetch(`http://localhost:3000/auto-topup-settings/${accountId}`, {
+      const response = await fetch(`${API_BASE_URL}/auto-topup-settings/${accountId}`, {
         method: 'DELETE',
       });
 
