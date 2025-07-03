@@ -53,6 +53,8 @@ export const OtpInput = forwardRef<null, OtpProps>(({ value, onChange, errorMess
         maxLength={6}
         onChange={onChange}
         aria-label="OTP input"
+        name="OTP input"
+        inputMode="numeric"
         render={({ slots }) => (
           <Stack direction="row" spacing={3}>
             <Stack direction="row" spacing={1}>
