@@ -1,9 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Divider, LoadingButton, Paper, Stack, TextField, Typography, Card, CardContent, Grid } from '@cere-wallet/ui';
+import {
+  Divider,
+  LoadingButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Alert,
+} from '@cere-wallet/ui';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { useAccountStore } from '~/hooks';
 import { API_BASE_URL, COINGECKO_API_URL } from '../../constants';
+
+const MANUAL_TOPUP_MAX_LIMIT = 3; // Maximum manual topup limit in USD
 
 export const TopUpWithCard = () => {
   const accountStore = useAccountStore();
@@ -34,6 +47,12 @@ export const TopUpWithCard = () => {
   const handleUsdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const usd = event.target.value;
     setUsdAmount(usd);
+
+    // Clear error when user starts typing
+    if (error) {
+      setError('');
+    }
+
     if (cerePrice && usd) {
       setCereAmount((parseFloat(usd) / cerePrice).toFixed(2));
     } else {
@@ -44,6 +63,12 @@ export const TopUpWithCard = () => {
   const handleCereChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const cere = event.target.value;
     setCereAmount(cere);
+
+    // Clear error when user starts typing
+    if (error) {
+      setError('');
+    }
+
     if (cerePrice && cere) {
       setUsdAmount((parseFloat(cere) * cerePrice).toFixed(2));
     } else {
@@ -54,6 +79,12 @@ export const TopUpWithCard = () => {
   const handleTopUp = async () => {
     if (!usdAmount || parseFloat(usdAmount) <= 0) {
       setError('Please enter a valid amount.');
+      return;
+    }
+
+    const amount = parseFloat(usdAmount);
+    if (amount > MANUAL_TOPUP_MAX_LIMIT) {
+      setError(`Manual topup limit is $${MANUAL_TOPUP_MAX_LIMIT} USD. Please enter a smaller amount.`);
       return;
     }
 
@@ -93,6 +124,13 @@ export const TopUpWithCard = () => {
   return (
     <Stack spacing={3}>
       <Typography variant="h4">Top up with Credit/Debit Card</Typography>
+
+      <Alert severity="info">
+        <Typography variant="body2">
+          Manual topup limit: ${MANUAL_TOPUP_MAX_LIMIT} USD. For larger amounts, please use Auto Top-Up.
+        </Typography>
+      </Alert>
+
       <Stack component={Paper} spacing={2} padding={3}>
         <Typography variant="subtitle1">Enter the amount you wish to add to your balance.</Typography>
 
@@ -103,8 +141,12 @@ export const TopUpWithCard = () => {
           value={usdAmount}
           onChange={handleUsdChange}
           disabled={isLoading || isPriceLoading}
-          error={!!error}
-          helperText={error}
+          error={!!error || !!(usdAmount && parseFloat(usdAmount) > MANUAL_TOPUP_MAX_LIMIT)}
+          helperText={error || `Maximum: $${MANUAL_TOPUP_MAX_LIMIT} USD`}
+          inputProps={{
+            max: MANUAL_TOPUP_MAX_LIMIT,
+            step: 0.01,
+          }}
         />
 
         <Divider>
@@ -179,7 +221,9 @@ export const TopUpWithCard = () => {
           size="large"
           loading={isLoading}
           onClick={handleTopUp}
-          disabled={isPriceLoading || !usdAmount || parseFloat(usdAmount) <= 0}
+          disabled={
+            isPriceLoading || !usdAmount || parseFloat(usdAmount) <= 0 || parseFloat(usdAmount) > MANUAL_TOPUP_MAX_LIMIT
+          }
           sx={{ mt: 2 }}
         >
           Top Up
