@@ -127,7 +127,7 @@ export const TopUpWithCard = () => {
 
       <Alert severity="info">
         <Typography variant="body2">
-          Manual topup limit: ${MANUAL_TOPUP_MAX_LIMIT} USD for Testing purpose on Devnet.
+          Manual topup limit: ${MANUAL_TOPUP_MAX_LIMIT} USD for Testing purpose on Testnet.
         </Typography>
       </Alert>
 
