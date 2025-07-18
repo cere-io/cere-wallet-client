@@ -100,8 +100,6 @@ export const createPolkadotEngine = ({ getPrivateKey, polkadotRpc }: PolkadotEng
       }),
 
       ed25519_signRaw: createAsyncMiddleware(async (req, res) => {
-        await api.isReady;
-
         const [address, message] = req.params as string[];
         const pair = getPair(address);
         const wrappedMessage = u8aWrapBytes(message);
