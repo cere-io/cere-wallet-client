@@ -13,7 +13,7 @@ import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
-import { OpenLoginStore } from '../OpenLoginStore';
+import { Web3AuthService } from '../Web3AuthService/Web3AuthService';
 import { ApprovalStore } from '../ApprovalStore';
 import { PopupManagerStore } from '../PopupManagerStore';
 import { CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
@@ -25,7 +25,7 @@ export class WalletStore implements Wallet {
   readonly instanceId: string;
   readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
-  readonly openLoginStore: OpenLoginStore;
+  readonly web3AuthService: Web3AuthService;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
   readonly collectiblesStore: CollectiblesStore;
@@ -57,7 +57,7 @@ export class WalletStore implements Wallet {
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
     this.sessionStore = new SessionStore({ sessionNamespace });
-    this.openLoginStore = new OpenLoginStore(this.sessionStore);
+    this.web3AuthService = new Web3AuthService(this.sessionStore);
     this.accountStore = new AccountStore(this);
     this.applicationsStore = new ApplicationsStore(this, this.accountStore, this.appContextStore);
     this.permissionsStore = new PermissionsStore(this.applicationsStore, this.popupManagerStore, this.appContextStore);
@@ -68,18 +68,23 @@ export class WalletStore implements Wallet {
       this.accountStore,
       this.applicationsStore,
       this.appContextStore,
-      this.openLoginStore,
+      this.web3AuthService,
       this.popupManagerStore,
     );
 
     this.setup(!instanceId);
   }
 
+  // Legacy compatibility - maintain the same interface
+  get openLoginStore() {
+    return this.web3AuthService;
+  }
+
   isRoot() {
     return this.isRootInstance;
   }
 
-  isReady() {
+  isReady(): this is Required<Wallet> {
     return !!(this.provider && this.network && this.account);
   }
 

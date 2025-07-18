@@ -1,16 +1,19 @@
-import { makeAutoObservable, reaction, when } from 'mobx';
-import { LoginOptions } from '@cere-wallet/communication';
+import { reaction, makeAutoObservable, when } from 'mobx';
+import type { UserInfo } from '@cere-wallet/communication';
+import type { LoginOptions } from '@cere-wallet/communication';
 
 import { reportError } from '~/reporting';
-import { Wallet } from '../types';
-import { PopupManagerStore } from '../PopupManagerStore';
-import { AccountStore, AccountLoginData } from '../AccountStore';
-import { AuthorizePopupState } from '../AuthorizePopupStore';
-import { OpenLoginStore, LoginParams } from '../OpenLoginStore';
-import { AppContextStore } from '../AppContextStore';
+import { Web3AuthService, LoginParams } from '../Web3AuthService/Web3AuthService';
 import { SessionStore } from '../SessionStore';
 import { createAuthToken } from './createAuthToken';
+import { AccountStore } from '../AccountStore';
 import { ApplicationsStore } from '../ApplicationsStore';
+import { AppContextStore } from '../AppContextStore';
+import { PopupManagerStore } from '../PopupManagerStore';
+import { AuthorizePopupState } from '../AuthorizePopupStore';
+import { Wallet } from '../types';
+
+export type { LoginParams };
 
 export type AuthenticationStoreOptions = {
   sessionNamespace?: string;
@@ -24,8 +27,10 @@ type AuthLoginParams = LoginParams & {
   forceMfa?: boolean;
   email?: string;
   emailHint?: string;
+  loginHint?: string;
   skipIntro?: boolean;
   callbackUrl?: string;
+  permissions?: any;
 };
 
 export class AuthenticationStore {
@@ -37,7 +42,7 @@ export class AuthenticationStore {
     private accountStore: AccountStore,
     private applicationsStore: ApplicationsStore,
     private contextStore: AppContextStore,
-    private openLoginStore: OpenLoginStore,
+    private web3AuthService: Web3AuthService,
     private popupManagerStore: PopupManagerStore,
   ) {
     makeAutoObservable(this);
@@ -45,7 +50,8 @@ export class AuthenticationStore {
     reaction(
       () => this.contextStore.app,
       (app) => {
-        this.openLoginStore.configureApp(app);
+        // Configure Web3Auth app context if needed
+        // The web3AuthService handles app configuration internally
       },
     );
   }
@@ -95,7 +101,7 @@ export class AuthenticationStore {
     window.location.replace(url);
   }
 
-  async loginWithPrivateKey(data: AccountLoginData) {
+  async loginWithPrivateKey(data: any) {
     this.accountStore.loginData = data;
 
     return true;
@@ -147,6 +153,7 @@ export class AuthenticationStore {
 
   async logout() {
     await this.sessionStore.invalidateSession();
+    await this.web3AuthService.logout();
     this.syncLoginData();
 
     return true;
@@ -192,13 +199,13 @@ export class AuthenticationStore {
     startUrl.searchParams.append('callbackUrl', params.callbackUrl || callbackUrl);
     startUrl.searchParams.append('preopenInstanceId', preopenInstanceId);
 
-    return !params.idToken
-      ? startUrl.toString()
-      : await this.openLoginStore.getLoginUrl({
-          ...params,
-          preopenInstanceId,
-          redirectUrl: params.callbackUrl || callbackUrl,
-        });
+    // For JWT token login, we handle it differently with the new Web3Auth service
+    if (params.idToken) {
+      // Web3Auth handles the login flow internally
+      return startUrl.toString();
+    }
+
+    return startUrl.toString();
   }
 
   private async syncAccount({ sessionId, permissions }: Required<AuthorizePopupState>['result']) {

@@ -12,6 +12,7 @@ import {
   AuthorizeComplete,
   AuthorizeLink,
   AuthorizeTelegramMiniApp,
+  AuthorizeConnectionCheck,
 } from './Authorize';
 
 export const AuthorizationRouter = () => {
@@ -31,7 +32,7 @@ export const AuthorizationRouter = () => {
           <Route index element={<AuthorizeTelegramMiniApp />} />
         ) : (
           <>
-            <Route index element={isGame || skipLoginIntro ? <AuthorizeLogin /> : <AuthorizeIntro />} />
+            <Route index element={<AuthorizeConnectionCheck showIntro={!isGame && !skipLoginIntro} />} />
             <Route path="intro" element={<AuthorizeIntro />} />
             <Route path="signin" element={<AuthorizeLogin variant="signin" />} />
             <Route path="signup" element={<AuthorizeLogin variant="signup" />} />

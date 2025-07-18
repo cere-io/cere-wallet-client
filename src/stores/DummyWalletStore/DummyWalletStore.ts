@@ -34,7 +34,23 @@ export class DummyWalletStore implements Wallet {
     return this.networkStore.network;
   }
 
-  isReady() {
+  get account() {
+    return undefined;
+  }
+
+  get provider() {
+    return undefined;
+  }
+
+  get unsafeProvider() {
+    return undefined;
+  }
+
+  get engine() {
+    return undefined;
+  }
+
+  isReady(): this is Required<Wallet> {
     return false;
   }
 
