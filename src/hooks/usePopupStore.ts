@@ -7,14 +7,32 @@ export const usePopupStore = <T>(storeFactory: (popupId: string, local: boolean)
   const factoryRef = useRef(storeFactory);
   const context = useRouteElementContext();
 
-  const { search, state } = useLocation();
+  const { search, state, hash } = useLocation();
   const popupId = useMemo(() => {
     const params = new URLSearchParams(search);
+    const hashParams = new URLSearchParams(hash.slice(1));
 
-    return (
-      context?.preopenInstanceId || state?.preopenInstanceId || params.get('preopenInstanceId') || params.get('popupId')
-    );
-  }, [search, state, context]);
+    // Check for standard popup ID parameters
+    const standardPopupId =
+      context?.preopenInstanceId ||
+      state?.preopenInstanceId ||
+      params.get('preopenInstanceId') ||
+      params.get('popupId');
+
+    if (standardPopupId) {
+      return standardPopupId;
+    }
+
+    // Handle Web3Auth redirect scenario - check for session information in hash
+    const sessionNamespace = params.get('sessionNamespace') || hashParams.get('sessionNamespace');
+    const b64Params = hashParams.get('b64Params');
+    if (sessionNamespace && b64Params) {
+      // Generate a temporary popup ID for redirect scenarios
+      return `redirect-${sessionNamespace}-${Date.now()}`;
+    }
+
+    return null;
+  }, [search, state, hash, context]);
 
   if (!popupId) {
     throw Error('No `preopenInstanceId` found in query');

@@ -8,3 +8,4 @@ export { default as AuthorizeOtp } from './AuthorizeOtp';
 export { default as AuthorizeComplete } from './AuthorizeComplete';
 export { default as AuthorizeLink } from './AuthorizeLink';
 export { default as AuthorizeTelegramMiniApp } from './AuthorizeTelegramMiniApp';
+export { default as AuthorizeConnectionCheck } from './AuthorizeConnectionCheck';

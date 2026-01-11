@@ -47,7 +47,7 @@ export const Settings = () => {
   const isMobile = useIsMobile();
   const accountStore = useAccountStore();
   const authenticationStore = useAuthenticationStore();
-  const { accountUrl } = useOpenLoginStore();
+  const web3AuthService = useOpenLoginStore();
   const [accountLink, setAccountLink] = useState<string>();
   const cereAddress = accountStore.getAccount('ed25519')?.address;
   const [exportPassword, setExportPassword] = useState('');
@@ -57,11 +57,31 @@ export const Settings = () => {
     setExportPassword('');
   };
 
+  const handleOpenWalletSettings = async () => {
+    try {
+      await web3AuthService.showWalletUI();
+    } catch (error) {
+      console.error('Failed to open wallet settings:', error);
+      if (web3AuthService.walletServicesUrl) {
+        window.open(web3AuthService.walletServicesUrl, '_blank');
+      }
+    }
+  };
+
+  const handleEnableMFA = async () => {
+    try {
+      await web3AuthService.enableMFA();
+    } catch (error) {
+      console.error('Failed to enable MFA:', error);
+    }
+  };
+
   useEffect(() => {
-    authenticationStore
-      .getRedirectUrl({ callbackUrl: accountUrl, forceMfa: true, emailHint: accountStore.user?.email, skipIntro: true })
-      .then(setAccountLink);
-  }, [authenticationStore, accountUrl, accountStore.user]);
+    const walletServicesUrl = web3AuthService.walletServicesUrl;
+    if (walletServicesUrl) {
+      setAccountLink(walletServicesUrl);
+    }
+  }, [web3AuthService]);
 
   return (
     <>
@@ -80,15 +100,19 @@ export const Settings = () => {
           <CardContent>
             <Stack direction={isMobile ? 'column' : 'row'} spacing={3}>
               <Typography flex={1} variant="body2" color="text.secondary">
-                Click the button bellow to manage your Authentication & Security settings and you will be redirecting to
-                the OpenLogin settings.
+                Manage your authentication and security settings including multi-factor authentication (MFA). Click
+                below to access your Web3Auth wallet settings.
               </Typography>
 
-              {accountLink && (
-                <SectionButton target="_blank" fullWidth={isMobile} href={accountLink} variant="outlined">
-                  Go to OpenLogin settings
+              <Stack spacing={2} direction={isMobile ? 'column' : 'row'}>
+                <SectionButton fullWidth={isMobile} variant="outlined" onClick={handleOpenWalletSettings}>
+                  Open Wallet Settings
                 </SectionButton>
-              )}
+
+                <SectionButton fullWidth={isMobile} variant="contained" onClick={handleEnableMFA}>
+                  Enable MFA
+                </SectionButton>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>

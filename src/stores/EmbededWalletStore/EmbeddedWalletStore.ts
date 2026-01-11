@@ -2,9 +2,15 @@ import { randomBytes } from 'crypto';
 import { providers } from 'ethers';
 import { makeAutoObservable, reaction, toJS, when, runInAction } from 'mobx';
 import { createWalletEngine, WalletEngine, BiconomyOptions } from '@cere-wallet/wallet-engine';
-import { createWalletConnection, createRpcConnection, WalletConnection } from '@cere-wallet/communication';
+import {
+  createWalletConnection,
+  createRpcConnection,
+  WalletConnection,
+  DEFAULT_NETWORK,
+  getChainConfig,
+} from '@cere-wallet/communication';
 
-import { Wallet } from '../types';
+import { Wallet, WalletStatus } from '../types';
 import { AccountStore } from '../AccountStore';
 import { ApprovalStore } from '../ApprovalStore';
 import { NetworkStore } from '../NetworkStore';
@@ -15,12 +21,12 @@ import { ActivityStore } from '../ActivityStore';
 import { AppContextStore } from '../AppContextStore';
 import { AuthenticationStore } from '../AuthenticationStore';
 import { CollectiblesStore } from '../CollectiblesStore';
-import { OpenLoginStore } from '../OpenLoginStore';
-import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
+import { Web3AuthService } from '../Web3AuthService/Web3AuthService';
 import { ApplicationsStore } from '../ApplicationsStore';
 import { SessionStore } from '../SessionStore';
 import { PermissionsStore } from '../PermissionsStore';
 import { WalletMode } from '@cere/torus-embed';
+import { BICONOMY_API_KEY, CERE_NETWORK_RPC, RPC_POLLING_INTERVAL } from '~/constants';
 
 type InitOptions = {
   biconomy?: BiconomyOptions;
@@ -31,8 +37,7 @@ export class EmbeddedWalletStore implements Wallet {
   readonly instanceId: string;
   readonly sessionStore: SessionStore;
   readonly accountStore: AccountStore;
-  readonly openLoginStore: OpenLoginStore;
-  readonly approvalStore: ApprovalStore;
+  readonly web3AuthService: Web3AuthService;
   readonly networkStore: NetworkStore;
   readonly assetStore: AssetStore;
   readonly collectiblesStore: CollectiblesStore;
@@ -41,21 +46,23 @@ export class EmbeddedWalletStore implements Wallet {
   readonly appContextStore: AppContextStore;
   readonly authenticationStore: AuthenticationStore;
   readonly popupManagerStore: PopupManagerStore;
+  readonly approvalStore: ApprovalStore;
   readonly applicationsStore: ApplicationsStore;
   readonly permissionsStore: PermissionsStore;
 
   private currentEngine?: WalletEngine;
   private walletConnection?: WalletConnection;
+  private initialized = false;
 
   private _isWidgetOpened = false;
   private _isFullScreen = false;
 
   private options: InitOptions;
 
-  constructor(instanceId?: string, sessionNamespace?: string) {
+  constructor(instanceId: string, sessionNamespace?: string) {
     makeAutoObservable(this);
 
-    this.instanceId = instanceId || randomBytes(16).toString('hex');
+    this.instanceId = instanceId;
 
     this.popupManagerStore = new PopupManagerStore(this, {
       onClose: (instanceId) => this.walletConnection?.closeWindow(instanceId),
@@ -70,7 +77,7 @@ export class EmbeddedWalletStore implements Wallet {
     this.approvalStore = new ApprovalStore(this, this.popupManagerStore, this.networkStore, this.appContextStore);
 
     this.sessionStore = new SessionStore({ sessionNamespace });
-    this.openLoginStore = new OpenLoginStore(this.sessionStore);
+    this.web3AuthService = new Web3AuthService(this.sessionStore);
     this.accountStore = new AccountStore(this);
 
     this.applicationsStore = new ApplicationsStore(this, this.accountStore, this.appContextStore);
@@ -81,7 +88,7 @@ export class EmbeddedWalletStore implements Wallet {
       this.accountStore,
       this.applicationsStore,
       this.appContextStore,
-      this.openLoginStore,
+      this.web3AuthService,
       this.popupManagerStore,
     );
 
@@ -91,14 +98,33 @@ export class EmbeddedWalletStore implements Wallet {
     this.options = {
       biconomy: BICONOMY_API_KEY ? { apiKey: BICONOMY_API_KEY, debug: true } : undefined,
     };
+
+    this.setup();
+  }
+
+  // Legacy compatibility - maintain the same interface
+  get openLoginStore() {
+    return this.web3AuthService;
   }
 
   isRoot() {
     return true;
   }
 
-  isReady() {
+  isReady(): this is Required<Wallet> {
     return !!(this.provider && this.network && this.account);
+  }
+
+  get status(): WalletStatus {
+    if (this.isReady()) {
+      return 'ready';
+    }
+
+    if (this.initialized && !this.account) {
+      return 'unauthenticated';
+    }
+
+    return 'errored';
   }
 
   get isWidgetOpened() {
@@ -154,12 +180,38 @@ export class EmbeddedWalletStore implements Wallet {
   }
 
   get mode() {
-    return this.options.mode;
+    return this.options.mode || 'default';
   }
 
-  async init() {
-    await this.setupWalletConnection();
-    await this.setupRpcConnection();
+  private async setup() {
+    this.networkStore.network = getChainConfig(DEFAULT_NETWORK);
+  }
+
+  async init(sessionId?: string) {
+    await this.authenticationStore.rehydrate({ sessionId });
+
+    this.engine = createWalletEngine({
+      pollingInterval: RPC_POLLING_INTERVAL,
+      chainConfig: this.network!,
+      polkadotRpc: CERE_NETWORK_RPC,
+      getAccounts: () => toJS(this.accountStore.accounts),
+      onUpdateAccounts: (keyPairs) => this.accountStore.updateAccounts(keyPairs),
+      getPrivateKey: () => this.accountStore.privateKey,
+      onPersonalSign: (request) => this.approvalStore.approvePersonalSign(request),
+      onSendTransaction: (request) => this.approvalStore.approveSendTransaction(request, { showDetails: true }),
+      onTransfer: (request) => this.approvalStore.approveTransfer(request),
+    });
+
+    await this.engine.updateAccounts();
+
+    runInAction(() => {
+      this.initialized = true;
+    });
+
+    reaction(
+      () => this.accountStore.privateKey,
+      () => this.engine?.updateAccounts(),
+    );
   }
 
   private async setupWalletConnection() {
@@ -233,7 +285,7 @@ export class EmbeddedWalletStore implements Wallet {
         const { sessionNamespace, sessionId } = this.sessionStore;
 
         return {
-          sessionId,
+          sessionId: sessionId || undefined,
           sessionNamespace,
           instanceId: this.instanceId,
           target: this.instanceId,
