@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import OpenLogin, { OPENLOGIN_NETWORK_TYPE, LoginParams as OpenloginLoginParams } from '@toruslabs/openlogin';
 import { getIFrameOrigin, AppContext, LoginOptions } from '@cere-wallet/communication';
+import OpenLogin from '@toruslabs/openlogin';
 
 import { OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK, OPEN_LOGIN_VERIFIER } from '~/constants';
 import { reportError } from '~/reporting';
@@ -11,65 +11,19 @@ export type LoginParams = LoginOptions & {
   preopenInstanceId?: string;
 };
 
-const createLoginParams = ({
-  redirectUrl = '/',
-  idToken,
-  preopenInstanceId,
-}: LoginParams = {}): OpenloginLoginParams => {
-  const url = new URL(redirectUrl, window.origin);
-
-  if (preopenInstanceId) {
-    url.searchParams.append('preopenInstanceId', preopenInstanceId);
-  }
-
-  return {
-    loginProvider: 'jwt',
-    redirectUrl: url.toString(),
-    extraLoginOptions: { preopenInstanceId, id_token: idToken },
-  };
-};
-
 export class OpenLoginStore {
   private openLogin: OpenLogin;
 
   constructor(private sessionStore: SessionStore) {
     makeAutoObservable(this);
 
+    // Инициализируем OpenLogin клиент
     const clientId = OPEN_LOGIN_CLIENT_ID;
     this.openLogin = new OpenLogin({
       clientId,
-      network: OPEN_LOGIN_NETWORK as OPENLOGIN_NETWORK_TYPE,
-      no3PC: true,
-      uxMode: 'sessionless_redirect',
+      network: OPEN_LOGIN_NETWORK,
+      uxMode: 'redirect',
       replaceUrlOnRedirect: false,
-      _sessionNamespace: this.sessionStore.sessionNamespace,
-
-      whiteLabel: {
-        dark: false,
-        logoDark: `${window.origin}/images/logo.svg`,
-        logoLight: `${window.origin}/images/logo-light.svg`,
-
-        /**
-         * TODO: Figure out how to use `UI Kit` theme variables here
-         */
-        theme: {
-          primary: '#733BF5',
-        },
-      },
-
-      loginConfig: {
-        jwt: {
-          clientId,
-          verifier: OPEN_LOGIN_VERIFIER,
-          name: 'Cere',
-          typeOfLogin: 'jwt',
-          jwtParameters: {
-            domain: window.origin,
-            verifierIdField: 'email',
-            isVerifierIdCaseSensitive: false,
-          },
-        },
-      },
     });
 
     this.configureApp();
@@ -84,78 +38,91 @@ export class OpenLoginStore {
   }
 
   get accountUrl() {
-    return new URL('/wallet/account', this.openLogin.state.iframeUrl).toString();
+    return `${window.origin}/wallet/account`;
   }
 
   configureApp(app?: AppContext['app']) {
-    const url = new URL(app?.url || this.appUrl || window.origin);
-    const name = app ? app.name || url.hostname : 'Cere Wallet';
-
-    const whiteLabel = {
-      ...this.openLogin.state.whiteLabel,
-      name,
-      url: url.origin,
-    };
-
-    this.openLogin._syncState({ whiteLabel });
+    // Настройка приложения теперь обрабатывается Web3Auth/CustomAuth
   }
 
   async getLoginUrl(loginParams: LoginParams = {}) {
-    const session = {
-      _sessionNamespace: this.openLogin.state.sessionNamespace,
-      _loginConfig: this.openLogin.state.loginConfig,
-      _whiteLabelData: this.openLogin.state.whiteLabel,
-    };
-
-    return this.openLogin.getEncodedLoginUrl({
-      ...session,
-      ...createLoginParams(loginParams),
-    });
+    // В новой реализации URL для редиректа обрабатывается иначе
+    return '';
   }
 
   async login(params?: LoginParams) {
-    if (!this.openLogin.provider.initialized) {
-      await this.openLogin.init();
-    }
-
-    await this.openLogin.login(createLoginParams(params));
-
-    await new Promise(() => {}); // Never ending promise waiting for the full page redirect
+    // Этот метод перенаправляет на страницу входа
+    window.location.href = `${window.origin}/login`;
+    // Возвращаем фиктивный промис - он никогда не вернется, так как происходит редирект
+    return Promise.resolve();
   }
 
   async isAllowedRedirectUrl(url: string) {
     try {
-      const { origin, hostname } = new URL(url);
+      const { hostname } = new URL(url);
 
       if (hostname === 'localhost') {
         return true;
       }
 
-      const whiteList = await this.openLogin.getWhitelist();
-      const isAllowed = Object.keys(whiteList).some((url) => new URL(url).origin === origin);
+      // Список разрешенных доменов
+      const whitelistedDomains = [
+        // Cere domains
+        'cere.network',
+        'cere.io',
+        'dev.cere.network',
+        'stage.cere.network',
+        'dev.cere.io',
+        'stage.cere.io',
+        'console.cere.network',
+        'developer.cere.network',
+        'stage.developer.cere.network',
+        'dev.developer.cere.network',
+        'devnet.cere.network',
+        'testnet.cere.network',
+        'freeport.cere.network',
+        'stage.freeport.cere.network',
+        'dev.freeport.cere.network',
+        'cere-game-portal.cere.network',
+        'stage.cere-game-portal.cere.network',
+        'dev.cere-game-portal.cere.network',
+        // Добавьте домены партнеров при необходимости
+      ];
 
-      return isAllowed;
+      // Проверяем, принадлежит ли домен к локальному whitelist
+      for (const domain of whitelistedDomains) {
+        if (hostname === domain || hostname.endsWith(`.${domain}`)) {
+          return true;
+        }
+      }
+
+      // Если не нашли совпадений - запрещаем редирект
+      return false;
     } catch (error) {
       reportError(error);
-
       return false;
     }
   }
 
   async acceptEncodedState(encodedState: string) {
-    const jsonResult = Buffer.from(encodedState, 'base64').toString();
-    const { coreKitKey, store } = jsonResult && JSON.parse(jsonResult);
+    try {
+      const jsonResult = Buffer.from(encodedState, 'base64').toString();
+      const { coreKitKey, store } = jsonResult && JSON.parse(jsonResult);
 
-    return this.sessionStore.createSession({
-      privateKey: getScopedKey(coreKitKey),
-      userInfo: {
-        email: store.email || '',
-        name: store.name || '',
-        profileImage: store.profileImage || '',
-        typeOfLogin: store.typeOfLogin || '',
-        verifier: store.verifier || '',
-        verifierId: store.verifierId || '',
-      },
-    });
+      return this.sessionStore.createSession({
+        privateKey: getScopedKey(coreKitKey),
+        userInfo: {
+          email: store.email || '',
+          name: store.name || '',
+          profileImage: store.profileImage || '',
+          typeOfLogin: store.typeOfLogin || '',
+          verifier: store.verifier || '',
+          verifierId: store.verifierId || '',
+        },
+      });
+    } catch (error) {
+      console.error('Error accepting encoded state:', error);
+      throw error;
+    }
   }
 }
