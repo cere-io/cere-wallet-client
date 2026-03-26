@@ -25,23 +25,10 @@ export const createAuthToken = async (
     nonce: Math.random().toString(36).slice(2),
     issuedAt: new Date().toISOString(),
   };
-  console.log('[createAuthToken] payload', payload);
-  console.log('[createAuthToken] constants', { AUTH_TOKEN_ISSUER, OPEN_LOGIN_CLIENT_ID, OPEN_LOGIN_NETWORK });
 
   const challenge = await signChallenge(payload, chainNamespace);
-  console.log('[createAuthToken] challenge OK', challenge);
 
   const signedMessage = await signer.signMessage(challenge);
-  console.log('[createAuthToken] signedMessage OK');
-
-  console.log('[createAuthToken] calling verifySignedChallenge with', {
-    chainNamespace,
-    issuer: AUTH_TOKEN_ISSUER,
-    timeout: AUTH_SESSION_TIMEOUT,
-    clientId: OPEN_LOGIN_CLIENT_ID,
-    network: OPEN_LOGIN_NETWORK,
-    audience: window.location.hostname,
-  });
 
   return verifySignedChallenge(
     chainNamespace,
