@@ -15,18 +15,18 @@ export const createAuthToken = async (
 ) => {
   const chainNamespace = 'eip155';
   const finalAddress = address || signer.getAddress();
-  const finalChainId = chainId || signer.getChainId();
+  const rawChainId = chainId || signer.getChainId();
 
   const payload = {
     address: await finalAddress,
-    chainId: await finalChainId,
+    chainId: Number(await rawChainId),
     domain: origin,
     uri: uri || origin,
     version: '1',
     nonce: Math.random().toString(36).slice(2),
     issuedAt: new Date().toISOString(),
   };
-
+  console.log('payload', payload);
   const challenge = await signChallenge(payload, chainNamespace);
   const signedMessage = await signer.signMessage(challenge);
 
