@@ -21,8 +21,8 @@ export class WalletAuth extends Page {
     return browser.findByRole$('button', { name: 'Verify' });
   }
 
-  get otpInput() {
-    return browser.$('[data-testid="otp-input"]');
+  get otpContainer() {
+    return browser.$('#otp_block');
   }
 
   async enterRandomEmail() {
@@ -35,8 +35,8 @@ export class WalletAuth extends Page {
   }
 
   async enterOTP(otp: string) {
-    await this.otpInput.waitForExist();
-    await this.otpInput.click();
-    await this.otpInput.setValue(otp);
+    await this.otpContainer.waitForDisplayed();
+    await this.otpContainer.click();
+    await browser.keys(otp.split(''));
   }
 }
