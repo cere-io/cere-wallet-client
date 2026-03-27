@@ -15,11 +15,10 @@ export const createAuthToken = async (
 ) => {
   const chainNamespace = 'eip155';
   const finalAddress = address || signer.getAddress();
-  const finalChainId = chainId || signer.getChainId();
-
+  const rawChainId = chainId || signer.getChainId();
   const payload = {
     address: await finalAddress,
-    chainId: await finalChainId,
+    chainId: Number(await rawChainId),
     domain: origin,
     uri: uri || origin,
     version: '1',
@@ -28,6 +27,7 @@ export const createAuthToken = async (
   };
 
   const challenge = await signChallenge(payload, chainNamespace);
+
   const signedMessage = await signer.signMessage(challenge);
 
   return verifySignedChallenge(

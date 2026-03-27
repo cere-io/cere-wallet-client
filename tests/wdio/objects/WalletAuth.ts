@@ -21,8 +21,8 @@ export class WalletAuth extends Page {
     return browser.findByRole$('button', { name: 'Verify' });
   }
 
-  get otpInput() {
-    return browser.findByRole$('textbox', { name: 'OTP input' });
+  get otpContainer() {
+    return browser.$('#otp_block');
   }
 
   async enterRandomEmail() {
@@ -35,6 +35,12 @@ export class WalletAuth extends Page {
   }
 
   async enterOTP(otp: string) {
-    await this.otpInput.setValue(otp);
+    await browser.waitUntil(
+      async () => (await browser.getUrl()).includes('/otp'),
+      { timeout: 30000, timeoutMsg: 'OTP page URL not reached within 30s' },
+    );
+    await this.otpContainer.waitForDisplayed({ timeout: 30000 });
+    await this.otpContainer.click();
+    await browser.keys(otp.split(''));
   }
 }
