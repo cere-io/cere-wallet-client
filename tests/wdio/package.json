@@ -2,9 +2,9 @@
   "name": "@cere-wallet-tests/wdio",
   "version": "0.0.0",
   "scripts": {
-    "start": "NODE_OPTIONS='--import tsx' wdio run ./wdio.conf.ts",
-    "test": "NODE_OPTIONS='--import tsx' wdio run ./wdio.conf.ts --headless",
-    "test:ci": "NODE_OPTIONS='--import tsx' wdio run ./wdio.conf.ts --headless --ci",
+    "start": "wdio run ./wdio.conf.ts",
+    "test": "wdio run ./wdio.conf.ts --headless",
+    "test:ci": "wdio run ./wdio.conf.ts --headless --ci",
     "test:report": "npm run report:generate && npm run report:open",
     "report:generate": "allure generate ../../report/allure-results --output ../../report/allure-report --clean",
     "report:open": "allure open ../../report/allure-report"
@@ -25,8 +25,5 @@
     "wdio-chromedriver-service": "^8.1.1",
     "wdio-intercept-service": "^4.4.0",
     "yargs": "^17.7.2"
-  },
-  "devDependencies": {
-    "tsx": "^4.21.0"
   }
 }
