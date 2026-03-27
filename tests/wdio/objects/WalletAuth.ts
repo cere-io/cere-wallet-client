@@ -35,7 +35,11 @@ export class WalletAuth extends Page {
   }
 
   async enterOTP(otp: string) {
-    await this.otpContainer.waitForDisplayed();
+    await browser.waitUntil(
+      async () => (await browser.getUrl()).includes('/otp'),
+      { timeout: 30000, timeoutMsg: 'OTP page URL not reached within 30s' },
+    );
+    await this.otpContainer.waitForDisplayed({ timeout: 30000 });
     await this.otpContainer.click();
     await browser.keys(otp.split(''));
   }
