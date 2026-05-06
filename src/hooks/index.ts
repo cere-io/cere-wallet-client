@@ -19,3 +19,5 @@ export * from './useSearchAssets';
 export * from './useCollectiblesStore';
 export * from './useDebounce';
 export * from './useSessionStore';
+export * from './useVaultApi';
+export * from './useVaultDiagnostics';

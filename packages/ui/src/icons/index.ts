@@ -30,6 +30,10 @@ export {
   ArrowDropUp as ArrowDropUpIcon,
   ArrowBackIos as ArrowBackIosIcon,
   Download as DownloadIcon,
+  VpnKey as KeyIcon,
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+  WarningAmber as WarningIcon,
 } from '@mui/icons-material';
 
 export type { IconProps } from '@mui/material';

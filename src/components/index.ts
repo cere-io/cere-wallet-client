@@ -8,6 +8,7 @@ export * from './PageHeader';
 export * from './AssetList';
 export * from './AssetActions';
 export * from './ActivityList';
+export * from './DataActivityList/DataActivityList';
 export * from './FAQ';
 export * from './AddressQRButton';
 export * from './AppContextBanner';

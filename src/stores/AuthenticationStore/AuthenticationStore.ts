@@ -78,12 +78,12 @@ export class AuthenticationStore {
     return this.getLoginUrl('redirect', params);
   }
 
-  async createToken() {
+  async createToken(options?: Parameters<typeof createAuthToken>[1]) {
     if (!this.wallet.isReady()) {
       return null;
     }
 
-    return createAuthToken(this.wallet.unsafeProvider.getSigner());
+    return createAuthToken(this.wallet.unsafeProvider.getSigner(), options);
   }
 
   async login({ redirectUrl, ...params }: LoginParams = {}) {

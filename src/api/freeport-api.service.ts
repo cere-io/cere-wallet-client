@@ -1,46 +1,20 @@
-import axios from 'axios';
-
-import { reportError } from '~/reporting';
-import { REACT_APP_FREEPORT_API } from '~/constants';
 import { FreeportNftInterface } from '~/api/interfaces/freeport-nft.interface';
-import { freeportNftValidator } from '~/api/validators/freeport-nft.validator';
-import { freeportCollectionValidator } from '~/api/validators/freeport-collection.validator';
 import { FreeportCollectionInterface } from '~/api/interfaces/freeport-collection.interface';
 
-const api = axios.create({
-  baseURL: REACT_APP_FREEPORT_API,
-});
+// Freeport NFT API hosts are decommissioned (stage-freeport-api / freeport-api
+// resolve to NXDOMAIN). All collectibles flows are no-ops until DDC-native
+// replacement lands. Returning empty arrays keeps stores happy without HTTP.
 
 export class FreeportApiService {
-  public static async getWalletNftList(wallet: string): Promise<FreeportNftInterface[]> {
-    try {
-      const { data } = await api.get<FreeportNftInterface[]>(`/api/wallet/${wallet}/owned`);
-      return Array.isArray(data) ? data.filter((item: unknown) => freeportNftValidator(item)) : [];
-    } catch (err: any) {
-      reportError(err);
-    }
-
+  public static async getWalletNftList(_wallet: string): Promise<FreeportNftInterface[]> {
     return [];
   }
 
-  public static async getNftCids(nftId: string): Promise<string[]> {
-    try {
-      const { data } = await api.get<string[]>(`/nft/${nftId}/cids`);
-      return Array.isArray(data) ? data.filter((item: unknown) => typeof item === 'string') : [];
-    } catch (err: any) {
-      reportError(err);
-    }
-
+  public static async getNftCids(_nftId: string): Promise<string[]> {
     return [];
   }
 
-  public static async getMinterCollections(minter: string): Promise<FreeportCollectionInterface[]> {
-    try {
-      const { data } = await api.get<FreeportCollectionInterface[]>(`/api/wallet/${minter}/collections`);
-      return Array.isArray(data) ? data.filter((item: unknown) => freeportCollectionValidator(item)) : [];
-    } catch (err: any) {
-      reportError(err);
-    }
+  public static async getMinterCollections(_minter: string): Promise<FreeportCollectionInterface[]> {
     return [];
   }
 }

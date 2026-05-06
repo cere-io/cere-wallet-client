@@ -51,7 +51,7 @@ export const OnboardingDialog = ({ open, onClose, ...props }: OnboardingDialogPr
                 </Typography>
 
                 <Typography variant="body1" color="text.secondary">
-                  Receive USDC via Polygon on your wallet
+                  Hold and send CERE on Cere Network
                 </Typography>
               </Stack>
               <EastIcon />

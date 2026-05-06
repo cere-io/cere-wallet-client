@@ -16,7 +16,18 @@ export type AccountBalanceWidgetProps = {
 
 const Content = styled(Paper)(({ theme }) => ({
   borderRadius: 16,
-  background: 'linear-gradient(90deg, #EDF0FF 0%, #F5F1FE 100%)',
+  background: '#FFFFFF',
+  border: `1px solid ${theme.palette.divider}`,
+  boxShadow: '0 1px 0 rgba(11,15,28,0.02), 0 12px 32px -16px rgba(91,47,224,0.10)',
+  position: 'relative',
+  overflow: 'hidden',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    pointerEvents: 'none',
+    background: 'radial-gradient(600px 200px at 100% 0%, rgba(91,47,224,0.06), transparent 60%)',
+  },
 }));
 
 export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWidgetProps) => {
@@ -101,7 +112,7 @@ export const AccountBalanceWidget = ({ title, dense = false }: AccountBalanceWid
               component={Link}
               fullWidth={dense}
               size={dense ? 'medium' : 'large'}
-              variant="contained"
+              variant="outlined"
               startIcon={<TopUpIcon />}
             >
               Top Up

@@ -27,11 +27,7 @@ export const InfoStepper = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const STEPPER_PAGES: ReactElement[] = [
-    InfoStepperItem(
-      <ImagePage1 />,
-      'Direct access to your collectibles',
-      'All your items seamlessly available in one place',
-    ),
+    InfoStepperItem(<ImagePage1 />, 'Your $CERE Data Hub', 'All your items seamlessly available in one place'),
     InfoStepperItem(<ImagePage2 />, 'Securely store your tokens', 'You are in control of your keys and assets'),
     InfoStepperItem(
       <ImagePage3 />,
