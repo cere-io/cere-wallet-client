@@ -55,6 +55,8 @@ jobs:
         uses: n-ton4/selenoid-github-action@master
         id: start-selenoid
         continue-on-error: false
+        env:
+          DOCKER_API_VERSION: '1.40'
         with:
           version: 1.11.3
           args: -limit ${{ inputs.max-instances }}
