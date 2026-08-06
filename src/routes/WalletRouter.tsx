@@ -5,6 +5,7 @@ import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Redirect } from './Redirect';
 import { TopUp } from './TopUp';
+import { TopUpWithCard, AutoTopUp, AutoTopUpSettings } from './TopUp';
 import { AssetReceive, Assets } from './Assets'; // TODO add AssetBuy
 import { Transfer } from './Transfer';
 import TransferAsset from '~/components/Transfer/TransferAsset';
@@ -12,6 +13,7 @@ import TransferCollectibles from './Transfer/TransferCollectibles';
 import { CollectibleItem } from './Collectibles/CollectibleItem';
 import { Collectibles } from './Collectibles';
 import { Activity } from './Activity';
+import { TopUpHistoryRoute } from './TopUpHistory';
 import { Settings } from './Settings';
 
 const walletMenu: WalletProps['menu'] = [
@@ -27,11 +29,13 @@ export const WalletRouter = () => (
       <Route index element={<Redirect to="home" />} />
 
       <Route path="home/topup" element={<TopUp />}>
-        {/*<Route index element={<AssetBuy />} />*/}
-        {/*<Route path="buy" element={<AssetBuy />} />*/}
-        {/*TODO uncomment after payment fix (commit history) */}
-        <Route index element={<AssetReceive />} />
+        <Route index element={<TopUpWithCard />} />
+        <Route path="buy" element={<TopUpWithCard />} />
+        <Route path="receive" element={<AssetReceive />} />
+        <Route path="auto" element={<AutoTopUp />} />
       </Route>
+
+      <Route path="home/auto-topup-settings" element={<AutoTopUpSettings />} />
 
       <Route path="home/transfer" element={<Transfer />}>
         <Route index element={<TransferAsset />} />
@@ -45,6 +49,7 @@ export const WalletRouter = () => (
         <Route path="assets" element={<Assets />} />
         <Route path="collectibles" element={<Collectibles />} />
         <Route path="activity" element={<Activity />} />
+        <Route path="topup-history" element={<TopUpHistoryRoute />} />
       </Route>
 
       <Route path="settings" element={<Settings />} />
