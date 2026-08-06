@@ -63,6 +63,16 @@ export class AccountStore {
     return URL.createObjectURL(accountBlob);
   }
 
+  exportPrivateKey() {
+    if (!this.privateKey) {
+      throw new Error('No private key found!');
+    }
+    const privateKeyBlob = new Blob([JSON.stringify(this.privateKey)], {
+      type: 'application/json',
+    });
+    return URL.createObjectURL(privateKeyBlob);
+  }
+
   getAccount(type: KeyType) {
     return this.accounts.find((account) => account.type === type);
   }
