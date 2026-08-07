@@ -12,7 +12,7 @@ jobs:
   build_and_deploy:
     uses: Cerebellum-Network/reusable-workflows/.github/workflows/deploy-to-cloudflare-pages.yaml@master
     with:
-      project_name: 'cere-wallet-prod'
+      project_name: 'cere-wallet-production'
       runs-on: '["self-hosted", "cere-io-large"]'
       build_container: 'node:18-buster'
       install_packages_command: 'cp .env.prod .env; npm ci'
