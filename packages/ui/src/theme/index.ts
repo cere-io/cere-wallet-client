@@ -79,41 +79,53 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       mainColor: whiteLabel?.mainColor,
     },
     palette: {
+      mode: 'light',
+      background: {
+        default: '#FAFAFB',
+        paper: '#FFFFFF',
+      },
       neutral: {
-        main: colors.grey[400],
-        dark: colors.grey[500],
-        light: '#F5F5F7',
+        main: '#9CA0A8',
+        dark: '#6B7080',
+        light: '#F4F4F7',
         contrastText: '#FFFFFF',
       },
 
       primary: {
-        main: '#733BF5',
-        light: '#F5F1FE',
+        main: '#5B2FE0',
+        light: '#F2EEFE',
+        dark: '#3F1FB5',
       },
 
       secondary: {
-        main: '#2D5BFF',
+        main: '#0F172A',
       },
 
       success: {
-        main: '#28B411',
+        main: '#0FA958',
+        light: '#E8F8EE',
+      },
+
+      warning: {
+        main: '#D97706',
+        light: '#FEF6E7',
       },
 
       error: {
-        main: '#ED2121',
-        light: '#FFF2F2',
+        main: '#DC2626',
+        light: '#FEF2F2',
       },
 
       text: {
-        primary: '#131B32',
-        secondary: '#717684',
-        caption: '#A1A4AD',
+        primary: '#0B0F1C',
+        secondary: '#5B6172',
+        caption: '#9097A4',
       },
-      divider: '#E7E8EB',
+      divider: '#ECEDF0',
     },
 
     typography: {
-      fontFamily: '"Lexend", sans-serif',
+      fontFamily: '"Inter Variable", "Inter", system-ui, -apple-system, sans-serif',
       fontWeightBold: 700,
       fontWeightSemibold: 600,
       fontWeightMedium: 500,
@@ -122,64 +134,76 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
 
       button: {
         textTransform: 'none',
-        fontWeight: '600',
+        fontWeight: 600,
+        letterSpacing: '-0.01em',
       },
 
       h1: {
-        fontSize: '2rem', // 32px
-        lineHeight: '2.5rem', // 40px
-        fontWeight: 700,
+        fontSize: '2rem',
+        lineHeight: '2.25rem',
+        fontWeight: 650,
+        letterSpacing: '-0.035em',
       },
 
       h2: {
-        fontSize: '1.75rem', // 28px
-        lineHeight: '2.25rem', // 36px
-        fontWeight: 700,
+        fontSize: '1.75rem',
+        lineHeight: '2rem',
+        fontWeight: 650,
+        letterSpacing: '-0.03em',
       },
 
       h3: {
-        fontSize: '1.5rem', // 24px,
-        lineHeight: '2rem', // 32px,
-        fontWeight: 700,
+        fontSize: '1.5rem',
+        lineHeight: '1.75rem',
+        fontWeight: 650,
+        letterSpacing: '-0.025em',
       },
 
       h4: {
-        fontSize: '1.25rem', // 20px,
-        lineHeight: '1.625rem', // 26px,
-        fontWeight: 700,
+        fontSize: '1.25rem',
+        lineHeight: '1.5rem',
+        fontWeight: 650,
+        letterSpacing: '-0.02em',
       },
 
       subtitle1: {
-        fontSize: '1rem', // 16px,
-        lineHeight: '1.5rem', // 24px,
+        fontSize: '1rem',
+        lineHeight: '1.375rem',
         fontWeight: 600,
+        letterSpacing: '-0.015em',
       },
 
       subtitle2: {
-        fontSize: '0.875rem', // 14px,
-        lineHeight: '1.375rem', // 14px,
+        fontSize: '0.875rem',
+        lineHeight: '1.25rem',
         fontWeight: 600,
+        letterSpacing: '-0.01em',
       },
 
       body1: {
-        fontSize: '1rem', // 16px,
-        lineHeight: '1.5rem', // 24px,
+        fontSize: '1rem',
+        lineHeight: '1.4',
+        letterSpacing: '-0.011em',
       },
 
       body2: {
-        fontSize: '0.875rem', // 14px,
-        lineHeight: '1.375rem', // 14px,
+        fontSize: '0.875rem',
+        lineHeight: '1.4',
+        letterSpacing: '-0.008em',
       },
 
       caption: {
-        fontSize: '0.75rem', // 12px,
-        lineHeight: '1rem', // 16px,
+        fontSize: '0.75rem',
+        lineHeight: '1rem',
+        letterSpacing: '-0.005em',
       },
 
       overline: {
-        fontSize: '0.625rem', // 10px,
-        lineHeight: '1rem', // 16px,
+        fontSize: '0.625rem',
+        lineHeight: '1rem',
+        letterSpacing: '0.04em',
         textTransform: 'uppercase',
+        fontWeight: 600,
       },
     },
 
@@ -187,7 +211,15 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            backgroundColor: 'transparent',
+            backgroundColor: '#FAFAFB',
+            backgroundImage:
+              'radial-gradient(1200px 480px at 80% -10%, rgba(91,47,224,0.06), transparent 60%), radial-gradient(800px 400px at -10% 110%, rgba(15,23,42,0.04), transparent 60%)',
+            backgroundAttachment: 'fixed',
+            color: '#0B0F1C',
+            fontFeatureSettings: '"cv11", "ss01", "ss03"',
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
+            textRendering: 'optimizeLegibility',
           },
         },
       },
@@ -200,6 +232,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       MuiButton: {
         defaultProps: {
           disableElevation: true,
+          disableRipple: false,
         },
 
         styleOverrides: {
@@ -208,64 +241,89 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
             const disabledColor = color && alpha(color.main, theme.palette.action.disabledOpacity);
             const textColor = color && color.contrastText;
 
-            return (
-              color && {
+            return {
+              transition: 'transform 120ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease',
+              willChange: 'transform',
+              '&:active': {
+                transform: 'translateY(0.5px) scale(0.985)',
+              },
+              ...(color && {
                 '&.Mui-disabled': {
                   borderColor: disabledColor,
                   backgroundColor: props.variant === 'contained' ? disabledColor : undefined,
                   color: props.variant === 'contained' ? textColor : color?.main,
                 },
-              }
-            );
-          },
-
-          contained: {
-            backgroundColor: isGame && '#F32758',
-            borderRadius: isGame ? 4 : 30,
-            ...(whiteLabel?.mainColor && {
-              backgroundColor: whiteLabel.mainColor,
-            }),
-            '&:hover': {
-              ...(whiteLabel?.mainColor && {
-                backgroundColor: whiteLabel?.mainColor ? whiteLabel.mainColor : 'inherit',
-                opacity: 0.3,
               }),
-            },
+            };
           },
 
-          outlined: {
-            borderRadius: isGame ? 4 : 30,
+          contained: ({ theme, ownerState: props }) => {
+            const color = props.color === 'inherit' ? undefined : theme.palette[props.color || 'primary'];
+            return {
+              backgroundColor: isGame ? '#F32758' : undefined,
+              borderRadius: isGame ? 4 : 10,
+              boxShadow: 'none',
+              ...(whiteLabel?.mainColor && {
+                backgroundColor: whiteLabel.mainColor,
+              }),
+              '&:hover': {
+                boxShadow: color ? `0 6px 18px -6px ${alpha(color.main, 0.45)}` : undefined,
+                transform: 'translateY(-0.5px)',
+                ...(whiteLabel?.mainColor && {
+                  backgroundColor: whiteLabel.mainColor,
+                  opacity: 0.9,
+                }),
+              },
+            };
+          },
+
+          outlined: ({ theme, ownerState: props }) => {
+            const color = props.color === 'inherit' ? undefined : theme.palette[props.color || 'primary'];
+            return {
+              borderRadius: isGame ? 4 : 10,
+              borderWidth: 1.5,
+              '&:hover': {
+                borderWidth: 1.5,
+                backgroundColor: color && alpha(color.main, 0.06),
+                transform: 'translateY(-0.5px)',
+              },
+            };
           },
 
           text: {
-            borderRadius: isGame ? 4 : 30,
+            borderRadius: isGame ? 4 : 10,
           },
 
           containedInherit: ({ theme }) => ({
             backgroundColor: theme.palette.grey[100],
+            '&:hover': {
+              backgroundColor: theme.palette.grey[200],
+            },
           }),
 
           sizeLarge: ({ theme }) => ({
-            fontSize: theme.typography.pxToRem(16),
-            paddingLeft: 32,
-            paddingRight: 32,
-            paddingTop: 10,
-            paddingBottom: 10,
+            fontSize: theme.typography.pxToRem(15),
+            lineHeight: theme.typography.pxToRem(22),
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 11,
+            paddingBottom: 11,
           }),
 
           sizeMedium: ({ theme }) => ({
             fontSize: theme.typography.pxToRem(14),
-            paddingLeft: 24,
-            paddingRight: 24,
+            lineHeight: theme.typography.pxToRem(20),
+            paddingLeft: 18,
+            paddingRight: 18,
             paddingTop: 8,
             paddingBottom: 8,
           }),
 
           sizeSmall: ({ theme }) => ({
             fontSize: theme.typography.pxToRem(12),
-            lineHeight: theme.typography.pxToRem(18),
-            paddingLeft: 14,
-            paddingRight: 14,
+            lineHeight: theme.typography.pxToRem(16),
+            paddingLeft: 12,
+            paddingRight: 12,
             paddingTop: 6,
             paddingBottom: 6,
           }),
@@ -328,26 +386,26 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       MuiToggleButtonGroup: {
         styleOverrides: {
           root: ({ theme }) => ({
-            padding: 4,
-            borderRadius: 30,
+            padding: 3,
+            borderRadius: 10,
             borderWidth: 1,
             borderStyle: 'solid',
             borderColor: theme.palette.divider,
           }),
 
           grouped: ({ theme }) => ({
-            borderRadius: 30,
+            borderRadius: 8,
             border: 'none',
 
             '&:not(:first-of-type)': {
-              marginLeft: 4,
-              borderTopLeftRadius: 30,
-              borderBottomLeftRadius: 30,
+              marginLeft: 3,
+              borderTopLeftRadius: 8,
+              borderBottomLeftRadius: 8,
             },
 
             '&:not(:last-of-type)': {
-              borderTopRightRadius: 30,
-              borderBottomRightRadius: 30,
+              borderTopRightRadius: 8,
+              borderBottomRightRadius: 8,
             },
           }),
         },
@@ -372,8 +430,8 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
       MuiMenuItem: {
         styleOverrides: {
           root: ({ theme }) => ({
-            height: 48,
-            borderRadius: 30,
+            height: 44,
+            borderRadius: 8,
 
             '& .MuiListItemIcon-root': {
               color: theme.palette.text.secondary,
@@ -460,6 +518,10 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
             borderStyle: 'solid',
             borderColor: theme.palette.divider,
             borderRadius: 16,
+            backgroundColor: '#FFFFFF',
+            boxShadow:
+              '0 1px 0 rgba(11, 15, 28, 0.02), 0 8px 24px -12px rgba(11, 15, 28, 0.06)',
+            transition: 'box-shadow 200ms ease, transform 200ms ease',
           }),
         },
       },
@@ -485,7 +547,7 @@ export const createTheme = ({ whiteLabel, isGame }: any = {}): Theme => {
             borderBottomWidth: 1,
             borderBottomStyle: 'solid',
             borderBottomColor: theme.palette.divider,
-            backgroundColor: theme.palette.grey[100],
+            backgroundColor: 'transparent',
           }),
 
           avatar: ({ theme }) => ({

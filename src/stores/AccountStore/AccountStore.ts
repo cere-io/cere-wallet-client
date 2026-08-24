@@ -78,7 +78,9 @@ export class AccountStore {
 
   get selectedAccount() {
     const selectedAddress = this.shared.state.selectedAddress;
-    const defaultAccount = this.accounts.at(0);
+    // Default to Cere Network (ed25519) instead of the legacy ethereum/Polygon
+    // account. Falls back to first available if ed25519 isn't derived yet.
+    const defaultAccount = this.accounts.find((a) => a.type === 'ed25519') || this.accounts.at(0);
 
     return this.accounts.find((account) => account.address === selectedAddress) || defaultAccount;
   }

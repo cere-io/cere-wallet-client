@@ -1,4 +1,4 @@
-import '@fontsource/lexend';
+import '@fontsource-variable/inter';
 import { useMemo, PropsWithChildren } from 'react';
 import { CssBaseline, ThemeProvider, GlobalStyles } from '@mui/material';
 import { ThemeOptions, createTheme } from './theme';

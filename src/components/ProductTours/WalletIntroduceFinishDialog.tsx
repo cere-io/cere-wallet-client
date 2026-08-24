@@ -56,7 +56,7 @@ export const WalletIntroduceFinishDialog = ({ onDoneClick, onBackClick, ...props
               </Typography>
 
               <Typography variant="caption" color="text.secondary">
-                Receive USDC via Polygon network on your wallet
+                Hold and send CERE on Cere Network
               </Typography>
             </Stack>
             <RightIcon />

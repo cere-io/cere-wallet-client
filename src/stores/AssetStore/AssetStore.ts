@@ -20,22 +20,15 @@ export class AssetStore {
 
   async init(wallet: ReadyWallet) {
     const { CereNativeToken } = await import(/* webpackChunkName: "walletAssets" */ './CereNativeToken');
-    const { NativeToken } = await import(/* webpackChunkName: "walletAssets" */ './NativeToken');
-    const { UsdcToken } = await import(/* webpackChunkName: "walletAssets" */ './UsdcToken');
     const { Erc20Token } = await import(/* webpackChunkName: "walletAssets" */ './Erc20Token');
-    const { CereErc20Token } = await import(/* webpackChunkName: "walletAssets" */ './CereErc20Token');
-    const { UsdtToken } = await import(/* webpackChunkName: "walletAssets" */ './UsdtToken');
 
     const managableTokensFromStorage = getGlobalStorage().getItem('tokens');
     const parsedAssets: Asset[] = deserializeAssets(managableTokensFromStorage) || [];
 
-    this.list = [
-      new CereNativeToken(wallet),
-      new CereErc20Token(wallet),
-      new NativeToken(wallet),
-      new UsdcToken(wallet),
-      new UsdtToken(wallet),
-    ];
+    // Polygon assets removed: NativeToken (MATIC), UsdcToken, UsdtToken,
+    // CereErc20Token (Polygon-wrapped CERE). Cere Network native is the only
+    // first-class asset until ETH-mainnet CERE ERC20 lands.
+    this.list = [new CereNativeToken(wallet)];
 
     this.managableList = parsedAssets.map((asset) => new Erc20Token(wallet, asset));
   }

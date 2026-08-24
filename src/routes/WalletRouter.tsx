@@ -1,21 +1,27 @@
 import { Route, Routes } from 'react-router-dom';
-import { MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
+import { CategoryIcon, AppsIcon, MonetizationOnIcon, SettingsIcon } from '@cere-wallet/ui';
 
 import { Wallet, WalletProps } from './Wallet';
 import { WalletHome } from './WalletHome';
 import { Redirect } from './Redirect';
 import { TopUp } from './TopUp';
-import { AssetReceive, Assets } from './Assets'; // TODO add AssetBuy
+import { AssetReceive, Assets } from './Assets';
 import { Transfer } from './Transfer';
 import TransferAsset from '~/components/Transfer/TransferAsset';
 import TransferCollectibles from './Transfer/TransferCollectibles';
 import { CollectibleItem } from './Collectibles/CollectibleItem';
-import { Collectibles } from './Collectibles';
 import { Activity } from './Activity';
 import { Settings } from './Settings';
+import { AgentsPage } from './Agents/AgentsPage';
 
+// Sovereign-data-first nav. Crypto is one tab; data, agents, and identity
+// are the daily surface — matches Cere's "Sovereign AI Infrastructure"
+// positioning and the Cubby/DDC stack the wallet actually signs for.
 const walletMenu: WalletProps['menu'] = [
-  { label: 'Account overview', icon: <MonetizationOnIcon />, path: '/wallet/home' },
+  { label: 'Home', icon: <CategoryIcon />, path: '/wallet/home' },
+  { label: 'Data', icon: <CategoryIcon />, path: '/wallet/data' },
+  { label: 'Agents', icon: <AppsIcon />, path: '/wallet/agents' },
+  { label: 'Assets', icon: <MonetizationOnIcon />, path: '/wallet/assets' },
   { label: 'Settings', icon: <SettingsIcon />, path: '/wallet/settings' },
 ];
 
@@ -27,9 +33,6 @@ export const WalletRouter = () => (
       <Route index element={<Redirect to="home" />} />
 
       <Route path="home/topup" element={<TopUp />}>
-        {/*<Route index element={<AssetBuy />} />*/}
-        {/*<Route path="buy" element={<AssetBuy />} />*/}
-        {/*TODO uncomment after payment fix (commit history) */}
         <Route index element={<AssetReceive />} />
       </Route>
 
@@ -40,12 +43,10 @@ export const WalletRouter = () => (
       </Route>
 
       <Route path="home/collectibles/:nftId" element={<CollectibleItem />} />
-      <Route path="home" element={<WalletHome />}>
-        <Route index element={<Assets />} />
-        <Route path="assets" element={<Assets />} />
-        <Route path="collectibles" element={<Collectibles />} />
-        <Route path="activity" element={<Activity />} />
-      </Route>
+      <Route path="home" element={<WalletHome />} />
+      <Route path="data" element={<Activity />} />
+      <Route path="agents" element={<AgentsPage />} />
+      <Route path="assets" element={<Assets />} />
 
       <Route path="settings" element={<Settings />} />
     </Route>
